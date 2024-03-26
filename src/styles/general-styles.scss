@@ -1,0 +1,777 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import 'mixins', 'variables';
+
+table {
+  border: 0;
+  font-size: 10pt;
+  font-weight: normal;
+  margin-left: 0;
+}
+
+table td {
+  white-space: normal;
+  padding: 4pt;
+}
+
+table td:last-child {
+  width: 100%;
+}
+
+.circled {
+  border-radius: 50% !important;
+  height: 2em !important;
+  width: 2em !important;
+  font-size: 1.25em !important;
+  box-shadow: 1px 2px 2px $icon-color;
+}
+
+button {
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  &.spinner {
+    filter: brightness(60%);
+  }
+
+  &.spinner::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    border-top-color: #000;
+    animation: spinner 0.8s linear infinite;
+  }
+}
+
+button:focus {
+  outline: 0;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button.btn {
+  @include input-button-settings;
+
+  background-color: $button-color;
+  border: $control-border;
+  color: $text-color;
+}
+
+button.btn:hover {
+  background-color: $button-selected-color;
+  color: $text-color-dark;
+  transition: 0.3s ease-out;
+}
+
+button.btn-primary {
+  @include input-button-settings;
+
+  background-color: $primary-color;
+  color: $white;
+}
+
+button.btn-primary:hover {
+  background-color: $secondary-color;
+  transition: 0.3s ease-out;
+}
+
+button.btn-action {
+  @include input-button-settings;
+
+  background-color: $action-color;
+  color: $white;
+}
+
+button.btn-action:hover {
+  background-color: $action-selected-color;
+  transition: 0.3s ease-out;
+}
+
+button.btn-warning {
+  @include input-button-settings;
+
+  background-color: $warning-color;
+  color: $white;
+}
+
+button.btn-warning:hover {
+  background-color: $warning-color-dark;
+  transition: 0.3s ease-out;
+}
+
+button.btn-login {
+  @include input-button-settings;
+
+  background-color: $warning-color;
+  color: $white;
+}
+
+button.btn-login:hover {
+  background-color: $warning-color-dark;
+  transition: 0.3s ease-out;
+}
+
+button.btn-base {
+  @include input-button-settings;
+
+  text-transform: none;
+  background-color: transparent;
+  color: $text-color;
+  min-width: $button-height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .mat-icon {
+    color: $icon-color;
+    margin-left: 8px;
+  }
+}
+
+button.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $button-color;
+  border: $control-border;
+  width: $button-height;
+  height: $button-height;
+
+  .mat-icon {
+    color: $icon-color;
+  }
+}
+
+button.btn-icon-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $action-color;
+  width: $button-height;
+  height: $button-height;
+  min-width: $button-height;
+
+  .mat-icon {
+    color: $white;
+  }
+}
+
+button.btn-icon-active {
+  .mat-icon {
+    color: $action-color;
+  }
+}
+
+button.btn-base:hover {
+  background-color: $button-selected-color;
+  color: $text-color-dark;
+  transition: 0.3s ease-out;
+
+  .mat-icon {
+    color: $icon-color-dark;
+  }
+}
+
+button.btn-icon:hover {
+  background-color: $selected-control-background-color;
+  transition: 0.3s ease-out;
+
+  .mat-icon {
+    color: $icon-color-dark;
+  }
+}
+
+button.btn-icon-action:hover {
+  background-color: $action-selected-color;
+  transition: 0.3s ease-out;
+}
+
+button.btn-icon-active:hover {
+  .mat-icon {
+    color: $action-selected-color;
+  }
+}
+
+button.btn-margin-right {
+  margin-right: 32px;
+}
+
+select.select-box {
+  @include input-settings;
+}
+
+select.select-warning {
+  @include input-settings;
+
+  background-color: $warning-color;
+}
+
+select:focus {
+  outline: none;
+  color: $selected-control-color;
+  background-color: $selected-control-background-color;
+  border: $selected-control-border;
+}
+
+input.search-box {
+  @include input-settings;
+}
+
+input.text-box {
+  @include input-settings;
+}
+
+div.text-box {
+  @include input-settings;
+}
+
+input:focus {
+  outline: none;
+  color: $selected-control-color;
+  background-color: $selected-control-background-color;
+  border: $selected-control-border;
+}
+
+input::placeholder {
+  color: $control-disabled-color;
+}
+
+.input-search-container {
+  height: $control-height;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.input-icon-container {
+  position: relative;
+  height: $control-height;
+  width: 100%;
+
+  input {
+    padding-right: 30px;
+    margin: 0;
+  }
+}
+
+.input-icon {
+  position: absolute;
+  top: 0;
+  right: 14px;
+  bottom: 0;
+  margin: auto;
+  color: $icon-color;
+}
+
+.input-icon:hover {
+  color: $icon-color-dark;
+  cursor: pointer;
+}
+
+input.text-box.no-margin {
+  margin: 0;
+}
+
+.text-area {
+  background-color: $control-background-color;
+  border: $control-border;
+  color: $control-color;
+  font: $control-font;
+  font-weight: normal;
+  line-height: 1.125em;
+  margin: $control-margin;
+  padding: 6px;
+  vertical-align: middle;
+  min-height: $control-height;
+  width: $control-width;
+  border-radius: $control-border-radius;
+  transition: 0.3s ease-out;
+  resize: vertical;
+}
+
+textarea:focus {
+  outline: none;
+  color: $selected-control-color;
+  background-color: $selected-control-background-color;
+  border: $selected-control-border;
+  box-shadow: inset 0 0 2px $selected-control-border;
+}
+
+.text-monospace {
+  font-family: $font-family-secondary;
+  font-size: 11pt;
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.text-not-found {
+  font-size: 1em;
+  text-align: center;
+  padding: 1rem;
+}
+
+.text-small-text {
+  font-size: 1em;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.align-top {
+  vertical-align: top !important;
+}
+
+.wrap {
+  word-wrap: break-word;
+  white-space: normal !important;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.info-text {
+  color: $primary-color;
+  font-weight: 600;
+}
+
+.warning-text {
+  color: $warning-color;
+  font-weight: 600;
+}
+
+.instruction-text {
+  font-size: 1em;
+  text-align: center;
+  padding: 1rem;
+  background: $control-disabled-background;
+  margin-right: 8px;
+}
+
+.bold-text {
+  font-weight: 600;
+}
+
+.error-indicator-text {
+  color: $warning-color;
+  text-decoration: underline;
+}
+
+a.error-indicator-text:hover {
+  color: darken($warning-color, 4%);
+}
+
+.warning-indicator-text {
+  color: $title-color;
+  text-decoration: underline;
+}
+
+a.warning-indicator-text:hover {
+  color: darken($title-color, 4%);
+}
+
+.remove-min-width {
+  min-width: 0;
+}
+
+.hint {
+  color: $border-color-dark;
+  font-size: 8pt;
+  font-weight: 400;
+}
+
+.ghost-icon {
+  color: transparent;
+}
+
+.ghost-icon:hover {
+  color: $icon-color-dark;
+}
+
+.small-italic-bold {
+  font: $control-small-font;
+  font-weight: $font-weight-bold;
+  font-style: $text-italic;
+}
+
+a {
+  color: $link-color;
+}
+
+.link {
+  color: $link-color;
+  text-decoration: underline;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: $selected-item-text-color;
+}
+
+a:hover {
+  color: $selected-item-text-color;
+  cursor: pointer;
+}
+
+.popup {
+  z-index: 1;
+}
+
+textarea:disabled {
+  @include disabled-element;
+}
+
+input[type="text"]:disabled {
+  @include disabled-element;
+}
+
+input[type="number"]:disabled {
+  @include disabled-element;
+}
+
+.primary-text {
+  color: $primary-color;
+}
+
+.label {
+  opacity: 0.4;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+select:disabled {
+  @include disabled-element;
+}
+
+button:disabled button:hover:disabled {
+  @include disabled-element();
+
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.7;
+}
+
+i.disabled {
+  opacity: 0.25;
+}
+
+.main-icon a {
+  color: $primary-color-light;
+  font-size: $primary-icon-size;
+  padding-right: 6pt;
+}
+
+.main-icon a:hover {
+  color: $selected-item-text-color;
+}
+
+.term-definition {
+  border-bottom: 1px double $primary-color-light;
+  cursor: pointer;
+}
+
+// tags
+
+.tag {
+  background-color: $tag-default-background-color;
+  border-radius: 10px;
+  color: $tag-default-color;
+  padding: 4px 8px;
+  width: fit-content;
+  white-space: nowrap;
+
+  &.tag-base {
+    background-color: $white;
+    color: $tag-default-color;
+    border: 1px solid $tag-default-color;
+  }
+
+  &.tag-base-warning {
+    background-color: $white;
+    color: $tag-warning-color;
+    border: 1px solid $tag-warning-color;
+  }
+
+  &.tag-info {
+    background-color: $tag-info-background-color;
+    color: $white;
+  }
+
+  &.tag-error {
+    background-color: $tag-error-background-color;
+    color: $white;
+  }
+
+  &.tag-warning {
+    background-color: $tag-warning-color;
+    color: $white;
+  }
+
+  &.tag-small {
+    font-size: 0.5rem;
+    line-height: 0.75rem;
+    margin: 0 8px;
+    padding: 4px 8px;
+  }
+
+  &.tag-medium {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    margin: 0 8px;
+    padding: 4px 8px;
+  }
+}
+
+a.tag {
+  text-decoration: underline;
+
+  &:hover {
+    background-color: darken($tag-default-background-color, 4%);
+    color: $primary-color-light;
+    cursor: pointer;
+
+    &.tag-base {
+      background-color: lighten($tag-default-color, 55%);
+    }
+
+    &.tag-info {
+      background-color: darken($tag-info-background-color, 4%);
+      color: $white;
+    }
+
+    &.tag-error {
+      background-color: darken($tag-error-background-color, 4%);
+      color: $white;
+    }
+
+    &.tag-warning {
+      background-color: darken($tag-warning-color, 4%);
+      color: $white;
+    }
+  }
+}
+
+// blink
+
+@keyframes blinker {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.15;
+  }
+}
+
+.blink {
+  text-decoration: blink;
+  animation-name: blinker;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-direction: alternate;
+}
+
+// menu component
+
+.menu-trigger-icon {
+  margin-top: -4px;
+  margin-left: -6px;
+}
+
+// skeleton
+
+@keyframes skeleton-opacity {
+  0% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0.1;
+  }
+}
+
+.skeleton {
+  opacity: 0.8;
+  animation: skeleton-opacity 1s infinite linear;
+}
+
+pre {
+  display: block;
+  font-family: $font-family;
+  white-space: pre;
+  margin: 0.5em 0;
+}
+
+.hidden {
+  display: none;
+}
+
+// list
+
+ul.info-list {
+  padding: 0 1.5em;
+
+  li:not(:last-child) {
+    padding-bottom: 1em;
+  }
+}
+
+ul.default-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+
+    label {
+      color: $primary-color;
+      font-weight: 600;
+    }
+
+    &.limit-list {
+      font-weight: 600;
+      font-size: 8.5pt;
+    }
+
+    &:not(:last-child) {
+      padding-bottom: 0.5rem;
+    }
+  }
+}
+
+// card-info
+
+.card-info-container {
+  padding: 1rem;
+}
+
+.card-info {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+  background-color: $background-color-highlight;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 3px;
+}
+
+.card-info-selected {
+  background-color: $grid-selected-background-color;
+  border-left: 3px solid darken($grid-selected-background-color, 50%);
+}
+
+.card-info-title {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: $primary-color;
+  font-size: 12pt;
+  font-weight: 600;
+}
+
+.card-info-hint {
+  color: #808080;
+  font-size: 9pt;
+  font-weight: 400;
+}
+
+.card-info-subtitle {
+  color: $primary-color;
+  font-style: $text-italic;
+  padding: 1rem 0 0.5rem 0;
+}
+
+
+.list-container {
+  border: 1px solid $secondary-color-light;
+  border-radius: 3px;
+  padding: 8px;
+}
+
+
+.list-selection-item {
+  padding: 8px 8px 8px 4px;
+}
+
+
+.list-selection-item:not(:last-child) {
+  border-bottom: 1px dashed $secondary-color-light;
+}
+
+
+.workarea-color {
+  background: hsl(207, 91%, 98%);
+}
+
+
+.info-container {
+  @include message-container;
+
+  border-color: $primary-color;
+}
+
+
+.warning-container {
+  @include message-container;
+
+  border-color: darken($icon-color-warning, 35%);
+}
+
+
+.container-expand-half {
+  max-height: 35vh;
+  overflow-y: auto;
+}
+
+
+.container-expand-all {
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+
+.text-expandable-selection {
+  font-size: 0.75rem;
+}

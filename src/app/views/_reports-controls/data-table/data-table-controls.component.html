@@ -1,0 +1,32 @@
+<div [ngClass]="controlsAligned ? 'controls-container-aligned' : 'controls-container'">
+
+  <div class="fx-row-container fx-space-between">
+
+    <div class="fx-item-quarter">
+
+      <div class="input-icon-container">
+
+        <input #filterInput type="text" class="text-box" name="filterInput" autocomplete="off"
+          [(ngModel)]="filter"
+          placeholder="Buscar en resultado..."
+          (keyup.enter)="onFilterData()"
+          (keyup.escape)="onClearFilter()">
+
+        <mat-icon class="input-icon" (click)="onFilterData()">search</mat-icon>
+
+      </div>
+
+    </div>
+
+    <div class="fx-item-none" [style.marginRight.px]="controlsAligned ? 0 : 8">
+
+      <button *ngIf="showExportButton" class="btn"
+        (click)="onExportButtonClicked()">
+        Exportar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,96 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+.grid {
+  border: $grid-border;
+  border-collapse: collapse;
+  margin: 3px 10px 3px 3px;
+  width: 98%;
+  text-align: left;
+  min-width: 510px;
+}
+
+.grid-footer {
+  align-items: center;
+  bottom: 0;
+  height: 35px;
+  margin: 3px 10px 3px 3px;
+  position: absolute;
+  width: 99%;
+}
+
+.grid-search-table {
+  border-bottom: 1px solid $border-color;
+  margin: 3px 10px 3px 3px;
+  width: 100%;
+  font-size: 9pt;
+  color: $text-color;
+}
+
+.grid-search-table td {
+  white-space: nowrap;
+}
+
+.main-icon td {
+  width: 24pt;
+}
+
+.selected-row {
+  border-bottom: 1px solid $border-color;
+  border-top: 1px solid $border-color;
+  font-weight: 500;
+}
+
+table.grid td,
+table.grid th {
+  float: left;
+}
+
+table.grid thead {
+  background-color: $secondary-color-semi-light;
+  color: white;
+}
+
+table.grid thead th {
+  font-weight: normal;
+  font-size: 9pt;
+  color: white;
+  padding: 8pt;
+}
+
+table.grid thead tr {
+  height: 30px;
+}
+
+table.grid tbody {
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+table.grid tbody tr {
+  height: auto;
+  display: block;
+  overflow: hidden;
+  padding: 8px;
+}
+
+table.grid tbody tr:nth-child(odd) {
+  background-color: $grid-odd-background-color;
+}
+
+table.grid tbody tr:nth-child(even) {
+  background-color: $grid-even-background-color;
+}
+
+table.confirm-data {
+  margin: 0;
+}
+
+table.confirm-data > tr > td {
+  white-space: nowrap;
+}

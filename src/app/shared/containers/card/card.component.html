@@ -1,0 +1,20 @@
+<div class="card card-border" [class.card-shadow]="!showCardHeaderFlat">
+
+  <div class="card-header" [class.card-header-flat]="showCardHeaderFlat">
+
+    <div class="card-title">
+      <span [innerHTML]="title | safeHtml"></span>
+      <div class="card-hint" [innerHTML]="hint | safeHtml"></div>
+    </div>
+
+    <div *ngIf="!disableClose" class="card-header-options">
+      <mat-icon class="card-icon" (click)="onClose()">close</mat-icon>
+    </div>
+
+  </div>
+
+  <div class="card-body" (scroll)="onWindowScroll($event)">
+    <ng-content></ng-content>
+  </div>
+
+</div>

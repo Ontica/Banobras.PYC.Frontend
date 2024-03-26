@@ -1,0 +1,14 @@
+<emp-ng-export-report-modal
+  title="Bitácora de operación"
+  message="Seleccione los filtros para generar la exportación de la bitácora:"
+  [fileUrl]="fileUrl"
+  [readyToExport]="isQueryValid"
+  (exportReportModalEvent)="onExportReportModalEvent($event)">
+
+  <emp-ng-operations-log-filter #operationsLogFilter
+    [submitted]="submitted"
+    (operationsLogFilterEvent)="onOperationsLogFilterEvent($event)">
+
+  </emp-ng-operations-log-filter>
+
+</emp-ng-export-report-modal>

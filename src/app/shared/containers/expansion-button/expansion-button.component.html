@@ -1,0 +1,20 @@
+<div class="expand-panel-margin">
+  <mat-accordion hideToggle>
+    <mat-expansion-panel [expanded]="panelState" (opened)="setPanelState(true)"
+      (closed)="setPanelState(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>{{ panelState ? 'remove' : 'add' }}</mat-icon>
+          <span style="padding-left: 1rem;">
+            {{ panelState ?
+            expansionButtonConfig.textButtonClose :
+            expansionButtonConfig.textButtonOpen }}
+          </span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-content></ng-content>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

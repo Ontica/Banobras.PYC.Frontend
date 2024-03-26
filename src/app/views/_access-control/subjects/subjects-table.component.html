@@ -1,0 +1,42 @@
+<cdk-virtual-scroll-viewport tvsItemSize="53">
+
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Cuenta de acceso </th>
+      <td mat-cell *matCellDef="let row" class="nowrap">
+        <a class="link-highlight bold-text" (click)="onItemClicked(row)">
+          {{ row.fullName }}
+        </a> <br><br>
+        ({{ row.userID }}) {{row.employeeNo}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="workarea">
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Área de trabajo </th>
+      <td mat-cell *matCellDef="let row">
+        <span class="text-highlight">{{ !!row.workarea.uid ? row.workarea.name : '-' }}</span><br><br>
+        {{ !!row.jobPosition ? row.jobPosition : '-' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let row">
+        <span class="text-highlight">{{ row.eMail }}</span><br><br>
+        <span class="tag">{{ row.status.name }}</span>
+        {{ !!row.lastAccess ? ( row.lastAccess | dateTimeFormat ) : '-' }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+      [class.row-selected]="row.uid === selected.uid"></tr>
+
+  </table>
+
+  <div *ngIf="dataList.length === 0" class="text-not-found">
+    No se encontraron registros con el filtro proporcionado.
+  </div>
+
+</cdk-virtual-scroll-viewport>

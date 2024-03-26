@@ -1,0 +1,9 @@
+:host .expand-panel-margin {
+  margin: auto 8px 8px auto;
+  width: calc(100% - 9px);
+}
+
+:host.no-margin .expand-panel-margin {
+  margin: 3px;
+  width: calc(100% - 6px);
+}

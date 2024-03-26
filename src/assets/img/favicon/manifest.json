@@ -1,0 +1,17 @@
+{
+  "name": "Empiria Budgeting Frontend Application",
+  "description": "Sistema de control presupuestal.",
+  "lang": "es-MX",
+  "dir": "ltr",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/img/favicon/android-chrome-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}

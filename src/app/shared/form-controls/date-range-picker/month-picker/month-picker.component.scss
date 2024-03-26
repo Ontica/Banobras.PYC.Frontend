@@ -1,0 +1,122 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+$cursor-hover: rgba(2, 125, 182, 0.3);
+$in-range: rgba(2, 125, 182, 0.2);
+$hover-selection: rgba(2, 125, 182, 0.3);
+$edge-background: rgb(2, 125, 182);
+$edge-color: white;
+
+.mat-calendar-previous-button {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.mat-calendar-next-button {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.calendar-container {
+  touch-action: none;
+  overflow: hidden;
+  width: 296px;
+  height: 354px;
+  padding: 8px;
+  font-size: 13px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  margin: 13px 0;
+  line-height: 40px;
+}
+
+.calendar-header-text {
+  padding: 0 16px;
+}
+
+.calendar-controls {
+  margin-top: -4px;
+}
+
+.calendar-header-divider {
+  margin: 0 -8px;
+}
+
+.calendar-body {
+  padding: 16px 6px;
+}
+
+.calendar-item {
+  display: inline-block;
+  width: 25%;
+  cursor: pointer;
+  text-align: center;
+  line-height: 40px;
+  margin: 1px 0;
+}
+
+.calendar-item:hover:not(.is-edge) {
+  background-color: $hover-selection;
+  border-radius: 999px;
+}
+
+.is-edge {
+  background-color: $edge-background;
+  color: $edge-color;
+  border-radius: 999px;
+}
+
+.in-range {
+  background-color: $in-range;
+}
+
+.is-lower-edge {
+  background: linear-gradient(to right, transparent 50%, $in-range);
+}
+
+.is-upper-edge {
+  background: linear-gradient(to right, $in-range, transparent 50%);
+}
+
+.is-lower-edge.is-upper-edge {
+  background: linear-gradient(to right, transparent 50%, transparent 50%);
+}
+
+.calendar-item-borde {
+  border-top: 1px dashed transparent;
+  border-bottom: 1px dashed transparent;
+}
+
+.previous-year-item {
+  color: #c4cbd6;
+}
+
+.range-preview {
+  border-color: #9e9e9e;
+}
+
+.range-preview-start {
+  border-radius: 999px 0 0 999px;
+}
+
+.range-preview-end {
+  border-radius: 0 999px 999px 0;
+}
+
+.calendar-item-text {
+  padding: 11px 17px;
+}
+
+.is-current-month {
+  border: 1px solid rgba(0, 0, 0, 0.38);
+  border-radius: 999px;
+}

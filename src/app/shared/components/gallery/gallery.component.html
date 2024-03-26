@@ -1,0 +1,10 @@
+<div class="gallery-backdrop"
+  title=""
+  (click)="onBackdropClick()">
+
+  <img class="gallery-image"
+    [src]="image.url"
+    [title]="image.name"
+    (click)="stopPropagation($event)">
+
+</div>

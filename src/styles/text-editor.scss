@@ -1,0 +1,49 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
+@import 'variables';
+
+.ql-toolbar.ql-snow {
+  margin: 2px 8px 0 0;
+  padding: $control-padding;
+}
+
+.ql-container {
+  background-color: $selected-control-background-color;
+  margin: 0 8px 2px 0;
+  height: auto;
+  border-top: $control-border;
+  border-bottom: $control-border;
+  border-left: $control-border;
+  border-right: $control-border;
+  color: $control-color;
+  font: $control-font;
+  font-weight: normal;
+  border-radius: $control-border-radius;
+  transition: 0.3s ease-out;
+}
+
+.ql-container.ql-snow.ql-disabled {
+  color: $control-disabled-color;
+  background: $control-disabled-background;
+}
+
+.ql-editor {
+  padding: 5px;
+  max-height: 250px;
+}
+
+.ql-editor:focus {
+  outline: none;
+  color: $selected-control-color;
+  background-color: $selected-control-background-color;
+  box-shadow:
+    inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    0 0 0 3px rgba(186, 186, 186, 0.1);
+}

@@ -1,0 +1,111 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+fieldset {
+  border: 0;
+}
+
+.section-title {
+  color: $form-title-color;
+  border-bottom: $form-title-border;
+  margin: 0.5rem 8px 0.5rem 0;
+}
+
+form.form-section {
+  label {
+    display: block;
+    width: 100%;
+    margin: auto;
+    line-height: 8pt;
+    color: $control-label-color;
+    font-size: 8pt;
+    font-weight: 600;
+  }
+
+  &.text-white label {
+    color: $white;
+    font-weight: 500;
+  }
+
+  button {
+    margin-right: 8px;
+  }
+}
+
+form.submitted input.ng-invalid,
+form.submitted textarea.ng-invalid,
+form.submitted select.ng-invalid {
+  border-left: 5px solid $warning-color;
+}
+
+form .inline-error {
+  color: $warning-color;
+  border: 1px solid $warning-color;
+  padding: 8pt;
+  font-size: 10pt;
+  font-weight: 400;
+  margin: 0 8px 12px 0;
+  border-radius: 1px;
+}
+
+form .inline-warning {
+  color: $layout-secondary-color;
+  border: 1px solid $layout-secondary-color;
+  padding: 4px;
+  font-size: 10pt;
+  font-weight: 400;
+  margin: 0 8px 12px 0;
+  border-radius: 1px;
+}
+
+form .inline-info {
+  color: $primary-color;
+  border: 1px solid $primary-color;
+  padding: 8pt;
+  font-size: 10pt;
+  font-weight: 400;
+  margin: 0 10px 12px 0;
+  border-radius: 1px;
+}
+
+.border-bottom {
+  border-bottom: $form-border-bottom;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.7;
+}
+
+.form-container {
+  padding: 5px;
+  margin: 3px;
+  top: 0;
+  z-index: 105;
+}
+
+.form-footer {
+  margin-top: 14px;
+  border-top: 1px solid $border-color;
+}
+
+.form-errors {
+  color: $warning-color;
+  font-size: 10pt;
+  padding: 8pt;
+}
+
+.invalid-control {
+  border-left: 5px solid $warning-color !important;
+}
+
+.title-section {
+  color: $form-title-color;
+  border-bottom: $form-title-border;
+  margin: 0.5rem 8px 0.5rem 0;
+}

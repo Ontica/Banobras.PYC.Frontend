@@ -1,0 +1,101 @@
+ /**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@mixin small() {
+  @media only screen and (max-width: $screen-small) {
+    @content;
+  }
+}
+
+
+@mixin medium() {
+  @media only screen and (max-width: $screen-medium) {
+    @content;
+  }
+}
+
+
+@mixin standard() {
+  @media only screen and (max-width: $screen-standard) {
+    @content;
+  }
+}
+
+@mixin row() {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+
+@mixin column() {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+
+@mixin expand() {
+  flex: 1 1 1e-9px;
+}
+
+
+@mixin input-button-settings {
+  font: $button-font;
+  text-transform: uppercase;
+  border: $button-border;
+  height: $button-height;
+  min-width: 88px;
+  padding: 4pt 8pt;
+  white-space: nowrap;
+}
+
+
+@mixin input-settings {
+  background-color: $control-background-color;
+  border-top: $control-border;
+  border-bottom: $control-border;
+  border-left: $control-border;
+  border-right: $control-border;
+  color: $control-color;
+  font: $control-font;
+  font-weight: normal;
+  margin: $control-margin;
+  padding: $control-padding;
+  vertical-align: middle;
+  height: $control-height;
+  width: $control-width;
+  border-radius: $control-border-radius;
+  transition: 0.3s ease-out;
+}
+
+
+@mixin disabled-element {
+  color: $control-disabled-color;
+  background: $control-disabled-background;
+}
+
+
+@mixin raised-header {
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.28);
+}
+
+
+@mixin explorer-defaults {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  flex: auto;
+  margin: 8px;
+}
+
+
+@mixin message-container() {
+  display: flex;
+  padding: 0.5rem;
+  font-size: $font-size-grid;
+  border-radius: $control-border-radius;
+  border: 1px solid #000;
+}

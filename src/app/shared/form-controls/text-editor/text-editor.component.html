@@ -1,0 +1,10 @@
+<quill-editor
+    theme="snow"
+    [modules]="editorModules"
+    [(ngModel)]="value"
+    [readOnly]="disabled"
+    [placeholder]="''"
+    (onContentChanged)="onChange(value)"
+    (onBlur)="onTouched()"
+    (onEditorCreated)="setFocus($event)">
+</quill-editor>

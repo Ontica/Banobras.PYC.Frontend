@@ -1,0 +1,59 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import '../../../styles/variables', '../../../styles/mixins';
+
+$margin-size: 16px;
+$margin-size-border: 36px;
+$margin-size-small: 8px;
+$min-width-sides: 375px;
+
+.nav-bar {
+  @include row;
+
+  min-height: 68px;
+  overflow: visible;
+  justify-content: space-between;
+  align-items: center;
+  color: $text-color-dark;
+  background: white;
+
+  .left-section {
+    @include row;
+
+    width: auto;
+    min-width: $min-width-sides;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0 $margin-size 0 $margin-size-border;
+  }
+
+  .main-menu {
+    margin: 0 $margin-size;
+  }
+
+  .right-section {
+    min-width: $min-width-sides;
+    margin: 0 $margin-size-border 0 $margin-size;
+  }
+
+  @media only screen and (max-width: 1140px) {
+    .left-section {
+      min-width: auto;
+      margin: 0 $margin-size-small;
+    }
+
+    .main-menu {
+      margin: 0;
+    }
+
+    .right-section {
+      min-width: auto;
+      margin: 0 $margin-size-small;
+    }
+  }
+}

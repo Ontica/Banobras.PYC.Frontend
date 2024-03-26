@@ -1,0 +1,55 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import '../../../styles/variables';
+
+.menu-left {
+  width: 75vw;
+  font-size: 1rem;
+
+  ul {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    color: $secondary-color-light;
+    white-space: nowrap;
+    padding: 0.5rem 1.5rem;
+
+    a,
+    a:visited {
+      color: $secondary-color-semi-light;
+      font-weight: 400;
+      text-decoration: none;
+    }
+
+    &:hover a {
+      color: $primary-color;
+      font-weight: 500;
+    }
+
+    &.selected a {
+      color: $primary-color;
+      font-weight: 600;
+    }
+
+  }
+
+  .menu-layout {
+    font-size: 0.9rem;
+  }
+
+  .menu-view {
+    font-size: 0.8rem;
+  }
+
+}

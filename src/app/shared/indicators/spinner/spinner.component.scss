@@ -1,0 +1,32 @@
+.no-overlay {
+  position: absolute;
+  left: calc(50% - 50px);
+  top: calc(50% - 50px);
+  background-color: transparent;
+  z-index: 1000;
+}
+
+.container-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 1000;
+}
+
+.full-screen-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 2000;
+}

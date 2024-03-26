@@ -1,0 +1,35 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+#emp-app-loading-components {
+  background-color: #fff;
+  color: $secondary-color-semi-light;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: 35vh;
+  text-align: center;
+  font: 16px $font-family;
+  text-transform: uppercase;
+}
+
+#emp-app-loading-components img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+#emp-app-loading-title {
+  color: $primary-color;
+  font-size: 18pt;
+}
+
+#emp-app-loading {
+  font-size: 10pt;
+}

@@ -1,0 +1,48 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import '../../../styles/variables';
+
+.topbar-container {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  place-content: stretch flex-end;
+  align-items: center;
+  text-align: end;
+}
+
+.topbar-height-fixed {
+  height: $toolbar-item-size;
+}
+
+.toolbar-item {
+  flex: 0 0 auto;
+  margin: auto 10px auto 0;
+  background-color: $toolbar-item-background;
+  height: $toolbar-item-size;
+  width: $toolbar-item-size;
+  border-radius: 3px;
+
+  .mat-icon {
+    width: $toolbar-icon-size;
+    height: $toolbar-icon-size;
+    font-size: $toolbar-icon-size;
+    color: $checkbox-background-color;
+    margin-top: calc(($toolbar-item-size - $toolbar-icon-size) / 2);
+  }
+}
+
+.toolbar-item.activate,
+.toolbar-item:hover {
+  background-color: $toolbar-item-background-hover;
+  transition: 0.3s ease-out;
+
+  .mat-icon {
+    color: $primary-color;
+  }
+}

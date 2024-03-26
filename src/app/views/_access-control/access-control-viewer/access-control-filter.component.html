@@ -1,0 +1,91 @@
+<form #form="ngForm" empNgFormKeyDownEnter autocomplete="off" class="form-section form-container">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container md-fx-column-container">
+
+      <div class="fx-item-half md-fx-item">
+
+        <label>Tipo de consulta:</label>
+
+        <emp-ng-select name="queryType" required
+          [config]="{bindByValue: false}"
+          [(ngModel)]="formData.queryType"
+          [items]="queryTypesList"
+          [showError]="!formData.queryType"
+          (changes)="onQueryTypeChanges()">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item md-fx-item fx-start fx-items-end">
+
+        <div class="input-search-container">
+
+          <input type="text" class="text-box" name="keywords"
+            placeholder="Buscar..."
+            [(ngModel)]="formData.keywords"
+            (keyup.escape)="onClearKeyword()"
+            (keyup.enter)="onSearchClicked()">
+
+        </div>
+
+      </div>
+
+      <div class="fx-item-none" [style.paddingTop.px]="12" [style.paddingBottom.px]="2">
+
+        <button title="Buscar"
+          [disabled]="!isFormValid"
+          [class.btn-icon]="!isFormValid"
+          [class.btn-icon-action]="isFormValid"
+          (click)="onSearchClicked()">
+
+          <mat-icon>search</mat-icon>
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Aplicación:</label>
+
+        <emp-ng-select name="contextUID" [required]="isContextRequired"
+          [config]="{clearable: !isContextRequired}"
+          [(ngModel)]="formData.contextUID"
+          [items]="contextsList"
+          [loading]="isLoading"
+          [placeholder]="isContextRequired ? 'Seleccionar' : 'Todas'"
+          [showError]="isContextRequired && !formData.contextUID">
+        </emp-ng-select>
+
+      </div>
+
+
+      <div class="fx-item-half" *ngIf="displayWorkarea">
+
+        <label>Área de trabajo:</label>
+
+        <emp-ng-select name="workareaUID"
+          [config]="{clearable: true}"
+          [(ngModel)]="formData.workareaUID"
+          [items]="workareasList"
+          [loading]="isLoading"
+          placeholder="Todas">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</form>
+
+<mat-divider>
+
+</mat-divider>

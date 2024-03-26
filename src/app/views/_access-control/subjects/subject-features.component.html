@@ -1,0 +1,20 @@
+<div [style.height.%]="100" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="isLoading">
+
+  </emp-ng-spinner>
+
+  <emp-ng-security-item-edition
+    [itemsAssignedList]="subjectFeaturesList"
+    [canEdit]="canEdit"
+    [itemsForSelectorList]="subjectContextsList"
+    [selectorRequired]="true"
+    [queryExcecuted]="isExcecuted"
+    [itemsToAssignList]="featuresList"
+    [submitted]="submitted"
+    itemTypeName="Permiso"
+    (securityItemEditionEvent)="onSubjectFeaturesEditionEvent($event)">
+
+  </emp-ng-security-item-edition>
+
+</div>

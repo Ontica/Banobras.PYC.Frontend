@@ -1,0 +1,84 @@
+<ng-select
+  [(ngModel)]="value"
+  [disabled]="disabled"
+  [items]="items"
+  [loading]="loading"
+  [placeholder]="placeholder"
+  [typeahead]="typeahead"
+  [addTag]="selectBoxConfig.addTag"
+  [addTagText]="selectBoxConfig.addTagText"
+  [appendTo]="selectBoxConfig.appendTo"
+  [bindLabel]="bindLabel"
+  [bindValue]="selectBoxConfig.bindByValue ? bindValue : null"
+  [clearable]="selectBoxConfig.clearable"
+  [clearAllText]="selectBoxConfig.clearAllText"
+  [closeOnSelect]="selectBoxConfig.closeOnSelect"
+  [dropdownPosition]="selectBoxConfig.dropdownPosition"
+  [groupBy]="selectBoxConfig.groupBy"
+  [hideSelected]="selectBoxConfig.hideSelected"
+  [loadingText]="selectBoxConfig.loadingText"
+  [minTermLength]="selectBoxConfig.minTermLength"
+  [multiple]="selectBoxConfig.multiple"
+  [notFoundText]="selectBoxConfig.notFoundText"
+  [searchable]="selectBoxConfig.searchable"
+  [searchFn]="useCustomSearchFn ? customSearchFn : null"
+  [typeToSearchText]="selectBoxConfig.typeToSearchText"
+  [virtualScroll]="selectBoxConfig.virtualScroll"
+  (change)="onChangedEvent($event)"
+  (focus)="onTouched($event)"
+  (clear)="onClear()"
+  (blur)="onBlur($event)"
+  (search)="onSearch($event)"
+  [class.invalid-control]="showError">
+
+  <ng-template ng-label-tmp let-item="item" *ngIf="labelTemplate">
+    <ng-container *ngIf="labelTemplate">
+      <ng-container *ngTemplateOutlet="labelTemplate; context:{item: item}"></ng-container>
+    </ng-container>
+  </ng-template>
+
+  <ng-template ng-optgroup-tmp let-item="item">
+    <ng-container *ngIf="groupTemplate">
+      <ng-container *ngTemplateOutlet="groupTemplate; context:{item: item}"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="!groupTemplate">
+      {{bindLabel ? item[bindLabel] : item}}
+    </ng-container>
+  </ng-template>
+
+  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+    <ng-container *ngIf="optionTemplate">
+      <ng-container *ngTemplateOutlet="optionTemplate; context:{item: item}"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="!optionTemplate">
+     {{bindLabel ? item[bindLabel] : item}}
+    </ng-container>
+  </ng-template>
+
+  <ng-template ng-header-tmp *ngIf="headerTemplate">
+    <ng-container *ngTemplateOutlet="headerTemplate;"></ng-container>
+  </ng-template>
+
+  <ng-template ng-footer-tmp *ngIf="footerTemplate">
+    <ng-container *ngTemplateOutlet="footerTemplate;"></ng-container>
+  </ng-template>
+
+  <ng-template ng-typetosearch-tmp>
+    <div class="ng-option disabled inner-message">
+        {{selectBoxConfig.typeToSearchText}}
+    </div>
+  </ng-template>
+
+  <ng-template ng-notfound-tmp>
+    <div class="ng-option disabled inner-message">
+        {{selectBoxConfig.notFoundText}}
+    </div>
+  </ng-template>
+
+  <ng-template ng-loadingtext-tmp>
+    <div class="ng-option disabled inner-message">
+        {{selectBoxConfig.loadingText}}
+    </div>
+  </ng-template>
+
+</ng-select>

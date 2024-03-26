@@ -1,0 +1,16 @@
+<div class="backdrop" [class.transparent]="modalConfig.backdropClick" (click)="onBackdropClick()">
+
+  <div class="modal-container"
+       [style.width]="modalConfig.width"
+       [style.height]="modalConfig.height"
+       [style.max-width]="modalConfig.maxWidth"
+       [style.max-height]="modalConfig.maxHeight"
+       [style.min-width]="modalConfig.minWidth"
+       [style.min-height]="modalConfig.minHeight"
+       (click)="stopPropagation($event)">
+
+    <ng-content></ng-content>
+
+  </div>
+
+</div>

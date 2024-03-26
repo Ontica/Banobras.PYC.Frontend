@@ -1,0 +1,270 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import 'mixins';
+
+//
+// flex containers
+//
+
+.fx-row-container {
+  @include row;
+  flex: 0;
+}
+
+.fx-row-container-fill {
+  @include row;
+  flex: 1; // TODO: test if it works with flex: 1 or %
+  // height: 100%;
+  // min-height: 100%;
+  // min-width: 100%;
+  // width: 100%;
+}
+
+//
+// flex items
+//
+.fx-row-container,
+.fx-row-container-fill {
+
+  .fx-item {
+    @include expand;
+  }
+
+  .fx-item-none {
+    flex: 0 0 auto;
+  }
+
+  .fx-item-two-third {
+    flex: 1 1 100%;
+    max-width: 66.66%;
+  }
+
+  .fx-item-half {
+    flex: 1 1 100%;
+    max-width: 50%;
+  }
+
+  .fx-item-half-margin {
+    flex: 1 1 100%;
+    max-width: calc(50% - 8px);
+  }
+
+  .fx-item-third {
+    flex: 1 1 100%;
+    max-width: 33.33%;
+  }
+
+  .fx-item-quarter {
+    flex: 1 1 100%;
+    max-width: 25%;
+  }
+
+  .fx-item-sixth {
+    flex: 1 1 100%;
+    max-width: 16.66%;
+  }
+
+  .fx-item-auto {
+    flex-grow: 1;
+  }
+}
+
+.fx-column-container {
+  @include column;
+  flex: 0;
+}
+
+.fx-column-container-fill {
+  @include column;
+  height: 100%;
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+  // flex: 1;
+}
+
+//
+// flex items
+//
+.fx-column-container,
+.fx-column-container-fill {
+
+  .fx-item {
+    @include expand;
+  }
+
+  .fx-item-none {
+    flex: 0 0 auto;
+  }
+
+  .fx-item-two-third {
+    flex: 1 1 100%;
+    max-height: 66.66%;
+  }
+
+  .fx-item-half {
+    flex: 1 1 100%;
+    max-height: 50%;
+  }
+
+  .fx-item-half-margin {
+    flex: 1 1 100%;
+    max-height: calc(50% - 8px);
+  }
+
+  .fx-item-third {
+    flex: 1 1 100%;
+    max-height: 33.33%;
+  }
+
+  .fx-item-quarter {
+    flex: 1 1 100%;
+    max-height: 25%;
+  }
+
+  .fx-item-sixth {
+    flex: 1 1 100%;
+    max-width: 16.66%;
+  }
+
+  .fx-item-auto {
+    flex-grow: 1;
+  }
+}
+
+.fx-fill {
+  height: 100%;
+  width: 100%;
+}
+
+.fx-fill-auto {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+.fx-wrap {
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+//
+// Distribution of available space between the items
+//
+
+.fx-start {
+  justify-content: flex-start;
+}
+
+.fx-center {
+  justify-content: center;
+}
+
+.fx-end {
+  justify-content: flex-end;
+}
+
+.fx-space-between {
+  justify-content: space-between;
+}
+
+.fx-space-around {
+  justify-content: space-around;
+}
+
+//
+// Alignment of items along the cross axis (row > vertical; column > horizontal)
+//
+
+.fx-items-start {
+  display: flex;
+  align-items: flex-start;
+}
+
+.fx-items-center {
+  display: flex;
+  align-items: center;
+}
+
+.fx-items-end {
+  display: flex;
+  align-items: flex-end;
+}
+
+.fx-items-stretch {
+  display: flex;
+  align-items: stretch;
+}
+
+//
+// Gap between items
+//
+
+.fx-row-container,
+.fx-row-container-fill {
+
+  &.fx-gap-quarter {
+    gap: 0.25rem;
+  }
+
+  &.fx-gap-half {
+    gap: 0.5rem;
+  }
+
+  &.fx-gap-three-quarter {
+    gap: 0.75rem;
+  }
+
+  &.fx-gap {
+    gap: 1rem;
+  }
+}
+
+.fx-column-container,
+.fx-column-container-fill {
+
+  &.fx-gap-quarter {
+    gap: 0.25rem;
+  }
+
+  &.fx-gap-half {
+    gap: 0.5rem;
+  }
+
+  &.fx-gap-three-quarter {
+    gap: 0.75rem;
+  }
+
+  &.fx-gap {
+    gap: 1rem;
+  }
+}
+
+.fx-magin-item {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+//
+// Spacing
+//
+
+.fx-spacing-1 {
+  margin: 0.25rem;
+  padding: 0.25rem;
+}
+
+.fx-spacing-2 {
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+
+.fx-spacing-3 {
+  margin: 1rem;
+  padding: 1rem;
+}

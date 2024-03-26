@@ -1,0 +1,199 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import 'mixins', 'variables';
+
+$box-shadow: 0 3px 1px -2px rgba(44, 57, 66, 0.1),
+  0 2px 2px 0 rgba(44, 57, 66, 0.07), 0 1px 5px 0 rgba(44, 57, 66, 0.05);
+
+.list-header {
+  @include row;
+
+  justify-content: space-between;
+  font-size: $font-size-grid-header;
+  font-weight: 700;
+  background-color: $grid-header-background-color;
+  color: $primary-color;
+  width: 100%;
+  padding: 12px 24px 12px 8px;
+  border-bottom: 2pt solid $title-color;
+}
+
+.list-header-container {
+  width: 100%;
+  margin: 0 3px;
+}
+
+.list-selection-header {
+  padding: 5px;
+  margin: 3px;
+  top: 0;
+  z-index: 105;
+
+  > span {
+    padding: 8px;
+  }
+}
+
+.list-item {
+  @include row;
+
+  margin: 3px;
+  align-items: flex-start;
+  background-color: $grid-even-background-color;
+  border-bottom: 1px $border-color solid;
+  min-height: 32px;
+  padding: 8px;
+  font-size: $font-size-grid;
+}
+
+.list-item:hover {
+  background: $grid-hover-background-color;
+
+  .ghost-icon {
+    color: $icon-color;
+  }
+}
+
+.list-item-selected {
+  background-color: $grid-selected-background-color;
+  box-shadow: $box-shadow;
+}
+
+.list-item-selected:hover {
+  background-color: $grid-selected-hover-background-color;
+}
+
+.list-item-checkbox {
+  margin: auto;
+  padding: 0 4px 0 8px;
+}
+
+.list-item-container {
+  font-family: $font-family-secondary;
+  padding: 0;
+  width: 100%;
+  font-size: 9pt;
+}
+
+.list-item-columns {
+  @include row;
+
+  justify-content: space-between;
+  font-size: 9pt;
+  width: 100%;
+}
+
+.list-item-column {
+  padding-right: 36px;
+}
+
+.list-item-right-column {
+  justify-content: flex-end;
+  padding-right: 9pt;
+  text-align: right;
+}
+
+.list-item-group-name {
+  vertical-align: -webkit-baseline-bottom;
+  font-size: 11pt;
+  font-weight: 500;
+  margin-top: 36px;
+  margin-bottom: 2px;
+  padding-left: 8px;
+}
+
+.list-item-name {
+  vertical-align: -webkit-baseline-middle;
+  font-size: 10pt;
+  color: $text-color-dark;
+
+  a {
+    color: $primary-color-dark;
+  }
+}
+
+.list-item-text-highlight {
+  color: $primary-color-dark;
+  font-size: 10pt;
+
+  a {
+    color: $primary-color-dark;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+.list-item-name a:hover {
+  text-decoration: underline;
+}
+
+.list-item-summary {
+  font-weight: 600;
+  font-size: 11pt;
+}
+
+.list-item-group-summary {
+  background-color: $disabled-color;
+  font-size: 11pt;
+}
+
+.list-item-deleted {
+  text-decoration: line-through;
+}
+
+.list-header-column-border-shadow {
+  padding-left: 10px;
+}
+
+.list-item-column-border-shadow {
+  display: inline-flex;
+
+  > .border-left {
+    position: relative;
+    width: 2px;
+    margin: -10px 0 -10px 0;
+    height: calc(100% + 20px);
+  }
+
+  > :not(.border-left) {
+    padding-left: 8px;
+  }
+}
+
+$border-shadow-width: 5px;
+
+.list-item-column-border-shadow > .border-left::after {
+  margin: 0 -2px 0 0;
+  padding-right: $border-shadow-width;
+  position: absolute;
+  content: "";
+  height: 100%;
+  background: linear-gradient(90deg, rgba($secondary-color, 0.25), transparent);
+}
+
+.simple-list-container {
+  max-height: 392px;
+  overflow: auto;
+}
+
+.simple-list-item {
+  padding: 4px 1px 4px 8px;
+  border-radius: 2px;
+  border-left: 4px solid $primary-color;
+  background: $control-disabled-background;
+}
+
+.simple-list-item:not(:last-child).margin {
+  margin-bottom: 0.5rem;
+}
+
+.simple-list-item .detail {
+  font-family: $font-family-secondary;
+}

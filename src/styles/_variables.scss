@@ -1,0 +1,197 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+//
+// Color Palette
+//
+$white: #fdfdfd !default;
+
+$primary-color: #245c4f !default;
+$primary-color-light: #245c4f !default;
+$primary-color-dark: #10312b !default;
+
+$secondary-color: #98989a !default;
+$secondary-color-light: #afafaf !default;
+$secondary-color-semi-light: #808080 !default;
+$secondary-color-dark: #4d4d4d !default;
+
+$warning-color: #9f2241 !default;
+$warning-color-light: #9f2241;
+$warning-color-dark: #691c32 !default;
+
+$title-color: #bc955c !default;
+$title-border-color: #ddc9a3 !default;
+
+$text-color: $secondary-color-semi-light !default;
+$text-color-light: $secondary-color-light !default;
+$text-color-dark: $secondary-color-dark !default;
+
+$background-color-work-area: #f4f6f6 !default;
+$background-color: $white !default;
+$background-color-highlight: #fbfefd !default;
+
+$border-color: #e8e8e8 !default;
+$border-color-light: #edeef0 !default;
+$border-color-dark: #909090 !default;
+
+$disabled-color: #edeef0 !default;
+
+$secondary-text-color: $white !default;
+$action-color: $primary-color !default;
+$action-selected-color: $primary-color-dark !default;
+$selected-item-text-color: $text-color-dark !default;
+$link-color: $text-color-dark !default;
+
+$backdrop-color: rgba(0, 0, 0, 0.32) !default;
+
+//
+// Typography
+//
+$font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$font-family-secondary: "Inconsolata", monospace !default;
+$font-size-root: 8pt !default;
+$font-size-base: 1rem !default;
+$font-weight-base: 200 !default;
+//
+$font-size-title: $font-size-base * 1.25;
+$font-weight-title: 500;
+//
+$font-size-command: $font-size-base * 0.85;
+$font-weight-command: 300;
+//
+$font-size-hint: $font-size-base * 0.75;
+$font-weight-hint: 300;
+$font-weight-bold: lighten($text-color, 3%);
+$text-italic: italic;
+//
+$font-size-grid-header: $font-size-base * 0.65;
+$font-size-grid: 9pt;
+
+//
+// Responsive
+//
+$screen-small: 959px;
+$screen-medium: 1366px;
+$screen-standard: 1440px;
+
+//
+// Layout
+//
+$layout-gradient-initial-color: $primary-color-dark;
+$layout-gradient-final-color: $primary-color;
+$layout-secondary-color: #ddc9a3;
+$layout-secondary-color-dark: #bc955c;
+$toolbar-item-background: #f3f3f3;
+$toolbar-item-background-hover: lighten($primary-color, 70);
+$toolbar-icon-color: #38927d;
+$toolbar-item-size: 35px;
+$toolbar-icon-size: 32px;
+
+//
+// icons
+//
+$primary-icon-size: 16pt;
+
+$icon-color: #909090 !default;
+$icon-color-light: #e8e8e8 !default;
+$icon-color-dark: #606060 !default;
+
+$icon-color-success: #65a596 !default;
+$icon-color-warning: #f3d08f !default;
+$icon-color-error: #df879d !default;
+
+//
+// form
+//
+$form-color: #6a6a6a;
+$form-title-border: 1px dotted $border-color-dark;
+$form-font-weight: 300;
+$form-border-bottom: 1px solid $icon-color-light;
+$form-title-color: $border-color-dark;
+
+//
+// html controls
+//
+$control-font: 9.5pt $font-family-secondary;
+$control-small-font: 8.5pt $font-family-secondary;
+
+$control-color: $secondary-color-dark;
+$control-label-color: $secondary-color-dark;
+$control-background-color: #fdfdfd;
+$control-border: 1px solid #dfdfdf;
+$control-border-radius: 2px;
+
+$selected-control-background-color: #fafafa;
+$selected-control-color: #343434;
+$selected-control-border: 1px solid #bababa;
+
+$control-disabled-background: #f6f6f6;
+$control-disabled-color: $secondary-color-semi-light;
+
+$control-width: calc(100% - 8px);
+$control-height: 28px;
+
+$control-margin: 2px 8px 2px 0;
+$control-padding: 2px 6px;
+$select-padding: 2px 2px 2px 6px;
+
+$button-font: 9.5pt $font-family;
+$button-color: #fbfbfb;
+$button-selected-color: #e6e6e6;
+
+$button-border: 0 solid #cecece;
+$button-height: 28px;
+
+$checkbox-background-color: #38927d;
+$checkbox-size: 28px;
+$checkbox-warning-background-color: $warning-color;
+$date-picker-width: 90px;
+$range-picker-width: 185px;
+
+$tag-background-color: hsl(167, 36%, 95%);
+$tag-default-background-color: hsl(166, 44%, 90%) !default;
+$tag-info-background-color: $primary-color-light !default;
+$tag-error-background-color: $warning-color-light !default;
+$tag-warning-color: $title-color !default;
+
+$tag-default-color: hsl(166, 44%, 30%) !default;
+
+//
+// grid
+//
+$grid-header-background-color: #f5efe7 !default;
+$grid-footer-background-color: $disabled-color;
+$grid-border: 0;
+$grid-even-background-color: $white;
+$grid-odd-background-color: #f4f4f4 !default;
+$grid-hover-background-color: #fafafa;
+$grid-selected-background-color: #f7fcfb;
+$grid-selected-hover-background-color: #f3fcfb;
+$grid-header-height: 40px;
+$grid-row-height: 32px;
+$grid-entry-padding-vertical: 12px;
+$grid-entry-padding-horizontal: 15px;
+$grid-entry-padding-vertical-first: 10px;
+$grid-entry-padding-vertical-default: 8px;
+
+//
+// Designer
+//
+$designer-border-color: #d2d2d2 !default;
+$designer-bar-background: #f0f0f0 !default;
+$designer-bar-selected-border-color: #32816e !default;
+$designer-bar-selected-background-color: #b3dbd3 !default;
+$designer-bar-selected-hover-background-color: #97cec3 !default;
+$designer-cell-selected-background-color: #eef7f5 !default;
+$designer-cell-selected-hover-background-color: #dcefeb !default;
+
+$designer-primary-color: #e5f6ff !default;
+$designer-secondary-color: #fff8dd !default;
+$designer-tertiary-color: #ffe5ed !default;
+$designer-quaternary-color: #f3eeff !default;
+$designer-gray-color: #f7f7f7 !default;
+$designer-green-color: #e8fff3 !default;

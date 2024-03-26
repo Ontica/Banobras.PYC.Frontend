@@ -1,0 +1,19 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+$margin-size: 16px;
+
+.footer {
+  background: white;
+  padding: $margin-size;
+}
+
+.footer-info {
+  text-align: center;
+  min-height: 20px;
+  font-size: 10pt;
+}

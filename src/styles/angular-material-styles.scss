@@ -1,0 +1,870 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+// icons
+
+.mat-icon {
+  color: $icon-color;
+  font-family: "Material Icons" !important;
+
+  &.icon-success,
+  &.icon-success:hover {
+    color: $icon-color-success;
+  }
+
+  &.icon-warning,
+  &.icon-warning:hover {
+    color: $icon-color-warning;
+  }
+
+  &.icon-error,
+  &.icon-error:hover {
+    color: $icon-color-error;
+  }
+}
+
+.mat-mdc-icon-button.mat-mdc-button-base {
+  height: 32px;
+  width: 32px;
+  padding: 4px;
+}
+
+.mat-mdc-button-touch-target {
+  height: 32px !important;
+  width: 32px !important;
+}
+
+.material-icons-outlined,
+.material-icons.material-icons--outlined {
+  font-family: "Material Icons Outlined" !important;
+}
+
+//
+// tabs component
+//
+
+.mat-mdc-tab {
+  height: 42px !important;
+  font-size: 10pt;
+  text-transform: uppercase;
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+.mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+  color: $primary-color-dark;
+  font-weight: 600;
+}
+
+.mat-mdc-tab-group {
+  height: 100%;
+}
+
+.mat-mdc-tab-body-wrapper {
+  height: 100%;
+}
+
+.mat-mdc-tab-header-pagination {
+  z-index: 1 !important;
+}
+
+.mat-mdc-tab-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mat-mdc-tab-group .mat-mdc-tab-body {
+  padding: 0;
+}
+
+.mat-mdc-tab-body-content {
+  padding: 16px 24px;
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
+.mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+  border-color: $title-color;
+}
+
+//
+// stepper
+//
+
+.mat-stepper-horizontal, .mat-stepper-vertical {
+  background-color: $white;
+}
+
+.mat-step-icon .mat-icon,
+.mat-step-header .mat-step-icon {
+  color: $white;
+}
+
+.mat-step-icon-state-edit {
+  color: $secondary-color;
+}
+
+.mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit {
+  background-color: $primary-color;
+  color: $white;
+}
+
+.mat-step-header .mat-step-label.mat-step-label-active {
+  color: $primary-color-dark;
+}
+
+.mat-step-label-selected {
+  font-weight: 600;
+}
+
+.mat-stepper-horizontal-line {
+  margin: 0 !important;
+}
+
+.mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:first-child)::before,
+[dir=rtl] .mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:last-child)::before,
+.mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:last-child)::after,
+[dir=rtl] .mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:first-child)::after {
+  display: none !important;
+}
+
+//
+// sidebar components
+//
+
+.mat-drawer-container {
+  color: $selected-control-color;
+  background: $background-color-work-area;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  scrollbar-color: $primary-color-light;
+  scroll-padding-right: 2px;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar-thumb {
+  background: $primary-color;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content,
+.mat-list-base .mat-list-option .mat-list-item-content {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+//
+// button mini-fab components
+//
+
+.mat-mini-fab {
+  width: 35px !important;
+  height: 35px !important;
+}
+
+.mat-mini-fab .mat-button-wrapper {
+  padding: 5.5px 0 !important;
+  height: 35px;
+}
+
+//
+// mat-table components
+//
+
+table.mat-mdc-table {
+  background: $white;
+  width: 100%;
+  margin: 0.5rem 0;
+
+  th {
+    font-weight: 500;
+    padding: $grid-entry-padding-vertical $grid-entry-padding-horizontal $grid-entry-padding-vertical 0;
+
+    &.mat-mdc-header-cell {
+      border-bottom: 2pt solid $title-color;
+      font-size: $font-size-grid-header;
+      line-height: 13px;
+    }
+
+    &.column-action-check {
+      width: $grid-row-height;
+    }
+
+    &:first-of-type {
+      padding-left: $grid-entry-padding-vertical;
+    }
+
+    &:last-of-type {
+      padding-right: $grid-entry-padding-vertical !important;
+    }
+
+    &.column-action {
+      text-align: center;
+      width: $grid-row-height !important;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      padding-right: $grid-entry-padding-vertical;
+    }
+  }
+
+  td {
+    vertical-align: top;
+    padding: $grid-entry-padding-vertical $grid-entry-padding-horizontal $grid-entry-padding-vertical 0;
+    font-family: $font-family-secondary;
+    font-size: $font-size-grid;
+    line-height: $font-size-grid;
+
+    &:first-of-type {
+      padding-left: $grid-entry-padding-vertical;
+    }
+
+    &.mat-mdc-cell:last-of-type,
+    &.mat-mdc-footer-cell:last-of-type {
+      padding-right: $grid-entry-padding-vertical;
+      width: auto;
+    }
+
+    &.column-action {
+      text-align: center;
+      width: $grid-row-height !important;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      padding-right: $grid-entry-padding-vertical;
+      vertical-align: middle;
+    }
+
+    &.column-action-check {
+      padding: 0;
+      width: $grid-row-height;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    &.column-no-padding {
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+
+    &.padding-icon {
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    a.item-link {
+      color: $primary-color;
+      text-decoration: underline;
+      white-space: nowrap;
+    }
+
+    a.item-link:hover {
+      text-decoration: underline;
+    }
+
+    a.link-highlight {
+      font-size: $font-size-grid * 1.1;
+      color: $primary-color;
+      text-decoration: underline;
+      white-space: nowrap;
+    }
+
+    .text-label {
+      font-size: $font-size-grid * 0.95;
+    }
+
+    .text-highlight {
+      font-size: $font-size-grid * 1.1;
+      color: $primary-color;
+    }
+  }
+
+  tr {
+    height: $grid-row-height !important;
+
+    &.mat-mdc-header-row,
+    &.mat-mdc-footer-row {
+      height: $grid-header-height !important;
+
+      th {
+        color: $primary-color;
+        font-weight: 700;
+      }
+
+      td {
+        color: $text-color;
+      }
+    }
+
+    &.mat-mdc-header-row {
+      background-color: $grid-header-background-color;
+    }
+
+    &.mat-mdc-footer-row {
+
+      &.text-not-found > td {
+        padding: $grid-entry-padding-vertical $grid-entry-padding-horizontal;
+        text-align: center;
+      }
+
+      &:not(.text-not-found) {
+        background-color: $grid-footer-background-color;
+      }
+    }
+
+    &.mat-mdc-row {
+      background-color: $white;
+    }
+  }
+
+  &.table-no-margin {
+    margin: 0;
+  }
+
+  &.data-centered td {
+    vertical-align: middle;
+  }
+
+  .text-align-right {
+    text-align: right !important;
+    justify-content: flex-end !important;
+  }
+
+  .text-align-center {
+    text-align: center !important;
+    justify-content: center !important;
+  }
+}
+
+table.mat-mdc-table.emp-designer {
+  border-collapse: separate;
+  border-spacing: 0;
+
+  th {
+    padding: 6px;
+
+    &.mat-mdc-header-cell {
+      border-top: 1px solid $designer-border-color;
+      border-bottom: 1px solid $designer-border-color;
+      border-right: 1px solid $designer-border-color;
+    }
+
+    &:first-of-type {
+      border-left: 1px solid $designer-border-color;
+      left: 0;
+      position: sticky !important;
+      z-index: 101 !important;
+      user-select: none;
+    }
+
+    &:hover .resize-handle {
+      opacity: 1;
+      transition: 0.3s ease-in-out;
+    }
+  }
+
+  td {
+    padding: 6px;
+    border-bottom: 1px solid $designer-border-color;
+    border-right: 1px solid $designer-border-color;
+
+    &:first-of-type {
+      user-select: none;
+      cursor: pointer;
+      background-color: $designer-bar-background;
+      border-left: 1px solid $designer-border-color;
+      left: 0;
+      position: sticky;
+      text-align: center;
+      width: 28px;
+      z-index: 2;
+    }
+
+    &:first-of-type:hover {
+      background-color: $designer-border-color;
+    }
+
+    .designer-button {
+      cursor: pointer;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      padding: 6px;
+    }
+
+    input {
+      background: inherit;
+      border: none;
+      color: $control-color;
+      font: $control-font;
+      font-size: $font-size-grid;
+      font-weight: normal;
+      width: 100%;
+    }
+  }
+
+  tr {
+    height: 28px !important;
+
+    &.mat-mdc-header-row,
+    &.mat-mdc-footer-row {
+      height: 28px !important;
+
+      th {
+        color: #000;
+        font-weight: 500;
+
+        &:first-of-type {
+          color: $designer-bar-background;
+          padding: 6px 8px;
+        }
+      }
+
+      td {
+        color: $text-color;
+      }
+    }
+
+    &.mat-mdc-header-row {
+      background-color: $designer-bar-background;
+
+      .header-bold {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.mdc-data-table__row:last-child .mdc-data-table__cell {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+.mat-mdc-table-sticky {
+  transform: translateZ(0);
+}
+
+.scrollable-container {
+  overflow-y: auto;
+  max-height: calc(100% - 2px);
+  margin: 1px;
+
+  table.mat-mdc-table {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.fill-table-container {
+  overflow: auto;
+  contain: strict;
+  height: calc(100% - 2px);
+  width: calc(100% - 8px);
+
+  table.mat-mdc-table {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.cdk-virtual-scroll-viewport {
+  height: 100%;
+  width: 100%;
+}
+
+//
+// mat-divider
+//
+
+.mat-divider {
+  &.horizontal {
+    margin: 8px 8px 8px 0;
+  }
+
+  &.horizontal-md {
+    margin: 0 8px 8px 0;
+  }
+
+  &.horizontal-slim {
+    margin: 0 8px 0 0;
+  }
+
+  &.horizontal-wide {
+    margin: 8px -16px;
+  }
+
+  &.vertical {
+    margin: 12px 8px 0 0;
+    height: $control-height;
+  }
+
+  &.vertical-inline {
+    margin: 0 0.75rem;
+    height: $control-height;
+  }
+}
+
+//
+// matexpansion panel
+//
+
+.mat-accordion .mat-expansion-panel:last-of-type,
+.mat-accordion .mat-expansion-panel:first-of-type {
+  border-radius: 0 !important;
+}
+
+.mat-expansion-panel-header {
+  max-height: 48px !important;
+  min-height: 36px;
+  height: auto;
+  padding: 4px 24px !important;
+  font-size: 10pt;
+  font-weight: 400;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  max-height: 48px !important;
+  min-height: 36px;
+  height: auto;
+  padding: 4px 24px !important;
+  border-bottom: 1px solid $border-color;
+}
+
+.mat-expansion-panel-header-title {
+  flex-basis: 0;
+  align-items: center;
+}
+
+.mat-expansion-panel-body {
+  padding: 16px 24px 16px !important;
+}
+
+.mat-expansion-panel .mat-action-row {
+  padding: 8px 30px 8px 24px !important;
+}
+
+.expand-half .mat-expansion-panel-body {
+  max-height: 35vh;
+  overflow-y: auto;
+  padding: 0 !important;
+}
+
+//
+// mat date picker
+//
+
+.mat-datepicker-toggle {
+  margin-right: 8px;
+
+  .mat-mdc-icon-button {
+    width: 28px;
+    height: 28px;
+    line-height: 22px;
+    border: $control-border;
+    border-left: none;
+    border-radius: 0 2px 2px 0;
+    background-color: $button-color;
+    margin: 2px 0;
+
+    .mat-datepicker-toggle-default-icon {
+      color: $icon-color;
+    }
+
+    &.mat-mdc-button-base {
+      padding: 2px;
+    }
+  }
+
+  .mat-mdc-icon-button:hover {
+    background-color: $selected-control-background-color;
+    transition: 0.3s ease-out;
+
+    .mat-datepicker-toggle-default-icon {
+      color: $icon-color-dark;
+    }
+  }
+
+  .mat-mdc-icon-button .mat-mdc-button-ripple,
+  .mat-mdc-icon-button .mat-mdc-button-persistent-ripple,
+  .mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before {
+    border-radius: 0;
+  }
+}
+
+.selection-type-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.selection-type-picker .mat-calendar-arrow {
+  display: none;
+}
+
+.default-calendar-hidden {
+  display: none !important;
+}
+
+//
+// mat date range picker
+//
+
+.mat-date-range-input-container {
+  background-color: $control-background-color;
+  border: $control-border;
+  margin: 2px 0;
+  padding: 0;
+  vertical-align: middle;
+  height: $control-height;
+  border-radius: 2px 0 0 2px !important;
+  transition: 0.3s ease-out;
+
+  &.cdk-focused {
+    outline: none;
+    background-color: $selected-control-background-color;
+    border: $selected-control-border;
+
+    input {
+      color: $selected-control-color;
+    }
+  }
+
+  .mat-date-range-input-wrapper {
+    width: 84px !important;
+    height: 24px !important;
+    margin: auto;
+
+    .mat-date-range-input-inner {
+      position: relative !important;
+    }
+
+    input {
+      color: $control-color;
+      font: $control-font;
+      font-weight: normal;
+      vertical-align: middle;
+      margin: auto;
+      height: 24px !important;
+      padding: 0 6px;
+    }
+
+    input:focus {
+      border: none !important;
+    }
+
+    input::placeholder {
+      font-size: 8.5pt;
+    }
+  }
+
+  .mat-start-date {
+    text-align: right;
+  }
+
+  .mat-date-range-input-separator-hidden {
+    opacity: 0.7;
+  }
+}
+
+.disabled-date-picker .mat-date-range-input-container {
+  color: $control-disabled-color;
+  background: $control-disabled-background;
+}
+
+.invalid-date-picker .mat-date-range-input-container {
+  border-left: 5px solid $warning-color !important;
+}
+
+//
+// mat menu item
+//
+
+.mat-mdc-menu-panel {
+  min-height: 51px !important;
+  max-height: calc(100vh - 35px) !important;
+}
+
+.mat-mdc-menu-item {
+  line-height: 35px !important;
+  height: 35px !important;
+  min-height: 35px !important;
+}
+
+.mat-mdc-menu-content,
+.mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text {
+  font-size: 9pt !important;
+}
+
+.mat-mdc-menu-item.selected {
+  background: lighten($primary-color, 65%) !important;
+  color: $primary-color !important;
+
+  .mat-mdc-menu-item-text {
+    font-weight: 600 !important;
+  }
+
+  &:hover {
+    background: lighten($primary-color, 60%) !important;
+  }
+}
+
+.mat-mdc-menu-trigger.active a {
+  color: $primary-color;
+}
+
+//
+// progress bar
+//
+
+.mat-progress-bar {
+  border-radius: 2px !important;
+}
+
+.mat-progress-bar-fill::after {
+  background-color: $primary-color-light !important;
+}
+
+//
+// slider
+//
+
+.mat-slider-horizontal {
+  height: 30px !important;
+
+  .mat-slider-wrapper {
+    top: 16px !important;
+  }
+
+  .mat-slider-thumb-label {
+    top: -22px !important;
+    right: -9px !important;
+    width: 18px;
+    height: 18px;
+  }
+
+  .mat-slider-thumb-label-text {
+    font-size: 8pt;
+  }
+}
+
+//
+// checkbox
+//
+
+.mat-mdc-checkbox {
+
+  .mdc-checkbox {
+
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    padding: 6px !important;
+
+    .mdc-checkbox__background {
+      top: 6px !important;
+      left: 6px !important;
+    }
+
+    .mdc-checkbox__native-control {
+      width: $checkbox-size !important;
+      height: $checkbox-size !important;
+    }
+
+    .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true]) ~ .mdc-checkbox__background {
+      background-color: $white !important;
+    }
+
+  }
+
+  .mdc-form-field > label {
+    font-size: 8.5pt;
+    margin-right: 8px;
+    line-height: 16px;
+  }
+
+  &.no-label .mdc-form-field > label {
+    margin-right: 0;
+    display: none;
+  }
+
+  &.mat-warn.text-light .mdc-form-field > label,
+  &.mat-accent.text-light .mdc-form-field > label,
+  &.mat-accent.text-light .mdc-form-field > label {
+    color: $white;
+  }
+
+  &.mat-mdc-checkbox-disabled .mdc-form-field > label {
+    color: $control-disabled-color !important;
+  }
+
+}
+
+//
+// radio button
+//
+
+.mat-mdc-radio-group {
+  height: $checkbox-size;
+  display: flex;
+  align-items: center;
+  margin: 2px 0;
+}
+
+.mdc-radio__outer-circle {
+  background-color: $white;
+}
+
+.mat-mdc-radio-button {
+
+  .mdc-radio {
+    padding: 6px !important;
+
+    .mdc-radio__native-control {
+      height: 32px !important;
+      width: 32px !important;
+    }
+  }
+
+  .mdc-radio__background::before {
+    height: 32px !important;
+    width: 32px !important;
+    top: -6px !important;
+    right: -6px !important;
+    left: -6px !important;
+    bottom: -6px !important;
+  }
+
+  .mdc-form-field > label {
+    font-size: 9pt;
+  }
+
+
+  &.no-label .mdc-form-field > label {
+    margin-right: 0;
+    display: none;
+  }
+
+  ~ .mat-mdc-radio-button {
+    margin-left: 32px;
+  }
+
+}
+
+.radio-group-vertical {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  align-items: flex-start;
+}
+
+//
+// mat-drawer backdrop
+//
+
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: $backdrop-color !important;
+}

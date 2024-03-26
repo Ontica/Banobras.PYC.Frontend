@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import './styles/variables';
+@import './styles/mixins';
+
+@import './styles/app-loading';
+@import './styles/base';
+@import './styles/layout';
+@import './styles/responsive';
+
+@import './styles/angular-material-theme';
+@import './styles/angular-material-styles';
+
+@import './styles/general-styles';
+@import './styles/explorer';
+@import './styles/card';
+@import './styles/reporting-formats';
+@import './styles/grid';
+@import './styles/list';
+@import './styles/form';
+@import './styles/ng-select';
+@import './styles/text-editor';
+@import './styles/tile';

@@ -1,0 +1,23 @@
+<div class="explorer">
+
+  <div class="primary priority" [class.std-hide]="displayTabbedView">
+
+    <emp-ng-access-control-viewer #accessControlViewer
+      [selectedItem]="selectedData.item"
+      (accessControlViewerEvent)="onAccessControlViewerEvent($event)">
+
+    </emp-ng-access-control-viewer>
+
+  </div>
+
+  <div class="secondary" *ngIf="displayTabbedView">
+
+    <emp-ng-access-control-tabbed-view
+      [accessControlItem]="selectedData"
+      (accessControlTabbedViewEvent)="onAccessControlTabbedViewEvent($event)">
+
+    </emp-ng-access-control-tabbed-view>
+
+  </div>
+
+</div>

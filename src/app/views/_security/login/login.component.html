@@ -1,0 +1,62 @@
+  <form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off"
+    class="form-section text-white">
+
+    <div class="fx-column-container fx-gap">
+
+      <div class="fx-item">
+        <label for="userID">Cuenta de acceso:</label>
+        <input type="text" id="userID" name="userID" autocomplete="username" class="text-box" autofocus
+          formControlName="userID"
+          [class.invalid-control]="form.controls.userID.invalid && form.controls.userID.touched">
+      </div>
+
+      <div class="fx-item">
+        <label for="password">Contraseña:</label>
+        <input [type]="showPassword ? 'text' : 'password'"
+          id="password" name="password" autocomplete="current-password" class="text-box"
+          formControlName="password"
+          [class.invalid-control]="form.controls.password.invalid && form.controls.password.touched">
+      </div>
+
+      <div class="fx-row-container fx-space-between fx-items-center">
+
+        <div class="fx-item-none">
+
+          <mat-checkbox
+            [checked]="showPassword"
+            (click)="$event.stopPropagation"
+            (change)="toggleShowPassword()"
+            color="warn">
+            Mostrar contraseña
+          </mat-checkbox>
+
+        </div>
+
+        <div class="fx-item-none">
+
+          <button type="sumbit" class="btn-login"
+            [class.spinner]="submitted"
+            [style.marginRight.px]="8"
+            (click)="login()">
+            Ingresar
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="authentication-error">
+
+        <div *ngIf="exceptionMsg" class="inline-warning">
+          {{exceptionMsg}}
+        </div>
+
+      </div>
+
+      <div class="authentication-space sm-hide">
+
+      </div>
+
+    </div>
+
+  </form>

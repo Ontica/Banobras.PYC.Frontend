@@ -1,0 +1,57 @@
+<div class="calendar-container">
+
+  <div class="calendar-header">
+
+    <div class="calendar-header-text">{{ years[selectedYearIndex] }}</div>
+
+    <div class="calendar-controls">
+
+      <button mat-icon-button
+        class="mat-calendar-previous-button"
+        (click)="decrementYear()">
+
+      </button>
+
+      <button mat-icon-button
+        class="mat-calendar-next-button"
+        (click)="incrementYear()">
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="calendar-header-divider">
+
+  </mat-divider>
+
+  <div class="calendar-body" (mouseout)="onMouseOut()">
+
+    <div class="calendar-item" *ngFor="let month of monthDataSlice; let monthIndex = index"
+      (click)="onMonthClicked(monthIndex)"
+      (mouseover)="onMouseOver(monthIndex)"
+      (mouseout)="onMouseOut()"
+      [ngClass]="{'is-edge': isMonthInEdge(monthIndex),
+                  'previous-year-item': isPreviousYearMonth(monthIndex)}">
+
+      <div class="calendar-item-borde"
+        [ngClass]="{'in-range': month.isInRange,
+                    'is-lower-edge': month.isLowerEdge,
+                    'is-upper-edge': month.isUpperEdge,
+                    'range-preview': isMonthInPreview(monthIndex),
+                    'range-preview-start': isMonthInStartPreview(monthIndex),
+                    'range-preview-end': isMonthInEndPreview(monthIndex)}">
+
+        <span class="calendar-item-text"
+          [ngClass]="{ 'is-current-month': month.isCurrentMonth}">
+          {{ month.monthName }}
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

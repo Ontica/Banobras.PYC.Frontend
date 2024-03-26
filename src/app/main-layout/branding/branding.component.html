@@ -1,0 +1,40 @@
+<div class="fx-row-container fx-items-center">
+
+  <div *ngIf="appConfig.layout.displayLogo">
+
+    <img class="logo md-hide"
+      [alt]="appConfig.data.organization"
+      [src]="appConfig.layout.displayNavbarHeader ?
+            'assets/img/customer/logo.png' :
+            'assets/img/customer/main-page.logo.png'"/>
+
+    <img class="logo md-show"
+      [alt]="appConfig.data.organization"
+      src="assets/img/customer/logo.png"/>
+
+  </div>
+
+
+  <div *ngIf="appConfig.layout.displayNavbarHeader" class="header-container">
+
+    <div class="header">
+
+      <span class="sm-hide">{{appConfig.data.name}}</span>
+      <span class="sm-show">{{appConfig.data.nameShort}}</span>
+
+    </div>
+
+    <div class="subheader">
+
+      <span *ngIf="appConfig.layout.displayNavbarHint" class="sm-hide">
+        {{appConfig.data.hint}} &nbsp; &nbsp; | &nbsp; &nbsp;
+      </span>
+
+      <span class="sm-hide">{{appConfig.data.organization}}</span>
+      <span class="sm-show">{{appConfig.data.organizationShort}}</span>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,153 @@
+<form [formGroup]="form" [empNgSpinnerHost]="spinner" empNgFormKeyDownEnter
+  autocomplete="off" class="form-section">
+
+  <emp-ng-spinner #spinner [visible]="isLoading"></emp-ng-spinner>
+
+  <div class="fx-column-container fx-gap-three-quarter">
+
+    <div class="fx-row-container">
+
+        <div class="fx-item-two-third">
+          <label>Nombre:</label>
+          <input type="text" class="text-box"
+            formControlName="fullName"
+            [class.invalid-control]="formHelper.isControlInvalid(form.controls.fullName)">
+        </div>
+
+        <div class="fx-item-third">
+          <label>Identificador:</label>
+          <input type="text" class="text-box"
+            formControlName="userID"
+            [class.invalid-control]="formHelper.isControlInvalid(form.controls.userID)">
+        </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-two-third">
+        <label>Correo:</label>
+        <input type="text" class="text-box"
+          formControlName="eMail"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.eMail)">
+      </div>
+
+      <div class="fx-item-third">
+        <label>Número de empleado:</label>
+        <input type="text" class="text-box"
+          formControlName="employeeNo"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.employeeNo)">
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-two-third">
+        <label>Área de trabajo:</label>
+        <emp-ng-select
+          formControlName="workareaUID"
+          [items]="workareasList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.workareaUID)">
+        </emp-ng-select>
+      </div>
+
+      <div class="fx-item-third">
+        <label>Puesto de trabajo:</label>
+        <input type="text" class="text-box"
+          formControlName="jobPosition"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.jobPosition)">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || (isSaved && canEdit && !isDeleted)"></mat-divider>
+
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved && canEdit && !isDeleted">
+
+      <div class="fx-item fx-start fx-items-center">
+
+        <ng-container *ngIf="!editionMode">
+
+          <button *ngIf="canGeneratePassword"
+            class="btn-action"
+            (click)="onGeneratePasswordButtonClicked()">
+            Generar contraseña
+          </button>
+
+          <button *ngIf="isSuspended"
+            class="btn"
+            (click)="onActivateButtonClicked()">
+            Desbloquear cuenta
+          </button>
+
+          <button *ngIf="!isSuspended"
+            class="btn"
+            (click)="onSuspendButtonClicked()">
+            Suspender cuenta
+          </button>
+
+        </ng-container>
+
+        <button *ngIf="editionMode"
+          type="button" class="btn-warning"
+          (click)="onDeleteButtonClicked()">
+          Dar de baja
+        </button>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>

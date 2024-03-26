@@ -1,0 +1,103 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import "../../../../styles/variables";
+
+$medium-max-width: 1024px;
+$logo-width: 335px;
+$logo-padding: 20px;
+$width: 450px;
+
+.outer {
+  align-items: center;
+  background: url("../../../../assets/img/customer/background.png") no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  height: 100vh;
+  justify-content: flex-end;
+  padding-right: 15%;
+}
+
+.authentication-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  max-width: $width;
+  background: -prefix-linear-gradient(top, $layout-gradient-initial-color, $layout-gradient-final-color);
+  background: linear-gradient(to top, $layout-gradient-initial-color, $layout-gradient-final-color);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+}
+
+.authentication-center {
+
+}
+
+.authentication-section-logo {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: $logo-padding 0;
+  margin: 0 -5px;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+}
+
+.logo {
+  width: $logo-width;
+  height: auto;
+  margin: auto;
+}
+
+.authentication-section-welcome {
+  padding: 30px $logo-padding;
+  font-size: 14.5pt;
+  text-transform: uppercase;
+  color: $layout-secondary-color;
+  line-height: 16pt;
+}
+
+.authentication-section-instruction {
+  padding: 30px $logo-padding;
+  font-size: 14pt;
+  color: $layout-secondary-color;
+  line-height: 16pt;
+}
+
+.authentication-section-form {
+  padding: 0 12px 0 $logo-padding;
+  height: auto;
+}
+
+.authentication-error {
+  width: calc($width - 32px);
+  min-height: 74px;
+}
+
+.authentication-space {
+  height: 5vh;
+}
+
+.hint {
+  font-size: 9.5pt;
+  white-space: nowrap;
+  color: $white;
+  margin-top: 4px;
+}
+
+.hint-bold {
+  font-size: 10pt;
+  white-space: nowrap;
+  color: $white;
+  margin-top: 4px;
+  font-weight: 800;
+}
+
+@media only screen and (max-width: $medium-max-width) {
+  .outer {
+    padding-right: 0;
+  }
+}

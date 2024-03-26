@@ -1,0 +1,181 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@use '@angular/material' as mat;
+
+// Define the font for your theme
+
+$emp-budg-font-family-primary: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+$emp-budg-text-color: rgb(52, 52, 52);
+
+// https: //material.angular.io/guide/typography
+$emp-budg-app-typography: mat.define-typography-config($font-family: $emp-budg-font-family-primary,
+    $button: mat.define-typography-level(9.5pt, 14pt, 400),
+  );
+
+$emp-budg-app-foreground: (base: black,
+    divider: rgba(black, 0.12),
+    dividers: rgba(black, 0.12),
+    disabled: rgba(black, 0.38),
+    disabled-button: rgba(black, 0.26),
+    disabled-text: rgba(black, 0.38),
+    elevation: black,
+    hint-text: rgba(black, 0.38),
+    secondary-text: rgba(black, 0.54),
+    icon: rgba(black, 0.54),
+    icons: rgba(black, 0.54),
+    text: rgba(black, 0.87),
+    slider-min: rgba(black, 0.87),
+    slider-off: rgba(black, 0.26),
+    slider-off-active: rgba(black, 0.38),
+  );
+
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+
+$emp-budg-primary-palette: (50: hsl(166, 44%, 75%),
+    100: hsl(166, 44%, 60%),
+    200: hsl(166, 45%, 50%),
+    300: hsl(166, 45%, 40%),
+    400: hsl(166, 45%, 36%),
+    500: hsl(166, 44%, 32%),
+    600: hsl(166, 44%, 28%),
+    700: hsl(166, 44%, 25%), // $primary-color
+    800: hsl(166, 44%, 20%),
+    900: hsl(166, 44%, 18%),
+    A100: hsl(166, 44%, 60%),
+    A200: hsl(166, 44%, 50%),
+    A400: hsl(166, 44%, 40%),
+    A700: hsl(166, 44%, 36%),
+
+    contrast: (50: rgba($emp-budg-text-color, 0.8),
+      100: rgba($emp-budg-text-color, 0.8),
+      200: rgba($emp-budg-text-color, 0.8),
+      300: rgba($emp-budg-text-color, 0.8),
+      400: rgba($emp-budg-text-color, 0.8),
+      500: white,
+      600: white,
+      700: white,
+      800: white,
+      900: white,
+      A100: rgba($emp-budg-text-color, 0.8),
+      A200: rgba($emp-budg-text-color, 0.8),
+      A400: rgba($emp-budg-text-color, 0.8),
+      A700: rgba($emp-budg-text-color, 0.8),
+    ));
+
+$emp-budg-accent-palette: (50: hsl(240, 1%, 84%),
+    100: hsl(240, 1%, 78%),
+    200: hsl(240, 1%, 72%),
+    300: hsl(240, 1%, 66%),
+    400: hsl(240, 1%, 60%), // $secondary-color
+    500: hsl(240, 1%, 55%),
+    600: hsl(240, 1%, 50%),
+    700: hsl(240, 1%, 45%),
+    800: hsl(240, 1%, 40%),
+    900: hsl(240, 1%, 35%),
+    A100: hsl(240, 1%, 60%),
+    A200: hsl(240, 1%, 55%),
+    A400: hsl(240, 1%, 50%),
+    A700: hsl(240, 1%, 45%),
+
+    contrast: (50: rgba($emp-budg-text-color, 0.8),
+      100: rgba($emp-budg-text-color, 0.8),
+      200: rgba($emp-budg-text-color, 0.8),
+      300: rgba($emp-budg-text-color, 0.8),
+      400: rgba($emp-budg-text-color, 0.8),
+      500: white,
+      600: white,
+      700: white,
+      800: white,
+      900: white,
+      A100: rgba($emp-budg-text-color, 0.8),
+      A200: rgba($emp-budg-text-color, 0.8),
+      A400: rgba($emp-budg-text-color, 0.8),
+      A700: rgba($emp-budg-text-color, 0.8),
+    ));
+
+$emp-budg-warn-palette: (50: hsl(345, 65%, 88%),
+    100: hsl(345, 65%, 78%),
+    200: hsl(345, 65%, 68%),
+    300: hsl(345, 65%, 58%),
+    400: hsl(345, 65%, 48%),
+    500: hsl(345, 65%, 38%), // $warning-color
+    600: hsl(345, 65%, 33%),
+    700: hsl(345, 65%, 28%),
+    800: hsl(345, 65%, 24%),
+    900: hsl(345, 65%, 20%),
+    A100: hsl(345, 65%, 75%),
+    A200: hsl(345, 65%, 55%),
+    A400: hsl(345, 65%, 51%),
+    A700: hsl(345, 65%, 45%),
+
+    contrast: (50: rgba($emp-budg-text-color, 0.8),
+      100: rgba($emp-budg-text-color, 0.8),
+      200: rgba($emp-budg-text-color, 0.8),
+      300: rgba($emp-budg-text-color, 0.8),
+      400: rgba($emp-budg-text-color, 0.8),
+      500: white,
+      600: white,
+      700: white,
+      800: white,
+      900: white,
+      A100: rgba($emp-budg-text-color, 0.8),
+      A200: rgba($emp-budg-text-color, 0.8),
+      A400: rgba($emp-budg-text-color, 0.8),
+      A700: rgba($emp-budg-text-color, 0.8),
+    ));
+
+$emp-budg-app-primary: mat.define-palette($emp-budg-primary-palette, 500);
+
+$emp-budg-app-accent: mat.define-palette($emp-budg-accent-palette, 300, 200, 500);
+
+$emp-budg-app-warn: mat.define-palette($emp-budg-warn-palette, 500);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$emp-budg-app-theme: mat.define-light-theme((color: (primary: $emp-budg-app-primary,
+        accent: $emp-budg-app-accent,
+        warn: $emp-budg-app-warn,
+        foreground: $emp-budg-app-foreground, // for some reason this line does not work and it is necessary to overwrite below
+      ),
+      typography: $emp-budg-app-typography,
+      density: 0,
+    ));
+
+// get color y foreground configuration from the theme
+$app-theme-color: map-get($emp-budg-app-theme, color);
+
+$app-theme-foreground: map-merge(map-get($app-theme-color, foreground), $emp-budg-app-foreground);
+
+// overriding color background/foreground
+$app-theme-color: map-merge($app-theme-color, (foreground: $app-theme-foreground));
+
+$emp-budg-app-theme: map-merge($emp-budg-app-theme, (color: $app-theme-color));
+
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+// Also applies custom typography that allow use of angular material style classes in html items.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+
+@include mat.all-component-typographies($emp-budg-app-typography);
+
+@include mat.core();
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+
+@include mat.all-component-themes($emp-budg-app-theme);

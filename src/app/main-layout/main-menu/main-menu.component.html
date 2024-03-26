@@ -1,0 +1,52 @@
+<div class="nav-bar">
+
+  <ul *ngIf="appLayoutConfig.displaySubMenu">
+
+    <ng-container *ngFor="let layout of layouts">
+
+      <li *empNgHasPermission="layout.permission"
+        routerLinkActive='selected'
+        [routerLinkActiveOptions]="{exact:false}">
+
+        <a [routerLink]='layout.url'>
+          {{ layout.defaultTitle | uppercase }}
+        </a>
+
+      </li>
+
+    </ng-container>
+
+  </ul>
+
+
+  <ul *ngIf="!appLayoutConfig.displaySubMenu">
+
+    <ng-container *ngFor="let layout of layouts">
+
+      <li *empNgHasPermission="layout.permission"
+        [matMenuTriggerFor]="items" #menuT="matMenuTrigger"
+        [ngClass]="{'active': menuT.menuOpen, 'selected': isLayoutSelected(layout)}">
+
+        <a> {{ layout.defaultTitle | uppercase }} </a>
+
+      </li>
+
+      <mat-menu #items="matMenu">
+
+        <ng-container *ngFor="let view of layout.views">
+
+          <button mat-menu-item *empNgHasPermission="view.permission"
+            [routerLink]='view.url'
+            routerLinkActive='selected'>
+            {{ view.title | uppercase }}
+          </button>
+
+        </ng-container>
+
+      </mat-menu>
+
+    </ng-container>
+
+  </ul>
+
+</div>

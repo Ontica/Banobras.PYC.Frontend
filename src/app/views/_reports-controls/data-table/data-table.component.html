@@ -1,0 +1,128 @@
+<div class="fx-column-container-fill">
+
+  <ng-container #controlsContainer *ngIf="showControls">
+
+    <mat-divider *ngIf="!controlsAligned">
+
+    </mat-divider>
+
+    <div *ngIf="executed" class="fx-item-none">
+
+      <emp-ng-data-table-controls
+        [filter]="filter"
+        [showExportButton]="showExportButton"
+        [controlsAligned]="controlsAligned"
+        (dataTableControlsEvent)="onDataTableControlsEvent($event)">
+
+      </emp-ng-data-table-controls>
+
+    </div>
+
+  </ng-container>
+
+
+  <div #tableContainer class="fx-item">
+
+    <cdk-virtual-scroll-viewport tvsItemSize="32" headerHeight="40" [bufferMultiplier]="0">
+
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
+
+          <th mat-header-cell *matHeaderCellDef class="nowrap"
+            [ngClass]="{'text-align-right': column.type === dataTableColumnType.decimal,
+                        'column-checkbox': column.type === dataTableColumnType.check_box}">
+
+            <ng-container [ngSwitch]="column.type">
+              <ng-container *ngSwitchCase="dataTableColumnType.check_box">
+                <emp-ng-check-box-all title="Todos" *ngIf="hasItems"
+                  [(selection)]="selection"
+                  [values]="dataSource.data">
+                </emp-ng-check-box-all>
+              </ng-container>
+
+              <ng-container *ngSwitchDefault>
+                {{column.title}}
+              </ng-container>
+            </ng-container>
+
+          </th>
+
+          <td mat-cell *matCellDef="let row;"
+            [ngClass]="{'text-align-right': column.type === dataTableColumnType.decimal,
+                        'nowrap': column.type === dataTableColumnType.text_nowrap,
+                        'item-strikethrough': column.isColumnStrikethrough && row[column.fieldConditionStrikethrough],
+                        'column-checkbox': column.type === dataTableColumnType.check_box}">
+
+            <ng-container [ngSwitch]="column.type">
+              <ng-container *ngSwitchCase="dataTableColumnType.decimal">
+                {{row[column.field] | empDecimal: column.digits}}
+              </ng-container>
+              <ng-container *ngSwitchCase="dataTableColumnType.date">
+                {{row[column.field] | dateTimeFormat}}
+              </ng-container>
+              <ng-container *ngSwitchCase="dataTableColumnType.text_link">
+                <a class="item-link" (click)="onItemLinkClicked(row)">
+                  {{row[column.field]}}
+                </a>
+              </ng-container>
+              <ng-container *ngSwitchCase="dataTableColumnType.text_tag">
+                <span class="tag">
+                  {{row[column.field]}}
+                </span>
+              </ng-container>
+              <ng-container *ngSwitchCase="dataTableColumnType.text_button">
+                <a *ngIf="!column.functionToShowButton ||
+                         (!!column.functionToShowButton && !!column.functionToShowButton(row))"
+                  class="link-highlight"
+                  (click)="onItemLinkClicked(row)">
+                  {{column.buttonText ?? row[column.field]}}
+                </a>
+                <span *ngIf="!!column.functionToShowButton && !column.functionToShowButton(row)"
+                  class="nowrap">
+                  {{row[column.field]}}
+                </span>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="dataTableColumnType.check_box">
+                <mat-checkbox
+                  [checked]="selection.isSelected(row)"
+                  (click)="$event.stopPropagation()"
+                  (change)="selection.toggle(row)">
+                </mat-checkbox>
+              </ng-container>
+
+              <ng-container *ngSwitchDefault>
+                {{row[column.field]}}
+              </ng-container>
+            </ng-container>
+
+          </td>
+
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class]="row[formatFieldName] ?? ''"
+          [ngClass]="{'item-type-summary': summaryItemTypeList.includes(row.itemType),
+                      'item-type-group':   groupItemTypeList.includes(row.itemType),
+                      'item-type-total':   totalItemTypeList.includes(row.itemType),
+                      'row-selected':      row === selectedEntry || row.uid === selectedUID,
+                      'selectable-row':    isClickableEntry(row)}"
+          (click)="onRowClicked(row)">
+        </tr>
+
+      </table>
+
+      <div *ngIf="!executed" class="text-not-found">
+        {{notQueryExecutedText}}
+      </div>
+
+      <div *ngIf="executed && !hasItems" class="text-not-found">
+        No se encontraron registros con el filtro proporcionado.
+      </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

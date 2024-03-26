@@ -1,0 +1,21 @@
+<emp-ng-card [title]="titleText"
+             [hint]="hintText"
+             (cardClose)="onClose()">
+
+
+  <ng-container [ngSwitch]="accessControlItem.type">
+
+    <emp-ng-subject-tabbed-view *ngSwitchCase="AccessControlType.Subjects"
+      [subject]="subject"
+      [canEdit]="canEdit"
+      (subjectTabbedViewEvent)="onSubjectTabbedViewEvent($event)">
+
+    </emp-ng-subject-tabbed-view>
+
+    <div *ngSwitchDefault class="instruction-text">
+      No se ha definido el contenido.
+    </div>
+
+  </ng-container>
+
+</emp-ng-card>

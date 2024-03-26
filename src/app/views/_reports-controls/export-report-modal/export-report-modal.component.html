@@ -1,0 +1,76 @@
+<emp-ng-modal-window [config]="{width:'542px'}">
+
+  <emp-ng-card
+    [title]="title"
+    hint="Proceso de exportación."
+    [showCardHeaderFlat]="true"
+    (cardClose)="onClose()">
+
+    <div class="card-body-padding">
+
+        <ng-container *ngIf="exportationTypes.length > 1">
+
+          <div [style.paddingBottom.px]="8">
+            Seleccionar el tipo de exportación:
+          </div>
+
+          <mat-radio-group [(ngModel)]="selectedExportationType" [disabled]="working || hasFileUrl">
+            <mat-radio-button *ngFor="let type of exportationTypes"
+              [value]="type">
+              {{type.name}}
+            </mat-radio-button>
+          </mat-radio-group>
+
+        </ng-container>
+
+        <div *ngIf="exportationTypes.length > 0" [style.paddingTop.px]="16" [style.paddingBottom.px]="8">
+          {{message || 'Se generará la exportación a '+ selectedExportationType.fileType +' con el último filtro consultado.'}}
+        </div>
+
+        <div *ngIf="exportationTypes.length === 0" [style.paddingTop.px]="16" [style.paddingBottom.px]="8">
+          No se han definido tipos de exportación.
+        </div>
+
+        <mat-divider class="horizontal-wide">
+
+        </mat-divider>
+
+        <div class="fx-row-container">
+
+          <div class="fx-item-none">
+
+            <button *ngIf="!working && !hasFileUrl"
+              [class.btn]="selectedExportationType === null"
+              [class.btn-action]="selectedExportationType !== null"
+              [disabled]="selectedExportationType === null"
+              (click)="onExportButtonClicked()">
+              Exportar
+            </button>
+
+            <button *ngIf="working || hasFileUrl" class="btn"
+              (click)="onClose()">
+              Cancelar
+            </button>
+
+          </div>
+
+          <div class="fx-item fx-row-container fx-end fx-items-center" [style.marginRight.px]="8">
+
+            <a *ngIf="fileUrl" [href]="fileUrl" target="_blank">
+              El archivo {{selectedExportationType.fileType}} está listo. Hacer clic para descargarlo.</a>
+
+            <div *ngIf="working" [style.width.px]="242"
+              empNgProgressText
+              loadingText="Generando el archivo solicitado"
+              [isLoading]="working">
+            </div>
+
+          </div>
+
+        </div>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

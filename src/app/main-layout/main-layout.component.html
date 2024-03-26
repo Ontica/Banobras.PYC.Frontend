@@ -1,0 +1,78 @@
+<div class="main-layout">
+
+  <emp-ng-spinner [service]="spinnerService" overlay='FullScreen'>
+
+  </emp-ng-spinner>
+
+  <div class="top-bar">
+
+  </div>
+
+  <mat-sidenav-container>
+
+
+    <mat-sidenav #sidenavLeft class="sidenav-left" mode="over" class="md-show">
+
+      <emp-ng-main-menu-left>
+
+      </emp-ng-main-menu-left>
+
+    </mat-sidenav>
+
+
+    <mat-sidenav-content #sidenavContent class="content">
+
+      <div class="fx-column-container-fill">
+
+        <emp-ng-navigation class="md-hide">
+
+        </emp-ng-navigation>
+
+        <emp-ng-navigation-responsive class="md-show"
+          (openMenuEvent)="sidenavLeft.toggle()">
+
+        </emp-ng-navigation-responsive>
+
+        <div class="workarea">
+
+          <router-outlet>
+
+          </router-outlet>
+
+        </div>
+
+        <emp-ng-footer *ngIf="appLayoutConfig.displayFooter">
+
+        </emp-ng-footer>
+
+      </div>
+
+    </mat-sidenav-content>
+
+
+    <mat-sidenav #sidenavRight class="sidenav-right" mode="over" position="end" disableClose="true"
+      [(opened)]="displayAsideRight">
+
+      <button class="toolbar-item btn-collapse-sidenav-right"
+        title="Cerrar herramienta"
+        (click)="onCloseAsideRight()">
+        <mat-icon>last_page</mat-icon>
+      </button>
+
+      <container-element [ngSwitch]="toolSelected" #tools_section>
+
+        <ng-container *ngSwitchDefault>
+
+          <div [style.width.px]="960">
+
+          </div>
+
+        </ng-container>
+
+      </container-element>
+
+    </mat-sidenav>
+
+  </mat-sidenav-container>
+
+</div>

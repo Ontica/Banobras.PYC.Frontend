@@ -1,0 +1,33 @@
+<div mat-dialog-title>{{model.title}}</div>
+
+<mat-dialog-content>
+  <div [innerHTML]="model.message | safeHtml"></div>
+</mat-dialog-content>
+
+<mat-dialog-actions *ngIf="model.messageBoxType === 'Accept'">
+
+    <button class="btn-action" cdkFocusRegionstart
+            (click)="onClickButton('accept')">{{model.mainButtonText || 'Aceptar'}}</button>
+
+</mat-dialog-actions>
+
+<mat-dialog-actions *ngIf="model.messageBoxType === 'AcceptCancel'">
+
+    <button class="btn-action" cdkFocusRegionstart
+            (click)="onClickButton('accept')">{{model.mainButtonText || 'Aceptar'}}</button>
+
+    <button class="btn"
+            (click)="onClickButton('cancel')">Cancelar</button>
+
+</mat-dialog-actions>
+
+
+<mat-dialog-actions *ngIf="model.messageBoxType === 'DeleteCancel'">
+
+  <button class="btn-warning"
+          (click)="onClickButton('accept')">{{model.mainButtonText || 'Eliminar'}}</button>
+
+  <button class="btn-action" cdkFocusRegionstart
+          (click)="onClickButton('cancel')">Cancelar</button>
+
+</mat-dialog-actions>

@@ -1,0 +1,61 @@
+<div class="outer">
+
+  <div class="authentication-container">
+
+      <div class="authentication-center">
+
+        <div class="authentication-section-logo">
+          <img class="logo" src="assets/img/customer/vertical.logo.png" [alt]="appLayoutData.organization"/>
+        </div>
+
+
+        <ng-container [ngSwitch]="currentAuthenticationMode">
+
+
+          <ng-container *ngSwitchCase="AuthenticationModes.Login">
+
+            <div class="authentication-section-welcome">
+              <strong>{{appLayoutData.name}}</strong>
+              <div class="hint">{{appLayoutData.hint}}</div>
+              <div class="hint-bold" *ngIf="appLayoutData.organization">{{appLayoutData.organization}}</div>
+            </div>
+
+            <div class="authentication-section-form">
+
+              <emp-ng-login
+                (loginEvent)="onLoginEvent()">
+
+              </emp-ng-login>
+
+            </div>
+
+          </ng-container>
+
+
+          <ng-container *ngSwitchCase="AuthenticationModes.ChangePassword">
+
+            <div class="authentication-section-instruction">
+              <div class="bold-text">Cambio de contraseña requerido</div>
+              <div class="hint">Ingrese la información requerida para actualizar la contraseña.</div>
+            </div>
+
+            <div class="authentication-section-form">
+
+              <emp-ng-change-password
+                [isRequiredAction]="true"
+                (changePasswordEvent)="onChangePasswordEvent()">
+
+              </emp-ng-change-password>
+
+            </div>
+
+          </ng-container>
+
+
+        </ng-container>
+
+      </div>
+
+  </div>
+
+</div>

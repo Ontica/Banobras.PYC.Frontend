@@ -1,0 +1,121 @@
+<div class="file-drop-area" [class.disabled]="disabled" [class.invalid-control]="showError"
+  (drop)="onDropFile($event)" (dragover)="onDragOver($event)">
+
+  <div class="file-area" *ngFor="let file of filesToUpload" [title]="file.name"
+    [class.show-info]="fileControlConfig.showFileInfo"
+    [class.multiple]="fileControlConfig.maxFiles > 1"
+    [class.tag-required]="fileControlConfig.tagRequired">
+
+    <div class="file-icon">
+      <span>
+
+        <mat-icon [svgIcon]="file.fileIcon"></mat-icon>
+
+        <div *ngIf="fileControlConfig.showFileInfo && file.uid" class="overlay-icon file-menu-btn"
+          (click)="onClickFileOptions(file, 'SHOW')">
+
+        </div>
+
+        <div *ngIf="fileControlConfig.showFileInfo && !file.uid" class="overlay-menu file-menu-btn"
+          (click)="onClickFileOptions(file, 'CANCEL')">
+          <mat-icon>clear</mat-icon>
+        </div>
+
+        <div *ngIf="!fileControlConfig.showFileInfo" class="overlay-menu file-menu-btn">
+          <emp-ng-menu
+            [items]="file.menuOptions"
+            (selected)="onClickFileOptions(file, $event.action)">
+
+          </emp-ng-menu>
+        </div>
+      </span>
+    </div>
+
+    <ng-container *ngIf="fileControlConfig.showFileInfo">
+      <div class="file-info">
+        <p><strong>{{ file.name }}</strong></p>
+        <p *ngIf="!file.download$">{{file.sizeString}}</p>
+
+        <ng-container *ngIf="file.download$ | async as download">
+          <p>
+            <span *ngIf="download.state === 'ERROR'" class="warning-text">Error </span>
+
+            {{formatBytes(download.loaded)}} de {{file.sizeString}} - <strong>{{download.progress}}%</strong>
+          </p>
+
+          <div class="file-download-progress">
+            <mat-progress-bar
+              [mode]="download.state === 'PENDING' ? 'buffer' : 'determinate'"
+              [value]="download.progress">
+            </mat-progress-bar>
+          </div>
+        </ng-container>
+      </div>
+
+      <div *ngIf="fileControlConfig.tagRequired" class="file-tag-container">
+        <div class="tag tag-info tag-small" *ngIf="file.uid && file.tag">{{file.tag}}</div>
+
+        <emp-ng-select name="tag" *ngIf="!file.uid"
+          bindLabel="name"
+          bindValue="type"
+          [(ngModel)]="file.tag"
+          [items]="fileControlConfig.tagsList"
+          [showError]="!file.tag">
+        </emp-ng-select>
+      </div>
+
+      <div *ngIf="!file.uid && !fileControlConfig.autoUpload" class="file-menu-btn file-menu-btn-right"
+        (click)="onClickFileOptions(file, 'SAVE')" [title]="fileControlConfig.textSave">
+        <mat-icon>cloud_upload</mat-icon>
+      </div>
+
+      <div *ngIf="file.uid" class="file-menu-btn">
+        <emp-ng-menu
+          [items]="file.menuOptions"
+          (selected)="onClickFileOptions(file, $event.action)">
+
+        </emp-ng-menu>
+      </div>
+    </ng-container>
+
+  </div>
+
+  <div class="file-add-section" *ngIf="!readonly && ( !filesToUpload || fileControlConfig.maxFiles > filesToUpload.length )"
+    [ngClass]="{'tag-required': fileControlConfig.tagRequired,
+                'multiple': fileControlConfig.maxFiles > 1}">
+
+    <div class="file-add"
+      [title]="fileControlConfig.textAccion">
+      <label [for]="idFileControl">
+        <mat-icon>add</mat-icon>
+      </label>
+    </div>
+
+    <div class="placeholder" [class.placeholder-tag-required]="fileControlConfig.tagRequired">
+      {{readonly ? fileControlConfig.placeholderReadonly : fileControlConfig.placeholder}}
+    </div>
+
+    <div class="file-tag-container" *ngIf="fileControlConfig.tagRequired">
+      <emp-ng-select name="tag"
+        bindLabel="name"
+        bindValue="type"
+        [config]="{bindByValue: false}"
+        [(ngModel)]="tagFileSelected"
+        [items]="fileControlConfig.tagsList"
+        [showError]="!tagFileSelected">
+      </emp-ng-select>
+    </div>
+
+    <div *ngIf="!!tagFileSelected?.templateUrl" class="template-file-btn"
+      [title]="fileControlConfig.textTemplate"
+      (click)="onDownloadTemplateFile()">
+      <mat-icon>cloud_download</mat-icon>
+    </div>
+
+  </div>
+
+</div>
+
+<input type="file" [id]="idFileControl" #fileControl
+  [multiple]="fileControlConfig.maxFiles > 1" [accept]="acceptedFileString" [disabled]="disabled"
+  (change)="handleFileInput(fileControl);">

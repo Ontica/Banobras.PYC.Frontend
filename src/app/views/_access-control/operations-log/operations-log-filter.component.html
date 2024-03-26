@@ -1,0 +1,31 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-row-container fx-gap-half">
+
+    <div class="fx-item">
+
+      <label>Tipo:</label>
+
+      <emp-ng-select
+        formControlName="type"
+        [items]="typeList"
+        [showError]="formHelper.isControlInvalid(form.controls.type)">
+      </emp-ng-select>
+
+    </div>
+
+    <div class="fx-item-none">
+
+      <label>Fechas:</label>
+
+      <emp-ng-date-range-picker
+        formControlName="period"
+        [showError]="formHelper.isControlInvalid(form.controls.period)">
+
+      </emp-ng-date-range-picker>
+
+    </div>
+
+  </div>
+
+</form>

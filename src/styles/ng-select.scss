@@ -1,0 +1,132 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import '~@ng-select/ng-select/themes/default.theme.css';
+
+$primary-font-family: $font-family-secondary;
+$font-size: 11pt;
+$font-size-small: 10pt;
+$font-size-xsmall: 9pt;
+
+.ng-select {
+  margin-right: 8px;
+  min-width: 75px;
+}
+
+.ng-dropdown-panel-items,
+.ng-select-container {
+  .item {
+    padding: 0.25rem 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .item-highlight {
+    color: $selected-control-color;
+  }
+
+  .item-text-sm {
+    font-size: $font-size-small;
+    text-overflow: ellipsis;
+  }
+
+  .item-text-xs {
+    font-size: $font-size-xsmall;
+    text-overflow: ellipsis;
+  }
+}
+
+.ng-select .ng-select-container {
+  min-height: $control-height;
+  margin: $control-margin;
+  padding: $select-padding;
+  border-radius: $control-border-radius;
+  font-family: $primary-font-family;
+  border: $control-border;
+  outline: none;
+  color: $control-color;
+  background-color: $control-background-color;
+}
+
+.ng-select .ng-select-container .ng-value-container {
+  padding-left: 0;
+}
+
+.ng-select.ng-select-single .ng-select-container {
+  height: $control-height;
+}
+
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  padding-left: 8px;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container {
+  padding-top: 0;
+  padding-left: 0;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+  padding-bottom: 0;
+  top: auto;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  font-size: $font-size-small;
+  margin-bottom: 1px;
+  background-color: rgba($primary-color-light, 0.15);
+  height: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+  border-right: 1px solid $primary-color;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left:hover {
+  background-color: rgba($primary-color, 0.2);
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  color: $control-color;
+  font-family: $primary-font-family;
+  font-size: $font-size;
+  padding: $select-padding;
+
+  &.inner-message {
+    padding: 6px;
+  }
+}
+
+.ng-select.ng-select-disabled > .ng-select-container {
+  background-color: $control-disabled-background;
+  color: $control-disabled-color;
+}
+
+.ng-select.ng-select-focused:not(.ng-select-open) > .ng-select-container {
+  outline: none;
+  color: $selected-control-color;
+  background-color: $selected-control-background-color;
+  border: $selected-control-border;
+  box-shadow: none;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+  color: $text-color-dark;
+  background-color: $control-disabled-background;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  color: $text-color-dark;
+  background-color: $selected-control-background-color;
+
+  .item-template {
+    background-color: inherit;
+  }
+}

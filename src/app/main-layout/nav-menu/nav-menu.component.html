@@ -1,0 +1,14 @@
+<ul>
+  <li *ngFor="let item of items">
+    <a *ngIf="!item.disabled && !item.routerLink"
+       [class.selected]="item.selected"
+       [class.disabled]="item.disabled"
+       (click)='onClick(item)'>{{item.text}}</a>
+    <a *ngIf="!item.disabled && item.routerLink"
+       [routerLink]="[item.routerLink]"
+       routerLinkActive="selected"
+       routerLinkActiveOption="{exact:true}"
+       (click)='onClick(item)'>{{item.text}}</a>
+    <a *ngIf="item.disabled" class="disabled">{{item.text}}</a>
+  </li>
+</ul>

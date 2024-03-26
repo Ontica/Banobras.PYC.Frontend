@@ -1,0 +1,305 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+//
+// mat-table row formats (ItemType)
+//
+
+table.mat-mdc-table th.column-checkbox {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  width: calc($checkbox-size + $grid-entry-padding-horizontal);
+
+  &:first-of-type {
+    width: calc($checkbox-size + $grid-entry-padding-horizontal + $grid-entry-padding-vertical);
+  }
+
+}
+
+
+table.mat-mdc-table tr.mat-mdc-row {
+  background-color: $white;
+
+  .item-strikethrough {
+    text-decoration: line-through;
+  }
+
+  td.mat-mdc-cell.column-checkbox {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  &.item-type-summary td.mat-mdc-cell,
+  &.item-type-group td.mat-mdc-cell,
+  &.item-type-total td.mat-mdc-cell {
+    font-weight: 600;
+  }
+
+  &.item-type-group td.mat-mdc-cell {
+    border-top: 1px solid rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  }
+
+  &.item-type-total {
+    background-color: lighten($grid-footer-background-color, 2%);
+  }
+
+  &.row-selected {
+    background-color: $grid-selected-background-color;
+
+    &.item-type-total {
+      background-color: darken($grid-footer-background-color, 3%);
+    }
+  }
+
+  &:hover {
+    background-color: $grid-hover-background-color;
+
+    &.selectable-row {
+      cursor: pointer;
+    }
+
+    &.item-type-total {
+      background-color: $grid-footer-background-color;
+    }
+
+    &.row-selected {
+      background-color: $grid-selected-hover-background-color;
+
+      &.item-type-total {
+        background-color: darken($grid-footer-background-color, 5%);
+      }
+    }
+  }
+}
+
+//
+// designer: selections
+//
+
+// cell selection
+
+table.mat-mdc-table.emp-designer tr.mat-mdc-row.fixed-cells-type {
+  cursor: pointer;
+
+  td.mat-mdc-cell:not(:first-of-type):hover {
+    background-color: darken($grid-hover-background-color, 2%);
+  }
+
+  td.mat-mdc-cell.designer-cell-selected:not(:first-of-type) {
+    border: 1px solid $designer-bar-selected-border-color;
+    border-collapse: collapse;
+    background-color: $designer-cell-selected-background-color;
+
+    &:hover {
+      background-color: $designer-cell-selected-hover-background-color;
+    }
+  }
+
+  &:hover {
+    background-color: $white;
+  }
+}
+
+// row selection
+
+table.mat-mdc-table.emp-designer tr.mat-mdc-row.designer-row-selected {
+  td {
+    border-top: 1px solid $designer-bar-selected-border-color;
+    border-bottom: 1px solid $designer-bar-selected-border-color !important;
+
+    &:first-of-type {
+      border-left: 1px solid $designer-bar-selected-border-color;
+      border-right: 1px solid $designer-bar-selected-border-color;
+    }
+
+    &:last-of-type {
+      border-right: 1px solid $designer-bar-selected-border-color;
+    }
+  }
+
+  .designer-button {
+    background-color: $designer-bar-selected-background-color;
+  }
+
+  .designer-button:hover,
+  .designer-button-active {
+    background-color: $designer-bar-selected-hover-background-color;
+  }
+}
+
+// column selection
+
+table.mat-mdc-table.emp-designer {
+
+  tr.designer-columns-header,
+  tr.designer-columns-subheader {
+    th:not(:first-of-type):hover {
+      cursor: pointer;
+      background-color: $designer-border-color;
+    }
+  }
+
+  tr.designer-columns-header {
+    th.designer-column-selected {
+      border: 1px solid $designer-bar-selected-border-color;
+      background-color: $designer-bar-selected-background-color;
+
+      &:hover {
+        background-color: $designer-bar-selected-hover-background-color;
+      }
+    }
+  }
+
+  tr {
+
+    th.designer-column-selected,
+    td.designer-column-selected {
+      border-left: 1px solid $designer-bar-selected-border-color;
+      border-right: 1px solid $designer-bar-selected-border-color;
+    }
+
+    &:last-of-type td.designer-column-selected {
+      border-bottom: 1px solid $designer-bar-selected-border-color !important;
+    }
+  }
+}
+
+
+//
+// mat-table highlighted rows
+//
+
+table.mat-mdc-table tr.mat-mdc-row,
+table.mat-mdc-table.emp-designer tr.mat-mdc-row.fixed-cells-type td.mat-mdc-cell:not(:first-of-type),
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option div {
+
+  &.Bold,
+  &.VerdeBold,
+  &.Bold td.mat-mdc-cell,
+  &.VerdeBold td.mat-mdc-cell {
+    font-weight: 600;
+  }
+
+  &.Primario {
+    background-color: $designer-primary-color;
+  }
+
+  &.Secundario {
+    background-color: $designer-secondary-color;
+  }
+
+  &.Terciario {
+    background-color: $designer-tertiary-color;
+  }
+
+  &.Cuaternario {
+    background-color: $designer-quaternary-color;
+  }
+
+  &.Gris {
+    background-color: $designer-gray-color;
+  }
+
+  &.Verde,
+  &.VerdeBold {
+    background-color: $designer-green-color;
+  }
+}
+
+
+table.mat-mdc-table tr.mat-mdc-row:hover,
+table.mat-mdc-table.emp-designer tr.mat-mdc-row.fixed-cells-type td.mat-mdc-cell:not(:first-of-type):hover,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked div {
+
+  &.Primario {
+    background-color: darken($designer-primary-color, 2%);
+  }
+
+  &.Secundario {
+    background-color: darken($designer-secondary-color, 2%);
+  }
+
+  &.Terciario {
+    background-color: darken($designer-tertiary-color, 2%);
+  }
+
+  &.Cuaternario {
+    background-color: darken($designer-quaternary-color, 2%);
+  }
+
+  &.Gris {
+    background-color: darken($designer-gray-color, 2%);
+  }
+
+  &.Verde,
+  &.VerdeBold {
+    background-color: darken($designer-green-color, 2%);
+  }
+}
+
+table.mat-mdc-table tr.mat-mdc-row.row-selected {
+
+  td:first-of-type {
+    padding-left: calc($grid-entry-padding-vertical - 3px);
+    border-left: 3px solid darken($grid-selected-background-color, 50%);
+
+    &.column-checkbox {
+      width: calc($checkbox-size + $grid-entry-padding-horizontal + $grid-entry-padding-vertical);
+      padding-left: calc(1rem - 7px);
+    }
+  }
+
+  &.Primario {
+    td:first-of-type {
+      border-left-color: darken($designer-primary-color, 50%);
+    }
+  }
+
+  &.Secundario {
+    td:first-of-type {
+      border-left-color: darken($designer-secondary-color, 50%);
+    }
+  }
+
+  &.Terciario {
+    td:first-of-type {
+      border-left-color: darken($designer-tertiary-color, 50%);
+    }
+  }
+
+  &.Cuaternario {
+    td:first-of-type {
+      border-left-color: darken($designer-quaternary-color, 50%);
+    }
+  }
+
+  &.Gris {
+    td:first-of-type {
+      border-left-color: darken($designer-gray-color, 50%);
+    }
+  }
+
+  &.Verde,
+  &.VerdeBold {
+    td:first-of-type {
+      border-left-color: darken($designer-green-color, 65%);
+    }
+  }
+}
+
+
+.controls-container {
+  padding: 5px;
+  margin: 3px;
+}
+
+
+.controls-container-aligned {
+  padding-bottom: 5px;
+  margin-bottom: 3px;
+}

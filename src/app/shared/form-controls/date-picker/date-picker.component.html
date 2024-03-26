@@ -1,0 +1,24 @@
+<div class="fx-row-container">
+
+  <input type="text" class="text-box picker"
+         autocomplete="off" maxlength="11"
+         #input
+         [disabled]="disabled"
+         [matDatepicker]="picker"
+         [ngModel]="date"
+         [min]="minDate"
+         [max]="maxDate"
+         [class.invalid-control]="showError"
+         (blur)="onBlur()"
+         (change)="onInputChange(input.value)"
+         (dateChange)="onChange(input.value)">
+
+  <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="disabled">
+
+  </mat-datepicker-toggle>
+
+  <mat-datepicker #picker [disabled]="disabled" color="primary">
+
+  </mat-datepicker>
+
+</div>

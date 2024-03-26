@@ -1,0 +1,58 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import '../../../styles/variables';
+
+.nav-bar {
+  min-height: 28px;
+}
+
+.nav-bar ul {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 10pt;
+}
+
+.nav-bar li {
+  border-bottom: 2px solid white;
+  color: $secondary-color-light;
+  padding: 5px 16px;
+  white-space: nowrap;
+  margin-right: 5px;
+}
+
+.nav-bar li.selected {
+  border-bottom: 2px solid $primary-color;
+  transition: 0.3s ease-out;
+  font-weight: 700;
+}
+
+.nav-bar li:last-of-type {
+  margin-right: 0;
+  border-right: none;
+}
+
+.nav-bar li a,
+.nav-bar li a:visited {
+  color: $secondary-color-semi-light;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.nav-bar li:hover a {
+  color: $primary-color;
+  font-weight: 600;
+}
+
+.nav-bar li.selected a {
+  color: $primary-color;
+  font-weight: 600;
+}

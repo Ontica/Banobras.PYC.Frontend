@@ -1,0 +1,129 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import '../../../styles/variables', '../../../styles/mixins';
+
+.header {
+  background: -prefix-linear-gradient(top, $layout-gradient-initial-color, $layout-gradient-final-color);
+  background: linear-gradient(to top, $layout-gradient-initial-color, $layout-gradient-final-color);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 36px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $white;
+  font-size: 12pt;
+  font-weight: 600;
+  min-width: 160px;
+  max-width: calc(100% - 150px);
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+
+  .breadcrumb {
+    font-size: 10pt;
+    font-weight: 400;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 3px;
+  }
+
+  .breadcrumb-divider {
+    font-size: 14pt;
+    padding: 0 16px;
+  }
+
+  i {
+    font-size: 12pt;
+    color: $border-color-dark;
+    margin-right: 12px;
+    margin-left: 8px;
+  }
+}
+
+.menu-bar {
+  @include row;
+
+  background: $layout-secondary-color;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 36px;
+  height: 42px;
+
+  select.select-box {
+    background-color: #edeef0;
+  }
+
+  &.menu-bar-priority {
+    background: -prefix-linear-gradient(top, $layout-gradient-initial-color, $layout-gradient-final-color);
+    background: linear-gradient(to top, $layout-gradient-initial-color, $layout-gradient-final-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+  }
+}
+
+a {
+  font-size: 10pt;
+  color: $border-color-dark;
+}
+
+a:hover {
+  color: $white;
+  cursor: pointer;
+}
+
+.label {
+  color: $white;
+  font-size: 10pt;
+}
+
+.action-buttons {
+  display: flex;
+}
+
+button.btn-header {
+  @include input-button-settings;
+
+  text-transform: uppercase;
+  background-color: rgba($layout-secondary-color, 25%);
+  color: $white;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  height: $toolbar-item-size;
+  border-radius: 3px;
+
+  .mat-icon {
+    color: $white;
+    padding-left: 8px;
+  }
+}
+
+button.btn-header:last-child {
+  margin-right: 0;
+}
+
+button.btn-header:hover {
+  background-color: rgba($layout-secondary-color, 55%);
+  transition: 0.3s ease-out;
+}
+
+@media (max-width: 800px) {
+  .breadcrumb,
+  .breadcrumb-divider {
+    display: none;
+  }
+}

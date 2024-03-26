@@ -1,0 +1,81 @@
+<div class="fx-row-container">
+
+  <mat-date-range-input class="range-picker"
+    [rangePicker]="picker"
+    [comparisonStart]="getDateForComparison(comparisonStartDate)"
+    [comparisonEnd]="getDateForComparison(comparisonEndDate)"
+    [min]="minDate" [max]="maxDate ?? fixedEndDate"
+    [class.invalid-date-picker]="showError"
+    [class.disabled-date-picker]="disabled">
+
+    <input type="text" #inputStartDate matStartDate
+      autocomplete="off" maxlength="11"
+      placeholder="Fecha inicial"
+      [disabled]="disabled"
+      [ngModel]="startDate"
+      (blur)="onBlur()"
+      (change)="onInputsChange(inputStartDate.value, inputEndDate.value)"
+      (dateChange)="onChange(inputStartDate.value, inputEndDate.value)">
+
+    <input type="text" #inputEndDate matEndDate
+      autocomplete="off" maxlength="11"
+      placeholder="Fecha final"
+      [disabled]="disabled || fixedEndDate"
+      [ngModel]="endDate"
+      (blur)="onBlur()"
+      (change)="onInputsChange(inputStartDate.value, inputEndDate.value)"
+      (dateChange)="onChange(inputStartDate.value, inputEndDate.value)">
+
+  </mat-date-range-input>
+
+  <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="disabled">
+
+  </mat-datepicker-toggle>
+
+  <mat-date-range-picker #picker [disabled]="disabled"
+    color="primary"
+    [startView]="selectedPickerView"
+    [panelClass]="[isYearSelection || isMonthSelection ? 'selection-type-picker': '',
+                   isMonthSelection ? 'default-calendar-hidden' : '']"
+    (yearSelected)="onYearSelected($event)"
+    (viewChanged)="onViewChanged($event)"
+    (opened)="onOpenedPicker()">
+
+  </mat-date-range-picker>
+
+</div>
+
+<div class="hidden">
+
+  <div class="appended-container" #appendedContainer>
+
+    <emp-ng-month-picker *ngIf="isMonthSelection"
+      (monthRangeSelected)="onMonthsSelected($event)">
+
+    </emp-ng-month-picker>
+
+    <ng-container *ngIf="displaySelectionType">
+
+      <mat-divider class="appended-container-divider"></mat-divider>
+
+      <div class="appended-container-footer">
+
+        <emp-ng-select name="selectionType"
+          [(ngModel)]="selectedSelectionType"
+          [items]="selectionTypeList"
+          bindValue="name"
+          [style.marginLeft.px]="8"
+          (changes)="onSelectionTypeChanges($event)">
+        </emp-ng-select>
+
+        <button class="btn-base" (click)="onClearDates()">
+          Limpiar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</div>

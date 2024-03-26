@@ -1,0 +1,14 @@
+
+<div class="toolbar-container">
+
+  <button *empNgHasPermission="permissions.ALL"
+    class="toolbar-item"
+    title="Buscador"
+    [ngClass]="{'activate': this.displayAsideRight}"
+    (click)="onToolClicked('Search')">
+
+    <mat-icon>stacked_bar_chart</mat-icon>
+
+  </button>
+
+</div>

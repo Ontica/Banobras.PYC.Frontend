@@ -1,0 +1,198 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+@import "../../../../styles/variables";
+
+$area-height: 30px;
+$area-width: 30px;
+$tag-area-width: 225px;
+$line-height: 24px;
+$space: 4px;
+$border-radius: 3px;
+
+input[type="file"] {
+  display: none;
+}
+
+.mat-icon {
+  cursor: pointer;
+}
+
+.mat-icon:hover {
+  color: $icon-color-dark;
+}
+
+.overlay-menu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: $secondary-color;
+
+  .mat-icon {
+    color: $icon-color-light;
+  }
+}
+
+.overlay-icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-menu-btn {
+  width: $area-width;
+  height: $area-height;
+  padding: calc((#{$area-width} - #{$line-height}) / 2);
+}
+
+.file-menu-btn-right {
+  margin-right: 8px;
+}
+
+.template-file-btn {
+  margin: auto 8px auto auto;
+}
+
+.file-drop-area {
+  display: flex;
+  flex-wrap: wrap;
+  padding: $space $space * 2;
+  border-radius: $border-radius;
+  margin: $control-margin;
+  border: dashed 1px $border-color-dark;
+  min-height: $area-height + 4 * $space + 2;
+
+  .file-area {
+    display: flex;
+    border-radius: $border-radius;
+    padding: $space 0;
+    width: auto;
+
+    &.show-info {
+      width: 100%;
+
+      &.multiple:not(.tag-required) {
+        width: calc(100% / 3);
+      }
+    }
+
+    .file-icon {
+      position: relative;
+      border-radius: $border-radius;
+      width: $area-width;
+      height: $area-height;
+      margin-right: $space;
+
+      .mat-icon {
+        height: $area-height;
+        width: $area-width;
+      }
+    }
+
+    .file-icon:hover .overlay-menu {
+      opacity: 0.6;
+    }
+
+    .file-info {
+      margin: auto 0;
+      width: calc(100% - 2 * #{$area-width} - 3 * #{$space});
+
+      p {
+        width: auto;
+        font-size: 9pt;
+        padding-right: $space;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .file-download-progress {
+      padding-top: $space;
+    }
+
+    &.tag-required:not(:last-child) {
+      border-bottom: dashed 1px $border-color-dark;
+      border-radius: 0;
+    }
+
+    &.tag-required .file-info {
+      width: calc(100% - 2 * #{$area-width} - #{$tag-area-width} - 3 * #{$space});
+    }
+  }
+
+  .file-add-section {
+    display: flex;
+    width: 100%;
+
+    .file-add {
+      border: solid 1px $border-color-dark;
+      border-radius: $border-radius;
+      width: $area-width;
+      height: $area-height;
+      padding: calc((#{$area-width} - #{$line-height}) / 2 - 1px);
+      margin: $space 0;
+
+      label {
+        display: flex;
+        font-size: $line-height;
+        line-height: $line-height;
+      }
+    }
+
+    .placeholder {
+      color: $border-color-dark;
+      width: calc(100% - #{$area-width});
+      font-size: 9pt;
+      margin: auto 0;
+      padding-left: $space;
+    }
+
+    .placeholder-tag-required {
+      width: calc(100% - #{$area-width} - #{$tag-area-width});
+    }
+
+    &.multiple:not(.tag-required) {
+      width: calc(100% / 3);
+
+      .placeholder {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.file-tag-container {
+  width: $tag-area-width;
+  min-height: 18px;
+  align-self: center;
+
+  .tag-info {
+    text-align: center;
+    margin: 0 0 0 auto;
+  }
+}
+
+.disabled {
+  background: $control-disabled-background;
+
+  .file-add {
+    background: $background-color;
+  }
+}

@@ -1,0 +1,37 @@
+
+<mat-accordion class="menu-left">
+
+  <ul *ngFor="let layout of layouts">
+
+    <mat-expansion-panel *empNgHasPermission="layout.permission">
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <li *empNgHasPermission="layout.permission"
+            [ngClass]="{'selected': isLayoutSelected(layout)}">
+
+            <a class="menu-layout"> {{ layout.defaultTitle | uppercase }} </a>
+
+          </li>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+      <ul>
+
+        <li *ngFor="let view of layout.views" routerLinkActive='selected'>
+
+          <a *empNgHasPermission="view.permission" class="menu-view"
+            [routerLink]='view.url'>
+            {{ view.title | uppercase }}
+          </a>
+
+        </li>
+
+      </ul>
+
+    </mat-expansion-panel>
+
+  </ul>
+
+</mat-accordion>

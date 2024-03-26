@@ -1,0 +1,66 @@
+
+<div [style.height.%]="100" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="isLoading">
+
+  </emp-ng-spinner>
+
+  <mat-tab-group mat-stretch-tabs="false" mat-stretch-tabs="false" mat-stretch-tabs="false" mat-stretch-tabs="false">
+
+    <mat-tab label="Cuenta">
+
+      <div class="fx-column-container-fill fx-gap-three-quarter">
+
+        <emp-ng-subject-editor class="fx-item-none"
+          [subject]="subject"
+          [canEdit]="canEdit"
+          [canGeneratePassword]="!isDeleted && !isSuspended && hasContexts"
+          [isDeleted]="isDeleted"
+          [isSuspended]="isSuspended"
+          (subjectEditorEvent)="onSubjectEditorEvent($event)">
+
+        </emp-ng-subject-editor>
+
+        <div class="fx-item-none">
+
+          <div class="section-title"> Aplicaciones </div>
+
+          <emp-ng-subject-contexts
+            [subjectUID]="subject.uid"
+            [subjectContextsList]="subjectContextsList"
+            [canEdit]="!isDeleted && canEdit"
+            (subjectContextsEvent)="onSubjectContextsEvent($event)">
+
+          </emp-ng-subject-contexts>
+
+        </div>
+
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Roles">
+
+      <emp-ng-subject-roles
+        [subjectUID]="subject.uid"
+        [subjectContextsList]="subjectContextsList"
+        [canEdit]="!isDeleted && canEdit">
+
+      </emp-ng-subject-roles>
+
+    </mat-tab>
+
+    <mat-tab label="Permisos">
+
+      <emp-ng-subject-features
+        [subjectUID]="subject.uid"
+        [subjectContextsList]="subjectContextsList"
+        [canEdit]="!isDeleted && canEdit">
+
+      </emp-ng-subject-features>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</div>

@@ -1,0 +1,87 @@
+<div class="card card-border">
+
+  <div class="card-header card-header-flat">
+
+    <div class="card-title">
+      Control de accesos
+
+      <div class="card-hint" empNgProgressText
+        loadingText="Cargando"
+        [finalText]="cardHint"
+        [isLoading]="isLoading">
+      </div>
+
+    </div>
+
+    <div class="card-header-options">
+
+      <button *empNgHasPermission="Permissions.FEATURE_EDICION_CONTROL_DE_ACCESOS"
+        class="btn-action"
+        (click)="onCreateSubjectClicked()">
+        Agregar cuenta
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="card-body" [empNgSpinnerHost]="spinner">
+
+    <div class="fx-column-container-fill">
+
+      <emp-ng-spinner #spinner [visible]="isLoading">
+
+      </emp-ng-spinner>
+
+      <emp-ng-access-control-filter class="fx-item-none"
+        (accessControlFilterEvent)="onAccessControlFilterEvent($event)">
+
+      </emp-ng-access-control-filter>
+
+      <ng-container *ngIf="queryExecuted">
+
+        <emp-ng-access-control-controls (accessControlControlsEvent)="onAccessControlControlsEvent($event)">
+
+        </emp-ng-access-control-controls>
+
+
+        <ng-container [ngSwitch]="query.queryType">
+
+          <emp-ng-subjects-table *ngSwitchCase="QueryTypes.Subjects"
+            class="fx-item"
+            [dataList]="subjectsList"
+            [selected]="selectedSubject"
+            (subjectsTableEvent)="onSubjectsTableEvent($event)">
+
+          </emp-ng-subjects-table>
+
+          <ng-container *ngSwitchDefault>
+
+            <mat-divider>
+
+            </mat-divider>
+
+            <div class="text-not-found">
+              No se encontraron registros con el filtro proporcionado.
+            </div>
+
+          </ng-container>
+
+        </ng-container>
+
+      </ng-container>
+
+      <div *ngIf="!queryExecuted" class="text-not-found">
+        {{isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'}}
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<emp-ng-subject-creator *ngIf="displaSubjectCreator"
+  (subjectCreatorEvent)="onSubjectCreatorEvent($event)">
+
+</emp-ng-subject-creator>

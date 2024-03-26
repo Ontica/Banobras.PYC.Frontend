@@ -1,0 +1,45 @@
+
+<ng-container *ngIf="showMenu">
+  <a *ngIf="menuConfig.modeOnlyIcon" [matMenuTriggerFor]="menu">
+    <mat-icon>
+      {{menuConfig.icon}}
+    </mat-icon>
+  </a>
+
+  <ng-container *ngIf="!menuConfig.modeOnlyIcon">
+
+    <button *ngIf="!!menuConfig.icon" mat-button [matMenuTriggerFor]="menu">
+      <mat-icon *ngIf="menuConfig.icon">
+        {{menuConfig.icon}}
+      </mat-icon>
+      {{menuConfig.textButton}}
+    </button>
+
+    <button *ngIf="!menuConfig.icon" class="btn" [matMenuTriggerFor]="menu">
+      {{menuConfig.textButton}}
+    </button>
+
+  </ng-container>
+
+
+  <mat-menu #menu="matMenu" [yPosition]="menuConfig.yPosition" [xPosition]="menuConfig.xPosition">
+
+    <button *ngFor="let item of items" (click)="onSelectItem(item)" mat-menu-item [disabled]="item.disabled">
+      <mat-icon *ngIf="menuConfig.bindIcon">{{item[menuConfig.bindIcon]}}</mat-icon>
+      <span>{{item[menuConfig.bindLabel]}}</span>
+    </button>
+
+    <ng-content></ng-content>
+
+  </mat-menu>
+</ng-container>
+
+
+<ng-container *ngIf="hideMenuIfOneItem">
+  <a [title]="getFirstIfOneItem[menuConfig.bindLabel]"
+    (click)="onSelectItem(getFirstIfOneItem)">
+    <mat-icon>
+      {{getFirstIfOneItem[menuConfig.bindIcon] ? getFirstIfOneItem[menuConfig.bindIcon] : menuConfig.icon}}
+    </mat-icon>
+  </a>
+</ng-container>

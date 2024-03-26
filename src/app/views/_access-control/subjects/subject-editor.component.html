@@ -1,0 +1,19 @@
+<emp-ng-spinner #spinner [visible]="submitted">
+
+</emp-ng-spinner>
+
+<div class="fx-column-container-fill fx-gap-three-quarter"
+  [empNgSpinnerHost]="spinner">
+
+  <emp-ng-subject-header class="fx-item-none"
+    [subject]="subject"
+    [canEdit]="canEdit"
+    [isDeleted]="isDeleted"
+    [isSuspended]="isSuspended"
+    [canGeneratePassword]="canGeneratePassword"
+    (subjectHeaderEvent)="onSubjectHeaderEvent($event)">
+
+  </emp-ng-subject-header>
+
+
+</div>

@@ -1,0 +1,101 @@
+<emp-ng-modal-window [config]="{width:'750px'}">
+
+  <emp-ng-card
+    [title]="'Agregar ' + (itemTypeName | lowercase)"
+    hint="Seleccione el elemento a agregar."
+    (cardClose)="onCloseItemAssign()">
+
+    <div class="card-body-padding" [empNgSpinnerHost]="spinner">
+
+      <form #addItemform="ngForm" empNgFormKeyDownEnter
+        autocomplete="off" class="form-section">
+
+        <emp-ng-spinner #spinner [visible]="submitted"></emp-ng-spinner>
+
+        <div class="fx-column-container">
+
+          <ng-container *ngIf="hasGroups">
+
+            <div class="fx-row-container">
+
+              <div class="fx-item-half">
+
+                <label>Grupo de permiso:</label>
+                <emp-ng-select
+                  name="securityItemGroup"
+                  [config]="{bindByValue: false}"
+                  [(ngModel)]="selectedGroup" [ngModelOptions]="{standalone: true}"
+                  [items]="groupsList"
+                  [showError]="!selectedGroup"
+                  [bindLabel]="null"
+                  (changes)="onSelectedGroupChanges()">
+                </emp-ng-select>
+
+              </div>
+
+            </div>
+
+            <mat-divider class="horizontal"></mat-divider>
+
+          </ng-container>
+
+          <div *ngIf="hasGroups || itemsToAssignFilteredList.length > 0" class="items-scroll-container">
+
+            <mat-radio-group class="radio-group-vertical fx-column-container fx-gap-quarter"
+              [(ngModel)]="itemToAssign" name="itemToAssign" required>
+
+              <div *ngFor="let item of itemsToAssignFilteredList"
+                class="simple-list-item radio-list fx-row-container">
+
+                <mat-radio-button class="radio-list-item" [value]="item">
+
+                  <div class="radio-list-item-container">
+                    {{item.name}}
+                    <div class="radio-list-item-description" *ngIf="!!item.description">
+                      {{item.description}}
+                    </div>
+                  </div>
+
+                </mat-radio-button>
+
+              </div>
+
+            </mat-radio-group>
+
+          </div>
+
+          <div *ngIf="hasGroups && !selectedGroup" class="instruction-text">
+            Seleccione el grupo del elemento a agregar.
+          </div>
+
+          <div *ngIf="!hasGroups && itemsToAssignFilteredList.length === 0" class="instruction-text">
+            No se encontraron elementos a agregar.
+          </div>
+
+          <mat-divider class="horizontal"></mat-divider>
+
+          <div #rowFooter class="fx-row-container">
+
+            <div class="fx-item fx-end fx-items-center">
+
+              <button
+                [disabled]="!isItemToAssignValid"
+                [class.btn]="!isItemToAssignValid"
+                [class.btn-action]="isItemToAssignValid"
+                (click)="onAssignItem()">
+                Agregar
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

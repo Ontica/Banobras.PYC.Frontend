@@ -1,0 +1,23 @@
+<emp-ng-modal-window *ngIf="display"
+  [config]="{width:'80%', height: '90%', maxWidth: '960px'}">
+
+  <emp-ng-card
+    [title]="title"
+    [hint]="hint"
+    (cardClose)="onClose()">
+
+    <div class="preview-container">
+
+      <div class="object-preview-container">
+
+        <object *ngIf="url" [data]="url | safeUrl" class="object-preview mat-elevation-z1">
+
+        </object>
+
+      </div>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>
