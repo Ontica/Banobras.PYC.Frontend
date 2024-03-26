@@ -8,9 +8,10 @@
 @import '../../../styles/variables', '../../../styles/mixins';
 
 $margin-size: 16px;
-$margin-size-border: 36px;
+$margin-size-border: 16px;
 $margin-size-small: 8px;
-$min-width-sides: 375px;
+$min-width-left: 375px;
+$min-width-right: 225px;
 
 .nav-bar {
   @include row;
@@ -26,7 +27,7 @@ $min-width-sides: 375px;
     @include row;
 
     width: auto;
-    min-width: $min-width-sides;
+    min-width: $min-width-left;
     align-items: center;
     white-space: nowrap;
     margin: 0 $margin-size 0 $margin-size-border;
@@ -37,7 +38,7 @@ $min-width-sides: 375px;
   }
 
   .right-section {
-    min-width: $min-width-sides;
+    min-width: $min-width-right;
     margin: 0 $margin-size-border 0 $margin-size;
   }
 

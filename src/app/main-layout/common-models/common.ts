@@ -42,7 +42,8 @@ export interface AppConfig {
 }
 
 
-export type LayoutType = 'Management' | 'ProjectManagement' | 'Unauthorized';
+export type LayoutType = 'Management' | 'Unauthorized' |
+                         'Budget' | 'Payments' | 'Reporting' | 'CataloguesAndRules';
 
 
 export interface Layout {

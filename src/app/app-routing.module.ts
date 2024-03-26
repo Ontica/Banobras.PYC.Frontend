@@ -15,6 +15,42 @@ import { DEFAULT_PATH, MainLayoutComponent, NoContentComponent, ROUTES } from '@
 
 const routes: Routes = [
   {
+    data: { permission: ROUTES.presupuesto.permission },
+    path: ROUTES.presupuesto.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/budget/budget-workspace.module')
+      .then((m) => m.BudgetWorkspaceModule)
+  },
+  {
+    data: { permission: ROUTES.pagos.permission },
+    path: ROUTES.pagos.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/payments/payments-workspace.module')
+      .then((m) => m.PaymentsWorkspaceModule)
+  },
+  {
+    data: { permission: ROUTES.reportes.permission },
+    path: ROUTES.reportes.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/reporting/reporting-workspace.module')
+      .then((m) => m.ReportingWorkspaceModule)
+  },
+  {
+    data: { permission: ROUTES.reglas_y_catalogos.permission },
+    path: ROUTES.reglas_y_catalogos.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/catalogues-and-rules/catalogues-and-rules-workspace.module')
+      .then((m) => m.CataloguesAndRulesWorkspaceModule)
+  },
+  {
     data: { permission: ROUTES.administracion.permission },
     path: ROUTES.administracion.path,
     component: MainLayoutComponent,
