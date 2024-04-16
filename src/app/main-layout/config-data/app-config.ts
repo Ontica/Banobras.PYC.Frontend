@@ -18,8 +18,8 @@ export const APP_CONFIG: AppConfig = {
     description: '',
   },
   security: {
-    fakeLogin: true,
-    enablePermissions: false,
+    fakeLogin: false,
+    enablePermissions: true,
     encriptLocalStorageData: true,
     protectUserWork: false,
   },
