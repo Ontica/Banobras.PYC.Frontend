@@ -7,12 +7,6 @@
 
 @import "../../../../styles/variables";
 
-$area-height: 30px;
-$area-width: 30px;
-$tag-area-width: 225px;
-$line-height: 24px;
-$space: 4px;
-$border-radius: 3px;
 
 input[type="file"] {
   display: none;
@@ -56,9 +50,9 @@ input[type="file"] {
 }
 
 .file-menu-btn {
-  width: $area-width;
-  height: $area-height;
-  padding: calc((#{$area-width} - #{$line-height}) / 2);
+  width: $file-control-area-width;
+  height: $file-control-area-height;
+  padding: calc((#{$file-control-area-width} - #{$file-control-line-height}) / 2);
 }
 
 .file-menu-btn-right {
@@ -72,16 +66,16 @@ input[type="file"] {
 .file-drop-area {
   display: flex;
   flex-wrap: wrap;
-  padding: $space $space * 2;
-  border-radius: $border-radius;
+  padding: $file-control-space $file-control-space * 2;
+  border-radius: $file-control-border-radius;
   margin: $control-margin;
   border: dashed 1px $border-color-dark;
-  min-height: $area-height + 4 * $space + 2;
+  min-height: $file-control-area-height + 4 * $file-control-space + 2;
 
   .file-area {
     display: flex;
-    border-radius: $border-radius;
-    padding: $space 0;
+    border-radius: $file-control-border-radius;
+    padding: $file-control-space 0;
     width: auto;
 
     &.show-info {
@@ -94,14 +88,14 @@ input[type="file"] {
 
     .file-icon {
       position: relative;
-      border-radius: $border-radius;
-      width: $area-width;
-      height: $area-height;
-      margin-right: $space;
+      border-radius: $file-control-border-radius;
+      width: $file-control-area-width;
+      height: $file-control-area-height;
+      margin-right: $file-control-space;
 
       .mat-icon {
-        height: $area-height;
-        width: $area-width;
+        height: $file-control-area-height;
+        width: $file-control-area-width;
       }
     }
 
@@ -111,12 +105,12 @@ input[type="file"] {
 
     .file-info {
       margin: auto 0;
-      width: calc(100% - 2 * #{$area-width} - 3 * #{$space});
+      width: calc(100% - 2 * #{$file-control-area-width} - 3 * #{$file-control-space});
 
       p {
         width: auto;
         font-size: 9pt;
-        padding-right: $space;
+        padding-right: $file-control-space;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -124,7 +118,7 @@ input[type="file"] {
     }
 
     .file-download-progress {
-      padding-top: $space;
+      padding-top: $file-control-space;
     }
 
     &.tag-required:not(:last-child) {
@@ -133,7 +127,7 @@ input[type="file"] {
     }
 
     &.tag-required .file-info {
-      width: calc(100% - 2 * #{$area-width} - #{$tag-area-width} - 3 * #{$space});
+      width: calc(100% - 2 * #{$file-control-area-width} - #{$file-control-tag-area-width} - 3 * #{$file-control-space});
     }
   }
 
@@ -143,29 +137,29 @@ input[type="file"] {
 
     .file-add {
       border: solid 1px $border-color-dark;
-      border-radius: $border-radius;
-      width: $area-width;
-      height: $area-height;
-      padding: calc((#{$area-width} - #{$line-height}) / 2 - 1px);
-      margin: $space 0;
+      border-radius: $file-control-border-radius;
+      width: $file-control-area-width;
+      height: $file-control-area-height;
+      padding: calc((#{$file-control-area-width} - #{$file-control-line-height}) / 2 - 1px);
+      margin: $file-control-space 0;
 
       label {
         display: flex;
-        font-size: $line-height;
-        line-height: $line-height;
+        font-size: $file-control-line-height;
+        line-height: $file-control-line-height;
       }
     }
 
     .placeholder {
       color: $border-color-dark;
-      width: calc(100% - #{$area-width});
+      width: calc(100% - #{$file-control-area-width});
       font-size: 9pt;
       margin: auto 0;
-      padding-left: $space;
+      padding-left: $file-control-space;
     }
 
     .placeholder-tag-required {
-      width: calc(100% - #{$area-width} - #{$tag-area-width});
+      width: calc(100% - #{$file-control-area-width} - #{$file-control-tag-area-width});
     }
 
     &.multiple:not(.tag-required) {
@@ -179,7 +173,7 @@ input[type="file"] {
 }
 
 .file-tag-container {
-  width: $tag-area-width;
+  width: $file-control-tag-area-width;
   min-height: 18px;
   align-self: center;
 

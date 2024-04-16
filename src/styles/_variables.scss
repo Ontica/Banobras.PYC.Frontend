@@ -65,7 +65,7 @@ $font-weight-command: 300;
 //
 $font-size-hint: $font-size-base * 0.75;
 $font-weight-hint: 300;
-$font-weight-bold: lighten($text-color, 3%);
+$font-weight-bold: 600;
 $text-italic: italic;
 //
 $font-size-grid-header: $font-size-base * 0.65;
@@ -149,21 +149,37 @@ $button-height: 28px;
 $checkbox-background-color: #38927d;
 $checkbox-size: 28px;
 $checkbox-warning-background-color: $warning-color;
+
 $date-picker-width: 90px;
 $range-picker-width: 185px;
+$range-picker-month-cursor-hover: rgba(46, 118, 101, 0.3);
+$range-picker-month-in-range: rgba(46, 118, 101, 0.2);
+$range-picker-month-hover-selection: rgba(46, 118, 101, 0.3);
+$range-picker-month-edge-background: rgb(46, 118, 101);
+$range-picker-month-edge-color: white;
 
-$tag-background-color: hsl(167, 36%, 95%);
+$file-control-area-height: 30px;
+$file-control-area-width: 30px;
+$file-control-tag-area-width: 225px;
+$file-control-line-height: 24px;
+$file-control-space: 4px;
+$file-control-border-radius: 3px;
+
 $tag-default-background-color: hsl(166, 44%, 90%) !default;
-$tag-info-background-color: $primary-color-light !default;
-$tag-error-background-color: $warning-color-light !default;
-$tag-warning-color: $title-color !default;
-
 $tag-default-color: hsl(166, 44%, 30%) !default;
+$tag-info-background-color: hsl(205, 20%, 50%);
+$tag-success-background-color: $primary-color-light !default;
+$tag-warning-background-color: $title-color !default;
+$tag-error-background-color: $warning-color-light !default;
+
+$list-selection-header-background-color: hsl(210, 20%, 90%) !default;
+$simple-list-background-color: $control-disabled-background !default;
 
 //
 // grid
 //
 $grid-header-background-color: #f5efe7 !default;
+$grid-header-color: $primary-color !default;
 $grid-footer-background-color: $disabled-color;
 $grid-border: 0;
 $grid-even-background-color: $white;
@@ -177,6 +193,9 @@ $grid-entry-padding-vertical: 12px;
 $grid-entry-padding-horizontal: 15px;
 $grid-entry-padding-vertical-first: 10px;
 $grid-entry-padding-vertical-default: 8px;
+$grid-nested-background-color: #e0e6eb;
+$grid-nested-hover-background-color: #d0dae1;
+$grid-nested-border: 2px solid #859cad;
 
 //
 // Designer

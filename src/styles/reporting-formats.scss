@@ -56,6 +56,41 @@ table.mat-mdc-table tr.mat-mdc-row {
     }
   }
 
+  &.nested {
+    td:first-of-type {
+      padding: 10px 16px;
+    }
+
+    td:nth-child(2) {
+      padding-left: 10px;
+    }
+  }
+
+  &.parent {
+    background: $grid-nested-background-color;
+
+    td {
+      border-bottom: $grid-nested-border;
+    }
+
+    &:hover {
+      background-color: $grid-nested-hover-background-color;
+    }
+  }
+
+  &.child {
+    font-style: italic;
+
+    td:first-of-type {
+      padding-left: 32px;
+      border-right: $grid-nested-border;
+    }
+
+    td:nth-child(3) {
+      padding-left: 16px;
+    }
+  }
+
   &:hover {
     background-color: $grid-hover-background-color;
 

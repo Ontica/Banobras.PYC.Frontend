@@ -6,3 +6,5 @@
  */
 
 export { SpinnerService } from './indicators/spinner/spinner.service';
+
+export { PrinterService } from './utils/printer.service';

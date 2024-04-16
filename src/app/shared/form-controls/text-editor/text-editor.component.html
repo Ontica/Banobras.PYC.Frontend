@@ -4,6 +4,7 @@
     [(ngModel)]="value"
     [readOnly]="disabled"
     [placeholder]="''"
+    [style.width.%]="100"
     (onContentChanged)="onChange(value)"
     (onBlur)="onTouched()"
     (onEditorCreated)="setFocus($event)">

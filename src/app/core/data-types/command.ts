@@ -9,6 +9,7 @@
 export interface Command {
   readonly type: string;
   readonly payload?: any;
+  readonly applyEffects?: any;
 }
 
 

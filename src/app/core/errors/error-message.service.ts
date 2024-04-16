@@ -70,8 +70,8 @@ export class ErrorMessageService {
       const statusMessage = `<strong>(401)</strong> ${message}`;
 
       this.messageBox.showError(statusMessage)
-          .firstValue()
-          .then(x => this.router.navigateByUrl(LOGIN_PATH))
+        .firstValue()
+        .then(x => this.router.navigateByUrl(LOGIN_PATH))
     }
   }
 

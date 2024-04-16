@@ -22,7 +22,7 @@ export function toObservable<U>(value: Observable<U>): Observable<U> {
 }
 
 
-export function getFirstValueFrom<U>(value: Promise<U> | Observable<U>): Promise<U> {
+export function getFirstValueFrom<U>(value: Promise<U> | Observable<U> | EmpObservable<U>): Promise<U> {
   if (value instanceof Observable) {
     return firstValueFrom<U>(value);
 

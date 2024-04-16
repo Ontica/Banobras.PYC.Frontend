@@ -50,4 +50,5 @@ export class PrinterService {
       proxyIframe.remove();
     }, 1000);
   }
+
 }

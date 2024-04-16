@@ -518,9 +518,9 @@ i.disabled {
 
 .tag {
   background-color: $tag-default-background-color;
-  border-radius: 10px;
+  border-radius: 0.75rem;
   color: $tag-default-color;
-  padding: 4px 8px;
+  padding: 0.25rem 0.5rem;
   width: fit-content;
   white-space: nowrap;
 
@@ -530,14 +530,42 @@ i.disabled {
     border: 1px solid $tag-default-color;
   }
 
+  &.tag-base-info {
+    background-color: $white;
+    color: $tag-info-background-color;
+    border: 1px solid $tag-info-background-color;
+  }
+
+  &.tag-base-success {
+    background-color: $white;
+    color: $tag-success-background-color;
+    border: 1px solid $tag-success-background-color;
+  }
+
   &.tag-base-warning {
     background-color: $white;
-    color: $tag-warning-color;
-    border: 1px solid $tag-warning-color;
+    color: $tag-warning-background-color;
+    border: 1px solid $tag-warning-background-color;
+  }
+
+  &.tag-base-error {
+    background-color: $white;
+    color: $tag-error-background-color;
+    border: 1px solid $tag-error-background-color;
   }
 
   &.tag-info {
     background-color: $tag-info-background-color;
+    color: $white;
+  }
+
+  &.tag-success {
+    background-color: $tag-success-background-color;
+    color: $white;
+  }
+
+  &.tag-warning {
+    background-color: $tag-warning-background-color;
     color: $white;
   }
 
@@ -546,23 +574,17 @@ i.disabled {
     color: $white;
   }
 
-  &.tag-warning {
-    background-color: $tag-warning-color;
-    color: $white;
-  }
-
   &.tag-small {
     font-size: 0.5rem;
-    line-height: 0.75rem;
-    margin: 0 8px;
-    padding: 4px 8px;
+    margin: 0 0.5rem;
+    padding: 0.125rem 0.5rem;
+    line-height: 1rem;
   }
 
   &.tag-medium {
     font-size: 0.75rem;
-    line-height: 1rem;
-    margin: 0 8px;
-    padding: 4px 8px;
+    margin: 0 0.5rem;
+    padding: 0.25rem 0.5rem;
   }
 }
 
@@ -583,13 +605,18 @@ a.tag {
       color: $white;
     }
 
-    &.tag-error {
-      background-color: darken($tag-error-background-color, 4%);
+    &.tag-success {
+      background-color: darken($tag-success-background-color, 4%);
       color: $white;
     }
 
     &.tag-warning {
-      background-color: darken($tag-warning-color, 4%);
+      background-color: darken($tag-warning-background-color, 4%);
+      color: $white;
+    }
+
+    &.tag-error {
+      background-color: darken($tag-error-background-color, 4%);
       color: $white;
     }
   }

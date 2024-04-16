@@ -80,11 +80,12 @@
 
   </div>
 
-  <div class="file-add-section" *ngIf="!readonly && ( !filesToUpload || fileControlConfig.maxFiles > filesToUpload.length )"
+
+  <div class="file-add-section" *ngIf="!filesToUpload || fileControlConfig.maxFiles > filesToUpload.length"
     [ngClass]="{'tag-required': fileControlConfig.tagRequired,
                 'multiple': fileControlConfig.maxFiles > 1}">
 
-    <div class="file-add"
+    <div class="file-add" *ngIf="!readonly"
       [title]="fileControlConfig.textAccion">
       <label [for]="idFileControl">
         <mat-icon>add</mat-icon>
@@ -95,7 +96,7 @@
       {{readonly ? fileControlConfig.placeholderReadonly : fileControlConfig.placeholder}}
     </div>
 
-    <div class="file-tag-container" *ngIf="fileControlConfig.tagRequired">
+    <div class="file-tag-container" *ngIf="!readonly && fileControlConfig.tagRequired">
       <emp-ng-select name="tag"
         bindLabel="name"
         bindValue="type"

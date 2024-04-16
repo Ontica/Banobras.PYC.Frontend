@@ -10,7 +10,7 @@ import { MainLayoutActions, MainLayoutSelectors } from './main-layout/_main-layo
 export * from './main-layout/_main-layout.presentation.types';
 
 import { AppStatusActions, AppStatusSelectors } from './app-data/_app-data.presentation.types';
-export * from './main-layout/_main-layout.presentation.types';
+export * from './app-data/_app-data.presentation.types';
 
 import { SMSelectors } from './security-management/_security.management.presentation.types';
 export * from './security-management/_security.management.presentation.types';

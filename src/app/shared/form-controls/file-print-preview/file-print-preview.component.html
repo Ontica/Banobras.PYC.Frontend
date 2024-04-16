@@ -6,16 +6,23 @@
     [hint]="hint"
     (cardClose)="onClose()">
 
-    <div class="preview-container">
+    <div class="preview-container preview-padding" *ngIf="!fileError">
 
       <div class="object-preview-container">
 
-        <object *ngIf="url" [data]="url | safeUrl" class="object-preview mat-elevation-z1">
+        <object *ngIf="url"
+          class="object-preview mat-elevation-z1"
+          [data]="url | safeUrl"
+          (error)="onFileError()">
 
         </object>
 
       </div>
 
+    </div>
+
+    <div class="text-not-found" *ngIf="fileError">
+      Error al cargar el archivo.
     </div>
 
   </emp-ng-card>

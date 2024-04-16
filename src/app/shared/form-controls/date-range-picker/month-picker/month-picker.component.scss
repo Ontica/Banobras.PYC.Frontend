@@ -5,11 +5,8 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-$cursor-hover: rgba(2, 125, 182, 0.3);
-$in-range: rgba(2, 125, 182, 0.2);
-$hover-selection: rgba(2, 125, 182, 0.3);
-$edge-background: rgb(2, 125, 182);
-$edge-color: white;
+@import "../../../../../styles/variables";
+
 
 .mat-calendar-previous-button {
   width: 40px !important;
@@ -65,26 +62,26 @@ $edge-color: white;
 }
 
 .calendar-item:hover:not(.is-edge) {
-  background-color: $hover-selection;
+  background-color: $range-picker-month-hover-selection;
   border-radius: 999px;
 }
 
 .is-edge {
-  background-color: $edge-background;
-  color: $edge-color;
+  background-color: $range-picker-month-edge-background;
+  color: $range-picker-month-edge-color;
   border-radius: 999px;
 }
 
 .in-range {
-  background-color: $in-range;
+  background-color: $range-picker-month-in-range;
 }
 
 .is-lower-edge {
-  background: linear-gradient(to right, transparent 50%, $in-range);
+  background: linear-gradient(to right, transparent 50%, $range-picker-month-in-range);
 }
 
 .is-upper-edge {
-  background: linear-gradient(to right, $in-range, transparent 50%);
+  background: linear-gradient(to right, $range-picker-month-in-range, transparent 50%);
 }
 
 .is-lower-edge.is-upper-edge {

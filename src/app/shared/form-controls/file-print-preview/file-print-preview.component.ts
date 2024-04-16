@@ -29,6 +29,8 @@ export class FilePrintPreviewComponent implements OnChanges {
 
   url: string = null;
 
+  fileError = false;
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.file && !!this.file?.url) {
       this.open(this.file.url, this.file.type);
@@ -46,8 +48,15 @@ export class FilePrintPreviewComponent implements OnChanges {
       return;
     }
 
+    this.fileError = false;
     this.url = url;
     this.display = true;
+  }
+
+
+  onFileError() {
+    this.fileError = true;
+    console.log('File Error: ', this.url);
   }
 
 

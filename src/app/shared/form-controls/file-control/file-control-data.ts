@@ -83,6 +83,7 @@ export class FileData {
   file?: File;
   tag?: string;
   download$?: Observable<Progress>;
+  hasError?: boolean;
 }
 
 
