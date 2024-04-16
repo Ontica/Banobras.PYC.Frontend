@@ -18,15 +18,15 @@ export enum PERMISSIONS {
   // ADMINISTRACION
   //
 
+  MODULE_ADMINISTRACION_DE_SISTEMA = 'module-administracion-de-sistema',
+
+  // PANEL DE CONTROL
+  ROUTE_PANEL_CONTROL = 'route-panel-control',
+  FEATURE_CHANGE_PASSWORD = 'feature-modificar-password',
+
   // CONTROL DE ACCESOS
   ROUTE_CONTROL_DE_ACCESOS = 'route-control-de-accesos',
   FEATURE_EDICION_CONTROL_DE_ACCESOS = 'feature-edicion-control-de-accesos',
-
-  //
-  // APP PERMISSIONS
-  //
-
-  ALL = '*',
 }
 
 

@@ -27,6 +27,6 @@ export const ControlPanelOptionList: ControlPanelOption[] = [
     description: 'Herramienta para actualizar la contraseña de la cuenta de acceso.',
     actionTitle: 'Cambiar',
     type: 'ChangePassword',
-    permission: PERMISSIONS.ALL,
+    permission: PERMISSIONS.FEATURE_CHANGE_PASSWORD,
   },
 ];
