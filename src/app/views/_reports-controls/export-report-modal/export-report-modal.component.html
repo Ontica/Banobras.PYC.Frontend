@@ -10,7 +10,7 @@
 
         <ng-container *ngIf="exportationTypes.length > 1">
 
-          <div [style.paddingBottom.px]="8">
+          <div class="export-instruction-text">
             Seleccionar el tipo de exportación:
           </div>
 
@@ -23,13 +23,21 @@
 
         </ng-container>
 
-        <div *ngIf="exportationTypes.length > 0" [style.paddingTop.px]="16" [style.paddingBottom.px]="8">
-          {{message || 'Se generará la exportación a '+ selectedExportationType.fileType +' con el último filtro consultado.'}}
+        <div *ngIf="exportationTypes.length > 0" class="export-instruction-text">
+          <span [innerHTML]="message || 'Se generará la exportación a '+ selectedExportationType.fileType +' con el último filtro consultado.'">
+
+          </span>
         </div>
 
-        <div *ngIf="exportationTypes.length === 0" [style.paddingTop.px]="16" [style.paddingBottom.px]="8">
+        <div *ngIf="exportationTypes.length === 0" class="export-instruction-text">
           No se han definido tipos de exportación.
         </div>
+
+
+        <ng-content>
+
+        </ng-content>
+
 
         <mat-divider class="horizontal-wide">
 
@@ -40,9 +48,9 @@
           <div class="fx-item-none">
 
             <button *ngIf="!working && !hasFileUrl"
-              [class.btn]="selectedExportationType === null"
-              [class.btn-action]="selectedExportationType !== null"
-              [disabled]="selectedExportationType === null"
+              [disabled]="!isExportButtonReady"
+              [class.btn]="!isExportButtonReady"
+              [class.btn-action]="isExportButtonReady"
               (click)="onExportButtonClicked()">
               Exportar
             </button>
@@ -54,12 +62,12 @@
 
           </div>
 
-          <div class="fx-item fx-row-container fx-end fx-items-center" [style.marginRight.px]="8">
+          <div class="fx-item fx-row-container fx-end fx-items-center export-file-url">
 
             <a *ngIf="fileUrl" [href]="fileUrl" target="_blank">
               El archivo {{selectedExportationType.fileType}} está listo. Hacer clic para descargarlo.</a>
 
-            <div *ngIf="working" [style.width.px]="242"
+            <div *ngIf="working" class="export-progress-text"
               empNgProgressText
               loadingText="Generando el archivo solicitado"
               [isLoading]="working">

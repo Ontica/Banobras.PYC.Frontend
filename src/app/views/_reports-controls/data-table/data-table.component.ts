@@ -107,21 +107,21 @@ export class DataTableComponent implements OnChanges {
   }
 
 
-  get entriesTotal() {
+  get entriesTotal(): number {
     return this.countOnlyEntries ?
       this.dataTable.entries.filter(x => EntryItemTypeList.includes(x.itemType)).length :
       this.dataTable.entries.length;
   }
 
 
-  get filteredEntriesTotal() {
+  get filteredEntriesTotal(): number {
     return this.countOnlyEntries ?
       this.dataSource.filteredData.filter(x => EntryItemTypeList.includes(x.itemType)).length :
       this.dataSource.filteredData.length;
   }
 
 
-  isClickableEntry(entry: DataTableEntry) {
+  isClickableEntry(entry: DataTableEntry): boolean {
     return this.canClickRow && (
       !!entry.clickableEntry ||
       (this.clickableEntry && ClickeableItemTypeList.includes(entry.itemType))

@@ -80,7 +80,7 @@
 }
 
 .mat-mdc-tab-body-content {
-  padding: 16px 24px;
+  padding: 16px 20px;
 }
 
 .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
@@ -195,18 +195,18 @@ table.mat-mdc-table {
     }
 
     &:first-of-type {
-      padding-left: $grid-entry-padding-vertical;
+      padding-left: $grid-entry-padding-vertical-first;
     }
 
     &:last-of-type {
-      padding-right: $grid-entry-padding-vertical !important;
+      padding-right: $grid-entry-padding-vertical-first !important;
     }
 
     &.column-action {
       text-align: center;
       width: $grid-row-height !important;
-      padding-top: 0.25rem;
-      padding-bottom: 0.25rem;
+      padding-top: 2px;
+      padding-bottom: 2px;
       padding-right: $grid-entry-padding-vertical;
     }
   }
@@ -219,20 +219,20 @@ table.mat-mdc-table {
     line-height: $font-size-grid;
 
     &:first-of-type {
-      padding-left: $grid-entry-padding-vertical;
+      padding-left: $grid-entry-padding-vertical-first;
     }
 
     &.mat-mdc-cell:last-of-type,
     &.mat-mdc-footer-cell:last-of-type {
-      padding-right: $grid-entry-padding-vertical;
+      padding-right: $grid-entry-padding-vertical-first;
       width: auto;
     }
 
     &.column-action {
       text-align: center;
       width: $grid-row-height !important;
-      padding-top: 0.25rem;
-      padding-bottom: 0.25rem;
+      padding-top: 2px;
+      padding-bottom: 2px;
       padding-right: $grid-entry-padding-vertical;
       vertical-align: middle;
     }
@@ -507,6 +507,10 @@ table.mat-mdc-table.emp-designer {
     margin: 0 0.75rem;
     height: $control-height;
   }
+
+  &.white {
+    border-top-color: rgba(255, 255, 255, 0.45);
+  }
 }
 
 //
@@ -694,6 +698,7 @@ table.mat-mdc-table.emp-designer {
 }
 
 .mat-mdc-menu-content,
+.mat-mdc-menu-content .mat-mdc-menu-item .mdc-list-item__primary-text,
 .mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text {
   font-size: 9pt !important;
 }

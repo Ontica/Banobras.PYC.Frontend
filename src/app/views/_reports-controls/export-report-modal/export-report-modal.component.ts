@@ -27,11 +27,6 @@ export enum ExportReportModalEventType {
       padding-bottom: 8px;
     }
 
-    .export-message-text {
-      padding-top: 16px;
-      padding-bottom: 8px;
-    }
-
     .export-file-url {
       margin-right: 8px;
     }
