@@ -18,11 +18,11 @@
 
 .fx-row-container-fill {
   @include row;
-  flex: 1; // TODO: test if it works with flex: 1 or %
-  // height: 100%;
-  // min-height: 100%;
-  // min-width: 100%;
-  // width: 100%;
+
+  height: 100%;
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
 }
 
 //
@@ -31,12 +31,22 @@
 .fx-row-container,
 .fx-row-container-fill {
 
+  .fx-item-size {
+    flex: 1 1 var(--size);
+    max-width: var(--size);
+  }
+
   .fx-item {
     @include expand;
   }
 
   .fx-item-none {
     flex: 0 0 auto;
+  }
+
+  .fx-item-one {
+    flex: 1 1 100%;
+    max-height: 100%;
   }
 
   .fx-item-two-third {
@@ -62,6 +72,11 @@
   .fx-item-quarter {
     flex: 1 1 100%;
     max-width: 25%;
+  }
+
+  .fx-item-fifth {
+    flex: 1 1 100%;
+    max-height: 20%;
   }
 
   .fx-item-sixth {
@@ -94,12 +109,22 @@
 .fx-column-container,
 .fx-column-container-fill {
 
+  .fx-item-size {
+    flex: 1 1 var(--size);
+    max-width: var(--size);
+  }
+
   .fx-item {
     @include expand;
   }
 
   .fx-item-none {
     flex: 0 0 auto;
+  }
+
+  .fx-item-one {
+    flex: 1 1 100%;
+    max-height: 100%;
   }
 
   .fx-item-two-third {
@@ -125,6 +150,11 @@
   .fx-item-quarter {
     flex: 1 1 100%;
     max-height: 25%;
+  }
+
+  .fx-item-fifth {
+    flex: 1 1 100%;
+    max-height: 20%;
   }
 
   .fx-item-sixth {
@@ -223,6 +253,14 @@
   &.fx-gap {
     gap: 1rem;
   }
+
+  &.fx-gap-two {
+    gap: 2rem;
+  }
+
+  &.fx-gap-two-and-fifth {
+    gap: 2.5rem;
+  }
 }
 
 .fx-column-container,
@@ -242,6 +280,14 @@
 
   &.fx-gap {
     gap: 1rem;
+  }
+
+  &.fx-gap-two {
+    gap: 2rem;
+  }
+
+  &.fx-gap-two-and-fifth {
+    gap: 2.5rem;
   }
 }
 
