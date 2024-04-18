@@ -122,7 +122,7 @@ export class AccessControlDataService {
   activateSubject(subjectUID: string): EmpObservable<Subject> {
     Assertion.assertValue(subjectUID, 'subjectUID');
 
-    const path = `v4/onepoint/security/management/subjects/$${subjectUID}/activate`;
+    const path = `v4/onepoint/security/management/subjects/${subjectUID}/activate`;
 
     return this.http.post<Subject>(path);
   }
