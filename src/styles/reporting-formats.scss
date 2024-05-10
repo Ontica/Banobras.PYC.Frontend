@@ -280,12 +280,12 @@ table.mat-mdc-table.emp-designer tr.mat-mdc-row.fixed-cells-type td.mat-mdc-cell
 table.mat-mdc-table tr.mat-mdc-row.row-selected {
 
   td:first-of-type {
-    padding-left: calc($grid-entry-padding-vertical - 3px);
+    padding-left: calc($grid-entry-padding-vertical-first - 3px); // 7px; //calc(1rem - 3px=;
     border-left: 3px solid darken($grid-selected-background-color, 50%);
 
     &.column-checkbox {
       width: calc($checkbox-size + $grid-entry-padding-horizontal + $grid-entry-padding-vertical);
-      padding-left: calc(1rem - 7px);
+      padding-left: calc(1rem - $grid-entry-padding-vertical-first);
     }
   }
 

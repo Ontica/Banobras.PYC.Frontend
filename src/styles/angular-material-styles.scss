@@ -503,6 +503,11 @@ table.mat-mdc-table.emp-designer {
     height: $control-height;
   }
 
+  &.vertical-slim {
+    margin: 0 8px 0 0;
+    height: $control-height;
+  }
+
   &.vertical-inline {
     margin: 0 0.75rem;
     height: $control-height;

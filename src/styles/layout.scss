@@ -31,60 +31,61 @@
 .fx-row-container,
 .fx-row-container-fill {
 
-  .fx-item-size {
+  > .fx-item-size {
     flex: 1 1 var(--size);
+    min-width: var(--size);
     max-width: var(--size);
   }
 
-  .fx-item {
+  > .fx-item {
     @include expand;
   }
 
-  .fx-item-none {
+  > .fx-item-none {
     flex: 0 0 auto;
   }
 
-  .fx-item-one {
+  > .fx-item-one {
     flex: 1 1 100%;
-    max-height: 100%;
+    max-width: 100%;
   }
 
-  .fx-item-two-third {
+  > .fx-item-two-third {
     flex: 1 1 100%;
     max-width: 66.66%;
   }
 
-  .fx-item-half {
+  > .fx-item-half {
     flex: 1 1 100%;
     max-width: 50%;
   }
 
-  .fx-item-half-margin {
+  > .fx-item-half-margin {
     flex: 1 1 100%;
     max-width: calc(50% - 8px);
   }
 
-  .fx-item-third {
+  > .fx-item-third {
     flex: 1 1 100%;
     max-width: 33.33%;
   }
 
-  .fx-item-quarter {
+  > .fx-item-quarter {
     flex: 1 1 100%;
     max-width: 25%;
   }
 
-  .fx-item-fifth {
+  > .fx-item-fifth {
     flex: 1 1 100%;
     max-height: 20%;
   }
 
-  .fx-item-sixth {
+  > .fx-item-sixth {
     flex: 1 1 100%;
     max-width: 16.66%;
   }
 
-  .fx-item-auto {
+  > .fx-item-auto {
     flex-grow: 1;
   }
 }
@@ -109,60 +110,61 @@
 .fx-column-container,
 .fx-column-container-fill {
 
-  .fx-item-size {
+  > .fx-item-size {
     flex: 1 1 var(--size);
-    max-width: var(--size);
+    // min-height: var(--size);
+    max-height: var(--size);
   }
 
-  .fx-item {
+  > .fx-item {
     @include expand;
   }
 
-  .fx-item-none {
+  > .fx-item-none {
     flex: 0 0 auto;
   }
 
-  .fx-item-one {
+  > .fx-item-one {
     flex: 1 1 100%;
     max-height: 100%;
   }
 
-  .fx-item-two-third {
+  > .fx-item-two-third {
     flex: 1 1 100%;
     max-height: 66.66%;
   }
 
-  .fx-item-half {
+  > .fx-item-half {
     flex: 1 1 100%;
     max-height: 50%;
   }
 
-  .fx-item-half-margin {
+  > .fx-item-half-margin {
     flex: 1 1 100%;
     max-height: calc(50% - 8px);
   }
 
-  .fx-item-third {
+  > .fx-item-third {
     flex: 1 1 100%;
     max-height: 33.33%;
   }
 
-  .fx-item-quarter {
+  > .fx-item-quarter {
     flex: 1 1 100%;
     max-height: 25%;
   }
 
-  .fx-item-fifth {
+  > .fx-item-fifth {
     flex: 1 1 100%;
     max-height: 20%;
   }
 
-  .fx-item-sixth {
+  > .fx-item-sixth {
     flex: 1 1 100%;
-    max-width: 16.66%;
+    max-height: 16.66%;
   }
 
-  .fx-item-auto {
+  > .fx-item-auto {
     flex-grow: 1;
   }
 }
@@ -261,6 +263,10 @@
   &.fx-gap-two-and-fifth {
     gap: 2.5rem;
   }
+
+  &.fx-gap-size {
+    gap: var(--gap-size);
+  }
 }
 
 .fx-column-container,
@@ -288,6 +294,10 @@
 
   &.fx-gap-two-and-fifth {
     gap: 2.5rem;
+  }
+
+  &.fx-gap-size {
+    gap: var(--gap-size);
   }
 }
 
