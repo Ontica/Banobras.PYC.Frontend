@@ -5,7 +5,8 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
+         SimpleChanges } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -43,7 +44,7 @@ interface SubjectFormModel extends FormGroup<{
   selector: 'emp-ng-subject-header',
   templateUrl: './subject-header.component.html',
 })
-export class SubjectHeaderComponent implements OnChanges, OnDestroy {
+export class SubjectHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() subject: Subject = EmptySubject;
 
@@ -78,8 +79,14 @@ export class SubjectHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  ngOnChanges() {
-    this.enableEditor(!this.isSaved);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.subject && this.isSaved) {
+      this.enableEditor(false);
+    }
+  }
+
+
+  ngOnInit() {
     this.loadWorkareas();
   }
 
@@ -180,6 +187,8 @@ export class SubjectHeaderComponent implements OnChanges, OnDestroy {
       jobPosition: this.subject.jobPosition,
       workareaUID: this.subject.workarea.uid,
     });
+
+    this.validateSubjectWorkareaInList();
   }
 
 
