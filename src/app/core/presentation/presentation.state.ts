@@ -91,6 +91,11 @@ export class PresentationState {
   }
 
 
+  clearValues() {
+    this.registeredHandlers.forEach(x => x.clearValues());
+  }
+
+
   // private methods
 
 

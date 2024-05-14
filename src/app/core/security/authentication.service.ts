@@ -26,17 +26,20 @@ import { Principal } from './principal';
 import { FakeSessionToken, LoginErrorAction, LoginErrorActionType, LoginErrorType, PrincipalData,
          SessionToken, getFakePrincipalData } from './security-types';
 
+import { PresentationState } from '../presentation';
+
 
 @Injectable()
 export class AuthenticationService {
 
-  constructor(private session: SessionService,
+  constructor(private store: PresentationState,
+              private session: SessionService,
               private securityService: SecurityDataService) { }
 
 
   clearSession() {
-    // TODO: clear presentation state
     this.session.clearSession();
+    this.store.clearValues();
   }
 
 

@@ -36,6 +36,8 @@ export interface PresentationHandler {
 
   select<U>(selector: StateSelector, params?: any): EmpObservable<U>;
 
+  clearValues(): void;
+
 }
 
 export interface StateHandlerConfig {
@@ -58,6 +60,8 @@ export abstract class AbstractPresentationHandler implements PresentationHandler
 
   private stateItems = new Map<string, BehaviorSubject<any>>();
 
+  private initialState: KeyValue[];
+
 
   constructor(config: StateHandlerConfig) {
     Assertion.assertValue(config, 'config');
@@ -66,6 +70,7 @@ export abstract class AbstractPresentationHandler implements PresentationHandler
 
     if (config.initialState) {
       config.initialState.forEach(x => this.stateItems.set(x.key, new BehaviorSubject(x.value)));
+      this.initialState = config.initialState;
     }
 
     this.selectors = Object.keys(config.selectors).map(k => config.selectors[k as StateSelector]);
@@ -168,6 +173,13 @@ export abstract class AbstractPresentationHandler implements PresentationHandler
     this.setValue(selector, funct());
 
     return new EmpObservable<U>(this.getSubject<U>(selector).asObservable());
+  }
+
+
+  clearValues(): void {
+    if (this.initialState) {
+      this.initialState.forEach(x => this.stateItems.set(x.key, new BehaviorSubject(x.value)));
+    }
   }
 
 
