@@ -9,7 +9,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "empiria-budgeting-frontend": {
+    "banobras-pyc-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -33,7 +33,7 @@
               "moment",
               "lodash/cloneDeep"
             ],
-            "outputPath": "dist/empiria-budgeting-frontend",
+            "outputPath": "dist/banobras-pyc-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -87,18 +87,18 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 2025,
-            "buildTarget": "empiria-budgeting-frontend:build"
+            "buildTarget": "banobras-pyc-frontend:build"
           },
           "configurations": {
             "production": {
-              "buildTarget": "empiria-budgeting-frontend:build:production"
+              "buildTarget": "banobras-pyc-frontend:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "empiria-budgeting-frontend:build"
+            "buildTarget": "banobras-pyc-frontend:build"
           }
         },
         "test": {
@@ -122,11 +122,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "empiria-budgeting-frontend:serve"
+            "devServerTarget": "banobras-pyc-frontend:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "empiria-budgeting-frontend:serve:production"
+              "devServerTarget": "banobras-pyc-frontend:serve:production"
             }
           }
         },

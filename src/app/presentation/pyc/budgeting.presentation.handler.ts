@@ -15,8 +15,8 @@ import { BudgetsDataService } from '@app/data-services';
 
 
 export enum SelectorType {
-  BUDGET_TYPES          = 'BP.BudgetPlanning.Selector.BudgetTypes.List',
-  SEGMENT_ITEMS_BY_TYPE = 'BP.BudgetPlanning.Selector.SegmentItemsByType.List',
+  BUDGET_TYPES          = 'PYC.Budgeting.Selector.BudgetTypes.List',
+  SEGMENT_ITEMS_BY_TYPE = 'PYC.Budgeting.Selector.SegmentItemsByType.List',
 }
 
 
@@ -27,7 +27,7 @@ const initialState: StateValues = [
 
 
 @Injectable()
-export class BudgetPlanningPresentationHandler extends AbstractPresentationHandler {
+export class BudgetingPresentationHandler extends AbstractPresentationHandler {
 
   constructor(private data: BudgetsDataService) {
     super({

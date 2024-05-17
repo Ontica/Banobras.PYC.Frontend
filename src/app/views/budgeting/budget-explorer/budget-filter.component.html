@@ -86,14 +86,14 @@
          [style.margin-bottom.rem]="0.5">
           <label>{{segment.segmentName}}:</label>
 
-          <emp-budg-segment-item-selector
+          <emp-budgeting-segment-item-selector
             [formControlName]="segment.segmentID"
             [segmentType]="segment.segmentType"
             [multiple]="segment.multiple"
             [required]="segment.required"
             [showError]="formHelper.isControlInvalid(form.controls[segment.segmentID])">
 
-          </emp-budg-segment-item-selector>
+          </emp-budgeting-segment-item-selector>
 
         </div>
 

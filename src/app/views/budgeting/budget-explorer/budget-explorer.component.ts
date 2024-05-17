@@ -13,20 +13,20 @@ import { BudgetPlanningQueryType, DataTable, DataTableEntry, EmptyDataTable } fr
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BudgetPlanningFilterEventType } from './budget-planning-filter.component';
+import { BudgetFilterEventType } from './budget-filter.component';
 
 import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
 
-export enum BudgetPlanningExplorerEventType {
-  SEARCH_CLICKED = 'BudgetPlanningExplorerComponent.Event.SearchClicked',
-  SELECT_CLICKED = 'BudgetPlanningExplorerComponent.Event.SelectClicked',
+export enum BudgetExplorerEventType {
+  SEARCH_CLICKED = 'BudgetExplorerComponent.Event.SearchClicked',
+  SELECT_CLICKED = 'BudgetExplorerComponent.Event.SelectClicked',
 }
 
 @Component({
-  selector: 'emp-budg-planning-explorer',
-  templateUrl: './budget-planning-explorer.component.html',
+  selector: 'emp-budgeting-budget-explorer',
+  templateUrl: './budget-explorer.component.html',
 })
-export class BudgetPlanningExplorerComponent {
+export class BudgetExplorerComponent {
 
   @Input() queryType: BudgetPlanningQueryType = BudgetPlanningQueryType.All;
 
@@ -38,18 +38,18 @@ export class BudgetPlanningExplorerComponent {
 
   @Input() queryExecuted = false;
 
-  @Output() budgetPlanningExplorerEvent = new EventEmitter<EventInfo>();
+  @Output() budgetExplorerEvent = new EventEmitter<EventInfo>();
 
   titleText = 'Planeación presupuestal';
 
   cardHint = 'Seleccionar los filtros';
 
 
-  onBudgetPlanningFilterEvent(event: EventInfo) {
-    switch (event.type as BudgetPlanningFilterEventType) {
-      case BudgetPlanningFilterEventType.SEARCH_CLICKED:
+  onBudgetFilterEvent(event: EventInfo) {
+    switch (event.type as BudgetFilterEventType) {
+      case BudgetFilterEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        sendEvent(this.budgetPlanningExplorerEvent, BudgetPlanningExplorerEventType.SEARCH_CLICKED,
+        sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
 
@@ -63,7 +63,7 @@ export class BudgetPlanningExplorerComponent {
   onDataTableEvent(event: EventInfo) {
     switch (event.type as DataTableEventType) {
       case DataTableEventType.ENTRY_CLICKED:
-        sendEvent(this.budgetPlanningExplorerEvent, BudgetPlanningExplorerEventType.SELECT_CLICKED,
+        sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
 

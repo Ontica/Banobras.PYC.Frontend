@@ -15,7 +15,7 @@ import { AppStatusPresentationHandler } from './app-data/app-status.presentation
 
 import { AccessControlPresentationHandler } from './security-management/access-control.presentation.handler';
 
-import { BudgetPlanningPresentationHandler } from './budgeting/budget-planning.presentation.handler';
+import { BudgetingPresentationHandler } from './pyc/budgeting.presentation.handler';
 
 
 @NgModule({
@@ -24,12 +24,12 @@ import { BudgetPlanningPresentationHandler } from './budgeting/budget-planning.p
     MainLayoutPresentationHandler,
     AppStatusPresentationHandler,
     AccessControlPresentationHandler,
-    BudgetPlanningPresentationHandler,
+    BudgetingPresentationHandler,
 
     { provide: STATE_HANDLERS, useExisting: MainLayoutPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AppStatusPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AccessControlPresentationHandler, multi: true },
-    { provide: STATE_HANDLERS, useExisting: BudgetPlanningPresentationHandler, multi: true },
+    { provide: STATE_HANDLERS, useExisting: BudgetingPresentationHandler, multi: true },
 
   ]
 

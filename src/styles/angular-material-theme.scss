@@ -9,17 +9,17 @@
 
 // Define the font for your theme
 
-$emp-budg-font-family-primary: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$emp-pyc-font-family-primary: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 
-$emp-budg-text-color: rgb(52, 52, 52);
+$emp-pyc-text-color: rgb(52, 52, 52);
 
 // https: //material.angular.io/guide/typography
-$emp-budg-app-typography: mat.define-typography-config(
-  $font-family: $emp-budg-font-family-primary,
+$emp-pyc-app-typography: mat.define-typography-config(
+  $font-family: $emp-pyc-font-family-primary,
   $button: mat.define-typography-level(9.5pt, 14pt, 400),
 );
 
-$emp-budg-app-foreground: (
+$emp-pyc-app-foreground: (
   base: black,
   divider: rgba(black, 0.12),
   dividers: rgba(black, 0.12),
@@ -42,7 +42,7 @@ $emp-budg-app-foreground: (
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
 
-$emp-budg-primary-palette: (
+$emp-pyc-primary-palette: (
   50: hsl(166, 44%, 75%),
   100: hsl(166, 44%, 60%),
   200: hsl(166, 45%, 50%),
@@ -59,24 +59,24 @@ $emp-budg-primary-palette: (
   A700: hsl(166, 44%, 36%),
 
   contrast: (
-    50: rgba($emp-budg-text-color, 0.8),
-    100: rgba($emp-budg-text-color, 0.8),
-    200: rgba($emp-budg-text-color, 0.8),
-    300: rgba($emp-budg-text-color, 0.8),
-    400: rgba($emp-budg-text-color, 0.8),
+    50: rgba($emp-pyc-text-color, 0.8),
+    100: rgba($emp-pyc-text-color, 0.8),
+    200: rgba($emp-pyc-text-color, 0.8),
+    300: rgba($emp-pyc-text-color, 0.8),
+    400: rgba($emp-pyc-text-color, 0.8),
     500: white,
     600: white,
     700: white,
     800: white,
     900: white,
-    A100: rgba($emp-budg-text-color, 0.8),
-    A200: rgba($emp-budg-text-color, 0.8),
-    A400: rgba($emp-budg-text-color, 0.8),
-    A700: rgba($emp-budg-text-color, 0.8),
+    A100: rgba($emp-pyc-text-color, 0.8),
+    A200: rgba($emp-pyc-text-color, 0.8),
+    A400: rgba($emp-pyc-text-color, 0.8),
+    A700: rgba($emp-pyc-text-color, 0.8),
   )
 );
 
-$emp-budg-accent-palette: (
+$emp-pyc-accent-palette: (
   50: hsl(240, 1%, 84%),
   100: hsl(240, 1%, 78%),
   200: hsl(240, 1%, 72%),
@@ -93,24 +93,24 @@ $emp-budg-accent-palette: (
   A700: hsl(240, 1%, 45%),
 
   contrast: (
-    50: rgba($emp-budg-text-color, 0.8),
-    100: rgba($emp-budg-text-color, 0.8),
-    200: rgba($emp-budg-text-color, 0.8),
-    300: rgba($emp-budg-text-color, 0.8),
-    400: rgba($emp-budg-text-color, 0.8),
+    50: rgba($emp-pyc-text-color, 0.8),
+    100: rgba($emp-pyc-text-color, 0.8),
+    200: rgba($emp-pyc-text-color, 0.8),
+    300: rgba($emp-pyc-text-color, 0.8),
+    400: rgba($emp-pyc-text-color, 0.8),
     500: white,
     600: white,
     700: white,
     800: white,
     900: white,
-    A100: rgba($emp-budg-text-color, 0.8),
-    A200: rgba($emp-budg-text-color, 0.8),
-    A400: rgba($emp-budg-text-color, 0.8),
-    A700: rgba($emp-budg-text-color, 0.8),
+    A100: rgba($emp-pyc-text-color, 0.8),
+    A200: rgba($emp-pyc-text-color, 0.8),
+    A400: rgba($emp-pyc-text-color, 0.8),
+    A700: rgba($emp-pyc-text-color, 0.8),
   )
 );
 
-$emp-budg-warn-palette: (
+$emp-pyc-warn-palette: (
   50: hsl(345, 65%, 88%),
   100: hsl(345, 65%, 78%),
   200: hsl(345, 65%, 68%),
@@ -127,53 +127,53 @@ $emp-budg-warn-palette: (
   A700: hsl(345, 65%, 45%),
 
   contrast: (
-    50: rgba($emp-budg-text-color, 0.8),
-    100: rgba($emp-budg-text-color, 0.8),
-    200: rgba($emp-budg-text-color, 0.8),
-    300: rgba($emp-budg-text-color, 0.8),
-    400: rgba($emp-budg-text-color, 0.8),
+    50: rgba($emp-pyc-text-color, 0.8),
+    100: rgba($emp-pyc-text-color, 0.8),
+    200: rgba($emp-pyc-text-color, 0.8),
+    300: rgba($emp-pyc-text-color, 0.8),
+    400: rgba($emp-pyc-text-color, 0.8),
     500: white,
     600: white,
     700: white,
     800: white,
     900: white,
-    A100: rgba($emp-budg-text-color, 0.8),
-    A200: rgba($emp-budg-text-color, 0.8),
-    A400: rgba($emp-budg-text-color, 0.8),
-    A700: rgba($emp-budg-text-color, 0.8),
+    A100: rgba($emp-pyc-text-color, 0.8),
+    A200: rgba($emp-pyc-text-color, 0.8),
+    A400: rgba($emp-pyc-text-color, 0.8),
+    A700: rgba($emp-pyc-text-color, 0.8),
   )
 );
 
-$emp-budg-app-primary: mat.define-palette($emp-budg-primary-palette, 500);
+$emp-pyc-app-primary: mat.define-palette($emp-pyc-primary-palette, 500);
 
-$emp-budg-app-accent: mat.define-palette($emp-budg-accent-palette, 300, 200, 500);
+$emp-pyc-app-accent: mat.define-palette($emp-pyc-accent-palette, 300, 200, 500);
 
-$emp-budg-app-warn: mat.define-palette($emp-budg-warn-palette, 500);
+$emp-pyc-app-warn: mat.define-palette($emp-pyc-warn-palette, 500);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$emp-budg-app-theme: mat.define-light-theme(
+$emp-pyc-app-theme: mat.define-light-theme(
   (
     color:
     (
-      primary: $emp-budg-app-primary,
-      accent: $emp-budg-app-accent,
-      warn: $emp-budg-app-warn,
-      foreground: $emp-budg-app-foreground, // for some reason this line does not work and it is necessary to overwrite below
+      primary: $emp-pyc-app-primary,
+      accent: $emp-pyc-app-accent,
+      warn: $emp-pyc-app-warn,
+      foreground: $emp-pyc-app-foreground, // for some reason this line does not work and it is necessary to overwrite below
     ),
-    typography: $emp-budg-app-typography,
+    typography: $emp-pyc-app-typography,
     density: 0,
   )
 );
 
 // get color y foreground configuration from the theme
-$app-theme-color: map-get($emp-budg-app-theme, color);
+$app-theme-color: map-get($emp-pyc-app-theme, color);
 
-$app-theme-foreground: map-merge(map-get($app-theme-color, foreground), $emp-budg-app-foreground);
+$app-theme-foreground: map-merge(map-get($app-theme-color, foreground), $emp-pyc-app-foreground);
 
 // overriding color background/foreground
 $app-theme-color: map-merge($app-theme-color, (foreground: $app-theme-foreground));
 
-$emp-budg-app-theme: map-merge($emp-budg-app-theme, (color: $app-theme-color));
+$emp-pyc-app-theme: map-merge($emp-pyc-app-theme, (color: $app-theme-color));
 
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -186,7 +186,7 @@ $emp-budg-app-theme: map-merge($emp-budg-app-theme, (color: $app-theme-color));
 //  If you specify typography styles for the components you use elsewhere, you should delete this line.
 //  If you don't need the default component typographies but still want the hierarchy styles,
 
-@include mat.all-component-typographies($emp-budg-app-typography);
+@include mat.all-component-typographies($emp-pyc-app-typography);
 
 @include mat.core();
 
@@ -194,4 +194,4 @@ $emp-budg-app-theme: map-merge($emp-budg-app-theme, (color: $app-theme-color));
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 
-@include mat.all-component-themes($emp-budg-app-theme);
+@include mat.all-component-themes($emp-pyc-app-theme);

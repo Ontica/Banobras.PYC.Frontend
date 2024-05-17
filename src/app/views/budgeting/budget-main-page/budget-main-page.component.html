@@ -6,15 +6,15 @@
 
   <div class="primary priority" [class.std-hide]="displayTabbedView">
 
-    <emp-budg-planning-explorer
+    <emp-budgeting-budget-explorer
       [queryType]="queryType"
       [data]="data"
       [entrySelected]="entrySelected"
       [isLoading]="isLoading"
       [queryExecuted]="queryExecuted"
-      (budgetPlanningExplorerEvent)="onBudgetPlanningExplorerEvent($event)">
+      (budgetExplorerEvent)="onBudgetExplorerEvent($event)">
 
-    </emp-budg-planning-explorer>
+    </emp-budgeting-budget-explorer>
 
   </div>
 

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 
 import { BudgetWorkspaceRoutingModule } from './budget-workspace-routing.module';
 
-import { BudgetPlanningModule } from '@app/views/budget-planning/budget-planning.module';
+import { BudgetingModule } from '@app/views/budgeting/budgeting.module';
 
 @NgModule({
 
@@ -19,7 +19,7 @@ import { BudgetPlanningModule } from '@app/views/budget-planning/budget-planning
 
     BudgetWorkspaceRoutingModule,
 
-    BudgetPlanningModule,
+    BudgetingModule,
   ]
 
 })

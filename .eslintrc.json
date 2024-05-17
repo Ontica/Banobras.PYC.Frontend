@@ -26,7 +26,9 @@
             "type": "attribute",
             "prefix": [
               "empNg",
-              "empPro"
+              "empBudgeting",
+              "empPayments",
+              "empCashFlow"
             ],
             "style": "camelCase"
           }
@@ -37,7 +39,9 @@
             "type": "element",
             "prefix": [
               "emp-ng",
-              "emp-budg"
+              "emp-budgeting",
+              "emp-payments",
+              "emp-cashflow"
             ],
             "style": "kebab-case"
           }

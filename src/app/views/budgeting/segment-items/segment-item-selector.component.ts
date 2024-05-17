@@ -15,10 +15,10 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { BudgetSegmentItem } from '@app/models';
 
-import { BudgetPlanningStateSelector } from '@app/presentation/exported.presentation.types';
+import { BudgetingStateSelector } from '@app/presentation/exported.presentation.types';
 
 @Component({
-  selector: 'emp-budg-segment-item-selector',
+  selector: 'emp-budgeting-segment-item-selector',
   templateUrl: './segment-item-selector.component.html',
   providers: [
     {
@@ -128,7 +128,7 @@ export class SegmentItemSelectorComponent implements OnInit, OnDestroy {
   private getSegmentItemsByType() {
     this.isLoading = true;
 
-    this.helper.select<BudgetSegmentItem[]>(BudgetPlanningStateSelector.SEGMENT_ITEMS_BY_TYPE,
+    this.helper.select<BudgetSegmentItem[]>(BudgetingStateSelector.SEGMENT_ITEMS_BY_TYPE,
       {segmentType: this.segmentType})
       .subscribe(x => {
         this.segmentItems = x.map(x => this.mapBudgetSegmentItemToIdentifiable(x));

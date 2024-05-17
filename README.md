@@ -1,8 +1,8 @@
-# Empiria Budgeting Frontend Web Application
+# Banobras PYC Frontend Web Application
 
 ## Overview
 
-Angular-based front-end application for the Empiria Budgeting System.
+Angular-based front-end application for the Banobras PYC System.
 
 ## Quick start
 
@@ -26,10 +26,10 @@ After that, please download and install this repo:
 
 ```bash
 # clone (or fork) this repo
-git clone https://github.com/Ontica/Empiria.Budgeting.Frontend
+git clone https://github.com/Ontica/Banobras.PYC.Frontend
 
 # change directory
-cd Empiria.Budgeting.Frontend
+cd Banobras.PYC.Frontend
 
 
 # install the repo with npm

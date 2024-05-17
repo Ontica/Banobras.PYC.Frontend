@@ -13,7 +13,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { BudgetPlanningStateSelector } from '@app/presentation/exported.presentation.types';
+import { BudgetingStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -21,11 +21,11 @@ import { expandCollapse } from '@app/shared/animations/animations';
 
 import { Budget, BudgetPlanningQuery, BudgetSegmentQuery, BudgetSegmentType, BudgetType } from '@app/models';
 
-export enum BudgetPlanningFilterEventType {
-  SEARCH_CLICKED = 'BudgetPlanningFilterComponent.Event.SearchClicked',
+export enum BudgetFilterEventType {
+  SEARCH_CLICKED = 'BudgetFilterComponent.Event.SearchClicked',
 }
 
-interface BudgetPlanningFilterFormModel extends FormGroup<{
+interface BudgetFilterFormModel extends FormGroup<{
   budgetTypeUID: FormControl<string>;
   budgetUID: FormControl<string>;
   budgetView: FormControl<string>;
@@ -41,17 +41,17 @@ export interface SegmentFormData {
 }
 
 @Component({
-  selector: 'emp-budg-planning-filter',
-  templateUrl: './budget-planning-filter.component.html',
+  selector: 'emp-budgeting-budget-filter',
+  templateUrl: './budget-filter.component.html',
   animations: [expandCollapse],
 })
-export class BudgetPlanningFilterComponent implements OnInit, OnDestroy {
+export class BudgetFilterComponent implements OnInit, OnDestroy {
 
   @Input() queryExecuted: boolean = false;
 
-  @Output() budgetPlanningFilterEvent = new EventEmitter<EventInfo>();
+  @Output() budgetFilterEvent = new EventEmitter<EventInfo>();
 
-  form: BudgetPlanningFilterFormModel;
+  form: BudgetFilterFormModel;
 
   formHelper = FormHelper;
 
@@ -109,7 +109,7 @@ export class BudgetPlanningFilterComponent implements OnInit, OnDestroy {
         query: this.getFormData(),
       };
 
-      sendEvent(this.budgetPlanningFilterEvent, BudgetPlanningFilterEventType.SEARCH_CLICKED, payload);
+      sendEvent(this.budgetFilterEvent, BudgetFilterEventType.SEARCH_CLICKED, payload);
     }
   }
 
@@ -136,7 +136,7 @@ export class BudgetPlanningFilterComponent implements OnInit, OnDestroy {
   private loadDataLists() {
     this.isLoading = true;
 
-    this.helper.select<BudgetType[]>(BudgetPlanningStateSelector.BUDGET_TYPES)
+    this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES)
       .subscribe(x => {
         this.budgetTypesList = x;
         this.isLoading = x.length === 0;

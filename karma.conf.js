@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/empiria-budgeting-frontend'),
+      dir: require('path').join(__dirname, './coverage/banobras-pyc-frontend'),
       subdir: '.',
       reporters: [
         { type: 'html' },

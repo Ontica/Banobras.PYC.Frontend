@@ -14,9 +14,9 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
-import { BudgetPlanningMainPageComponent } from './budget-planning-main-page/budget-planning-main-page.component';
-import { BudgetPlanningExplorerComponent } from './budget-planning-explorer/budget-planning-explorer.component';
-import { BudgetPlanningFilterComponent } from './budget-planning-explorer/budget-planning-filter.component';
+import { BudgetMainPageComponent } from './budget-main-page/budget-main-page.component';
+import { BudgetExplorerComponent } from './budget-explorer/budget-explorer.component';
+import { BudgetFilterComponent } from './budget-explorer/budget-filter.component';
 import { SegmentItemSelectorComponent } from './segment-items/segment-item-selector.component';
 
 @NgModule({
@@ -31,13 +31,13 @@ import { SegmentItemSelectorComponent } from './segment-items/segment-item-selec
     ReportsControlsModule,
   ],
   declarations: [
-    BudgetPlanningMainPageComponent,
-    BudgetPlanningExplorerComponent,
-    BudgetPlanningFilterComponent,
+    BudgetMainPageComponent,
+    BudgetExplorerComponent,
+    BudgetFilterComponent,
     SegmentItemSelectorComponent,
   ],
   exports: [
-    BudgetPlanningMainPageComponent,
+    BudgetMainPageComponent,
   ]
 })
-export class BudgetPlanningModule { }
+export class BudgetingModule { }

@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BudgetPlanningExplorerComponent } from './budget-planning-explorer.component';
+import { BudgetExplorerComponent } from './budget-explorer.component';
 
-describe('BudgetPlanningExplorerComponent', () => {
-  let component: BudgetPlanningExplorerComponent;
-  let fixture: ComponentFixture<BudgetPlanningExplorerComponent>;
+describe('BudgetExplorerComponent', () => {
+  let component: BudgetExplorerComponent;
+  let fixture: ComponentFixture<BudgetExplorerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BudgetPlanningExplorerComponent]
+      declarations: [BudgetExplorerComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BudgetPlanningExplorerComponent);
+    fixture = TestBed.createComponent(BudgetExplorerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

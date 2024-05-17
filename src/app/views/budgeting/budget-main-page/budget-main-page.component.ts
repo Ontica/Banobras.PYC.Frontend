@@ -14,13 +14,13 @@ import { MessageBoxService } from '@app/shared/containers/message-box';
 import { BudgetPlanningQueryType, DataTable, DataTableEntry, DataTableQuery,
          EmptyDataTable } from '@app/models';
 
-import { BudgetPlanningExplorerEventType } from '../budget-planning-explorer/budget-planning-explorer.component';
+import { BudgetExplorerEventType } from '../budget-explorer/budget-explorer.component';
 
 @Component({
-  selector: 'emp-budg-planning-main-page',
-  templateUrl: './budget-planning-main-page.component.html',
+  selector: 'emp-budgeting-budget-main-page',
+  templateUrl: './budget-main-page.component.html',
 })
-export class BudgetPlanningMainPageComponent {
+export class BudgetMainPageComponent {
 
   queryType: BudgetPlanningQueryType = BudgetPlanningQueryType.All;
 
@@ -44,14 +44,14 @@ export class BudgetPlanningMainPageComponent {
   }
 
 
-  onBudgetPlanningExplorerEvent(event: EventInfo) {
-    switch (event.type as BudgetPlanningExplorerEventType) {
-      case BudgetPlanningExplorerEventType.SEARCH_CLICKED:
+  onBudgetExplorerEvent(event: EventInfo) {
+    switch (event.type as BudgetExplorerEventType) {
+      case BudgetExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.messageBox.showInDevelopment('Consulta de presupuesto', event.payload.query);
         return;
 
-      case BudgetPlanningExplorerEventType.SELECT_CLICKED:
+      case BudgetExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.entry, ' event.payload.entry');
         this.messageBox.showInDevelopment('Seleccion de partida de presupuesto', event.payload.entry);
         return;

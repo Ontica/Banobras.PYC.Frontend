@@ -1,14 +1,14 @@
 {
-  "name": "empiria-budgeting-frontend",
+  "name": "banobras-pyc-frontend",
   "author": "La Vía Óntica SC, Ontica LLC and contributors.",
   "version": "2.0",
-  "description": "Empiria Budgeting Frontend Application",
+  "description": "Banobras PYC Frontend Application",
   "license": "AGPL-3.0",
   "homepage": "http://ontica.org",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ontica/Empiria.Budgeting.Frontend"
+    "url": "https://github.com/Ontica/Banobras.PYC.Frontend"
   },
   "contributors": [
     "Janeth Montero <janeth.montero@ontica.org>",

@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BudgetPlanningMainPageComponent } from './budget-planning-main-page.component';
+import { BudgetFilterComponent } from './budget-filter.component';
 
-describe('BudgetPlanningMainPageComponent', () => {
-  let component: BudgetPlanningMainPageComponent;
-  let fixture: ComponentFixture<BudgetPlanningMainPageComponent>;
+describe('BudgetFilterComponent', () => {
+  let component: BudgetFilterComponent;
+  let fixture: ComponentFixture<BudgetFilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BudgetPlanningMainPageComponent]
+      declarations: [BudgetFilterComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BudgetPlanningMainPageComponent);
+    fixture = TestBed.createComponent(BudgetFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
