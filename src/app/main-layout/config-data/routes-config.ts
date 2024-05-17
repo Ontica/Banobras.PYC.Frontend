@@ -84,18 +84,18 @@ export const ROUTES = {
     fullpath: '/presupuesto/control',
   },
 
-  presupuesto_ingresos: {
+  presupuesto_comprometido: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'presupuesto',
-    path: 'ingresos',
-    fullpath: '/presupuesto/ingresos',
+    path: 'comprometido',
+    fullpath: '/presupuesto/comprometido',
   },
 
-  presupuesto_egresos: {
+  presupuesto_ejercido: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'presupuesto',
-    path: 'egresos',
-    fullpath: '/presupuesto/egresos',
+    path: 'ejercido',
+    fullpath: '/presupuesto/ejercido',
   },
 
   presupuesto_reportes: {

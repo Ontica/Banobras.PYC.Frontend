@@ -28,13 +28,13 @@ const routes: Routes = [
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.presupuesto_ingresos.permission },
-    path: ROUTES.presupuesto_ingresos.path,
+    data: { permission: ROUTES.presupuesto_comprometido.permission },
+    path: ROUTES.presupuesto_comprometido.path,
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.presupuesto_egresos.permission },
-    path: ROUTES.presupuesto_egresos.path,
+    data: { permission: ROUTES.presupuesto_ejercido.permission },
+    path: ROUTES.presupuesto_ejercido.path,
     component: DefaultComponent,
   },
   {
