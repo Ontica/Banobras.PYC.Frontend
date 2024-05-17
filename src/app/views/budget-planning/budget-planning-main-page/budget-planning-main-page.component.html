@@ -1,0 +1,25 @@
+<emp-ng-spinner #spinner [visible]="isLoadingSelection">
+
+</emp-ng-spinner>
+
+<div class="explorer">
+
+  <div class="primary priority" [class.std-hide]="displayTabbedView">
+
+    <emp-budg-planning-explorer
+      [queryType]="queryType"
+      [data]="data"
+      [entrySelected]="entrySelected"
+      [isLoading]="isLoading"
+      [queryExecuted]="queryExecuted"
+      (budgetPlanningExplorerEvent)="onBudgetPlanningExplorerEvent($event)">
+
+    </emp-budg-planning-explorer>
+
+  </div>
+
+  <div class="secondary" *ngIf="displayTabbedView">
+
+  </div>
+
+</div>

@@ -13,6 +13,10 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
+import {
+  BudgetPlanningMainPageComponent
+} from '@app/views/budget-planning/budget-planning-main-page/budget-planning-main-page.component';
+
 
 const routes: Routes = [
   {
@@ -38,7 +42,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.presupuesto_planeacion.permission },
     path: ROUTES.presupuesto_planeacion.path,
-    component: DefaultComponent,
+    component: BudgetPlanningMainPageComponent,
   },
   {
     data: { permission: ROUTES.presupuesto_reportes.permission },

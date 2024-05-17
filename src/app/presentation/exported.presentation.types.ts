@@ -15,6 +15,9 @@ export * from './app-data/_app-data.presentation.types';
 import { SMSelectors } from './security-management/_security.management.presentation.types';
 export * from './security-management/_security.management.presentation.types';
 
+import { BPSelectors } from './budgeting/_budgeting.presentation.types';
+export * from './budgeting/_budgeting.presentation.types';
+
 
 /* Exportation types */
 
@@ -24,4 +27,4 @@ export type CommandType = '';
 
 export type StateEffect = '';
 
-export type StateSelector = MainLayoutSelectors | AppStatusSelectors | SMSelectors;
+export type StateSelector = MainLayoutSelectors | AppStatusSelectors | SMSelectors | BPSelectors;

@@ -1,0 +1,15 @@
+<emp-ng-select
+  [name]="segmentType"
+  [config]="{
+    multiple: multiple,
+    clearable: multiple || !required,
+    virtualScroll: segmentItems.length > 50
+  }"
+  [ngModel]="value"
+  [items]="segmentItems"
+  [placeholder]="required ? 'Seleccionar' : 'Todos'"
+  [loading]="isLoading"
+  [showError]="showError"
+  (changes)="onSelectChange($event)">
+
+</emp-ng-select>

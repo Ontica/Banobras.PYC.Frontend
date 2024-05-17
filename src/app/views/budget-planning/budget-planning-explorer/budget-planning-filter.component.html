@@ -1,0 +1,137 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section form-container">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+      <div class="fx-item-quarter sm-fx-item">
+
+        <label>Tipo de presupuesto:</label>
+
+        <emp-ng-select
+          formControlName="budgetTypeUID"
+          [items]="budgetTypesList"
+          [config]="{selectFirst: true}"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
+          (changes)="onBudgetTypeChanged($event)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter sm-fx-item">
+
+        <label>Presupuesto:</label>
+
+        <emp-ng-select
+          formControlName="budgetUID"
+          [items]="budgetsList"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item sm-fx-item">
+
+        <label>Agrupación:</label>
+
+        <emp-ng-select
+          formControlName="budgetView"
+          [config]="{multiple: true, clearable: true}"
+          [items]="budgetViewsList"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetView)">
+        </emp-ng-select>
+
+      </div>
+
+      <div #filterOptionsSection class="fx-item-none fx-items-start" [style.paddingTop.px]="13">
+
+        <button title="Buscar"
+          [class.btn-icon-action]="this.form.valid"
+          [class.btn-icon]="!this.form.valid"
+          (click)="onSearchClicked()">
+
+          <mat-icon>search</mat-icon>
+
+        </button>
+
+        <mat-divider vertical="true" class="vertical-slim">
+
+        </mat-divider>
+
+        <button class="btn-base"
+          [style.width.px]="100"
+          (click)="onShowFiltersClicked()" >
+          {{showFilters ? 'Ocultar' :'Mostrar'}} <mat-icon>filter_list</mat-icon>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="showFilters" [@expandCollapse]>
+
+      <mat-divider class="horizontal-md">
+
+      </mat-divider>
+
+      <div *ngIf="segmentsToDisplay.length === 0" class="text-not-found">
+        Seleccione el tipo de presupuesto.
+      </div>
+
+      <div class="fx-row-container fx-wrap">
+
+        <div *ngFor="let segment of segmentsToDisplay"
+         class="fx-item-half sm-fx-item"
+         [style.margin-bottom.rem]="0.5">
+          <label>{{segment.segmentName}}:</label>
+
+          <emp-budg-segment-item-selector
+            [formControlName]="segment.segmentID"
+            [segmentType]="segment.segmentType"
+            [multiple]="segment.multiple"
+            [required]="segment.required"
+            [showError]="formHelper.isControlInvalid(form.controls[segment.segmentID])">
+
+          </emp-budg-segment-item-selector>
+
+        </div>
+
+      </div>
+
+      <ng-container #clearFilterSection>
+
+        <mat-divider class="horizontal">
+
+        </mat-divider>
+
+        <div class="fx-row-container fx-end fx-items-end">
+
+          <mat-divider vertical="true" class="vertical-inline">
+
+          </mat-divider>
+
+          <div class="fx-item-none">
+
+            <button class="btn-base"
+              [style.width.px]="100"
+              (click)="onClearFilters()">
+              Limpiar <mat-icon>filter_list</mat-icon>
+            </button>
+
+          </div>
+
+        </div>
+
+      </ng-container>
+
+    </div>
+
+  </div>
+
+</form>
+
+
+<mat-divider>
+
+</mat-divider>

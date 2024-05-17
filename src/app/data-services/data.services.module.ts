@@ -13,12 +13,16 @@ import { FileDownloadService } from './file-services/file-download.service';
 
 import { getSaver, SAVER } from './file-services/saver.provider';
 
+import { BudgetsDataService } from './budgets.data.service';
+
 
 @NgModule({
 
   providers: [
     AccessControlDataService,
     FileDownloadService,
+
+    BudgetsDataService,
 
     { provide: SAVER, useFactory: getSaver }
   ]
