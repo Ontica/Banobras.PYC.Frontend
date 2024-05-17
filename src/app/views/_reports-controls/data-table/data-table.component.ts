@@ -107,6 +107,11 @@ export class DataTableComponent implements OnChanges {
   }
 
 
+  get hasColumns(): boolean {
+    return this.columns.length > 0;
+  }
+
+
   get entriesTotal(): number {
     return this.countOnlyEntries ?
       this.dataTable.entries.filter(x => EntryItemTypeList.includes(x.itemType)).length :
