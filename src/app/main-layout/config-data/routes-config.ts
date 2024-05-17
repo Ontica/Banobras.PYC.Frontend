@@ -22,15 +22,15 @@ export const ROUTES = {
   pagos: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: '',
-    path: 'pagos-a-proveedores',
-    fullpath: '/pagos-a-proveedores',
+    path: 'pagos',
+    fullpath: '/pagos',
   },
 
-  reportes: {
+  flujo_de_efectivo: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: '',
-    path: 'reportes',
-    fullpath: '/reportes',
+    path: 'flujo-de-efectivo',
+    fullpath: '/flujo-de-efectivo',
   },
 
   reglas_y_catalogos: {
@@ -63,6 +63,13 @@ export const ROUTES = {
 
   // #region budget-routing module
 
+  presupuesto_solicitudes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'presupuesto',
+    path: 'solicitudes',
+    fullpath: '/presupuesto/solicitudes',
+  },
+
   presupuesto_planeacion: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'presupuesto',
@@ -91,68 +98,82 @@ export const ROUTES = {
     fullpath: '/presupuesto/egresos',
   },
 
-  presupuesto_solicitudes: {
+  presupuesto_reportes: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'presupuesto',
-    path: 'solicitudes',
-    fullpath: '/presupuesto/solicitudes',
+    path: 'reportes',
+    fullpath: '/presupuesto/reportes',
   },
 
   // #endregion
 
   // #region payments-routing module
 
+  pagos_solicitudes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'pagos',
+    path: 'solicitudes',
+    fullpath: '/pagos/solicitudes',
+  },
+
   pagos_comprometidos: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos-a-proveedores',
+    parent: 'pagos',
     path: 'comprometidos',
-    fullpath: '/pagos-a-proveedores/comprometidos',
+    fullpath: '/pagos/comprometidos',
   },
 
   pagos_programados: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos-a-proveedores',
+    parent: 'pagos',
     path: 'programados',
-    fullpath: '/pagos-a-proveedores/programados',
+    fullpath: '/pagos/programados',
   },
 
   pagos_realizados: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos-a-proveedores',
+    parent: 'pagos',
     path: 'realizados',
-    fullpath: '/pagos-a-proveedores/realizados',
+    fullpath: '/pagos/realizados',
   },
 
   pagos_contratos: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos-a-proveedores',
+    parent: 'pagos',
     path: 'contratos',
-    fullpath: '/pagos-a-proveedores/contratos',
+    fullpath: '/pagos/contratos',
+  },
+
+  pagos_reportes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'pagos',
+    path: 'reportes',
+    fullpath: '/pagos/reportes',
   },
 
   // #endregion
 
   // #region reporting-routing module
 
-  reportes_financieros: {
+  flujo_de_efectivo_codificacion: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'reportes',
-    path: 'financieros',
-    fullpath: '/reportes/financieros',
+    parent: 'flujo-de-efectivo',
+    path: 'codificacion',
+    fullpath: '/flujo-de-efectivo/codificacion',
   },
 
-  reportes_regulatorios: {
+  flujo_de_efectivo_reglas: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'reportes',
-    path: 'regulatorios',
-    fullpath: '/reportes/regulatorios',
+    parent: 'flujo-de-efectivo',
+    path: 'reglas',
+    fullpath: '/flujo-de-efectivo/reglas',
   },
 
-  reportes_operativos: {
+  flujo_de_efectivo_reportes: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'reportes',
-    path: 'operativos',
-    fullpath: '/reportes/operativos',
+    parent: 'flujo-de-efectivo',
+    path: 'reportes',
+    fullpath: '/flujo-de-efectivo/reportes',
   },
 
   //#endregion

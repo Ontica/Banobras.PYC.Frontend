@@ -13,7 +13,7 @@ import {
   BudgetViews,
   CataloguesAndRulesViews,
   PaymentsViews,
-  ReportingViews,
+  CashFlowViews,
   SystemManagementViews,
   UnauthorizedViews,
 } from './views-config';
@@ -23,7 +23,7 @@ export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
                                                           BudgetViews,
                                                           CataloguesAndRulesViews,
                                                           PaymentsViews,
-                                                          ReportingViews);
+                                                          CashFlowViews);
 
 
 export const APP_LAYOUTS: Layout[] = [
@@ -36,6 +36,14 @@ export const APP_LAYOUTS: Layout[] = [
     permission: ROUTES.presupuesto.permission,
   },
   {
+    name: 'CashFlow',
+    views: CashFlowViews,
+    hint: 'Flujo de efectivo',
+    defaultTitle: 'Flujo de efectivo',
+    url: ROUTES.flujo_de_efectivo.fullpath,
+    permission: ROUTES.flujo_de_efectivo.permission,
+  },
+  {
     name: 'Payments',
     views: PaymentsViews,
     hint: 'Pagos',
@@ -43,14 +51,6 @@ export const APP_LAYOUTS: Layout[] = [
     url: ROUTES.pagos.fullpath,
     permission: ROUTES.pagos.permission,
 
-  },
-  {
-    name: 'Reporting',
-    views: ReportingViews,
-    hint: 'Reportes',
-    defaultTitle: 'Reportes',
-    url: ROUTES.reportes.fullpath,
-    permission: ROUTES.reportes.permission,
   },
   {
     name: 'CataloguesAndRules',

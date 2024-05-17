@@ -8,15 +8,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { BudgetWorkspaceRoutingModule } from './budget-workspace-routing.module';
+import { CashFlowWorkspaceRoutingModule } from './cash-flow-workspace-routing.module';
+
 
 @NgModule({
 
   imports: [
     CommonModule,
 
-    BudgetWorkspaceRoutingModule,
-  ]
+    CashFlowWorkspaceRoutingModule,
+  ],
+
+  declarations: [
+
+  ],
 
 })
-export class BudgetWorkspaceModule { }
+export class CashFlowWorkspaceModule { }

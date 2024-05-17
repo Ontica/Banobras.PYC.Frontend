@@ -53,7 +53,7 @@
       </div>
 
       <div *ngIf="fileControlConfig.tagRequired" class="file-tag-container">
-        <div class="tag tag-info tag-small" *ngIf="file.uid && file.tag">{{file.tag}}</div>
+        <div class="tag tag-success tag-small" *ngIf="file.uid && file.tag">{{file.tag}}</div>
 
         <emp-ng-select name="tag" *ngIf="!file.uid"
           bindLabel="name"

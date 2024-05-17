@@ -16,23 +16,23 @@ import { DefaultComponent } from '@app/shared/components/default-component/defau
 
 const routes: Routes = [
   {
-    data: { permission: ROUTES.reportes_financieros.permission },
-    path: ROUTES.reportes_financieros.path,
+    data: { permission: ROUTES.flujo_de_efectivo_codificacion.permission },
+    path: ROUTES.flujo_de_efectivo_codificacion.path,
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.reportes_regulatorios.permission },
-    path: ROUTES.reportes_regulatorios.path,
+    data: { permission: ROUTES.flujo_de_efectivo_reglas.permission },
+    path: ROUTES.flujo_de_efectivo_reglas.path,
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.reportes_operativos.permission },
-    path: ROUTES.reportes_operativos.path,
+    data: { permission: ROUTES.flujo_de_efectivo_reportes.permission },
+    path: ROUTES.flujo_de_efectivo_reportes.path,
     component: DefaultComponent,
   },
   {
     path: '',
-    redirectTo: ROUTES.reportes_financieros.path,
+    redirectTo: ROUTES.flujo_de_efectivo_codificacion.path,
     pathMatch: 'full',
   },
 ];
@@ -42,4 +42,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ReportingWorkspaceRoutingModule { }
+export class CashFlowWorkspaceRoutingModule { }

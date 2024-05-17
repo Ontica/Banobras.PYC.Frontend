@@ -33,13 +33,13 @@ const routes: Routes = [
       .then((m) => m.PaymentsWorkspaceModule)
   },
   {
-    data: { permission: ROUTES.reportes.permission },
-    path: ROUTES.reportes.path,
+    data: { permission: ROUTES.flujo_de_efectivo.permission },
+    path: ROUTES.flujo_de_efectivo.path,
     component: MainLayoutComponent,
     canActivate: [ParentRouteGuard],
     canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/reporting/reporting-workspace.module')
-      .then((m) => m.ReportingWorkspaceModule)
+    loadChildren: () => import('./workspaces/cash-flow/cash-flow-workspace.module')
+      .then((m) => m.CashFlowWorkspaceModule)
   },
   {
     data: { permission: ROUTES.reglas_y_catalogos.permission },

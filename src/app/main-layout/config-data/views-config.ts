@@ -12,10 +12,11 @@ import { View } from '../common-models/common';
 
 export const BudgetViews: View[] = [
   {
-    name: 'Budget.Planning',
-    title: 'Planeación',
-    url: ROUTES.presupuesto_planeacion.fullpath,
-    permission: ROUTES.presupuesto_planeacion.permission,
+    name: 'Budget.Applications',
+    title: 'Solicitudes',
+    menuTitle: 'Solicitudes',
+    url: ROUTES.presupuesto_solicitudes.fullpath,
+    permission: ROUTES.presupuesto_solicitudes.permission,
   },
   {
     name: 'Budget.Control',
@@ -39,16 +40,29 @@ export const BudgetViews: View[] = [
     permission: ROUTES.presupuesto_egresos.permission,
   },
   {
-    name: 'Budget.Applications',
-    title: 'Solicitudes',
-    menuTitle: 'Solicitudes',
-    url: ROUTES.presupuesto_solicitudes.fullpath,
-    permission: ROUTES.presupuesto_solicitudes.permission,
+    name: 'Budget.Planning',
+    title: 'Planeación',
+    url: ROUTES.presupuesto_planeacion.fullpath,
+    permission: ROUTES.presupuesto_planeacion.permission,
+  },
+  {
+    name: 'Budget.Reporting',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.presupuesto_reportes.fullpath,
+    permission: ROUTES.presupuesto_reportes.permission,
   }
 ];
 
 
 export const PaymentsViews: View[] = [
+  {
+    name: 'Payments.Applications',
+    title: 'Solicitudes',
+    menuTitle: 'Solicitudes',
+    url: ROUTES.pagos_solicitudes.fullpath,
+    permission: ROUTES.pagos_solicitudes.permission,
+  },
   {
     name: 'Payments.Committed',
     title: 'Comprometidos',
@@ -76,29 +90,36 @@ export const PaymentsViews: View[] = [
     url: ROUTES.pagos_contratos.fullpath,
     permission: ROUTES.pagos_contratos.permission,
   },
+  {
+    name: 'Payments.Reporting',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.pagos_reportes.fullpath,
+    permission: ROUTES.pagos_reportes.permission,
+  },
 ];
 
 
-export const ReportingViews: View[] = [
+export const CashFlowViews: View[] = [
   {
-    name: 'Reporting.Financial',
-    title: 'Financieros',
-    url: ROUTES.reportes_financieros.fullpath,
-    permission: ROUTES.reportes_financieros.permission,
+    name: 'CashFlow.Coding',
+    title: 'Codificación',
+    url: ROUTES.flujo_de_efectivo_codificacion.fullpath,
+    permission: ROUTES.flujo_de_efectivo_codificacion.permission,
   },
   {
-    name: 'Reporting.Regulatory',
-    title: 'Regulatorios',
-    menuTitle: 'Regulatorios',
-    url: ROUTES.reportes_regulatorios.fullpath,
-    permission: ROUTES.reportes_regulatorios.permission,
+    name: 'CashFlow.Rules',
+    title: 'Reglas',
+    menuTitle: 'Reglas',
+    url: ROUTES.flujo_de_efectivo_reglas.fullpath,
+    permission: ROUTES.flujo_de_efectivo_reglas.permission,
   },
   {
-    name: 'Reporting.Operational',
-    title: 'Operativos',
-    menuTitle: 'Operativos',
-    url: ROUTES.reportes_operativos.fullpath,
-    permission: ROUTES.reportes_operativos.permission,
+    name: 'CashFlow.Reports',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.flujo_de_efectivo_reportes.fullpath,
+    permission: ROUTES.flujo_de_efectivo_reportes.permission,
   },
 ];
 

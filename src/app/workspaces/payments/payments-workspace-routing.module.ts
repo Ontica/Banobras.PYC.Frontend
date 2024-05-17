@@ -16,6 +16,11 @@ import { DefaultComponent } from '@app/shared/components/default-component/defau
 
 const routes: Routes = [
   {
+    data: { permission: ROUTES.pagos_solicitudes.permission },
+    path: ROUTES.pagos_solicitudes.path,
+    component: DefaultComponent,
+  },
+  {
     data: { permission: ROUTES.pagos_comprometidos.permission },
     path: ROUTES.pagos_comprometidos.path,
     component: DefaultComponent,
@@ -36,8 +41,13 @@ const routes: Routes = [
     component: DefaultComponent,
   },
   {
+    data: { permission: ROUTES.pagos_reportes.permission },
+    path: ROUTES.pagos_reportes.path,
+    component: DefaultComponent,
+  },
+  {
     path: '',
-    redirectTo: ROUTES.pagos_comprometidos.path,
+    redirectTo: ROUTES.pagos_solicitudes.path,
     pathMatch: 'full',
   },
 ];

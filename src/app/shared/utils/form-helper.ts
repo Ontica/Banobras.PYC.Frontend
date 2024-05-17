@@ -31,7 +31,7 @@ export class FormHelper {
 
   static markFormControlsAsTouched(form: FormGroup<any>) {
     Object.keys(form.controls).forEach(key => {
-      const control = form.get(key);
+      const control = form.controls[key];
       control.markAsTouched({ onlySelf: true });
     });
   }

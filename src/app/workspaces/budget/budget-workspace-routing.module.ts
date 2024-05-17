@@ -16,8 +16,8 @@ import { DefaultComponent } from '@app/shared/components/default-component/defau
 
 const routes: Routes = [
   {
-    data: { permission: ROUTES.presupuesto_planeacion.permission },
-    path: ROUTES.presupuesto_planeacion.path,
+    data: { permission: ROUTES.presupuesto_solicitudes.permission },
+    path: ROUTES.presupuesto_solicitudes.path,
     component: DefaultComponent,
   },
   {
@@ -36,13 +36,18 @@ const routes: Routes = [
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.presupuesto_solicitudes.permission },
-    path: ROUTES.presupuesto_solicitudes.path,
+    data: { permission: ROUTES.presupuesto_planeacion.permission },
+    path: ROUTES.presupuesto_planeacion.path,
+    component: DefaultComponent,
+  },
+  {
+    data: { permission: ROUTES.presupuesto_reportes.permission },
+    path: ROUTES.presupuesto_reportes.path,
     component: DefaultComponent,
   },
   {
     path: '',
-    redirectTo: ROUTES.presupuesto_planeacion.path,
+    redirectTo: ROUTES.presupuesto_solicitudes.path,
     pathMatch: 'full',
   },
 ];
