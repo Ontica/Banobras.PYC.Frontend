@@ -5,11 +5,11 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { BudgetPlanningQueryType, DataTable, DataTableEntry, EmptyDataTable } from '@app/models';
+import { BudgetData, BudgetEntry, BudgetQueryType, EmptyBudgetData } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -19,6 +19,8 @@ import { DataTableEventType } from '@app/views/_reports-controls/data-table/data
 
 export enum BudgetExplorerEventType {
   SEARCH_CLICKED = 'BudgetExplorerComponent.Event.SearchClicked',
+  CLEAR_CLICKED  = 'BudgetExplorerComponent.Event.ClearClicked',
+  EXPORT_CLICKED = 'BudgetExplorerComponent.Event.ExportClicked',
   SELECT_CLICKED = 'BudgetExplorerComponent.Event.SelectClicked',
 }
 
@@ -26,13 +28,13 @@ export enum BudgetExplorerEventType {
   selector: 'emp-budgeting-budget-explorer',
   templateUrl: './budget-explorer.component.html',
 })
-export class BudgetExplorerComponent {
+export class BudgetExplorerComponent implements OnChanges {
 
-  @Input() queryType: BudgetPlanningQueryType = BudgetPlanningQueryType.All;
+  @Input() queryType: BudgetQueryType = BudgetQueryType.planning;
 
-  @Input() data: DataTable = EmptyDataTable;
+  @Input() data: BudgetData = Object.assign({}, EmptyBudgetData);
 
-  @Input() entrySelected: DataTableEntry = null;
+  @Input() entrySelected: BudgetEntry = null;
 
   @Input() isLoading = false;
 
@@ -45,11 +47,24 @@ export class BudgetExplorerComponent {
   cardHint = 'Seleccionar los filtros';
 
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.data) {
+      this.setText();
+    }
+  }
+
+
   onBudgetFilterEvent(event: EventInfo) {
     switch (event.type as BudgetFilterEventType) {
       case BudgetFilterEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.SEARCH_CLICKED,
+          event.payload);
+        return;
+
+      case BudgetFilterEventType.CLEAR_CLICKED:
+        Assertion.assertValue(event.payload.query, 'event.payload.query');
+        sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.CLEAR_CLICKED,
           event.payload);
         return;
 
@@ -67,10 +82,24 @@ export class BudgetExplorerComponent {
           event.payload);
         return;
 
+      case DataTableEventType.EXPORT_DATA:
+        sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.EXPORT_CLICKED);
+        return;
+
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private setText() {
+    if (!this.queryExecuted) {
+      this.cardHint = 'Seleccionar los filtros';
+      return;
+    }
+
+    this.cardHint = `${this.data.entries.length} registros encontrados`;
   }
 
 }

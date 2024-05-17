@@ -7,10 +7,8 @@
 
 import { Identifiable } from "@app/core";
 
+import { DataTable, DataTableColumn, DataTableEntry } from "./_data-table";
 
-export enum BudgetPlanningQueryType {
-  All = 'all'
-}
 
 export interface BudgetType {
   uid: string;
@@ -46,11 +44,17 @@ export interface BudgetSegmentItem {
 }
 
 
-export interface BudgetPlanningQuery {
+export enum BudgetQueryType {
+  planning = 'planning',
+};
+
+
+export interface BudgetQuery {
+  queryType: BudgetQueryType;
   budgetTypeUID: string;
   budgetUID: string;
-  budgetView: string;
-  segments: BudgetSegmentQuery[];
+  groupBy: string[];
+  filterBy: BudgetSegmentQuery[];
 }
 
 
@@ -58,3 +62,31 @@ export interface BudgetSegmentQuery {
   segmentUID: string;
   segmentItemsUID: string[];
 }
+
+
+export interface BudgetData extends DataTable {
+  query: BudgetQuery;
+  columns: DataTableColumn[];
+  entries: BudgetEntry[];
+}
+
+
+export interface BudgetEntry extends DataTableEntry {
+  uid: string;
+}
+
+
+export const EmptyBudgetQuery: BudgetQuery = {
+  queryType: null,
+  budgetTypeUID: '',
+  budgetUID: '',
+  groupBy: [],
+  filterBy: [],
+};
+
+
+export const EmptyBudgetData: BudgetData = {
+  query: EmptyBudgetQuery,
+  columns: [],
+  entries: [],
+};

@@ -28,12 +28,12 @@
       </emp-ng-spinner>
 
       <emp-budgeting-budget-filter class="fx-item-none"
+        [queryType]="queryType"
         (budgetFilterEvent)="onBudgetFilterEvent($event)">
 
       </emp-budgeting-budget-filter>
 
       <emp-ng-data-table class="fx-item"
-        [showControls]="false"
         [dataTable]="data"
         [executed]="queryExecuted"
         [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"

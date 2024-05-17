@@ -19,16 +19,18 @@ import { FormHelper, sendEvent } from '@app/shared/utils';
 
 import { expandCollapse } from '@app/shared/animations/animations';
 
-import { Budget, BudgetPlanningQuery, BudgetSegmentQuery, BudgetSegmentType, BudgetType } from '@app/models';
+import { Budget, BudgetQuery, BudgetQueryType, BudgetSegmentQuery, BudgetSegmentType,
+         BudgetType } from '@app/models';
 
 export enum BudgetFilterEventType {
   SEARCH_CLICKED = 'BudgetFilterComponent.Event.SearchClicked',
+  CLEAR_CLICKED  = 'BudgetFilterComponent.Event.ClearClicked',
 }
 
 interface BudgetFilterFormModel extends FormGroup<{
   budgetTypeUID: FormControl<string>;
   budgetUID: FormControl<string>;
-  budgetView: FormControl<string>;
+  groupBy: FormControl<string[]>;
 }> { }
 
 
@@ -47,7 +49,7 @@ export interface SegmentFormData {
 })
 export class BudgetFilterComponent implements OnInit, OnDestroy {
 
-  @Input() queryExecuted: boolean = false;
+  @Input() queryType: BudgetQueryType = BudgetQueryType.planning;
 
   @Output() budgetFilterEvent = new EventEmitter<EventInfo>();
 
@@ -63,7 +65,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
   budgetsList: Budget[] = [];
 
-  budgetViewsList: BudgetSegmentType[] = [];
+  segmentsForGroupByList: BudgetSegmentType[] = [];
 
   segmentsToDisplay = [];
 
@@ -88,10 +90,10 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
   onBudgetTypeChanged(budgetType: BudgetType) {
     this.budgetsList = budgetType.budgets;
-    this.budgetViewsList = budgetType.segmentTypes;
+    this.segmentsForGroupByList = budgetType.segmentTypes;
 
     this.form.controls.budgetUID.reset();
-    this.form.controls.budgetView.reset();
+    this.form.controls.groupBy.reset([]);
 
     this.setAndBuildSegmentsFormControls(budgetType.segmentTypes);
   }
@@ -115,10 +117,14 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
 
   onClearFilters() {
-    this.form.controls.budgetUID.reset('');
-    this.form.controls.budgetView.reset('');
+    this.clearFilters();
 
-    this.segmentsToDisplay.forEach(x => this.form.controls[x.segmentID].reset(x.multiple ? [] : ''));
+    const payload = {
+      isFormValid: this.form.valid,
+      query: this.getFormData(),
+    };
+
+    sendEvent(this.budgetFilterEvent, BudgetFilterEventType.CLEAR_CLICKED, payload);
   }
 
 
@@ -128,7 +134,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
     this.form = fb.group({
       budgetTypeUID: ['', Validators.required],
       budgetUID: ['', Validators.required],
-      budgetView: ['', Validators.required],
+      groupBy: [[] as string[], Validators.required],
     });
   }
 
@@ -151,7 +157,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
     this.segmentsToDisplay.forEach(x => {
       const initialValue = x.multiple ? [] : '';
       const validator = x.required ? [Validators.required] : [];
-      this.form.addControl(x.segmentID, fb.control(initialValue, validator))
+      this.form.addControl(x.segmentID, fb.control(initialValue, validator));
     });
   }
 
@@ -172,16 +178,23 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
   }
 
 
-  private getFormData(): any {
-    Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
-    const segments = this.segmentsToDisplay.map(x => this.buildBudgetSegmentQuery(x)) ?? [];
+  private clearFilters() {
+    this.form.controls.budgetUID.reset('');
+    this.form.controls.groupBy.reset([]);
+    this.segmentsToDisplay.forEach(x => this.form.controls[x.segmentID].reset(x.multiple ? [] : ''));
+  }
 
-    const query: BudgetPlanningQuery = {
+
+  private getFormData(): BudgetQuery {
+    const filterBy = this.segmentsToDisplay.map(x => this.buildBudgetSegmentQuery(x)) ?? [];
+
+    const query: BudgetQuery = {
+      queryType: this.queryType,
       budgetTypeUID: this.form.value.budgetTypeUID ?? '',
       budgetUID: this.form.value.budgetUID ?? '',
-      budgetView: this.form.value.budgetView ?? '',
-      segments,
+      groupBy: this.form.value.groupBy ?? [],
+      filterBy,
     };
 
     return query;

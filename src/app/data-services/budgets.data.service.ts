@@ -7,9 +7,9 @@
 
 import { Injectable } from '@angular/core';
 
-import { EmpObservable, HttpService } from '@app/core';
+import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { BudgetSegmentItem, BudgetType } from '@app/models/budgets';
+import { BudgetData, BudgetQuery, BudgetSegmentItem, BudgetType } from '@app/models/budgets';
 
 @Injectable()
 export class BudgetsDataService {
@@ -28,6 +28,16 @@ export class BudgetsDataService {
     const path = `v2/budgeting/budget-segment-items/by-type/${segmentType}`;
 
     return this.http.get<BudgetSegmentItem[]>(path);
+  }
+
+
+  searchBudgetData(query: BudgetQuery): EmpObservable<BudgetData> {
+    Assertion.assertValue(query, 'query');
+    Assertion.assertValue(query.queryType, 'query.queryType');
+
+    const path = `v2/budgeting/budget-queries/${query.queryType}`;
+
+    return this.http.post<BudgetData>(path, query);
   }
 
 }

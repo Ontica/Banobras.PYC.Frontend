@@ -36,10 +36,10 @@
         <label>Agrupación:</label>
 
         <emp-ng-select
-          formControlName="budgetView"
+          formControlName="groupBy"
           [config]="{multiple: true, clearable: true}"
-          [items]="budgetViewsList"
-          [showError]="formHelper.isControlInvalid(form.controls.budgetView)">
+          [items]="segmentsForGroupByList"
+          [showError]="formHelper.isControlInvalid(form.controls.groupBy)">
         </emp-ng-select>
 
       </div>
@@ -130,8 +130,3 @@
   </div>
 
 </form>
-
-
-<mat-divider>
-
-</mat-divider>

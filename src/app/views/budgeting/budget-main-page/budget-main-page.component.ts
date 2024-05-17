@@ -11,10 +11,13 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { BudgetPlanningQueryType, DataTable, DataTableEntry, DataTableQuery,
-         EmptyDataTable } from '@app/models';
+import { BudgetsDataService } from '@app/data-services';
+
+import { BudgetData, BudgetEntry, BudgetQuery, BudgetQueryType, EmptyBudgetData,
+         EmptyBudgetQuery } from '@app/models';
 
 import { BudgetExplorerEventType } from '../budget-explorer/budget-explorer.component';
+
 
 @Component({
   selector: 'emp-budgeting-budget-main-page',
@@ -22,13 +25,13 @@ import { BudgetExplorerEventType } from '../budget-explorer/budget-explorer.comp
 })
 export class BudgetMainPageComponent {
 
-  queryType: BudgetPlanningQueryType = BudgetPlanningQueryType.All;
+  queryType: BudgetQueryType = BudgetQueryType.planning;
 
-  query: DataTableQuery = null;
+  query: BudgetQuery = Object.assign({}, EmptyBudgetQuery);
 
-  data: DataTable = Object.assign({}, EmptyDataTable);
+  data: BudgetData = Object.assign({}, EmptyBudgetData);
 
-  entrySelected: DataTableEntry = null;
+  entrySelected: BudgetEntry = null;
 
   displayTabbedView = false;
 
@@ -39,7 +42,8 @@ export class BudgetMainPageComponent {
   queryExecuted = false;
 
 
-  constructor(private messageBox: MessageBoxService) {
+  constructor(private budgetsData: BudgetsDataService,
+              private messageBox: MessageBoxService) {
 
   }
 
@@ -48,7 +52,15 @@ export class BudgetMainPageComponent {
     switch (event.type as BudgetExplorerEventType) {
       case BudgetExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.messageBox.showInDevelopment('Consulta de presupuesto', event.payload.query);
+        this.query = Object.assign({}, event.payload.query);
+        this.clearBudgetData();
+        this.searchBudgetData(this.query);
+        return;
+
+      case BudgetExplorerEventType.CLEAR_CLICKED:
+        Assertion.assertValue(event.payload.query, 'event.payload.query');
+        this.query = Object.assign({}, event.payload.query);
+        this.clearBudgetData();
         return;
 
       case BudgetExplorerEventType.SELECT_CLICKED:
@@ -56,10 +68,36 @@ export class BudgetMainPageComponent {
         this.messageBox.showInDevelopment('Seleccion de partida de presupuesto', event.payload.entry);
         return;
 
+      case BudgetExplorerEventType.EXPORT_CLICKED:
+        this.messageBox.showInDevelopment('Exportar presupuesto', this.query);
+        return;
+
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private clearBudgetData() {
+    this.setBudgetData(EmptyBudgetData, false);
+    this.entrySelected = null;
+  }
+
+
+  private searchBudgetData(query: BudgetQuery) {
+    this.isLoading = true;
+
+    this.budgetsData.searchBudgetData(query)
+      .firstValue()
+      .then(x => this.setBudgetData(x))
+      .finally(() => this.isLoading = false);
+  }
+
+
+  private setBudgetData(data: BudgetData, queryExecuted: boolean = true) {
+    this.data = data.columns ? data : Object.assign({}, EmptyBudgetData);
+    this.queryExecuted = queryExecuted;
   }
 
 }
