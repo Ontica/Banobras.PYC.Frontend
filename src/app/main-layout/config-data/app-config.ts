@@ -10,7 +10,7 @@ import { AppConfig } from '../common-models/common';
 
 export const APP_CONFIG: AppConfig = {
   data: {
-    name: 'Sistema de control presupuestal',
+    name: 'Planeación y Control',
     nameShort: 'PYC',
     hint: 'Secretaría de Hacienda y Crédito Público',
     organization: 'Banco Nacional de Obras y Servicios Públicos S.N.C.',

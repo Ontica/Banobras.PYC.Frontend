@@ -43,7 +43,7 @@ export interface AppConfig {
 
 
 export type LayoutType = 'Management' | 'Unauthorized' |
-                         'Budget' | 'Payments' | 'CashFlow' | 'CataloguesAndRules';
+                         'Tasks' | 'Budget' | 'Payments' | 'CashFlow' | 'CataloguesAndRules';
 
 
 export interface Layout {

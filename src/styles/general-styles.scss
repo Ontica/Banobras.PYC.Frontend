@@ -380,6 +380,15 @@ textarea:focus {
   margin-right: 8px;
 }
 
+
+.instruction-text-slim {
+  font-size: 1em;
+  text-align: center;
+  padding: 0.5rem;
+  background: $control-disabled-background;
+  margin-right: 8px;
+}
+
 .bold-text {
   font-weight: 600;
 }

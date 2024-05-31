@@ -39,6 +39,12 @@ $font-size-xsmall: 9pt;
     font-size: $font-size-xsmall;
     text-overflow: ellipsis;
   }
+
+  .item-wrap-box {
+    padding: 0.25rem 0;
+    white-space: normal;
+    line-height: 0.85rem;
+  }
 }
 
 .ng-select .ng-select-container {
@@ -129,4 +135,8 @@ $font-size-xsmall: 9pt;
   .item-template {
     background-color: inherit;
   }
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup {
+  font-size: 0.75rem;
 }

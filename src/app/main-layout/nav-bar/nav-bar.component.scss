@@ -7,10 +7,9 @@
 
 @import '../../../styles/variables', '../../../styles/mixins';
 
-$margin-size: 16px;
-$margin-size-border: 16px;
-$margin-size-small: 8px;
-$min-width-left: 375px;
+$layout-margin-size-border: $layout-margin-size;
+$layout-margin-size-small: calc($layout-margin-size / 2);
+$min-width-left: 330px;
 $min-width-right: 200px;
 
 .nav-bar {
@@ -30,22 +29,22 @@ $min-width-right: 200px;
     min-width: $min-width-left;
     align-items: center;
     white-space: nowrap;
-    margin: 0 $margin-size 0 $margin-size-border;
+    margin: 0 $layout-margin-size 0 $layout-margin-size-border;
   }
 
   .main-menu {
-    margin: 0 $margin-size;
+    margin: 0 $layout-margin-size;
   }
 
   .right-section {
     min-width: $min-width-right;
-    margin: 0 $margin-size-border 0 $margin-size;
+    margin: 0 $layout-margin-size-border 0 $layout-margin-size;
   }
 
   @media only screen and (max-width: 1140px) {
     .left-section {
       min-width: auto;
-      margin: 0 $margin-size-small;
+      margin: 0 $layout-margin-size-small;
     }
 
     .main-menu {
@@ -54,7 +53,7 @@ $min-width-right: 200px;
 
     .right-section {
       min-width: auto;
-      margin: 0 $margin-size-small;
+      margin: 0 $layout-margin-size-small;
     }
   }
 }

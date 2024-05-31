@@ -9,7 +9,6 @@
 
 @import 'top-bar/top-bar.component.scss';
 
-$margin-size: 16px;
 
 .main-layout {
   @include column;
@@ -29,7 +28,7 @@ $margin-size: 16px;
 .top-bar {
   display: none;
   color: $text-color-dark;
-  padding: $margin-size;
+  padding: $layout-margin-size;
   height: $toolbar-item-size;
 }
 
@@ -55,6 +54,6 @@ $margin-size: 16px;
   position: fixed;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
   bottom: 0;
-  margin-left: calc((#{$margin-size} + #{$toolbar-item-size}) * -1);
-  margin-bottom: $margin-size;
+  margin-left: calc((#{$layout-margin-size} + #{$toolbar-item-size}) * -1);
+  margin-bottom: $layout-margin-size;
 }

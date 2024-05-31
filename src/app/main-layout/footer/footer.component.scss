@@ -5,11 +5,12 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-$margin-size: 16px;
+ @import '../../../styles/variables';
+
 
 .footer {
   background: white;
-  padding: $margin-size;
+  padding: $layout-margin-size;
 }
 
 .footer-info {
