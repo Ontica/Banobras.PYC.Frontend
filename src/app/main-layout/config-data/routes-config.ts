@@ -12,6 +12,13 @@ export const ROUTES = {
 
   // #region app-routing module
 
+  tareas: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: '',
+    path: 'tareas',
+    fullpath: '/tareas',
+  },
+
   presupuesto: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: '',
@@ -57,6 +64,35 @@ export const ROUTES = {
     parent: '',
     path: 'no-autorizado',
     fullpath: '/no-autorizado',
+  },
+
+  // #endregion
+
+  // #region tasks-routing module
+
+  tareas_pendientes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'tareas',
+    path: 'pendientes',
+    fullpath: '/tareas/pendientes',
+  },
+  tareas_mesa_de_control: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'tareas',
+    path: 'mesa-de-control',
+    fullpath: '/tareas/mesa-de-control',
+  },
+  tareas_completadas: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'tareas',
+    path: 'completadas',
+    fullpath: '/tareas/completadas',
+  },
+  tareas_todas: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'tareas',
+    path: 'todas',
+    fullpath: '/tareas/todas',
   },
 
   // #endregion

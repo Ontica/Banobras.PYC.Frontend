@@ -15,6 +15,15 @@ import { DEFAULT_PATH, MainLayoutComponent, NoContentComponent, ROUTES } from '@
 
 const routes: Routes = [
   {
+    data: { permission: ROUTES.tareas.permission },
+    path: ROUTES.tareas.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/tasks/tasks-workspace.module')
+      .then((m) => m.TasksWorkspaceModule)
+  },
+  {
     data: { permission: ROUTES.presupuesto.permission },
     path: ROUTES.presupuesto.path,
     component: MainLayoutComponent,

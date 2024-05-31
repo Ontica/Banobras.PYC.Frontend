@@ -10,23 +10,33 @@ import { ROUTES } from '../config-data';
 import { View, Layout } from '../common-models/common';
 
 import {
-  BudgetViews,
-  CataloguesAndRulesViews,
-  PaymentsViews,
-  CashFlowViews,
-  SystemManagementViews,
   UnauthorizedViews,
+  SystemManagementViews,
+  CataloguesAndRulesViews,
+  TasksViews,
+  BudgetViews,
+  CashFlowViews,
+  PaymentsViews,
 } from './views-config';
 
 
 export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
-                                                          BudgetViews,
                                                           CataloguesAndRulesViews,
-                                                          PaymentsViews,
-                                                          CashFlowViews);
+                                                          TasksViews,
+                                                          BudgetViews,
+                                                          CashFlowViews,
+                                                          PaymentsViews);
 
 
 export const APP_LAYOUTS: Layout[] = [
+  {
+    name: 'Tasks',
+    views: TasksViews,
+    hint: 'Tareas',
+    defaultTitle: 'Tareas',
+    url: ROUTES.tareas.fullpath,
+    permission: ROUTES.tareas.permission,
+  },
   {
     name: 'Budget',
     views: BudgetViews,

@@ -10,9 +10,41 @@ import { ROUTES } from './routes-config';
 import { View } from '../common-models/common';
 
 
+export const TasksViews: View[] = [
+  {
+    name: 'Tasks.MyInbox',
+    title: 'Mis tareas pendientes',
+    menuTitle: 'Mis tareas pendientes',
+    url: ROUTES.tareas_pendientes.fullpath,
+    permission: ROUTES.tareas_pendientes.permission,
+  },
+  {
+    name: 'Tasks.ControlDesk',
+    title: 'Mesa de control',
+    menuTitle: 'Mesa de control',
+    url: ROUTES.tareas_mesa_de_control.fullpath,
+    permission: ROUTES.tareas_mesa_de_control.permission,
+  },
+  {
+    name: 'Tasks.Finished',
+    title: 'Completadas',
+    menuTitle: 'Completadas',
+    url: ROUTES.tareas_completadas.fullpath,
+    permission: ROUTES.tareas_completadas.permission,
+  },
+  {
+    name: 'Tasks.All',
+    title: 'Todas',
+    menuTitle: 'Todas',
+    url: ROUTES.tareas_todas.fullpath,
+    permission: ROUTES.tareas_todas.permission,
+  },
+];
+
+
 export const BudgetViews: View[] = [
   {
-    name: 'Budget.Applications',
+    name: 'Budget.Requests',
     title: 'Solicitudes',
     menuTitle: 'Solicitudes',
     url: ROUTES.presupuesto_solicitudes.fullpath,
@@ -57,7 +89,7 @@ export const BudgetViews: View[] = [
 
 export const PaymentsViews: View[] = [
   {
-    name: 'Payments.Applications',
+    name: 'Payments.Requests',
     title: 'Solicitudes',
     menuTitle: 'Solicitudes',
     url: ROUTES.pagos_solicitudes.fullpath,
