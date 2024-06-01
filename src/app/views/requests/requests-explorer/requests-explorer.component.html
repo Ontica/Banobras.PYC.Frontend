@@ -35,12 +35,14 @@
 
       <emp-pyc-requests-filter class="fx-item-none"
         [processGroup]="processGroup"
+        [query]="query"
+        [(showFilters)]="showFilters"
         (requestsFilterEvent)="onRequestsFilterEvent($event)">
 
       </emp-pyc-requests-filter>
 
       <emp-ng-data-table class="fx-item"
-        [dataTable]="data"
+        [dataTable]="requestData"
         [executed]="queryExecuted"
         [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"
         (dataTableEvent)="onDataTableEvent($event)">

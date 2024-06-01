@@ -55,4 +55,13 @@ export class RequestsDataService {
     return this.http.post<RequestData>(path, query);
   }
 
+
+  createRequest(dataFields: RequestFields): EmpObservable<Request> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v4/workflow/requests/create`;
+
+    return this.http.post<Request>(path, dataFields);
+  }
+
 }

@@ -1,0 +1,154 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Área solicitante:</label>
+
+        <emp-ng-select
+          formControlName="organizationalUnitUID"
+          [config]="{virtualScroll: true}"
+          [items]="organizationalUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.organizationalUnitUID)"
+          (changes)="onOrganizationalUnitChanged($event)">
+
+          <ng-template #optionTemplate let-item="item">
+            <div class="item" [title]="item.name">
+              {{item.name}}
+            </div>
+          </ng-template>
+
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Tipo de solicitud:</label>
+
+        <emp-ng-select
+          formControlName="requestType"
+          [config]="{bindByValue: false}"
+          [items]="requestTypesList"
+          [loading]="isLoadingOrganizationalUnits"
+          [placeholder]="!form.value.organizationalUnitUID ? 'Seleccione el área' : 'Seleccionar'"
+          [showError]="formHelper.isControlInvalid(form.controls.requestType)"
+          (changes)="onRequestTypeChanged($event)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="form.controls.requestType.invalid || hasExtraFields" [style.min-height.px]="68">
+
+      <mat-divider class="horizontal">
+
+      </mat-divider>
+
+      <div *ngIf="form.controls.requestType.invalid" class="instruction-text">
+        Seleccione el tipo de solicitud.
+      </div>
+
+      <div class="fx-row-container fx-wrap">
+
+        <div *ngFor="let field of dynamicFields"
+          class="sm-fx-item"
+          [ngClass]="field.fieldType === controlType.text_area ? 'fx-item-one' : 'fx-item-half'"
+          [style.margin-bottom.rem]="0.5">
+
+          <ng-container *ngIf="existFormControl(field.field)">
+
+            <label>{{field.label}}:</label>
+
+            <emp-ng-dynamic-form-control
+              [formControlName]="field.field"
+              [config]="field">
+
+            </emp-ng-dynamic-form-control>
+
+          </ng-container>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <button *ngIf="editionMode"
+          type="button" class="btn-warning"
+          (click)="onDeleteButtonClicked()">
+          Eliminar
+        </button>
+
+        <button *ngIf="!editionMode"
+          type="button" class="btn"
+          (click)="onCloseButtonClicked()">
+          Cerrar
+        </button>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>

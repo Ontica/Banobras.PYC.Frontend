@@ -11,7 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyRequestData, RequestData, RequestEntry, ProcessGroup } from '@app/models';
+import { EmptyRequestData, RequestData, RequestEntry, ProcessGroup, RequestQuery,
+         EmptyRequestQuery } from '@app/models';
 
 import { RequestsFilterEventType } from './requests-filter.component';
 
@@ -34,9 +35,11 @@ export class RequestsExplorerComponent implements OnChanges {
 
   @Input() processGroup: ProcessGroup = ProcessGroup.budgeting;
 
-  @Input() data: RequestData = Object.assign({}, EmptyRequestData);
+  @Input() query: RequestQuery = Object.assign({}, EmptyRequestQuery);
 
-  @Input() entrySelected: RequestEntry = null;
+  @Input() requestData: RequestData = Object.assign({}, EmptyRequestData);
+
+  @Input() requestSelected: RequestEntry = null;
 
   @Input() isLoading = false;
 
@@ -48,10 +51,13 @@ export class RequestsExplorerComponent implements OnChanges {
 
   cardHint = 'Seleccionar los filtros';
 
+  showFilters = false;
+
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.data) {
+    if (changes.requestData) {
       this.setText();
+      this.showFilters = false;
     }
   }
 
@@ -106,7 +112,7 @@ export class RequestsExplorerComponent implements OnChanges {
       return;
     }
 
-    this.cardHint = `${this.data.entries.length} registros encontrados`;
+    this.cardHint = `${this.requestData.entries.length} registros encontrados`;
   }
 
 }

@@ -5,7 +5,8 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
+         SimpleChanges } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
@@ -23,7 +24,7 @@ import { FormHelper, sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { RequestQuery, ProcessGroup } from '@app/models';
+import { RequestQuery, ProcessGroup, EmptyRequestQuery } from '@app/models';
 
 export enum RequestsFilterEventType {
   SEARCH_CLICKED = 'RequestsFilterComponent.Event.SearchClicked',
@@ -44,9 +45,15 @@ interface RequestsFilterFormModel extends FormGroup<{
   templateUrl: './requests-filter.component.html',
   animations: [expandCollapse],
 })
-export class RequestsFilterComponent implements OnInit, OnDestroy {
+export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() processGroup: ProcessGroup = ProcessGroup.budgeting;
+
+  @Input() query: RequestQuery = Object.assign({}, EmptyRequestQuery);
+
+  @Input() showFilters = false;
+
+  @Output() showFiltersChange = new EventEmitter<boolean>();
 
   @Output() requestsFilterEvent = new EventEmitter<EventInfo>();
 
@@ -57,8 +64,6 @@ export class RequestsFilterComponent implements OnInit, OnDestroy {
   isLoading = false;
 
   isLoadingOrganizationalUnits = false;
-
-  showFilters = false;
 
   organizationalUnitsList: Identifiable[] = [];
 
@@ -78,6 +83,13 @@ export class RequestsFilterComponent implements OnInit, OnDestroy {
   }
 
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.query) {
+      this.setFormData();
+    }
+  }
+
+
   ngOnInit() {
     this.loadDataLists();
   }
@@ -90,6 +102,7 @@ export class RequestsFilterComponent implements OnInit, OnDestroy {
 
   onShowFiltersClicked() {
     this.showFilters = !this.showFilters;
+    this.showFiltersChange.emit(this.showFilters);
   }
 
 
@@ -138,6 +151,18 @@ export class RequestsFilterComponent implements OnInit, OnDestroy {
       responsibleUID: [''],
       fromDate: [null],
       toDate: [null],
+    });
+  }
+
+
+  private setFormData() {
+    this.form.reset({
+      organizationalUnitUID: this.query.organizationalUnitUID,
+      requestTypeUID: this.query.requestTypeUID,
+      requestStatus: this.query.requestStatus,
+      responsibleUID: this.query.responsibleUID,
+      fromDate: this.query.fromDate,
+      toDate: this.query.toDate,
     });
   }
 

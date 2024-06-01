@@ -8,8 +8,9 @@
 
     <emp-pyc-requests-explorer
       [processGroup]="processGroup"
-      [data]="data"
-      [entrySelected]="entrySelected"
+      [query]="query"
+      [requestData]="requestData"
+      [requestSelected]="requestSelected"
       [isLoading]="isLoading"
       [queryExecuted]="queryExecuted"
       (requestsExplorerEvent)="onRequestsExplorerEvent($event)">
@@ -23,3 +24,10 @@
   </div>
 
 </div>
+
+
+<emp-pyc-request-creator *ngIf="displayCreator"
+  [processGroup]="processGroup"
+  (requestCreatorEvent)="onRequestCreatorEvent($event)">
+
+</emp-pyc-request-creator>

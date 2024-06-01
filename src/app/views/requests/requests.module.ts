@@ -19,6 +19,9 @@ import { RequestsMainPageComponent } from './requests-main-page/requests-main-pa
 import { RequestsFilterComponent } from './requests-explorer/requests-filter.component';
 import { RequestsExplorerComponent } from './requests-explorer/requests-explorer.component';
 
+import { RequestCreatorComponent } from './request/request-creator.component';
+import { RequestHeaderComponent } from './request/request-header.component';
+
 
 @NgModule({
   imports: [
@@ -35,6 +38,9 @@ import { RequestsExplorerComponent } from './requests-explorer/requests-explorer
     RequestsMainPageComponent,
     RequestsExplorerComponent,
     RequestsFilterComponent,
+
+    RequestHeaderComponent,
+    RequestCreatorComponent,
   ],
   exports: [
     RequestsMainPageComponent,
