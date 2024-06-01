@@ -11,3 +11,7 @@ export * from './_access-control.data.service';
 export * from './file-services/file-download.service';
 
 export * from './budgets.data.service';
+
+export * from './catalogues.data.service';
+
+export * from './requests.data.service';

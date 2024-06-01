@@ -28,7 +28,8 @@
               "empNg",
               "empBudgeting",
               "empPayments",
-              "empCashFlow"
+              "empCashFlow",
+              "empPYC"
             ],
             "style": "camelCase"
           }
@@ -41,7 +42,8 @@
               "emp-ng",
               "emp-budgeting",
               "emp-payments",
-              "emp-cashflow"
+              "emp-cashflow",
+              "emp-pyc"
             ],
             "style": "kebab-case"
           }

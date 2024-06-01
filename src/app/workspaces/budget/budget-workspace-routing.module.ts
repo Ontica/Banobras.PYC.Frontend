@@ -13,6 +13,10 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
+import {
+  RequestsMainPageComponent
+} from '@app/views/requests/requests-main-page/requests-main-page.component';
+
 import { BudgetMainPageComponent } from '@app/views/budgeting/budget-main-page/budget-main-page.component';
 
 
@@ -20,7 +24,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.presupuesto_solicitudes.permission },
     path: ROUTES.presupuesto_solicitudes.path,
-    component: DefaultComponent,
+    component: RequestsMainPageComponent,
   },
   {
     data: { permission: ROUTES.presupuesto_control.permission },

@@ -7,33 +7,20 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { AngularMaterialModule } from '@app/shared/angular-material.module';
-
-import { SharedModule } from '@app/shared/shared.module';
 
 import { PaymentsWorkspaceRoutingModule } from './payments-workspace-routing.module';
+
+import { RequestsModule } from '@app/views/requests/requests.module';
 
 
 @NgModule({
 
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AngularMaterialModule,
-    SharedModule,
 
     PaymentsWorkspaceRoutingModule,
-  ],
 
-  declarations: [
-
-  ],
-
-  exports: [
-
+    RequestsModule,
   ]
 
 })

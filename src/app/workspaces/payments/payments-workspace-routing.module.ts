@@ -13,12 +13,16 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
+import {
+  RequestsMainPageComponent
+} from '@app/views/requests/requests-main-page/requests-main-page.component';
+
 
 const routes: Routes = [
   {
     data: { permission: ROUTES.pagos_solicitudes.permission },
     path: ROUTES.pagos_solicitudes.path,
-    component: DefaultComponent,
+    component: RequestsMainPageComponent,
   },
   {
     data: { permission: ROUTES.pagos_comprometidos.permission },

@@ -9,20 +9,24 @@ import { NgModule } from '@angular/core';
 
 import { AccessControlDataService } from './_access-control.data.service';
 
-import { FileDownloadService } from './file-services/file-download.service';
-
-import { getSaver, SAVER } from './file-services/saver.provider';
-
 import { BudgetsDataService } from './budgets.data.service';
+import { CataloguesDataService } from './catalogues.data.service';
+import { RequestsDataService } from './requests.data.service';
+
+import { FileDownloadService } from './file-services/file-download.service';
+import { getSaver, SAVER } from './file-services/saver.provider';
 
 
 @NgModule({
 
   providers: [
     AccessControlDataService,
-    FileDownloadService,
 
     BudgetsDataService,
+    CataloguesDataService,
+    RequestsDataService,
+
+    FileDownloadService,
 
     { provide: SAVER, useFactory: getSaver }
   ]
