@@ -23,6 +23,7 @@ import { ButtonCopyToClipboardComponent } from './button-copy-to-clipboard/butto
 import { CheckboxAllComponent } from './check-box-all/check-box-all.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { DateRangePickerComponent } from './date-range-picker/date-range-picker.component';
+import { DynamicFormControlComponent } from './dynamic-form/dynamic-form-control.component';
 import { FileControlComponent } from './file-control/file-control.component';
 import { FilePrintPreviewComponent } from './file-print-preview/file-print-preview.component';
 import { InputNumericComponent } from './input-numeric/input-numeric.component';
@@ -55,6 +56,7 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
     CheckboxAllComponent,
     DatePickerComponent,
     DateRangePickerComponent,
+    DynamicFormControlComponent,
     FileControlComponent,
     FilePrintPreviewComponent,
     InputNumericComponent,
@@ -70,6 +72,7 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
     CheckboxAllComponent,
     DatePickerComponent,
     DateRangePickerComponent,
+    DynamicFormControlComponent,
     FileControlComponent,
     FilePrintPreviewComponent,
     InputNumericComponent,

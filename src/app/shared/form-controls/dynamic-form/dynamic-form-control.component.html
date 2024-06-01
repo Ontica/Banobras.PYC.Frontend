@@ -1,0 +1,32 @@
+<ng-container [ngSwitch]="config.fieldType">
+
+  <input *ngSwitchCase="controlType.input"
+    type="text"
+    class="text-box"
+    [formControl]="formControl"
+    [class.invalid-control]="showError"/>
+
+  <textarea *ngSwitchCase="controlType.text_area"
+    class="text-area"
+    empNgTextareaAutoresize rows="1"
+    [formControl]="formControl"
+    [class.invalid-control]="showError">
+  </textarea>
+
+  <emp-ng-select *ngSwitchCase="controlType.select"
+    [formControl]="formControl"
+    [items]="config.values ?? []"
+    [showError]="showError">
+  </emp-ng-select>
+
+  <emp-ng-datepicker *ngSwitchCase="controlType.date"
+    [formControl]="formControl"
+    [showError]="showError">
+
+  </emp-ng-datepicker>
+
+  <div *ngSwitchDefault class="instruction-text-slim">
+    <p>Tipo de campo no soportado: {{ config.fieldType }}</p>
+  </div>
+
+</ng-container>

@@ -33,7 +33,7 @@
 
     <ng-container *ngIf="fileControlConfig.showFileInfo">
       <div class="file-info">
-        <p><strong>{{ file.name }}</strong></p>
+        <p class="wrap"><strong>{{ file.name }}</strong></p>
         <p *ngIf="!file.download$">{{file.sizeString}}</p>
 
         <ng-container *ngIf="file.download$ | async as download">
