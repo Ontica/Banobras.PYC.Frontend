@@ -35,7 +35,7 @@ export class BudgetsDataService {
     Assertion.assertValue(query, 'query');
     Assertion.assertValue(query.queryType, 'query.queryType');
 
-    const path = `v2/budgeting/budget-queries/${query.queryType}`;
+    const path = `v2/budgeting/budget-explorer/${query.queryType}`;
 
     return this.http.post<BudgetData>(path, query);
   }

@@ -84,14 +84,14 @@
         <div *ngFor="let segment of segmentsToDisplay"
          class="fx-item-half sm-fx-item"
          [style.margin-bottom.rem]="0.5">
-          <label>{{segment.segmentName}}:</label>
+          <label>{{segment.label}}:</label>
 
           <emp-budgeting-segment-item-selector
-            [formControlName]="segment.segmentID"
-            [segmentType]="segment.segmentType"
+            [formControlName]="segment.field"
+            [segmentType]="segment.dataType"
             [multiple]="segment.multiple"
             [required]="segment.required"
-            [showError]="formHelper.isControlInvalid(form.controls[segment.segmentID])">
+            [showError]="formHelper.isControlInvalid(form.controls[segment.field])">
 
           </emp-budgeting-segment-item-selector>
 

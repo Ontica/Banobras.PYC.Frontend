@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Assertion, EventInfo } from '@app/core';
+import { EventInfo } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -20,7 +20,8 @@ import { FormHelper, sendEvent } from '@app/shared/utils';
 import { expandCollapse } from '@app/shared/animations/animations';
 
 import { Budget, BudgetQuery, BudgetQueryType, BudgetSegmentQuery, BudgetSegmentType,
-         BudgetType } from '@app/models';
+         BudgetType, FormFieldData, FormFieldDataType } from '@app/models';
+
 
 export enum BudgetFilterEventType {
   SEARCH_CLICKED = 'BudgetFilterComponent.Event.SearchClicked',
@@ -32,15 +33,6 @@ interface BudgetFilterFormModel extends FormGroup<{
   budgetUID: FormControl<string>;
   groupBy: FormControl<string[]>;
 }> { }
-
-
-export interface SegmentFormData {
-  segmentType: string;
-  segmentName: string;
-  segmentID: string;
-  required: boolean;
-  multiple: boolean;
-}
 
 @Component({
   selector: 'emp-budgeting-budget-filter',
@@ -67,7 +59,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
   segmentsForGroupByList: BudgetSegmentType[] = [];
 
-  segmentsToDisplay = [];
+  segmentsToDisplay: FormFieldData[] = [];
 
   helper: SubscriptionHelper;
 
@@ -152,24 +144,25 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
   private setAndBuildSegmentsFormControls(segments: BudgetSegmentType[]) {
     const fb = new FormBuilder();
-    this.segmentsToDisplay.forEach(x => this.form.removeControl(x.segmentID));
+    this.segmentsToDisplay.forEach(x => this.form.removeControl(x.field as any));
     this.segmentsToDisplay = segments.map(x => this.getSegmentData(x));
     this.segmentsToDisplay.forEach(x => {
       const initialValue = x.multiple ? [] : '';
       const validator = x.required ? [Validators.required] : [];
-      this.form.addControl(x.segmentID, fb.control(initialValue, validator));
+      this.form.addControl(x.field as any, fb.control(initialValue, validator));
     });
   }
 
 
-  private getSegmentData(segment: BudgetSegmentType): SegmentFormData {
+  private getSegmentData(segment: BudgetSegmentType): FormFieldData {
     const segmentParts = segment.uid.split('.');
-    const segmentID = segmentParts.length > 0 ? segmentParts[segmentParts.length - 1] : segment.uid;
+    const field = segmentParts.length > 0 ? segmentParts[segmentParts.length - 1] : segment.uid;
 
-    const data: SegmentFormData = {
-      segmentID,
-      segmentName: segment.name,
-      segmentType: segment.uid,
+    const data: FormFieldData = {
+      label: segment.name,
+      field,
+      fieldType: FormFieldDataType.select,
+      dataType: segment.uid,
       multiple: true,
       required: false,
     };
@@ -182,7 +175,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
   private clearFilters() {
     this.form.controls.budgetUID.reset('');
     this.form.controls.groupBy.reset([]);
-    this.segmentsToDisplay.forEach(x => this.form.controls[x.segmentID].reset(x.multiple ? [] : ''));
+    this.segmentsToDisplay.forEach(x => this.form.controls[x.field].reset(x.multiple ? [] : ''));
   }
 
 
@@ -201,10 +194,10 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
   }
 
 
-  private buildBudgetSegmentQuery(segment: SegmentFormData): BudgetSegmentQuery {
+  private buildBudgetSegmentQuery(segment: FormFieldData): BudgetSegmentQuery {
     const data: BudgetSegmentQuery = {
-      segmentUID: segment.segmentType,
-      segmentItemsUID: this.form.value[segment.segmentID] ?? [],
+      segmentUID: segment.dataType,
+      segmentItemsUID: this.form.value[segment.field] ?? [],
     };
 
     return data;
