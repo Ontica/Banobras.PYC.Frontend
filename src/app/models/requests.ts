@@ -12,14 +12,14 @@ import { DataTable, DataTableColumn, DataTableEntry } from './_data-table';
 import { FormFieldDataType } from './_form-fields';
 
 
-export enum ProcessGroup {
+export enum RequestsList {
   budgeting = 'budgeting',
   payments  = 'payments',
 };
 
 
 export interface RequestQuery {
-  processGroup: ProcessGroup;
+  requestsList: RequestsList;
 
   organizationalUnitUID: string;
   requestTypeUID: string;
@@ -87,7 +87,7 @@ export interface RequestTypeField {
 
 
 export const EmptyRequestQuery: RequestQuery = {
-  processGroup: null,
+  requestsList: null,
   organizationalUnitUID: '',
   requestTypeUID: '',
   requestStatus: '',

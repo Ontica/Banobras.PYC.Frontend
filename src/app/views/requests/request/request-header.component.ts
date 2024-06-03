@@ -23,7 +23,7 @@ import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 import { RequestsDataService } from '@app/data-services';
 
 import { RequestTypeField, FormFieldData, FormFieldDataType, Request, RequestFields, RequestInputData,
-         ProcessGroup, RequestType, EmptyRequest, EmptyRequestType } from '@app/models';
+         RequestsList, RequestType, EmptyRequest, EmptyRequestType } from '@app/models';
 
 
 export enum RequestHeaderEventType {
@@ -44,7 +44,7 @@ interface RequestFormModel extends FormGroup<{
 })
 export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
-  @Input() processGroup: ProcessGroup = ProcessGroup.budgeting;
+  @Input() requestsList: RequestsList = RequestsList.budgeting;
 
   @Input() request: Request = EmptyRequest;
 
@@ -174,7 +174,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     this.isLoading = true;
 
     this.helper.select<Identifiable[]>(RequestsStateSelector.ORGANIZATIONAL_UNITS,
-      { processGroup: this.processGroup })
+      { requestsList: this.requestsList })
       .firstValue()
       .then(x => this.resolveGetOrganizationalUnits(x))
       .finally(() => this.isLoading = false)
@@ -190,7 +190,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   private getRequestType(organizationalUnitUID: string) {
     this.isLoadingOrganizationalUnits = true;
 
-    this.requestsData.getRequestTypes(this.processGroup, organizationalUnitUID)
+    this.requestsData.getRequestTypes(this.requestsList, organizationalUnitUID)
       .firstValue()
       .then(x => this.resolveGetRequestTypes(x))
       .catch(e => this.resolveGetRequestTypes([]))

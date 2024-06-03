@@ -19,7 +19,7 @@ import { MessageBoxService } from '@app/shared/containers/message-box';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { EmptyRequestData, EmptyRequestQuery, RequestData, RequestQuery, ProcessGroup,
+import { EmptyRequestData, EmptyRequestQuery, RequestData, RequestQuery, RequestsList,
          EmptyRequest, Request } from '@app/models/requests';
 
 import { RequestsExplorerEventType } from '../requests-explorer/requests-explorer.component';
@@ -35,7 +35,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
   helper: SubscriptionHelper;
 
-  processGroup: ProcessGroup = ProcessGroup.budgeting;
+  requestsList: RequestsList = RequestsList.budgeting;
 
   query: RequestQuery = Object.assign({}, EmptyRequestQuery);
 
@@ -62,7 +62,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.setProcessGroupFromCurrentView();
+    this.setRequestsListFromCurrentView();
   }
 
 
@@ -130,7 +130,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private setProcessGroupFromCurrentView() {
+  private setRequestsListFromCurrentView() {
     this.helper.select<View>(MainUIStateSelector.CURRENT_VIEW).subscribe(x => this.onCurrentViewChanged(x));
   }
 
@@ -138,15 +138,15 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   private onCurrentViewChanged(newView: View) {
     switch (newView.name) {
       case 'Budget.Requests':
-        this.processGroup = ProcessGroup.budgeting;
+        this.requestsList = RequestsList.budgeting;
         return;
 
       case 'Payments.Requests':
-        this.processGroup = ProcessGroup.payments;
+        this.requestsList = RequestsList.payments;
         return;
 
       default:
-        this.processGroup = null;
+        this.requestsList = null;
         return;
     }
   }

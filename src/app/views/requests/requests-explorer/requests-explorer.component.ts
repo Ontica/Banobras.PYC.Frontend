@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyRequestData, RequestData, RequestEntry, ProcessGroup, RequestQuery,
+import { EmptyRequestData, RequestData, RequestEntry, RequestsList, RequestQuery,
          EmptyRequestQuery } from '@app/models';
 
 import { RequestsFilterEventType } from './requests-filter.component';
@@ -33,7 +33,7 @@ export enum RequestsExplorerEventType {
 })
 export class RequestsExplorerComponent implements OnChanges {
 
-  @Input() processGroup: ProcessGroup = ProcessGroup.budgeting;
+  @Input() requestsList: RequestsList = RequestsList.budgeting;
 
   @Input() query: RequestQuery = Object.assign({}, EmptyRequestQuery);
 

@@ -7,7 +7,7 @@
   <div class="primary priority" [class.std-hide]="displayTabbedView">
 
     <emp-pyc-requests-explorer
-      [processGroup]="processGroup"
+      [requestsList]="requestsList"
       [query]="query"
       [requestData]="requestData"
       [requestSelected]="requestSelected"
@@ -27,7 +27,7 @@
 
 
 <emp-pyc-request-creator *ngIf="displayCreator"
-  [processGroup]="processGroup"
+  [requestsList]="requestsList"
   (requestCreatorEvent)="onRequestCreatorEvent($event)">
 
 </emp-pyc-request-creator>

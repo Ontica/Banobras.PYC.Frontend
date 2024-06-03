@@ -24,7 +24,7 @@ import { FormHelper, sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { RequestQuery, ProcessGroup, EmptyRequestQuery } from '@app/models';
+import { RequestQuery, RequestsList, EmptyRequestQuery } from '@app/models';
 
 export enum RequestsFilterEventType {
   SEARCH_CLICKED = 'RequestsFilterComponent.Event.SearchClicked',
@@ -47,7 +47,7 @@ interface RequestsFilterFormModel extends FormGroup<{
 })
 export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
-  @Input() processGroup: ProcessGroup = ProcessGroup.budgeting;
+  @Input() requestsList: RequestsList = RequestsList.budgeting;
 
   @Input() query: RequestQuery = Object.assign({}, EmptyRequestQuery);
 
@@ -172,7 +172,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
     combineLatest([
       this.helper.select<Identifiable[]>(RequestsStateSelector.ORGANIZATIONAL_UNITS,
-        { processGroup: this.processGroup }),
+        { requestsList: this.requestsList }),
       this.helper.select<Identifiable[]>(RequestsStateSelector.REQUEST_STATUS),
       this.requestsData.getRequestResponsibles(),
     ])
@@ -188,7 +188,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
   private getRequestType(organizationalUnitUID: string) {
     this.isLoadingOrganizationalUnits = true;
 
-    this.requestsData.getRequestTypes(this.processGroup, organizationalUnitUID)
+    this.requestsData.getRequestTypes(this.requestsList, organizationalUnitUID)
       .firstValue()
       .then(x => this.requestTypesList = x)
       .finally(() => this.isLoadingOrganizationalUnits = false)
@@ -202,7 +202,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   private getFormData(): RequestQuery {
     const query: RequestQuery = {
-      processGroup: this.processGroup,
+      requestsList: this.requestsList,
       organizationalUnitUID: this.form.value.organizationalUnitUID,
       requestTypeUID: this.form.value.requestTypeUID,
       requestStatus: this.form.value.requestStatus,

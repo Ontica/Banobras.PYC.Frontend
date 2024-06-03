@@ -13,7 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { Request, RequestFields, ProcessGroup } from '@app/models';
+import { Request, RequestFields, RequestsList } from '@app/models';
 
 import { RequestHeaderEventType } from './request-header.component';
 
@@ -28,7 +28,7 @@ export enum RequestCreatorEventType {
 })
 export class RequestCreatorComponent {
 
-  @Input() processGroup: ProcessGroup = ProcessGroup.budgeting;
+  @Input() requestsList: RequestsList = RequestsList.budgeting;
 
   @Output() requestCreatorEvent = new EventEmitter<EventInfo>();
 

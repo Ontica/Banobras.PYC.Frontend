@@ -13,7 +13,7 @@ import { AbstractPresentationHandler, StateValues } from '@app/core/presentation
 
 import { RequestsDataService } from '@app/data-services';
 
-import { ProcessGroup } from '@app/models';
+import { RequestsList } from '@app/models';
 
 
 export enum SelectorType {
@@ -44,13 +44,13 @@ export class RequestsPresentationHandler extends AbstractPresentationHandler {
     switch (selectorType) {
 
       case SelectorType.ORGANIZATIONAL_UNITS:
-        Assertion.assertValue(params.processGroup, 'params.processGroup');
+        Assertion.assertValue(params.requestsList, 'params.requestsList');
 
-        const processGroup = params.processGroup as ProcessGroup;
+        const requestsList = params.requestsList as RequestsList;
 
-        const provider = () => this.data.getOrganizationalUnits(processGroup);
+        const provider = () => this.data.getOrganizationalUnits(requestsList);
 
-        return super.selectMemoized(selectorType, provider, processGroup, []);
+        return super.selectMemoized(selectorType, provider, requestsList, []);
 
       case SelectorType.REQUEST_STATUS: {
         const provider = () => this.data.getRequestStatus();

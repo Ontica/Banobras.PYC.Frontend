@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { ProcessGroup, Request, RequestData, RequestFields, RequestQuery, RequestType } from '@app/models';
+import { RequestsList, Request, RequestData, RequestFields, RequestQuery, RequestType } from '@app/models';
 
 
 @Injectable()
@@ -17,31 +17,37 @@ export class RequestsDataService {
 
   constructor(private http: HttpService) { }
 
+  getOrganizationalUnits(requestsList: RequestsList): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(requestsList, 'requestsList');
 
-  getOrganizationalUnits(processGroup: ProcessGroup): EmpObservable<Identifiable[]> {
-    const path = `v4/workflow/process-groups/${processGroup}/organizational-units`;
+    const path = `v4/requests/catalogues/organizational-units/?requestsList=${requestsList}`;
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
-  getRequestTypes(processGroup: ProcessGroup, organizationalUnitUID: string): EmpObservable<RequestType[]> {
-    const path = `v4/workflow/process-groups/${processGroup}/` +
-      `organizational-units/${organizationalUnitUID}/process-types`;
+  getRequestTypes(requestsList: RequestsList,
+                  organizationalUnitUID: string): EmpObservable<RequestType[]> {
+
+    Assertion.assertValue(requestsList, 'requestsList');
+    Assertion.assertValue(organizationalUnitUID, 'organizationalUnitUID');
+
+    const path = `v4/requests/catalogues/requests-types/?requestsList=${requestsList}&` +
+                 `organizationalUnitUID=${organizationalUnitUID}`;
 
     return this.http.get<RequestType[]>(path);
   }
 
 
   getRequestStatus(): EmpObservable<Identifiable[]> {
-    const path = `v4/workflow/catalogues/work-items/status-list`;
+    const path = `v4/requests/catalogues/status-list`;
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
   getRequestResponsibles(): EmpObservable<Identifiable[]> {
-    const path = `v4/workflow/catalogues/work-items/responsible-list`;
+    const path = `v4/requests/catalogues/responsible-list`;
 
     return this.http.get<Identifiable[]>(path);
   }
@@ -50,7 +56,7 @@ export class RequestsDataService {
   searchRequests(query: RequestQuery): EmpObservable<RequestData> {
     Assertion.assertValue(query, 'query');
 
-    const path = 'v4/workflow/requests/search';
+    const path = 'v4/requests/search';
 
     return this.http.post<RequestData>(path, query);
   }
@@ -59,7 +65,7 @@ export class RequestsDataService {
   createRequest(dataFields: RequestFields): EmpObservable<Request> {
     Assertion.assertValue(dataFields, 'dataFields');
 
-    const path = `v4/workflow/requests/create`;
+    const path = `v4/requests/create`;
 
     return this.http.post<Request>(path, dataFields);
   }
