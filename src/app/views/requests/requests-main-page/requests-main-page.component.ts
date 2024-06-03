@@ -41,7 +41,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
   requestData: RequestData = Object.assign({}, EmptyRequestData);
 
-  requestSelected: Request = EmptyRequest;
+  selectedRequest: Request = EmptyRequest;
 
   displayTabbedView = false;
 
@@ -81,9 +81,9 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
       case RequestCreatorEventType.REQUEST_CREATED:
         Assertion.assertValue(event.payload.request, 'event.payload.request');
         this.displayCreator = false;
-        this.setRequestSelected(event.payload.request as Request);
-        this.validateQueryForRefreshRequestData(this.requestSelected.organizationalUnit?.uid ?? '123',
-                                                this.requestSelected.requestType?.uid ?? '123');
+        this.setSelectedRequest(event.payload.request as Request);
+        this.validateQueryForRefreshRequestData(this.selectedRequest.organizationalUnit?.uid ?? '123',
+                                                this.selectedRequest.requestType?.uid ?? '123');
         return;
 
       default:
@@ -103,7 +103,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.query = Object.assign({}, event.payload.query as RequestQuery);
         this.clearRequestsData();
-        this.clearRequestSelected();
+        this.clearSelectedRequest();
         this.searchRequestData(this.query);
         return;
 
@@ -111,7 +111,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.query = Object.assign({}, event.payload.query as RequestQuery);
         this.clearRequestsData();
-        this.clearRequestSelected();
+        this.clearSelectedRequest();
         return;
 
       case RequestsExplorerEventType.SELECT_CLICKED:
@@ -189,14 +189,14 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private setRequestSelected(data: Request) {
-    this.requestSelected = data;
-    this.displayTabbedView = !isEmpty(this.requestSelected);
+  private setSelectedRequest(data: Request) {
+    this.selectedRequest = data;
+    this.displayTabbedView = !isEmpty(this.selectedRequest);
   }
 
 
-  private clearRequestSelected() {
-    this.setRequestSelected(EmptyRequest);
+  private clearSelectedRequest() {
+    this.setSelectedRequest(EmptyRequest);
   }
 
 }

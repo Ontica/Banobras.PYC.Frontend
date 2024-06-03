@@ -20,9 +20,8 @@ export enum RequestsList {
 
 export interface RequestQuery {
   requestsList: RequestsList;
-
-  organizationalUnitUID: string;
   requestTypeUID: string;
+  requesterOrgUnitUID: string;
   requestStatus: string;
   responsibleUID: string;
   fromDate: DateString;
@@ -74,8 +73,8 @@ export interface RequestFile {
 
 
 export interface RequestFields {
-  organizationalUnitUID: string;
   requestTypeUID: string;
+  requesterOrgUnitUID: string;
   requestTypeFields: RequestTypeField[];
 }
 
@@ -88,7 +87,7 @@ export interface RequestTypeField {
 
 export const EmptyRequestQuery: RequestQuery = {
   requestsList: null,
-  organizationalUnitUID: '',
+  requesterOrgUnitUID: '',
   requestTypeUID: '',
   requestStatus: '',
   responsibleUID: '',

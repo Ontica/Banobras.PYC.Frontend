@@ -39,7 +39,7 @@ export class RequestsExplorerComponent implements OnChanges {
 
   @Input() requestData: RequestData = Object.assign({}, EmptyRequestData);
 
-  @Input() requestSelected: RequestEntry = null;
+  @Input() selectedRequest: RequestEntry = null;
 
   @Input() isLoading = false;
 

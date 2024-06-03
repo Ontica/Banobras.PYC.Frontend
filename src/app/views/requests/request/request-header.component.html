@@ -9,12 +9,12 @@
         <label>Área solicitante:</label>
 
         <emp-ng-select
-          formControlName="organizationalUnitUID"
+          formControlName="requesterOrgUnitUID"
           [config]="{virtualScroll: true}"
-          [items]="organizationalUnitsList"
+          [items]="requesterOrgUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.organizationalUnitUID)"
-          (changes)="onOrganizationalUnitChanged($event)">
+          [showError]="formHelper.isControlInvalid(form.controls.requesterOrgUnitUID)"
+          (changes)="onRequesterOrgUnitUIDChanged($event)">
 
           <ng-template #optionTemplate let-item="item">
             <div class="item" [title]="item.name">
@@ -34,8 +34,8 @@
           formControlName="requestType"
           [config]="{bindByValue: false}"
           [items]="requestTypesList"
-          [loading]="isLoadingOrganizationalUnits"
-          [placeholder]="!form.value.organizationalUnitUID ? 'Seleccione el área' : 'Seleccionar'"
+          [loading]="isLoadingRequesterOrgUnits"
+          [placeholder]="!form.value.requesterOrgUnitUID ? 'Seleccionar el área' : 'Seleccionar'"
           [showError]="formHelper.isControlInvalid(form.controls.requestType)"
           (changes)="onRequestTypeChanged($event)">
         </emp-ng-select>

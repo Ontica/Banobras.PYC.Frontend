@@ -32,7 +32,7 @@ export enum RequestsFilterEventType {
 }
 
 interface RequestsFilterFormModel extends FormGroup<{
-  organizationalUnitUID: FormControl<string>;
+  requesterOrgUnitUID: FormControl<string>;
   requestTypeUID: FormControl<string>;
   requestStatus: FormControl<string>;
   responsibleUID: FormControl<string>;
@@ -63,9 +63,9 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoading = false;
 
-  isLoadingOrganizationalUnits = false;
+  isLoadingRequesterOrgUnits = false;
 
-  organizationalUnitsList: Identifiable[] = [];
+  requesterOrgUnitsList: Identifiable[] = [];
 
   requestTypesList: Identifiable[] = [];
 
@@ -106,13 +106,13 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  onOrganizationalUnitChanged(organizationalUnit: Identifiable) {
+  onRequesterOrgUnitChanged(requesterOrgUnit: Identifiable) {
     this.form.controls.requestTypeUID.reset();
 
-    if (isEmpty(organizationalUnit)) {
+    if (isEmpty(requesterOrgUnit)) {
       this.requestTypesList = [];
     } else {
-      this.getRequestType(organizationalUnit.uid);
+      this.getRequestType(requesterOrgUnit.uid);
     }
   }
 
@@ -145,7 +145,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      organizationalUnitUID: [''],
+      requesterOrgUnitUID: [''],
       requestTypeUID: [''],
       requestStatus: [''],
       responsibleUID: [''],
@@ -157,7 +157,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   private setFormData() {
     this.form.reset({
-      organizationalUnitUID: this.query.organizationalUnitUID,
+      requesterOrgUnitUID: this.query.requesterOrgUnitUID,
       requestTypeUID: this.query.requestTypeUID,
       requestStatus: this.query.requestStatus,
       responsibleUID: this.query.responsibleUID,
@@ -177,7 +177,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
       this.requestsData.getRequestResponsibles(),
     ])
     .subscribe(([x, y, z]) => {
-      this.organizationalUnitsList = x;
+      this.requesterOrgUnitsList = x;
       this.requestStatusList = y;
       this.responsiblesList = z;
       this.isLoading = x.length === 0;
@@ -185,13 +185,13 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  private getRequestType(organizationalUnitUID: string) {
-    this.isLoadingOrganizationalUnits = true;
+  private getRequestType(requesterOrgUnitUID: string) {
+    this.isLoadingRequesterOrgUnits = true;
 
-    this.requestsData.getRequestTypes(this.requestsList, organizationalUnitUID)
+    this.requestsData.getRequestTypes(this.requestsList, requesterOrgUnitUID)
       .firstValue()
       .then(x => this.requestTypesList = x)
-      .finally(() => this.isLoadingOrganizationalUnits = false)
+      .finally(() => this.isLoadingRequesterOrgUnits = false)
   }
 
 
@@ -203,7 +203,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
   private getFormData(): RequestQuery {
     const query: RequestQuery = {
       requestsList: this.requestsList,
-      organizationalUnitUID: this.form.value.organizationalUnitUID,
+      requesterOrgUnitUID: this.form.value.requesterOrgUnitUID,
       requestTypeUID: this.form.value.requestTypeUID,
       requestStatus: this.form.value.requestStatus,
       responsibleUID: this.form.value.responsibleUID,

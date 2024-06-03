@@ -34,7 +34,7 @@ export enum RequestHeaderEventType {
 }
 
 interface RequestFormModel extends FormGroup<{
-  organizationalUnitUID: FormControl<string>;
+  requesterOrgUnitUID: FormControl<string>;
   requestType: FormControl<RequestType>;
 }> { }
 
@@ -66,9 +66,9 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoading = false;
 
-  isLoadingOrganizationalUnits = false;
+  isLoadingRequesterOrgUnits = false;
 
-  organizationalUnitsList: Identifiable[] = [];
+  requesterOrgUnitsList: Identifiable[] = [];
 
   requestTypesList: RequestType[] = [];
 
@@ -114,10 +114,10 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  onOrganizationalUnitChanged(organizationalUnit: Identifiable) {
+  onRequesterOrgUnitUIDChanged(requesterOrgUnit: Identifiable) {
     this.form.controls.requestType.reset(null);
     this.onRequestTypeChanged(EmptyRequestType);
-    this.getRequestType(organizationalUnit.uid);
+    this.getRequestType(requesterOrgUnit.uid);
   }
 
 
@@ -163,8 +163,8 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private initLists() {
-    this.organizationalUnitsList = isEmpty(this.request.organizationalUnit) ? this.organizationalUnitsList :
-      ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.request.organizationalUnit, 'uid');
+    this.requesterOrgUnitsList = isEmpty(this.request.organizationalUnit) ? this.requesterOrgUnitsList :
+      ArrayLibrary.insertIfNotExist(this.requesterOrgUnitsList ?? [], this.request.organizationalUnit, 'uid');
     this.requestTypesList = isEmpty(this.request.requestType) ? this.requestTypesList :
       ArrayLibrary.insertIfNotExist(this.requestTypesList ?? [], this.request.requestType, 'uid');
   }
@@ -182,19 +182,19 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private resolveGetOrganizationalUnits(data: Identifiable[]) {
-    this.organizationalUnitsList = data;
+    this.requesterOrgUnitsList = data;
     this.initLists();
   }
 
 
-  private getRequestType(organizationalUnitUID: string) {
-    this.isLoadingOrganizationalUnits = true;
+  private getRequestType(requesterOrgUnitUID: string) {
+    this.isLoadingRequesterOrgUnits = true;
 
-    this.requestsData.getRequestTypes(this.requestsList, organizationalUnitUID)
+    this.requestsData.getRequestTypes(this.requestsList, requesterOrgUnitUID)
       .firstValue()
       .then(x => this.resolveGetRequestTypes(x))
       .catch(e => this.resolveGetRequestTypes([]))
-      .finally(() => this.isLoadingOrganizationalUnits = false);
+      .finally(() => this.isLoadingRequesterOrgUnits = false);
   }
 
 
@@ -208,7 +208,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      organizationalUnitUID: ['', Validators.required],
+      requesterOrgUnitUID: ['', Validators.required],
       requestType: [null as RequestType, Validators.required],
     });
 
@@ -219,7 +219,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     setTimeout(() => {
 
       this.form.reset({
-        organizationalUnitUID: this.request.organizationalUnit.uid,
+        requesterOrgUnitUID: this.request.organizationalUnit.uid,
         requestType: this.request.requestType,
       });
 
@@ -279,7 +279,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
       this.dynamicFields.map(x => this.buildRequestTypeField(x)) ?? [];
 
     const data: RequestFields = {
-      organizationalUnitUID: this.form.value.organizationalUnitUID ?? '',
+      requesterOrgUnitUID: this.form.value.requesterOrgUnitUID ?? '',
       requestTypeUID: this.form.value.requestType.uid ?? '',
       requestTypeFields,
     };

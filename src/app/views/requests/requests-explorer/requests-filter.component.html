@@ -9,12 +9,12 @@
         <label>Área solicitante:</label>
 
         <emp-ng-select
-          formControlName="organizationalUnitUID"
+          formControlName="requesterOrgUnitUID"
           [config]="{virtualScroll: true, clearable: true}"
-          [items]="organizationalUnitsList"
+          [items]="requesterOrgUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.organizationalUnitUID)"
-          (changes)="onOrganizationalUnitChanged($event)"
+          [showError]="formHelper.isControlInvalid(form.controls.requesterOrgUnitUID)"
+          (changes)="onRequesterOrgUnitChanged($event)"
           placeholder="Todas">
 
           <ng-template #optionTemplate let-item="item">
@@ -34,9 +34,9 @@
         <emp-ng-select
           formControlName="requestTypeUID"
           [config]="{clearable: true,
-                     notFoundText: !form.value.organizationalUnitUID ? 'Seleccione el área' : 'No se encontraron registros'}"
+                     notFoundText: !form.value.requesterOrgUnitUID ? 'Seleccionar el área' : 'No se encontraron registros'}"
           [items]="requestTypesList"
-          [loading]="isLoadingOrganizationalUnits"
+          [loading]="isLoadingRequesterOrgUnits"
           [showError]="formHelper.isControlInvalid(form.controls.requestTypeUID)"
           placeholder="Todas">
         </emp-ng-select>
