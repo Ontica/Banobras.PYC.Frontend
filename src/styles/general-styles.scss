@@ -403,12 +403,12 @@ a.error-indicator-text:hover {
 }
 
 .warning-indicator-text {
-  color: $title-color;
+  color: $accent-color;
   text-decoration: underline;
 }
 
 a.warning-indicator-text:hover {
-  color: darken($title-color, 4%);
+  color: darken($accent-color, 4%);
 }
 
 .remove-min-width {

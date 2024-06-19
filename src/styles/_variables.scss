@@ -10,21 +10,22 @@
 //
 $white: #fdfdfd !default;
 
-$primary-color: #245c4f !default;
-$primary-color-light: #245c4f !default;
-$primary-color-dark: #10312b !default;
+$primary-color: hsl(166, 44%, 25%) !default;
+$primary-color-light: hsl(166, 44%, 35%) !default;
+$primary-color-dark: hsl(166, 44%, 13%) !default;
 
 $secondary-color: #98989a !default;
 $secondary-color-light: #afafaf !default;
 $secondary-color-semi-light: #808080 !default;
 $secondary-color-dark: #4d4d4d !default;
 
-$warning-color: #9f2241 !default;
-$warning-color-light: #9f2241;
-$warning-color-dark: #691c32 !default;
+$warning-color: hsl(345, 65%, 38%) !default;
+$warning-color-light: hsl(345, 65%, 43%);
+$warning-color-dark: hsl(345, 65%, 26%) !default;
 
-$title-color: #bc955c !default;
-$title-border-color: #ddc9a3 !default;
+$accent-color: hsl(36, 42%, 55%) !default;
+$accent-color-light: hsl(36, 42%, 75%) !default;
+$accent-color-dark: hsl(36, 42%, 45%) !default;
 
 $text-color: $secondary-color-semi-light !default;
 $text-color-light: $secondary-color-light !default;
@@ -83,12 +84,13 @@ $screen-standard: 1440px;
 //
 $layout-gradient-initial-color: $primary-color-dark;
 $layout-gradient-final-color: $primary-color;
-$layout-secondary-color: #ddc9a3;
-$layout-secondary-color-dark: #bc955c;
+$layout-secondary-color: $accent-color-light;
+$layout-secondary-color-dark: $accent-color;
 $layout-margin-size: 10px;
 $toolbar-item-background: #f3f3f3;
-$toolbar-item-background-hover: lighten($primary-color, 70);
-$toolbar-icon-color: #38927d;
+$toolbar-item-background-hover: lighten($primary-color, 70%);
+$toolbar-icon-color: lighten($primary-color, 15%);
+$toolbar-icon-color-hover: $primary-color;
 $toolbar-item-size: 35px;
 $toolbar-icon-size: 32px;
 
@@ -147,16 +149,16 @@ $button-selected-color: #e6e6e6;
 $button-border: 0 solid #cecece;
 $button-height: 28px;
 
-$checkbox-background-color: #38927d;
+$checkbox-background-color: lighten($primary-color, 15%);
 $checkbox-size: 28px;
 $checkbox-warning-background-color: $warning-color;
 
 $date-picker-width: 90px;
 $range-picker-width: 185px;
-$range-picker-month-cursor-hover: rgba(46, 118, 101, 0.3);
-$range-picker-month-in-range: rgba(46, 118, 101, 0.2);
-$range-picker-month-hover-selection: rgba(46, 118, 101, 0.3);
-$range-picker-month-edge-background: rgb(46, 118, 101);
+$range-picker-month-cursor-hover: rgba($primary-color-light, 0.3);
+$range-picker-month-in-range: rgba($primary-color-light, 0.2);
+$range-picker-month-hover-selection: rgba($primary-color-light, 0.3);
+$range-picker-month-edge-background: $primary-color-light;
 $range-picker-month-edge-color: white;
 
 $file-control-area-height: 30px;
@@ -166,11 +168,11 @@ $file-control-line-height: 24px;
 $file-control-space: 4px;
 $file-control-border-radius: 3px;
 
-$tag-default-background-color: hsl(166, 44%, 90%) !default;
-$tag-default-color: hsl(166, 44%, 30%) !default;
+$tag-default-background-color: rgba($primary-color-light, 0.1) !default;
+$tag-default-color: $primary-color-light !default;
 $tag-info-background-color: hsl(205, 20%, 50%);
 $tag-success-background-color: $primary-color-light !default;
-$tag-warning-background-color: $title-color !default;
+$tag-warning-background-color: $accent-color-light !default;
 $tag-error-background-color: $warning-color-light !default;
 
 $list-selection-header-background-color: hsl(210, 20%, 90%) !default;

@@ -27,7 +27,7 @@
 
   .card-title {
     flex: 1 1 auto;
-    color: $title-color;
+    color: $accent-color;
     font-size: 14pt;
     font-weight: 600;
   }
@@ -83,13 +83,13 @@
 }
 
 .card-header-raised {
-  border-bottom: 3px solid $title-border-color;
+  border-bottom: 3px solid $accent-color-light;
 
   @include raised-header;
 }
 
 .card-header-flat {
-  border-bottom: 3px solid $title-border-color;
+  border-bottom: 3px solid $accent-color-light;
 }
 
 .card-shadow {

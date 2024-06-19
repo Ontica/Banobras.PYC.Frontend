@@ -85,7 +85,7 @@
 
 .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
 .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
-  border-color: $title-color;
+  border-color: $accent-color;
 }
 
 //
@@ -185,7 +185,7 @@ table.mat-mdc-table {
     padding: $grid-entry-padding-vertical $grid-entry-padding-horizontal $grid-entry-padding-vertical 0;
 
     &.mat-mdc-header-cell {
-      border-bottom: 2pt solid $title-color;
+      border-bottom: 2pt solid $accent-color;
       font-size: $font-size-grid-header;
       line-height: 13px;
     }

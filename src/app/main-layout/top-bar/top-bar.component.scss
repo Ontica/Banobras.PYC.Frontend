@@ -32,7 +32,7 @@
     width: $toolbar-icon-size;
     height: $toolbar-icon-size;
     font-size: $toolbar-icon-size;
-    color: $checkbox-background-color;
+    color: $toolbar-icon-color;
     margin-top: calc(($toolbar-item-size - $toolbar-icon-size) / 2);
   }
 }
@@ -43,6 +43,6 @@
   transition: 0.3s ease-out;
 
   .mat-icon {
-    color: $primary-color;
+    color: $toolbar-icon-color-hover;
   }
 }

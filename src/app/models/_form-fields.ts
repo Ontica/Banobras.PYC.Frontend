@@ -20,10 +20,10 @@ export interface FormFieldData {
 
 
 export enum FormFieldDataType {
-  select        = 'listValue',
-  input         = 'inputValue',
-  text_area     = 'textAreaValue',
-  date          = 'dateValue',
+  select    = 'listValue',
+  input     = 'inputValue',
+  text_area = 'textAreaValue',
+  date      = 'dateValue',
 }
 
 
