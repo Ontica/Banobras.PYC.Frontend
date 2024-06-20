@@ -41,13 +41,13 @@
 
       </emp-pyc-requests-filter>
 
-      <emp-ng-data-table class="fx-item"
-        [dataTable]="requestData"
-        [executed]="queryExecuted"
-        [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"
-        (dataTableEvent)="onDataTableEvent($event)">
+      <emp-pyc-requests-list class="fx-item"
+        [requestsData]="requestsData"
+        [selectedRequest]="selectedRequest"
+        [queryExecuted]="queryExecuted"
+        (requestsListEvent)="onRequestsListEvent($event)">
 
-      </emp-ng-data-table>
+      </emp-pyc-requests-list>
 
     </div>
 

@@ -11,20 +11,20 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyRequestData, RequestData, RequestEntry, RequestsList, RequestQuery,
-         EmptyRequestQuery } from '@app/models';
+import { RequestsList, RequestQuery, EmptyRequestQuery, RequestDescriptor,
+         EmptyRequestDescriptor} from '@app/models';
 
 import { RequestsFilterEventType } from './requests-filter.component';
 
-import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
+import { RequestsListEventType } from './requests-list.component';
 
 
 export enum RequestsExplorerEventType {
-  CREATE_CLICKED = 'RequestsExplorerComponent.Event.CreateClicked',
-  SEARCH_CLICKED = 'RequestsExplorerComponent.Event.SearchClicked',
-  CLEAR_CLICKED  = 'RequestsExplorerComponent.Event.ClearClicked',
-  EXPORT_CLICKED = 'RequestsExplorerComponent.Event.ExportClicked',
-  SELECT_CLICKED = 'RequestsExplorerComponent.Event.SelectClicked',
+  CREATE_CLICKED            = 'RequestsExplorerComponent.Event.CreateClicked',
+  SEARCH_CLICKED            = 'RequestsExplorerComponent.Event.SearchClicked',
+  CLEAR_CLICKED             = 'RequestsExplorerComponent.Event.ClearClicked',
+  EXECUTE_OPERATION_CLICKED = 'RequestsExplorerComponent.Event.ExecuteOperationClicked',
+  SELECT_CLICKED            = 'RequestsExplorerComponent.Event.SelectClicked',
 }
 
 @Component({
@@ -37,9 +37,9 @@ export class RequestsExplorerComponent implements OnChanges {
 
   @Input() query: RequestQuery = Object.assign({}, EmptyRequestQuery);
 
-  @Input() requestData: RequestData = Object.assign({}, EmptyRequestData);
+  @Input() requestsData: RequestDescriptor[] = [];
 
-  @Input() selectedRequest: RequestEntry = null;
+  @Input() selectedRequest: RequestDescriptor = EmptyRequestDescriptor;
 
   @Input() isLoading = false;
 
@@ -55,7 +55,7 @@ export class RequestsExplorerComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.requestData) {
+    if (changes.requestsData) {
       this.setText();
       this.showFilters = false;
     }
@@ -88,15 +88,19 @@ export class RequestsExplorerComponent implements OnChanges {
   }
 
 
-  onDataTableEvent(event: EventInfo) {
-    switch (event.type as DataTableEventType) {
-      case DataTableEventType.ENTRY_CLICKED:
+  onRequestsListEvent(event: EventInfo) {
+    switch (event.type as RequestsListEventType) {
+      case RequestsListEventType.ITEM_CLICKED:
+        Assertion.assertValue(event.payload.request, 'event.payload.request');
         sendEvent(this.requestsExplorerEvent, RequestsExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
 
-      case DataTableEventType.EXPORT_DATA:
-        sendEvent(this.requestsExplorerEvent, RequestsExplorerEventType.EXPORT_CLICKED);
+      case RequestsListEventType.EXECUTE_OPERATION_CLICKED:
+        Assertion.assertValue(event.payload.operation, 'event.payload.operation');
+        Assertion.assertValue(event.payload.command, 'event.payload.command');
+        sendEvent(this.requestsExplorerEvent, RequestsExplorerEventType.EXECUTE_OPERATION_CLICKED,
+          event.payload);
         return;
 
       default:
@@ -112,7 +116,7 @@ export class RequestsExplorerComponent implements OnChanges {
       return;
     }
 
-    this.cardHint = `${this.requestData.entries.length} registros encontrados`;
+    this.cardHint = `${this.requestsData.length} registros encontrados`;
   }
 
 }

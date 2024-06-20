@@ -7,8 +7,6 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { DataTable, DataTableColumn, DataTableEntry } from './_data-table';
-
 import { FormFieldDataType } from './_form-fields';
 
 
@@ -30,15 +28,19 @@ export interface RequestQuery {
 }
 
 
-export interface RequestEntry extends DataTableEntry {
+export interface RequestDescriptor {
   uid: string;
-}
-
-
-export interface RequestData extends DataTable {
-  query: RequestQuery;
-  columns: DataTableColumn[];
-  entries: RequestEntry[];
+  uniqueID: string;
+  requestTypeName: string;
+  requesterName: string;
+  controlID: string;
+  requesterOrgUnitName: string;
+  responsibleOrgUnitName: string;
+  description: string;
+  filedByName: string;
+  filingTime: DateString;
+  status: string;
+  notes: string;
 }
 
 
@@ -57,10 +59,49 @@ export interface RequestInputData {
 };
 
 
+export enum RequestsOperationType {
+  excel = 'excel',
+  print = 'print',
+  delete = 'delete',
+}
+
+
+export interface RequestsOperation extends Identifiable {
+  uid: string;
+  name: string;
+}
+
+
+export const RequestsOperationList: RequestsOperation[] = [
+  { uid: RequestsOperationType.excel, name: 'Exportar' },
+  { uid: RequestsOperationType.print, name: 'Imprimir' },
+  { uid: RequestsOperationType.delete, name: 'Eliminar' },
+];
+
+
+export interface RequestsOperationCommand {
+  requests: string[];
+}
+
+
 export interface Request {
   uid: string;
-  organizationalUnit: Identifiable;
   requestType: RequestType;
+  uniqueID: string;
+  controlID: string;
+  requesterName: string;
+  description: string;
+  notes: string;
+  requesterOrgUnit: Identifiable;
+  responsibleOrgUnit: Identifiable;
+  filedBy: Identifiable;
+  filingTime: DateString;
+  closedBy: Identifiable;
+  closingTime: DateString;
+  postedBy: Identifiable;
+  postingTime: DateString;
+  status: string;
+
   requestTypeFields: RequestTypeField[];
   files: RequestFile[];
 }
@@ -96,13 +137,6 @@ export const EmptyRequestQuery: RequestQuery = {
 };
 
 
-export const EmptyRequestData: RequestData = {
-  query: EmptyRequestQuery,
-  columns: [],
-  entries: [],
-};
-
-
 export const EmptyRequestType: RequestType = {
   uid: '',
   name: '',
@@ -110,10 +144,40 @@ export const EmptyRequestType: RequestType = {
 };
 
 
+export const EmptyRequestDescriptor: RequestDescriptor = {
+  uid: '',
+  requestTypeName: '',
+  uniqueID: '',
+  controlID: '',
+  requesterName: '',
+  description: '',
+  notes: '',
+  requesterOrgUnitName: '',
+  responsibleOrgUnitName: '',
+  filedByName: '',
+  filingTime: '',
+  status: '',
+}
+
+
 export const EmptyRequest: Request = {
   uid: '',
-  organizationalUnit: Empty,
   requestType: EmptyRequestType,
+  uniqueID: '',
+  controlID: '',
+  requesterName: '',
+  description: '',
+  notes: '',
+  requesterOrgUnit: Empty,
+  responsibleOrgUnit: Empty,
+  filedBy: Empty,
+  filingTime: '',
+  closedBy: Empty,
+  closingTime: '',
+  postedBy: Empty,
+  postingTime: '',
+  status: '',
+
   requestTypeFields: [],
   files: [],
 }

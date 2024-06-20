@@ -9,7 +9,7 @@
     <emp-pyc-requests-explorer
       [requestsList]="requestsList"
       [query]="query"
-      [requestData]="requestData"
+      [requestsData]="requestsData"
       [selectedRequest]="selectedRequest"
       [isLoading]="isLoading"
       [queryExecuted]="queryExecuted"
@@ -20,6 +20,12 @@
   </div>
 
   <div class="secondary" *ngIf="displayTabbedView">
+
+    <emp-pyc-request-tabbed-view
+      [request]="selectedRequest"
+      (requestTabbedViewEvent)="onRequestTabbedViewEvent($event)">
+
+    </emp-pyc-request-tabbed-view>
 
   </div>
 

@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { RequestsList, Request, RequestData, RequestFields, RequestQuery, RequestType } from '@app/models';
+import { RequestsList, Request, RequestFields, RequestQuery, RequestType,
+         RequestDescriptor } from '@app/models';
 
 
 @Injectable()
@@ -55,12 +56,12 @@ export class RequestsDataService {
   }
 
 
-  searchRequests(query: RequestQuery): EmpObservable<RequestData> {
+  searchRequests(query: RequestQuery): EmpObservable<RequestDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v4/requests/search';
 
-    return this.http.post<RequestData>(path, query);
+    return this.http.post<RequestDescriptor[]>(path, query);
   }
 
 

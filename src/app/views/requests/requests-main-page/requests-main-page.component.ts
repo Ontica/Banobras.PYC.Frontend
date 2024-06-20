@@ -15,16 +15,20 @@ import { View } from '@app/main-layout';
 
 import { MainUIStateSelector } from '@app/presentation/exported.presentation.types';
 
+import { ArrayLibrary } from '@app/shared/utils';
+
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { EmptyRequestData, EmptyRequestQuery, RequestData, RequestQuery, RequestsList,
-         EmptyRequest, Request } from '@app/models/requests';
+import { EmptyRequestQuery, RequestQuery, RequestsList, RequestDescriptor,
+         EmptyRequestDescriptor} from '@app/models/requests';
 
 import { RequestsExplorerEventType } from '../requests-explorer/requests-explorer.component';
 
 import { RequestCreatorEventType } from '../request/request-creator.component';
+
+import { RequestTabbedViewEventType } from '../request-tabbed-view/request-tabbed-view.component';
 
 
 @Component({
@@ -39,9 +43,9 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
   query: RequestQuery = Object.assign({}, EmptyRequestQuery);
 
-  requestData: RequestData = Object.assign({}, EmptyRequestData);
+  requestsData: RequestDescriptor[] = [];
 
-  selectedRequest: Request = EmptyRequest;
+  selectedRequest: RequestDescriptor = EmptyRequestDescriptor;
 
   displayTabbedView = false;
 
@@ -81,9 +85,8 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
       case RequestCreatorEventType.REQUEST_CREATED:
         Assertion.assertValue(event.payload.request, 'event.payload.request');
         this.displayCreator = false;
-        this.setSelectedRequest(event.payload.request as Request);
-        this.validateQueryForRefreshRequestData(this.selectedRequest.organizationalUnit?.uid ?? '123',
-                                                this.selectedRequest.requestType?.uid ?? '123');
+        this.setSelectedRequest(event.payload.request);
+        this.addRequestToRequestsData(this.selectedRequest);
         return;
 
       default:
@@ -104,7 +107,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
         this.query = Object.assign({}, event.payload.query as RequestQuery);
         this.clearRequestsData();
         this.clearSelectedRequest();
-        this.searchRequestData(this.query);
+        this.searchRequestsData(this.query);
         return;
 
       case RequestsExplorerEventType.CLEAR_CLICKED:
@@ -115,12 +118,27 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
         return;
 
       case RequestsExplorerEventType.SELECT_CLICKED:
-        Assertion.assertValue(event.payload.entry, ' event.payload.entry');
-        this.messageBox.showInDevelopment('Seleccion de solicitud', event.payload.entry);
+        Assertion.assertValue(event.payload.request, ' event.payload.request');
+        this.setSelectedRequest(event.payload.request);
         return;
 
-      case RequestsExplorerEventType.EXPORT_CLICKED:
-        this.messageBox.showInDevelopment('Exportar solicitudes', this.query);
+      case RequestsExplorerEventType.EXECUTE_OPERATION_CLICKED:
+        Assertion.assertValue(event.payload.operation, 'event.payload.operation');
+        Assertion.assertValue(event.payload.command, 'event.payload.command');
+        this.messageBox.showInDevelopment('Ejecutar operación', event.payload );
+        return;
+
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onRequestTabbedViewEvent(event: EventInfo) {
+    switch (event.type as RequestTabbedViewEventType) {
+      case RequestTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.clearSelectedRequest();
         return;
 
       default:
@@ -152,18 +170,13 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private validateQueryForRefreshRequestData(organizationalUnitUID: string, requestTypeUID: string) {
-    this.query = Object.assign({}, EmptyRequestQuery, { organizationalUnitUID, requestTypeUID });
-    this.refreshRequestData();
+  private addRequestToRequestsData(request: RequestDescriptor) {
+    const data = ArrayLibrary.insertIfNotExist(this.requestsData, request, 'uid');
+    this.setRequestsData(data, true);
   }
 
 
-  private refreshRequestData() {
-    this.searchRequestData(this.query);
-  }
-
-
-  private searchRequestData(query: RequestQuery) {
+  private searchRequestsData(query: RequestQuery) {
     this.isLoading = true;
 
     this.requestService.searchRequests(query)
@@ -173,30 +186,30 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private resolveSearchRequestData(data: RequestData) {
-    this.setRequestData(data, true);
+  private resolveSearchRequestData(data: RequestDescriptor[]) {
+    this.setRequestsData(data, true);
   }
 
 
-  private setRequestData(data: RequestData, queryExecuted: boolean = true) {
-    this.requestData = data?.columns ? data : Object.assign({}, EmptyRequestData);
+  private setRequestsData(data: RequestDescriptor[], queryExecuted: boolean = true) {
+    this.requestsData = data ?? [];
     this.queryExecuted = queryExecuted;
   }
 
 
   private clearRequestsData() {
-    this.setRequestData(EmptyRequestData, false);
+    this.setRequestsData([], false);
   }
 
 
-  private setSelectedRequest(data: Request) {
+  private setSelectedRequest(data: RequestDescriptor) {
     this.selectedRequest = data;
     this.displayTabbedView = !isEmpty(this.selectedRequest);
   }
 
 
   private clearSelectedRequest() {
-    this.setSelectedRequest(EmptyRequest);
+    this.setSelectedRequest(EmptyRequestDescriptor);
   }
 
 }
