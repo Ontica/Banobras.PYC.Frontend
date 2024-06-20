@@ -70,7 +70,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoadingRequesterOrgUnits = false;
 
-  requesterOrgUnitsList: Identifiable[] = [];
+  organizationalUnitsList: Identifiable[] = [];
 
   requestTypesList: RequestType[] = [];
 
@@ -159,8 +159,8 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private initLists() {
-    this.requesterOrgUnitsList = isEmpty(this.request.organizationalUnit) ? this.requesterOrgUnitsList :
-      ArrayLibrary.insertIfNotExist(this.requesterOrgUnitsList ?? [], this.request.organizationalUnit, 'uid');
+    this.organizationalUnitsList = isEmpty(this.request.requesterOrgUnit) ? this.organizationalUnitsList :
+      ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.request.requesterOrgUnit, 'uid');
     this.requestTypesList = isEmpty(this.request.requestType) ? this.requestTypesList :
       ArrayLibrary.insertIfNotExist(this.requestTypesList ?? [], this.request.requestType, 'uid');
   }
@@ -178,7 +178,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private resolveGetOrganizationalUnits(data: Identifiable[]) {
-    this.requesterOrgUnitsList = data;
+    this.organizationalUnitsList = data;
     this.initLists();
   }
 
@@ -214,7 +214,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        requesterOrgUnitUID: this.request.organizationalUnit.uid,
+        requesterOrgUnitUID: this.request.requesterOrgUnit.uid,
         requestType: this.request.requestType,
       });
 
@@ -232,7 +232,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     const oldDynamicFields = [...this.dynamicFields];
     this.dynamicFields = [];
     setTimeout(() =>
-      this.dynamicFields = FormDynamicHelper.buildDynamicFields(this.form, inputData, oldDynamicFields)
+      this.dynamicFields = FormDynamicHelper.buildDynamicFields(this.form, inputData, true, oldDynamicFields)
     );
   }
 
@@ -282,13 +282,13 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     switch (eventType) {
       case RequestHeaderEventType.DELETE_REQUEST:
         return `Esta operación eliminará la solicitud
-                <strong> ${this.request.organizationalUnit.name}:
+                <strong> ${this.request.requesterOrgUnit.name}:
                 ${this.request.requestType.name}</strong>.
                 <br><br>¿Elimino la solicitud?`;
 
       case RequestHeaderEventType.CLOSE_REQUEST:
         return `Esta operación cerrará la solicitud
-                <strong> ${this.request.organizationalUnit.name}:
+                <strong> ${this.request.requesterOrgUnit.name}:
                 ${this.request.requestType.name}</strong>.
                 <br><br>¿Cierro la solicitud?`;
 

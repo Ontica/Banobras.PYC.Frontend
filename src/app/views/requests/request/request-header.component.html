@@ -11,7 +11,7 @@
         <emp-ng-select
           formControlName="requesterOrgUnitUID"
           [config]="{virtualScroll: true}"
-          [items]="requesterOrgUnitsList"
+          [items]="organizationalUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.requesterOrgUnitUID)"
           (changes)="onRequesterOrgUnitUIDChanged($event)">

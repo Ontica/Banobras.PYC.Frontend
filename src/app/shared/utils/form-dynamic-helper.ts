@@ -20,19 +20,24 @@ export class FormDynamicHelper {
 
   static buildDynamicFields(form: FormGroup<any>,
                             inputData: RequestInputData[],
+                            newFieldsRequired: boolean,
                             oldDynamicFields?: FormFieldData[]): FormFieldData[] {
-
     oldDynamicFields?.forEach(x => this.removeFormControl(form, x.field));
-    const newDynamicFields = inputData.length > 0 ? inputData.map(x => this.getFormFieldData(x)) : [];
-    newDynamicFields.forEach(x => this.addFormControl(form, x.field));
+
+    const newDynamicFields =
+      inputData.length > 0 ? inputData.map(x => this.getFormFieldData(x, newFieldsRequired)) : [];
+
+    newDynamicFields.forEach(x => this.addFormControl(form, x.field, newFieldsRequired));
 
     return newDynamicFields;
   }
 
 
-  static addFormControl(form: FormGroup<any>, control: string) {
+  static addFormControl(form: FormGroup<any>, control: string, required: boolean) {
+    const validator = required ? Validators.required : [];
+
     if (!this.existFormControl(form, control)) {
-      form.addControl(control as any, new FormControl('', Validators.required));
+      form.addControl(control as any, new FormControl('', validator));
     }
   }
 
@@ -51,13 +56,13 @@ export class FormDynamicHelper {
   }
 
 
-  static getFormFieldData(inputData: RequestInputData): FormFieldData {
+  static getFormFieldData(inputData: RequestInputData, requerid: boolean): FormFieldData {
     const data: FormFieldData = {
       label: inputData.label,
       field: inputData.field,
       fieldType: inputData.dataType,
       values: inputData.values,
-      required: true,
+      required: requerid,
       multiple: false,
     };
 

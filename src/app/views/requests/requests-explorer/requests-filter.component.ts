@@ -242,7 +242,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
     const oldDynamicFields = [...this.dynamicFields];
     this.dynamicFields = [];
     setTimeout(() =>
-      this.dynamicFields = FormDynamicHelper.buildDynamicFields(this.form, inputData, oldDynamicFields)
+      this.dynamicFields = FormDynamicHelper.buildDynamicFields(this.form, inputData, false, oldDynamicFields)
     );
   }
 
