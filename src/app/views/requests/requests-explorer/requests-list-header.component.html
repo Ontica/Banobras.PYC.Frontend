@@ -1,0 +1,42 @@
+<div class="list-header header-padding">
+
+  <div class="list-header-container">
+
+    <div class="fx-row-container fx-gap-size entry-gap-size fx-items-center sm-fx-gap">
+
+      <div class="fx-item-size check-column-size sm-fx-item-none">
+        <div *ngIf="requestsData.length > 0">
+
+          <emp-ng-check-box-all
+            [(selection)]="selection"
+            [values]="requestsData">
+          </emp-ng-check-box-all>
+
+        </div>
+      </div>
+
+      <div class="fx-item-size first-column-size sm-fx-item-none nowrap">
+        No. Solicitud <br>
+        Tipo de solicitud <br>
+        Solicitante
+      </div>
+
+      <div class="fx-item-size second-column-size sm-fx-item-none">
+        No. de control <br>
+        <span class="nowrap">Área solicitante</span> <br>
+        Responsable
+      </div>
+
+      <div class="fx-item">
+        Descripción <br>
+        <span class="nowrap">Fecha de presentación</span> <br>
+        Presentado por
+      </div>
+
+      <div class="fx-item-size status-column-size sm-fx-item-none"> Estado </div>
+
+    </div>
+
+  </div>
+
+</div>
