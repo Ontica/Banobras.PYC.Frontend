@@ -18,7 +18,7 @@ import { RequestsStateSelector } from '@app/presentation/exported.presentation.t
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormDynamicHelper, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
@@ -61,6 +61,8 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   controlType = FormFieldDataType;
 
   formHelper = FormHelper;
+
+  formDynamicHelper = FormDynamicHelper;
 
   editionMode = false;
 
@@ -109,11 +111,6 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  existFormControl(field: string): boolean {
-    return !!this.form.controls[field];
-  }
-
-
   onRequesterOrgUnitUIDChanged(requesterOrgUnit: Identifiable) {
     this.form.controls.requestType.reset(null);
     this.onRequestTypeChanged(EmptyRequestType);
@@ -122,8 +119,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
 
   onRequestTypeChanged(requestType: RequestType) {
-    this.hasExtraFields = requestType.inputData.length > 0;
-    this.buildDynamicFields(requestType.inputData);
+    this.buildNewDynamicFields(requestType.inputData);
   }
 
 
@@ -217,58 +213,27 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
   private setFormData() {
     setTimeout(() => {
-
       this.form.reset({
         requesterOrgUnitUID: this.request.organizationalUnit.uid,
         requestType: this.request.requestType,
       });
 
-      this.request.requestTypeFields.forEach(x => this.setFormControlValue(x.field, x.value));
-      this.initLists();
+      this.request.requestTypeFields.forEach(x =>
+        FormDynamicHelper.setFormControlValue(this.form, x.field, x.value)
+      );
 
+      this.initLists();
     });
   }
 
 
-  private buildDynamicFields(inputData: RequestInputData[]) {
-    this.dynamicFields.forEach(x => this.removeFormControl(x.field));
-    this.dynamicFields = inputData.length > 0 ? inputData.map(x => this.getFormFieldData(x)) : [];
-    return setTimeout(() => this.dynamicFields.forEach(x => this.addFormControl(x.field)));
-  }
-
-
-  private addFormControl(control: string) {
-    if (!this.existFormControl(control)) {
-      this.form.addControl(control as any, new FormControl('', Validators.required));
-    }
-  }
-
-
-  private removeFormControl(control: string) {
-    if (this.existFormControl(control)) {
-      this.form.removeControl(control as any);
-    }
-  }
-
-
-  private setFormControlValue(control: string, value: string) {
-    if (this.existFormControl(control)) {
-      this.form.controls[control].reset(value);
-    }
-  }
-
-
-  private getFormFieldData(inputData: RequestInputData): FormFieldData {
-    const data: FormFieldData = {
-      label: inputData.label,
-      field: inputData.field,
-      fieldType: inputData.dataType,
-      values: inputData.values,
-      required: true,
-      multiple: false,
-    };
-
-    return data;
+  private buildNewDynamicFields(inputData: RequestInputData[]) {
+    this.hasExtraFields = inputData.length > 0;
+    const oldDynamicFields = [...this.dynamicFields];
+    this.dynamicFields = [];
+    setTimeout(() =>
+      this.dynamicFields = FormDynamicHelper.buildDynamicFields(this.form, inputData, oldDynamicFields)
+    );
   }
 
 
@@ -276,22 +241,12 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const requestTypeFields: RequestTypeField[] =
-      this.dynamicFields.map(x => this.buildRequestTypeField(x)) ?? [];
+      this.dynamicFields.map(x => FormDynamicHelper.buildRequestTypeField(this.form, x)) ?? [];
 
     const data: RequestFields = {
       requesterOrgUnitUID: this.form.value.requesterOrgUnitUID ?? '',
       requestTypeUID: this.form.value.requestType.uid ?? '',
       requestTypeFields,
-    };
-
-    return data;
-  }
-
-
-  private buildRequestTypeField(field: FormFieldData): RequestTypeField {
-    const data: RequestTypeField = {
-      field: field.field,
-      value: this.form.value[field.field] ?? '',
     };
 
     return data;
