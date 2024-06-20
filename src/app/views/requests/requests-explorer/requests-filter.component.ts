@@ -20,11 +20,12 @@ import { RequestsStateSelector } from '@app/presentation/exported.presentation.t
 
 import { expandCollapse } from '@app/shared/animations/animations';
 
-import { FormHelper, sendEvent } from '@app/shared/utils';
+import { FormDynamicHelper, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { RequestQuery, RequestsList, EmptyRequestQuery } from '@app/models';
+import { RequestQuery, RequestsList, EmptyRequestQuery, RequestType, FormFieldData, FormFieldDataType,
+         EmptyRequestType, RequestInputData, RequestTypeField } from '@app/models';
 
 export enum RequestsFilterEventType {
   SEARCH_CLICKED = 'RequestsFilterComponent.Event.SearchClicked',
@@ -33,9 +34,9 @@ export enum RequestsFilterEventType {
 
 interface RequestsFilterFormModel extends FormGroup<{
   requesterOrgUnitUID: FormControl<string>;
+  keywords: FormControl<string>;
   requestTypeUID: FormControl<string>;
   requestStatus: FormControl<string>;
-  responsibleUID: FormControl<string>;
   fromDate: FormControl<DateString>;
   toDate: FormControl<DateString>;
 }> { }
@@ -59,7 +60,15 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   form: RequestsFilterFormModel;
 
+  dynamicFields: FormFieldData[] = [];
+
+  hasExtraFields = false;
+
+  controlType = FormFieldDataType;
+
   formHelper = FormHelper;
+
+  formDynamicHelper = FormDynamicHelper;
 
   isLoading = false;
 
@@ -69,9 +78,9 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   requestTypesList: Identifiable[] = [];
 
-  requestStatusList: Identifiable[] = [];
+  allRequestTypesList: Identifiable[] = [];
 
-  responsiblesList: Identifiable[] = [];
+  requestStatusList: Identifiable[] = [];
 
   helper: SubscriptionHelper;
 
@@ -109,11 +118,18 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
   onRequesterOrgUnitChanged(requesterOrgUnit: Identifiable) {
     this.form.controls.requestTypeUID.reset();
 
+    this.onRequestTypeChanged(EmptyRequestType);
+
     if (isEmpty(requesterOrgUnit)) {
-      this.requestTypesList = [];
+      this.resetRequestTypesList();
     } else {
-      this.getRequestType(requesterOrgUnit.uid);
+      this.getRequestTypeFiltered(requesterOrgUnit.uid);
     }
+  }
+
+
+  onRequestTypeChanged(requestType: RequestType) {
+    this.buildNewDynamicFields(requestType?.inputData ?? []);
   }
 
 
@@ -131,6 +147,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   onClearFilters() {
     this.clearFilters();
+    this.clearDynamicFields();
 
     const payload = {
       isFormValid: this.form.valid,
@@ -146,9 +163,9 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
     this.form = fb.group({
       requesterOrgUnitUID: [''],
+      keywords: [''],
       requestTypeUID: [''],
       requestStatus: [''],
-      responsibleUID: [''],
       fromDate: [null],
       toDate: [null],
     });
@@ -158,12 +175,16 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
   private setFormData() {
     this.form.reset({
       requesterOrgUnitUID: this.query.requesterOrgUnitUID,
+      keywords: this.query.keywords,
       requestTypeUID: this.query.requestTypeUID,
       requestStatus: this.query.requestStatus,
-      responsibleUID: this.query.responsibleUID,
       fromDate: this.query.fromDate,
       toDate: this.query.toDate,
     });
+
+    this.query.requestTypeFields.forEach(x =>
+      FormDynamicHelper.setFormControlValue(this.form, x.field, x.value)
+    );
   }
 
 
@@ -173,19 +194,30 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
     combineLatest([
       this.helper.select<Identifiable[]>(RequestsStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: this.requestsList }),
+      this.requestsData.getRequestTypes(this.requestsList),
       this.helper.select<Identifiable[]>(RequestsStateSelector.REQUEST_STATUS),
-      this.requestsData.getRequestResponsibles(),
     ])
-    .subscribe(([x, y, z]) => {
-      this.requesterOrgUnitsList = x;
-      this.requestStatusList = y;
-      this.responsiblesList = z;
-      this.isLoading = x.length === 0;
+    .subscribe(([a, b, c]) => {
+      this.requesterOrgUnitsList = a;
+      this.setAllRequestTypesList(b);
+      this.requestStatusList = c;
+      this.isLoading = a.length === 0;
     });
   }
 
 
-  private getRequestType(requesterOrgUnitUID: string) {
+  private setAllRequestTypesList(requestTypes: RequestType[]) {
+    this.allRequestTypesList = requestTypes ?? [];
+    this.resetRequestTypesList();
+  }
+
+
+  private resetRequestTypesList() {
+    this.requestTypesList = [...this.allRequestTypesList];
+  }
+
+
+  private getRequestTypeFiltered(requesterOrgUnitUID?: string) {
     this.isLoadingRequesterOrgUnits = true;
 
     this.requestsData.getRequestTypes(this.requestsList, requesterOrgUnitUID)
@@ -200,16 +232,34 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
+  private clearDynamicFields() {
+    this.buildNewDynamicFields([]);
+  }
+
+
+  private buildNewDynamicFields(inputData: RequestInputData[]) {
+    this.hasExtraFields = inputData.length > 0;
+    const oldDynamicFields = [...this.dynamicFields];
+    this.dynamicFields = [];
+    setTimeout(() =>
+      this.dynamicFields = FormDynamicHelper.buildDynamicFields(this.form, inputData, oldDynamicFields)
+    );
+  }
+
+
   private getFormData(): RequestQuery {
+    const requestTypeFields: RequestTypeField[] =
+      this.dynamicFields.map(x => FormDynamicHelper.buildRequestTypeField(this.form, x)) ?? [];
+
     const query: RequestQuery = {
       requestsList: this.requestsList,
       requesterOrgUnitUID: this.form.value.requesterOrgUnitUID,
+      keywords: this.form.value.keywords ?? '',
       requestTypeUID: this.form.value.requestTypeUID,
       requestStatus: this.form.value.requestStatus,
-      responsibleUID: this.form.value.responsibleUID,
       fromDate: this.form.value.fromDate,
       toDate: this.form.value.toDate,
-      requestFields: [],
+      requestTypeFields,
     };
 
     return query;

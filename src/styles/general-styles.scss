@@ -214,6 +214,10 @@ button.btn-margin-right {
   margin-right: 32px;
 }
 
+button.btn-filter-options {
+  width: 108px;
+}
+
 select.select-box {
   @include input-settings;
 }

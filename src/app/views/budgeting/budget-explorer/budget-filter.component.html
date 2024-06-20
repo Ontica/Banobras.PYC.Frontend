@@ -59,8 +59,7 @@
 
         </mat-divider>
 
-        <button class="btn-base"
-          [style.width.px]="100"
+        <button class="btn-base btn-filter-options"
           (click)="onShowFiltersClicked()" >
           {{showFilters ? 'Ocultar' :'Mostrar'}} <mat-icon>filter_list</mat-icon>
         </button>
@@ -113,8 +112,7 @@
 
           <div class="fx-item-none">
 
-            <button class="btn-base"
-              [style.width.px]="100"
+            <button class="btn-base btn-filter-options"
               (click)="onClearFilters()">
               Limpiar <mat-icon>filter_list</mat-icon>
             </button>

@@ -27,13 +27,15 @@ export class RequestsDataService {
 
 
   getRequestTypes(requestsList: RequestsList,
-                  requesterOrgUnitUID: string): EmpObservable<RequestType[]> {
+                  requesterOrgUnitUID?: string): EmpObservable<RequestType[]> {
 
     Assertion.assertValue(requestsList, 'requestsList');
-    Assertion.assertValue(requesterOrgUnitUID, 'requesterOrgUnitUID');
 
-    const path = `v4/requests/catalogues/requests-types/?requestsList=${requestsList}&` +
-                 `requesterOrgUnitUID=${requesterOrgUnitUID}`;
+    let path = `v4/requests/catalogues/requests-types/?requestsList=${requestsList}`;
+
+    if (!!requesterOrgUnitUID) {
+      path += `&requesterOrgUnitUID=${requesterOrgUnitUID}`;
+    }
 
     return this.http.get<RequestType[]>(path);
   }
