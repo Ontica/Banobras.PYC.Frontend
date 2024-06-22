@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { RequestsList, Request, RequestFields, RequestQuery, RequestType,
-         RequestDescriptor } from '@app/models';
+import { RequestsList, RequestFields, RequestQuery, RequestType, RequestDescriptor,
+         RequestData } from '@app/models';
 
 
 @Injectable()
@@ -65,12 +65,31 @@ export class RequestsDataService {
   }
 
 
-  createRequest(dataFields: RequestFields): EmpObservable<Request> {
+  getRequest(requestUID: string): EmpObservable<RequestData> {
+    Assertion.assertValue(requestUID, 'requestUID');
+
+    const path = `v4/requests/${requestUID}`;
+
+    return this.http.get<RequestData>(path);
+
+  }
+
+
+  createRequest(dataFields: RequestFields): EmpObservable<RequestDescriptor> {
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v4/requests/create`;
 
-    return this.http.post<Request>(path, dataFields);
+    return this.http.post<RequestDescriptor>(path, dataFields);
+  }
+
+
+  deleteRequest(requestUID: string): EmpObservable<void> {
+    Assertion.assertValue(requestUID, 'requestUID');
+
+    const path = `v4/requests/${requestUID}`;
+
+    return this.http.delete<void>(path);
   }
 
 }

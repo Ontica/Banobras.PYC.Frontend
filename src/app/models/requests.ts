@@ -84,6 +84,15 @@ export interface RequestsOperationCommand {
 }
 
 
+export interface RequestData {
+  request: Request;
+  tasks: RequestTask[];
+  files: RequestFile[];
+  workflowHistory: RequestWorkflowHistory[];
+  actions: RequestActions;
+}
+
+
 export interface Request {
   uid: string;
   requestType: RequestType;
@@ -103,12 +112,29 @@ export interface Request {
   status: string;
 
   requestTypeFields: RequestTypeField[];
-  files: RequestFile[];
+}
+
+
+export interface RequestTask {
+  uid: string;
 }
 
 
 export interface RequestFile {
+  uid: string;
+}
 
+
+export interface RequestWorkflowHistory {
+  uid: string;
+}
+
+
+export interface RequestActions {
+  canStart: boolean;
+  canDelete: boolean;
+  canSuspend: boolean;
+  canActivate: boolean;
 }
 
 
@@ -157,7 +183,7 @@ export const EmptyRequestDescriptor: RequestDescriptor = {
   filedByName: '',
   filingTime: '',
   status: '',
-}
+};
 
 
 export const EmptyRequest: Request = {
@@ -179,5 +205,21 @@ export const EmptyRequest: Request = {
   status: '',
 
   requestTypeFields: [],
+};
+
+
+export const EmptyRequestActions: RequestActions = {
+  canStart: false,
+  canDelete: false,
+  canSuspend: false,
+  canActivate: false,
+};
+
+
+export const EmptyRequestData: RequestData = {
+  request: EmptyRequest,
+  tasks: [],
   files: [],
-}
+  workflowHistory: [],
+  actions: EmptyRequestActions,
+};
