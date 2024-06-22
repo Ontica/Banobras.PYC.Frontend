@@ -5,11 +5,11 @@
     <div class="fx-row-container fx-gap-size entry-gap-size fx-items-center sm-fx-gap">
 
       <div class="fx-item-size check-column-size sm-fx-item-none">
-        <div *ngIf="requestsData.length > 0">
+        <div *ngIf="requestDataList.length > 0">
 
           <emp-ng-check-box-all
             [(selection)]="selection"
-            [values]="requestsData">
+            [values]="requestDataList">
           </emp-ng-check-box-all>
 
         </div>

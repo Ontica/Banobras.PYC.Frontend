@@ -18,7 +18,7 @@ import { RequestDescriptor } from '@app/models';
 })
 export class RequestsListHeaderComponent {
 
-  @Input() requestsData: RequestDescriptor[] = [];
+  @Input() requestDataList: RequestDescriptor[] = [];
 
   @Input() selection = new SelectionModel<RequestDescriptor>(true, []);
 

@@ -11,8 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { RequestsList, RequestQuery, EmptyRequestQuery, RequestDescriptor,
-         EmptyRequestDescriptor} from '@app/models';
+import { RequestsList, RequestQuery, EmptyRequestQuery, RequestDescriptor } from '@app/models';
 
 import { RequestsFilterEventType } from './requests-filter.component';
 
@@ -37,9 +36,9 @@ export class RequestsExplorerComponent implements OnChanges {
 
   @Input() query: RequestQuery = Object.assign({}, EmptyRequestQuery);
 
-  @Input() requestsData: RequestDescriptor[] = [];
+  @Input() requestDataList: RequestDescriptor[] = [];
 
-  @Input() selectedRequest: RequestDescriptor = EmptyRequestDescriptor;
+  @Input() selectedRequestUID = '';
 
   @Input() isLoading = false;
 
@@ -55,7 +54,7 @@ export class RequestsExplorerComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.requestsData) {
+    if (changes.requestDataList) {
       this.setText();
       this.showFilters = false;
     }
@@ -116,7 +115,7 @@ export class RequestsExplorerComponent implements OnChanges {
       return;
     }
 
-    this.cardHint = `${this.requestsData.length} registros encontrados`;
+    this.cardHint = `${this.requestDataList.length} registros encontrados`;
   }
 
 }

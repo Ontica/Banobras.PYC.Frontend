@@ -30,7 +30,9 @@
   </div>
 
   <div class="fx-item-size status-column-size sm-fx-item-none">
-    <span class="tag">{{request.status}}</span>
+    <span class="tag" [ngClass]="{'tag-error': request.status === 'Eliminada'}">
+      {{request.status}}
+    </span>
   </div>
 
 </div>

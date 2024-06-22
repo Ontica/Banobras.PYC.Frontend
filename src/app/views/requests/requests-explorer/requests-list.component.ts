@@ -15,7 +15,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyRequestDescriptor, RequestDescriptor } from '@app/models';
+import { RequestDescriptor } from '@app/models';
 
 import { RequestsListControlsEventType } from './requests-list-controls.component';
 
@@ -34,9 +34,9 @@ export class RequestsListComponent implements OnChanges {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-  @Input() requestsData: RequestDescriptor[] = [];
+  @Input() requestDataList: RequestDescriptor[] = [];
 
-  @Input() selectedRequest: RequestDescriptor = EmptyRequestDescriptor;
+  @Input() selectedRequestUID = '';
 
   @Input() queryExecuted = false;
 
@@ -46,7 +46,7 @@ export class RequestsListComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.requestsData) {
+    if (changes.requestDataList) {
       this.scrollToTop();
       this.selection.clear();
     }
@@ -54,7 +54,7 @@ export class RequestsListComponent implements OnChanges {
 
 
   isSelected(request: RequestDescriptor) {
-    return (this.selectedRequest.uid === request.uid);
+    return (this.selectedRequestUID === request.uid);
   }
 
 

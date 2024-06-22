@@ -43,7 +43,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
   query: RequestQuery = Object.assign({}, EmptyRequestQuery);
 
-  requestsData: RequestDescriptor[] = [];
+  requestDataList: RequestDescriptor[] = [];
 
   selectedRequest: RequestDescriptor = EmptyRequestDescriptor;
 
@@ -77,7 +77,6 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
   onRequestCreatorEvent(event: EventInfo) {
     switch (event.type as RequestCreatorEventType) {
-
       case RequestCreatorEventType.CLOSE_MODAL_CLICKED:
         this.displayCreator = false;
         return;
@@ -105,15 +104,15 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
       case RequestsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.query = Object.assign({}, event.payload.query as RequestQuery);
-        this.clearRequestsData();
+        this.clearRequestDataList();
         this.clearSelectedRequest();
-        this.searchRequestsData(this.query);
+        this.searchRequests(this.query);
         return;
 
       case RequestsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.query = Object.assign({}, event.payload.query as RequestQuery);
-        this.clearRequestsData();
+        this.clearRequestDataList();
         this.clearSelectedRequest();
         return;
 
@@ -170,13 +169,13 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private addRequestToRequestsData(request: RequestDescriptor) {
-    const data = ArrayLibrary.insertIfNotExist(this.requestsData, request, 'uid');
-    this.setRequestsData(data, true);
+  private addRequestToRequestDataList(request: RequestDescriptor) {
+    const data = ArrayLibrary.insertItemTop(this.requestDataList, request, 'uid');
+    this.setRequestDataList(data, true);
   }
 
 
-  private searchRequestsData(query: RequestQuery) {
+  private searchRequests(query: RequestQuery) {
     this.isLoading = true;
 
     this.requestService.searchRequests(query)
@@ -187,18 +186,18 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
 
   private resolveSearchRequestData(data: RequestDescriptor[]) {
-    this.setRequestsData(data, true);
+    this.setRequestDataList(data, true);
   }
 
 
-  private setRequestsData(data: RequestDescriptor[], queryExecuted: boolean = true) {
-    this.requestsData = data ?? [];
+  private setRequestDataList(data: RequestDescriptor[], queryExecuted: boolean = true) {
+    this.requestDataList = data ?? [];
     this.queryExecuted = queryExecuted;
   }
 
 
-  private clearRequestsData() {
-    this.setRequestsData([], false);
+  private clearRequestDataList() {
+    this.setRequestDataList([], false);
   }
 
 

@@ -9,8 +9,8 @@
     <emp-pyc-requests-explorer
       [requestsList]="requestsList"
       [query]="query"
-      [requestsData]="requestsData"
-      [selectedRequest]="selectedRequest"
+      [requestDataList]="requestDataList"
+      [selectedRequestUID]="selectedRequest.request.uid"
       [isLoading]="isLoading"
       [queryExecuted]="queryExecuted"
       (requestsExplorerEvent)="onRequestsExplorerEvent($event)">
