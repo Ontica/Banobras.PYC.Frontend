@@ -106,23 +106,43 @@
 
       <div class="fx-item fx-items-center">
 
-        <button *ngIf="editionMode"
-          type="button" class="btn-warning"
-          (click)="onDeleteButtonClicked()">
-          Eliminar
-        </button>
+        <ng-container *ngIf="editionMode">
 
-        <button *ngIf="!editionMode"
-          type="button" class="btn"
-          (click)="onCloseButtonClicked()">
-          Cerrar
-        </button>
+          <button *ngIf="actions.canDelete"
+            type="button" class="btn-warning"
+            (click)="onDeleteButtonClicked()">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+          <button *ngIf="actions.canStart"
+            type="button" class="btn"
+            (click)="onStartButtonClicked()">
+            Iniciar proceso
+          </button>
+
+          <button *ngIf="actions.canSuspend"
+            type="button" class="btn"
+            (click)="onSuspendButtonClicked()">
+            Suspender
+          </button>
+
+          <button *ngIf="actions.canActivate"
+            type="button" class="btn"
+            (click)="onActivateButtonClicked()">
+            Reactivar
+          </button>
+
+        </ng-container>
 
       </div>
 
       <div class="fx-item fx-end fx-items-center">
 
-        <button *ngIf="!editionMode"
+        <button *ngIf="!editionMode && actions.canDelete"
           class="btn-action"
           (click)="enableEditor(true)">
           Editar
@@ -130,7 +150,7 @@
 
         <ng-container *ngIf="editionMode">
 
-          <button
+          <button *ngIf="false"
             [class.btn]="!formHelper.isFormReady(form)"
             [class.btn-action]="formHelper.isFormReady(form)"
             (click)="onSubmitButtonClicked()">

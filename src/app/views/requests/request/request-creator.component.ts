@@ -13,7 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { Request, RequestFields, RequestsList } from '@app/models';
+import { RequestDescriptor, RequestFields, RequestsList } from '@app/models';
 
 import { RequestHeaderEventType } from './request-header.component';
 
@@ -71,7 +71,7 @@ export class RequestCreatorComponent {
   }
 
 
-  private resolveCreateRequest(data: Request) {
+  private resolveCreateRequest(data: RequestDescriptor) {
     sendEvent(this.requestCreatorEvent, RequestCreatorEventType.REQUEST_CREATED, { request: data });
   }
 

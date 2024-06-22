@@ -1,0 +1,18 @@
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="section-title"> Información general de la solicitud </div>
+
+  <emp-pyc-request-header
+    [requestsList]="requestsList"
+    [isSaved]="isSaved"
+    [request]="request"
+    [actions]="actions"
+    (requestHeaderEvent)="onRequestHeaderEvent($event)">
+
+  </emp-pyc-request-header>
+
+</div>

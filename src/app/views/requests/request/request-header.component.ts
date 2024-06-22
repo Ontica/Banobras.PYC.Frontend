@@ -23,14 +23,17 @@ import { ArrayLibrary, FormDynamicHelper, FormHelper, sendEvent } from '@app/sha
 import { RequestsDataService } from '@app/data-services';
 
 import { RequestTypeField, FormFieldData, FormFieldDataType, Request, RequestFields, RequestInputData,
-         RequestsList, RequestType, EmptyRequest, EmptyRequestType } from '@app/models';
+         RequestsList, RequestType, EmptyRequest, EmptyRequestType, RequestActions,
+         EmptyRequestActions } from '@app/models';
 
 
 export enum RequestHeaderEventType {
-  CREATE_REQUEST = 'RequestHeaderComponent.Event.CreateRequest',
-  UPDATE_REQUEST = 'RequestHeaderComponent.Event.UpdateRequest',
-  DELETE_REQUEST = 'RequestHeaderComponent.Event.DeleteRequest',
-  CLOSE_REQUEST  = 'RequestHeaderComponent.Event.CloseRequest',
+  CREATE_REQUEST   = 'RequestHeaderComponent.Event.CreateRequest',
+  UPDATE_REQUEST   = 'RequestHeaderComponent.Event.UpdateRequest',
+  DELETE_REQUEST   = 'RequestHeaderComponent.Event.DeleteRequest',
+  START_REQUEST    = 'RequestHeaderComponent.Event.StartRequest',
+  ACTIVATE_REQUEST = 'RequestHeaderComponent.Event.ActivateRequest',
+  SUSPEND_REQUEST  = 'RequestHeaderComponent.Event.SuspendRequest',
 }
 
 interface RequestFormModel extends FormGroup<{
@@ -46,7 +49,11 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() requestsList: RequestsList = RequestsList.budgeting;
 
+  @Input() isSaved = false;
+
   @Input() request: Request = EmptyRequest;
+
+  @Input() actions: RequestActions = EmptyRequestActions;
 
   @Output() requestHeaderEvent = new EventEmitter<EventInfo>();
 
@@ -101,13 +108,9 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  get isSaved(): boolean {
-    return !isEmpty(this.request);
-  }
-
-
   get hasActions(): boolean {
-    return true;
+    return this.actions.canStart || this.actions.canActivate || this.actions.canSuspend ||
+           this.actions.canDelete;
   }
 
 
@@ -119,7 +122,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
 
   onRequestTypeChanged(requestType: RequestType) {
-    this.buildNewDynamicFields(requestType.inputData);
+    this.buildNewDynamicFields(requestType.inputData ?? []);
   }
 
 
@@ -141,8 +144,18 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  onCloseButtonClicked() {
-    this.showConfirmMessage(RequestHeaderEventType.CLOSE_REQUEST);
+  onStartButtonClicked() {
+    this.showConfirmMessage(RequestHeaderEventType.START_REQUEST);
+  }
+
+
+  onSuspendButtonClicked() {
+    this.showConfirmMessage(RequestHeaderEventType.SUSPEND_REQUEST);
+  }
+
+
+  onActivateButtonClicked() {
+    this.showConfirmMessage(RequestHeaderEventType.ACTIVATE_REQUEST);
   }
 
 
@@ -150,11 +163,14 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     this.editionMode = enable;
 
     if (!this.editionMode && this.isSaved) {
-      this.onRequestTypeChanged(this.request.requestType);
+      const requestType = isEmpty(this.request.requestType) ? EmptyRequestType : this.request.requestType;
+      this.onRequestTypeChanged(requestType);
       this.setFormData();
     }
 
-    setTimeout(() => this.formHelper.setDisableForm(this.form, !this.editionMode));
+    const disable = this.isSaved;
+
+    setTimeout(() => this.formHelper.setDisableForm(this.form, disable));
   }
 
 
@@ -207,18 +223,17 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
       requesterOrgUnitUID: ['', Validators.required],
       requestType: [null as RequestType, Validators.required],
     });
-
   }
 
 
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        requesterOrgUnitUID: this.request.requesterOrgUnit.uid,
-        requestType: this.request.requestType,
+        requesterOrgUnitUID: isEmpty(this.request.requesterOrgUnit) ? '' : this.request.requesterOrgUnit.uid,
+        requestType: isEmpty(this.request.requestType) ? null : this.request.requestType,
       });
 
-      this.request.requestTypeFields.forEach(x =>
+      this.request.requestTypeFields?.forEach(x =>
         FormDynamicHelper.setFormControlValue(this.form, x.field, x.value)
       );
 
@@ -254,25 +269,35 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private showConfirmMessage(eventType: RequestHeaderEventType) {
-    const confirmType: 'AcceptCancel' | 'DeleteCancel' =
-      eventType === RequestHeaderEventType.DELETE_REQUEST ? 'DeleteCancel' : 'AcceptCancel';
+    const confirmType = this.getConfirmType(eventType);
     const title = this.getConfirmTitle(eventType);
     const message = this.getConfirmMessage(eventType);
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.requestHeaderEvent, eventType, { requestUID: this.request.uid });
-        }
-      });
+      .then(x => this.validateAndSendEvent(eventType, x));
+  }
+
+
+  private getConfirmType(eventType: RequestHeaderEventType): 'AcceptCancel' | 'DeleteCancel' {
+    switch (eventType) {
+      case RequestHeaderEventType.DELETE_REQUEST:
+      case RequestHeaderEventType.SUSPEND_REQUEST:
+        return 'DeleteCancel';
+      case RequestHeaderEventType.START_REQUEST:
+      case RequestHeaderEventType.ACTIVATE_REQUEST:
+      default:
+        return 'AcceptCancel';
+    }
   }
 
 
   private getConfirmTitle(eventType: RequestHeaderEventType): string {
     switch (eventType) {
       case RequestHeaderEventType.DELETE_REQUEST: return 'Eliminar solicitud';
-      case RequestHeaderEventType.CLOSE_REQUEST: return 'Cerrar solicitud';
+      case RequestHeaderEventType.START_REQUEST: return 'Iniciar proceso';
+      case RequestHeaderEventType.SUSPEND_REQUEST: return 'Suspender solicitud';
+      case RequestHeaderEventType.ACTIVATE_REQUEST: return 'Reactivar solicitud';
       default: return '';
     }
   }
@@ -282,17 +307,37 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     switch (eventType) {
       case RequestHeaderEventType.DELETE_REQUEST:
         return `Esta operación eliminará la solicitud
-                <strong> ${this.request.requesterOrgUnit.name}:
-                ${this.request.requestType.name}</strong>.
+                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
+                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+
                 <br><br>¿Elimino la solicitud?`;
 
-      case RequestHeaderEventType.CLOSE_REQUEST:
-        return `Esta operación cerrará la solicitud
-                <strong> ${this.request.requesterOrgUnit.name}:
-                ${this.request.requestType.name}</strong>.
-                <br><br>¿Cierro la solicitud?`;
+      case RequestHeaderEventType.START_REQUEST:
+        return `Esta operación iniciará el proceso de la solicitud
+                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
+                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <br><br>¿Inicio el proceso de la solicitud?`;
+
+      case RequestHeaderEventType.SUSPEND_REQUEST:
+        return `Esta operación suspenderá la solicitud
+                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
+                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <br><br>¿Suspendo la solicitud?`;
+
+      case RequestHeaderEventType.ACTIVATE_REQUEST:
+        return `Esta operación reactivará la solicitud
+                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
+                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <br><br>¿Reactivo la solicitud?`;
 
       default: return '';
+    }
+  }
+
+
+  private validateAndSendEvent(eventType: RequestHeaderEventType, send: boolean) {
+    if (send) {
+      sendEvent(this.requestHeaderEvent, eventType, { requestUID: this.request.uid });
     }
   }
 
