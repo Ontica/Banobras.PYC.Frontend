@@ -22,7 +22,7 @@ import { MessageBoxService } from '@app/shared/containers/message-box';
 import { RequestsDataService } from '@app/data-services';
 
 import { EmptyRequestQuery, RequestQuery, RequestsList, RequestDescriptor,
-         EmptyRequestDescriptor} from '@app/models/requests';
+         RequestData, EmptyRequestData } from '@app/models/requests';
 
 import { RequestsExplorerEventType } from '../requests-explorer/requests-explorer.component';
 
@@ -45,7 +45,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
   requestDataList: RequestDescriptor[] = [];
 
-  selectedRequest: RequestDescriptor = EmptyRequestDescriptor;
+  selectedRequest: RequestData = EmptyRequestData;
 
   displayTabbedView = false;
 
@@ -83,9 +83,10 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
       case RequestCreatorEventType.REQUEST_CREATED:
         Assertion.assertValue(event.payload.request, 'event.payload.request');
+        Assertion.assertValue(event.payload.request.uid, 'event.payload.request.uid');
         this.displayCreator = false;
-        this.setSelectedRequest(event.payload.request);
-        this.addRequestToRequestsData(this.selectedRequest);
+        this.addRequestToRequestDataList(event.payload.request);
+        this.getRequest(event.payload.request.uid);
         return;
 
       default:
@@ -118,7 +119,8 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
       case RequestsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.request, ' event.payload.request');
-        this.setSelectedRequest(event.payload.request);
+        Assertion.assertValue(event.payload.request.uid, 'event.payload.request.uid');
+        this.getRequest(event.payload.request.uid);
         return;
 
       case RequestsExplorerEventType.EXECUTE_OPERATION_CLICKED:
@@ -137,6 +139,12 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   onRequestTabbedViewEvent(event: EventInfo) {
     switch (event.type as RequestTabbedViewEventType) {
       case RequestTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.clearSelectedRequest();
+        return;
+
+      case RequestTabbedViewEventType.REQUEST_DELETED:
+        Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
+        this.removeRequestFromRequestDataList(event.payload.requestUID);
         this.clearSelectedRequest();
         return;
 
@@ -175,6 +183,12 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
+  private removeRequestFromRequestDataList(requestUID: string) {
+    const data = this.requestDataList.filter(x => x.uid !== requestUID);
+    this.setRequestDataList(data, true);
+  }
+
+
   private searchRequests(query: RequestQuery) {
     this.isLoading = true;
 
@@ -182,6 +196,16 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
       .firstValue()
       .then(x => this.resolveSearchRequestData(x))
       .finally(() => this.isLoading = false);
+  }
+
+
+  private getRequest(requestUID: string) {
+    this.isLoadingSelection = true;
+
+    this.requestService.getRequest(requestUID)
+      .firstValue()
+      .then(x => this.setSelectedRequest(x))
+      .finally(() => this.isLoadingSelection = false);
   }
 
 
@@ -201,14 +225,14 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private setSelectedRequest(data: RequestDescriptor) {
+  private setSelectedRequest(data: RequestData) {
     this.selectedRequest = data;
-    this.displayTabbedView = !isEmpty(this.selectedRequest);
+    this.displayTabbedView = !isEmpty(this.selectedRequest.request);
   }
 
 
   private clearSelectedRequest() {
-    this.setSelectedRequest(EmptyRequestDescriptor);
+    this.setSelectedRequest(EmptyRequestData);
   }
 
 }

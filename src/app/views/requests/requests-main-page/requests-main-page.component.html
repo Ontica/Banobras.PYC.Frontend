@@ -22,7 +22,8 @@
   <div class="secondary" *ngIf="displayTabbedView">
 
     <emp-pyc-request-tabbed-view
-      [request]="selectedRequest"
+      [requestsList]="requestsList"
+      [requestData]="selectedRequest"
       (requestTabbedViewEvent)="onRequestTabbedViewEvent($event)">
 
     </emp-pyc-request-tabbed-view>

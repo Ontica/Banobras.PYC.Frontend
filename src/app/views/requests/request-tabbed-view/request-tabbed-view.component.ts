@@ -7,11 +7,13 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { DateStringLibrary, EventInfo } from '@app/core';
-
-import { EmptyRequestDescriptor, RequestDescriptor } from '@app/models';
+import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
+
+import { EmptyRequestData, RequestData, RequestsList } from '@app/models';
+
+import { RequestEditorEventType } from '../request/request-editor.component';
 
 export enum RequestTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'RequestTabbedViewComponent.Event.CloseButtonClicked',
@@ -19,14 +21,15 @@ export enum RequestTabbedViewEventType {
   REQUEST_DELETED      = 'RequestTabbedViewComponent.Event.RequestDeleted',
 }
 
-
 @Component({
   selector: 'emp-pyc-request-tabbed-view',
   templateUrl: './request-tabbed-view.component.html',
 })
 export class RequestTabbedViewComponent implements OnChanges {
 
-  @Input() request: RequestDescriptor = EmptyRequestDescriptor;
+  @Input() requestsList: RequestsList = RequestsList.budgeting;
+
+  @Input() requestData: RequestData = EmptyRequestData;
 
   @Output() requestTabbedViewEvent = new EventEmitter<EventInfo>();
 
@@ -34,10 +37,12 @@ export class RequestTabbedViewComponent implements OnChanges {
 
   hint = '';
 
-  selectedTabIndex = 0;
+  selectedTabIndex = 1;
+
 
   ngOnChanges() {
     this.setTitle();
+    this.validateSelectedTab();
   }
 
 
@@ -46,14 +51,43 @@ export class RequestTabbedViewComponent implements OnChanges {
   }
 
 
+  onRequestEditorEvent(event: EventInfo) {
+    switch (event.type as RequestEditorEventType) {
+      case RequestEditorEventType.REQUEST_DELETED:
+        Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
+        sendEvent(this.requestTabbedViewEvent, RequestTabbedViewEventType.REQUEST_DELETED, event.payload);
+        return;
+
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   private setTitle() {
-    const postingTime = !this.request.filingTime ? '' : DateStringLibrary.format(this.request.filingTime);
+    const postingTime = !this.requestData.request.filingTime ?
+      'N/D' : DateStringLibrary.format(this.requestData.request.filingTime);
 
-    this.title = `${this.request.requestTypeName} - ${this.request.uniqueID}` +
-      `<span class="tag tag-small">${this.request.status}</span>`;
+    const status = this.requestData.request.status === 'Eliminada' ?
+      `<span class="tag tag-error tag-small">${this.requestData.request.status}</span>` :
+      `<span class="tag tag-small">${this.requestData.request.status}</span>`;
 
-    this.hint = `<strong>${this.request.requesterOrgUnitName} </strong>` +
+    this.title = `${this.requestData.request.uniqueID}: ${this.requestData.request.requestType.name}` + status;
+
+    this.hint = `<strong>${this.requestData.request.requesterOrgUnit.name} </strong>` +
       ` &nbsp; &nbsp; | &nbsp; &nbsp; ${postingTime}`;
+  }
+
+
+  private validateSelectedTab() {
+    if (this.selectedTabIndex === 1 && this.requestData.tasks.length === 0) {
+      this.selectedTabIndex = 0;
+    }
+
+    if (this.selectedTabIndex === 0 && this.requestData.tasks.length > 0) {
+      this.selectedTabIndex = 1;
+    }
   }
 
 }

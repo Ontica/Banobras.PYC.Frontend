@@ -5,11 +5,19 @@
 
   <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
 
-    <mat-tab label="Tareas">
+    <mat-tab label="Solicitud">
+
+      <emp-pyc-request-editor
+        [requestsList]="requestsList"
+        [request]="requestData.request"
+        [actions]="requestData.actions"
+        (requestEditorEvent)="onRequestEditorEvent($event)">
+
+      </emp-pyc-request-editor>
 
     </mat-tab>
 
-    <mat-tab label="Solicitud">
+    <mat-tab label="Tareas">
 
     </mat-tab>
 
