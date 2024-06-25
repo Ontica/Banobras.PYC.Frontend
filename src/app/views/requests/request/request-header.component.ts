@@ -18,11 +18,11 @@ import { RequestsStateSelector } from '@app/presentation/exported.presentation.t
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { ArrayLibrary, FormDynamicHelper, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, DynamicFormHelper, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { RequestTypeField, FormFieldData, FormFieldDataType, Request, RequestFields, RequestInputData,
+import { DataField, FormFieldData, FormFieldDataType, Request, RequestFields, InputData,
          RequestsList, RequestType, EmptyRequest, EmptyRequestType, RequestActions,
          EmptyRequestActions } from '@app/models';
 
@@ -69,7 +69,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
   formHelper = FormHelper;
 
-  formDynamicHelper = FormDynamicHelper;
+  dynamicFormHelper = DynamicFormHelper;
 
   editionMode = false;
 
@@ -234,7 +234,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
       });
 
       this.request.requestTypeFields?.forEach(x =>
-        FormDynamicHelper.setFormControlValue(this.form, x.field, x.value)
+        DynamicFormHelper.setFormControlValue(this.form, x.field, x.value)
       );
 
       this.initLists();
@@ -242,12 +242,12 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  private buildNewDynamicFields(inputData: RequestInputData[]) {
+  private buildNewDynamicFields(inputData: InputData[]) {
     this.hasExtraFields = inputData.length > 0;
     const oldDynamicFields = [...this.dynamicFields];
     this.dynamicFields = [];
     setTimeout(() =>
-      this.dynamicFields = FormDynamicHelper.buildDynamicFields(this.form, inputData, true, oldDynamicFields)
+      this.dynamicFields = DynamicFormHelper.buildDynamicFields(this.form, inputData, true, oldDynamicFields)
     );
   }
 
@@ -255,8 +255,8 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   private getFormData(): RequestFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
-    const requestTypeFields: RequestTypeField[] =
-      this.dynamicFields.map(x => FormDynamicHelper.buildRequestTypeField(this.form, x)) ?? [];
+    const requestTypeFields: DataField[] =
+      this.dynamicFields.map(x => DynamicFormHelper.buildDataField(this.form, x)) ?? [];
 
     const data: RequestFields = {
       requesterOrgUnitUID: this.form.value.requesterOrgUnitUID ?? '',

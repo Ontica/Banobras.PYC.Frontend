@@ -7,10 +7,10 @@
 
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
-import { FormFieldData, RequestInputData, RequestTypeField } from "@app/models";
+import { FormFieldData, InputData, DataField } from "@app/models";
 
 
-export class FormDynamicHelper {
+export class DynamicFormHelper {
 
 
   static existFormControl(form: FormGroup<any>, field: string): boolean {
@@ -19,7 +19,7 @@ export class FormDynamicHelper {
 
 
   static buildDynamicFields(form: FormGroup<any>,
-                            inputData: RequestInputData[],
+                            inputData: InputData[],
                             newFieldsRequired: boolean,
                             oldDynamicFields?: FormFieldData[]): FormFieldData[] {
     oldDynamicFields?.forEach(x => this.removeFormControl(form, x.field));
@@ -56,7 +56,7 @@ export class FormDynamicHelper {
   }
 
 
-  static getFormFieldData(inputData: RequestInputData, requerid: boolean): FormFieldData {
+  static getFormFieldData(inputData: InputData, requerid: boolean): FormFieldData {
     const data: FormFieldData = {
       label: inputData.label,
       field: inputData.field,
@@ -70,10 +70,10 @@ export class FormDynamicHelper {
   }
 
 
-  static buildRequestTypeField(form: FormGroup<any>, field: FormFieldData): RequestTypeField {
-    const data: RequestTypeField = {
-      field: field.field,
-      value: form.value[field.field] ?? '',
+  static buildDataField(form: FormGroup<any>, dynamicField: FormFieldData): DataField {
+    const data: DataField = {
+      field: dynamicField.field,
+      value: form.value[dynamicField.field] ?? '',
     };
 
     return data;

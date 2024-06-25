@@ -11,8 +11,8 @@ export * from './cloneDeep';
 
 export * from './event-emission';
 
-export * from './form-helper';
+export * from './dynamic-form-helper';
 
-export * from './form-dynamic-helper';
+export * from './form-helper';
 
 export * from './format-library';

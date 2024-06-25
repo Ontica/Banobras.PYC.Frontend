@@ -61,7 +61,7 @@
           [ngClass]="field.fieldType === controlType.text_area ? 'fx-item-one' : 'fx-item-half'"
           [style.margin-bottom.rem]="0.5">
 
-          <ng-container *ngIf="formDynamicHelper.existFormControl(form, field.field)">
+          <ng-container *ngIf="dynamicFormHelper.existFormControl(form, field.field)">
 
             <label>{{field.label}}:</label>
 

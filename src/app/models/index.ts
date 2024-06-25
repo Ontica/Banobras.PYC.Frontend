@@ -22,7 +22,7 @@ export * from './_access-control';
 
 export * from './_data-table';
 
-export * from './_form-fields'
+export * from './_dynamic-form-fields'
 
 export * from './_operations-log';
 

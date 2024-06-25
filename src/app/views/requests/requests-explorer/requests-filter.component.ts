@@ -20,12 +20,12 @@ import { RequestsStateSelector } from '@app/presentation/exported.presentation.t
 
 import { expandCollapse } from '@app/shared/animations/animations';
 
-import { FormDynamicHelper, FormHelper, sendEvent } from '@app/shared/utils';
+import { DynamicFormHelper, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
 import { RequestQuery, RequestsList, EmptyRequestQuery, RequestType, FormFieldData, FormFieldDataType,
-         EmptyRequestType, RequestInputData, RequestTypeField } from '@app/models';
+         EmptyRequestType, InputData, DataField } from '@app/models';
 
 export enum RequestsFilterEventType {
   SEARCH_CLICKED = 'RequestsFilterComponent.Event.SearchClicked',
@@ -68,7 +68,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   formHelper = FormHelper;
 
-  formDynamicHelper = FormDynamicHelper;
+  dynamicFormHelper = DynamicFormHelper;
 
   isLoading = false;
 
@@ -183,7 +183,7 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
     });
 
     this.query.requestTypeFields.forEach(x =>
-      FormDynamicHelper.setFormControlValue(this.form, x.field, x.value)
+      DynamicFormHelper.setFormControlValue(this.form, x.field, x.value)
     );
   }
 
@@ -237,19 +237,19 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  private buildNewDynamicFields(inputData: RequestInputData[]) {
+  private buildNewDynamicFields(inputData: InputData[]) {
     this.hasExtraFields = inputData.length > 0;
     const oldDynamicFields = [...this.dynamicFields];
     this.dynamicFields = [];
     setTimeout(() =>
-      this.dynamicFields = FormDynamicHelper.buildDynamicFields(this.form, inputData, false, oldDynamicFields)
+      this.dynamicFields = DynamicFormHelper.buildDynamicFields(this.form, inputData, false, oldDynamicFields)
     );
   }
 
 
   private getFormData(): RequestQuery {
-    const requestTypeFields: RequestTypeField[] =
-      this.dynamicFields.map(x => FormDynamicHelper.buildRequestTypeField(this.form, x)) ?? [];
+    const requestTypeFields: DataField[] =
+      this.dynamicFields.map(x => DynamicFormHelper.buildDataField(this.form, x)) ?? [];
 
     const query: RequestQuery = {
       requestsList: this.requestsList,

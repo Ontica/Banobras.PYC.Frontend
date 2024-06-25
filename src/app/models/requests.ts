@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { FormFieldDataType } from './_form-fields';
+import { DataField, InputData } from './_dynamic-form-fields';
 
 
 export enum RequestsList {
@@ -24,7 +24,7 @@ export interface RequestQuery {
   requestStatus: string;
   fromDate: DateString;
   toDate: DateString;
-  requestTypeFields: RequestTypeField[];
+  requestTypeFields: DataField[];
 }
 
 
@@ -47,15 +47,7 @@ export interface RequestDescriptor {
 export interface RequestType extends Identifiable {
   uid: string;
   name: string;
-  inputData: RequestInputData[];
-};
-
-
-export interface RequestInputData {
-  label: string;
-  field: string;
-  dataType: FormFieldDataType;
-  values: Identifiable[];
+  inputData: InputData[];
 };
 
 
@@ -111,7 +103,7 @@ export interface Request {
   postingTime: DateString;
   status: string;
 
-  requestTypeFields: RequestTypeField[];
+  requestTypeFields: DataField[];
 }
 
 
@@ -141,13 +133,7 @@ export interface RequestActions {
 export interface RequestFields {
   requestTypeUID: string;
   requesterOrgUnitUID: string;
-  requestTypeFields: RequestTypeField[];
-}
-
-
-export interface RequestTypeField {
-  field: string;
-  value: string;
+  requestTypeFields: DataField[];
 }
 
 
