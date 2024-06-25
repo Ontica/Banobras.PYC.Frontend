@@ -9,6 +9,8 @@ import { NgModule } from '@angular/core';
 
 import { AccessControlDataService } from './_access-control.data.service';
 
+import { SearcherDataService } from './_searcher.data.service';
+
 import { BudgetsDataService } from './budgets.data.service';
 
 import { CataloguesDataService } from './catalogues.data.service';
@@ -20,7 +22,7 @@ import { RequestsDataService } from './requests.data.service';
 
   providers: [
     AccessControlDataService,
-
+    SearcherDataService,
     BudgetsDataService,
     CataloguesDataService,
     RequestsDataService,
