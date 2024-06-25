@@ -11,6 +11,8 @@ import { FormatLibrary } from '@app/shared/utils';
 
 import { Assertion } from './assertion';
 
+import { isEmpty } from '../data-types';
+
 
 export class Validate {
 
@@ -148,19 +150,19 @@ export class Validate {
   }
 
 
-  static matchOther(controlName: string, matchingControlName: string): ValidatorFn {
-    return (formGroup: FormGroup<any>) => {
-      const control = formGroup.get(controlName);
-      const matchingControl = formGroup.get(matchingControlName);
+  static objectFieldsRequired(...fields: string[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value) {
+        let errors: ValidationErrors = {};
 
-      if (!control || !matchingControl || !matchingControl.value) {
-        return null;
+        fields.forEach(field => {
+          if (isEmpty(control.value[field])) {
+            errors[`${field}Error`] = true;
+          }
+        });
+
+        return Object.keys(errors).length ? errors : null;
       }
-
-      if (control.value !== matchingControl.value) {
-        return { matchOther: true };
-      }
-
       return null;
     };
   }
@@ -199,6 +201,24 @@ export class Validate {
       return { hasSpecialCharacters: true };
     }
     return null;
+  }
+
+
+  static matchOther(controlName: string, matchingControlName: string): ValidatorFn {
+    return (formGroup: FormGroup<any>) => {
+      const control = formGroup.get(controlName);
+      const matchingControl = formGroup.get(matchingControlName);
+
+      if (!control || !matchingControl || !matchingControl.value) {
+        return null;
+      }
+
+      if (control.value !== matchingControl.value) {
+        return { matchOther: true };
+      }
+
+      return null;
+    };
   }
 
 }
