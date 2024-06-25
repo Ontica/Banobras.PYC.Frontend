@@ -5,6 +5,10 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
+export * from './file-download.service';
+
+export * from './printer.service';
+
 export * from './array-library';
 
 export * from './cloneDeep';

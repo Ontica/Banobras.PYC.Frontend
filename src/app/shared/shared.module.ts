@@ -14,7 +14,10 @@ import { SharedDirectivesModule } from './directives/shared-directives.module';
 import { SharedFormControlsModule } from './form-controls/shared-form-controls.module';
 import { SharedIndicatorsModule } from './indicators/shared-indicators.module';
 import { SharedPipesModule } from './pipes/shared-pipes.module';
+
 import { PrinterService } from './utils/printer.service';
+import { FileDownloadService } from './utils';
+import { SAVER, getSaver } from './utils/saver.provider';
 
 
 @NgModule({
@@ -45,6 +48,8 @@ import { PrinterService } from './utils/printer.service';
     CurrencyPipe,
     DecimalPipe,
     PrinterService,
+    FileDownloadService,
+    { provide: SAVER, useFactory: getSaver },
   ]
 
 })

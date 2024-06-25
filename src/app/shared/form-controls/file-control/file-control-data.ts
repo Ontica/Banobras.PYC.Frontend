@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Progress } from '@app/data-services/file-services/http-progress';
+import { Progress } from '@app/shared/utils/http-progress';
 
 import { Observable } from 'rxjs';
 
