@@ -123,10 +123,13 @@ export interface RequestWorkflowHistory {
 
 
 export interface RequestActions {
+  canUpdate: boolean;
   canStart: boolean;
-  canDelete: boolean;
+  canCancel: boolean;
   canSuspend: boolean;
   canActivate: boolean;
+  canClose: boolean;
+  canDelete: boolean;
 }
 
 
@@ -195,10 +198,13 @@ export const EmptyRequest: Request = {
 
 
 export const EmptyRequestActions: RequestActions = {
+  canUpdate: false,
   canStart: false,
+  canCancel: false,
   canDelete: false,
   canSuspend: false,
   canActivate: false,
+  canClose: false,
 };
 
 
@@ -209,3 +215,21 @@ export const EmptyRequestData: RequestData = {
   workflowHistory: [],
   actions: EmptyRequestActions,
 };
+
+
+export function mapRequestDescriptorFromRequest(request: Request): RequestDescriptor {
+  return {
+    uid: request.uid,
+    uniqueID: request.uniqueID,
+    requestTypeName: request.requestType.name,
+    requesterName: request.requesterName,
+    controlID: request.controlID,
+    requesterOrgUnitName: request.requesterOrgUnit.name,
+    responsibleOrgUnitName: request.responsibleOrgUnit.name,
+    description: request.description,
+    filedByName: request.filedBy.name,
+    filingTime: request.filingTime,
+    status: request.status,
+    notes: request.notes,
+  };
+}

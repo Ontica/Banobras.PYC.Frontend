@@ -75,12 +75,57 @@ export class RequestsDataService {
   }
 
 
-  createRequest(dataFields: RequestFields): EmpObservable<RequestDescriptor> {
+  createRequest(dataFields: RequestFields): EmpObservable<RequestData> {
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v4/requests/create`;
 
-    return this.http.post<RequestDescriptor>(path, dataFields);
+    return this.http.post<RequestData>(path, dataFields);
+  }
+
+
+  startRequest(requestUID: string): EmpObservable<RequestData> {
+    Assertion.assertValue(requestUID, 'requestUID');
+
+    const path = `v4/requests/${requestUID}/start`;
+
+    return this.http.post<RequestData>(path);
+  }
+
+
+  cancelRequest(requestUID: string): EmpObservable<RequestData> {
+    Assertion.assertValue(requestUID, 'requestUID');
+
+    const path = `v4/requests/${requestUID}/cancel`;
+
+    return this.http.post<RequestData>(path);
+  }
+
+
+  suspendRequest(requestUID: string): EmpObservable<RequestData> {
+    Assertion.assertValue(requestUID, 'requestUID');
+
+    const path = `v4/requests/${requestUID}/suspend`;
+
+    return this.http.post<RequestData>(path);
+  }
+
+
+  activateRequest(requestUID: string): EmpObservable<RequestData> {
+    Assertion.assertValue(requestUID, 'requestUID');
+
+    const path = `v4/requests/${requestUID}/activate`;
+
+    return this.http.post<RequestData>(path);
+  }
+
+
+  closeRequest(requestUID: string): EmpObservable<RequestData> {
+    Assertion.assertValue(requestUID, 'requestUID');
+
+    const path = `v4/requests/${requestUID}/close`;
+
+    return this.http.post<RequestData>(path);
   }
 
 

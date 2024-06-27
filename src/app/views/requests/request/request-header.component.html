@@ -110,7 +110,7 @@
 
           <button *ngIf="actions.canDelete"
             type="button" class="btn-warning"
-            (click)="onDeleteButtonClicked()">
+            (click)="onEventButtonClicked(eventTypes.DELETE_REQUEST)">
             Eliminar
           </button>
 
@@ -118,22 +118,40 @@
 
         <ng-container *ngIf="!editionMode">
 
-          <button *ngIf="actions.canStart"
+          <button *ngIf="actions.canClose"
             type="button" class="btn"
-            (click)="onStartButtonClicked()">
-            Iniciar proceso
+            (click)="onEventButtonClicked(eventTypes.CLOSE_REQUEST)">
+            Cerrar
           </button>
 
-          <button *ngIf="actions.canSuspend"
+          <button *ngIf="actions.canStart"
             type="button" class="btn"
-            (click)="onSuspendButtonClicked()">
-            Suspender
+            (click)="onEventButtonClicked(eventTypes.START_REQUEST)">
+            Iniciar proceso
           </button>
 
           <button *ngIf="actions.canActivate"
             type="button" class="btn"
-            (click)="onActivateButtonClicked()">
+            (click)="onEventButtonClicked(eventTypes.ACTIVATE_REQUEST)">
             Reactivar
+          </button>
+
+          <mat-divider *ngIf="(actions.canClose || actions.canStart || actions.canActivate) &&
+                              (actions.canCancel|| actions.canSuspend)"
+            vertical="true" class="vertical-slim">
+
+          </mat-divider>
+
+          <button *ngIf="actions.canSuspend"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventTypes.SUSPEND_REQUEST)">
+            Suspender
+          </button>
+
+          <button *ngIf="actions.canCancel"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventTypes.CANCEL_REQUEST)">
+            Cancelar proceso
           </button>
 
         </ng-container>
@@ -142,7 +160,7 @@
 
       <div class="fx-item fx-end fx-items-center">
 
-        <button *ngIf="!editionMode && actions.canDelete"
+        <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
           class="btn-action"
           (click)="enableEditor(true)">
           Editar
@@ -150,7 +168,7 @@
 
         <ng-container *ngIf="editionMode">
 
-          <button *ngIf="false"
+          <button *ngIf="actions.canUpdate"
             [class.btn]="!formHelper.isFormReady(form)"
             [class.btn-action]="formHelper.isFormReady(form)"
             (click)="onSubmitButtonClicked()">

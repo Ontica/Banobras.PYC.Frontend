@@ -22,7 +22,7 @@ import { MessageBoxService } from '@app/shared/containers/message-box';
 import { RequestsDataService } from '@app/data-services';
 
 import { EmptyRequestQuery, RequestQuery, RequestsList, RequestDescriptor,
-         RequestData, EmptyRequestData } from '@app/models/requests';
+         RequestData, EmptyRequestData, mapRequestDescriptorFromRequest } from '@app/models/requests';
 
 import { RequestsExplorerEventType } from '../requests-explorer/requests-explorer.component';
 
@@ -83,10 +83,8 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
       case RequestCreatorEventType.REQUEST_CREATED:
         Assertion.assertValue(event.payload.request, 'event.payload.request');
-        Assertion.assertValue(event.payload.request.uid, 'event.payload.request.uid');
         this.displayCreator = false;
-        this.addRequestToRequestDataList(event.payload.request);
-        this.getRequest(event.payload.request.uid);
+        this.resetExplorerData(event.payload.request as RequestData);
         return;
 
       default:
@@ -104,17 +102,13 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
       case RequestsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.query = Object.assign({}, event.payload.query as RequestQuery);
-        this.clearRequestDataList();
-        this.clearSelectedRequest();
+        this.setQueryAndClearExplorerData(event.payload.query as RequestQuery);
         this.searchRequests(this.query);
         return;
 
       case RequestsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.query = Object.assign({}, event.payload.query as RequestQuery);
-        this.clearRequestDataList();
-        this.clearSelectedRequest();
+        this.setQueryAndClearExplorerData(event.payload.query as RequestQuery);
         return;
 
       case RequestsExplorerEventType.SELECT_CLICKED:
@@ -140,6 +134,11 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
     switch (event.type as RequestTabbedViewEventType) {
       case RequestTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.clearSelectedRequest();
+        return;
+
+      case RequestTabbedViewEventType.REQUEST_UPDATED:
+        Assertion.assertValue(event.payload.request, 'event.payload.request');
+        this.resetExplorerData(event.payload.request as RequestData);
         return;
 
       case RequestTabbedViewEventType.REQUEST_DELETED:
@@ -177,24 +176,12 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private addRequestToRequestDataList(request: RequestDescriptor) {
-    const data = ArrayLibrary.insertItemTop(this.requestDataList, request, 'uid');
-    this.setRequestDataList(data, true);
-  }
-
-
-  private removeRequestFromRequestDataList(requestUID: string) {
-    const data = this.requestDataList.filter(x => x.uid !== requestUID);
-    this.setRequestDataList(data, true);
-  }
-
-
   private searchRequests(query: RequestQuery) {
     this.isLoading = true;
 
     this.requestService.searchRequests(query)
       .firstValue()
-      .then(x => this.resolveSearchRequestData(x))
+      .then(x => this.resolveSearchRequests(x))
       .finally(() => this.isLoading = false);
   }
 
@@ -209,7 +196,33 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private resolveSearchRequestData(data: RequestDescriptor[]) {
+  private resolveSearchRequests(data: RequestDescriptor[]) {
+    this.setRequestDataList(data, true);
+  }
+
+
+  private resetExplorerData(request: RequestData) {
+    this.addRequestToRequestDataList(request);
+    this.setSelectedRequest(request);
+  }
+
+
+  private setQueryAndClearExplorerData(query: RequestQuery) {
+    this.query = Object.assign({}, query);
+    this.clearRequestDataList();
+    this.clearSelectedRequest();
+  }
+
+
+  private addRequestToRequestDataList(data: RequestData) {
+    const newRequest = mapRequestDescriptorFromRequest(data.request);
+    const newRequestDataList = ArrayLibrary.insertItemTop(this.requestDataList, newRequest, 'uid');
+    this.setRequestDataList(newRequestDataList, true);
+  }
+
+
+  private removeRequestFromRequestDataList(requestUID: string) {
+    const data = this.requestDataList.filter(x => x.uid !== requestUID);
     this.setRequestDataList(data, true);
   }
 

@@ -53,6 +53,11 @@ export class RequestTabbedViewComponent implements OnChanges {
 
   onRequestEditorEvent(event: EventInfo) {
     switch (event.type as RequestEditorEventType) {
+      case RequestEditorEventType.REQUEST_UPDATED:
+        Assertion.assertValue(event.payload.request, 'event.payload.request');
+        sendEvent(this.requestTabbedViewEvent, RequestTabbedViewEventType.REQUEST_UPDATED, event.payload);
+        return;
+
       case RequestEditorEventType.REQUEST_DELETED:
         Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
         sendEvent(this.requestTabbedViewEvent, RequestTabbedViewEventType.REQUEST_DELETED, event.payload);

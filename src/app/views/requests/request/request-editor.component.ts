@@ -7,7 +7,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { EventInfo, isEmpty } from '@app/core';
+import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -15,7 +15,8 @@ import { MessageBoxService } from '@app/shared/containers/message-box';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { EmptyRequest, EmptyRequestActions, Request, RequestActions, RequestsList } from '@app/models';
+import { EmptyRequest, EmptyRequestActions, Request, RequestActions, RequestData,
+         RequestFields, RequestsList } from '@app/models';
 
 import { RequestHeaderEventType } from './request-header.component';
 
@@ -57,20 +58,33 @@ export class RequestEditorComponent {
     }
 
     switch (event.type as RequestHeaderEventType) {
-      case RequestHeaderEventType.START_REQUEST:
-        this.messageBox.showInDevelopment('Iniciar proceso');
-        return;
-
-      case RequestHeaderEventType.SUSPEND_REQUEST:
-        this.messageBox.showInDevelopment('Suspender solicitud');
-        return;
-
-      case RequestHeaderEventType.ACTIVATE_REQUEST:
-        this.messageBox.showInDevelopment('Reactivar solicitud');
+      case RequestHeaderEventType.UPDATE_REQUEST:
+        Assertion.assertValue(event.payload.requestFields, 'event.payload.requestFields');
+        this.updateRequest(event.payload.requestFields as RequestFields);
         return;
 
       case RequestHeaderEventType.DELETE_REQUEST:
         this.deleteRequest();
+        return;
+
+      case RequestHeaderEventType.SUSPEND_REQUEST:
+        this.suspendRequest();
+        return;
+
+      case RequestHeaderEventType.CANCEL_REQUEST:
+        this.cancelRequest();
+        return;
+
+      case RequestHeaderEventType.START_REQUEST:
+        this.startRequest();
+        return;
+
+      case RequestHeaderEventType.ACTIVATE_REQUEST:
+        this.activateRequest();
+        return;
+
+      case RequestHeaderEventType.CLOSE_REQUEST:
+        this.closeRequest();
         return;
 
       default:
@@ -80,17 +94,84 @@ export class RequestEditorComponent {
   }
 
 
+  private updateRequest(requestFields: RequestFields) {
+    this.submitted = true;
+
+    setTimeout(() => {
+      const data = { requestUID: this.request.uid, requestFields };
+      this.messageBox.showInDevelopment('Actualizar solicitud', data);
+      this.submitted = false
+    }, 250);
+  }
+
+
   private deleteRequest() {
     this.submitted = true;
 
     this.requestData.deleteRequest(this.request.uid)
       .firstValue()
-      .then(x => this.resolveDeleteRequest(this.request.uid))
+      .then(x => this.resolveRequestDeleted(this.request.uid))
       .finally(() => this.submitted = false);
   }
 
 
-  private resolveDeleteRequest(requestUID: string) {
+  private suspendRequest() {
+    this.submitted = true;
+
+    this.requestData.suspendRequest(this.request.uid)
+      .firstValue()
+      .then(x => this.resolveRequestUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private cancelRequest() {
+    this.submitted = true;
+
+    this.requestData.cancelRequest(this.request.uid)
+      .firstValue()
+      .then(x => this.resolveRequestUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private startRequest() {
+    this.submitted = true;
+
+    this.requestData.startRequest(this.request.uid)
+      .firstValue()
+      .then(x => this.resolveRequestUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private closeRequest() {
+    this.submitted = true;
+
+    this.requestData.closeRequest(this.request.uid)
+      .firstValue()
+      .then(x => this.resolveRequestUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private activateRequest() {
+    this.submitted = true;
+
+    this.requestData.activateRequest(this.request.uid)
+      .firstValue()
+      .then(x => this.resolveRequestUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private resolveRequestUpdated(request: RequestData) {
+    const payload = { request };
+    sendEvent(this.requestEditorEvent, RequestEditorEventType.REQUEST_UPDATED, payload);
+  }
+
+
+  private resolveRequestDeleted(requestUID: string) {
     const payload = { requestUID };
     sendEvent(this.requestEditorEvent, RequestEditorEventType.REQUEST_DELETED, payload);
   }

@@ -31,9 +31,11 @@ export enum RequestHeaderEventType {
   CREATE_REQUEST   = 'RequestHeaderComponent.Event.CreateRequest',
   UPDATE_REQUEST   = 'RequestHeaderComponent.Event.UpdateRequest',
   DELETE_REQUEST   = 'RequestHeaderComponent.Event.DeleteRequest',
+  SUSPEND_REQUEST  = 'RequestHeaderComponent.Event.SuspendRequest',
+  CANCEL_REQUEST   = 'RequestHeaderComponent.Event.CancelRequest',
   START_REQUEST    = 'RequestHeaderComponent.Event.StartRequest',
   ACTIVATE_REQUEST = 'RequestHeaderComponent.Event.ActivateRequest',
-  SUSPEND_REQUEST  = 'RequestHeaderComponent.Event.SuspendRequest',
+  CLOSE_REQUEST    = 'RequestHeaderComponent.Event.CloseRequest',
 }
 
 interface RequestFormModel extends FormGroup<{
@@ -81,6 +83,8 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
   requestTypesList: RequestType[] = [];
 
+  eventTypes = RequestHeaderEventType;
+
 
   constructor(private uiLayer: PresentationLayer,
               private requestsData: RequestsDataService,
@@ -109,8 +113,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
 
   get hasActions(): boolean {
-    return this.actions.canStart || this.actions.canActivate || this.actions.canSuspend ||
-           this.actions.canDelete;
+    return Object.values(this.actions).some(x => !!x);
   }
 
 
@@ -139,23 +142,8 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  onDeleteButtonClicked() {
-    this.showConfirmMessage(RequestHeaderEventType.DELETE_REQUEST);
-  }
-
-
-  onStartButtonClicked() {
-    this.showConfirmMessage(RequestHeaderEventType.START_REQUEST);
-  }
-
-
-  onSuspendButtonClicked() {
-    this.showConfirmMessage(RequestHeaderEventType.SUSPEND_REQUEST);
-  }
-
-
-  onActivateButtonClicked() {
-    this.showConfirmMessage(RequestHeaderEventType.ACTIVATE_REQUEST);
+  onEventButtonClicked(eventType: RequestHeaderEventType) {
+    this.showConfirmMessage(eventType);
   }
 
 
@@ -168,7 +156,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
       this.setFormData();
     }
 
-    const disable = this.isSaved;
+    const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
 
     setTimeout(() => this.formHelper.setDisableForm(this.form, disable));
   }
@@ -283,9 +271,11 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     switch (eventType) {
       case RequestHeaderEventType.DELETE_REQUEST:
       case RequestHeaderEventType.SUSPEND_REQUEST:
+      case RequestHeaderEventType.CANCEL_REQUEST:
         return 'DeleteCancel';
       case RequestHeaderEventType.START_REQUEST:
       case RequestHeaderEventType.ACTIVATE_REQUEST:
+      case RequestHeaderEventType.CLOSE_REQUEST:
       default:
         return 'AcceptCancel';
     }
@@ -295,9 +285,11 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   private getConfirmTitle(eventType: RequestHeaderEventType): string {
     switch (eventType) {
       case RequestHeaderEventType.DELETE_REQUEST: return 'Eliminar solicitud';
-      case RequestHeaderEventType.START_REQUEST: return 'Iniciar proceso';
       case RequestHeaderEventType.SUSPEND_REQUEST: return 'Suspender solicitud';
+      case RequestHeaderEventType.CANCEL_REQUEST: return 'Cancelar proceso';
+      case RequestHeaderEventType.START_REQUEST: return 'Iniciar proceso';
       case RequestHeaderEventType.ACTIVATE_REQUEST: return 'Reactivar solicitud';
+      case RequestHeaderEventType.CLOSE_REQUEST: return 'Cerrar solicitud';
       default: return '';
     }
   }
@@ -312,23 +304,35 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
                 <br><br>¿Elimino la solicitud?`;
 
-      case RequestHeaderEventType.START_REQUEST:
-        return `Esta operación iniciará el proceso de la solicitud
-                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
-                de <strong>${this.request.requesterOrgUnit.name}</strong>.
-                <br><br>¿Inicio el proceso de la solicitud?`;
-
       case RequestHeaderEventType.SUSPEND_REQUEST:
         return `Esta operación suspenderá la solicitud
                 <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
                 de <strong>${this.request.requesterOrgUnit.name}</strong>.
                 <br><br>¿Suspendo la solicitud?`;
 
+      case RequestHeaderEventType.CANCEL_REQUEST:
+        return `Esta operación cancelará la solicitud
+                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
+                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <br><br>¿Cancelo la solicitud?`;
+
+      case RequestHeaderEventType.START_REQUEST:
+        return `Esta operación iniciará el proceso de la solicitud
+                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
+                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <br><br>¿Inicio el proceso de la solicitud?`;
+
       case RequestHeaderEventType.ACTIVATE_REQUEST:
         return `Esta operación reactivará la solicitud
                 <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
                 de <strong>${this.request.requesterOrgUnit.name}</strong>.
                 <br><br>¿Reactivo la solicitud?`;
+
+      case RequestHeaderEventType.CLOSE_REQUEST:
+        return `Esta operación cerrará la solicitud
+                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
+                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <br><br>¿Cierro la solicitud?`;
 
       default: return '';
     }

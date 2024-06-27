@@ -13,7 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { RequestDescriptor, RequestFields, RequestsList } from '@app/models';
+import { RequestData, RequestFields, RequestsList } from '@app/models';
 
 import { RequestHeaderEventType } from './request-header.component';
 
@@ -50,7 +50,7 @@ export class RequestCreatorComponent {
 
     switch (event.type as RequestHeaderEventType) {
       case RequestHeaderEventType.CREATE_REQUEST:
-        Assertion.assertValue(event.payload.requestFields, 'event.payload.dataFirequestFieldselds');
+        Assertion.assertValue(event.payload.requestFields, 'event.payload.requestFields');
         this.createRequest(event.payload.requestFields as RequestFields);
         return;
 
@@ -71,7 +71,7 @@ export class RequestCreatorComponent {
   }
 
 
-  private resolveCreateRequest(data: RequestDescriptor) {
+  private resolveCreateRequest(data: RequestData) {
     sendEvent(this.requestCreatorEvent, RequestCreatorEventType.REQUEST_CREATED, { request: data });
   }
 
