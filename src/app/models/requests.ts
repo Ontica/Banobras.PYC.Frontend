@@ -102,7 +102,6 @@ export interface Request {
   postedBy: Identifiable;
   postingTime: DateString;
   status: string;
-
   requestTypeFields: DataField[];
 }
 
@@ -192,7 +191,6 @@ export const EmptyRequest: Request = {
   postedBy: Empty,
   postingTime: '',
   status: '',
-
   requestTypeFields: [],
 };
 

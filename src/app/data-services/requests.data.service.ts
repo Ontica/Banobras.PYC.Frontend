@@ -84,6 +84,15 @@ export class RequestsDataService {
   }
 
 
+  updateRequest(requestUID: string, dataFields: RequestFields): EmpObservable<RequestData> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v4/requests/${requestUID}`;
+
+    return this.http.put<RequestData>(path, dataFields);
+  }
+
+
   startRequest(requestUID: string): EmpObservable<RequestData> {
     Assertion.assertValue(requestUID, 'requestUID');
 

@@ -11,8 +11,6 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
-
 import { RequestsDataService } from '@app/data-services';
 
 import { EmptyRequest, EmptyRequestActions, Request, RequestActions, RequestData,
@@ -43,8 +41,7 @@ export class RequestEditorComponent {
   submitted = false;
 
 
-  constructor(private requestData: RequestsDataService,
-              private messageBox: MessageBoxService) { }
+  constructor(private requestData: RequestsDataService) { }
 
 
   get isSaved(): boolean {
@@ -97,11 +94,10 @@ export class RequestEditorComponent {
   private updateRequest(requestFields: RequestFields) {
     this.submitted = true;
 
-    setTimeout(() => {
-      const data = { requestUID: this.request.uid, requestFields };
-      this.messageBox.showInDevelopment('Actualizar solicitud', data);
-      this.submitted = false
-    }, 250);
+    this.requestData.updateRequest(this.request.uid, requestFields)
+      .firstValue()
+      .then(x => this.resolveRequestUpdated(x))
+      .finally(() => this.submitted = false);
   }
 
 
