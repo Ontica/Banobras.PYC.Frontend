@@ -20,7 +20,10 @@ export class ControlPanelMainPageComponent {
 
   displayChangePasswordModal = false;
 
+  displayOperationsLogModal = false;
+
   controlPanelOptionList = ControlPanelOptionList;
+
 
   constructor(private messageBox: MessageBoxService) {}
 
@@ -30,6 +33,10 @@ export class ControlPanelMainPageComponent {
 
       case 'ChangePassword':
         this.displayChangePasswordModal = true;
+        return;
+
+      case 'OperationsLog':
+        this.displayOperationsLogModal = true;
         return;
 
       default:

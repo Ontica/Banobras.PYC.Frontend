@@ -23,6 +23,7 @@ export enum PERMISSIONS {
   // PANEL DE CONTROL
   ROUTE_PANEL_CONTROL = 'route-panel-control',
   FEATURE_CHANGE_PASSWORD = 'feature-modificar-password',
+  FEATURE_BITACORAS_OPERACION = 'feature-bitacoras-operacion',
 
   // CONTROL DE ACCESOS
   ROUTE_CONTROL_DE_ACCESOS = 'route-control-de-accesos',

@@ -8,8 +8,8 @@
 import { PERMISSIONS } from '@app/main-layout';
 
 
-type ControlPanelOptionType = 'ChangePassword';
-
+type ControlPanelOptionType = 'ChangePassword' |
+                              'OperationsLog';
 
 
 export interface ControlPanelOption {
@@ -28,5 +28,12 @@ export const ControlPanelOptionList: ControlPanelOption[] = [
     actionTitle: 'Cambiar',
     type: 'ChangePassword',
     permission: PERMISSIONS.FEATURE_CHANGE_PASSWORD,
+  },
+  {
+    title: 'Bitácoras de operación',
+    description: 'Herramienta de generación y exportación de bitácoras de operación.',
+    actionTitle: 'Generar',
+    type: 'OperationsLog',
+    permission: PERMISSIONS.FEATURE_BITACORAS_OPERACION,
   },
 ];
