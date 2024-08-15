@@ -20,14 +20,15 @@ import { sendEvent } from '@app/shared/utils';
 
 import { EmptyDataTable, DataTableColumn, DataTable, DataTableEntry, DataTableColumnType, SummaryItemTypeList,
          GroupItemTypeList, TotalItemTypeList, EntryItemTypeList, ClickeableItemTypeList,
-         CheckBoxDataTableColumn } from '@app/models';
+         CheckBoxDataTableColumn, DeleteButtonDataTableColumn } from '@app/models';
 
 import { DataTableControlsEventType } from './data-table-controls.component';
 
 export enum DataTableEventType {
-  COUNT_FILTERED_ENTRIES = 'DataTableComponent.Event.CountFilteredEntries',
-  ENTRY_CLICKED = 'DataTableComponent.Event.EntryClicked',
-  EXPORT_DATA = 'DataTableComponent.Event.ExportData',
+  COUNT_FILTERED_ENTRIES     = 'DataTableComponent.Event.CountFilteredEntries',
+  ENTRY_CLICKED              = 'DataTableComponent.Event.EntryClicked',
+  DELETE_ENTRY_CLICKED       = 'DataTableComponent.Event.DeleteEntryClicked',
+  EXPORT_DATA                = 'DataTableComponent.Event.ExportData',
   CHECKBOX_SELECTION_CHANGED = 'DataTableComponent.Event.CheckboxSelectionChanged',
 }
 
@@ -53,6 +54,10 @@ export class DataTableComponent implements OnChanges {
   @Input() showControls = true;
 
   @Input() showCheckboxSelection = false;
+
+  @Input() showDeleteButton = false;
+
+  @Input() deleteButtonText = '';
 
   @Input() showExportButton = true;
 
@@ -88,6 +93,7 @@ export class DataTableComponent implements OnChanges {
 
   entryItemTypeList = EntryItemTypeList;
 
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes.dataTable) {
       this.filter = '';
@@ -104,11 +110,6 @@ export class DataTableComponent implements OnChanges {
 
   get hasItems(): boolean {
     return !!this.dataSource && this.dataSource?.data.length > 0;
-  }
-
-
-  get hasColumns(): boolean {
-    return this.columns.length > 0;
   }
 
 
@@ -165,6 +166,12 @@ export class DataTableComponent implements OnChanges {
   }
 
 
+  onDeleteButtonClicked(event, entry: DataTableEntry) {
+    event.stopPropagation();
+    this.emitDeleteEntryClicked(entry);
+  }
+
+
   private initDataSource() {
     this.columns = this.getValidatedColumns();
     this.displayedColumns = this.columns.map(column => column.field);
@@ -175,10 +182,18 @@ export class DataTableComponent implements OnChanges {
 
 
   private getValidatedColumns(): DataTableColumn[] {
-    const columns: DataTableColumn[] = this.dataTable.columns.filter((value, index, self) =>
+    let columns: DataTableColumn[] = this.dataTable.columns.filter((value, index, self) =>
       index === self.findIndex((t) => (!!value.field && t.field === value.field)));
 
-    return this.showCheckboxSelection && columns.length > 0 ? [CheckBoxDataTableColumn, ...columns] : columns;
+    if (this.showCheckboxSelection && columns.length > 0) {
+      columns = [CheckBoxDataTableColumn, ...columns];
+    }
+
+    if (this.showDeleteButton && columns.length > 0) {
+      columns = [...columns, DeleteButtonDataTableColumn];
+    }
+
+    return columns;
   }
 
 
@@ -230,6 +245,13 @@ export class DataTableComponent implements OnChanges {
   private emitDataEntryClicked(entry: DataTableEntry) {
     if (window.getSelection().toString().length <= 0) {
       sendEvent(this.dataTableEvent, DataTableEventType.ENTRY_CLICKED, { entry });
+    }
+  }
+
+
+  private emitDeleteEntryClicked(entry: DataTableEntry) {
+    if (window.getSelection().toString().length <= 0) {
+      sendEvent(this.dataTableEvent, DataTableEventType.DELETE_ENTRY_CLICKED, { entry });
     }
   }
 

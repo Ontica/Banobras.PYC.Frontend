@@ -18,10 +18,6 @@
 
     </div>
 
-    <mat-divider *ngIf="executed && !hasColumns">
-
-    </mat-divider>
-
   </ng-container>
 
 
@@ -56,7 +52,8 @@
             [ngClass]="{'text-align-right': column.type === dataTableColumnType.decimal,
                         'nowrap': column.type === dataTableColumnType.text_nowrap,
                         'item-strikethrough': column.isColumnStrikethrough && row[column.fieldConditionStrikethrough],
-                        'column-checkbox': column.type === dataTableColumnType.check_box}">
+                        'column-checkbox': column.type === dataTableColumnType.check_box,
+                        'column-action': column.type === dataTableColumnType.delete_button}">
 
             <ng-container [ngSwitch]="column.type">
               <ng-container *ngSwitchCase="dataTableColumnType.decimal">
@@ -94,6 +91,16 @@
                   (click)="$event.stopPropagation()"
                   (change)="selection.toggle(row)">
                 </mat-checkbox>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="dataTableColumnType.delete_button">
+                <button mat-icon-button
+                  [title]="deleteButtonText"
+                  (click)="onDeleteButtonClicked($event, row)">
+                  <mat-icon>
+                    delete
+                  </mat-icon>
+                </button>
               </ng-container>
 
               <ng-container *ngSwitchDefault>

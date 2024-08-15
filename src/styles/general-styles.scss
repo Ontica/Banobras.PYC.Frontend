@@ -384,7 +384,6 @@ textarea:focus {
   margin-right: 8px;
 }
 
-
 .instruction-text-slim {
   font-size: 1em;
   text-align: center;
@@ -395,6 +394,10 @@ textarea:focus {
 
 .bold-text {
   font-weight: 600;
+}
+
+.underline-text {
+  text-decoration: underline;
 }
 
 .error-indicator-text {
@@ -809,6 +812,12 @@ ul.default-list {
 .container-expand-all {
   max-height: 85vh;
   overflow-y: auto;
+}
+
+
+.container-full-size {
+  width: 100%;
+  height: 100%;
 }
 
 

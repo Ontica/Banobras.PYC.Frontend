@@ -52,5 +52,9 @@ import { EmpTextareaAutoresizeDirective } from './text-area-autoresize.directive
     EmpTextareaAutoresizeDirective,
   ],
 
+  providers: [
+
+  ],
+
 })
 export class SharedDirectivesModule { }

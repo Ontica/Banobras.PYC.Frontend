@@ -25,6 +25,14 @@
   }
 }
 
+
+@mixin gt-medium() {
+  @media only screen and (min-width: $screen-medium) {
+    @content;
+  }
+}
+
+
 @mixin row() {
   display: flex;
   flex-flow: row nowrap;

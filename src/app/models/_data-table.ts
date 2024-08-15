@@ -44,14 +44,15 @@ export const EmptyDataTable: DataTable = {
 
 
 export enum DataTableColumnType {
-  text        = 'text',
-  text_link   = 'text-link',
-  text_nowrap = 'text-nowrap',
-  decimal     = 'decimal',
-  date        = 'date',
-  text_tag    = 'text-tag',
-  text_button = 'text-button',
-  check_box   = 'check-box',
+  text          = 'text',
+  text_link     = 'text-link',
+  text_nowrap   = 'text-nowrap',
+  decimal       = 'decimal',
+  date          = 'date',
+  text_tag      = 'text-tag',
+  text_button   = 'text-button',
+  check_box     = 'check-box',
+  delete_button = 'delete-button',
 }
 
 
@@ -85,4 +86,11 @@ export const CheckBoxDataTableColumn: DataTableColumn = {
   field: 'selection',
   title: '',
   type: DataTableColumnType.check_box,
+};
+
+
+export const DeleteButtonDataTableColumn: DataTableColumn = {
+  field: 'actionDelete',
+  title: '',
+  type: DataTableColumnType.delete_button,
 };

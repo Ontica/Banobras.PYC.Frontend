@@ -19,3 +19,5 @@ export const CLIENT_SIDE_ERROR_MESSAGE = 'Ocurrió un error de aplicación. ' +
   'Favor de consultar la consola para ver más detalles.';
 
 export const CORRUPT_LOCAL_STORAGE_MESSAGE = 'Información de local storage alterada';
+
+export const CORRUPT_ROUTE_DATA_MESSAGE = 'Información de la ruta alterada';

@@ -47,6 +47,7 @@
     "moment": "^2.30.1",
     "ng-table-virtual-scroll": "^1.6.0",
     "ngx-quill": "^25.1.2",
+    "pako": "^2.1.0",
     "quill": "^2.0.0-rc.0",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.1",

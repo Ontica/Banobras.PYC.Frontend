@@ -70,7 +70,7 @@ table.mat-mdc-table tr.mat-mdc-row {
     background: $grid-nested-background-color;
 
     td {
-      border-bottom: $grid-nested-border;
+      border-bottom: $grid-nested-border !important;
     }
 
     &:hover {
@@ -325,6 +325,11 @@ table.mat-mdc-table tr.mat-mdc-row.row-selected {
       border-left-color: darken($designer-green-color, 65%);
     }
   }
+}
+
+
+table.mat-mdc-table tr.mat-mdc-row.row-bold td {
+  font-weight: 600;
 }
 
 

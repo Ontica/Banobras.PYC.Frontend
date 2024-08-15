@@ -74,12 +74,12 @@
 }
 
 .card-body-padding {
-  padding: 16px !important;
+  padding: 0 16px 16px 16px !important;
 }
 
-.card-body-without-top {
+.card-body-padding-with-top {
   margin-top: 0;
-  padding: 0 16px 16px 16px !important;
+  padding: 16px !important;
 }
 
 .card-header-raised {
@@ -126,6 +126,28 @@
   .card-floating-secondary > .card {
     margin: -10px 0 0 -10px;
   }
+}
+
+
+.card-floating-container-gt-md {
+
+  @include gt-medium() {
+    background-color: $white;
+    border: 1px solid $border-color-light;
+    height: calc(100% - 10px) !important;
+    margin-top: 10px;
+
+    .card-floating-primary-gt-md.card,
+    .card-floating-primary-gt-md > .card {
+      margin: -10px -10px 0 10px;
+    }
+
+    .card-floating-secondary-gt-md.card,
+    .card-floating-secondary-gt-md > .card {
+      margin: -10px 0 0 -10px;
+    }
+  }
+
 }
 
 //

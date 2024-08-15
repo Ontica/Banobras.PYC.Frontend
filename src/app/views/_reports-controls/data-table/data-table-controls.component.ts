@@ -12,7 +12,7 @@ import { EventInfo } from '@app/core';
 import { sendEvent } from '@app/shared/utils';
 
 export enum DataTableControlsEventType {
-  FILTER_CHANGED = 'DataTableControlsComponent.Event.FilterChanged',
+  FILTER_CHANGED        = 'DataTableControlsComponent.Event.FilterChanged',
   EXPORT_BUTTON_CLICKED = 'DataTableControlsComponent.Event.ExportButtonClicked',
 }
 

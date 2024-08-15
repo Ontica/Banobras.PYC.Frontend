@@ -783,9 +783,11 @@ table.mat-mdc-table.emp-designer {
       height: $checkbox-size !important;
     }
 
-    .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true]) ~ .mdc-checkbox__background {
-      background-color: $white !important;
-    }
+    .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])
+
+      ~ .mdc-checkbox__background {
+        background-color: $white !important;
+      }
 
   }
 

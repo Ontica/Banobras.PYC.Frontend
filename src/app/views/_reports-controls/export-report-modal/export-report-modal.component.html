@@ -6,7 +6,7 @@
     [showCardHeaderFlat]="true"
     (cardClose)="onClose()">
 
-    <div class="card-body-padding">
+    <div class="card-body-padding-with-top">
 
         <ng-container *ngIf="exportationTypes.length > 1">
 
@@ -14,7 +14,8 @@
             Seleccionar el tipo de exportación:
           </div>
 
-          <mat-radio-group [(ngModel)]="selectedExportationType" [disabled]="working || hasFileUrl">
+          <mat-radio-group class="export-instruction-text"
+            [(ngModel)]="selectedExportationType" [disabled]="working || hasFileUrl">
             <mat-radio-button *ngFor="let type of exportationTypes"
               [value]="type">
               {{type.name}}

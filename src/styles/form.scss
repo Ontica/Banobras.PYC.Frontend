@@ -89,6 +89,10 @@ form .inline-info {
   z-index: 105;
 }
 
+.low-z-index {
+  z-index: 1;
+}
+
 .form-footer {
   margin-top: 14px;
   border-top: 1px solid $border-color;

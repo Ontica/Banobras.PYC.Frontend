@@ -31,10 +31,16 @@ export class ArrayLibrary {
   }
 
 
-  static getUniqueItems<T, K extends keyof T>(array: T[], key: K): T[] {
+  static getUniqueItems<T, K extends keyof T>(array: T[], key?: K): T[] {
     return array.reduce((acc, item) => {
-      if (!acc.find(x => x[key] === item[key])) {
-        acc.push(item);
+      if (key) {
+        if (!acc.find(x => x[key] === item[key])) {
+          acc.push(item);
+        }
+      } else {
+        if (!acc.includes(item)) {
+          acc.push(item);
+        }
       }
       return acc;
     }, []);

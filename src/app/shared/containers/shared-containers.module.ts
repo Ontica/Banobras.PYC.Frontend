@@ -12,14 +12,18 @@ import { AngularMaterialModule } from '../angular-material.module';
 
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
 
+import { AlertService } from './alert/alert.service';
+
 import { CardComponent } from './card/card.component';
+
+import { ExpansionButtonComponent } from './expansion-button/expansion-button.component';
+
+import { FilePreviewComponent } from './file-preview/file-preview.component';
 
 import { MessageBoxComponent } from './message-box/message-box.component';
 import { MessageBoxService } from './message-box/message.box.service';
 
 import { ModalWindowComponent } from './modal-window/modal-window';
-import { ExpansionButtonComponent } from './expansion-button/expansion-button.component';
-import { AlertService } from './alert/alert.service';
 
 
 @NgModule({
@@ -30,15 +34,17 @@ import { AlertService } from './alert/alert.service';
   ],
   declarations: [
     CardComponent,
+    ExpansionButtonComponent,
+    FilePreviewComponent,
     MessageBoxComponent,
     ModalWindowComponent,
-    ExpansionButtonComponent
   ],
   exports: [
     CardComponent,
+    ExpansionButtonComponent,
+    FilePreviewComponent,
     MessageBoxComponent,
     ModalWindowComponent,
-    ExpansionButtonComponent
   ],
   providers: [
     AlertService,

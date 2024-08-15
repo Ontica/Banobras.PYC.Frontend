@@ -10,7 +10,7 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 export enum AccessControlQueryType {
   Subjects = 'Subjects',
-  Roles = 'Roles',
+  Roles    = 'Roles',
   Features = 'Feature',
 }
 
@@ -63,7 +63,7 @@ export const EmptyAccessControlSelectionData: AccessControlSelectionData = {
 
 export enum SecurityItemType {
   Context = 'Context',
-  Role = 'Role',
+  Role    = 'Role',
   Feature = 'Feature',
 }
 
