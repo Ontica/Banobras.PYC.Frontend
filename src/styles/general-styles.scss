@@ -396,7 +396,16 @@ textarea:focus {
   font-weight: 600;
 }
 
+.italic-text {
+  font-style: italic;
+}
+
 .underline-text {
+  text-decoration: underline;
+}
+
+.highlight-text {
+  color: $primary-color;
   text-decoration: underline;
 }
 

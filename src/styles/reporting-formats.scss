@@ -82,13 +82,18 @@ table.mat-mdc-table tr.mat-mdc-row {
     font-style: italic;
 
     td:first-of-type {
-      padding-left: 32px;
       border-right: $grid-nested-border;
     }
+  }
 
-    td:nth-child(3) {
-      padding-left: 16px;
-    }
+  td.shadow-cell {
+    position: relative;
+    box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+  }
+
+  td.spacing-level {
+    padding-left: calc(16px * var(--level));
   }
 
   &:hover {

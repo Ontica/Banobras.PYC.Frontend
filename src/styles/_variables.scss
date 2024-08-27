@@ -14,10 +14,10 @@ $primary-color: hsl(166, 44%, 25%) !default;
 $primary-color-light: hsl(166, 44%, 35%) !default;
 $primary-color-dark: hsl(166, 44%, 13%) !default;
 
-$secondary-color: #98989a !default;
-$secondary-color-light: #afafaf !default;
-$secondary-color-semi-light: #808080 !default;
-$secondary-color-dark: #4d4d4d !default;
+$secondary-color: hsl(0, 0%, 60%) !default;
+$secondary-color-light: hsl(0, 0%, 70%) !default;
+$secondary-color-semi-light: hsl(0, 0%, 50%) !default;
+$secondary-color-dark: hsl(0, 0%, 30%) !default;
 
 $warning-color: hsl(345, 65%, 38%) !default;
 $warning-color-light: hsl(345, 65%, 43%);
@@ -84,8 +84,8 @@ $screen-standard: 1440px;
 //
 $layout-gradient-initial-color: $primary-color-dark;
 $layout-gradient-final-color: $primary-color;
-$layout-secondary-color: $accent-color-light;
-$layout-secondary-color-dark: $accent-color;
+$layout-secondary-color: $secondary-color-light;
+$layout-secondary-color-dark: $secondary-color;
 $layout-margin-size: 10px;
 $toolbar-item-background: #f3f3f3;
 $toolbar-item-background-hover: lighten($primary-color, 70%);
@@ -176,12 +176,12 @@ $tag-warning-background-color: $accent-color-light !default;
 $tag-error-background-color: $warning-color-light !default;
 
 $list-selection-header-background-color: hsl(210, 20%, 90%) !default;
-$simple-list-background-color: $control-disabled-background !default;
+$simple-list-background-color: hsl(166, 20%, 97%) !default;
 
 //
 // grid
 //
-$grid-header-background-color: #f5efe7 !default;
+$grid-header-background-color: lighten($accent-color, 38%) !default;
 $grid-header-color: $primary-color !default;
 $grid-footer-background-color: $disabled-color;
 $grid-border: 0;
@@ -196,9 +196,10 @@ $grid-entry-padding-vertical: 8px;
 $grid-entry-padding-horizontal: 15px;
 $grid-entry-padding-vertical-first: 10px;
 $grid-entry-padding-vertical-default: 8px;
-$grid-nested-background-color: #e0e6eb;
-$grid-nested-hover-background-color: #d0dae1;
-$grid-nested-border: 2px solid #859cad;
+$grid-nested-background-color: hsl(166, 44%, 95%);
+$grid-nested-hover-background-color: hsl(166, 44%, 90%);
+$grid-nested-border-color: hsl(166, 44%, 35%);
+$grid-nested-border: 2px solid $grid-nested-border-color;
 
 //
 // Designer
