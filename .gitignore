@@ -22,6 +22,7 @@ speed-measure-plugin*.json
 *.launch
 .settings/
 *.sublime-workspace
+.nx
 
 # IDE - VSCode
 .vscode/*
@@ -41,6 +42,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+sonar-project.properties
 
 # System Files
 .DS_Store
@@ -48,4 +50,3 @@ Thumbs.db
 
 .scannerwork
 .vscode
-.nx
