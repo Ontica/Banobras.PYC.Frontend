@@ -13,18 +13,18 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
-// import {
-//   RequestsMainPageComponent
-// } from '@app/views/requests/requests-main-page/requests-main-page.component';
+import {
+  RequestsMainPageComponent
+} from '@app/views/requests/requests-main-page/requests-main-page.component';
 
-// import { BudgetMainPageComponent } from '@app/views/budgeting/budget-main-page/budget-main-page.component';
+import { BudgetMainPageComponent } from '@app/views/budgeting/budget-main-page/budget-main-page.component';
 
 
 const routes: Routes = [
   {
     data: { permission: ROUTES.presupuesto_solicitudes.permission },
     path: ROUTES.presupuesto_solicitudes.path,
-    component: DefaultComponent, // RequestsMainPageComponent,
+    component: RequestsMainPageComponent,
   },
   {
     data: { permission: ROUTES.presupuesto_control.permission },
@@ -44,7 +44,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.presupuesto_planeacion.permission },
     path: ROUTES.presupuesto_planeacion.path,
-    component: DefaultComponent, // BudgetMainPageComponent,
+    component: BudgetMainPageComponent,
   },
   {
     data: { permission: ROUTES.presupuesto_reportes.permission },
