@@ -25,18 +25,13 @@ const routes: Routes = [
     component: RequestsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.pagos_comprometidos.permission },
-    path: ROUTES.pagos_comprometidos.path,
+    data: { permission: ROUTES.pagos_ordenes_de_pago.permission },
+    path: ROUTES.pagos_ordenes_de_pago.path,
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.pagos_programados.permission },
-    path: ROUTES.pagos_programados.path,
-    component: DefaultComponent,
-  },
-  {
-    data: { permission: ROUTES.pagos_realizados.permission },
-    path: ROUTES.pagos_realizados.path,
+    data: { permission: ROUTES.pagos_obligaciones_de_pago.permission },
+    path: ROUTES.pagos_obligaciones_de_pago.path,
     component: DefaultComponent,
   },
   {

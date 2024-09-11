@@ -152,25 +152,18 @@ export const ROUTES = {
     fullpath: '/pagos/solicitudes',
   },
 
-  pagos_comprometidos: {
+  pagos_ordenes_de_pago: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'pagos',
-    path: 'comprometidos',
-    fullpath: '/pagos/comprometidos',
+    path: 'ordenes-de-pago',
+    fullpath: '/pagos/ordenes-de-pago',
   },
 
-  pagos_programados: {
+  pagos_obligaciones_de_pago: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'pagos',
-    path: 'programados',
-    fullpath: '/pagos/programados',
-  },
-
-  pagos_realizados: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos',
-    path: 'realizados',
-    fullpath: '/pagos/realizados',
+    path: 'obligaciones-de-pago',
+    fullpath: '/pagos/obligaciones-de-pago',
   },
 
   pagos_contratos: {
