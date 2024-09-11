@@ -1,0 +1,39 @@
+<div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
+
+  <div class="fx-item-size check-column-size sm-fx-item-none">
+    <mat-checkbox
+      [checked]="selected"
+      (click)="$event.stopPropagation()"
+      (change)="onCheckItemClicked()">
+    </mat-checkbox>
+  </div>
+
+  <div class="fx-item-size first-column-size sm-fx-item-none">
+    <div class="list-item-text-highlight nowrap"
+      (click)="onItemClicked()">
+      <strong><a>{{item.paymentOrderNo}}</a></strong>
+    </div>
+    <div><strong>{{item.paymentOrderTypeName}}</strong></div>
+    <div>{{item.payTo}}</div>
+  </div>
+
+  <div class="fx-item-size second-column-size sm-fx-item-none">
+    <div class="list-item-text-highlight">{{item.paymentMethod}}</div>
+    <div><strong>{{item.currency}}</strong></div>
+    <div>{{item.total | empDecimal}}</div>
+  </div>
+
+  <div class="fx-item">
+    <div class="list-item-text-highlight">{{item.requestedBy}}</div>
+    <div><strong>{{item.requestedDate | empDateTimeFormat: 'DMY HH:mm'}}</strong></div>
+    <div>{{item.dueTime | empDateTimeFormat: 'DMY HH:mm'}}</div>
+  </div>
+
+  <div class="fx-item-size status-column-size sm-fx-item-none">
+    <span class="tag"
+      [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(item.statusName)}">
+      {{item.statusName}}
+    </span>
+  </div>
+
+</div>

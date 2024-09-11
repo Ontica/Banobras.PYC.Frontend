@@ -7,12 +7,27 @@
 
 import { Injectable } from '@angular/core';
 
-import { HttpService } from '@app/core';
+import { EmpObservable, HttpService, Identifiable } from '@app/core';
 
 
 @Injectable()
 export class CataloguesDataService {
 
+
   constructor(private http: HttpService) { }
+
+
+  getPaymentOrderTypes(): EmpObservable<Identifiable[]> {
+    const path = 'v2/payments-management/payment-order-types';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getPaymentMethods(): EmpObservable<Identifiable[]> {
+    const path = 'v2/payments-management/payment-methods';
+
+    return this.http.get<Identifiable[]>(path);
+  }
 
 }

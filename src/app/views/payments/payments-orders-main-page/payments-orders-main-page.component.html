@@ -1,0 +1,18 @@
+
+<div class="explorer">
+
+  <div class="primary priority">
+
+    <emp-payments-orders-explorer
+      [query]="query"
+      [paymentsOrdersList]="paymentsOrdersList"
+      [selectedPaymentOrderUID]="selectedPaymentOrder.uid"
+      [isLoading]="isLoading"
+      [queryExecuted]="queryExecuted"
+      (paymentsOrdersExplorerEvent)="onPaymentsOrdersExplorerEvent($event)">
+
+    </emp-payments-orders-explorer>
+
+  </div>
+
+</div>

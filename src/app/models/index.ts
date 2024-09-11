@@ -32,6 +32,8 @@ export * from './edition-command';
 
 export * from './imported-data';
 
+export * from './payments-orders';
+
 export * from './reporting';
 
 export * from './requests';

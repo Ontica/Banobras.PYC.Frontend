@@ -1,0 +1,49 @@
+<div class="fx-column-container-fill">
+
+  <emp-payments-orders-list-controls *ngIf="paymentsOrdersList.length > 0 && selection.selected.length > 0"
+    class="fx-item-none"
+    [selection]="selection"
+    (paymentsOrdersListControlsEvent)="onPaymentsOrdersListControlsEvent($event)">
+
+  </emp-payments-orders-list-controls>
+
+
+  <emp-payments-orders-list-header class="fx-item-none"
+    [paymentsOrdersList]="paymentsOrdersList"
+    [selection]="selection">
+
+  </emp-payments-orders-list-header>
+
+
+  <div #listContainer class="fx-item">
+
+    <cdk-virtual-scroll-viewport itemSize="61">
+
+        <div *cdkVirtualFor="let item of paymentsOrdersList"
+          class="list-item"
+          [class.list-item-selected]="item.uid === selectedPaymentOrderUID">
+
+          <div class="list-item-container">
+
+            <emp-payments-orders-list-item
+              [item]="item"
+              [selected]="selection.isSelected(item)"
+              (paymentsOrdersListItemEvent)="onPaymentsOrdersListItemEvent($event)">
+
+            </emp-payments-orders-list-item>
+
+          </div>
+
+        </div>
+
+        <div *ngIf="paymentsOrdersList.length === 0" class="text-not-found">
+          {{ queryExecuted ?
+             'No se encontraron ordenes de pago con el filtro proporcionado.' :
+             'No se ha invocado la búsqueda de ordenes de pago.' }}
+        </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

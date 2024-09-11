@@ -14,6 +14,10 @@ import { ROUTES } from '@app/main-layout';
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
 import {
+  PaymentsOrdersMainPageComponent
+} from '@app/views/payments/payments-orders-main-page/payments-orders-main-page.component';
+
+import {
   RequestsMainPageComponent
 } from '@app/views/requests/requests-main-page/requests-main-page.component';
 
@@ -27,7 +31,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.pagos_ordenes_de_pago.permission },
     path: ROUTES.pagos_ordenes_de_pago.path,
-    component: DefaultComponent,
+    component: PaymentsOrdersMainPageComponent,
   },
   {
     data: { permission: ROUTES.pagos_obligaciones_de_pago.permission },
