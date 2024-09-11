@@ -27,6 +27,20 @@
 
       </div>
 
+      <div class="fx-item-sixth sm-fx-item">
+
+        <label>Estado:</label>
+
+        <emp-ng-select
+          formControlName="requestStatus"
+          [config]="{clearable: true}"
+          [items]="requestStatusList"
+          [showError]="formHelper.isControlInvalid(form.controls.requestStatus)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
       <div class="fx-item fx-items-end sm-fx-item">
 
         <div class="input-search-container">
@@ -65,102 +79,93 @@
 
     </div>
 
-    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
-
-      <div class="fx-item-half sm-fx-item">
-
-        <label>Tipo de solicitud:</label>
-
-        <emp-ng-select
-          formControlName="requestTypeUID"
-          [config]="{clearable: true,
-                     notFoundText: !form.value.requesterOrgUnitUID ? 'Seleccionar el área' : 'No se encontraron registros'}"
-          [items]="requestTypesList"
-          [loading]="isLoadingRequesterOrgUnits"
-          [showError]="formHelper.isControlInvalid(form.controls.requestTypeUID)"
-          (changes)="onRequestTypeChanged($event)"
-          placeholder="Todas">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item sm-fx-item">
-
-        <label>Estado:</label>
-
-        <emp-ng-select
-          formControlName="requestStatus"
-          [config]="{clearable: true}"
-          [items]="requestStatusList"
-          [showError]="formHelper.isControlInvalid(form.controls.requestStatus)"
-          placeholder="Todos">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-none">
-
-        <label>Del día:</label>
-        <emp-ng-datepicker
-          formControlName="fromDate"
-          [showError]="formHelper.isControlInvalid(form.controls.fromDate)">
-
-        </emp-ng-datepicker>
-
-      </div>
-
-      <div class="fx-item-none">
-
-        <label>Al día:</label>
-        <emp-ng-datepicker
-          formControlName="toDate"
-          [showError]="formHelper.isControlInvalid(form.controls.toDate)">
-
-        </emp-ng-datepicker>
-
-      </div>
-
-    </div>
 
     <div *ngIf="showFilters" [@empExpandCollapse]>
 
-      <mat-divider class="horizontal-md">
+      <div class="fx-column-container fx-gap-half">
 
-      </mat-divider>
+        <mat-divider class="horizontal-md">
 
-      <div class="fx-row-container sm-fx-column-container sm-fx-gap-half fx-wrap">
+        </mat-divider>
 
-        <div *ngIf="!form.value.requestTypeUID || !hasExtraFields"
-          class="fx-item instruction-text">
-          {{ !form.value.requestTypeUID ?
-              'Seleccione el tipo de solicitud.' :
-              'No hay filtros adicionales.'}}
+        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+          <div class="fx-item-half sm-fx-item">
+
+            <label>Tipo de solicitud:</label>
+
+            <emp-ng-select
+              formControlName="requestTypeUID"
+              [config]="{clearable: true,
+                        notFoundText: !form.value.requesterOrgUnitUID ? 'Seleccionar el área' : 'No se encontraron registros'}"
+              [items]="requestTypesList"
+              [loading]="isLoadingRequesterOrgUnits"
+              [showError]="formHelper.isControlInvalid(form.controls.requestTypeUID)"
+              (changes)="onRequestTypeChanged($event)"
+              placeholder="Todas">
+            </emp-ng-select>
+
+          </div>
+
+          <div class="fx-item-none">
+
+            <label>Del día:</label>
+            <emp-ng-datepicker
+              formControlName="fromDate"
+              [showError]="formHelper.isControlInvalid(form.controls.fromDate)">
+
+            </emp-ng-datepicker>
+
+          </div>
+
+          <div class="fx-item-none">
+
+            <label>Al día:</label>
+            <emp-ng-datepicker
+              formControlName="toDate"
+              [showError]="formHelper.isControlInvalid(form.controls.toDate)">
+
+            </emp-ng-datepicker>
+
+          </div>
+
         </div>
 
-        <div *ngFor="let field of dynamicFields"
-          class="sm-fx-item"
-          [ngClass]="field.fieldType === controlType.text_area ? 'fx-item-one' : 'fx-item-half'"
-          [style.margin-bottom.rem]="0.5">
+        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half fx-wrap">
 
-          <ng-container *ngIf="dynamicFormHelper.existFormControl(form, field.field)">
+          <div *ngIf="!form.value.requestTypeUID || !hasExtraFields"
+            class="fx-item instruction-text">
+            {{ !form.value.requestTypeUID ?
+                'Seleccione el tipo de solicitud.' :
+                'No hay filtros adicionales.'}}
+          </div>
 
-            <label>{{field.label}}:</label>
+          <div *ngFor="let field of dynamicFields"
+            class="sm-fx-item"
+            [ngClass]="field.fieldType === controlType.text_area ? 'fx-item-one' : 'fx-item-half'"
+            [style.margin-bottom.rem]="0.5">
 
-            <emp-ng-dynamic-form-control
-              [formControlName]="field.field"
-              [config]="field">
+            <ng-container *ngIf="dynamicFormHelper.existFormControl(form, field.field)">
 
-            </emp-ng-dynamic-form-control>
+              <label>{{field.label}}:</label>
 
-          </ng-container>
+              <emp-ng-dynamic-form-control
+                [formControlName]="field.field"
+                [config]="field">
+
+              </emp-ng-dynamic-form-control>
+
+            </ng-container>
+
+          </div>
 
         </div>
+
+        <ng-container *ngTemplateOutlet="clearFilterSection">
+
+        </ng-container>
 
       </div>
-
-      <ng-container *ngTemplateOutlet="clearFilterSection">
-
-      </ng-container>
 
     </div>
 
@@ -171,7 +176,7 @@
 
 <ng-template #clearFilterSection>
 
-  <mat-divider class="horizontal">
+  <mat-divider class="horizontal-slim">
 
   </mat-divider>
 
