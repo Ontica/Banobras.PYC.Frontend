@@ -5,6 +5,8 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
+export * from './animations';
+
 export * from './array-library';
 
 export * from './cloneDeep';

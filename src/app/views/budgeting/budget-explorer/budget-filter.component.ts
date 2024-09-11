@@ -15,9 +15,7 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { BudgetingStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { FormHelper, sendEvent } from '@app/shared/utils';
-
-import { expandCollapse } from '@app/shared/animations/animations';
+import { FormHelper, sendEvent, empExpandCollapse } from '@app/shared/utils';
 
 import { Budget, BudgetQuery, BudgetQueryType, BudgetSegmentQuery, BudgetSegmentType,
          BudgetType, FormFieldData, FormFieldDataType } from '@app/models';
@@ -37,7 +35,7 @@ interface BudgetFilterFormModel extends FormGroup<{
 @Component({
   selector: 'emp-budgeting-budget-filter',
   templateUrl: './budget-filter.component.html',
-  animations: [expandCollapse],
+  animations: [empExpandCollapse],
 })
 export class BudgetFilterComponent implements OnInit, OnDestroy {
 

@@ -25,7 +25,7 @@
 
   <div class="fx-item">
     <div class="list-item-text-highlight">{{request.description}}</div>
-    <div><strong>{{ !request?.filingTime ? 'N/D' : (request?.filingTime | dateTimeFormat) }}</strong></div>
+    <div><strong>{{ !request?.filingTime ? 'N/D' : (request?.filingTime | empDateTimeFormat) }}</strong></div>
     <div>{{request.filedByName}}</div>
   </div>
 

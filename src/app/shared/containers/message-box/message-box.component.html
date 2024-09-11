@@ -1,7 +1,7 @@
 <div mat-dialog-title>{{model.title}}</div>
 
 <mat-dialog-content>
-  <div [innerHTML]="model.message | safeHtml"></div>
+  <div [innerHTML]="model.message | empSafeHtml"></div>
 </mat-dialog-content>
 
 <mat-dialog-actions *ngIf="model.messageBoxType === 'Accept'">

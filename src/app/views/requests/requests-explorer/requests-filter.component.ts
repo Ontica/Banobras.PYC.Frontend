@@ -18,9 +18,7 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { RequestsStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { expandCollapse } from '@app/shared/animations/animations';
-
-import { DynamicFormHelper, FormHelper, sendEvent } from '@app/shared/utils';
+import { DynamicFormHelper, empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
@@ -44,7 +42,7 @@ interface RequestsFilterFormModel extends FormGroup<{
 @Component({
   selector: 'emp-pyc-requests-filter',
   templateUrl: './requests-filter.component.html',
-  animations: [expandCollapse],
+  animations: [empExpandCollapse],
 })
 export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 

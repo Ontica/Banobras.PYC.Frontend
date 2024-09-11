@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
 import { DateFormat, DateStringLibrary } from '@app/core';
 
 @Pipe({
-  name: 'dateTimeFormat'
+  name: 'empDateTimeFormat'
 })
 export class DateTimeFormatPipe extends DatePipe implements PipeTransform {
 

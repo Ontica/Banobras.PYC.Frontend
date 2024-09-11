@@ -3,8 +3,8 @@
   <div class="card-header" [class.card-header-flat]="showCardHeaderFlat">
 
     <div class="card-title">
-      <span [innerHTML]="title | safeHtml"></span>
-      <div class="card-hint" [innerHTML]="hint | safeHtml"></div>
+      <span [innerHTML]="title | empSafeHtml"></span>
+      <div class="card-hint" [innerHTML]="hint | empSafeHtml"></div>
     </div>
 
     <div *ngIf="!disableClose" class="card-header-options">

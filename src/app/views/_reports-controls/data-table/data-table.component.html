@@ -60,7 +60,7 @@
                 {{row[column.field] | empDecimal: column.digits}}
               </ng-container>
               <ng-container *ngSwitchCase="dataTableColumnType.date">
-                {{row[column.field] | dateTimeFormat}}
+                {{row[column.field] | empDateTimeFormat}}
               </ng-container>
               <ng-container *ngSwitchCase="dataTableColumnType.text_link">
                 <a class="item-link" (click)="onItemLinkClicked(row)">

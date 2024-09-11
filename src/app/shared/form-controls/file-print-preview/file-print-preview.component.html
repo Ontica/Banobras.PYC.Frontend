@@ -12,7 +12,7 @@
 
         <object *ngIf="url"
           class="object-preview mat-elevation-z1"
-          [data]="url | safeUrl"
+          [data]="url | empSafeUrl"
           (error)="onFileError()">
 
         </object>
