@@ -173,6 +173,13 @@ export const ROUTES = {
     fullpath: '/pagos/contratos',
   },
 
+  pagos_facturas: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'pagos',
+    path: 'facturas',
+    fullpath: '/pagos/facturas',
+  },
+
   pagos_reportes: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'pagos',

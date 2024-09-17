@@ -44,6 +44,11 @@ const routes: Routes = [
     component: DefaultComponent,
   },
   {
+    data: { permission: ROUTES.pagos_facturas.permission },
+    path: ROUTES.pagos_facturas.path,
+    component: DefaultComponent,
+  },
+  {
     data: { permission: ROUTES.pagos_reportes.permission },
     path: ROUTES.pagos_reportes.path,
     component: DefaultComponent,

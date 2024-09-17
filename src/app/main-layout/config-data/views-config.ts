@@ -116,6 +116,13 @@ export const PaymentsViews: View[] = [
     permission: ROUTES.pagos_contratos.permission,
   },
   {
+    name: 'Payments.Invoices',
+    title: 'Facturas',
+    menuTitle: 'Facturas',
+    url: ROUTES.pagos_facturas.fullpath,
+    permission: ROUTES.pagos_facturas.permission,
+  },
+  {
     name: 'Payments.Reporting',
     title: 'Reportes',
     menuTitle: 'Reportes',
