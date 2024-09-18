@@ -71,7 +71,6 @@ export class RequestsDataService {
     const path = `v4/requests/${requestUID}`;
 
     return this.http.get<RequestData>(path);
-
   }
 
 

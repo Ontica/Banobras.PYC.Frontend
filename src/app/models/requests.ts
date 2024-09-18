@@ -135,6 +135,7 @@ export interface RequestActions {
 export interface RequestFields {
   requestTypeUID: string;
   requesterOrgUnitUID: string;
+  description: string;
   requestTypeFields: DataField[];
 }
 

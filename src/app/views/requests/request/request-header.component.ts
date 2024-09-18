@@ -41,6 +41,7 @@ export enum RequestHeaderEventType {
 interface RequestFormModel extends FormGroup<{
   requesterOrgUnitUID: FormControl<string>;
   requestType: FormControl<RequestType>;
+  description: FormControl<string>;
 }> { }
 
 @Component({
@@ -210,6 +211,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     this.form = fb.group({
       requesterOrgUnitUID: ['', Validators.required],
       requestType: [null as RequestType, Validators.required],
+      description: ['', Validators.required],
     });
   }
 
@@ -219,6 +221,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
       this.form.reset({
         requesterOrgUnitUID: isEmpty(this.request.requesterOrgUnit) ? '' : this.request.requesterOrgUnit.uid,
         requestType: isEmpty(this.request.requestType) ? null : this.request.requestType,
+        description: !this.request.description ? '' : this.request.description,
       });
 
       this.request.requestTypeFields?.forEach(x =>
@@ -249,6 +252,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     const data: RequestFields = {
       requesterOrgUnitUID: this.form.value.requesterOrgUnitUID ?? '',
       requestTypeUID: this.form.value.requestType.uid ?? '',
+      description: this.form.value.description ?? '',
       requestTypeFields,
     };
 

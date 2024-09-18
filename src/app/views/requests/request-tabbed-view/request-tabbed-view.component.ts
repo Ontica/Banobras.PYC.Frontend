@@ -42,7 +42,6 @@ export class RequestTabbedViewComponent implements OnChanges {
 
   ngOnChanges() {
     this.setTitle();
-    this.validateSelectedTab();
   }
 
 
@@ -82,17 +81,6 @@ export class RequestTabbedViewComponent implements OnChanges {
 
     this.hint = `<strong>${this.requestData.request.requesterOrgUnit.name} </strong>` +
       ` &nbsp; &nbsp; | &nbsp; &nbsp; ${postingTime}`;
-  }
-
-
-  private validateSelectedTab() {
-    if (this.selectedTabIndex === 1 && this.requestData.tasks.length === 0) {
-      this.selectedTabIndex = 0;
-    }
-
-    if (this.selectedTabIndex === 0 && this.requestData.tasks.length > 0) {
-      this.selectedTabIndex = 1;
-    }
   }
 
 }

@@ -44,6 +44,18 @@
 
     </div>
 
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
     <div *ngIf="form.controls.requestType.invalid || hasExtraFields" [style.min-height.px]="68">
 
       <mat-divider class="horizontal">
