@@ -13,7 +13,7 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { PaymentsDataService } from '@app/data-services';
+import { PaymentOrdersDataService } from '@app/data-services';
 
 import { EmptyPaymentOrder, EmptyPaymentsOrdersQuery, PaymentOrder, PaymentOrderDescriptor,
          PaymentsOrdersQuery } from '@app/models';
@@ -45,7 +45,7 @@ export class PaymentsOrdersMainPageComponent implements OnDestroy {
 
 
   constructor(private uiLayer: PresentationLayer,
-              private paymentsData: PaymentsDataService,
+              private paymentOrdersData: PaymentOrdersDataService,
               private messageBox: MessageBoxService)  {
     this.helper = uiLayer.createSubscriptionHelper();
   }
@@ -90,7 +90,7 @@ export class PaymentsOrdersMainPageComponent implements OnDestroy {
   private searchPaymentsOrders(query: PaymentsOrdersQuery) {
     this.isLoading = true;
 
-    this.paymentsData.searchPaymentsOrders(query)
+    this.paymentOrdersData.searchPaymentsOrders(query)
       .firstValue()
       .then(x => this.resolveSearchPaymentsOrders(x))
       .finally(() => this.isLoading = false);

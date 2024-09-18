@@ -13,7 +13,7 @@ import { PaymentOrderDescriptor, PaymentsOrdersQuery } from '@app/models';
 
 
 @Injectable()
-export class PaymentsDataService {
+export class PaymentOrdersDataService {
 
 
   constructor(private http: HttpService) { }
