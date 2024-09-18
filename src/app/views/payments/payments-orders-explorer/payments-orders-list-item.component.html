@@ -1,9 +1,8 @@
 <div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
 
   <div class="fx-item-size check-column-size sm-fx-item-none">
-    <mat-checkbox
+    <mat-checkbox empNgStopPropagation
       [checked]="selected"
-      (click)="$event.stopPropagation()"
       (change)="onCheckItemClicked()">
     </mat-checkbox>
   </div>

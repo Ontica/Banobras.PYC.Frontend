@@ -58,9 +58,4 @@ export class ModalWindowComponent {
     }
   }
 
-
-  stopPropagation(event: Event) {
-    event.stopPropagation();
-  }
-
 }

@@ -52,9 +52,4 @@ export class GalleryComponent {
     }
   }
 
-
-  stopPropagation(event: Event) {
-    event.stopPropagation();
-  }
-
 }

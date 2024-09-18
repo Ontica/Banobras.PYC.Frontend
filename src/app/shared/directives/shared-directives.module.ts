@@ -16,7 +16,9 @@ import { EmpHasPermissionDirective } from './has-permission.directive';
 import { EmpInputKeysDirective } from './input-keys.directive';
 import { EmpIntegerDirective } from './integer.directive';
 import { EmpNumerationDirective } from './numeration.directive';
+import { EmpPreventDefaultDirective } from './prevent-default.directive';
 import { EmpResizableDirective } from './resizable.directive';
+import { EmpStopPropagationDirective } from './stop-propagation.directive';
 import { EmpTextareaAutoresizeDirective } from './text-area-autoresize.directive';
 
 
@@ -35,7 +37,9 @@ import { EmpTextareaAutoresizeDirective } from './text-area-autoresize.directive
     EmpInputKeysDirective,
     EmpIntegerDirective,
     EmpNumerationDirective,
+    EmpPreventDefaultDirective,
     EmpResizableDirective,
+    EmpStopPropagationDirective,
     EmpTextareaAutoresizeDirective,
   ],
 
@@ -48,12 +52,10 @@ import { EmpTextareaAutoresizeDirective } from './text-area-autoresize.directive
     EmpInputKeysDirective,
     EmpIntegerDirective,
     EmpNumerationDirective,
+    EmpPreventDefaultDirective,
     EmpResizableDirective,
+    EmpStopPropagationDirective,
     EmpTextareaAutoresizeDirective,
-  ],
-
-  providers: [
-
   ],
 
 })

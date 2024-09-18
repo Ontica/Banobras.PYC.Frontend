@@ -86,17 +86,17 @@
               </ng-container>
 
               <ng-container *ngSwitchCase="dataTableColumnType.check_box">
-                <mat-checkbox
+                <mat-checkbox empNgStopPropagation
                   [checked]="selection.isSelected(row)"
-                  (click)="$event.stopPropagation()"
                   (change)="selection.toggle(row)">
                 </mat-checkbox>
               </ng-container>
 
               <ng-container *ngSwitchCase="dataTableColumnType.delete_button">
                 <button mat-icon-button
+                  empNgStopPropagation
                   [title]="deleteButtonText"
-                  (click)="onDeleteButtonClicked($event, row)">
+                  (click)="onDeleteButtonClicked(row)">
                   <mat-icon>
                     delete
                   </mat-icon>

@@ -166,8 +166,7 @@ export class DataTableComponent implements OnChanges {
   }
 
 
-  onDeleteButtonClicked(event, entry: DataTableEntry) {
-    event.stopPropagation();
+  onDeleteButtonClicked(entry: DataTableEntry) {
     this.emitDeleteEntryClicked(entry);
   }
 

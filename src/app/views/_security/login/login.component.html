@@ -22,9 +22,8 @@
 
         <div class="fx-item-none">
 
-          <mat-checkbox
+          <mat-checkbox empNgStopPropagation
             [checked]="showPassword"
-            (click)="$event.stopPropagation"
             (change)="toggleShowPassword()"
             color="warn">
             Mostrar contraseña

@@ -19,7 +19,7 @@
 
   <mat-menu #menu="matMenu" [yPosition]>
 
-    <div class="menu-user-info-container"  (click)="$event.stopPropagation();$event.preventDefault();">
+    <div empNgStopPropagation empNgPreventDefault class="menu-user-info-container">
       <span class="menu-user-name">{{principal.identity ? principal.identity.name : ''}}</span>
       <span class="tag tag-small" [style.marginRight]="0" *ngIf="principal.identity" >
         User
@@ -30,8 +30,8 @@
 
     </mat-divider>
 
-    <button mat-menu-item *ngIf="appLayoutConfig.displayChangeLanguage"
-      (click)="$event.stopPropagation();$event.preventDefault();">
+    <button *ngIf="appLayoutConfig.displayChangeLanguage"
+      mat-menu-item empNgStopPropagation empNgPreventDefault>
         Idioma
         <mat-button-toggle-group appearance="standard" class="menu-user-toggle">
           <mat-button-toggle value="eng" checked>Ing</mat-button-toggle>

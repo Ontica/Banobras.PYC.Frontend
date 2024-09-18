@@ -3,8 +3,8 @@
   (click)="onBackdropClick()">
 
   <img class="gallery-image"
+    empNgStopPropagation
     [src]="image.url"
-    [title]="image.name"
-    (click)="stopPropagation($event)">
+    [title]="image.name">
 
 </div>
