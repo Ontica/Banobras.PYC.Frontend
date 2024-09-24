@@ -1,0 +1,49 @@
+<div class="fx-column-container-fill">
+
+  <emp-payments-payables-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
+    class="fx-item-none"
+    [selection]="selection"
+    (payablesListControlsEvent)="onPayablesListControlsEvent($event)">
+
+  </emp-payments-payables-list-controls>
+
+
+  <emp-payments-payables-list-header class="fx-item-none"
+    [dataList]="dataList"
+    [selection]="selection">
+
+  </emp-payments-payables-list-header>
+
+
+  <div #listContainer class="fx-item">
+
+    <cdk-virtual-scroll-viewport itemSize="61">
+
+        <div *cdkVirtualFor="let item of dataList"
+          class="list-item"
+          [class.list-item-selected]="item.uid === selectedUID">
+
+          <div class="list-item-container">
+
+            <emp-payments-payables-list-item
+              [item]="item"
+              [selected]="selection.isSelected(item)"
+              (payablesListItemEvent)="onPayablesListItemEvent($event)">
+
+            </emp-payments-payables-list-item>
+
+          </div>
+
+        </div>
+
+        <div *ngIf="dataList.length === 0" class="text-not-found">
+          {{ queryExecuted ?
+             'No se encontraron obligaciones de pago con el filtro proporcionado.' :
+             'No se ha invocado la búsqueda de obligaciones de pago.' }}
+        </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

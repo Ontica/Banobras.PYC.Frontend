@@ -1,0 +1,44 @@
+<div class="list-header header-padding">
+
+  <div class="list-header-container">
+
+    <div class="fx-row-container fx-gap-size entry-gap-size fx-items-center sm-fx-gap">
+
+      <div class="fx-item-size check-column-size sm-fx-item-none">
+        <div *ngIf="dataList.length > 0">
+
+          <emp-ng-check-box-all
+            [(selection)]="selection"
+            [values]="dataList">
+          </emp-ng-check-box-all>
+
+        </div>
+      </div>
+
+      <div class="fx-item-size first-column-size sm-fx-item-none nowrap">
+        No. de obligación <br>
+        Tipo de obligación<br>
+        Pagar a
+      </div>
+
+      <div class="fx-item-size second-column-size sm-fx-item-none">
+        Tipo de presupuesto <br>
+        <span class="nowrap">Número de contrato</span> <br>
+        Total
+      </div>
+
+      <div class="fx-item">
+        <span class="nowrap"></span>Solicitado por<br>
+        Fecha de solicitud <br>
+        Fecha de vencimiento
+      </div>
+
+      <div class="fx-item-size status-column-size sm-fx-item-none">
+        Estado
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

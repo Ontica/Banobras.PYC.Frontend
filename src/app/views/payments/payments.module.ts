@@ -22,6 +22,14 @@ import { PaymentsOrdersListComponent } from './payments-orders/payments-orders-e
 import { PaymentsOrdersListItemComponent } from './payments-orders/payments-orders-explorer/payments-orders-list-item.component';
 import { PaymentsOrdersListHeaderComponent } from './payments-orders/payments-orders-explorer/payments-orders-list-header.component';
 
+import { PayablesMainPageComponent } from './payables/payables-main-page/payables-main-page.component';
+import { PayablesExplorerComponent } from './payables/payables-explorer/payables-explorer.component';
+import { PayablesFilterComponent } from './payables/payables-explorer/payables-filter.component';
+import { PayablesListComponent } from './payables/payables-explorer/payables-list.component';
+import { PayablesListControlsComponent } from './payables/payables-explorer/payables-list-controls.component';
+import { PayablesListHeaderComponent } from './payables/payables-explorer/payables-list-header.component';
+import { PayablesListItemComponent } from './payables/payables-explorer/payables-list-item.component';
+
 
 @NgModule({
   imports: [
@@ -42,9 +50,17 @@ import { PaymentsOrdersListHeaderComponent } from './payments-orders/payments-or
     PaymentsOrdersListComponent,
     PaymentsOrdersListItemComponent,
     PaymentsOrdersListHeaderComponent,
+    PayablesMainPageComponent,
+    PayablesExplorerComponent,
+    PayablesFilterComponent,
+    PayablesListComponent,
+    PayablesListControlsComponent,
+    PayablesListHeaderComponent,
+    PayablesListItemComponent,
   ],
   exports: [
     PaymentsOrdersMainPageComponent,
+    PayablesMainPageComponent,
   ],
 })
 export class PaymentsModule { }

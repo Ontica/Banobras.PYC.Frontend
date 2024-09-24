@@ -1,0 +1,44 @@
+<div class="card card-border">
+
+  <div class="card-header card-header-flat">
+
+    <div class="card-title">
+      {{ cardTitle }}
+
+      <div class="card-hint" empNgProgressText
+        loadingText="Cargando"
+        [finalText]="cardHint"
+        [isLoading]="isLoading">
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card-body" [empNgSpinnerHost]="spinner">
+
+    <div class="fx-column-container-fill">
+
+      <emp-ng-spinner #spinner [visible]="isLoading">
+
+      </emp-ng-spinner>
+
+       <emp-payments-payables-filter class="fx-item-none"
+        [query]="query"
+        [(showFilters)]="showFilters"
+        (payablesFilterEvent)="onPayablesFilterEvent($event)">
+
+      </emp-payments-payables-filter>
+
+      <emp-payments-payables-list class="fx-item"
+        [dataList]="dataList"
+        [selectedUID]="selectedUID"
+        (payablesListEvent)="onPayablesListEvent($event)">
+
+      </emp-payments-payables-list>
+
+    </div>
+
+  </div>
+
+</div>

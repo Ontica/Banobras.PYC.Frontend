@@ -1,0 +1,42 @@
+<div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
+
+  <div class="fx-item-size check-column-size sm-fx-item-none">
+    <mat-checkbox empNgStopPropagation
+      [checked]="selected"
+      (change)="onCheckItemClicked()">
+    </mat-checkbox>
+  </div>
+
+  <div class="fx-item-size first-column-size sm-fx-item-none">
+    <div class="list-item-text-highlight nowrap"
+      (click)="onItemClicked()">
+      <a class="bold-text">{{item.payableNo}}</a>
+    </div>
+    <div class="bold-text">{{item.payableTypeName}}</div>
+    <div>{{item.payTo}}</div>
+  </div>
+
+  <div class="fx-item-size second-column-size sm-fx-item-none">
+    <div class="list-item-text-highlight">{{item.budgetTypeName}}</div>
+    <div class="bold-text">{{item.contractNo}}</div>
+    <div>{{item.total | empDecimal}} {{item.currencyCode}}</div>
+  </div>
+
+  <div class="fx-item">
+    <div class="list-item-text-highlight">{{item.requestedBy}}</div>
+    <div class="bold-text">
+      {{!item.requestedTime ? '-' : (item.requestedTime | empDateTimeFormat: 'DMY HH:mm')}}
+    </div>
+    <div>
+      {{!item.dueTime ? '-' : (item.dueTime | empDateTimeFormat: 'DMY HH:mm')}}
+    </div>
+  </div>
+
+  <div class="fx-item-size status-column-size sm-fx-item-none">
+    <span class="tag"
+      [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(item.statusName)}">
+      {{item.statusName}}
+    </span>
+  </div>
+
+</div>
