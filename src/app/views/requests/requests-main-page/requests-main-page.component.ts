@@ -21,8 +21,8 @@ import { MessageBoxService } from '@app/shared/containers/message-box';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { EmptyRequestQuery, RequestQuery, RequestsList, RequestDescriptor,
-         RequestData, EmptyRequestData, mapRequestDescriptorFromRequest } from '@app/models/requests';
+import { EmptyRequestQuery, RequestQuery, RequestsList, RequestDescriptor, RequestData, EmptyRequestData,
+         mapRequestDescriptorFromRequest } from '@app/models/requests';
 
 import { RequestsExplorerEventType } from '../requests-explorer/requests-explorer.component';
 

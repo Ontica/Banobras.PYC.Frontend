@@ -70,17 +70,17 @@ export class RequestTabbedViewComponent implements OnChanges {
 
 
   private setTitle() {
-    const postingTime = !this.requestData.request.filingTime ?
-      'N/D' : DateStringLibrary.format(this.requestData.request.filingTime);
+    const startTime = !this.requestData.request.startTime ?
+      'N/D' : DateStringLibrary.format(this.requestData.request.startTime);
 
     const status = this.requestData.request.status === 'Eliminada' ?
       `<span class="tag tag-error tag-small">${this.requestData.request.status}</span>` :
       `<span class="tag tag-small">${this.requestData.request.status}</span>`;
 
-    this.title = `${this.requestData.request.uniqueID}: ${this.requestData.request.requestType.name}` + status;
+    this.title = `${this.requestData.request.requestNo}: ${this.requestData.request.name}` + status;
 
-    this.hint = `<strong>${this.requestData.request.requesterOrgUnit.name} </strong>` +
-      ` &nbsp; &nbsp; | &nbsp; &nbsp; ${postingTime}`;
+    this.hint = `<strong>${this.requestData.request.requestedByOrgUnit.name} </strong>` +
+      ` &nbsp; &nbsp; | &nbsp; &nbsp; ${startTime}`;
   }
 
 }

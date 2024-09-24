@@ -13,8 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { EmptyRequest, EmptyRequestActions, Request, RequestActions, RequestData,
-         RequestFields, RequestsList } from '@app/models';
+import { EmptyRequest, Request, RequestData, RequestFields, RequestsList } from '@app/models';
 
 import { RequestHeaderEventType } from './request-header.component';
 
@@ -33,8 +32,6 @@ export class RequestEditorComponent {
   @Input() requestsList: RequestsList = RequestsList.budgeting;
 
   @Input() request: Request = EmptyRequest;
-
-  @Input() actions: RequestActions = EmptyRequestActions;
 
   @Output() requestEditorEvent = new EventEmitter<EventInfo>();
 

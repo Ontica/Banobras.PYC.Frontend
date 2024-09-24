@@ -23,8 +23,7 @@ import { ArrayLibrary, DynamicFormHelper, FormHelper, sendEvent } from '@app/sha
 import { RequestsDataService } from '@app/data-services';
 
 import { DataField, FormFieldData, FormFieldDataType, Request, RequestFields, InputData,
-         RequestsList, RequestType, EmptyRequest, EmptyRequestType, RequestActions,
-         EmptyRequestActions } from '@app/models';
+         RequestsList, RequestType, EmptyRequest, EmptyRequestType } from '@app/models';
 
 
 export enum RequestHeaderEventType {
@@ -55,8 +54,6 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   @Input() isSaved = false;
 
   @Input() request: Request = EmptyRequest;
-
-  @Input() actions: RequestActions = EmptyRequestActions;
 
   @Output() requestHeaderEvent = new EventEmitter<EventInfo>();
 
@@ -114,7 +111,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
 
   get hasActions(): boolean {
-    return Object.values(this.actions).some(x => !!x);
+    return Object.values(this.request.actions).some(x => !!x);
   }
 
 
@@ -157,15 +154,15 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
       this.setFormData();
     }
 
-    const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
+    const disable = this.isSaved && (!this.editionMode || !this.request.actions.canUpdate);
 
     setTimeout(() => this.formHelper.setDisableForm(this.form, disable));
   }
 
 
   private initLists() {
-    this.organizationalUnitsList = isEmpty(this.request.requesterOrgUnit) ? this.organizationalUnitsList :
-      ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.request.requesterOrgUnit, 'uid');
+    this.organizationalUnitsList = isEmpty(this.request.requestedByOrgUnit) ? this.organizationalUnitsList :
+      ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.request.requestedByOrgUnit, 'uid');
     this.requestTypesList = isEmpty(this.request.requestType) ? this.requestTypesList :
       ArrayLibrary.insertIfNotExist(this.requestTypesList ?? [], this.request.requestType, 'uid');
   }
@@ -219,12 +216,12 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        requesterOrgUnitUID: isEmpty(this.request.requesterOrgUnit) ? '' : this.request.requesterOrgUnit.uid,
+        requesterOrgUnitUID: isEmpty(this.request.requestedByOrgUnit) ? '' : this.request.requestedByOrgUnit.uid,
         requestType: isEmpty(this.request.requestType) ? null : this.request.requestType,
         description: !this.request.description ? '' : this.request.description,
       });
 
-      this.request.requestTypeFields?.forEach(x =>
+      this.request.fields?.forEach(x =>
         DynamicFormHelper.setFormControlValue(this.form, x.field, x.value)
       );
 
@@ -303,39 +300,39 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
     switch (eventType) {
       case RequestHeaderEventType.DELETE_REQUEST:
         return `Esta operación eliminará la solicitud
-                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
-                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <strong>${this.request.requestNo}: ${this.request.name}</strong>
+                de <strong>${this.request.requestedByOrgUnit.name}</strong>.
 
                 <br><br>¿Elimino la solicitud?`;
 
       case RequestHeaderEventType.SUSPEND_REQUEST:
         return `Esta operación suspenderá la solicitud
-                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
-                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <strong>${this.request.requestNo}: ${this.request.name}</strong>
+                de <strong>${this.request.requestedByOrgUnit.name}</strong>.
                 <br><br>¿Suspendo la solicitud?`;
 
       case RequestHeaderEventType.CANCEL_REQUEST:
         return `Esta operación cancelará la solicitud
-                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
-                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <strong>${this.request.requestNo}: ${this.request.name}</strong>
+                de <strong>${this.request.requestedByOrgUnit.name}</strong>.
                 <br><br>¿Cancelo la solicitud?`;
 
       case RequestHeaderEventType.START_REQUEST:
         return `Esta operación iniciará el proceso de la solicitud
-                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
-                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <strong>${this.request.requestNo}: ${this.request.name}</strong>
+                de <strong>${this.request.requestedByOrgUnit.name}</strong>.
                 <br><br>¿Inicio el proceso de la solicitud?`;
 
       case RequestHeaderEventType.ACTIVATE_REQUEST:
         return `Esta operación reactivará la solicitud
-                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
-                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <strong>${this.request.requestNo}: ${this.request.name}</strong>
+                de <strong>${this.request.requestedByOrgUnit.name}</strong>.
                 <br><br>¿Reactivo la solicitud?`;
 
       case RequestHeaderEventType.CLOSE_REQUEST:
         return `Esta operación cerrará la solicitud
-                <strong>${this.request.uniqueID}: ${this.request.requestType.name}</strong>
-                de <strong>${this.request.requesterOrgUnit.name}</strong>.
+                <strong>${this.request.requestNo}: ${this.request.name}</strong>
+                de <strong>${this.request.requestedByOrgUnit.name}</strong>.
                 <br><br>¿Cierro la solicitud?`;
 
       default: return '';

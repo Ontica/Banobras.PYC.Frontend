@@ -4,7 +4,7 @@
 
 <div class="explorer">
 
-  <div class="primary priority" [class.std-hide]="displayTabbedView">
+  <div class="primary" [class.std-hide]="displayTabbedView">
 
     <emp-pyc-requests-explorer
       [requestsList]="requestsList"
@@ -19,7 +19,7 @@
 
   </div>
 
-  <div class="secondary" *ngIf="displayTabbedView">
+  <div class="secondary priority" *ngIf="displayTabbedView">
 
     <emp-pyc-request-tabbed-view
       [requestsList]="requestsList"

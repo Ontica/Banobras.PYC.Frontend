@@ -10,22 +10,22 @@
   <div class="fx-item-size first-column-size sm-fx-item-none">
     <div class="list-item-text-highlight nowrap"
       (click)="onRequestClicked()">
-      <strong><a>{{request.uniqueID}}</a></strong>
+      <strong><a>{{request.requestNo}}</a></strong>
     </div>
-    <div><strong>{{request.requestTypeName}}</strong></div>
-    <div>{{request.requesterName}}</div>
+    <div><strong>{{request.name}}</strong></div>
+    <div>{{request.requestedBy}}</div>
   </div>
 
   <div class="fx-item-size second-column-size sm-fx-item-none">
-    <div class="list-item-text-highlight">{{request?.controlID}}</div>
-    <div><strong>{{request?.requesterOrgUnitName}}</strong></div>
-    <div>{{request.responsibleOrgUnitName}}</div>
+    <div class="list-item-text-highlight">{{request?.internalControlNo}}</div>
+    <div><strong>{{request?.requestedByOrgUnit}}</strong></div>
+    <div>{{request.responsibleOrgUnit}}</div>
   </div>
 
   <div class="fx-item">
     <div class="list-item-text-highlight">{{request.description}}</div>
-    <div><strong>{{ !request?.filingTime ? 'N/D' : (request?.filingTime | empDateTimeFormat) }}</strong></div>
-    <div>{{request.filedByName}}</div>
+    <div><strong>{{ !request?.startTime ? 'N/D' : (request?.startTime | empDateTimeFormat) }}</strong></div>
+    <div>{{request.startedBy}}</div>
   </div>
 
   <div class="fx-item-size status-column-size sm-fx-item-none">

@@ -120,7 +120,7 @@
 
         <ng-container *ngIf="editionMode">
 
-          <button *ngIf="actions.canDelete"
+          <button *ngIf="request.actions.canDelete"
             type="button" class="btn-warning"
             (click)="onEventButtonClicked(eventTypes.DELETE_REQUEST)">
             Eliminar
@@ -130,37 +130,37 @@
 
         <ng-container *ngIf="!editionMode">
 
-          <button *ngIf="actions.canClose"
+          <button *ngIf="request.actions.canComplete"
             type="button" class="btn"
             (click)="onEventButtonClicked(eventTypes.CLOSE_REQUEST)">
             Cerrar
           </button>
 
-          <button *ngIf="actions.canStart"
+          <button *ngIf="request.actions.canStart"
             type="button" class="btn"
             (click)="onEventButtonClicked(eventTypes.START_REQUEST)">
             Iniciar proceso
           </button>
 
-          <button *ngIf="actions.canActivate"
+          <button *ngIf="request.actions.canActivate"
             type="button" class="btn"
             (click)="onEventButtonClicked(eventTypes.ACTIVATE_REQUEST)">
             Reactivar
           </button>
 
-          <mat-divider *ngIf="(actions.canClose || actions.canStart || actions.canActivate) &&
-                              (actions.canCancel|| actions.canSuspend)"
-            vertical="true" class="vertical-slim">
+          <mat-divider vertical="true" class="vertical-slim"
+            *ngIf="(request.actions.canComplete || request.actions.canStart || request.actions.canActivate) &&
+                   (request.actions.canCancel|| request.actions.canSuspend)">
 
           </mat-divider>
 
-          <button *ngIf="actions.canSuspend"
+          <button *ngIf="request.actions.canSuspend"
             type="button" class="btn"
             (click)="onEventButtonClicked(eventTypes.SUSPEND_REQUEST)">
             Suspender
           </button>
 
-          <button *ngIf="actions.canCancel"
+          <button *ngIf="request.actions.canCancel"
             type="button" class="btn"
             (click)="onEventButtonClicked(eventTypes.CANCEL_REQUEST)">
             Cancelar proceso
@@ -172,7 +172,7 @@
 
       <div class="fx-item fx-end fx-items-center">
 
-        <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
+        <button *ngIf="!editionMode && (request.actions.canDelete || request.actions.canUpdate)"
           class="btn-action"
           (click)="enableEditor(true)">
           Editar
@@ -180,7 +180,7 @@
 
         <ng-container *ngIf="editionMode">
 
-          <button *ngIf="actions.canUpdate"
+          <button *ngIf="request.actions.canUpdate"
             [class.btn]="!formHelper.isFormReady(form)"
             [class.btn-action]="formHelper.isFormReady(form)"
             (click)="onSubmitButtonClicked()">

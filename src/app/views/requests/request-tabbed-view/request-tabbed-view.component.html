@@ -1,7 +1,7 @@
 <emp-ng-card
   [title]="title"
   [hint]="hint"
-  (cardClose)="onCloseButtonClicked()" >
+  (cardClose)="onCloseButtonClicked()">
 
   <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
 
@@ -10,7 +10,6 @@
       <emp-pyc-request-editor
         [requestsList]="requestsList"
         [request]="requestData.request"
-        [actions]="requestData.actions"
         (requestEditorEvent)="onRequestEditorEvent($event)">
 
       </emp-pyc-request-editor>

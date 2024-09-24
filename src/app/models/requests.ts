@@ -19,8 +19,8 @@ export enum RequestsList {
 export interface RequestQuery {
   requestsList: RequestsList;
   requesterOrgUnitUID: string;
-  keywords: string;
   requestTypeUID: string;
+  keywords: string;
   requestStatus: string;
   fromDate: DateString;
   toDate: DateString;
@@ -30,17 +30,19 @@ export interface RequestQuery {
 
 export interface RequestDescriptor {
   uid: string;
-  uniqueID: string;
-  requestTypeName: string;
-  requesterName: string;
-  controlID: string;
-  requesterOrgUnitName: string;
-  responsibleOrgUnitName: string;
+  requestNo: string;
+  name: string;
+  internalControlNo: string;
   description: string;
-  filedByName: string;
-  filingTime: DateString;
+  requestedBy: string;
+  requestedByOrgUnit: string;
+  responsibleOrgUnit: string;
+  priority: string;
+  dueTime: DateString;
+  startedBy: string;
+  startTime: DateString;
+  endTime: DateString;
   status: string;
-  notes: string;
 }
 
 
@@ -79,30 +81,30 @@ export interface RequestsOperationCommand {
 export interface RequestData {
   request: Request;
   tasks: RequestTask[];
-  files: RequestFile[];
-  workflowHistory: RequestWorkflowHistory[];
-  actions: RequestActions;
+  documents: RequestFile[];
+  history: RequestWorkflowHistory[];
+  workflowInstances: WorkflowInstance[];
 }
 
 
 export interface Request {
   uid: string;
-  requestType: RequestType;
-  uniqueID: string;
-  controlID: string;
-  requesterName: string;
+  requestNo: string;
+  internalControlNo: string;
+  name: string;
   description: string;
-  notes: string;
-  requesterOrgUnit: Identifiable;
+  requestedBy: Identifiable;
+  requestedByOrgUnit: Identifiable;
   responsibleOrgUnit: Identifiable;
-  filedBy: Identifiable;
-  filingTime: DateString;
-  closedBy: Identifiable;
-  closingTime: DateString;
-  postedBy: Identifiable;
-  postingTime: DateString;
+  priority: Identifiable;
+  dueTime: DateString;
+  startedBy: Identifiable;
+  startTime: DateString;
+  endTime: DateString;
   status: string;
-  requestTypeFields: DataField[];
+  fields: DataField[];
+  actions: WorkflowActions;
+  requestType: RequestType;
 }
 
 
@@ -121,14 +123,15 @@ export interface RequestWorkflowHistory {
 }
 
 
-export interface RequestActions {
+export interface WorkflowActions {
   canUpdate: boolean;
   canStart: boolean;
   canCancel: boolean;
   canSuspend: boolean;
   canActivate: boolean;
-  canClose: boolean;
+  canComplete: boolean;
   canDelete: boolean;
+  canEditTasks: boolean;
 }
 
 
@@ -161,74 +164,79 @@ export const EmptyRequestType: RequestType = {
 
 export const EmptyRequestDescriptor: RequestDescriptor = {
   uid: '',
-  requestTypeName: '',
-  uniqueID: '',
-  controlID: '',
-  requesterName: '',
+  requestNo: '',
+  name: '',
+  internalControlNo: '',
   description: '',
-  notes: '',
-  requesterOrgUnitName: '',
-  responsibleOrgUnitName: '',
-  filedByName: '',
-  filingTime: '',
+  requestedBy: '',
+  requestedByOrgUnit: '',
+  responsibleOrgUnit: '',
+  priority: '',
+  dueTime: '',
+  startedBy: '',
+  startTime: '',
+  endTime: '',
   status: '',
 };
 
 
-export const EmptyRequest: Request = {
-  uid: '',
-  requestType: EmptyRequestType,
-  uniqueID: '',
-  controlID: '',
-  requesterName: '',
-  description: '',
-  notes: '',
-  requesterOrgUnit: Empty,
-  responsibleOrgUnit: Empty,
-  filedBy: Empty,
-  filingTime: '',
-  closedBy: Empty,
-  closingTime: '',
-  postedBy: Empty,
-  postingTime: '',
-  status: '',
-  requestTypeFields: [],
-};
-
-
-export const EmptyRequestActions: RequestActions = {
+export const EmptyWorkflowActions: WorkflowActions = {
   canUpdate: false,
   canStart: false,
   canCancel: false,
   canDelete: false,
   canSuspend: false,
   canActivate: false,
-  canClose: false,
+  canComplete: false,
+  canEditTasks: false,
+};
+
+
+export const EmptyRequest: Request = {
+  uid: '',
+  requestNo: '',
+  internalControlNo: '',
+  name: '',
+  description: '',
+  requestedBy: Empty,
+  requestedByOrgUnit: Empty,
+  responsibleOrgUnit: Empty,
+  priority: Empty,
+  dueTime: '',
+  startedBy: Empty,
+  startTime: '',
+  endTime: '',
+  status: '',
+  fields: [],
+  actions: EmptyWorkflowActions,
+  requestType: EmptyRequestType,
 };
 
 
 export const EmptyRequestData: RequestData = {
   request: EmptyRequest,
   tasks: [],
-  files: [],
-  workflowHistory: [],
-  actions: EmptyRequestActions,
+  documents: [],
+  history: [],
+  workflowInstances: [],
 };
 
 
 export function mapRequestDescriptorFromRequest(request: Request): RequestDescriptor {
   return {
     uid: request.uid,
-    uniqueID: request.uniqueID,
-    requestTypeName: request.requestType.name,
-    requesterName: request.requesterName,
-    controlID: request.controlID,
-    requesterOrgUnitName: request.requesterOrgUnit.name,
-    responsibleOrgUnitName: request.responsibleOrgUnit.name,
+    requestNo: request.requestNo,
+    name: request.requestType.name,
+    internalControlNo: request.internalControlNo,
     description: request.description,
-    filedByName: request.filedBy.name,
-    filingTime: request.filingTime,
+    requestedBy: request.requestedBy.name,
+    requestedByOrgUnit: request.requestedByOrgUnit.name,
+    responsibleOrgUnit: request.responsibleOrgUnit.name,
+    priority: request.priority.name,
+    dueTime: request.dueTime,
+    startedBy: request.startedBy.name,
+    startTime: request.startTime,
+    endTime: request.endTime,
     status: request.status,
-    notes: request.notes,
   };
 }
