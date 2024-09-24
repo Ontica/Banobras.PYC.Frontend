@@ -70,12 +70,12 @@ export class PaymentsOrdersFilterComponent implements OnChanges, OnInit, OnDestr
 
   paymentMethodsList: Identifiable[] = [];
 
-  subscriptionHelper: SubscriptionHelper;
+  helper: SubscriptionHelper;
 
 
   constructor(private uiLayer: PresentationLayer,
               private cataloguesData: CataloguesDataService) {
-    this.subscriptionHelper = uiLayer.createSubscriptionHelper();
+    this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
 
@@ -93,7 +93,7 @@ export class PaymentsOrdersFilterComponent implements OnChanges, OnInit, OnDestr
 
 
   ngOnDestroy() {
-    this.subscriptionHelper.destroy();
+    this.helper.destroy();
   }
 
 
@@ -122,7 +122,7 @@ export class PaymentsOrdersFilterComponent implements OnChanges, OnInit, OnDestr
     this.isLoading = true;
 
     combineLatest([
-      this.subscriptionHelper.select<Identifiable[]>(RequestsStateSelector.ORGANIZATIONAL_UNITS,
+      this.helper.select<Identifiable[]>(RequestsStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.payments }),
       this.cataloguesData.getPaymentOrderTypes(),
       this.cataloguesData.getPaymentMethods(),

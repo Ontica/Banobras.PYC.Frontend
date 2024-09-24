@@ -15,7 +15,7 @@ import { DefaultComponent } from '@app/shared/components/default-component/defau
 
 import {
   PaymentsOrdersMainPageComponent
-} from '@app/views/payments/payments-orders-main-page/payments-orders-main-page.component';
+} from '@app/views/payments/payments-orders/payments-orders-main-page/payments-orders-main-page.component';
 
 import {
   RequestsMainPageComponent

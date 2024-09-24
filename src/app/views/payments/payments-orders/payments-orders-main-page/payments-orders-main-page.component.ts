@@ -5,11 +5,9 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
-
-import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
@@ -27,7 +25,7 @@ import {
   selector: 'emp-payments-orders-main-page',
   templateUrl: './payments-orders-main-page.component.html',
 })
-export class PaymentsOrdersMainPageComponent implements OnDestroy {
+export class PaymentsOrdersMainPageComponent {
 
   query: PaymentsOrdersQuery = Object.assign({}, EmptyPaymentsOrdersQuery);
 
@@ -41,19 +39,9 @@ export class PaymentsOrdersMainPageComponent implements OnDestroy {
 
   queryExecuted = false;
 
-  helper: SubscriptionHelper;
 
-
-  constructor(private uiLayer: PresentationLayer,
-              private paymentOrdersData: PaymentOrdersDataService,
-              private messageBox: MessageBoxService)  {
-    this.helper = uiLayer.createSubscriptionHelper();
-  }
-
-
-  ngOnDestroy() {
-    this.helper.destroy();
-  }
+  constructor(private paymentOrdersData: PaymentOrdersDataService,
+              private messageBox: MessageBoxService)  { }
 
 
   onPaymentsOrdersExplorerEvent(event: EventInfo) {
