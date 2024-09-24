@@ -491,7 +491,7 @@ input[type="number"]:disabled {
 }
 
 .label {
-  opacity: 0.4;
+  opacity: 0.75;
 }
 
 .lowercase {
@@ -599,6 +599,11 @@ i.disabled {
     color: $white;
   }
 
+  &.tag-disabled {
+    background-color: $tag-disabled-background-color;
+    color: $tag-disabled-color;
+  }
+
   &.tag-small {
     font-size: 0.5rem;
     margin: 0 0.5rem;
@@ -643,6 +648,11 @@ a.tag {
     &.tag-error {
       background-color: darken($tag-error-background-color, 4%);
       color: $white;
+    }
+
+    &.tag-disabled {
+      background-color: darken($tag-disabled-background-color, 4%);
+      color: $tag-disabled-color;
     }
   }
 }
