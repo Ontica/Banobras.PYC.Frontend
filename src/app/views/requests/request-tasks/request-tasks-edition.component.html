@@ -1,0 +1,53 @@
+<div class="instruction-text" *ngIf="requestData.tasks.length === 0">
+  No se ha iniciado el proceso de esta solicitud.
+</div>
+
+
+<div class="fx-column-container-fill" *ngIf="requestData.tasks.length > 0"
+  [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <form #form="ngForm" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+    <div class="fx-row-container fx-space-between">
+
+      <div class="fx-item-quarter">
+        <label>Agrupar por:</label>
+
+        <emp-ng-select name="sortType"
+          [(ngModel)]="groupBy"
+          [items]="groupByTypeList">
+
+        </emp-ng-select>
+      </div>
+
+      <div class="fx-item-none fx-items-end" *ngIf="requestData.request.actions.canEditTasks">
+
+        <button type="button"
+          class="btn-action"
+          (click)="onCreateTaskClicked()">
+          Agregar tarea
+        </button>
+
+      </div>
+
+    </div>
+
+  </form>
+
+  <mat-divider [style.margin]="'8px 0'">
+
+  </mat-divider>
+
+  <emp-pyc-request-tasks-list class="fx-item"
+    [tasks]="requestData.tasks"
+    [groupBy]="groupBy"
+    [canEdit]="false"
+    (requestTasksListEvent)="onRequestTasksListEvent($event)">
+
+  </emp-pyc-request-tasks-list>
+
+</div>

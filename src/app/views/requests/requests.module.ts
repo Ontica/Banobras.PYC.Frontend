@@ -28,6 +28,8 @@ import { RequestsListControlsComponent } from './requests-explorer/requests-list
 import { RequestHeaderComponent } from './request/request-header.component';
 import { RequestCreatorComponent } from './request/request-creator.component';
 import { RequestEditorComponent } from './request/request-editor.component';
+import { RequestTasksEditionComponent } from './request-tasks/request-tasks-edition.component';
+import { RequestTasksListComponent } from './request-tasks/request-tasks-list.component';
 
 
 @NgModule({
@@ -55,6 +57,8 @@ import { RequestEditorComponent } from './request/request-editor.component';
     RequestHeaderComponent,
     RequestCreatorComponent,
     RequestEditorComponent,
+    RequestTasksEditionComponent,
+    RequestTasksListComponent,
   ],
   exports: [
     RequestsMainPageComponent,

@@ -1,0 +1,64 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+ @import '../../../../styles/variables';
+
+
+.urgent-priority {
+  border-left: 5px solid $icon-color-error;
+}
+
+.high-priority {
+  border-left: 5px solid $icon-color-warning;
+}
+
+.normal-priority {
+  border-left: 5px solid $icon-color-success;
+}
+
+.low-priority {
+  border-left: 5px solid $icon-color;
+}
+
+.group:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.group-title {
+  text-transform: uppercase;
+  font-family: $font-family-secondary;
+  font-size: 12pt;
+  margin: 0.5rem 0;
+  padding-bottom: 0.5rem;
+  color: rgba(52, 52, 52, 0.8);
+  border-bottom: 1px solid rgba(52, 52, 52, 0.3);
+}
+
+.task-item {
+  font-family: $font-family-secondary;
+  font-size: 9pt;
+  padding: 0.75rem;
+  margin: 0.125rem 0 0.125rem 2rem;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.task-title {
+  text-transform: uppercase;
+  font-size: 10pt;
+  color: $primary-color;
+  margin-bottom: 0.5rem;
+
+  a {
+    color: $primary-color;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}

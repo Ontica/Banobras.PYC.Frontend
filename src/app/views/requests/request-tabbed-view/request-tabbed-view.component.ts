@@ -69,6 +69,11 @@ export class RequestTabbedViewComponent implements OnChanges {
   }
 
 
+  onRequestTasksEditionEvent(event: EventInfo) {
+
+  }
+
+
   private setTitle() {
     const startTime = !this.requestData.request.startTime ?
       'N/D' : DateStringLibrary.format(this.requestData.request.startTime);

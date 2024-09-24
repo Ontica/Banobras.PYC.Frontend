@@ -18,13 +18,27 @@
 
     <mat-tab label="Tareas">
 
+      <emp-pyc-request-tasks-edition
+        [requestData]="requestData"
+        (requestTasksEditionEvent)="onRequestTasksEditionEvent($event)">
+
+      </emp-pyc-request-tasks-edition>
+
     </mat-tab>
 
     <mat-tab label="Documentos">
 
+      <div class="instruction-text">
+        No se han agregado documentos a la solicitud.
+      </div>
+
     </mat-tab>
 
     <mat-tab label="Historial">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
 
     </mat-tab>
 

@@ -1,0 +1,47 @@
+<div class="fill-table-container" [style.width.%]="100">
+
+  <div *ngFor="let group of requestTaskGroupsList" class="group">
+
+    <div class="group-title">{{ group.group.name }}</div>
+
+    <div *ngFor="let task of group.tasks" class="task-item"
+      [ngClass]="{
+        'urgent-priority': task.priority.uid === 'Urgente',
+        'high-priority':   task.priority.uid === 'Alta',
+        'normal-priority': task.priority.uid === 'Normal',
+        'low-priority':    task.priority.uid === 'Baja',
+      }">
+
+      <div class="fx-row-container">
+        <div class="fx-item-one task-title">
+          <a class="bold-text" empNgStopPropagation (click)="onTaskClicked(task)">
+            {{ task.taskNo }}: {{task.name}} {{task.priority.name}}
+          </a>
+        </div>
+      </div>
+
+      <div class="fx-row-container fx-gap-two">
+
+        <div class="fx-item-half">
+          <div class="label nowrap" [style.margin-bottom.px]="4">Asignado a:</div>
+          <span class="bold-text" >{{task.assignedToOrgUnit.name}}</span> <br>
+          <div>
+            {{task.assignedTo.name}}
+          </div>
+        </div>
+
+        <div class="fx-item-quarter">
+          <div class="label nowrap" [style.margin-bottom.px]="4">Deadline/Estatus:</div>
+          <div class="bold-text">
+            {{!task.dueTime ? 'N/D' :(task.dueTime | empDateTimeFormat: 'DMY HH:mm')}}
+          </div>
+          <span class="tag tag-small" [class.tag-disabled]="task.status === 'En espera'" [style.margin]="0">{{task.status}}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

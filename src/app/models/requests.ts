@@ -110,6 +110,26 @@ export interface Request {
 
 export interface RequestTask {
   uid: string;
+  taskNo: string;
+  name: string;
+  description: string;
+  requestedByOrgUnit: Identifiable;
+  requestedBy: Identifiable;
+  assignedToOrgUnit: Identifiable;
+  assignedTo: Identifiable;
+  priority: Identifiable;
+  status: string;
+  dueTime: DateString;
+  startTime: DateString;
+  endTime: DateString;
+  actions: WorkflowActions;
+  workflowInstance: Identifiable;
+  taskInvoker: any;
+}
+
+
+export interface WorkflowInstance {
+
 }
 
 
