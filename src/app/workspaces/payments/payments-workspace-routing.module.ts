@@ -14,6 +14,10 @@ import { ROUTES } from '@app/main-layout';
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
 import {
+  PayablesMainPageComponent
+} from '@app/views/payments/payables/payables-main-page/payables-main-page.component';
+
+import {
   PaymentsOrdersMainPageComponent
 } from '@app/views/payments/payments-orders/payments-orders-main-page/payments-orders-main-page.component';
 
@@ -36,7 +40,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.pagos_obligaciones_de_pago.permission },
     path: ROUTES.pagos_obligaciones_de_pago.path,
-    component: DefaultComponent,
+    component: PayablesMainPageComponent,
   },
   {
     data: { permission: ROUTES.pagos_contratos.permission },
