@@ -13,7 +13,7 @@ import {
   UnauthorizedViews,
   SystemManagementViews,
   CataloguesAndRulesViews,
-  TasksViews,
+  StepsViews,
   BudgetViews,
   CashFlowViews,
   PaymentsViews,
@@ -22,7 +22,7 @@ import {
 
 export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
                                                           CataloguesAndRulesViews,
-                                                          TasksViews,
+                                                          StepsViews,
                                                           BudgetViews,
                                                           CashFlowViews,
                                                           PaymentsViews);
@@ -30,8 +30,8 @@ export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
 
 export const APP_LAYOUTS: Layout[] = [
   {
-    name: 'Tasks',
-    views: TasksViews,
+    name: 'Steps',
+    views: StepsViews,
     hint: 'Tareas',
     defaultTitle: 'Tareas',
     url: ROUTES.tareas.fullpath,

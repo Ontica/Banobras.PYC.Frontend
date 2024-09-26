@@ -8,7 +8,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TasksWorkspaceRoutingModule } from './tasks-workspace-routing.module';
+import { StepsWorkspaceRoutingModule } from './steps-workspace-routing.module';
 
 
 @NgModule({
@@ -16,8 +16,8 @@ import { TasksWorkspaceRoutingModule } from './tasks-workspace-routing.module';
   imports: [
     CommonModule,
 
-    TasksWorkspaceRoutingModule,
+    StepsWorkspaceRoutingModule,
   ],
 
 })
-export class TasksWorkspaceModule { }
+export class StepsWorkspaceModule { }

@@ -10,30 +10,30 @@ import { ROUTES } from './routes-config';
 import { View } from '../common-models/common';
 
 
-export const TasksViews: View[] = [
+export const StepsViews: View[] = [
   {
-    name: 'Tasks.MyInbox',
+    name: 'Steps.MyInbox',
     title: 'Mis tareas pendientes',
     menuTitle: 'Mis tareas pendientes',
     url: ROUTES.tareas_pendientes.fullpath,
     permission: ROUTES.tareas_pendientes.permission,
   },
   {
-    name: 'Tasks.ControlDesk',
+    name: 'Steps.ControlDesk',
     title: 'Mesa de control',
     menuTitle: 'Mesa de control',
     url: ROUTES.tareas_mesa_de_control.fullpath,
     permission: ROUTES.tareas_mesa_de_control.permission,
   },
   {
-    name: 'Tasks.Finished',
+    name: 'Steps.Finished',
     title: 'Completadas',
     menuTitle: 'Completadas',
     url: ROUTES.tareas_completadas.fullpath,
     permission: ROUTES.tareas_completadas.permission,
   },
   {
-    name: 'Tasks.All',
+    name: 'Steps.All',
     title: 'Todas',
     menuTitle: 'Todas',
     url: ROUTES.tareas_todas.fullpath,

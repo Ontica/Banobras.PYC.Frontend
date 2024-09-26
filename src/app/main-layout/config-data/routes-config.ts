@@ -68,7 +68,7 @@ export const ROUTES = {
 
   // #endregion
 
-  // #region tasks-routing module
+  // #region steps-routing module
 
   tareas_pendientes: {
     permission: PERMISSIONS.NOT_REQUIRED,

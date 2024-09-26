@@ -20,8 +20,8 @@ const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [ParentRouteGuard],
     canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/tasks/tasks-workspace.module')
-      .then((m) => m.TasksWorkspaceModule)
+    loadChildren: () => import('./workspaces/steps/steps-workspace.module')
+      .then((m) => m.StepsWorkspaceModule)
   },
   {
     data: { permission: ROUTES.presupuesto.permission },
