@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RequestTasksEditionComponent } from './request-tasks-edition.component';
+import { RequestStepsListControlsComponent } from './request-steps-list-controls.component';
 
-describe('RequestTasksEditionComponent', () => {
-  let component: RequestTasksEditionComponent;
-  let fixture: ComponentFixture<RequestTasksEditionComponent>;
+describe('RequestStepsListControlsComponent', () => {
+  let component: RequestStepsListControlsComponent;
+  let fixture: ComponentFixture<RequestStepsListControlsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RequestTasksEditionComponent]
+      declarations: [RequestStepsListControlsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RequestTasksEditionComponent);
+    fixture = TestBed.createComponent(RequestStepsListControlsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

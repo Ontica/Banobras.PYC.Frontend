@@ -1,0 +1,26 @@
+<div class="fx-column-container-fill" *ngIf="requestData.steps.length > 0"
+  [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <emp-payments-request-steps-list-controls
+    [groupBy]="groupBy"
+    [canInsertStep]="requestData.request.actions.canInsertWorkItems"
+    (requestStepsListControlsEvent)="onRequestStepsListControlsEvent($event)">
+
+  </emp-payments-request-steps-list-controls>
+
+  <emp-pyc-request-steps-list class="fx-item"
+    [steps]="requestData.steps"
+    [groupBy]="groupBy"
+    (requestStepsListEvent)="onRequestStepsListEvent($event)">
+
+  </emp-pyc-request-steps-list>
+
+</div>
+
+<div class="instruction-text" *ngIf="requestData.steps.length === 0">
+  No se ha iniciado el proceso de esta solicitud.
+</div>

@@ -1,0 +1,33 @@
+<form #form="ngForm" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-row-container fx-space-between">
+
+    <div class="fx-item-quarter">
+      <label>Agrupar por:</label>
+
+      <emp-ng-select name="sortType"
+        [(ngModel)]="groupBy"
+        [items]="groupByTypeList"
+        (changes)="onGroupByChanges($event)">
+
+      </emp-ng-select>
+    </div>
+
+    <div class="fx-item-none fx-items-end" *ngIf="canInsertStep">
+
+      <button type="button"
+        class="btn-action"
+        [style.margin-right]="0"
+        (click)="onCreateStepClicked()">
+        Agregar tarea
+      </button>
+
+    </div>
+
+  </div>
+
+</form>
+
+<mat-divider [style.margin]="'8px 0'">
+
+</mat-divider>

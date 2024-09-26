@@ -69,7 +69,7 @@ export class RequestTabbedViewComponent implements OnChanges {
   }
 
 
-  onRequestTasksEditionEvent(event: EventInfo) {
+  onRequestStepsEditionEvent(event: EventInfo) {
 
   }
 

@@ -1,0 +1,15 @@
+<div class="fill-table-container" [style.width.%]="100">
+
+  <div *ngFor="let group of requestStepGroupsList" class="group">
+
+    <div class="group-title">{{ group.group.name }}</div>
+
+    <emp-payments-request-steps-list-item *ngFor="let step of group.steps"
+      [step]="step"
+      (requestStepsListItemEvent)="onRequestStepsListItemEvent($event)">
+
+    </emp-payments-request-steps-list-item>
+
+  </div>
+
+</div>

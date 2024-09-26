@@ -8,22 +8,6 @@
  @import '../../../../styles/variables';
 
 
-.urgent-priority {
-  border-left: 5px solid $icon-color-error;
-}
-
-.high-priority {
-  border-left: 5px solid $icon-color-warning;
-}
-
-.normal-priority {
-  border-left: 5px solid $icon-color-success;
-}
-
-.low-priority {
-  border-left: 5px solid $icon-color;
-}
-
 .group:not(:last-child) {
   margin-bottom: 1.5rem;
 }
@@ -38,27 +22,57 @@
   border-bottom: 1px solid rgba(52, 52, 52, 0.3);
 }
 
-.task-item {
+.step-item {
   font-family: $font-family-secondary;
   font-size: 9pt;
   padding: 0.75rem;
-  margin: 0.125rem 0 0.125rem 2rem;
-  background-color: #f9f9f9;
+  margin: 0.125rem 0.125rem 0.125rem 1.5rem;
+  background-color: $background-color-highlight;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-
-.task-title {
+.step-title {
   text-transform: uppercase;
   font-size: 10pt;
-  color: $primary-color;
   margin-bottom: 0.5rem;
-
-  a {
-    color: $primary-color;
-  }
 
   a:hover {
     text-decoration: underline;
+  }
+}
+
+.step-deadline {
+  // font-weight: 600;
+}
+
+.priority-urgent {
+  border-left: 5px solid $icon-color-error;
+
+  .step-title a {
+    color: darken($icon-color-error, 15%);
+  }
+}
+
+.priority-high {
+  border-left: 5px solid $icon-color-warning;
+
+  .step-title a {
+    color: darken($icon-color-warning, 15%);
+  }
+}
+
+.priority-normal {
+  border-left: 5px solid $icon-color-success;
+
+  .step-title a {
+    color: darken($icon-color-success, 15%);
+  }
+}
+
+.priority-low {
+  border-left: 5px solid $icon-color;
+
+  .step-title a {
+    color: darken($icon-color, 15%);
   }
 }

@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RequestTasksListComponent } from './request-tasks-list.component';
+import { RequestStepsListComponent } from './request-steps-list.component';
 
-describe('RequestTasksListComponent', () => {
-  let component: RequestTasksListComponent;
-  let fixture: ComponentFixture<RequestTasksListComponent>;
+describe('RequestStepsListComponent', () => {
+  let component: RequestStepsListComponent;
+  let fixture: ComponentFixture<RequestStepsListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RequestTasksListComponent]
+      declarations: [RequestStepsListComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RequestTasksListComponent);
+    fixture = TestBed.createComponent(RequestStepsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

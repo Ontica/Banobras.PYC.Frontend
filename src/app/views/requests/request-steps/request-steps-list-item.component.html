@@ -1,0 +1,78 @@
+<div class="step-item"
+  [ngClass]="{
+    'priority-urgent': step.priority.uid === Priority.Urgent,
+    'priority-high':   step.priority.uid === Priority.High,
+    'priority-normal': step.priority.uid === Priority.Normal,
+    'priority-low':    step.priority.uid === Priority.Low,
+  }">
+
+  <div class="fx-row-container">
+
+    <div class="fx-item-size" [style.--size.px]="50">
+
+      <span class="tag tag-small" [style.margin]="0"
+        [ngClass]="{
+                    'tag-base-error': step.priority.uid === Priority.Urgent,
+                    'tag-base-warning':   step.priority.uid === Priority.High,
+                    'tag-base-success': step.priority.uid === Priority.Normal,
+                    'tag-base-disabled':    step.priority.uid === Priority.Low,
+                  }">{{step.priority.name}}</span>
+    </div>
+
+    <div class="fx-item step-title">
+      <a empNgStopPropagation (click)="onStepClicked(step)">
+        ({{ step.stepNo }}) {{step.name}}
+      </a>
+    </div>
+
+  </div>
+
+  <div class="fx-row-container fx-gap-two">
+
+    <div class="fx-item">
+      <div class="label nowrap" [style.margin-bottom.px]="4">Asignado a:</div>
+      <span class="bold-text" >{{step.assignedToOrgUnit.name}}</span> <br>
+      <div>
+        {{step.assignedTo.name}}
+      </div>
+    </div>
+
+    <div class="fx-item-quarter">
+      <div class="label nowrap" [style.margin-bottom.px]="4">Inicio / Fin:</div>
+      <div>
+        {{!step.startTime ? '-' :(step.startTime | empDateTimeFormat: 'DMY HH:mm')}}
+      </div>
+      <div>
+        {{!step.endTime ? '-' :(step.endTime | empDateTimeFormat: 'DMY HH:mm')}}
+      </div>
+    </div>
+
+    <div class="fx-item-quarter">
+      <div class="label nowrap" [style.margin-bottom.px]="4">Estatus / Límite:</div>
+      <span class="tag tag-info tag-small" [class.tag-disabled]="step.status.uid === StepStatus.Waiting"
+        [style.margin]="0">
+        {{step.status.name}}
+      </span>
+      <div class="step-deadline">
+        {{!step.dueTime ? '-' :(step.dueTime | empDateTimeFormat: 'DMY HH:mm')}}
+      </div>
+    </div>
+
+    <div class="fx-item-size" style="--size: 30px">
+
+      <div class="primary-text nowrap" *ngIf="stepOptions.length > 0">
+
+        <emp-ng-menu title="Configurar tarea"
+          [config]="{bindIcon: null}"
+          [items]="stepOptions"
+          (selected)="onClickStepOption($event.uid, step)">
+
+        </emp-ng-menu>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
