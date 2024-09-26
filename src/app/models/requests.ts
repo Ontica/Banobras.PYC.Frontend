@@ -9,6 +9,12 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { DataField, InputData } from './_dynamic-form-fields';
 
+import { WorkflowActions, WorkflowHistory, WorkflowInstance } from './workflows';
+
+import { Document } from './documents';
+
+import { Step } from './steps';
+
 
 export enum RequestsList {
   budgeting = 'budgeting',
@@ -80,9 +86,9 @@ export interface RequestsOperationCommand {
 
 export interface RequestData {
   request: Request;
-  tasks: RequestTask[];
-  documents: RequestFile[];
-  history: RequestWorkflowHistory[];
+  steps: Step[];
+  documents: Document[];
+  history: WorkflowHistory[];
   workflowInstances: WorkflowInstance[];
 }
 
@@ -105,53 +111,6 @@ export interface Request {
   fields: DataField[];
   actions: WorkflowActions;
   requestType: RequestType;
-}
-
-
-export interface RequestTask {
-  uid: string;
-  taskNo: string;
-  name: string;
-  description: string;
-  requestedByOrgUnit: Identifiable;
-  requestedBy: Identifiable;
-  assignedToOrgUnit: Identifiable;
-  assignedTo: Identifiable;
-  priority: Identifiable;
-  status: string;
-  dueTime: DateString;
-  startTime: DateString;
-  endTime: DateString;
-  actions: WorkflowActions;
-  workflowInstance: Identifiable;
-  taskInvoker: any;
-}
-
-
-export interface WorkflowInstance {
-
-}
-
-
-export interface RequestFile {
-  uid: string;
-}
-
-
-export interface RequestWorkflowHistory {
-  uid: string;
-}
-
-
-export interface WorkflowActions {
-  canUpdate: boolean;
-  canStart: boolean;
-  canCancel: boolean;
-  canSuspend: boolean;
-  canActivate: boolean;
-  canComplete: boolean;
-  canDelete: boolean;
-  canEditTasks: boolean;
 }
 
 
@@ -208,7 +167,7 @@ export const EmptyWorkflowActions: WorkflowActions = {
   canSuspend: false,
   canActivate: false,
   canComplete: false,
-  canEditTasks: false,
+  canInsertWorkItems: false,
 };
 
 
@@ -235,7 +194,7 @@ export const EmptyRequest: Request = {
 
 export const EmptyRequestData: RequestData = {
   request: EmptyRequest,
-  tasks: [],
+  steps: [],
   documents: [],
   history: [],
   workflowInstances: [],

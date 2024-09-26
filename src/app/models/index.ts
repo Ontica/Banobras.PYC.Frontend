@@ -28,6 +28,8 @@ export * from './_operations-log';
 
 export * from './budgets';
 
+export * from './documents';
+
 export * from './edition-command';
 
 export * from './imported-data';
@@ -39,3 +41,7 @@ export * from './payments-orders';
 export * from './reporting';
 
 export * from './requests';
+
+export * from './steps';
+
+export * from './workflows';
