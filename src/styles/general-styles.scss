@@ -579,6 +579,12 @@ i.disabled {
     border: 1px solid $tag-error-background-color;
   }
 
+  &.tag-base-disabled {
+    background-color: $white;
+    color: darken($tag-disabled-background-color, 50%);
+    border: 1px solid darken($tag-disabled-background-color, 50%);
+  }
+
   &.tag-info {
     background-color: $tag-info-background-color;
     color: $white;
