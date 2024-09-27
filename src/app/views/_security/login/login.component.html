@@ -3,14 +3,14 @@
 
     <div class="fx-column-container fx-gap">
 
-      <div class="fx-item">
+      <div class="fx-item-none">
         <label for="userID">Cuenta de acceso:</label>
         <input type="text" id="userID" name="userID" autocomplete="username" class="text-box" autofocus
           formControlName="userID"
           [class.invalid-control]="form.controls.userID.invalid && form.controls.userID.touched">
       </div>
 
-      <div class="fx-item">
+      <div class="fx-item-none">
         <label for="password">Contraseña:</label>
         <input [type]="showPassword ? 'text' : 'password'"
           id="password" name="password" autocomplete="current-password" class="text-box"
@@ -18,7 +18,7 @@
           [class.invalid-control]="form.controls.password.invalid && form.controls.password.touched">
       </div>
 
-      <div class="fx-row-container fx-space-between fx-items-center">
+      <div class="fx-item-none fx-row-container fx-space-between fx-items-center">
 
         <div class="fx-item-none">
 
@@ -44,7 +44,7 @@
 
       </div>
 
-      <div class="authentication-error">
+      <div class="fx-item authentication-error">
 
         <div *ngIf="exceptionMsg" class="inline-warning">
           {{exceptionMsg}}
@@ -52,7 +52,7 @@
 
       </div>
 
-      <div class="authentication-space sm-hide">
+      <div class="fx-item-none authentication-space sm-hide">
 
       </div>
 
