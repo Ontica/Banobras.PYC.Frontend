@@ -17,6 +17,7 @@ import { AccessControlPresentationHandler } from './security-management/access-c
 
 import { BudgetingPresentationHandler } from './pyc/budgeting.presentation.handler';
 import { CataloguesPresentationHandler } from './pyc/catalogues.presentation.handler';
+import { PaymentsPresentationHandler } from './pyc/payments.presentation.handler';
 import { RequestsPresentationHandler } from './pyc/requests.presentation.handler';
 
 
@@ -28,6 +29,7 @@ import { RequestsPresentationHandler } from './pyc/requests.presentation.handler
     AccessControlPresentationHandler,
     BudgetingPresentationHandler,
     CataloguesPresentationHandler,
+    PaymentsPresentationHandler,
     RequestsPresentationHandler,
 
     { provide: STATE_HANDLERS, useExisting: MainLayoutPresentationHandler, multi: true },
@@ -35,6 +37,7 @@ import { RequestsPresentationHandler } from './pyc/requests.presentation.handler
     { provide: STATE_HANDLERS, useExisting: AccessControlPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: BudgetingPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: CataloguesPresentationHandler, multi: true },
+    { provide: STATE_HANDLERS, useExisting: PaymentsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: RequestsPresentationHandler, multi: true },
   ]
 

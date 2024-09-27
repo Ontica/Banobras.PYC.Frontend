@@ -14,7 +14,7 @@ import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { RequestsStateSelector } from '@app/presentation/exported.presentation.types';
+import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
@@ -79,7 +79,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
   organizationalUnitsList: Identifiable[] = [];
 
-  requestTypesList: RequestType[] = [];
+  requestsTypesList: RequestType[] = [];
 
   eventTypes = RequestHeaderEventType;
 
@@ -163,15 +163,15 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   private initLists() {
     this.organizationalUnitsList = isEmpty(this.request.requestedByOrgUnit) ? this.organizationalUnitsList :
       ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.request.requestedByOrgUnit, 'uid');
-    this.requestTypesList = isEmpty(this.request.requestType) ? this.requestTypesList :
-      ArrayLibrary.insertIfNotExist(this.requestTypesList ?? [], this.request.requestType, 'uid');
+    this.requestsTypesList = isEmpty(this.request.requestType) ? this.requestsTypesList :
+      ArrayLibrary.insertIfNotExist(this.requestsTypesList ?? [], this.request.requestType, 'uid');
   }
 
 
   private loadDataLists() {
     this.isLoading = true;
 
-    this.helper.select<Identifiable[]>(RequestsStateSelector.ORGANIZATIONAL_UNITS,
+    this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
       { requestsList: this.requestsList })
       .firstValue()
       .then(x => this.resolveGetOrganizationalUnits(x))
@@ -188,16 +188,16 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
   private getRequestType(requesterOrgUnitUID: string) {
     this.isLoadingRequesterOrgUnits = true;
 
-    this.requestsData.getRequestTypes(this.requestsList, requesterOrgUnitUID)
+    this.requestsData.getRequestsTypes(this.requestsList, requesterOrgUnitUID)
       .firstValue()
-      .then(x => this.resolveGetRequestTypes(x))
-      .catch(e => this.resolveGetRequestTypes([]))
+      .then(x => this.resolveGetRequestsTypes(x))
+      .catch(e => this.resolveGetRequestsTypes([]))
       .finally(() => this.isLoadingRequesterOrgUnits = false);
   }
 
 
-  private resolveGetRequestTypes(data: RequestType[]) {
-    this.requestTypesList = data;
+  private resolveGetRequestsTypes(data: RequestType[]) {
+    this.requestsTypesList = data;
     this.initLists();
   }
 

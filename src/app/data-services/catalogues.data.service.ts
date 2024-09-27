@@ -7,7 +7,9 @@
 
 import { Injectable } from '@angular/core';
 
-import { EmpObservable, HttpService, Identifiable } from '@app/core';
+import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
+
+import { RequestsList } from '@app/models';
 
 
 @Injectable()
@@ -17,15 +19,17 @@ export class CataloguesDataService {
   constructor(private http: HttpService) { }
 
 
-  getPaymentOrderTypes(): EmpObservable<Identifiable[]> {
-    const path = 'v2/payments-management/payment-order-types';
+  getOrganizationalUnits(requestsList: RequestsList): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(requestsList, 'requestsList');
+
+    const path = `v4/requests/catalogues/organizational-units/?requestsList=${requestsList}`;
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
-  getPaymentMethods(): EmpObservable<Identifiable[]> {
-    const path = 'v2/payments-management/payment-methods';
+  getResponsibles(): EmpObservable<Identifiable[]> {
+    const path = `v4/requests/catalogues/responsible-list`;
 
     return this.http.get<Identifiable[]>(path);
   }

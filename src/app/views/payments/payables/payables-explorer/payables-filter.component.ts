@@ -16,11 +16,10 @@ import { DateString, EventInfo, Identifiable } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { BudgetingStateSelector, RequestsStateSelector } from '@app/presentation/exported.presentation.types';
+import { BudgetingStateSelector, CataloguesStateSelector,
+         PaymentsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
-
-import { PayablesDataService } from '@app/data-services';
 
 import { BudgetType, EmptyPayablesQuery, PayablesQuery, PayableStatus, PayableStatusList,
          RequestsList } from '@app/models';
@@ -73,8 +72,7 @@ export class PayablesFilterComponent implements OnChanges, OnInit, OnDestroy {
   helper: SubscriptionHelper;
 
 
-  constructor(private uiLayer: PresentationLayer,
-              private payablesData: PayablesDataService) {
+  constructor(private uiLayer: PresentationLayer) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
@@ -122,10 +120,10 @@ export class PayablesFilterComponent implements OnChanges, OnInit, OnDestroy {
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<Identifiable[]>(RequestsStateSelector.ORGANIZATIONAL_UNITS,
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.payments }),
       this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
-      this.payablesData.getPayableTypes(),
+      this.helper.select<BudgetType[]>(PaymentsStateSelector.PAYABLES_TYPES),
     ])
       .subscribe(([a, b, c]) => {
         this.requesterOrgUnitsList = a;

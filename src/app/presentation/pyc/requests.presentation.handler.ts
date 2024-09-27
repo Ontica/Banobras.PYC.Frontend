@@ -7,24 +7,20 @@
 
 import { Injectable } from '@angular/core';
 
-import { Assertion, Cache, EmpObservable, Identifiable } from '@app/core';
+import { EmpObservable } from '@app/core';
 
 import { AbstractPresentationHandler, StateValues } from '@app/core/presentation/presentation.handler';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { RequestsList } from '@app/models';
-
 
 export enum SelectorType {
-  ORGANIZATIONAL_UNITS = 'PYC.Requests.Selector.OrganizationalUnits.List',
-  REQUEST_STATUS       = 'PYC.Requests.Selector.RequestStatus.List',
+  REQUESTS_STATUS = 'PYC.Requests.Selector.RequestsStatus.List',
 }
 
 
 const initialState: StateValues = [
-  { key: SelectorType.ORGANIZATIONAL_UNITS, value: new Cache<Identifiable[]>() },
-  { key: SelectorType.REQUEST_STATUS,       value: [] },
+  { key: SelectorType.REQUESTS_STATUS, value: [] },
 ];
 
 
@@ -43,17 +39,8 @@ export class RequestsPresentationHandler extends AbstractPresentationHandler {
 
     switch (selectorType) {
 
-      case SelectorType.ORGANIZATIONAL_UNITS:
-        Assertion.assertValue(params.requestsList, 'params.requestsList');
-
-        const requestsList = params.requestsList as RequestsList;
-
-        const provider = () => this.data.getOrganizationalUnits(requestsList);
-
-        return super.selectMemoized(selectorType, provider, requestsList, []);
-
-      case SelectorType.REQUEST_STATUS: {
-        const provider = () => this.data.getRequestStatus();
+      case SelectorType.REQUESTS_STATUS: {
+        const provider = () => this.data.getRequestsStatus();
 
         return super.selectFirst<U>(selectorType, provider);
       }

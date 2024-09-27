@@ -33,7 +33,7 @@
         <emp-ng-select
           formControlName="requestType"
           [config]="{bindByValue: false}"
-          [items]="requestTypesList"
+          [items]="requestsTypesList"
           [loading]="isLoadingRequesterOrgUnits"
           [placeholder]="!form.value.requesterOrgUnitUID ? 'Seleccionar el área' : 'Seleccionar'"
           [showError]="formHelper.isControlInvalid(form.controls.requestType)"

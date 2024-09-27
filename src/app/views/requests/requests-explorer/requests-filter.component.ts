@@ -16,7 +16,7 @@ import { DateString, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { RequestsStateSelector } from '@app/presentation/exported.presentation.types';
+import { CataloguesStateSelector, RequestsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { DynamicFormHelper, empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -74,11 +74,11 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   requesterOrgUnitsList: Identifiable[] = [];
 
-  requestTypesList: Identifiable[] = [];
+  requestsTypesList: Identifiable[] = [];
 
-  allRequestTypesList: Identifiable[] = [];
+  allRequestsTypesList: Identifiable[] = [];
 
-  requestStatusList: Identifiable[] = [];
+  requestsStatusList: Identifiable[] = [];
 
   helper: SubscriptionHelper;
 
@@ -119,9 +119,9 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
     this.onRequestTypeChanged(EmptyRequestType);
 
     if (isEmpty(requesterOrgUnit)) {
-      this.resetRequestTypesList();
+      this.resetRequestsTypesList();
     } else {
-      this.getRequestTypeFiltered(requesterOrgUnit.uid);
+      this.getRequestsTypeFiltered(requesterOrgUnit.uid);
     }
   }
 
@@ -190,37 +190,37 @@ export class RequestsFilterComponent implements OnChanges, OnInit, OnDestroy {
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<Identifiable[]>(RequestsStateSelector.ORGANIZATIONAL_UNITS,
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: this.requestsList }),
-      this.requestsData.getRequestTypes(this.requestsList),
-      this.helper.select<Identifiable[]>(RequestsStateSelector.REQUEST_STATUS),
+      this.requestsData.getRequestsTypes(this.requestsList),
+      this.helper.select<Identifiable[]>(RequestsStateSelector.REQUESTS_STATUS),
     ])
     .subscribe(([a, b, c]) => {
       this.requesterOrgUnitsList = a;
-      this.setAllRequestTypesList(b);
-      this.requestStatusList = c;
+      this.setAllRequestsTypesList(b);
+      this.requestsStatusList = c;
       this.isLoading = a.length === 0;
     });
   }
 
 
-  private setAllRequestTypesList(requestTypes: RequestType[]) {
-    this.allRequestTypesList = requestTypes ?? [];
-    this.resetRequestTypesList();
+  private setAllRequestsTypesList(requestsTypes: RequestType[]) {
+    this.allRequestsTypesList = requestsTypes ?? [];
+    this.resetRequestsTypesList();
   }
 
 
-  private resetRequestTypesList() {
-    this.requestTypesList = [...this.allRequestTypesList];
+  private resetRequestsTypesList() {
+    this.requestsTypesList = [...this.allRequestsTypesList];
   }
 
 
-  private getRequestTypeFiltered(requesterOrgUnitUID?: string) {
+  private getRequestsTypeFiltered(requesterOrgUnitUID?: string) {
     this.isLoadingRequesterOrgUnits = true;
 
-    this.requestsData.getRequestTypes(this.requestsList, requesterOrgUnitUID)
+    this.requestsData.getRequestsTypes(this.requestsList, requesterOrgUnitUID)
       .firstValue()
-      .then(x => this.requestTypesList = x)
+      .then(x => this.requestsTypesList = x)
       .finally(() => this.isLoadingRequesterOrgUnits = false)
   }
 

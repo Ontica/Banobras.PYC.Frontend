@@ -7,7 +7,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { Assertion, EmpObservable, HttpService } from '@app/core';
+import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { PaymentOrderDescriptor, PaymentsOrdersQuery } from '@app/models';
 
@@ -17,6 +17,20 @@ export class PaymentOrdersDataService {
 
 
   constructor(private http: HttpService) { }
+
+
+  getPaymentOrderTypes(): EmpObservable<Identifiable[]> {
+    const path = 'v2/payments-management/payment-order-types';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getPaymentMethods(): EmpObservable<Identifiable[]> {
+    const path = 'v2/payments-management/payment-methods';
+
+    return this.http.get<Identifiable[]>(path);
+  }
 
 
   searchPaymentsOrders(query: PaymentsOrdersQuery): EmpObservable<PaymentOrderDescriptor[]> {

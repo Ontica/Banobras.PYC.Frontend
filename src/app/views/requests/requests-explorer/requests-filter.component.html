@@ -34,7 +34,7 @@
         <emp-ng-select
           formControlName="requestStatus"
           [config]="{clearable: true}"
-          [items]="requestStatusList"
+          [items]="requestsStatusList"
           [showError]="formHelper.isControlInvalid(form.controls.requestStatus)"
           placeholder="Todos">
         </emp-ng-select>
@@ -98,7 +98,7 @@
               formControlName="requestTypeUID"
               [config]="{clearable: true,
                         notFoundText: !form.value.requesterOrgUnitUID ? 'Seleccionar el área' : 'No se encontraron registros'}"
-              [items]="requestTypesList"
+              [items]="requestsTypesList"
               [loading]="isLoadingRequesterOrgUnits"
               [showError]="formHelper.isControlInvalid(form.controls.requestTypeUID)"
               (changes)="onRequestTypeChanged($event)"

@@ -14,9 +14,13 @@ export { SelectorType as BudgetingStateSelector } from './budgeting.presentation
 import { SelectorType as CataloguesStateSelector } from './catalogues.presentation.handler';
 export { SelectorType as CataloguesStateSelector } from './catalogues.presentation.handler';
 
+import { SelectorType as PaymentsStateSelector } from './payments.presentation.handler';
+export { SelectorType as PaymentsStateSelector } from './payments.presentation.handler';
+
 import { SelectorType as RequestsStateSelector } from './requests.presentation.handler';
 export { SelectorType as RequestsStateSelector } from './requests.presentation.handler';
 
 export type PYCSelectors = BudgetingStateSelector |
                            CataloguesStateSelector |
+                           PaymentsStateSelector |
                            RequestsStateSelector;

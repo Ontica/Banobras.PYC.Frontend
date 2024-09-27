@@ -16,11 +16,9 @@ import { DateString, EventInfo, Identifiable } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { RequestsStateSelector } from '@app/presentation/exported.presentation.types';
+import { CataloguesStateSelector, PaymentsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper, sendEvent, empExpandCollapse } from '@app/shared/utils';
-
-import { CataloguesDataService } from '@app/data-services';
 
 import { EmptyPaymentsOrdersQuery, PaymentOrderStatus, PaymentOrderStatusList, PaymentsOrdersQuery,
          PaymentsOrdersStatus, RequestsList } from '@app/models';
@@ -73,8 +71,7 @@ export class PaymentsOrdersFilterComponent implements OnChanges, OnInit, OnDestr
   helper: SubscriptionHelper;
 
 
-  constructor(private uiLayer: PresentationLayer,
-              private cataloguesData: CataloguesDataService) {
+  constructor(private uiLayer: PresentationLayer) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
@@ -122,10 +119,10 @@ export class PaymentsOrdersFilterComponent implements OnChanges, OnInit, OnDestr
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<Identifiable[]>(RequestsStateSelector.ORGANIZATIONAL_UNITS,
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.payments }),
-      this.cataloguesData.getPaymentOrderTypes(),
-      this.cataloguesData.getPaymentMethods(),
+      this.helper.select<Identifiable[]>(PaymentsStateSelector.PAYMENTS_ORDERS_TYPES),
+      this.helper.select<Identifiable[]>(PaymentsStateSelector.PAYMENTS_METHODS),
     ])
     .subscribe(([a, b, c]) => {
       this.requesterOrgUnitsList = a;

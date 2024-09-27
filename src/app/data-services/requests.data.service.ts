@@ -9,27 +9,19 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { RequestsList, RequestFields, RequestQuery, RequestType, RequestDescriptor,
-         RequestData } from '@app/models';
+import { RequestFields, RequestQuery, RequestDescriptor, RequestData, RequestsList,
+         RequestType } from '@app/models';
 
 
 @Injectable()
 export class RequestsDataService {
 
+
   constructor(private http: HttpService) { }
 
-  getOrganizationalUnits(requestsList: RequestsList): EmpObservable<Identifiable[]> {
-    Assertion.assertValue(requestsList, 'requestsList');
 
-    const path = `v4/requests/catalogues/organizational-units/?requestsList=${requestsList}`;
-
-    return this.http.get<Identifiable[]>(path);
-  }
-
-
-  getRequestTypes(requestsList: RequestsList,
+  getRequestsTypes(requestsList: RequestsList,
                   requesterOrgUnitUID?: string): EmpObservable<RequestType[]> {
-
     Assertion.assertValue(requestsList, 'requestsList');
 
     let path = `v4/requests/catalogues/requests-types/?requestsList=${requestsList}`;
@@ -42,15 +34,8 @@ export class RequestsDataService {
   }
 
 
-  getRequestStatus(): EmpObservable<Identifiable[]> {
+  getRequestsStatus(): EmpObservable<Identifiable[]> {
     const path = `v4/requests/catalogues/status-list`;
-
-    return this.http.get<Identifiable[]>(path);
-  }
-
-
-  getRequestResponsibles(): EmpObservable<Identifiable[]> {
-    const path = `v4/requests/catalogues/responsible-list`;
 
     return this.http.get<Identifiable[]>(path);
   }
