@@ -80,13 +80,11 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
       case RequestCreatorEventType.CLOSE_MODAL_CLICKED:
         this.displayCreator = false;
         return;
-
       case RequestCreatorEventType.REQUEST_CREATED:
         Assertion.assertValue(event.payload.request, 'event.payload.request');
         this.displayCreator = false;
         this.resetExplorerData(event.payload.request as RequestData);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -99,30 +97,25 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
       case RequestsExplorerEventType.CREATE_CLICKED:
         this.displayCreator = true;
         return;
-
       case RequestsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as RequestQuery);
         this.searchRequests(this.query);
         return;
-
       case RequestsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as RequestQuery);
         return;
-
       case RequestsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.request, ' event.payload.request');
         Assertion.assertValue(event.payload.request.uid, 'event.payload.request.uid');
         this.getRequest(event.payload.request.uid);
         return;
-
       case RequestsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         Assertion.assertValue(event.payload.command, 'event.payload.command');
         this.messageBox.showInDevelopment('Ejecutar operación', event.payload );
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -135,18 +128,15 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
       case RequestTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.clearSelectedRequest();
         return;
-
       case RequestTabbedViewEventType.REQUEST_UPDATED:
-        Assertion.assertValue(event.payload.request, 'event.payload.request');
-        this.resetExplorerData(event.payload.request as RequestData);
+        Assertion.assertValue(event.payload.requestData, 'event.payload.requestData');
+        this.resetExplorerData(event.payload.requestData as RequestData);
         return;
-
       case RequestTabbedViewEventType.REQUEST_DELETED:
         Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
         this.removeRequestFromRequestDataList(event.payload.requestUID);
         this.clearSelectedRequest();
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -164,11 +154,9 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
       case 'Budget.Requests':
         this.requestsList = RequestsList.budgeting;
         return;
-
       case 'Payments.Requests':
         this.requestsList = RequestsList.payments;
         return;
-
       default:
         this.requestsList = null;
         return;

@@ -158,8 +158,8 @@ export class RequestEditorComponent {
   }
 
 
-  private resolveRequestUpdated(request: RequestData) {
-    const payload = { request };
+  private resolveRequestUpdated(requestData: RequestData) {
+    const payload = { requestData };
     sendEvent(this.requestEditorEvent, RequestEditorEventType.REQUEST_UPDATED, payload);
   }
 
