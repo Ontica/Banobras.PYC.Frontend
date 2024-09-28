@@ -18,13 +18,14 @@ import { EmptyStep, Priority, Step, StepStatus } from '@app/models';
 export enum RequestStepsListItemEventType {
   VIEW_STEP_CLICKED   = 'RequestStepsListItemComponent.Event.ViewStepClicked',
   UPDATE_STEP_CLICKED = 'RequestStepsListItemComponent.Event.UpdateStepClicked',
-  DELETE_STEP_CLICKED = 'RequestStepsListItemComponent.Event.DeleteStepClicked',
+  REMOVE_STEP_CLICKED = 'RequestStepsListItemComponent.Event.RemoveStepClicked',
 }
 
 
 enum RequestStepOptions {
+  View   = 'View',
   Update = 'Update',
-  Delete = 'Delete',
+  Remove = 'Remove',
 }
 
 @Component({
@@ -54,17 +55,20 @@ export class RequestStepsListItemComponent implements OnInit {
 
 
   onStepClicked(step: Step) {
-    sendEvent(this.requestStepsListItemEvent, RequestStepsListItemEventType.VIEW_STEP_CLICKED, { step });
+    sendEvent(this.requestStepsListItemEvent,
+      RequestStepsListItemEventType.VIEW_STEP_CLICKED, { step });
   }
 
 
   onClickStepOption(option: string, step: Step) {
     switch (option) {
+      case RequestStepOptions.View:
       case RequestStepOptions.Update:
-        sendEvent(this.requestStepsListItemEvent, RequestStepsListItemEventType.UPDATE_STEP_CLICKED, { step });
+        sendEvent(this.requestStepsListItemEvent,
+          RequestStepsListItemEventType.UPDATE_STEP_CLICKED, { step });
         return;
-      case RequestStepOptions.Delete:
-        this.confirmDeleteStep(step);
+      case RequestStepOptions.Remove:
+        this.confirmRemoveStep(step);
         return;
       default:
         break;
@@ -77,26 +81,28 @@ export class RequestStepsListItemComponent implements OnInit {
 
     if (this.step.actions.canUpdate) {
       options.push({ uid: RequestStepOptions.Update, name: 'Actualizar tarea' });
+    } else {
+      options.push({ uid: RequestStepOptions.View, name: 'Ver tarea' });
     }
 
     if (this.step.actions.canDelete) {
-      options.push({ uid: RequestStepOptions.Delete, name: 'Eliminar tarea' });
+      options.push({ uid: RequestStepOptions.Remove, name: 'Eliminar tarea' });
     }
 
     this.stepOptions = options;
   }
 
 
-  private confirmDeleteStep(step: Step) {
+  private confirmRemoveStep(step: Step) {
     const message = `Esta operación eliminará la tarea ` +
-      `<strong>${step.stepNo}: ${step.name}</strong><br><br>¿Elimino la tarea?`;
+      `<strong>(${step.stepNo}) ${step.name}</strong><br><br>¿Elimino la tarea?`;
 
     this.messageBox.confirm(message, 'Eliminar tarea', 'DeleteCancel')
       .firstValue()
       .then(x => {
         if (x) {
           sendEvent(this.requestStepsListItemEvent,
-            RequestStepsListItemEventType.DELETE_STEP_CLICKED, { step });
+            RequestStepsListItemEventType.REMOVE_STEP_CLICKED, { step });
         }
       });
   }

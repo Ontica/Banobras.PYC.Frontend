@@ -9,7 +9,8 @@ import { Identifiable } from "@app/core";
 
 
 export interface WorkflowInstance {
-
+  uid: string;
+  name: string;
 }
 
 

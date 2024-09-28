@@ -7,24 +7,18 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
-import { EventInfo, Identifiable } from '@app/core';
+import { DateStringLibrary, EventInfo } from '@app/core';
 
-import { sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, sendEvent } from '@app/shared/utils';
 
-import { Step, WorkflowGroups } from '@app/models';
+import { Step, StepGroupData, WorkflowGroups } from '@app/models';
 
 import { RequestStepsListItemEventType } from './request-steps-list-item.component';
 
 export enum RequestStepsListEventType {
-  VIEW_STEP   = 'RequestStepsListComponent.Event.ViewStep',
-  UPDATE_STEP = 'RequestStepsListComponent.Event.UpdateStep',
-  DELETE_STEP = 'RequestStepsListComponent.Event.DeleteStep',
-}
-
-
-interface RequestStepGroup {
-  group: Identifiable;
-  steps: Step[];
+  VIEW_STEP_CLICKED   = 'RequestStepsListComponent.Event.ViewStepClicked',
+  UPDATE_STEP_CLICKED = 'RequestStepsListComponent.Event.UpdateStepClicked',
+  REMOVE_STEP_CLICKED = 'RequestStepsListComponent.Event.RemoveStepClicked',
 }
 
 @Component({
@@ -40,12 +34,12 @@ export class RequestStepsListComponent implements OnChanges {
 
   @Output() requestStepsListEvent = new EventEmitter<EventInfo>();
 
-  requestStepGroupsList: RequestStepGroup[] = [];
+  requestStepGroupsList: StepGroupData[] = [];
 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.steps || changes.groupBy) {
-      this.buildRequestStepGroupsList();
+      this.buildRequestStepGroupDatasList();
     }
   }
 
@@ -53,13 +47,13 @@ export class RequestStepsListComponent implements OnChanges {
   onRequestStepsListItemEvent(event: EventInfo) {
     switch (event.type as RequestStepsListItemEventType) {
       case RequestStepsListItemEventType.VIEW_STEP_CLICKED:
-        sendEvent(this.requestStepsListEvent, RequestStepsListEventType.VIEW_STEP, event.payload);
+        sendEvent(this.requestStepsListEvent, RequestStepsListEventType.VIEW_STEP_CLICKED, event.payload);
         return;
       case RequestStepsListItemEventType.UPDATE_STEP_CLICKED:
-        sendEvent(this.requestStepsListEvent, RequestStepsListEventType.UPDATE_STEP, event.payload);
+        sendEvent(this.requestStepsListEvent, RequestStepsListEventType.UPDATE_STEP_CLICKED, event.payload);
         return;
-      case RequestStepsListItemEventType.DELETE_STEP_CLICKED:
-        sendEvent(this.requestStepsListEvent, RequestStepsListEventType.DELETE_STEP, event.payload);
+      case RequestStepsListItemEventType.REMOVE_STEP_CLICKED:
+        sendEvent(this.requestStepsListEvent, RequestStepsListEventType.REMOVE_STEP_CLICKED, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -68,35 +62,44 @@ export class RequestStepsListComponent implements OnChanges {
   }
 
 
-  private buildRequestStepGroupsList() {
-    const stepGroupsList: RequestStepGroup[] = [];
+  private buildRequestStepGroupDatasList() {
+    const stepGroupsList: StepGroupData[] = [];
 
     this.steps.forEach((step) => {
-      let groupKey: Identifiable;
+      let currentGroup: StepGroupData;
 
       switch (this.groupBy) {
         case WorkflowGroups.process:
-          groupKey = step.workflowInstance;
+          currentGroup = { groupUID: step.workflowInstance.uid, groupName: step.workflowInstance.name };
           break;
         case WorkflowGroups.deadline:
           const date = step.dueTime.toString().split('T')[0];
-          groupKey = { uid: !date ? 'N/D' : date, name: !date ? 'Fecha límite no definida' : date };
+          const dataString = !date ? 'Fecha límite no definida' : DateStringLibrary.format(date);
+          currentGroup = {
+            groupUID: !date ? 'N/D' : date,
+            groupName: dataString,
+            groupDate: new Date(date),
+          };
           break;
         case WorkflowGroups.all:
         default:
-          groupKey = { uid: 'all', name: 'Todas las tareas' };
+          currentGroup = { groupUID: 'all', groupName: 'Todas las tareas' };
           break;
       }
 
-      let existingGroup = stepGroupsList.find(group => group.group.uid === groupKey.uid);
+      let existingGroup = stepGroupsList.find(group => group.groupUID === currentGroup.groupUID);
 
       if (!existingGroup) {
-        existingGroup = { group: groupKey, steps: [] };
+        existingGroup = {...{}, ...currentGroup, ...{steps: []}};
         stepGroupsList.push(existingGroup);
       }
 
       existingGroup.steps.push(step);
     });
+
+    if (this.groupBy === WorkflowGroups.deadline) {
+      ArrayLibrary.sortByKey(stepGroupsList, 'groupDate');
+    }
 
     this.requestStepGroupsList = stepGroupsList;
   }

@@ -32,6 +32,7 @@ import { RequestStepsEditionComponent } from './request-steps/request-steps-edit
 import { RequestStepsListComponent } from './request-steps/request-steps-list.component';
 import { RequestStepsListItemComponent } from './request-steps/request-steps-list-item.component';
 import { RequestStepsListControlsComponent } from './request-steps/request-steps-list-controls.component';
+import { RequestStepEditorComponent } from './request-steps/request-step-editor.component';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { RequestStepsListControlsComponent } from './request-steps/request-steps
     RequestStepsListComponent,
     RequestStepsListItemComponent,
     RequestStepsListControlsComponent,
+    RequestStepEditorComponent,
   ],
   exports: [
     RequestsMainPageComponent,

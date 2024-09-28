@@ -21,6 +21,7 @@ import { PaymentOrdersDataService } from './payment-orders.data.service';
 
 import { RequestsDataService } from './requests.data.service';
 
+import { StepsDataService } from './steps.data.service';
 
 @NgModule({
 
@@ -32,6 +33,7 @@ import { RequestsDataService } from './requests.data.service';
     PayablesDataService,
     PaymentOrdersDataService,
     RequestsDataService,
+    StepsDataService,
   ]
 
 })

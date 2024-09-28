@@ -14,6 +14,8 @@ import { EmptyWorkflowActions } from './requests';
 
 export interface Step {
   uid: string;
+  workflowInstance: Identifiable;
+  workflowModelItem: Identifiable;
   stepNo: string;
   name: string;
   description: string;
@@ -27,7 +29,6 @@ export interface Step {
   startTime: DateString;
   endTime: DateString;
   actions: WorkflowActions;
-  workflowInstance: Identifiable;
   stepInvoker: any;
 }
 
@@ -46,8 +47,31 @@ export enum Priority {
 }
 
 
+export interface StepFields {
+  requestUID: string;
+  workflowInstanceUID: string;
+  workflowModelItemUID: string;
+  description: string;
+  requestedByOrgUnitUID: string;
+  requestedByUID: string;
+  assignedToOrgUnitUID: string;
+  assignedToUID: string;
+  priority: Priority;
+  dueTime: DateString;
+}
+
+
+export interface StepGroupData {
+  groupUID: string;
+  groupName: string;
+  groupDate?: DateString;
+  steps?: Step[];
+}
+
+
 export const EmptyStep: Step = {
   uid: '',
+  workflowModelItem: Empty,
   stepNo: '',
   name: '',
   description: '',
@@ -64,3 +88,11 @@ export const EmptyStep: Step = {
   workflowInstance: Empty,
   stepInvoker: '',
 }
+
+
+export const PriorityList: Identifiable[] = [
+  { uid: Priority.Low,    name: 'Baja' },
+  { uid: Priority.Normal, name: 'Normal' },
+  { uid: Priority.High,   name: 'Alta' },
+  { uid: Priority.Urgent, name: 'Urgente' },
+];

@@ -21,6 +21,15 @@
 
 </div>
 
+<emp-payments-request-step-editor *ngIf="displayStepEditor"
+  [requestsList]="requestsList"
+  [requestUID]="requestData.request.uid"
+  [workflowInstancesList]="requestData.workflowInstances"
+  [step]="selectedStep"
+  (requestStepEditorEvent)="onRequestStepEditorEvent($event)">
+
+</emp-payments-request-step-editor>
+
 <div class="instruction-text" *ngIf="requestData.steps.length === 0">
   No se ha iniciado el proceso de esta solicitud.
 </div>

@@ -1,0 +1,202 @@
+<emp-ng-modal-window [config]="{width:'900px'}">
+
+  <emp-ng-card
+    [title]="title"
+    hint='Información de la tarea'
+    (cardClose)="onCloseButtonClicked()">
+
+    <div class="card-body-padding">
+
+      <form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+        <div class="fx-column-container fx-gap-half">
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Proceso:</label>
+
+              <emp-ng-select
+                formControlName="workflowInstanceUID"
+                [items]="workflowInstancesList"
+                [showError]="formHelper.isControlInvalid(form.controls.workflowInstanceUID)"
+                (changes)="onWorkflowInstanceChanged($event)">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>Tipo de tarea:</label>
+
+              <emp-ng-select
+                formControlName="workflowModelItemUID"
+                [items]="workflowModelItemList"
+                [loading]="isLoadingWorkflowModelItems"
+                [placeholder]="!form.value.workflowInstanceUID ? 'Seleccionar el proceso' : 'Seleccionar'"
+                [showError]="formHelper.isControlInvalid(form.controls.workflowModelItemUID)">
+              </emp-ng-select>
+
+            </div>
+
+          </div>
+
+          <mat-divider class="horizontal">
+
+          </mat-divider>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-one">
+              <label>Descripción:</label>
+              <input type="text" class="text-box"
+                formControlName="description"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Área solicitante:</label>
+
+              <emp-ng-select
+                formControlName="requestedByOrgUnitUID"
+                [config]="{virtualScroll: true}"
+                [items]="orgUnitsList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.requestedByOrgUnitUID)">
+
+                <ng-template #optionTemplate let-item="item">
+                  <div class="item" [title]="item.name">
+                    {{item.name}}
+                  </div>
+                </ng-template>
+
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>Solicitante:</label>
+
+              <emp-ng-select
+                formControlName="requestedByUID"
+                [items]="responsableList"
+                [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)">
+              </emp-ng-select>
+
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Área responsable:</label>
+
+              <emp-ng-select
+                formControlName="assignedToOrgUnitUID"
+                [config]="{virtualScroll: true}"
+                [items]="orgUnitsList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)">
+
+                <ng-template #optionTemplate let-item="item">
+                  <div class="item" [title]="item.name">
+                    {{item.name}}
+                  </div>
+                </ng-template>
+
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>Responsable:</label>
+
+              <emp-ng-select
+                formControlName="assignedToUID"
+                [items]="responsableList"
+                [showError]="formHelper.isControlInvalid(form.controls.assignedToUID)">
+              </emp-ng-select>
+
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Prioridad:</label>
+
+              <emp-ng-select
+                formControlName="priority"
+                [items]="priorityList"
+                [showError]="formHelper.isControlInvalid(form.controls.priority)">
+
+                <ng-template #optionTemplate let-item="item">
+                  <div [style.width.%]="100"
+                    [ngClass]="{'Default': item.uid === Priority.Low,
+                                'Verde': item.uid === Priority.Normal,
+                                'Secundario': item.uid === Priority.High,
+                                'Terciario': item.uid === Priority.Urgent}">
+                    {{item.name}}
+                  </div>
+                </ng-template>
+
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>Fecha límite:</label>
+              <emp-ng-datepicker
+                formControlName="dueTime"
+                [showError]="formHelper.isControlInvalid(form.controls.dueTime)">
+              </emp-ng-datepicker>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <ng-container *ngIf="canUpdate">
+
+          <mat-divider class="horizontal">
+
+          </mat-divider>
+
+          <div #rowFooter class="fx-row-container">
+
+             <div class="fx-item fx-end fx-items-center">
+
+                <button
+                  [class.btn]="!formHelper.isFormReady(form)"
+                  [class.btn-action]="formHelper.isFormReady(form)"
+                  (click)="onSubmitButtonClicked()">
+                  {{step.actions.canUpdate ? 'Guardar' : 'Agregar'}}
+                </button>
+
+              </div>
+
+          </div>
+
+        </ng-container>
+
+      </form>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

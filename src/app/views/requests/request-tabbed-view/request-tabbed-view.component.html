@@ -19,6 +19,7 @@
     <mat-tab label="Tareas">
 
       <emp-pyc-request-steps-edition
+        [requestsList]="requestsList"
         [requestData]="requestData"
         (requestStepsEditionEvent)="onRequestStepsEditionEvent($event)">
 

@@ -14,8 +14,8 @@ import { sendEvent } from '@app/shared/utils';
 import { WorkflowGroups, WorkflowGroupsList } from '@app/models';
 
 export enum RequestStepsListControlsEventType {
-  GROUP_BY_CHANGE = 'RequestStepsListControlsComponent.Event.GroupByChange',
-  CREATE_STEP     = 'RequestStepsListControlsComponent.Event.CreateStep',
+  GROUP_BY_CHANGE     = 'RequestStepsListControlsComponent.Event.GroupByChange',
+  INSERT_STEP_CLICKED = 'RequestStepsListControlsComponent.Event.InsertStepClicked',
 }
 
 @Component({
@@ -39,8 +39,8 @@ export class RequestStepsListControlsComponent {
   }
 
 
-  onCreateStepClicked() {
-    sendEvent(this.requestStepsListControlsEvent, RequestStepsListControlsEventType.CREATE_STEP);
+  onInsertStepClicked() {
+    sendEvent(this.requestStepsListControlsEvent, RequestStepsListControlsEventType.INSERT_STEP_CLICKED);
   }
 
 }

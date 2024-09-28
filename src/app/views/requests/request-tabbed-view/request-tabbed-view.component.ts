@@ -15,6 +15,8 @@ import { EmptyRequestData, RequestData, RequestsList } from '@app/models';
 
 import { RequestEditorEventType } from '../request/request-editor.component';
 
+import { RequestStepsEditionEventType } from '../request-steps/request-steps-edition.component';
+
 export enum RequestTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'RequestTabbedViewComponent.Event.CloseButtonClicked',
   REQUEST_UPDATED      = 'RequestTabbedViewComponent.Event.RequestUpdated',
@@ -68,7 +70,15 @@ export class RequestTabbedViewComponent implements OnChanges {
 
 
   onRequestStepsEditionEvent(event: EventInfo) {
-
+    switch (event.type as RequestStepsEditionEventType) {
+      case RequestStepsEditionEventType.REQUEST_UPDATED:
+        Assertion.assertValue(event.payload.requestData, 'event.payload.requestData');
+        sendEvent(this.requestTabbedViewEvent, RequestTabbedViewEventType.REQUEST_UPDATED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 

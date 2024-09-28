@@ -2,7 +2,7 @@
 
   <div *ngFor="let group of requestStepGroupsList" class="group">
 
-    <div class="group-title">{{ group.group.name }}</div>
+    <div class="group-title">{{ group.groupName }}</div>
 
     <emp-payments-request-steps-list-item *ngFor="let step of group.steps"
       [step]="step"

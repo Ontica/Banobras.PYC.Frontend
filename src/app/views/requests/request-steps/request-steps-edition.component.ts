@@ -7,15 +7,22 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Assertion, EventInfo } from '@app/core';
+import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { EmptyRequestData, RequestData, WorkflowGroups } from '@app/models';
+import { ArrayLibrary, sendEvent } from '@app/shared/utils';
+
+import { StepsDataService } from '@app/data-services';
+
+import { EmptyRequestData, EmptyStep, RequestData, RequestsList, Step, StepFields,
+         WorkflowGroups } from '@app/models';
 
 import { RequestStepsListControlsEventType } from './request-steps-list-controls.component';
 
 import { RequestStepsListEventType } from './request-steps-list.component';
+
+import { RequestStepEditorEventType } from './request-step-editor.component';
 
 export enum RequestStepsEditionEventType {
   REQUEST_UPDATED = 'RequestStepsEditionComponent.Event.RequestUpdated',
@@ -27,16 +34,23 @@ export enum RequestStepsEditionEventType {
 })
 export class RequestStepsEditionComponent {
 
+  @Input() requestsList: RequestsList = RequestsList.budgeting;
+
   @Input() requestData: RequestData = EmptyRequestData;
 
   @Output() requestStepsEditionEvent = new EventEmitter<EventInfo>();
 
-  submitted = false;
-
   groupBy: WorkflowGroups = WorkflowGroups.all;
 
+  displayStepEditor = false;
 
-  constructor(private messageBox: MessageBoxService) { }
+  selectedStep: Step = EmptyStep;
+
+  submitted = false;
+
+
+  constructor(private stepsData: StepsDataService,
+              private messageBox: MessageBoxService) { }
 
 
   onRequestStepsListControlsEvent(event: EventInfo) {
@@ -45,8 +59,8 @@ export class RequestStepsEditionComponent {
         Assertion.assertValue(event.payload.groupBy, 'event.payload.groupBy');
         this.groupBy = event.payload.groupBy.uid;
         return;
-      case RequestStepsListControlsEventType.CREATE_STEP:
-        this.messageBox.showInDevelopment('Agregar tarea');
+      case RequestStepsListControlsEventType.INSERT_STEP_CLICKED:
+        this.setSelectedStep(EmptyStep, true);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -57,22 +71,108 @@ export class RequestStepsEditionComponent {
 
   onRequestStepsListEvent(event: EventInfo) {
     switch (event.type as RequestStepsListEventType) {
-      case RequestStepsListEventType.VIEW_STEP:
+      case RequestStepsListEventType.UPDATE_STEP_CLICKED:
+        Assertion.assertValue(event.payload.step, 'event.payload.step');
+        this.setSelectedStep(event.payload.step);
+        return;
+      case RequestStepsListEventType.REMOVE_STEP_CLICKED:
+        Assertion.assertValue(event.payload.step.uid, 'event.payload.step.uid');
+        Assertion.assertValue(event.payload.step.workflowInstance.uid, 'event.payload.step.workflowInstance.uid');
+        this.removeStep(event.payload.step.workflowInstance.uid, event.payload.step.uid);
+        return;
+      case RequestStepsListEventType.VIEW_STEP_CLICKED:
         Assertion.assertValue(event.payload.step, 'event.payload.step');
         this.messageBox.showInDevelopment('Ver ejecución de tarea', event.payload);
-        return;
-      case RequestStepsListEventType.UPDATE_STEP:
-        Assertion.assertValue(event.payload.step, 'event.payload.step');
-        this.messageBox.showInDevelopment('Editar tarea', event.payload);
-        return;
-      case RequestStepsListEventType.DELETE_STEP:
-        Assertion.assertValue(event.payload.step.uid, 'event.payload.step.uid');
-        this.messageBox.showInDevelopment('Eliminar tarea', event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  onRequestStepEditorEvent(event: EventInfo) {
+    if (this.submitted) {
+      return;
+    }
+
+    switch (event.type as RequestStepEditorEventType) {
+      case RequestStepEditorEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedStep(EmptyStep);
+        return;
+      case RequestStepEditorEventType.INSERT_STEP:
+        Assertion.assertValue(event.payload.workflowInstanceUID, 'event.payload.workflowInstanceUID');
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.insertStep(event.payload.workflowInstanceUID, event.payload.dataFields);
+        return;
+      case RequestStepEditorEventType.UPDATE_STEP:
+        Assertion.assertValue(event.payload.workflowInstanceUID, 'event.payload.workflowInstanceUID');
+        Assertion.assertValue(event.payload.stepUID, 'event.payload.stepUID');
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.updateStep(event.payload.workflowInstanceUID, event.payload.stepUID, event.payload.dataFields);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  private insertStep(workflowInstanceUID: string, dataFields: StepFields) {
+    this.submitted = true;
+
+    this.stepsData.insertWorkflowStep(workflowInstanceUID, dataFields)
+      .firstValue()
+      .then(x => this.resolveInsertStep(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private updateStep(workflowInstanceUID: string, stepUID: string, dataFields: StepFields) {
+    this.submitted = true;
+
+    this.stepsData.updateWorkflowStep(workflowInstanceUID, stepUID, dataFields)
+      .firstValue()
+      .then(x => this.resolveStepUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private removeStep(workflowInstanceUID: string, stepUID: string) {
+    this.submitted = true;
+
+    this.stepsData.removeWorkflowStep(workflowInstanceUID, stepUID)
+      .firstValue()
+      .then(x => this.resolveStepRemoved(stepUID))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private resolveInsertStep(step: Step) {
+    this.emitRequestUpdated([...[], ...this.requestData.steps, step]);
+  }
+
+
+  private resolveStepUpdated(step: Step) {
+    this.emitRequestUpdated([...[], ...this.requestData.steps.filter(x => x.uid !== step.uid), step]);
+  }
+
+
+  private resolveStepRemoved(stepUID: string) {
+    this.emitRequestUpdated([...[], ...this.requestData.steps.filter(x => x.uid !== stepUID)]);
+  }
+
+
+  private emitRequestUpdated(steps: Step[]) {
+    const requestData = { ...this.requestData, ...{ steps: ArrayLibrary.sortByKey(steps, 'stepNo') } };
+    sendEvent(this.requestStepsEditionEvent, RequestStepsEditionEventType.REQUEST_UPDATED, { requestData });
+    this.setSelectedStep(EmptyStep);
+  }
+
+
+  private setSelectedStep(step: Step, display?: boolean) {
+    this.selectedStep = step;
+    this.displayStepEditor = display ?? !isEmpty(step);
   }
 
 }
