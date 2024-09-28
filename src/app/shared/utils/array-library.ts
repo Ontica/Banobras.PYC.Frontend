@@ -47,6 +47,24 @@ export class ArrayLibrary {
   }
 
 
+  static sortByKey<T, K extends keyof T>(array: T[], key: K): T[] {
+    return array.sort((a, b) => {
+      const valueA = a[key];
+      const valueB = b[key];
+      if (valueA instanceof Date && valueB instanceof Date) {
+        return valueA.getTime() - valueB.getTime();
+      }
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return valueA.localeCompare(valueB);
+      }
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return valueA - valueB;
+      }
+      return 0;
+    });
+  }
+
+
   static sortByArrayKeyLenght<T, K extends keyof T>(array: T[], key: K): T[] {
     return array.sort((a, b) => this.compareArrayValuesLenght(a[key], b[key]));
   }
