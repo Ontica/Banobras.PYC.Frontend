@@ -43,7 +43,7 @@ interface RequestStepFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-payments-request-step-editor',
+  selector: 'emp-pyc-request-step-editor',
   templateUrl: './request-step-editor.component.html',
 })
 export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy {

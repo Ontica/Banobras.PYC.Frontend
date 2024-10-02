@@ -4,11 +4,11 @@
 
     <div class="group-title">{{ group.groupName }}</div>
 
-    <emp-payments-request-steps-list-item *ngFor="let step of group.steps"
+    <emp-pyc-request-steps-list-item *ngFor="let step of group.steps"
       [step]="step"
       (requestStepsListItemEvent)="onRequestStepsListItemEvent($event)">
 
-    </emp-payments-request-steps-list-item>
+    </emp-pyc-request-steps-list-item>
 
   </div>
 

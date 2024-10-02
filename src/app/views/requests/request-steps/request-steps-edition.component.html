@@ -5,12 +5,12 @@
 
   </emp-ng-spinner>
 
-  <emp-payments-request-steps-list-controls
+  <emp-pyc-request-steps-list-controls
     [groupBy]="groupBy"
     [canInsertStep]="requestData.request.actions.canInsertWorkItems"
     (requestStepsListControlsEvent)="onRequestStepsListControlsEvent($event)">
 
-  </emp-payments-request-steps-list-controls>
+  </emp-pyc-request-steps-list-controls>
 
   <emp-pyc-request-steps-list class="fx-item"
     [steps]="requestData.steps"
@@ -21,14 +21,14 @@
 
 </div>
 
-<emp-payments-request-step-editor *ngIf="displayStepEditor"
+<emp-pyc-request-step-editor *ngIf="displayStepEditor"
   [requestsList]="requestsList"
   [requestUID]="requestData.request.uid"
   [workflowInstancesList]="requestData.workflowInstances"
   [step]="selectedStep"
   (requestStepEditorEvent)="onRequestStepEditorEvent($event)">
 
-</emp-payments-request-step-editor>
+</emp-pyc-request-step-editor>
 
 <div class="instruction-text" *ngIf="requestData.steps.length === 0">
   No se ha iniciado el proceso de esta solicitud.

@@ -29,7 +29,7 @@ enum RequestStepOptions {
 }
 
 @Component({
-  selector: 'emp-payments-request-steps-list-item',
+  selector: 'emp-pyc-request-steps-list-item',
   templateUrl: './request-steps-list-item.component.html',
   styleUrls: ['./request-steps-list-item.component.scss']
 })

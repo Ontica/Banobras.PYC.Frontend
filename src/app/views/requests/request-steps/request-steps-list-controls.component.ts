@@ -19,7 +19,7 @@ export enum RequestStepsListControlsEventType {
 }
 
 @Component({
-  selector: 'emp-payments-request-steps-list-controls',
+  selector: 'emp-pyc-request-steps-list-controls',
   templateUrl: './request-steps-list-controls.component.html',
 })
 export class RequestStepsListControlsComponent {
