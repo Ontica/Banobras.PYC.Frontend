@@ -29,6 +29,7 @@ import { RequestHeaderComponent } from './request/request-header.component';
 import { RequestCreatorComponent } from './request/request-creator.component';
 import { RequestEditorComponent } from './request/request-editor.component';
 import { RequestStepsEditionComponent } from './request-steps/request-steps-edition.component';
+import { RequestStepsGroupByPipe } from './request-steps/request-steps-group-by.pipe';
 import { RequestStepsListComponent } from './request-steps/request-steps-list.component';
 import { RequestStepsListItemComponent } from './request-steps/request-steps-list-item.component';
 import { RequestStepsListControlsComponent } from './request-steps/request-steps-list-controls.component';
@@ -61,6 +62,7 @@ import { RequestStepEditorComponent } from './request-steps/request-step-editor.
     RequestCreatorComponent,
     RequestEditorComponent,
     RequestStepsEditionComponent,
+    RequestStepsGroupByPipe,
     RequestStepsListComponent,
     RequestStepsListItemComponent,
     RequestStepsListControlsComponent,

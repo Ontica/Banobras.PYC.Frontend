@@ -12,6 +12,28 @@ import { WorkflowActions } from './workflows';
 import { EmptyWorkflowActions } from './requests';
 
 
+export enum StepStatus {
+  Waiting = 'Waiting',
+  Pending = 'Pending',
+}
+
+
+export enum Priority {
+  Low    = 'Low',
+  Normal = 'Normal',
+  High   = 'High',
+  Urgent = 'Urgent',
+}
+
+
+export const PriorityList: Identifiable[] = [
+  { uid: Priority.Low,    name: 'Baja' },
+  { uid: Priority.Normal, name: 'Normal' },
+  { uid: Priority.High,   name: 'Alta' },
+  { uid: Priority.Urgent, name: 'Urgente' },
+];
+
+
 export interface Step {
   uid: string;
   workflowInstance: Identifiable;
@@ -33,20 +55,6 @@ export interface Step {
 }
 
 
-export enum StepStatus {
-  Waiting = 'Waiting',
-  Pending = 'Pending',
-}
-
-
-export enum Priority {
-  Low    = 'Low',
-  Normal = 'Normal',
-  High   = 'High',
-  Urgent = 'Urgent',
-}
-
-
 export interface StepFields {
   requestUID: string;
   workflowInstanceUID: string;
@@ -58,14 +66,6 @@ export interface StepFields {
   assignedToUID: string;
   priority: Priority;
   dueTime: DateString;
-}
-
-
-export interface StepGroupData {
-  groupUID: string;
-  groupName: string;
-  groupDate?: DateString;
-  steps?: Step[];
 }
 
 
@@ -88,11 +88,3 @@ export const EmptyStep: Step = {
   workflowInstance: Empty,
   stepInvoker: '',
 }
-
-
-export const PriorityList: Identifiable[] = [
-  { uid: Priority.Low,    name: 'Baja' },
-  { uid: Priority.Normal, name: 'Normal' },
-  { uid: Priority.High,   name: 'Alta' },
-  { uid: Priority.Urgent, name: 'Urgente' },
-];
