@@ -19,7 +19,7 @@ import { PayablesExplorerEventType } from '../payables-explorer/payables-explore
 
 
 @Component({
-  selector: 'emp-payments-payables-main-page',
+  selector: 'emp-pmt-payables-main-page',
   templateUrl: './payables-main-page.component.html',
 })
 export class PayablesMainPageComponent {

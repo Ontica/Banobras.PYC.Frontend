@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SegmentItemSelectorComponent } from './segment-item-selector.component';
+import { BudgetSegmentItemSelectorComponent } from './budget-segment-item-selector.component';
 
-describe('SegmentItemSelectorComponent', () => {
-  let component: SegmentItemSelectorComponent;
-  let fixture: ComponentFixture<SegmentItemSelectorComponent>;
+describe('BudgetSegmentItemSelectorComponent', () => {
+  let component: BudgetSegmentItemSelectorComponent;
+  let fixture: ComponentFixture<BudgetSegmentItemSelectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SegmentItemSelectorComponent]
+      declarations: [BudgetSegmentItemSelectorComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SegmentItemSelectorComponent);
+    fixture = TestBed.createComponent(BudgetSegmentItemSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

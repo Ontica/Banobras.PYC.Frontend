@@ -13,7 +13,7 @@ import { PaymentOrderDescriptor } from '@app/models';
 
 
 @Component({
-  selector: 'emp-payments-orders-list-header',
+  selector: 'emp-pmt-payments-orders-list-header',
   templateUrl: './payments-orders-list-header.component.html',
   styleUrls: ['./payments-orders-list-item.component.scss'],
 })

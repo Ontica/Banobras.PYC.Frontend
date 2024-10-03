@@ -18,18 +18,18 @@ import { BudgetSegmentItem } from '@app/models';
 import { BudgetingStateSelector } from '@app/presentation/exported.presentation.types';
 
 @Component({
-  selector: 'emp-budgeting-segment-item-selector',
-  templateUrl: './segment-item-selector.component.html',
+  selector: 'emp-bdg-budget-segment-item-selector',
+  templateUrl: './budget-segment-item-selector.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SegmentItemSelectorComponent),
+      useExisting: forwardRef(() => BudgetSegmentItemSelectorComponent),
       multi: true
     },
   ]
 })
 
-export class SegmentItemSelectorComponent implements OnInit, OnDestroy {
+export class BudgetSegmentItemSelectorComponent implements OnInit, OnDestroy {
 
   @Input() segmentType = '';
 

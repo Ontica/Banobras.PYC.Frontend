@@ -23,19 +23,19 @@
 
       </emp-ng-spinner>
 
-       <emp-payments-payables-filter class="fx-item-none"
+       <emp-pmt-payables-filter class="fx-item-none"
         [query]="query"
         [(showFilters)]="showFilters"
         (payablesFilterEvent)="onPayablesFilterEvent($event)">
 
-      </emp-payments-payables-filter>
+      </emp-pmt-payables-filter>
 
-      <emp-payments-payables-list class="fx-item"
+      <emp-pmt-payables-list class="fx-item"
         [dataList]="dataList"
         [selectedUID]="selectedUID"
         (payablesListEvent)="onPayablesListEvent($event)">
 
-      </emp-payments-payables-list>
+      </emp-pmt-payables-list>
 
     </div>
 

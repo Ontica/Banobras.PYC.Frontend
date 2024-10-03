@@ -40,7 +40,7 @@ interface PaymentsOrdersFilterFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-payments-orders-filter',
+  selector: 'emp-pmt-payments-orders-filter',
   templateUrl: './payments-orders-filter.component.html',
   animations: [empExpandCollapse],
 })

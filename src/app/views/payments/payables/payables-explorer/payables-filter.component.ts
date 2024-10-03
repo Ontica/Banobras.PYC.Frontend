@@ -41,7 +41,7 @@ interface PayablesFilterFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-payments-payables-filter',
+  selector: 'emp-pmt-payables-filter',
   templateUrl: './payables-filter.component.html',
   animations: [empExpandCollapse],
 })

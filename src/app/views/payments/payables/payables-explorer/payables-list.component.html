@@ -1,18 +1,18 @@
 <div class="fx-column-container-fill">
 
-  <emp-payments-payables-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
+  <emp-pmt-payables-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
     class="fx-item-none"
     [selection]="selection"
     (payablesListControlsEvent)="onPayablesListControlsEvent($event)">
 
-  </emp-payments-payables-list-controls>
+  </emp-pmt-payables-list-controls>
 
 
-  <emp-payments-payables-list-header class="fx-item-none"
+  <emp-pmt-payables-list-header class="fx-item-none"
     [dataList]="dataList"
     [selection]="selection">
 
-  </emp-payments-payables-list-header>
+  </emp-pmt-payables-list-header>
 
 
   <div #listContainer class="fx-item">
@@ -25,12 +25,12 @@
 
           <div class="list-item-container">
 
-            <emp-payments-payables-list-item
+            <emp-pmt-payables-list-item
               [item]="item"
               [selected]="selection.isSelected(item)"
               (payablesListItemEvent)="onPayablesListItemEvent($event)">
 
-            </emp-payments-payables-list-item>
+            </emp-pmt-payables-list-item>
 
           </div>
 

@@ -25,7 +25,7 @@ export enum PayablesExplorerEventType {
 }
 
 @Component({
-  selector: 'emp-payments-payables-explorer',
+  selector: 'emp-pmt-payables-explorer',
   templateUrl: './payables-explorer.component.html',
 })
 export class PayablesExplorerComponent implements OnChanges {

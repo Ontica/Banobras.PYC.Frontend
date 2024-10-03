@@ -19,7 +19,7 @@ export enum PaymentsOrdersListItemEventType {
 }
 
 @Component({
-  selector: 'emp-payments-orders-list-item',
+  selector: 'emp-pmt-payments-orders-list-item',
   templateUrl: './payments-orders-list-item.component.html',
   styleUrls: ['./payments-orders-list-item.component.scss'],
 })

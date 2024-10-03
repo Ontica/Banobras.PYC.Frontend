@@ -33,7 +33,7 @@ interface BudgetFilterFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-budgeting-budget-filter',
+  selector: 'emp-bdg-budget-filter',
   templateUrl: './budget-filter.component.html',
   animations: [empExpandCollapse],
 })

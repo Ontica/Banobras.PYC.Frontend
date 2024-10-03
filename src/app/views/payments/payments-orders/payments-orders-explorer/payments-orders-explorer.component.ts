@@ -26,7 +26,7 @@ export enum PaymentsOrdersExplorerEventType {
 }
 
 @Component({
-  selector: 'emp-payments-orders-explorer',
+  selector: 'emp-pmt-payments-orders-explorer',
   templateUrl: './payments-orders-explorer.component.html',
 })
 export class PaymentsOrdersExplorerComponent implements OnChanges {

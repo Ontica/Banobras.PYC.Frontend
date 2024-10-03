@@ -21,7 +21,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "emp-ng",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

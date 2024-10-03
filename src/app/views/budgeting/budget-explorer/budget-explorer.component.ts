@@ -25,7 +25,7 @@ export enum BudgetExplorerEventType {
 }
 
 @Component({
-  selector: 'emp-budgeting-budget-explorer',
+  selector: 'emp-bdg-budget-explorer',
   templateUrl: './budget-explorer.component.html',
 })
 export class BudgetExplorerComponent implements OnChanges {

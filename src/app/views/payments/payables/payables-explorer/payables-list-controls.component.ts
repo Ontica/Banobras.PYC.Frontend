@@ -25,7 +25,7 @@ export enum PayablesListControlsEventType {
 
 
 @Component({
-  selector: 'emp-payments-payables-list-controls',
+  selector: 'emp-pmt-payables-list-controls',
   templateUrl: './payables-list-controls.component.html',
 })
 export class PayablesListControlsComponent {

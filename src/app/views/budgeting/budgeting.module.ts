@@ -17,7 +17,10 @@ import { ReportsControlsModule } from '../_reports-controls/reports-controls.mod
 import { BudgetMainPageComponent } from './budget-main-page/budget-main-page.component';
 import { BudgetExplorerComponent } from './budget-explorer/budget-explorer.component';
 import { BudgetFilterComponent } from './budget-explorer/budget-filter.component';
-import { SegmentItemSelectorComponent } from './segment-items/segment-item-selector.component';
+import {
+  BudgetSegmentItemSelectorComponent
+} from './budget-segment-items/budget-segment-item-selector.component';
+
 
 @NgModule({
   imports: [
@@ -34,7 +37,7 @@ import { SegmentItemSelectorComponent } from './segment-items/segment-item-selec
     BudgetMainPageComponent,
     BudgetExplorerComponent,
     BudgetFilterComponent,
-    SegmentItemSelectorComponent,
+    BudgetSegmentItemSelectorComponent,
   ],
   exports: [
     BudgetMainPageComponent,

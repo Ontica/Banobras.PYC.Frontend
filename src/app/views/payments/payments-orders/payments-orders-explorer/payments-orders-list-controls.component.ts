@@ -24,7 +24,7 @@ export enum PaymentsOrdersListControlsEventType {
 }
 
 @Component({
-  selector: 'emp-payments-orders-list-controls',
+  selector: 'emp-pmt-payments-orders-list-controls',
   templateUrl: './payments-orders-list-controls.component.html',
 })
 export class PaymentsOrdersListControlsComponent {

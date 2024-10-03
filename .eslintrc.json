@@ -26,9 +26,9 @@
             "type": "attribute",
             "prefix": [
               "empNg",
-              "empBudgeting",
-              "empPayments",
-              "empCashFlow",
+              "empBdg",
+              "empPmt",
+              "empCF",
               "empPYC"
             ],
             "style": "camelCase"
@@ -40,9 +40,9 @@
             "type": "element",
             "prefix": [
               "emp-ng",
-              "emp-budgeting",
-              "emp-payments",
-              "emp-cashflow",
+              "emp-bdg",
+              "emp-pmt",
+              "emp-cf",
               "emp-pyc"
             ],
             "style": "kebab-case"

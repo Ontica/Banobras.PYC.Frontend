@@ -22,7 +22,7 @@ import {
 
 
 @Component({
-  selector: 'emp-payments-orders-main-page',
+  selector: 'emp-pmt-payments-orders-main-page',
   templateUrl: './payments-orders-main-page.component.html',
 })
 export class PaymentsOrdersMainPageComponent {

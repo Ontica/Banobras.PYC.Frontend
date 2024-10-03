@@ -20,7 +20,7 @@ import { BudgetExplorerEventType } from '../budget-explorer/budget-explorer.comp
 
 
 @Component({
-  selector: 'emp-budgeting-budget-main-page',
+  selector: 'emp-bdg-budget-main-page',
   templateUrl: './budget-main-page.component.html',
 })
 export class BudgetMainPageComponent {

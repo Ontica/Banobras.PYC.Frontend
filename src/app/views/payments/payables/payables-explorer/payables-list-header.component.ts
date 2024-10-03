@@ -13,7 +13,7 @@ import { PayableDescriptor } from '@app/models';
 
 
 @Component({
-  selector: 'emp-payments-payables-list-header',
+  selector: 'emp-pmt-payables-list-header',
   templateUrl: './payables-list-header.component.html',
   styleUrls: ['./payables-list-item.component.scss'],
 })

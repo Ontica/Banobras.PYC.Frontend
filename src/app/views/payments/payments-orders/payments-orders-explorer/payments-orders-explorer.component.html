@@ -23,19 +23,19 @@
 
       </emp-ng-spinner>
 
-      <emp-payments-orders-filter class="fx-item-none"
+      <emp-pmt-payments-orders-filter class="fx-item-none"
         [query]="query"
         [(showFilters)]="showFilters"
         (paymentsOrdersFilterEvent)="onPaymentsOrdersFilterEvent($event)">
 
-      </emp-payments-orders-filter>
+      </emp-pmt-payments-orders-filter>
 
-      <emp-payments-orders-list class="fx-item"
+      <emp-pmt-payments-orders-list class="fx-item"
         [paymentsOrdersList]="paymentsOrdersList"
         [selectedPaymentOrderUID]="selectedPaymentOrderUID"
         (paymentsOrdersListEvent)="onPaymentsOrdersListEvent($event)">
 
-      </emp-payments-orders-list>
+      </emp-pmt-payments-orders-list>
 
     </div>
 

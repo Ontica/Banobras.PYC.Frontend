@@ -20,7 +20,7 @@ export enum PayablesListItemEventType {
 }
 
 @Component({
-  selector: 'emp-payments-payables-list-item',
+  selector: 'emp-pmt-payables-list-item',
   templateUrl: './payables-list-item.component.html',
   styleUrls: ['./payables-list-item.component.scss'],
 })

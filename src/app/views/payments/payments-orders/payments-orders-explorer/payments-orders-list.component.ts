@@ -28,7 +28,7 @@ export enum PaymentsOrdersListEventType {
 }
 
 @Component({
-  selector: 'emp-payments-orders-list',
+  selector: 'emp-pmt-payments-orders-list',
   templateUrl: './payments-orders-list.component.html',
 })
 export class PaymentsOrdersListComponent implements OnChanges {
