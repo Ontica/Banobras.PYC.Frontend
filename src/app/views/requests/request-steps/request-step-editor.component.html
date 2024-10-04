@@ -44,6 +44,46 @@
 
           </div>
 
+          <div class="fx-row-container" *ngIf="displayPositioningRules">
+
+            <div class="fx-item-third">
+              <label>Posición:</label>
+              <emp-ng-select
+                formControlName="positioningRule"
+                [items]="positioningRuleList"
+                [showError]="formHelper.isControlInvalid(form.controls.positioningRule)"
+                (changes)="onPositioningRuleChanged()">
+              </emp-ng-select>
+            </div>
+
+            <div *ngIf="displayPositioningOffsetStep"
+              class="fx-item-two-third fx-items-end">
+              <emp-ng-select [style.width.%]="100"
+                formControlName="positioningOffsetStepUID"
+                [items]="validStepsList"
+                [config]="{virtualScroll: true, searchableFields: ['stepNo', 'name']}"
+                [showError]="formHelper.isControlInvalid(form.controls.positioningOffsetStepUID)"
+                bindLabel="stepNo">
+                <ng-template #labelTemplate let-item="item">
+                  ({{item.stepNo}}) {{item.name}}
+                </ng-template>
+                <ng-template #optionTemplate let-item="item">
+                  ({{item.stepNo}}) {{item.name}}
+                </ng-template>
+              </emp-ng-select>
+            </div>
+
+            <div *ngIf="displayPosition"
+              class="fx-item-sixth fx-items-end">
+
+              <input type="text" class="text-box text-align-right" empNgInteger
+                formControlName="position"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.position)">
+
+            </div>
+
+          </div>
+
           <div class="section-title"> Información de la tarea </div>
 
           <div class="fx-row-container">

@@ -7,9 +7,11 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { WorkflowActions } from './workflows';
+import { PositioningRule } from './edition-command';
 
 import { EmptyWorkflowActions } from './requests';
+
+import { WorkflowActions } from './workflows';
 
 
 export enum StepStatus {
@@ -59,6 +61,9 @@ export interface StepFields {
   requestUID: string;
   workflowInstanceUID: string;
   workflowModelItemUID: string;
+  positioningRule?: PositioningRule;
+  positioningOffsetStepUID?: string
+  position?: number;
   description: string;
   requestedByOrgUnitUID: string;
   requestedByUID: string;

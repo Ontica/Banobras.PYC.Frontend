@@ -22,7 +22,8 @@ import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { CataloguesDataService, StepsDataService } from '@app/data-services';
 
-import { EmptyStep, Priority, PriorityList, RequestsList, Step, StepFields } from '@app/models';
+import { EmptyStep, PositioningRule, PositioningRuleList, Priority, PriorityList, RequestsList, Step,
+         StepFields, StepStatus } from '@app/models';
 
 export enum RequestStepEditorEventType {
   CLOSE_BUTTON_CLICKED = 'RequestStepEditorComponent.Event.CloseButtonClicked',
@@ -33,6 +34,9 @@ export enum RequestStepEditorEventType {
 interface RequestStepFormModel extends FormGroup<{
   workflowInstanceUID: FormControl<string>;
   workflowModelItemUID: FormControl<string>;
+  positioningRule: FormControl<PositioningRule>;
+  positioningOffsetStepUID: FormControl<string>;
+  position: FormControl<number>;
   description: FormControl<string>;
   requestedByOrgUnitUID: FormControl<string>;
   requestedByUID: FormControl<string>;
@@ -56,6 +60,8 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
 
   @Input() step: Step = EmptyStep;
 
+  @Input() stepsList: Step[] = [];
+
   @Output() requestStepEditorEvent = new EventEmitter<EventInfo>();
 
   helper: SubscriptionHelper;
@@ -71,6 +77,10 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
   isLoadingWorkflowModelItems = false;
 
   workflowModelItemList: Identifiable[] = [];
+
+  positioningRuleList: Identifiable[] = PositioningRuleList;
+
+  validStepsList: Step[] = [];
 
   orgUnitsList: Identifiable[] = [];
 
@@ -97,6 +107,10 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.step && this.isSaved) {
       this.enableEditor();
+    }
+
+    if (changes.stepsList) {
+      this.setValidStepsList();
     }
   }
 
@@ -127,6 +141,24 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
     return `Detalle de tarea - ${this.stepFullName}`;
   }
 
+  get displayPositioningRules(): boolean {
+    return !this.isSaved;
+  }
+
+
+  get displayPositioningOffsetStep(): boolean {
+    return [PositioningRule.AfterOffset, PositioningRule.BeforeOffset].includes(this.form.value.positioningRule);
+  }
+
+  get displayPosition(): boolean {
+    return PositioningRule.ByPositionValue === this.form.value.positioningRule;
+  }
+
+
+  onCloseButtonClicked() {
+    sendEvent(this.requestStepEditorEvent, RequestStepEditorEventType.CLOSE_BUTTON_CLICKED);
+  }
+
 
   onWorkflowInstanceChanged(workflowInstanceUID: Identifiable) {
     this.form.controls.workflowModelItemUID.reset();
@@ -139,8 +171,20 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
   }
 
 
-  onCloseButtonClicked() {
-    sendEvent(this.requestStepEditorEvent, RequestStepEditorEventType.CLOSE_BUTTON_CLICKED);
+  onPositioningRuleChanged() {
+    if (this.displayPositioningOffsetStep) {
+      this.formHelper.setControlValidators(this.form.controls.positioningOffsetStepUID, Validators.required);
+    } else {
+      this.formHelper.clearControlValidators(this.form.controls.positioningOffsetStepUID);
+    }
+
+    if (this.displayPosition) {
+      this.formHelper.setControlValidators(this.form.controls.position, [Validators.required]);
+    } else {
+      this.formHelper.clearControlValidators(this.form.controls.position);
+    }
+
+    this.setValidStepsList();
   }
 
 
@@ -171,6 +215,7 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
     }
 
     this.validateDisabledFields();
+    this.validateNonRequiredFields();
   }
 
 
@@ -180,6 +225,13 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
     if (this.canUpdate && this.isSaved) {
       this.formHelper.setDisableControl(this.form.controls.workflowInstanceUID, true);
       this.formHelper.setDisableControl(this.form.controls.workflowModelItemUID, true);
+    }
+  }
+
+
+  private validateNonRequiredFields() {
+    if (this.isSaved) {
+      this.formHelper.clearControlValidators(this.form.controls.positioningRule);
     }
   }
 
@@ -222,6 +274,20 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
   }
 
 
+  private setValidStepsList() {
+    if (PositioningRule.BeforeOffset === this.form.value.positioningRule) {
+      this.validStepsList = this.stepsList.filter(x => x.status.uid === StepStatus.Waiting);
+      return;
+    }
+    if (PositioningRule.AfterOffset === this.form.value.positioningRule) {
+      this.validStepsList =
+        this.stepsList.filter(x => x.status.uid === StepStatus.Waiting || x.status.uid === StepStatus.Pending);
+      return;
+    }
+    this.validStepsList = [...[], ...this.stepsList];
+  }
+
+
   private initWorkflowModelItemList() {
     this.workflowModelItemList = isEmpty(this.step.workflowModelItem) ? this.workflowModelItemList :
       ArrayLibrary.insertIfNotExist(this.workflowModelItemList ?? [], this.step.workflowModelItem, 'uid');
@@ -234,6 +300,9 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
     this.form = fb.group({
       workflowInstanceUID: ['', Validators.required],
       workflowModelItemUID: ['', Validators.required],
+      positioningRule: [PositioningRule.AtEnd, Validators.required],
+      positioningOffsetStepUID: [''],
+      position: [null as number],
       description: [''],
       requestedByOrgUnitUID: ['', Validators.required],
       requestedByUID: ['', Validators.required],
@@ -250,6 +319,9 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
       this.form.reset({
         workflowInstanceUID: this.step.workflowInstance.uid,
         workflowModelItemUID: this.step.workflowModelItem.uid,
+        positioningRule: PositioningRule.ByPositionValue,
+        position: +this.step.stepNo || null,
+        positioningOffsetStepUID: '',
         description: this.step.description ?? null,
         requestedByOrgUnitUID: isEmpty(this.step.requestedByOrgUnit) ? null : this.step.requestedByOrgUnit.uid,
         requestedByUID: isEmpty(this.step.requestedBy) ? null : this.step.requestedBy.uid,
@@ -282,7 +354,26 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
       dueTime: !formModel.dueTime ? null : formModel.dueTime,
     };
 
+    this.validatePositioningRulesFields(data);
+
     return data;
+  }
+
+
+  private validatePositioningRulesFields(data: StepFields) {
+    if (this.displayPositioningRules) {
+      const formModel = this.form.getRawValue();
+
+      data.positioningRule = formModel.positioningRule;
+
+      if (this.displayPositioningOffsetStep) {
+        data.positioningOffsetStepUID = formModel.positioningOffsetStepUID;
+      }
+
+      if (this.displayPosition) {
+        data.position = +formModel.position;
+      }
+    }
   }
 
 }
