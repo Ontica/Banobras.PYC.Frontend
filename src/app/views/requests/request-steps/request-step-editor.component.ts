@@ -116,10 +116,15 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
   }
 
 
+  get stepFullName(): string {
+    return `(${this.step.stepNo}) ${this.step.name}`;
+  }
+
+
   get title(): string {
     if(!this.isSaved) return 'Agregar tarea';
-    if (this.step.actions.canUpdate) return 'Editar Tarea'
-    return 'Detalle de tarea';
+    if (this.step.actions.canUpdate) return `Editar Tarea - ${this.stepFullName}`
+    return `Detalle de tarea - ${this.stepFullName}`;
   }
 
 
@@ -229,13 +234,13 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
     this.form = fb.group({
       workflowInstanceUID: ['', Validators.required],
       workflowModelItemUID: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       requestedByOrgUnitUID: ['', Validators.required],
       requestedByUID: ['', Validators.required],
       assignedToOrgUnitUID: ['', Validators.required],
       assignedToUID: ['', Validators.required],
       priority: ['', Validators.required],
-      dueTime: [null as DateString, Validators.required],
+      dueTime: [null],
     });
   }
 
@@ -274,7 +279,7 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
       assignedToOrgUnitUID: formModel.assignedToOrgUnitUID ?? '',
       assignedToUID: formModel.assignedToUID ?? '',
       priority: formModel.priority as Priority ?? null,
-      dueTime: formModel.dueTime ?? '',
+      dueTime: !formModel.dueTime ? null : formModel.dueTime,
     };
 
     return data;
