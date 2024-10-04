@@ -11,7 +11,7 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { ArrayLibrary, sendEvent } from '@app/shared/utils';
+import { sendEvent } from '@app/shared/utils';
 
 import { StepsDataService } from '@app/data-services';
 
@@ -123,7 +123,7 @@ export class RequestStepsEditionComponent {
 
     this.stepsData.insertWorkflowStep(workflowInstanceUID, dataFields)
       .firstValue()
-      .then(x => this.resolveInsertStep(x))
+      .then(x => this.resolveRequestUpdated())
       .finally(() => this.submitted = false);
   }
 
@@ -133,7 +133,7 @@ export class RequestStepsEditionComponent {
 
     this.stepsData.updateWorkflowStep(workflowInstanceUID, stepUID, dataFields)
       .firstValue()
-      .then(x => this.resolveStepUpdated(x))
+      .then(x => this.resolveRequestUpdated())
       .finally(() => this.submitted = false);
   }
 
@@ -143,29 +143,14 @@ export class RequestStepsEditionComponent {
 
     this.stepsData.removeWorkflowStep(workflowInstanceUID, stepUID)
       .firstValue()
-      .then(x => this.resolveStepRemoved(stepUID))
+      .then(x => this.resolveRequestUpdated())
       .finally(() => this.submitted = false);
   }
 
 
-  private resolveInsertStep(step: Step) {
-    this.emitRequestUpdated([...[], ...this.requestData.steps, step]);
-  }
-
-
-  private resolveStepUpdated(step: Step) {
-    this.emitRequestUpdated([...[], ...this.requestData.steps.filter(x => x.uid !== step.uid), step]);
-  }
-
-
-  private resolveStepRemoved(stepUID: string) {
-    this.emitRequestUpdated([...[], ...this.requestData.steps.filter(x => x.uid !== stepUID)]);
-  }
-
-
-  private emitRequestUpdated(steps: Step[]) {
-    const requestData = { ...this.requestData, ...{ steps: ArrayLibrary.sortByKey(steps, 'stepNo') } };
-    sendEvent(this.requestStepsEditionEvent, RequestStepsEditionEventType.REQUEST_UPDATED, { requestData });
+  private resolveRequestUpdated() {
+    const payload = { requestUID: this.requestData.request.uid };
+    sendEvent(this.requestStepsEditionEvent, RequestStepsEditionEventType.REQUEST_UPDATED, payload);
     this.setSelectedStep(EmptyStep);
   }
 

@@ -66,7 +66,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.setRequestsListFromCurrentView();
+    this.subscribeToCurrentViewChanges();
   }
 
 
@@ -83,7 +83,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
       case RequestCreatorEventType.REQUEST_CREATED:
         Assertion.assertValue(event.payload.request, 'event.payload.request');
         this.displayCreator = false;
-        this.resetExplorerData(event.payload.request as RequestData);
+        this.resolveRequestCreated(event.payload.request as RequestData);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -129,13 +129,12 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
         this.clearSelectedRequest();
         return;
       case RequestTabbedViewEventType.REQUEST_UPDATED:
-        Assertion.assertValue(event.payload.requestData, 'event.payload.requestData');
-        this.resetExplorerData(event.payload.requestData as RequestData);
+        Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
+        this.resolveRequestUpdated(event.payload.requestUID);
         return;
       case RequestTabbedViewEventType.REQUEST_DELETED:
         Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
-        this.removeRequestFromRequestDataList(event.payload.requestUID);
-        this.clearSelectedRequest();
+        this.resolveRequestRemoved(event.payload.requestUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -144,12 +143,65 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private setRequestsListFromCurrentView() {
-    this.helper.select<View>(MainUIStateSelector.CURRENT_VIEW).subscribe(x => this.onCurrentViewChanged(x));
+  private subscribeToCurrentViewChanges() {
+    this.helper.select<View>(MainUIStateSelector.CURRENT_VIEW)
+      .subscribe(x => this.setRequestsListFromCurrentView(x));
   }
 
 
-  private onCurrentViewChanged(newView: View) {
+  private searchRequests(query: RequestQuery) {
+    this.isLoading = true;
+
+    this.requestService.searchRequests(query)
+      .firstValue()
+      .then(x => this.resolveSearchRequests(x))
+      .finally(() => this.isLoading = false);
+  }
+
+
+  private getRequest(requestUID: string, refresh: boolean = false) {
+    this.isLoadingSelection = true;
+
+    this.requestService.getRequest(requestUID)
+      .firstValue()
+      .then(x => this.resolveGetRequest(x, refresh))
+      .finally(() => this.isLoadingSelection = false);
+  }
+
+
+  private resolveSearchRequests(data: RequestDescriptor[]) {
+    this.setRequestDataList(data, true);
+  }
+
+
+  private resolveGetRequest(request: RequestData, refresh: boolean = false) {
+    this.setSelectedRequest(request);
+
+    if (refresh) {
+      this.addRequestToRequestDataList(request);
+    }
+  }
+
+
+  private resolveRequestCreated(request: RequestData) {
+    this.addRequestToRequestDataList(request);
+    this.setSelectedRequest(request);
+  }
+
+
+  private resolveRequestUpdated(requestUID: string) {
+    this.getRequest(requestUID, true);
+  }
+
+
+  private resolveRequestRemoved(requestUID: string) {
+    const data = this.requestDataList.filter(x => x.uid !== requestUID);
+    this.setRequestDataList(data, true);
+    this.clearSelectedRequest();
+  }
+
+
+  private setRequestsListFromCurrentView(newView: View) {
     switch (newView.name) {
       case 'Budget.Requests':
         this.requestsList = RequestsList.budgeting;
@@ -164,41 +216,22 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private searchRequests(query: RequestQuery) {
-    this.isLoading = true;
-
-    this.requestService.searchRequests(query)
-      .firstValue()
-      .then(x => this.resolveSearchRequests(x))
-      .finally(() => this.isLoading = false);
-  }
-
-
-  private getRequest(requestUID: string) {
-    this.isLoadingSelection = true;
-
-    this.requestService.getRequest(requestUID)
-      .firstValue()
-      .then(x => this.setSelectedRequest(x))
-      .finally(() => this.isLoadingSelection = false);
-  }
-
-
-  private resolveSearchRequests(data: RequestDescriptor[]) {
-    this.setRequestDataList(data, true);
-  }
-
-
-  private resetExplorerData(request: RequestData) {
-    this.addRequestToRequestDataList(request);
-    this.setSelectedRequest(request);
-  }
-
-
   private setQueryAndClearExplorerData(query: RequestQuery) {
     this.query = Object.assign({}, query);
     this.clearRequestDataList();
     this.clearSelectedRequest();
+  }
+
+
+  private setRequestDataList(data: RequestDescriptor[], queryExecuted: boolean = true) {
+    this.requestDataList = data ?? [];
+    this.queryExecuted = queryExecuted;
+  }
+
+
+  private setSelectedRequest(data: RequestData) {
+    this.selectedRequest = data;
+    this.displayTabbedView = !isEmpty(this.selectedRequest.request);
   }
 
 
@@ -209,26 +242,8 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private removeRequestFromRequestDataList(requestUID: string) {
-    const data = this.requestDataList.filter(x => x.uid !== requestUID);
-    this.setRequestDataList(data, true);
-  }
-
-
-  private setRequestDataList(data: RequestDescriptor[], queryExecuted: boolean = true) {
-    this.requestDataList = data ?? [];
-    this.queryExecuted = queryExecuted;
-  }
-
-
   private clearRequestDataList() {
     this.setRequestDataList([], false);
-  }
-
-
-  private setSelectedRequest(data: RequestData) {
-    this.selectedRequest = data;
-    this.displayTabbedView = !isEmpty(this.selectedRequest.request);
   }
 
 

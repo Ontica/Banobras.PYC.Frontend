@@ -13,7 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
-import { EmptyRequest, Request, RequestData, RequestFields, RequestsList } from '@app/models';
+import { EmptyRequest, Request, RequestFields, RequestsList } from '@app/models';
 
 import { RequestHeaderEventType } from './request-header.component';
 
@@ -93,7 +93,7 @@ export class RequestEditorComponent {
 
     this.requestData.updateRequest(this.request.uid, requestFields)
       .firstValue()
-      .then(x => this.resolveRequestUpdated(x))
+      .then(x => this.resolveRequestUpdated(x.request.uid))
       .finally(() => this.submitted = false);
   }
 
@@ -113,7 +113,7 @@ export class RequestEditorComponent {
 
     this.requestData.suspendRequest(this.request.uid)
       .firstValue()
-      .then(x => this.resolveRequestUpdated(x))
+      .then(x => this.resolveRequestUpdated(x.request.uid))
       .finally(() => this.submitted = false);
   }
 
@@ -123,7 +123,7 @@ export class RequestEditorComponent {
 
     this.requestData.cancelRequest(this.request.uid)
       .firstValue()
-      .then(x => this.resolveRequestUpdated(x))
+      .then(x => this.resolveRequestUpdated(x.request.uid))
       .finally(() => this.submitted = false);
   }
 
@@ -133,7 +133,7 @@ export class RequestEditorComponent {
 
     this.requestData.startRequest(this.request.uid)
       .firstValue()
-      .then(x => this.resolveRequestUpdated(x))
+      .then(x => this.resolveRequestUpdated(x.request.uid))
       .finally(() => this.submitted = false);
   }
 
@@ -143,7 +143,7 @@ export class RequestEditorComponent {
 
     this.requestData.closeRequest(this.request.uid)
       .firstValue()
-      .then(x => this.resolveRequestUpdated(x))
+      .then(x => this.resolveRequestUpdated(x.request.uid))
       .finally(() => this.submitted = false);
   }
 
@@ -153,13 +153,13 @@ export class RequestEditorComponent {
 
     this.requestData.activateRequest(this.request.uid)
       .firstValue()
-      .then(x => this.resolveRequestUpdated(x))
+      .then(x => this.resolveRequestUpdated(x.request.uid))
       .finally(() => this.submitted = false);
   }
 
 
-  private resolveRequestUpdated(requestData: RequestData) {
-    const payload = { requestData };
+  private resolveRequestUpdated(requestUID: string) {
+    const payload = { requestUID };
     sendEvent(this.requestEditorEvent, RequestEditorEventType.REQUEST_UPDATED, payload);
   }
 
