@@ -19,35 +19,35 @@ export class AccessControlDataService {
 
 
   getWorkareas(): EmpObservable<Identifiable[]> {
-    const path = `v4/onepoint/security/management/subjects/workareas`;
+    const path = `v5/security/management/subjects/workareas`;
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
   getContexts(): EmpObservable<Identifiable[]> {
-    const path = `v4/onepoint/security/management/contexts`;
+    const path = `v5/security/management/contexts`;
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
   getRolesByContext(contextUID: string): EmpObservable<Identifiable[]> {
-    const path = `v4/onepoint/security/management/contexts/${contextUID}/roles`;
+    const path = `v5/security/management/contexts/${contextUID}/roles`;
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
   getFeaturesByContext(contextUID: string): EmpObservable<Identifiable[]> {
-    const path = `v4/onepoint/security/management/contexts/${contextUID}/features`;
+    const path = `v5/security/management/contexts/${contextUID}/features`;
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
   searchSubjects(query: SubjectsQuery): EmpObservable<Subject[]> {
-    let path = `v4/onepoint/security/management/subjects/search`;
+    let path = `v5/security/management/subjects/search`;
 
     return this.http.post<Subject[]>(path, query);
   }
@@ -56,7 +56,7 @@ export class AccessControlDataService {
   getSubjectContexts(subjectUID: string): EmpObservable<Identifiable[]> {
     Assertion.assertValue(subjectUID, 'subjectUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}/contexts`;
+    const path = `v5/security/management/subjects/${subjectUID}/contexts`;
 
     return this.http.get<Identifiable[]>(path);
   }
@@ -66,7 +66,7 @@ export class AccessControlDataService {
     Assertion.assertValue(subjectUID, 'subjectUID');
     Assertion.assertValue(contextUID, 'contextUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}/contexts/${contextUID}/roles`;
+    const path = `v5/security/management/subjects/${subjectUID}/contexts/${contextUID}/roles`;
 
     return this.http.get<Identifiable[]>(path);
   }
@@ -76,7 +76,7 @@ export class AccessControlDataService {
     Assertion.assertValue(subjectUID, 'subjectUID');
     Assertion.assertValue(contextUID, 'contextUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}/contexts/${contextUID}/features`;
+    const path = `v5/security/management/subjects/${subjectUID}/contexts/${contextUID}/features`;
 
     return this.http.get<Identifiable[]>(path);
   }
@@ -85,7 +85,7 @@ export class AccessControlDataService {
   createSubject(subjectFields: SubjectFields): EmpObservable<Subject> {
     Assertion.assertValue(subjectFields, 'subjectFields');
 
-    const path = `v4/onepoint/security/management/subjects`;
+    const path = `v5/security/management/subjects`;
 
     return this.http.post<Subject>(path, subjectFields);
   }
@@ -95,7 +95,7 @@ export class AccessControlDataService {
     Assertion.assertValue(subjectUID, 'subjectUID');
     Assertion.assertValue(subjectFields, 'subjectFields');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}`;
+    const path = `v5/security/management/subjects/${subjectUID}`;
 
     return this.http.put<Subject>(path, subjectFields);
   }
@@ -104,7 +104,7 @@ export class AccessControlDataService {
   deleteSubject(subjectUID: string): EmpObservable<void> {
     Assertion.assertValue(subjectUID, 'subjectUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}`;
+    const path = `v5/security/management/subjects/${subjectUID}`;
 
     return this.http.delete<void>(path);
   }
@@ -113,7 +113,7 @@ export class AccessControlDataService {
   resetCredentialsToSubject(subjectUID: string): EmpObservable<any> {
     Assertion.assertValue(subjectUID, 'subjectUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}/reset-credentials`;
+    const path = `v5/security/management/subjects/${subjectUID}/reset-credentials`;
 
     return this.http.post<any>(path);
   }
@@ -122,7 +122,7 @@ export class AccessControlDataService {
   activateSubject(subjectUID: string): EmpObservable<Subject> {
     Assertion.assertValue(subjectUID, 'subjectUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}/activate`;
+    const path = `v5/security/management/subjects/${subjectUID}/activate`;
 
     return this.http.post<Subject>(path);
   }
@@ -131,7 +131,7 @@ export class AccessControlDataService {
   suspendSubject(subjectUID: string): EmpObservable<Subject> {
     Assertion.assertValue(subjectUID, 'subjectUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}/suspend`;
+    const path = `v5/security/management/subjects/${subjectUID}/suspend`;
 
     return this.http.post<Subject>(path);
   }
@@ -141,7 +141,7 @@ export class AccessControlDataService {
     Assertion.assertValue(subjectUID, 'subjectUID');
     Assertion.assertValue(contextUID, 'contextUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}/contexts/${contextUID}`;
+    const path = `v5/security/management/subjects/${subjectUID}/contexts/${contextUID}`;
 
     return this.http.post<Identifiable[]>(path);
   }
@@ -151,7 +151,7 @@ export class AccessControlDataService {
     Assertion.assertValue(subjectUID, 'subjectUID');
     Assertion.assertValue(contextUID, 'contextUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}/contexts/${contextUID}`;
+    const path = `v5/security/management/subjects/${subjectUID}/contexts/${contextUID}`;
 
     return this.http.delete<Identifiable[]>(path);
   }
@@ -164,8 +164,7 @@ export class AccessControlDataService {
     Assertion.assertValue(contextUID, 'contextUID');
     Assertion.assertValue(roleUID, 'roleUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}` +
-      `/contexts/${contextUID}/roles/${roleUID}`;
+    const path = `v5/security/management/subjects/${subjectUID}/contexts/${contextUID}/roles/${roleUID}`;
 
     return this.http.post<Identifiable[]>(path);
   }
@@ -178,8 +177,7 @@ export class AccessControlDataService {
     Assertion.assertValue(contextUID, 'contextUID');
     Assertion.assertValue(roleUID, 'roleUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}` +
-      `/contexts/${contextUID}/roles/${roleUID}`;
+    const path = `v5/security/management/subjects/${subjectUID}/contexts/${contextUID}/roles/${roleUID}`;
 
     return this.http.delete<Identifiable[]>(path);
   }
@@ -192,8 +190,7 @@ export class AccessControlDataService {
     Assertion.assertValue(contextUID, 'contextUID');
     Assertion.assertValue(featureUID, 'featureUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}` +
-      `/contexts/${contextUID}/features/${featureUID}`;
+    const path = `v5/security/management/subjects/${subjectUID}/contexts/${contextUID}/features/${featureUID}`;
 
     return this.http.post<Identifiable[]>(path);
   }
@@ -206,8 +203,7 @@ export class AccessControlDataService {
     Assertion.assertValue(contextUID, 'contextUID');
     Assertion.assertValue(featureUID, 'featureUID');
 
-    const path = `v4/onepoint/security/management/subjects/${subjectUID}` +
-      `/contexts/${contextUID}/features/${featureUID}`
+    const path = `v5/security/management/subjects/${subjectUID}/contexts/${contextUID}/features/${featureUID}`;
 
     return this.http.delete<Identifiable[]>(path);
   }
@@ -216,7 +212,7 @@ export class AccessControlDataService {
   exportOperationalLogToExcel(query: OperationsLogQuery): EmpObservable<FileReport> {
     Assertion.assertValue(query, 'query');
 
-    const path = `v4/onepoint/security/management/operational-logs/excel`;
+    const path = `v5/security/management/operational-logs/excel`;
 
     return this.http.post<FileReport>(path, query);
   }

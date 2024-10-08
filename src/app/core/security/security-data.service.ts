@@ -75,14 +75,14 @@ export class SecurityDataService {
     };
 
     const token = await
-      this.httpHandler.post<string>('v4/onepoint/security/management/new-credentials-token', credentials)
+      this.httpHandler.post<string>('v5/security/management/new-credentials-token', credentials)
         .firstValue();
 
     credentials.currentPassword = this.encryptUserPassword(currentPassword, token);
 
     credentials.newPassword = Cryptography.encryptAES2(newPassword, token);
 
-    return this.httpHandler.post<void>('v4/onepoint/security/management/update-my-credentials', credentials)
+    return this.httpHandler.post<void>('v5/security/management/update-my-credentials', credentials)
                            .firstValue();
   }
 
