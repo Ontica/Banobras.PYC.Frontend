@@ -24,7 +24,7 @@
       <th mat-header-cell *matHeaderCellDef> Email </th>
       <td mat-cell *matCellDef="let row">
         <span class="text-highlight">{{ row.eMail }}</span><br><br>
-        <span class="tag">{{ row.status.name }}</span>
+        <span class="tag" [class.tag-disabled]="row.status.uid !== 'Active'">{{ row.status.name }}</span>
         {{ !!row.lastAccess ? ( row.lastAccess | empDateTimeFormat ) : '-' }}
       </td>
     </ng-container>

@@ -88,9 +88,11 @@ export class AccessControlTabbedViewComponent implements OnInit, OnChanges {
   get hintText(): string {
     switch (this.accessControlItem.type) {
       case AccessControlQueryType.Subjects:
-        return `<span class="tag tag-small" style="margin-left: 0">${this.subject.status.name}</span>` +
-               `<strong>${this.subject.workarea.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
-               `${this.subject.jobPosition}`;
+        const active = this.subject.status.uid === 'Active';
+
+        return `<span class="tag tag-small ${active ? '' : 'tag-disabled'}" style="margin-left: 0">` +
+               `${this.subject.status.name}</span> <strong>${this.subject.workarea.name}</strong>` +
+               `&nbsp; &nbsp; | &nbsp; &nbsp;` + `${this.subject.jobPosition}`;
 
       case AccessControlQueryType.Roles:
       case AccessControlQueryType.Features:
