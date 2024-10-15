@@ -11,6 +11,10 @@ import { Identifiable } from '@app/core';
 export interface ExplorerOperation extends Identifiable {
   uid: string;
   name: string;
+  showConfirm?: boolean;
+  isConfirmWarning?: boolean;
+  confirmOperationMessage?: string;
+  confirmQuestionMessage?: string;
 }
 
 

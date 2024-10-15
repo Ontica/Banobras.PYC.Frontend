@@ -15,12 +15,14 @@ import { SharedModule } from '@app/shared/shared.module';
 import { DataTableComponent } from './data-table/data-table.component';
 import { DataTableControlsComponent } from './data-table/data-table-controls.component';
 import { ExportReportModalComponent } from './export-report-modal/export-report-modal.component';
+import { ListControlsComponent } from './explorer/list-controls.component';
 
 @NgModule({
   declarations: [
     DataTableComponent,
     DataTableControlsComponent,
     ExportReportModalComponent,
+    ListControlsComponent,
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import { ExportReportModalComponent } from './export-report-modal/export-report-
     DataTableComponent,
     DataTableControlsComponent,
     ExportReportModalComponent,
+    ListControlsComponent,
   ]
 })
 export class ReportsControlsModule { }

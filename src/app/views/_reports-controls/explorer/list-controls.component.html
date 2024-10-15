@@ -1,0 +1,47 @@
+<mat-divider>
+
+</mat-divider>
+
+<div class="fx-row-container fx-space-between fx-items-center list-selection-header"
+  [style.minHeight.px]="42">
+
+  <ng-container *ngIf="selection.selected.length > 0">
+
+    <div class="fx-item-none">
+
+      <div class="text-small-text" [style.marginRight.px]="8">
+
+        ¿Qué debo hacer con {{listControlConfig.itemsPronouns}} {{selection.selected.length}} {{listControlConfig.itemsName}}?
+
+      </div>
+
+    </div>
+
+    <div class="fx-item-size" style="--size: 180px">
+
+      <emp-ng-select name="operation"
+        [config]="{bindByValue: false, selectFirst: true}"
+        [(ngModel)]="operationSelected"
+        [items]="operationsList"
+        (changes)="onOperationChanges($event)">
+      </emp-ng-select>
+
+    </div>
+
+    <div class="fx-item-none">
+
+      <button type="button"
+        class="btn"
+        (click)="onExecuteOperationClicked()">
+        Ejecutar
+      </button>
+
+    </div>
+
+  </ng-container>
+
+  <div class="fx-item sm-hide">
+
+  </div>
+
+</div>
