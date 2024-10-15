@@ -15,8 +15,8 @@ import { sendEvent } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { PaymentOrderDescriptor, PaymentsOrdersOperation, PaymentsOrdersOperationCommand,
-         PaymentsOrdersOperationsList, PaymentsOrdersOperationType } from '@app/models';
+import { ExplorerOperation, ExplorerOperationCommand, PaymentOrderDescriptor, PaymentsOrdersOperationsList,
+         PaymentsOrdersOperationType } from '@app/models';
 
 
 export enum PaymentsOrdersListControlsEventType {
@@ -33,9 +33,9 @@ export class PaymentsOrdersListControlsComponent {
 
   @Output() paymentsOrdersListControlsEvent = new EventEmitter<EventInfo>();
 
-  operationsList: PaymentsOrdersOperation[] = PaymentsOrdersOperationsList;
+  operationsList: ExplorerOperation[] = PaymentsOrdersOperationsList;
 
-  operationSelected: PaymentsOrdersOperation = null;
+  operationSelected: ExplorerOperation = null;
 
 
   constructor(private messageBox: MessageBoxService) { }
@@ -50,7 +50,7 @@ export class PaymentsOrdersListControlsComponent {
   }
 
 
-  onOperationChanges(operation: PaymentsOrdersOperation) {
+  onOperationChanges(operation: ExplorerOperation) {
 
   }
 
@@ -121,9 +121,9 @@ export class PaymentsOrdersListControlsComponent {
 
 
   private emitExecuteOperation() {
-    const command: PaymentsOrdersOperationCommand = {
+    const command: ExplorerOperationCommand = {
       operation: this.operationSelected.uid,
-      paymentsOrders: this.selection.selected.map(r => r.uid),
+      items: this.selection.selected.map(r => r.uid),
     };
 
     sendEvent(this.paymentsOrdersListControlsEvent,

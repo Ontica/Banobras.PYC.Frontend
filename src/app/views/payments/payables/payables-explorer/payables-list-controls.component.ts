@@ -15,7 +15,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { PayableDescriptor, PayablesOperation, PayablesOperationCommand, PayablesOperationsList,
+import { ExplorerOperation, ExplorerOperationCommand, PayableDescriptor, PayablesOperationsList,
          PayablesOperationType } from '@app/models';
 
 
@@ -34,9 +34,9 @@ export class PayablesListControlsComponent {
 
   @Output() payablesListControlsEvent = new EventEmitter<EventInfo>();
 
-  operationsList: PayablesOperation[] = PayablesOperationsList;
+  operationsList: ExplorerOperation[] = PayablesOperationsList;
 
-  operationSelected: PayablesOperation = null;
+  operationSelected: ExplorerOperation = null;
 
 
   constructor(private messageBox: MessageBoxService) { }
@@ -51,7 +51,7 @@ export class PayablesListControlsComponent {
   }
 
 
-  onOperationChanges(operation: PayablesOperation) {
+  onOperationChanges(operation: ExplorerOperation) {
 
   }
 
@@ -122,9 +122,9 @@ export class PayablesListControlsComponent {
 
 
   private emitExecuteOperation() {
-    const command: PayablesOperationCommand = {
+    const command: ExplorerOperationCommand = {
       operation: this.operationSelected.uid,
-      payables: this.selection.selected.map(r => r.uid),
+      items: this.selection.selected.map(r => r.uid),
     };
 
     sendEvent(this.payablesListControlsEvent,

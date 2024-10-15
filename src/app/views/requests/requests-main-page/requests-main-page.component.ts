@@ -113,7 +113,6 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
         return;
       case RequestsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
-        Assertion.assertValue(event.payload.command, 'event.payload.command');
         this.messageBox.showInDevelopment('Ejecutar operación', event.payload );
         return;
       default:

@@ -5,7 +5,9 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Identifiable } from "@app/core";
+import { DateString, Identifiable } from '@app/core';
+
+import { ExplorerOperation } from './_explorer-data';
 
 
 export enum PaymentsOrdersStatus {
@@ -83,12 +85,6 @@ export interface PaymentOrder {
 }
 
 
-export interface PaymentsOrdersOperation extends Identifiable {
-  uid: PaymentsOrdersOperationType;
-  name: string;
-}
-
-
 export enum PaymentsOrdersOperationType {
   excel  = 'excel',
   print  = 'print',
@@ -96,13 +92,7 @@ export enum PaymentsOrdersOperationType {
 }
 
 
-export interface PaymentsOrdersOperationCommand {
-  operation: PaymentsOrdersOperationType;
-  paymentsOrders: string[];
-}
-
-
-export const PaymentsOrdersOperationsList: PaymentsOrdersOperation[] = [
+export const PaymentsOrdersOperationsList: ExplorerOperation[] = [
   { uid: PaymentsOrdersOperationType.excel,  name: 'Exportar' },
   { uid: PaymentsOrdersOperationType.print,  name: 'Imprimir' },
   { uid: PaymentsOrdersOperationType.delete, name: 'Eliminar' },

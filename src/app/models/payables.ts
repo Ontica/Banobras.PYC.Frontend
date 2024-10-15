@@ -7,6 +7,8 @@
 
 import { DateString, Identifiable } from '@app/core';
 
+import { ExplorerOperation } from './_explorer-data';
+
 
 export interface PayablesQuery {
   status: PayableStatus;
@@ -68,27 +70,15 @@ export interface PayableDescriptor {
 }
 
 
-export interface PayablesOperation extends Identifiable {
-  uid: PayablesOperationType;
-  name: string;
-}
-
-
 export enum PayablesOperationType {
-  excel = 'excel',
-  print = 'print',
+  excel  = 'excel',
+  print  = 'print',
   delete = 'delete',
 }
 
 
-export interface PayablesOperationCommand {
-  operation: PayablesOperationType;
-  payables: string[];
-}
-
-
-export const PayablesOperationsList: PayablesOperation[] = [
-  { uid: PayablesOperationType.excel, name: 'Exportar' },
-  { uid: PayablesOperationType.print, name: 'Imprimir' },
+export const PayablesOperationsList: ExplorerOperation[] = [
+  { uid: PayablesOperationType.excel,  name: 'Exportar' },
+  { uid: PayablesOperationType.print,  name: 'Imprimir' },
   { uid: PayablesOperationType.delete, name: 'Eliminar' },
 ];

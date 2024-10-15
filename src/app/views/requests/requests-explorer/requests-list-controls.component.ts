@@ -15,7 +15,7 @@ import { MessageBoxService } from '@app/shared/containers/message-box';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { RequestDescriptor, RequestsOperation, RequestsOperationCommand, RequestsOperationList,
+import { ExplorerOperation, ExplorerOperationCommand, RequestDescriptor, RequestsOperationList,
          RequestsOperationType } from '@app/models';
 
 export enum RequestsListControlsEventType {
@@ -33,9 +33,9 @@ export class RequestsListControlsComponent {
 
   @Output() requestsListControlsEvent = new EventEmitter<EventInfo>();
 
-  operationSelected: RequestsOperation = null;
+  operationSelected: ExplorerOperation = null;
 
-  operationsList: RequestsOperation[] = RequestsOperationList;
+  operationsList: ExplorerOperation[] = RequestsOperationList;
 
 
   constructor(private messageBox: MessageBoxService) { }
@@ -50,7 +50,7 @@ export class RequestsListControlsComponent {
   }
 
 
-  onOperationChanges(operation: RequestsOperation) {
+  onOperationChanges(operation: ExplorerOperation) {
 
   }
 
@@ -121,10 +121,13 @@ export class RequestsListControlsComponent {
 
 
   private emitExecuteOperation() {
-    const command: RequestsOperationCommand = { requests: this.selection.selected.map(r => r.uid) };
+    const command: ExplorerOperationCommand = {
+      operation: this.operationSelected.uid,
+      items: this.selection.selected.map(r => r.uid),
+    };
 
-    sendEvent(this.requestsListControlsEvent, RequestsListControlsEventType.EXECUTE_OPERATION_CLICKED,
-      { operation: this.operationSelected.uid, command });
+    sendEvent(this.requestsListControlsEvent,
+      RequestsListControlsEventType.EXECUTE_OPERATION_CLICKED, command);
   }
 
 }

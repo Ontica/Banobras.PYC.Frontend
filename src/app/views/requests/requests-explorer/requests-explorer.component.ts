@@ -97,7 +97,6 @@ export class RequestsExplorerComponent implements OnChanges {
 
       case RequestsListEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
-        Assertion.assertValue(event.payload.command, 'event.payload.command');
         sendEvent(this.requestsExplorerEvent, RequestsExplorerEventType.EXECUTE_OPERATION_CLICKED,
           event.payload);
         return;
