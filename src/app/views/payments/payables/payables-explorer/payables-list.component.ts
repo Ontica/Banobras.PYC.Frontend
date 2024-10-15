@@ -15,9 +15,9 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { PayableDescriptor } from '@app/models';
+import { PayableDescriptor, PayablesOperationsList } from '@app/models';
 
-import { PayablesListControlsEventType } from './payables-list-controls.component';
+import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
 import { PayablesListItemEventType } from './payables-list-item.component';
 
@@ -45,6 +45,8 @@ export class PayablesListComponent implements OnChanges {
 
   selection = new SelectionModel<PayableDescriptor>(true, []);
 
+  operationsList = PayablesOperationsList;
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.dataList) {
@@ -54,9 +56,9 @@ export class PayablesListComponent implements OnChanges {
   }
 
 
-  onPayablesListControlsEvent(event: EventInfo) {
-    switch (event.type as PayablesListControlsEventType) {
-      case PayablesListControlsEventType.EXECUTE_OPERATION_CLICKED:
+  onListControlsEvent(event: EventInfo) {
+    switch (event.type as ListControlsEventType) {
+      case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
         sendEvent(this.payablesListEvent, PayablesListEventType.EXECUTE_OPERATION, event.payload);
         return;
 

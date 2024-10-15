@@ -23,7 +23,6 @@ import { RequestsFilterComponent } from './requests-explorer/requests-filter.com
 import { RequestsListComponent } from './requests-explorer/requests-list.component';
 import { RequestsListHeaderComponent } from './requests-explorer/requests-list-header.component';
 import { RequestsListItemComponent } from './requests-explorer/requests-list-item.component';
-import { RequestsListControlsComponent } from './requests-explorer/requests-list-controls.component';
 
 import { RequestHeaderComponent } from './request/request-header.component';
 import { RequestCreatorComponent } from './request/request-creator.component';
@@ -56,7 +55,6 @@ import { RequestStepEditorComponent } from './request-steps/request-step-editor.
     RequestsListComponent,
     RequestsListHeaderComponent,
     RequestsListItemComponent,
-    RequestsListControlsComponent,
 
     RequestHeaderComponent,
     RequestCreatorComponent,

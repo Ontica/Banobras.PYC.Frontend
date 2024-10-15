@@ -1,11 +1,13 @@
 <div class="fx-column-container-fill">
 
-  <emp-pmt-payables-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
+  <emp-ng-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
     class="fx-item-none"
+    [config]="{itemsName: 'obligaciones de pago', itemsPronouns: 'las', selectionMessage: 'seleccionadas'}"
     [selection]="selection"
-    (payablesListControlsEvent)="onPayablesListControlsEvent($event)">
+    [operationsList]="operationsList"
+    (listControlsEvent)="onListControlsEvent($event)">
 
-  </emp-pmt-payables-list-controls>
+  </emp-ng-list-controls>
 
 
   <emp-pmt-payables-list-header class="fx-item-none"

@@ -69,9 +69,25 @@ export enum RequestsOperationType {
 
 
 export const RequestsOperationList: ExplorerOperation[] = [
-  { uid: RequestsOperationType.excel,  name: 'Exportar' },
-  { uid: RequestsOperationType.print,  name: 'Imprimir' },
-  { uid: RequestsOperationType.delete, name: 'Eliminar' },
+  {
+    uid: RequestsOperationType.excel,
+    name: 'Exportar'
+  },
+  {
+    uid: RequestsOperationType.print,
+    name: 'Imprimir',
+    showConfirm: true,
+    confirmOperationMessage: 'imprimirá',
+    confirmQuestionMessage: 'Imprimo'
+  },
+  {
+    uid: RequestsOperationType.delete,
+    name: 'Eliminar',
+    showConfirm: true,
+    isConfirmWarning: true,
+    confirmOperationMessage: 'eliminará',
+    confirmQuestionMessage: 'Elimino'
+  },
 ];
 
 

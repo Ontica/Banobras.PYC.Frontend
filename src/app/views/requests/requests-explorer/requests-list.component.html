@@ -1,13 +1,14 @@
 
 <div class="fx-column-container-fill">
 
-  <emp-pyc-requests-list-controls *ngIf="requestDataList.length > 0 && selection.selected.length > 0"
+  <emp-ng-list-controls *ngIf="requestDataList.length > 0 && selection.selected.length > 0"
     class="fx-item-none"
+    [config]="{itemsPronouns: 'las', itemsName: 'solicitudes', selectionMessage: 'seleccionadas'}"
     [selection]="selection"
-    (requestsListControlsEvent)="onRequestsListControlsEvent($event)">
+    [operationsList]="operationsList"
+    (listControlsEvent)="onListControlsEvent($event)">
 
-  </emp-pyc-requests-list-controls>
-
+  </emp-ng-list-controls>
 
   <emp-pyc-requests-list-header class="fx-item-none"
     [requestDataList]="requestDataList"

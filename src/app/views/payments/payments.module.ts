@@ -17,7 +17,6 @@ import { ReportsControlsModule } from '../_reports-controls/reports-controls.mod
 import { PaymentsOrdersMainPageComponent } from './payments-orders/payments-orders-main-page/payments-orders-main-page.component';
 import { PaymentsOrdersExplorerComponent } from './payments-orders/payments-orders-explorer/payments-orders-explorer.component';
 import { PaymentsOrdersFilterComponent } from './payments-orders/payments-orders-explorer/payments-orders-filter.component';
-import { PaymentsOrdersListControlsComponent } from './payments-orders/payments-orders-explorer/payments-orders-list-controls.component';
 import { PaymentsOrdersListComponent } from './payments-orders/payments-orders-explorer/payments-orders-list.component';
 import { PaymentsOrdersListItemComponent } from './payments-orders/payments-orders-explorer/payments-orders-list-item.component';
 import { PaymentsOrdersListHeaderComponent } from './payments-orders/payments-orders-explorer/payments-orders-list-header.component';
@@ -26,7 +25,6 @@ import { PayablesMainPageComponent } from './payables/payables-main-page/payable
 import { PayablesExplorerComponent } from './payables/payables-explorer/payables-explorer.component';
 import { PayablesFilterComponent } from './payables/payables-explorer/payables-filter.component';
 import { PayablesListComponent } from './payables/payables-explorer/payables-list.component';
-import { PayablesListControlsComponent } from './payables/payables-explorer/payables-list-controls.component';
 import { PayablesListHeaderComponent } from './payables/payables-explorer/payables-list-header.component';
 import { PayablesListItemComponent } from './payables/payables-explorer/payables-list-item.component';
 
@@ -46,15 +44,14 @@ import { PayablesListItemComponent } from './payables/payables-explorer/payables
     PaymentsOrdersMainPageComponent,
     PaymentsOrdersExplorerComponent,
     PaymentsOrdersFilterComponent,
-    PaymentsOrdersListControlsComponent,
     PaymentsOrdersListComponent,
     PaymentsOrdersListItemComponent,
     PaymentsOrdersListHeaderComponent,
+
     PayablesMainPageComponent,
     PayablesExplorerComponent,
     PayablesFilterComponent,
     PayablesListComponent,
-    PayablesListControlsComponent,
     PayablesListHeaderComponent,
     PayablesListItemComponent,
   ],

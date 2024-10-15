@@ -78,7 +78,23 @@ export enum PayablesOperationType {
 
 
 export const PayablesOperationsList: ExplorerOperation[] = [
-  { uid: PayablesOperationType.excel,  name: 'Exportar' },
-  { uid: PayablesOperationType.print,  name: 'Imprimir' },
-  { uid: PayablesOperationType.delete, name: 'Eliminar' },
+  {
+    uid: PayablesOperationType.excel,
+    name: 'Exportar'
+  },
+  {
+    uid: PayablesOperationType.print,
+    name: 'Imprimir',
+    showConfirm: true,
+    confirmOperationMessage: 'imprimirá',
+    confirmQuestionMessage: 'Imprimo'
+  },
+  {
+    uid: PayablesOperationType.delete,
+    name: 'Eliminar',
+    showConfirm: true,
+    isConfirmWarning: true,
+    confirmOperationMessage: 'eliminará',
+    confirmQuestionMessage: 'Elimino'
+  },
 ];

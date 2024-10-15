@@ -15,9 +15,9 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { RequestDescriptor } from '@app/models';
+import { RequestDescriptor, RequestsOperationList } from '@app/models';
 
-import { RequestsListControlsEventType } from './requests-list-controls.component';
+import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
 import { RequestsListItemEventType } from './requests-list-item.component';
 
@@ -44,6 +44,8 @@ export class RequestsListComponent implements OnChanges {
 
   selection = new SelectionModel<RequestDescriptor>(true, []);
 
+  operationsList = RequestsOperationList;
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.requestDataList) {
@@ -58,9 +60,9 @@ export class RequestsListComponent implements OnChanges {
   }
 
 
-  onRequestsListControlsEvent(event: EventInfo) {
-    switch (event.type as RequestsListControlsEventType) {
-      case RequestsListControlsEventType.EXECUTE_OPERATION_CLICKED:
+  onListControlsEvent(event: EventInfo) {
+    switch (event.type as ListControlsEventType) {
+      case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
         sendEvent(this.requestsListEvent, RequestsListEventType.EXECUTE_OPERATION_CLICKED,
           event.payload);
         return;

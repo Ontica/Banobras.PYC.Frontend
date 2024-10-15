@@ -15,9 +15,9 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { PaymentOrderDescriptor } from '@app/models';
+import { PaymentOrderDescriptor, PaymentsOrdersOperationsList } from '@app/models';
 
-import { PaymentsOrdersListControlsEventType } from './payments-orders-list-controls.component';
+import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
 import { PaymentsOrdersListItemEventType } from './payments-orders-list-item.component';
 
@@ -45,6 +45,8 @@ export class PaymentsOrdersListComponent implements OnChanges {
 
   selection = new SelectionModel<PaymentOrderDescriptor>(true, []);
 
+  operationsList = PaymentsOrdersOperationsList;
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.paymentsOrdersList) {
@@ -54,9 +56,9 @@ export class PaymentsOrdersListComponent implements OnChanges {
   }
 
 
-  onPaymentsOrdersListControlsEvent(event: EventInfo) {
-    switch (event.type as PaymentsOrdersListControlsEventType) {
-      case PaymentsOrdersListControlsEventType.EXECUTE_OPERATION_CLICKED:
+  onListControlsEvent(event: EventInfo) {
+    switch (event.type as ListControlsEventType) {
+      case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
         sendEvent(this.paymentsOrdersListEvent, PaymentsOrdersListEventType.EXECUTE_OPERATION, event.payload);
         return;
 
