@@ -10,18 +10,11 @@
 
         <emp-ng-select
           formControlName="requesterOrgUnitUID"
-          [config]="{virtualScroll: true, clearable: true}"
+          [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
           [items]="requesterOrgUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.requesterOrgUnitUID)"
           placeholder="Todas">
-
-          <ng-template #optionTemplate let-item="item">
-            <div class="item" [title]="item.name">
-              {{item.name}}
-            </div>
-          </ng-template>
-
         </emp-ng-select>
 
       </div>
