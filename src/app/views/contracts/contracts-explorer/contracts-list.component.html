@@ -1,0 +1,51 @@
+<div class="fx-column-container-fill">
+
+  <emp-ng-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
+    class="fx-item-none"
+    [config]="{itemsName: 'contratos', itemsPronouns: 'los', selectionMessage: 'seleccionados'}"
+    [selection]="selection"
+    [operationsList]="operationsList"
+    (listControlsEvent)="onListControlsEvent($event)">
+
+  </emp-ng-list-controls>
+
+
+  <emp-pmt-contracts-list-header class="fx-item-none"
+    [dataList]="dataList"
+    [selection]="selection">
+
+  </emp-pmt-contracts-list-header>
+
+
+  <div #listContainer class="fx-item">
+
+    <cdk-virtual-scroll-viewport itemSize="61">
+
+        <div *cdkVirtualFor="let item of dataList"
+          class="list-item"
+          [class.list-item-selected]="item.uid === selectedUID">
+
+          <div class="list-item-container">
+
+            <emp-pmt-contracts-list-item
+              [item]="item"
+              [selected]="selection.isSelected(item)"
+              (contractsListItemEvent)="onContractsListItemEvent($event)">
+
+            </emp-pmt-contracts-list-item>
+
+          </div>
+
+        </div>
+
+        <div *ngIf="dataList.length === 0" class="text-not-found">
+          {{ queryExecuted ?
+             'No se encontraron contratos con el filtro proporcionado.' :
+             'No se ha invocado la búsqueda de contratos.' }}
+        </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

@@ -13,6 +13,8 @@ export * from './budgets.data.service';
 
 export * from './catalogues.data.service';
 
+export * from './contracts.data.service';
+
 export * from './payables.data.service';
 
 export * from './payment-orders.data.service';

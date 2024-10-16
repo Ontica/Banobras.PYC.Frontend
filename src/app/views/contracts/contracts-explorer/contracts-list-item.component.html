@@ -1,0 +1,46 @@
+<div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
+
+  <div class="fx-item-size check-column-size sm-fx-item-none">
+    <mat-checkbox empNgStopPropagation
+      [checked]="selected"
+      (change)="onCheckItemClicked()">
+    </mat-checkbox>
+  </div>
+
+  <div class="fx-item-size first-column-size sm-fx-item-none">
+    <div class="list-item-text-highlight nowrap"
+      (click)="onItemClicked()">
+      <a class="bold-text">{{item.contractNo}}</a>
+    </div>
+    <div class="bold-text">{{item.contractType}}</div>
+    <div>{{item.name}}</div>
+  </div>
+
+  <div class="fx-item-size second-column-size sm-fx-item-none">
+    <div class="list-item-text-highlight">{{item.managedByOrgUnit}}</div>
+    <div class="bold-text">{{item.budgetType}}</div>
+    <div>{{item.supplier}}</div>
+  </div>
+
+  <div class="fx-item">
+    <div class="list-item-text-highlight">{{item.currency}}</div>
+    <div class="bold-text">
+      {{!item.fromDate ? '-' : (item.fromDate | empDateTimeFormat)}}
+    </div>
+    <div>
+      {{!item.toDate ? '-' : (item.toDate | empDateTimeFormat)}}
+    </div>
+  </div>
+
+  <div class="fx-item-size status-column-size sm-fx-item-none">
+    <span class="tag" *ngIf="item.statusName"
+      [ngClass]="{'tag-base-error': ['Suspendido', 'Descontinuado' , 'Eliminado'].includes(item.statusName)}">
+      {{item.statusName}}
+    </span>
+    <div class="bold-text" [style.padding-top.rem]="0.4">
+      {{!item.signDate ? '-' : (item.signDate | empDateTimeFormat)}}
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,18 @@
+
+<div class="explorer">
+
+  <div class="primary priority">
+
+    <emp-pmt-contracts-explorer
+      [query]="query"
+      [dataList]="dataList"
+      [selectedUID]="selectedUID"
+      [isLoading]="isLoading"
+      [queryExecuted]="queryExecuted"
+      (contractsExplorerEvent)="onContractsExplorerEvent($event)">
+
+    </emp-pmt-contracts-explorer>
+
+  </div>
+
+</div>

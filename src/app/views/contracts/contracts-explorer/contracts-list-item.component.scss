@@ -1,0 +1,30 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+
+.header-padding {
+  padding: 6px 8px 6px 8px; // cambiar padding left a 24px con scroll
+}
+
+.entry-gap-size {
+  --gap-size: 32px
+}
+
+.check-column-size {
+  --size: 20px;
+}
+
+.first-column-size {
+  --size: 25%;
+}
+
+.second-column-size {
+  --size: 25%;
+}
+
+.status-column-size {
+  --size: 10%;
+}

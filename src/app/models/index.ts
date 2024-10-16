@@ -30,6 +30,8 @@ export * from './_operations-log';
 
 export * from './budgets';
 
+export * from './contracts';
+
 export * from './documents';
 
 export * from './edition-command';
