@@ -32,10 +32,11 @@ export interface SelectBoxConfig {
   multiple?: boolean;
   notFoundText?: string;
   searchable?: boolean;
+  searchableFields?: string[];
   selectFirst?: boolean;
+  showTooltip?: boolean;
   typeToSearchText?: string;
   virtualScroll?: boolean;
-  searchableFields?: string[];
 }
 
 
@@ -56,10 +57,11 @@ const DefaultSelectBoxConfig: SelectBoxConfig = {
   multiple: false,
   notFoundText: 'No se encontraron registros',
   searchable: true,
+  searchableFields: ['name'],
   selectFirst: false,
+  showTooltip: false,
   typeToSearchText: 'Favor de ingresar 5 o más caracteres',
   virtualScroll: false,
-  searchableFields: ['name']
 };
 
 
@@ -185,6 +187,19 @@ export class SelectBoxComponent implements OnInit, OnChanges, OnDestroy, Control
 
   customSearchFn(term: string, item: any) {
     return item?.search_field?.toLowerCase().includes(term.toLowerCase());
+  }
+
+  get valueTooltip(): string {
+    if (!this.selectBoxConfig.showTooltip || Array.isArray(this.value) || !this.value) {
+      return '';
+    }
+
+    if (this.selectBoxConfig.bindByValue && this.bindValue) {
+      const valueFromList = this.items.find(x => x[this.bindValue] === this.value);
+      return valueFromList ? valueFromList[this.bindLabel] : '';
+    } else {
+      return this.value;
+    }
   }
 
   private selectItemIfUnique() {

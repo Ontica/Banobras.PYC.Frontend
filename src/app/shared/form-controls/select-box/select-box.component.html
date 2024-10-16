@@ -24,6 +24,7 @@
   [searchFn]="useCustomSearchFn ? customSearchFn : null"
   [typeToSearchText]="selectBoxConfig.typeToSearchText"
   [virtualScroll]="selectBoxConfig.virtualScroll"
+  [title]="valueTooltip"
   (change)="onChangedEvent($event)"
   (focus)="onTouched($event)"
   (clear)="onClear()"
@@ -51,7 +52,9 @@
       <ng-container *ngTemplateOutlet="optionTemplate; context:{item: item}"></ng-container>
     </ng-container>
     <ng-container *ngIf="!optionTemplate">
-     {{bindLabel ? item[bindLabel] : item}}
+      <span [title]="!this.selectBoxConfig.showTooltip ? '' : (bindLabel ? item[bindLabel] : item)">
+        {{bindLabel ? item[bindLabel] : item}}
+      </span>
     </ng-container>
   </ng-template>
 
