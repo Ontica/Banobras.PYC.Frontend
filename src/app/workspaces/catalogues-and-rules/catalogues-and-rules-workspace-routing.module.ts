@@ -31,6 +31,11 @@ const routes: Routes = [
     component: DefaultComponent,
   },
   {
+    data: { permission: ROUTES.reglas_y_catalogos_productos.permission },
+    path: ROUTES.reglas_y_catalogos_productos.path,
+    component: DefaultComponent,
+  },
+  {
     data: { permission: ROUTES.reglas_y_catalogos_proveedores.permission },
     path: ROUTES.reglas_y_catalogos_proveedores.path,
     component: DefaultComponent,

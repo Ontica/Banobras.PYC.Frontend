@@ -106,32 +106,32 @@ export const ROUTES = {
     fullpath: '/presupuesto/solicitudes',
   },
 
-  presupuesto_planeacion: {
+  presupuesto_transacciones: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'presupuesto',
-    path: 'planeacion',
-    fullpath: '/presupuesto/planeacion',
+    path: 'transacciones',
+    fullpath: '/presupuesto/transacciones',
   },
 
-  presupuesto_control: {
+  presupuesto_explorador: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'presupuesto',
-    path: 'control',
-    fullpath: '/presupuesto/control',
+    path: 'explorador',
+    fullpath: '/presupuesto/explorador',
   },
 
-  presupuesto_comprometido: {
+  presupuesto_planeacion_anual : {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'presupuesto',
-    path: 'comprometido',
-    fullpath: '/presupuesto/comprometido',
+    path: 'planeacion-anual',
+    fullpath: '/presupuesto/planeacion-anual',
   },
 
-  presupuesto_ejercido: {
+  presupuesto_configuracion: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'presupuesto',
-    path: 'ejercido',
-    fullpath: '/presupuesto/ejercido',
+    path: 'configuracion',
+    fullpath: '/presupuesto/configuracion',
   },
 
   presupuesto_reportes: {
@@ -235,6 +235,13 @@ export const ROUTES = {
     parent: 'reglas-y-catalogos',
     path: 'valores-externos',
     fullpath: '/reglas-y-catalogos/valores-externos',
+  },
+
+  reglas_y_catalogos_productos: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'reglas-y-catalogos',
+    path: 'productos',
+    fullpath: '/reglas-y-catalogos/productos',
   },
 
   reglas_y_catalogos_proveedores: {

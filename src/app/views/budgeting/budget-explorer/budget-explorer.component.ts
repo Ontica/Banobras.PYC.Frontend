@@ -42,7 +42,7 @@ export class BudgetExplorerComponent implements OnChanges {
 
   @Output() budgetExplorerEvent = new EventEmitter<EventInfo>();
 
-  titleText = 'Planeación presupuestal';
+  titleText = 'Explorador del presupuesto';
 
   cardHint = 'Seleccionar los filtros';
 

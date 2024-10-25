@@ -54,7 +54,7 @@ export class ContractsMainPageComponent {
       case ContractsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.messageBox.showInDevelopment('Detalle de la obligación de pago', event.payload);
+        this.messageBox.showInDevelopment('Detalle del contrato', event.payload);
         return;
 
       case ContractsExplorerEventType.EXECUTE_OPERATION_CLICKED:

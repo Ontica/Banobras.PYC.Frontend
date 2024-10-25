@@ -27,24 +27,24 @@ const routes: Routes = [
     component: RequestsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.presupuesto_control.permission },
-    path: ROUTES.presupuesto_control.path,
+    data: { permission: ROUTES.presupuesto_transacciones.permission },
+    path: ROUTES.presupuesto_transacciones.path,
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.presupuesto_comprometido.permission },
-    path: ROUTES.presupuesto_comprometido.path,
-    component: DefaultComponent,
-  },
-  {
-    data: { permission: ROUTES.presupuesto_ejercido.permission },
-    path: ROUTES.presupuesto_ejercido.path,
-    component: DefaultComponent,
-  },
-  {
-    data: { permission: ROUTES.presupuesto_planeacion.permission },
-    path: ROUTES.presupuesto_planeacion.path,
+    data: { permission: ROUTES.presupuesto_explorador.permission },
+    path: ROUTES.presupuesto_explorador.path,
     component: BudgetMainPageComponent,
+  },
+  {
+    data: { permission: ROUTES.presupuesto_planeacion_anual.permission },
+    path: ROUTES.presupuesto_planeacion_anual.path,
+    component: DefaultComponent,
+  },
+  {
+    data: { permission: ROUTES.presupuesto_configuracion.permission },
+    path: ROUTES.presupuesto_configuracion.path,
+    component: DefaultComponent,
   },
   {
     data: { permission: ROUTES.presupuesto_reportes.permission },
