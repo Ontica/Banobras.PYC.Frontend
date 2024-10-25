@@ -1,11 +1,11 @@
-<div class="outer">
+<div class="outer" [ngClass]="appLayout.layout.displayLoginRight ? 'outer-right' : 'outer-left'">
 
   <div class="authentication-container">
 
       <div class="authentication-center">
 
         <div class="authentication-section-logo">
-          <img class="logo" src="assets/img/customer/vertical.logo.png" [alt]="appLayoutData.organization"/>
+          <img class="logo" src="assets/img/customer/vertical.logo.png" [alt]="appLayout.data.organization"/>
         </div>
 
 
@@ -15,9 +15,9 @@
           <ng-container *ngSwitchCase="AuthenticationModes.Login">
 
             <div class="authentication-section-welcome">
-              <strong>{{appLayoutData.name}}</strong>
-              <div class="hint">{{appLayoutData.hint}}</div>
-              <div class="hint-bold" *ngIf="appLayoutData.organization">{{appLayoutData.organization}}</div>
+              <strong>{{appLayout.data.name}}</strong>
+              <div class="hint">{{appLayout.data.hint}}</div>
+              <div class="hint-bold" *ngIf="appLayout.data.organization">{{appLayout.data.organization}}</div>
             </div>
 
             <div class="authentication-section-form">

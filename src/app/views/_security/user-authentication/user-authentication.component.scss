@@ -8,18 +8,33 @@
 @import "../../../../styles/variables";
 
 $medium-max-width: 1024px;
-$logo-width: 335px;
+$logo-width: 425px;
 $logo-padding: 20px;
 $width: 450px;
 
+$background-right-url: url("../../../../assets/img/customer/background-right.png");
+$background-left-url: url("../../../../assets/img/customer/background-left.png");
+
 .outer {
   align-items: center;
-  background: url("../../../../assets/img/customer/background.png") no-repeat center center fixed;
-  background-size: cover;
   display: flex;
   height: 100vh;
   justify-content: flex-end;
   padding-right: 15%;
+}
+
+.outer-right {
+  background: $background-right-url no-repeat left center fixed;
+  background-size: cover;
+  justify-content: flex-end;
+  padding-right: 15%;
+}
+
+.outer-left {
+  background: $background-left-url no-repeat right center fixed;
+  background-size: cover;
+  justify-content: flex-start;
+  padding-left: 15%;
 }
 
 .authentication-container {

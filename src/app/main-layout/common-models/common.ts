@@ -16,6 +16,7 @@ export interface AppData {
 
 
 export interface AppLayout {
+  displayLoginRight: boolean;
   displayLogo: boolean;
   displayNavbarHeader: boolean;
   displayNavbarHint: boolean;

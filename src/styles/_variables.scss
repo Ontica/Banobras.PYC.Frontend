@@ -84,8 +84,8 @@ $screen-standard: 1440px;
 //
 $layout-gradient-initial-color: $primary-color-dark;
 $layout-gradient-final-color: $primary-color;
-$layout-secondary-color: $secondary-color-light;
-$layout-secondary-color-dark: $secondary-color;
+$layout-secondary-color: $accent-color-light;
+$layout-secondary-color-dark: $accent-color;
 $layout-margin-size: 10px;
 $toolbar-item-background: #f3f3f3;
 $toolbar-item-background-hover: lighten($primary-color, 70%);

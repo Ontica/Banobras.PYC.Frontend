@@ -27,7 +27,7 @@ export enum AuthenticationModes {
 })
 export class UserAuthenticationComponent {
 
-  appLayoutData = APP_CONFIG.data;
+  appLayout = APP_CONFIG;
 
   currentAuthenticationMode: AuthenticationModes = AuthenticationModes.Login;
 
