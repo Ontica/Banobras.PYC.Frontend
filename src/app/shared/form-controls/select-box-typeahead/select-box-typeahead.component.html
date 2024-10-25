@@ -3,6 +3,7 @@
               virtualScroll: config.virtualScroll,
               clearable: config.clearable,
               multiple: config.multiple,
+              showTooltip: config.showTooltip,
               minTermLength: config.minTermLength,
               typeToSearchText: 'Ingresar ' + config.minTermLength +' o más caracteres'}"
   [formControl]="formControl"
@@ -28,7 +29,9 @@
       <ng-container *ngTemplateOutlet="tOptionTemplate; context: {item}"></ng-container>
     </ng-container>
     <ng-container *ngIf="!tOptionTemplate">
-     {{bindLabel ? item[bindLabel] : item}}
+      <span [title]="!config.showTooltip ? '' : (bindLabel ? item[bindLabel] : item)">
+        {{bindLabel ? item[bindLabel] : item}}
+      </span>
     </ng-container>
   </ng-template>
 

@@ -23,20 +23,22 @@ import { DataTableQuery } from '@app/models';
 export interface SelectBoxTypeaheadConfig {
   bindByValue?: boolean;
   clearable?: boolean;
+  minTermLength?: number;
   multiple?: boolean;
   searchByQuery?: boolean;
+  showTooltip?: boolean;
   virtualScroll?: boolean;
-  minTermLength?: number;
 }
 
 
 const DefaultSelectBoxTypeaheadConfig: SelectBoxTypeaheadConfig = {
   bindByValue: true,
   clearable: false,
+  minTermLength: 4,
   multiple: false,
   searchByQuery: false,
+  showTooltip: false,
   virtualScroll: false,
-  minTermLength: 4,
 };
 
 @Component({
