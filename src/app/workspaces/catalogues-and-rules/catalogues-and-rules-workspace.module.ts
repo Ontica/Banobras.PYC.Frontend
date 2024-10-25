@@ -15,9 +15,12 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { CataloguesAndRulesWorkspaceRoutingModule } from './catalogues-and-rules-workspace-routing.module';
 
+import { ProductsModule } from '@app/views/products/products.module';
+
+import { ProductsMainPageComponent } from './products-main-page/products-main-page.component';
+
 
 @NgModule({
-
   imports: [
     CommonModule,
     FormsModule,
@@ -26,15 +29,12 @@ import { CataloguesAndRulesWorkspaceRoutingModule } from './catalogues-and-rules
     SharedModule,
 
     CataloguesAndRulesWorkspaceRoutingModule,
+
+    ProductsModule,
   ],
 
   declarations: [
-
+    ProductsMainPageComponent
   ],
-
-  exports: [
-
-  ]
-
 })
 export class CataloguesAndRulesWorkspaceModule { }

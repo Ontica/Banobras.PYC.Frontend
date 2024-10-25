@@ -13,6 +13,8 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
+import { ProductsMainPageComponent } from './products-main-page/products-main-page.component';
+
 
 const routes: Routes = [
   {
@@ -33,7 +35,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.reglas_y_catalogos_productos.permission },
     path: ROUTES.reglas_y_catalogos_productos.path,
-    component: DefaultComponent,
+    component: ProductsMainPageComponent,
   },
   {
     data: { permission: ROUTES.reglas_y_catalogos_proveedores.permission },

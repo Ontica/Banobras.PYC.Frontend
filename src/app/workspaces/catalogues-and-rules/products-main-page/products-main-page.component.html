@@ -1,0 +1,17 @@
+
+<div class="explorer">
+
+  <div class="primary priority">
+
+    <emp-ng-products-explorer
+      [query]="query"
+      [dataList]="dataList"
+      [isLoading]="isLoading"
+      [queryExecuted]="queryExecuted"
+      (productsExplorerEvent)="onProductsExplorerEvent($event)">
+
+    </emp-ng-products-explorer>
+
+  </div>
+
+</div>
