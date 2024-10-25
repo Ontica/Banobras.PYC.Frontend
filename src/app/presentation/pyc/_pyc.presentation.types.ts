@@ -17,10 +17,14 @@ export { SelectorType as CataloguesStateSelector } from './catalogues.presentati
 import { SelectorType as PaymentsStateSelector } from './payments.presentation.handler';
 export { SelectorType as PaymentsStateSelector } from './payments.presentation.handler';
 
+import { SelectorType as ProductsStateSelector } from './products.presentation.handler';
+export { SelectorType as ProductsStateSelector } from './products.presentation.handler';
+
 import { SelectorType as RequestsStateSelector } from './requests.presentation.handler';
 export { SelectorType as RequestsStateSelector } from './requests.presentation.handler';
 
 export type PYCSelectors = BudgetingStateSelector |
                            CataloguesStateSelector |
                            PaymentsStateSelector |
+                           ProductsStateSelector |
                            RequestsStateSelector;

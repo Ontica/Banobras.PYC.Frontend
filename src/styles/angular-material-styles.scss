@@ -307,6 +307,7 @@ table.mat-mdc-table {
       &.text-not-found > td {
         padding: $grid-entry-padding-vertical $grid-entry-padding-horizontal;
         text-align: center;
+        vertical-align: middle;
       }
 
       &:not(.text-not-found) {

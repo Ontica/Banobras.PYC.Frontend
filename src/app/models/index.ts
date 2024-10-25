@@ -42,6 +42,8 @@ export * from './payables';
 
 export * from './payments-orders';
 
+export * from './products';
+
 export * from './reporting';
 
 export * from './requests';

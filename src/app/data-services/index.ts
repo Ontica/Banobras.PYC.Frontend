@@ -19,6 +19,8 @@ export * from './payables.data.service';
 
 export * from './payment-orders.data.service';
 
+export * from './products.data.service';
+
 export * from './requests.data.service';
 
 export * from './steps.data.service';
