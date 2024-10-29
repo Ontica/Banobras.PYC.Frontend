@@ -21,6 +21,23 @@ import {
   BudgetSegmentItemSelectorComponent
 } from './budgets/budget-segment-items/budget-segment-item-selector.component';
 
+import {
+  TransactionsMainPageComponent
+} from './transactions/transactions-main-page/transactions-main-page.component';
+import {
+  TransactionsExplorerComponent
+} from './transactions/transactions-explorer/transactions-explorer.component';
+import {
+  TransactionsFilterComponent
+} from './transactions/transactions-explorer/transactions-filter.component';
+import { TransactionsListComponent } from './transactions/transactions-explorer/transactions-list.component';
+import {
+  TransactionsListHeaderComponent
+} from './transactions/transactions-explorer/transactions-list-header.component';
+import {
+  TransactionsListItemComponent
+} from './transactions/transactions-explorer/transactions-list-item.component';
+
 
 @NgModule({
   imports: [
@@ -38,9 +55,17 @@ import {
     BudgetExplorerComponent,
     BudgetFilterComponent,
     BudgetSegmentItemSelectorComponent,
+
+    TransactionsMainPageComponent,
+    TransactionsExplorerComponent,
+    TransactionsFilterComponent,
+    TransactionsListComponent,
+    TransactionsListHeaderComponent,
+    TransactionsListItemComponent,
   ],
   exports: [
     BudgetMainPageComponent,
+    TransactionsMainPageComponent,
   ]
 })
 export class BudgetingModule { }

@@ -15,6 +15,7 @@ export interface BudgetType {
   name: string;
   budgets: Budget[];
   segmentTypes: BudgetSegmentType[];
+  transactionTypes: Identifiable[];
 }
 
 

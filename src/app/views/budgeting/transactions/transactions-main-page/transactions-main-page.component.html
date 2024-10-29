@@ -1,0 +1,17 @@
+
+<div class="explorer">
+
+  <div class="primary priority">
+
+    <emp-bdg-transactions-explorer
+      [query]="query"
+      [dataList]="dataList"
+      [isLoading]="isLoading"
+      [queryExecuted]="queryExecuted"
+      (transactionsExplorerEvent)="onTransactionsExplorerEvent($event)">
+
+    </emp-bdg-transactions-explorer>
+
+  </div>
+
+</div>
