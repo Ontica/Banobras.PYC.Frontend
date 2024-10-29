@@ -20,8 +20,8 @@ import { CataloguesStateSelector, PaymentsStateSelector } from '@app/presentatio
 
 import { FormHelper, sendEvent, empExpandCollapse } from '@app/shared/utils';
 
-import { EmptyPaymentsOrdersQuery, PaymentOrderStatus, PaymentOrderStatusList, PaymentsOrdersQuery,
-         PaymentsOrdersStatus, RequestsList } from '@app/models';
+import { EmptyPaymentsOrdersQuery, PaymentOrderStatusList, PaymentsOrdersQuery, PaymentsOrdersStatus,
+         RequestsList } from '@app/models';
 
 
 export enum PaymentsOrdersFilterEventType {
@@ -60,7 +60,7 @@ export class PaymentsOrdersFilterComponent implements OnChanges, OnInit, OnDestr
 
   isLoading = false;
 
-  paymentOrderStatusList: PaymentOrderStatus[] = PaymentOrderStatusList;
+  paymentOrderStatusList: Identifiable<PaymentsOrdersStatus>[] = PaymentOrderStatusList;
 
   requesterOrgUnitsList: Identifiable[] = [];
 

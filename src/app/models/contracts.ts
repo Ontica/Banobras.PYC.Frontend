@@ -20,14 +20,7 @@ export enum ContractsStatus {
 }
 
 
-
-export interface ContractStatus extends Identifiable {
-  uid: ContractsStatus;
-  name: string;
-}
-
-
-export const ContractStatusList: ContractStatus[] = [
+export const ContractStatusList: Identifiable<ContractsStatus>[] = [
   { uid: ContractsStatus.Pending,      name: 'Pendiente' },
   { uid: ContractsStatus.Active,       name: 'Activo' },
   { uid: ContractsStatus.OnReview,     name: 'En revisión' },

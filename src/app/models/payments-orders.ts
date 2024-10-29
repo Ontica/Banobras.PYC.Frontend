@@ -23,13 +23,7 @@ export enum PaymentsOrdersStatus {
 }
 
 
-export interface PaymentOrderStatus extends Identifiable {
-  uid: PaymentsOrdersStatus;
-  name: string;
-}
-
-
-export const PaymentOrderStatusList: PaymentOrderStatus[] = [
+export const PaymentOrderStatusList: Identifiable<PaymentsOrdersStatus>[] = [
   { uid: PaymentsOrdersStatus.Pending,    name: 'Pendiente'},
   { uid: PaymentsOrdersStatus.Received,   name: 'Recibida'},
   { uid: PaymentsOrdersStatus.Suspended,  name: 'Suspendida'},

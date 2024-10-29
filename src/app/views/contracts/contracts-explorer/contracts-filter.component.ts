@@ -23,7 +23,7 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { BudgetType, ContractsQuery, ContractsStatus, ContractStatus, ContractStatusList, EmptyContractsQuery,
+import { BudgetType, ContractsQuery, ContractsStatus, ContractStatusList, EmptyContractsQuery,
          RequestsList } from '@app/models';
 
 
@@ -64,7 +64,7 @@ export class ContractsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoading = false;
 
-  statusList: ContractStatus[] = ContractStatusList;
+  statusList: Identifiable<ContractsStatus>[] = ContractStatusList;
 
   orgUnitsList: Identifiable[] = [];
 

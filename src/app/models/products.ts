@@ -20,13 +20,7 @@ export enum ProductsStatus {
 }
 
 
-export interface ProductStatus extends Identifiable {
-  uid: ProductsStatus;
-  name: string;
-}
-
-
-export const ProductStatusList: ProductStatus[] = [
+export const ProductStatusList: Identifiable<ProductsStatus>[] = [
   { uid: ProductsStatus.Pending,      name: 'Pendiente' },
   { uid: ProductsStatus.Active,       name: 'Activo' },
   { uid: ProductsStatus.OnReview,     name: 'En revisión' },

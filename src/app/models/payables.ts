@@ -11,7 +11,7 @@ import { ExplorerOperation } from './_explorer-data';
 
 
 export interface PayablesQuery {
-  status: PayableStatus;
+  status: PayablesStatus;
   requesterOrgUnitUID: string;
   payableTypeUID: string;
   budgetTypeUID: string;
@@ -40,13 +40,7 @@ export enum PayablesStatus {
 }
 
 
-export interface PayableStatus extends Identifiable {
-  uid: PayablesStatus;
-  name: string;
-}
-
-
-export const PayableStatusList: PayableStatus[] = [
+export const PayableStatusList: Identifiable<PayablesStatus>[] = [
   { uid: PayablesStatus.Capture,   name: 'Capturado' },
   { uid: PayablesStatus.OnPayment, name: 'En proceso' },
   { uid: PayablesStatus.Payed,     name: 'Pagado' },

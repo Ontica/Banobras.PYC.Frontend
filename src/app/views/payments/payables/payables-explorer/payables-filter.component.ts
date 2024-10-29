@@ -21,7 +21,7 @@ import { BudgetingStateSelector, CataloguesStateSelector,
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { BudgetType, EmptyPayablesQuery, PayablesQuery, PayableStatus, PayableStatusList,
+import { BudgetType, EmptyPayablesQuery, PayablesQuery, PayablesStatus, PayableStatusList,
          RequestsList } from '@app/models';
 
 
@@ -31,7 +31,7 @@ export enum PayablesFilterEventType {
 }
 
 interface PayablesFilterFormModel extends FormGroup<{
-  status: FormControl<PayableStatus>;
+  status: FormControl<PayablesStatus>;
   requesterOrgUnitUID: FormControl<string>;
   payableTypeUID: FormControl<string>;
   budgetTypeUID: FormControl<string>;
@@ -61,7 +61,7 @@ export class PayablesFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoading = false;
 
-  statusList: PayableStatus[] = PayableStatusList;
+  statusList: Identifiable<PayablesStatus>[] = PayableStatusList;
 
   requesterOrgUnitsList: Identifiable[] = [];
 
@@ -125,12 +125,12 @@ export class PayablesFilterComponent implements OnChanges, OnInit, OnDestroy {
       this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
       this.helper.select<BudgetType[]>(PaymentsStateSelector.PAYABLES_TYPES),
     ])
-      .subscribe(([a, b, c]) => {
-        this.requesterOrgUnitsList = a;
-        this.budgetTypesList = b;
-        this.payableTypesList = c;
-        this.isLoading = false;
-      });
+    .subscribe(([a, b, c]) => {
+      this.requesterOrgUnitsList = a;
+      this.budgetTypesList = b;
+      this.payableTypesList = c;
+      this.isLoading = false;
+    });
   }
 
 
