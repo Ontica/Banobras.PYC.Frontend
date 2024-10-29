@@ -7,16 +7,18 @@
 
 import { Component } from '@angular/core';
 
-import { Assertion, EventInfo } from '@app/core';
+import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
 import { BudgetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransaction, BudgetTransactionDescriptor, BudgetTransactionsQuery,
-         EmptyBudgetTransactionsQuery } from '@app/models';
+import { BudgetTransactionData, BudgetTransactionDescriptor, BudgetTransactionsQuery,
+         EmptyBudgetTransactionData, EmptyBudgetTransactionsQuery } from '@app/models';
 
 import { TransactionsExplorerEventType } from '../transactions-explorer/transactions-explorer.component';
+
+import { TransactionTabbedViewEventType } from '../transaction-tabbed-view/transaction-tabbed-view.component';
 
 
 @Component({
@@ -29,7 +31,7 @@ export class TransactionsMainPageComponent {
 
   dataList: BudgetTransactionDescriptor[] = [];
 
-  selectedData: BudgetTransaction = null;
+  selectedData: BudgetTransactionData = EmptyBudgetTransactionData;
 
   displayTabbedView = false;
 
@@ -62,7 +64,27 @@ export class TransactionsMainPageComponent {
       case TransactionsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.transaction, ' event.payload.transaction');
         Assertion.assertValue(event.payload.transaction.uid, 'event.payload.transaction.uid');
-        this.getTransaction(event.payload.transaction.uid);
+        this.getTransactionData(event.payload.transaction.uid);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onTransactionTabbedViewEvent(event: EventInfo) {
+    switch (event.type as TransactionTabbedViewEventType) {
+      case TransactionTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyBudgetTransactionData);
+        return;
+      case TransactionTabbedViewEventType.TRANSACTION_UPDATED:
+        Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
+
+        return;
+      case TransactionTabbedViewEventType.TRANSACTION_DELETED:
+        Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
+
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -81,9 +103,13 @@ export class TransactionsMainPageComponent {
   }
 
 
+  private getTransactionData(transactionUID: string) {
+    this.isLoadingSelection = true;
 
-  private getTransaction(transactionUID: string) {
-    this.messageBox.showInDevelopment('Detalle de transacción', transactionUID);
+    this.budgetTransactionsData.getTransactionData(transactionUID)
+      .firstValue()
+      .then(x => this.setSelectedData(x))
+      .finally(() => this.isLoadingSelection = false);
   }
 
 
@@ -101,6 +127,12 @@ export class TransactionsMainPageComponent {
   private setDataList(data: BudgetTransactionDescriptor[], queryExecuted: boolean = true) {
     this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
+  }
+
+
+  private setSelectedData(data: BudgetTransactionData) {
+    this.selectedData = data;
+    this.displayTabbedView = !isEmpty(this.selectedData.transaction);
   }
 
 }

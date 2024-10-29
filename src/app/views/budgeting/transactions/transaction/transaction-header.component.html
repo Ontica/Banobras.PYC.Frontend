@@ -1,0 +1,165 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-two-third">
+
+        <label>Área:</label>
+
+        <emp-ng-select
+          formControlName="basePartyUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="organizationalUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-third">
+
+        <label>Fuente:</label>
+
+        <emp-ng-select
+          formControlName="operationSourceUID"
+          [items]="operationSourcesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.operationSourceUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-third">
+
+        <label>Tipo de presupuesto:</label>
+
+        <emp-ng-select
+          formControlName="budgetTypeUID"
+          [items]="budgetTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-third">
+
+        <label>Presupuesto:</label>
+
+        <emp-ng-select
+          formControlName="budgetUID"
+          [items]="budgetsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-third">
+
+        <label>Tipo de transacción:</label>
+
+        <emp-ng-select
+          formControlName="transactionTypeUID"
+          [items]="transactionTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.transactionTypeUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canDelete"
+            type="button" class="btn-warning"
+            (click)="onDeleteButtonClicked()">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canUpdate"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>

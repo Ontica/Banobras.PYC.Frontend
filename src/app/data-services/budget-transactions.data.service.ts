@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { BudgetTransactionDescriptor, BudgetTransactionsQuery } from '@app/models';
+import { BudgetTransactionData, BudgetTransactionDescriptor, BudgetTransactionsQuery } from '@app/models';
 
 
 @Injectable()
@@ -32,6 +32,15 @@ export class BudgetTransactionsDataService {
     const path = 'v2/budgeting/transactions/search';
 
     return this.http.post<BudgetTransactionDescriptor[]>(path, query);
+  }
+
+
+  getTransactionData(transactionUID: string): EmpObservable<BudgetTransactionData> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}`;
+
+    return this.http.get<BudgetTransactionData>(path);
   }
 
 }

@@ -38,6 +38,12 @@ import {
   TransactionsListItemComponent
 } from './transactions/transactions-explorer/transactions-list-item.component';
 
+import {
+  TransactionTabbedViewComponent
+} from './transactions/transaction-tabbed-view/transaction-tabbed-view.component';
+import { TransactionEditorComponent } from './transactions/transaction/transaction-editor.component';
+import { TransactionHeaderComponent } from './transactions/transaction/transaction-header.component';
+
 
 @NgModule({
   imports: [
@@ -62,6 +68,9 @@ import {
     TransactionsListComponent,
     TransactionsListHeaderComponent,
     TransactionsListItemComponent,
+    TransactionTabbedViewComponent,
+    TransactionEditorComponent,
+    TransactionHeaderComponent,
   ],
   exports: [
     BudgetMainPageComponent,

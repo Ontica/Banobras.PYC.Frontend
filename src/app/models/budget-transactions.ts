@@ -5,9 +5,11 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Identifiable } from '@app/core';
+import { DateString, Empty, Identifiable } from '@app/core';
 
 import { ExplorerOperation } from './_explorer-data';
+
+import { WorkflowHistory } from './workflows';
 
 
 export enum BudgetTransactionsStatus {
@@ -94,8 +96,44 @@ export interface BudgetTransactionDescriptor {
 }
 
 
-export interface BudgetTransaction {
+export interface BudgetTransactionFields {
 
+}
+
+
+export interface BudgetTransactionData {
+  transaction: BudgetTransaction,
+  items: BudgetTransactionEntry[];
+  documents: Document[];
+  history: WorkflowHistory[];
+  actions: BudgetTransactionActions;
+}
+
+
+export interface BudgetTransaction {
+  uid: string;
+  transactionNo: string;
+  baseParty: Identifiable;
+  budgetType: Identifiable;
+  budget: Identifiable;
+  transactionType: Identifiable;
+  operationSource: Identifiable;
+  description: string;
+  requestedDate: DateString;
+  applicationDate: DateString;
+  status: Identifiable;
+}
+
+
+export interface BudgetTransactionEntry {
+
+}
+
+
+export interface BudgetTransactionActions {
+  canUpdate: boolean;
+  canDelete: boolean;
+  //TODO: define flags...
 }
 
 
@@ -145,4 +183,34 @@ export const EmptyBudgetTransactionsQuery: BudgetTransactionsQuery = {
   partyType: BudgetTransactionPartyType.RequestedBy,
   partyUID: '',
   basePartyUID: '',
+};
+
+
+export const EmptyBudgetTransaction: BudgetTransaction = {
+  uid: '',
+  budgetType: Empty,
+  transactionType: Empty,
+  transactionNo: '',
+  budget: Empty,
+  baseParty: Empty,
+  operationSource: Empty,
+  description: '',
+  requestedDate: '',
+  applicationDate: '',
+  status: Empty,
+}
+
+
+export const EmptyBudgetTransactionActions: BudgetTransactionActions = {
+  canUpdate: false,
+  canDelete: false,
+}
+
+
+export const EmptyBudgetTransactionData: BudgetTransactionData = {
+  transaction: EmptyBudgetTransaction,
+  items: [],
+  documents: [],
+  history: [],
+  actions: EmptyBudgetTransactionActions,
 };
