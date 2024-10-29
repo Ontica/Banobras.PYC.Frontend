@@ -17,7 +17,13 @@ import {
   RequestsMainPageComponent
 } from '@app/views/requests/requests-main-page/requests-main-page.component';
 
-import { BudgetMainPageComponent } from '@app/views/budgeting/budget-main-page/budget-main-page.component';
+import {
+  BudgetMainPageComponent
+} from '@app/views/budgeting/budgets/budget-main-page/budget-main-page.component';
+
+import {
+  TransactionsMainPageComponent
+} from '@app/views/budgeting/transactions/transactions-main-page/transactions-main-page.component';
 
 
 const routes: Routes = [
@@ -29,7 +35,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.presupuesto_transacciones.permission },
     path: ROUTES.presupuesto_transacciones.path,
-    component: DefaultComponent,
+    component: TransactionsMainPageComponent,
   },
   {
     data: { permission: ROUTES.presupuesto_explorador.permission },
