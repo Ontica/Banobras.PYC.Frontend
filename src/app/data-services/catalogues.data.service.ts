@@ -28,6 +28,13 @@ export class CataloguesDataService {
   }
 
 
+  getPaymentMethods(): EmpObservable<Identifiable[]> {
+    const path = 'v8/financial/payment-methods';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   getResponsibles(): EmpObservable<Identifiable[]> {
     const path = `v4/requests/catalogues/responsible-list`;
 

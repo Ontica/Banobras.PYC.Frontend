@@ -122,7 +122,7 @@ export class PaymentsOrdersFilterComponent implements OnChanges, OnInit, OnDestr
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.payments }),
       this.helper.select<Identifiable[]>(PaymentsStateSelector.PAYMENTS_ORDERS_TYPES),
-      this.helper.select<Identifiable[]>(PaymentsStateSelector.PAYMENTS_METHODS),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.PAYMENTS_METHODS),
     ])
     .subscribe(([a, b, c]) => {
       this.requesterOrgUnitsList = a;

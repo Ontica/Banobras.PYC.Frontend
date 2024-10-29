@@ -26,13 +26,6 @@ export class PaymentOrdersDataService {
   }
 
 
-  getPaymentMethods(): EmpObservable<Identifiable[]> {
-    const path = 'v2/payments-management/payment-methods';
-
-    return this.http.get<Identifiable[]>(path);
-  }
-
-
   searchPaymentsOrders(query: PaymentsOrdersQuery): EmpObservable<PaymentOrderDescriptor[]> {
     Assertion.assertValue(query, 'query');
 

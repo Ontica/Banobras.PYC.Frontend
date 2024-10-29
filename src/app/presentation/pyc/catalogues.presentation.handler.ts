@@ -18,11 +18,13 @@ import { RequestsList } from '@app/models';
 
 export enum SelectorType {
   ORGANIZATIONAL_UNITS = 'PYC.Catalogues.Selector.OrganizationalUnits.List',
+  PAYMENTS_METHODS     = 'PYC.Catalogues.Selector.PaymentsMethods.List',
 }
 
 
 const initialState: StateValues = [
   { key: SelectorType.ORGANIZATIONAL_UNITS, value: new Cache<Identifiable[]>() },
+  { key: SelectorType.PAYMENTS_METHODS, value: [] },
 ];
 
 
@@ -49,6 +51,12 @@ export class CataloguesPresentationHandler extends AbstractPresentationHandler {
         const provider = () => this.data.getOrganizationalUnits(requestsList);
 
         return super.selectMemoized(selectorType, provider, requestsList, []);
+
+      case SelectorType.PAYMENTS_METHODS: {
+        const provider = () => this.data.getPaymentMethods();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
 
       default:
         return super.select<U>(selectorType, params);
