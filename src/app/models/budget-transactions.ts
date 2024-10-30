@@ -9,6 +9,8 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { ExplorerOperation } from './_explorer-data';
 
+import { Document } from './documents';
+
 import { WorkflowHistory } from './workflows';
 
 
@@ -103,7 +105,7 @@ export interface BudgetTransactionFields {
 
 export interface BudgetTransactionData {
   transaction: BudgetTransaction,
-  items: BudgetTransactionEntry[];
+  entries: BudgetTransactionEntryDescriptor[];
   documents: Document[];
   history: WorkflowHistory[];
   actions: BudgetTransactionActions;
@@ -125,8 +127,17 @@ export interface BudgetTransaction {
 }
 
 
-export interface BudgetTransactionEntry {
-
+export interface BudgetTransactionEntryDescriptor {
+  uid: string;
+  budgetAccountCode: string;
+  budgetAccountName: string;
+  year: number;
+  month: number;
+  monthName: string;
+  day: number;
+  balanceColumn: string;
+  deposit: number;
+  withdrawal: number;
 }
 
 
@@ -209,7 +220,7 @@ export const EmptyBudgetTransactionActions: BudgetTransactionActions = {
 
 export const EmptyBudgetTransactionData: BudgetTransactionData = {
   transaction: EmptyBudgetTransaction,
-  items: [],
+  entries: [],
   documents: [],
   history: [],
   actions: EmptyBudgetTransactionActions,

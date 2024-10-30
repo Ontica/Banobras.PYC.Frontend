@@ -44,6 +44,13 @@ import {
 import { TransactionEditorComponent } from './transactions/transaction/transaction-editor.component';
 import { TransactionHeaderComponent } from './transactions/transaction/transaction-header.component';
 
+import {
+  TransactionEntriesEditionComponent
+} from './transactions/transaction-entries/transaction-entries-edition.component';
+import {
+  TransactionEntriesTableComponent
+} from './transactions/transaction-entries/transaction-entries-table.component';
+
 
 @NgModule({
   imports: [
@@ -71,6 +78,8 @@ import { TransactionHeaderComponent } from './transactions/transaction/transacti
     TransactionTabbedViewComponent,
     TransactionEditorComponent,
     TransactionHeaderComponent,
+    TransactionEntriesEditionComponent,
+    TransactionEntriesTableComponent,
   ],
   exports: [
     BudgetMainPageComponent,
