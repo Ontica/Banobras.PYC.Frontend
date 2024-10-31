@@ -13,9 +13,10 @@ import { DataTableQuery } from '@app/models';
 
 
 export enum SearcherAPIS {
-  suppliers           = 'v2/parties/primary-party/suppliers-list/',
+  suppliers           = 'v8/parties/primary-party/suppliers-list/',
   productManagers     = 'v8/products/primary-party/product-managers/',
   transactionsParties = 'v2/budgeting/transactions/parties/',
+  payableEntities     = 'v2/payments-management/payable-entities/search',
 }
 
 @Injectable()

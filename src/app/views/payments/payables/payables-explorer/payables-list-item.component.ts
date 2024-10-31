@@ -15,8 +15,8 @@ import { PayableDescriptor } from '@app/models';
 
 
 export enum PayablesListItemEventType {
-  ITEM_CLICKED  = 'PayablesListItemComponent.Event.ItemClicked',
-  CHECK_CLICKED = 'PayablesListItemComponent.Event.CheckClicked',
+  SELECT_CLICKED = 'PayablesListItemComponent.Event.SelectClicked',
+  CHECK_CLICKED  = 'PayablesListItemComponent.Event.CheckClicked',
 }
 
 @Component({
@@ -26,22 +26,22 @@ export enum PayablesListItemEventType {
 })
 export class PayablesListItemComponent {
 
-  @Input() item: PayableDescriptor;
+  @Input() payable: PayableDescriptor;
 
   @Input() selected = false;
 
   @Output() payablesListItemEvent = new EventEmitter<EventInfo>();
 
 
-  onItemClicked() {
-    sendEvent(this.payablesListItemEvent, PayablesListItemEventType.ITEM_CLICKED,
-      { item: this.item });
+  onSelectClicked() {
+    sendEvent(this.payablesListItemEvent, PayablesListItemEventType.SELECT_CLICKED,
+      { payable: this.payable });
   }
 
 
-  onCheckItemClicked() {
+  onCheckClicked() {
     sendEvent(this.payablesListItemEvent, PayablesListItemEventType.CHECK_CLICKED,
-      { item: this.item });
+      { payable: this.payable });
   }
 
 }

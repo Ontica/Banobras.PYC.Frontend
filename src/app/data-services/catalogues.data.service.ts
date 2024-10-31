@@ -41,4 +41,11 @@ export class CataloguesDataService {
     return this.http.get<Identifiable[]>(path);
   }
 
+
+  getCurrencies(): EmpObservable<Identifiable[]> {
+    const path = `v8/financial/currencies`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
 }

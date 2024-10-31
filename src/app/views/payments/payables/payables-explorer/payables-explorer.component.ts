@@ -18,6 +18,7 @@ import { PayablesFilterEventType } from './payables-filter.component';
 import { PayablesListEventType } from './payables-list.component';
 
 export enum PayablesExplorerEventType {
+  CREATE_CLICKED            = 'PayablesExplorerComponent.Event.CreateClicked',
   SEARCH_CLICKED            = 'PayablesExplorerComponent.Event.SearchClicked',
   CLEAR_CLICKED             = 'PayablesExplorerComponent.Event.ClearClicked',
   EXECUTE_OPERATION_CLICKED = 'PayablesExplorerComponent.Event.ExecuteOperationClicked',
@@ -57,6 +58,11 @@ export class PayablesExplorerComponent implements OnChanges {
   }
 
 
+  onCreatePayableClicked() {
+    sendEvent(this.payablesExplorerEvent, PayablesExplorerEventType.CREATE_CLICKED);
+  }
+
+
   onPayablesFilterEvent(event: EventInfo) {
     switch (event.type as PayablesFilterEventType) {
       case PayablesFilterEventType.SEARCH_CLICKED:
@@ -64,13 +70,11 @@ export class PayablesExplorerComponent implements OnChanges {
         sendEvent(this.payablesExplorerEvent, PayablesExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
-
       case PayablesFilterEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.payablesExplorerEvent, PayablesExplorerEventType.CLEAR_CLICKED,
           event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -80,18 +84,16 @@ export class PayablesExplorerComponent implements OnChanges {
 
   onPayablesListEvent(event: EventInfo) {
     switch (event.type as PayablesListEventType) {
-      case PayablesListEventType.SELECT_ITEM:
-        Assertion.assertValue(event.payload.item, 'event.payload.item');
+      case PayablesListEventType.SELECT_CLICKED:
+        Assertion.assertValue(event.payload.payable, 'event.payload.payable');
         sendEvent(this.payablesExplorerEvent, PayablesExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
-
-      case PayablesListEventType.EXECUTE_OPERATION:
+      case PayablesListEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         sendEvent(this.payablesExplorerEvent, PayablesExplorerEventType.EXECUTE_OPERATION_CLICKED,
           event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

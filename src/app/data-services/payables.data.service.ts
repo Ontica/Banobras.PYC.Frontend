@@ -9,8 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { PayableDescriptor, PayablesQuery } from '@app/models';
-
+import { PayableData, PayableDescriptor, PayableFields, PayablesQuery } from '@app/models';
 
 @Injectable()
 export class PayablesDataService {
@@ -32,6 +31,44 @@ export class PayablesDataService {
     const path = 'v2/payments-management/payables/search';
 
     return this.http.post<PayableDescriptor[]>(path, query);
+  }
+
+
+  getPayableData(payableUID: string): EmpObservable<PayableData> {
+    Assertion.assertValue(payableUID, 'payableUID');
+
+    const path = `v2/payments-management/payables/${payableUID}`;
+
+    return this.http.get<PayableData>(path);
+  }
+
+
+  createPayable(dataFields: PayableFields): EmpObservable<PayableData> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/payments-management/payables`;
+
+    return this.http.post<PayableData>(path, dataFields);
+  }
+
+
+  updatePayable(payableUID: string,
+                dataFields: PayableFields): EmpObservable<PayableData> {
+    Assertion.assertValue(payableUID, 'payableUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/payments-management/payables/${payableUID}`;
+
+    return this.http.put<PayableData>(path, dataFields);
+  }
+
+
+  deletePayable(payableUID: string): EmpObservable<void> {
+    Assertion.assertValue(payableUID, 'payableUID');
+
+    const path = `v2/payments-management/payables/${payableUID}`;
+
+    return this.http.delete<void>(path);
   }
 
 }

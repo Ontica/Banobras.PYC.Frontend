@@ -17,12 +17,14 @@ import { RequestsList } from '@app/models';
 
 
 export enum SelectorType {
+  CURRENCIES           = 'PYC.Catalogues.Selector.Currencies.List',
   ORGANIZATIONAL_UNITS = 'PYC.Catalogues.Selector.OrganizationalUnits.List',
   PAYMENTS_METHODS     = 'PYC.Catalogues.Selector.PaymentsMethods.List',
 }
 
 
 const initialState: StateValues = [
+  { key: SelectorType.CURRENCIES, value: [] },
   { key: SelectorType.ORGANIZATIONAL_UNITS, value: new Cache<Identifiable[]>() },
   { key: SelectorType.PAYMENTS_METHODS, value: [] },
 ];
@@ -42,6 +44,12 @@ export class CataloguesPresentationHandler extends AbstractPresentationHandler {
   select<U>(selectorType: SelectorType, params?: any): EmpObservable<U> {
 
     switch (selectorType) {
+
+      case SelectorType.CURRENCIES: {
+        const provider = () => this.data.getCurrencies();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
 
       case SelectorType.ORGANIZATIONAL_UNITS:
         Assertion.assertValue(params.requestsList, 'params.requestsList');

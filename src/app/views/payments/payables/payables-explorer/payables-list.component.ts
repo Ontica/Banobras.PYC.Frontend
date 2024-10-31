@@ -23,8 +23,8 @@ import { PayablesListItemEventType } from './payables-list-item.component';
 
 
 export enum PayablesListEventType {
-  SELECT_ITEM       = 'PayablesListComponent.Event.SelectItem',
-  EXECUTE_OPERATION = 'PayablesListComponent.Event.ExecuteOperation',
+  SELECT_CLICKED            = 'PayablesListComponent.Event.SelectClicked',
+  EXECUTE_OPERATION_CLICKED = 'PayablesListComponent.Event.ExecuteOperationClicked',
 }
 
 @Component({
@@ -59,9 +59,8 @@ export class PayablesListComponent implements OnChanges {
   onListControlsEvent(event: EventInfo) {
     switch (event.type as ListControlsEventType) {
       case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
-        sendEvent(this.payablesListEvent, PayablesListEventType.EXECUTE_OPERATION, event.payload);
+        sendEvent(this.payablesListEvent, PayablesListEventType.EXECUTE_OPERATION_CLICKED, event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -71,16 +70,13 @@ export class PayablesListComponent implements OnChanges {
 
   onPayablesListItemEvent(event: EventInfo) {
     switch (event.type as PayablesListItemEventType) {
-      case PayablesListItemEventType.ITEM_CLICKED:
-        sendEvent(this.payablesListEvent, PayablesListEventType.SELECT_ITEM,
-          event.payload);
+      case PayablesListItemEventType.SELECT_CLICKED:
+        sendEvent(this.payablesListEvent, PayablesListEventType.SELECT_CLICKED, event.payload);
         return;
-
       case PayablesListItemEventType.CHECK_CLICKED:
-        Assertion.assertValue(event.payload.item, 'event.payload.item');
-        this.selection.toggle(event.payload.item);
+        Assertion.assertValue(event.payload.payable, 'event.payload.payable');
+        this.selection.toggle(event.payload.payable);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

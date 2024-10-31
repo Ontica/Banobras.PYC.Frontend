@@ -27,6 +27,10 @@ import { PayablesFilterComponent } from './payables/payables-explorer/payables-f
 import { PayablesListComponent } from './payables/payables-explorer/payables-list.component';
 import { PayablesListHeaderComponent } from './payables/payables-explorer/payables-list-header.component';
 import { PayablesListItemComponent } from './payables/payables-explorer/payables-list-item.component';
+import { PayableTabbedViewComponent } from './payables/payable-tabbed-view/payable-tabbed-view.component';
+import { PayableEditorComponent } from './payables/payable/payable-editor.component';
+import { PayableCreatorComponent } from './payables/payable/payable-creator.component';
+import { PayableHeaderComponent } from './payables/payable/payable-header.component';
 
 
 @NgModule({
@@ -54,6 +58,10 @@ import { PayablesListItemComponent } from './payables/payables-explorer/payables
     PayablesListComponent,
     PayablesListHeaderComponent,
     PayablesListItemComponent,
+    PayableTabbedViewComponent,
+    PayableEditorComponent,
+    PayableCreatorComponent,
+    PayableHeaderComponent,
   ],
   exports: [
     PaymentsOrdersMainPageComponent,
