@@ -37,6 +37,15 @@ export class FormHelper {
   }
 
 
+  static markFormControlsAsUntouched(form: FormGroup<any>) {
+    Object.keys(form.controls).forEach(key => {
+      const control = form.controls[key];
+      control.markAsPristine();
+      control.markAsUntouched();
+    });
+  }
+
+
   static setControlValidators(control: FormControl<any>, validator: any | any[]) {
     control.clearValidators();
     control.setValidators(validator);
@@ -64,6 +73,17 @@ export class FormHelper {
     } else {
       control.enable();
     }
+  }
+
+
+  static markcontrolsAsTouched(control: FormControl<any>) {
+    control.markAsTouched({ onlySelf: true });
+  }
+
+
+  static markControlsAsUntouched(control: FormControl<any>) {
+      control.markAsPristine();
+      control.markAsUntouched();
   }
 
 }
