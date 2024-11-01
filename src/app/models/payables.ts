@@ -151,6 +151,8 @@ export interface PayableActions {
   can: {
     update: boolean;
     delete: boolean;
+    upploadBill: boolean;
+    matchItems: boolean;
   };
   show: {
     documents: boolean;
@@ -191,6 +193,8 @@ export const EmptyPayableActions: PayableActions = {
   can: {
     update: false,
     delete: false,
+    upploadBill: false,
+    matchItems: false,
   },
   show: {
     documents: false,

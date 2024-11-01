@@ -1,0 +1,68 @@
+<div class="fill-table-container" [style.width.%]="100">
+
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Concepto</th>
+      <td mat-cell *matCellDef="let row">
+         {{ row.name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="budgetAccount">
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Cuenta presupuestal </th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.budgetAccount.name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="billConcept">
+      <th mat-header-cell *matHeaderCellDef> Concepto factura </th>
+      <td mat-cell *matCellDef="let row">{{ row.billConcept }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Cantidad </th>
+      <td mat-cell *matCellDef="let row" class="text-align-right">{{ row.quantity | empDecimal: 0 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="unit">
+      <th mat-header-cell *matHeaderCellDef> Unidad </th>
+      <td mat-cell *matCellDef="let row">{{ row.unit }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="total" >
+      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Total </th>
+      <td mat-cell *matCellDef="let row" class="nowrap text-align-right">{{ row.total | empDecimal }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actionDelete">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let row" class="column-action">
+
+        <button mat-icon-button empNgStopPropagation
+          title="Eliminar concepto"
+          (click)="onRemoveItemClicked(row)">
+          <mat-icon>
+            delete
+          </mat-icon>
+        </button>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="notFoundMessage">
+      <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+        Esta obligación de pago no tiene conceptos.
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="selectable-row"
+      (click)="onSelectItemClicked(row)"></tr>
+    <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
+      [hidden]="dataSource.data.length > 0"></tr>
+
+  </table>
+
+</div>

@@ -1,0 +1,14 @@
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <emp-pmt-payable-items-table class="fx-item"
+    [items]="items"
+    [canEdit]="actions.can.matchItems"
+    (payableItemsTableEvent)="onPayableItemsTableEvent($event)">
+
+  </emp-pmt-payable-items-table>
+
+</div>

@@ -19,9 +19,12 @@
 
     <mat-tab label="Conceptos">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-pmt-payable-items-edition
+        [items]="payableData.items"
+        [actions]="payableData.actions"
+        (payableItemsEditionEvent)="onPayableItemsEditionEvent($event)">
+
+      </emp-pmt-payable-items-edition>
 
     </mat-tab>
 
