@@ -47,6 +47,20 @@ export interface PaymentsOrdersQuery {
 }
 
 
+export interface PaymentMethod {
+  uid: string;
+  name: string;
+  linkedToAccount: boolean;
+}
+
+
+export const EmptyPaymentMethod: PaymentMethod = {
+  uid: '',
+  name: '',
+  linkedToAccount: false,
+}
+
+
 export const EmptyPaymentsOrdersQuery: PaymentsOrdersQuery = {
   status: null,
   requesterOrgUnitUID: '',

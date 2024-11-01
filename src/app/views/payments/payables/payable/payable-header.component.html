@@ -34,6 +34,19 @@
 
       <div class="fx-item-third">
 
+        <label>Tipo de presupuesto:</label>
+
+        <emp-ng-select
+          formControlName="budgetTypeUID"
+          [items]="budgetTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-third">
+
         <label>Tipo de obligación:</label>
 
         <emp-ng-select
@@ -53,7 +66,7 @@
         <emp-ng-select-typeahead #payableEntitySearcher
           formControlName="payableEntityUID"
           bindLabel="entityNo"
-          [placeholder]="!form.value.payableTypeUID ? 'Seleccione el tipo de obligación...' : 'Buscar documento...'"
+          [placeholder]="form.controls.payableTypeUID.valid ? 'Buscar documento...' : 'Seleccione el tipo de obligación...'"
           [config]="{ searchByQuery: true }"
           [initQuery]="{ payableTypeUID: form.value.payableTypeUID, keywords: '' }"
           [searcherAPI]="payableEntitiesAPI"
@@ -61,19 +74,6 @@
           [showError]="formHelper.isControlInvalid(form.controls.payableEntityUID)">
 
         </emp-ng-select-typeahead>
-
-      </div>
-
-      <div class="fx-item-third">
-
-        <label>Tipo de presupuesto:</label>
-
-        <emp-ng-select
-          formControlName="budgetTypeUID"
-          [items]="budgetTypesList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)">
-        </emp-ng-select>
 
       </div>
 
@@ -90,9 +90,43 @@
           formControlName="payToUID"
           [searcherAPI]="suppliersAPI"
           [initialValue]="payable.payTo"
-          [showError]="formHelper.isControlInvalid(form.controls.payToUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.payToUID)"
+          (changes)="onPayToChanges($event)">
 
         </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-third">
+
+        <label>Método de pago:</label>
+
+        <emp-ng-select
+          formControlName="paymentMethodUID"
+          [items]="paymentMethodsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.paymentMethodUID)"
+          (changes)="onPaymentMethodChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-third">
+
+        <label>Cuenta:</label>
+
+        <emp-ng-select
+          formControlName="paymentAccountUID"
+          [items]="partyPaymentAccountsList"
+          [loading]="isLoadingPartyPaymentAccount"
+          [placeholder]="paymentAccountPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.paymentAccountUID)">
+
+        </emp-ng-select>
 
       </div>
 

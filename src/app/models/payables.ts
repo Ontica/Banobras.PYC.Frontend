@@ -11,7 +11,10 @@ import { ExplorerOperation } from './_explorer-data';
 
 import { Document } from './documents';
 
+import { EmptyPaymentMethod, PaymentMethod } from './payments-orders';
+
 import { WorkflowHistory } from './workflows';
+
 
 
 export interface PayablesQuery {
@@ -81,6 +84,8 @@ export interface PayableFields {
   description: string;
   organizationalUnitUID: string;
   payToUID: string;
+  paymentMethodUID: string;
+  paymentAccountUID: string;
   currencyUID: string;
   budgetTypeUID: string;
   dueTime: DateString;
@@ -104,10 +109,12 @@ export interface Payable {
   payableType: Identifiable;
   description: string;
   requestedBy: Identifiable;
-  payTo: Identifiable;
   budgetType: Identifiable;
-  total: number;
+  payTo: Identifiable;
+  paymentMethod: PaymentMethod;
+  paymentAccount: Identifiable;
   currency: Identifiable;
+  total: number;
   requestedTime: DateString;
   dueTime: DateString;
   status: Identifiable;
@@ -220,10 +227,12 @@ export const EmptyPayable: Payable = {
   payableType: Empty,
   description: '',
   requestedBy: Empty,
-  payTo: Empty,
   budgetType: Empty,
-  total: 0,
+  payTo: Empty,
+  paymentMethod: EmptyPaymentMethod,
+  paymentAccount: Empty,
   currency: Empty,
+  total: 0,
   requestedTime: '',
   dueTime: '',
   status: Empty,

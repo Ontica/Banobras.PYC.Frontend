@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { RequestsList } from '@app/models';
+import { PaymentMethod, RequestsList } from '@app/models';
 
 
 @Injectable()
@@ -28,10 +28,10 @@ export class CataloguesDataService {
   }
 
 
-  getPaymentMethods(): EmpObservable<Identifiable[]> {
+  getPaymentMethods(): EmpObservable<PaymentMethod[]> {
     const path = 'v8/financial/payment-methods';
 
-    return this.http.get<Identifiable[]>(path);
+    return this.http.get<PaymentMethod[]>(path);
   }
 
 
@@ -44,6 +44,15 @@ export class CataloguesDataService {
 
   getCurrencies(): EmpObservable<Identifiable[]> {
     const path = `v8/financial/currencies`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getPartyPaymentAccouts(partyUID: string): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(partyUID, 'partyUID ');
+
+    const path = `v8/financial/parties/${partyUID}/payment-accounts`;
 
     return this.http.get<Identifiable[]>(path);
   }
