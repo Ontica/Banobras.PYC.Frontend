@@ -1,17 +1,30 @@
+<emp-ng-spinner #spinner [visible]="isLoadingSelection">
+
+</emp-ng-spinner>
 
 <div class="explorer">
 
-  <div class="primary priority">
+  <div class="primary" [class.std-hide]="displayTabbedView">
 
     <emp-pmt-contracts-explorer
       [query]="query"
       [dataList]="dataList"
-      [selectedUID]="selectedUID"
+      [selectedUID]="selectedData.contract.uid"
       [isLoading]="isLoading"
       [queryExecuted]="queryExecuted"
       (contractsExplorerEvent)="onContractsExplorerEvent($event)">
 
     </emp-pmt-contracts-explorer>
+
+  </div>
+
+  <div class="secondary priority" *ngIf="displayTabbedView">
+
+    <emp-pmt-contract-tabbed-view
+      [contractData]="selectedData"
+      (contractTabbedViewEvent)="onContractTabbedViewEvent($event)">
+
+    </emp-pmt-contract-tabbed-view>
 
   </div>
 

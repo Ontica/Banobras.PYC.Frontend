@@ -5,9 +5,13 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Identifiable } from '@app/core';
+import { DateString, Empty, Identifiable } from '@app/core';
 
 import { ExplorerOperation } from './_explorer-data';
+
+import { Document } from './documents';
+
+import { WorkflowHistory } from './workflows';
 
 
 export enum ContractsStatus {
@@ -28,7 +32,6 @@ export const ContractStatusList: Identifiable<ContractsStatus>[] = [
   { uid: ContractsStatus.Discontinued, name: 'Descontinuado' },
   { uid: ContractsStatus.Deleted,      name: 'Eliminado' },
 ];
-
 
 
 export interface ContractsQuery {
@@ -56,6 +59,11 @@ export interface ContractDescriptor {
   fromDate: DateString;
   toDate: DateString;
   statusName: string;
+}
+
+
+export interface ContractFields {
+
 }
 
 
@@ -89,6 +97,78 @@ export const ContractsOperationsList: ExplorerOperation[] = [
 ];
 
 
+export interface ContractData {
+  contract: Contract;
+  items: ContractItem[];
+  milestones: ContractMilestone[];
+  documents: Document[];
+  history: WorkflowHistory[];
+}
+
+
+export interface Contract {
+  uid: string;
+  managedByOrgUnit: Identifiable;
+  budgetType: Identifiable;
+  contractType: Identifiable;
+  supplier: Identifiable;
+  contractNo: string;
+  name: string;
+  total: number;
+  currency: Identifiable;
+  fromDate: DateString;
+  toDate: DateString;
+  description: string;
+  signDate: DateString;
+  status: Identifiable;
+}
+
+
+export interface ContractItem {
+  uid: string;
+  contract: Identifiable;
+  supplier: Identifiable;
+  product: Identifiable;
+  description: string;
+  unit: Identifiable;
+  fromQuantity: number;
+  toQuantity: number;
+  unitPrice: number;
+  project: Identifiable;
+  periodicity: Identifiable;
+  budgetAccount: Identifiable;
+}
+
+
+export interface ContractMilestone {
+  uid: string;
+  contract: Identifiable;
+  milestoneNo: string;
+  name: string;
+  description: string;
+  supplier: Identifiable;
+  managedByOrgUnit: Identifiable;
+  total: number;
+  status: Identifiable;
+  items: ContractMilestoneItem[];
+}
+
+
+export interface ContractMilestoneItem {
+  uid: string;
+  contractMilestone: Identifiable;
+  contractItem: Identifiable;
+  description: string;
+  product: Identifiable;
+  productUnit: Identifiable;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+  budgetAccount: Identifiable;
+  status: Identifiable;
+}
+
+
 export const EmptyContractsQuery: ContractsQuery = {
   status: null,
   keywords: '',
@@ -97,4 +177,31 @@ export const EmptyContractsQuery: ContractsQuery = {
   budgetTypeUID: '',
   supplierUID: '',
   contractNo: '',
+};
+
+
+export const EmptyContract: Contract = {
+  uid: '',
+  contractType: Empty,
+  contractNo: '',
+  name: '',
+  description: '',
+  supplier: Empty,
+  managedByOrgUnit: Empty,
+  fromDate: '',
+  toDate: '',
+  signDate: '',
+  budgetType: Empty,
+  currency: Empty,
+  total: null,
+  status: Empty,
+};
+
+
+export const EmptyContractData: ContractData = {
+  contract: EmptyContract,
+  items: [],
+  milestones: [],
+  documents: [],
+  history: [],
 };

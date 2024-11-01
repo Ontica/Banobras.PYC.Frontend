@@ -1,0 +1,52 @@
+<emp-ng-card
+  [title]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Contrato">
+
+      <emp-pmt-contract-editor
+        [contract]="contractData.contract"
+        (contractEditorEvent)="onContractEditorEvent($event)">
+
+      </emp-pmt-contract-editor>
+
+    </mat-tab>
+
+    <mat-tab label="Conceptos">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Entregas">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Documentos">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Historial">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

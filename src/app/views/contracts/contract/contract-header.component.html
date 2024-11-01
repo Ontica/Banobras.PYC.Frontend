@@ -1,0 +1,210 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Área administradora:</label>
+
+        <emp-ng-select
+          formControlName="managedByOrgUnitUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="organizationalUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.managedByOrgUnitUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-size" style="--size: calc(50% - 221px)">
+
+        <label>Tipo de presupuesto:</label>
+
+        <emp-ng-select
+          formControlName="budgetTypeUID"
+          [items]="budgetTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-none">
+        <label>Fecha inicio / Fecha fin:</label>
+        <emp-ng-date-range-picker
+          formControlName="datePeriod"
+          [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
+
+        </emp-ng-date-range-picker>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Tipo de contrato:</label>
+
+        <emp-ng-select
+          formControlName="contractTypeUID"
+          [items]="contractTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.contractTypeUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Proveedor:</label>
+
+        <emp-ng-select
+          formControlName="supplierUID"
+          [items]="suppliersList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.supplierUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-quarter">
+
+        <label>No. de contrato:</label>
+
+        <input type="text" class="text-box"
+          formControlName="contractNo"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.contractNo)">
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Nombre del contrato:</label>
+
+        <input type="text" class="text-box"
+          formControlName="name"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Total:</label>
+
+        <input type="text" empNgCurrency
+          class="text-box text-align-right"
+          formControlName="total"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.total)">
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Moneda:</label>
+
+        <emp-ng-select
+          formControlName="currencyUID"
+          [items]="currenciesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <!-- *ngIf="actions.canDelete" -->
+          <button *ngIf="canEdit"
+            type="button" class="btn-warning"
+            (click)="onDeleteButtonClicked()">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+        <!-- (actions.canDelete || actions.canUpdate)" -->
+        <button *ngIf="!editionMode && canEdit"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+          <!-- *ngIf="actions.canUpdate" -->
+          <button *ngIf="canEdit"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>

@@ -7,15 +7,18 @@
 
 import { Component } from '@angular/core';
 
-import { Assertion, EventInfo } from '@app/core';
+import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
 import { ContractsDataService } from '@app/data-services';
 
-import { ContractDescriptor, ContractsQuery, EmptyContractsQuery } from '@app/models';
+import { ContractData, ContractDescriptor, ContractsQuery, EmptyContractData,
+         EmptyContractsQuery } from '@app/models';
 
 import { ContractsExplorerEventType } from '../contracts-explorer/contracts-explorer.component';
+
+import { ContractTabbedViewEventType } from '../contract-tabbed-view/contract-tabbed-view.component';
 
 @Component({
   selector: 'emp-pmt-contracts-main-page',
@@ -27,9 +30,13 @@ export class ContractsMainPageComponent {
 
   dataList: ContractDescriptor[] = [];
 
-  selectedUID = '';
+  selectedData: ContractData = EmptyContractData;
+
+  displayTabbedView = false;
 
   isLoading = false;
+
+  isLoadingSelection = false;
 
   queryExecuted = false;
 
@@ -54,7 +61,7 @@ export class ContractsMainPageComponent {
       case ContractsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.messageBox.showInDevelopment('Detalle del contrato', event.payload);
+        this.getContractData(event.payload.item.uid);
         return;
 
       case ContractsExplorerEventType.EXECUTE_OPERATION_CLICKED:
@@ -69,28 +76,41 @@ export class ContractsMainPageComponent {
   }
 
 
+  onContractTabbedViewEvent(event: EventInfo) {
+    switch (event.type as ContractTabbedViewEventType) {
+      case ContractTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyContractData);
+        return;
+
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   private searchContracts(query: ContractsQuery) {
     this.isLoading = true;
 
     this.contractsData.searchContracts(query)
       .firstValue()
-      .then(x => this.resolveSearchContracts(x))
+      .then(x => this.setContractsList(x, true))
       .finally(() => this.isLoading = false);
   }
 
 
-  private resolveSearchContracts(data: ContractDescriptor[]) {
-    this.setContractsList(data, true);
+  private getContractData(contractUID: string) {
+    this.isLoadingSelection = true;
+
+    this.contractsData.getContractData(contractUID)
+      .firstValue()
+      .then(x => this.setSelectedData(x))
+      .finally(() => this.isLoadingSelection = false);
   }
 
 
   private setQueryAndClearExplorerData(query: ContractsQuery) {
     this.query = Object.assign({}, query);
-    this.clearContractsList();
-  }
-
-
-  private clearContractsList() {
     this.setContractsList([], false);
   }
 
@@ -98,6 +118,12 @@ export class ContractsMainPageComponent {
   private setContractsList(data: ContractDescriptor[], queryExecuted: boolean = true) {
     this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
+  }
+
+
+  private setSelectedData(data: ContractData) {
+    this.selectedData = data;
+    this.displayTabbedView = !isEmpty(this.selectedData.contract);
   }
 
 }
