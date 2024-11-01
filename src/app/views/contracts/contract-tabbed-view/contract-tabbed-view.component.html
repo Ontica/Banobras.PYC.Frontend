@@ -17,17 +17,19 @@
 
     <mat-tab label="Conceptos">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-pmt-contract-items-table
+        [items]="contractData.items">
+
+      </emp-pmt-contract-items-table>
 
     </mat-tab>
 
     <mat-tab label="Entregas">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-pmt-contract-milestones-table
+        [milestones]="contractData.milestones">
+
+      </emp-pmt-contract-milestones-table>
 
     </mat-tab>
 

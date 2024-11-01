@@ -23,6 +23,8 @@ import { ContractsListHeaderComponent } from './contracts-explorer/contracts-lis
 import { ContractTabbedViewComponent } from './contract-tabbed-view/contract-tabbed-view.component';
 import { ContractEditorComponent } from './contract/contract-editor.component';
 import { ContractHeaderComponent } from './contract/contract-header.component';
+import { ContractItemsTableComponent } from './contract-items/contract-items-table.component';
+import { ContractMilestonesTableComponent } from './contract-milestones/contract-milestones-table.component';
 
 
 @NgModule({
@@ -46,6 +48,8 @@ import { ContractHeaderComponent } from './contract/contract-header.component';
     ContractTabbedViewComponent,
     ContractEditorComponent,
     ContractHeaderComponent,
+    ContractItemsTableComponent,
+    ContractMilestonesTableComponent,
   ],
   exports: [
     ContractsMainPageComponent,

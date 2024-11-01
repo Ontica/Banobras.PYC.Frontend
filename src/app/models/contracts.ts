@@ -128,26 +128,26 @@ export interface ContractItem {
   uid: string;
   contract: Identifiable;
   supplier: Identifiable;
+  budgetAccount: Identifiable;
   product: Identifiable;
+  project: Identifiable;
   description: string;
   unit: Identifiable;
   fromQuantity: number;
   toQuantity: number;
   unitPrice: number;
-  project: Identifiable;
   periodicity: Identifiable;
-  budgetAccount: Identifiable;
 }
 
 
 export interface ContractMilestone {
   uid: string;
+  managedByOrgUnit: Identifiable;
   contract: Identifiable;
+  supplier: Identifiable;
   milestoneNo: string;
   name: string;
   description: string;
-  supplier: Identifiable;
-  managedByOrgUnit: Identifiable;
   total: number;
   status: Identifiable;
   items: ContractMilestoneItem[];
