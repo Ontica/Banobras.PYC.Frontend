@@ -11,6 +11,8 @@ import { AccessControlDataService } from './_access-control.data.service';
 
 import { SearcherDataService } from './_searcher.data.service';
 
+import { BillsDataService } from './bills.data.service';
+
 import { BudgetTransactionsDataService } from './budget-transactions.data.service';
 
 import { BudgetsDataService } from './budgets.data.service';
@@ -34,6 +36,7 @@ import { StepsDataService } from './steps.data.service';
   providers: [
     AccessControlDataService,
     SearcherDataService,
+    BillsDataService,
     BudgetTransactionsDataService,
     BudgetsDataService,
     CataloguesDataService,

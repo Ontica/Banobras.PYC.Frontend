@@ -9,12 +9,13 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { ExplorerOperation } from './_explorer-data';
 
+import { Bill } from './bills';
+
 import { Document } from './documents';
 
 import { EmptyPaymentMethod, PaymentMethod } from './payments-orders';
 
 import { WorkflowHistory } from './workflows';
-
 
 
 export interface PayablesQuery {
@@ -141,16 +142,6 @@ export interface PayableItem {
   quantity: number;
   unit: string;
   total: number;
-}
-
-
-export interface Bill {
-
-}
-
-
-export interface BillItem {
-
 }
 
 

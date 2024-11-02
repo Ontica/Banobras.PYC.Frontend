@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 
 import { PaymentsWorkspaceRoutingModule } from './payments-workspace-routing.module';
 
+import { BillingModule } from '@app/views/billing/billing.module';
 import { ContractsModule } from '@app/views/contracts/contracts.module';
 import { PaymentsModule } from '@app/views/payments/payments.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
@@ -22,6 +23,7 @@ import { RequestsModule } from '@app/views/requests/requests.module';
 
     PaymentsWorkspaceRoutingModule,
 
+    BillingModule,
     ContractsModule,
     PaymentsModule,
     RequestsModule,

@@ -1,0 +1,31 @@
+<emp-ng-spinner #spinner [visible]="isLoadingSelection">
+
+</emp-ng-spinner>
+
+<div class="explorer">
+
+  <div class="primary priority" [class.std-hide]="displayTabbedView">
+
+    <emp-ng-bills-explorer
+      [query]="query"
+      [billsDataTable]="billsDataTable"
+      [selectedUID]="selectedData.bill.uid"
+      [isLoading]="isLoading"
+      [queryExecuted]="queryExecuted"
+      (billsExplorerEvent)="onBillsExplorerEvent($event)">
+
+    </emp-ng-bills-explorer>
+
+  </div>
+
+  <div class="secondary" *ngIf="displayTabbedView">
+
+    <emp-ng-bill-tabbed-view
+      [billData]="selectedData"
+      (billTabbedViewEvent)="onBillTabbedViewEvent($event)">
+
+    </emp-ng-bill-tabbed-view>
+
+  </div>
+
+</div>

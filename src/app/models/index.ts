@@ -28,6 +28,8 @@ export * from './_explorer-data';
 
 export * from './_operations-log';
 
+export * from './bills';
+
 export * from './budget-transactions';
 
 export * from './budgets';

@@ -13,6 +13,8 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
+import { BillsMainPageComponent } from '@app/views/billing/bills-main-page/bills-main-page.component';
+
 import {
   ContractsMainPageComponent
 } from '@app/views/contracts/contracts-main-page/contracts-main-page.component';
@@ -54,7 +56,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.pagos_facturas.permission },
     path: ROUTES.pagos_facturas.path,
-    component: DefaultComponent,
+    component: BillsMainPageComponent,
   },
   {
     data: { permission: ROUTES.pagos_reportes.permission },
