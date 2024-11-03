@@ -35,9 +35,12 @@
 
     <mat-tab label="Documentos">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-documents-edition
+        entityType="contracts"
+        [entityUID]="contractData.contract.uid"
+        [documents]="contractData.documents">
+
+      </emp-ng-documents-edition>
 
     </mat-tab>
 
