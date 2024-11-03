@@ -4,27 +4,8 @@
 
   </emp-ng-spinner>
 
-  <div class="fx-item-none"> <!-- *ngIf="actions.can.upploadBill" -->
-
-    <div class="fx-row-container fx-items-center">
-
-      <div class="fx-item fx-items-end fx-end">
-
-        <button type="button"
-          class="btn-action"
-          (click)="onUpploadBillClicked()">
-          {{items.length > 0 ? 'Ver factura' : 'Anexar factura'}}
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
   <emp-pmt-payable-items-table class="fx-item"
     [items]="items"
-    [canEdit]="actions.can.matchItems"
     (payableItemsTableEvent)="onPayableItemsTableEvent($event)">
 
   </emp-pmt-payable-items-table>

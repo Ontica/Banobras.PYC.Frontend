@@ -59,7 +59,7 @@ export class PayablesMainPageComponent {
       case PayableCreatorEventType.PAYABLE_CREATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         this.displayCreator = false;
-        this.insertPayableToList(event.payload.data as PayableData);
+        this.insertItemToList(event.payload.data as PayableData);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -105,11 +105,15 @@ export class PayablesMainPageComponent {
         return;
       case PayableTabbedViewEventType.PAYABLE_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
-        this.insertPayableToList(event.payload.data as PayableData);
+        this.insertItemToList(event.payload.data as PayableData);
         return;
       case PayableTabbedViewEventType.PAYABLE_DELETED:
         Assertion.assertValue(event.payload.payableUID, 'event.payload.payableUID');
-        this.removePayableFromList(event.payload.payableUID);
+        this.removeItemFromList(event.payload.payableUID);
+        return;
+      case PayableTabbedViewEventType.DOCUMENTS_UPDATED:
+        Assertion.assertValue(event.payload.payableUID, 'event.payload.payableUID');
+        this.refreshSelectedData(event.payload.payableUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -138,6 +142,11 @@ export class PayablesMainPageComponent {
   }
 
 
+  private refreshSelectedData(payableUID: string) {
+    this.getPayableData(payableUID);
+  }
+
+
   private setQueryAndClearExplorerData(query: PayablesQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
@@ -157,7 +166,7 @@ export class PayablesMainPageComponent {
   }
 
 
-  private insertPayableToList(data: PayableData) {
+  private insertItemToList(data: PayableData) {
     const dataToInsert = mapPayableDescriptorFromPayable(data);
     const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
     this.setDataList(dataListNew);
@@ -165,7 +174,7 @@ export class PayablesMainPageComponent {
   }
 
 
-  private removePayableFromList(payableUID: string) {
+  private removeItemFromList(payableUID: string) {
     const dataListNew = this.dataList.filter(x => x.uid !== payableUID);
     this.setDataList(dataListNew);
     this.setSelectedData(EmptyPayableData);

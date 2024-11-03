@@ -17,11 +17,14 @@ import { PayableEditorEventType } from '../payable/payable-editor.component';
 
 import { PayableItemsEditionEventType } from '../payable-items/payable-items-edition.component';
 
+import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+
 
 export enum PayableTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'PayableTabbedViewComponent.Event.CloseButtonClicked',
   PAYABLE_UPDATED      = 'PayableTabbedViewComponent.Event.PayableUpdated',
   PAYABLE_DELETED      = 'PayableTabbedViewComponent.Event.PayableDeleted',
+  DOCUMENTS_UPDATED    = 'PayableTabbedViewComponent.Event.DocumentsUpdated',
 }
 
 @Component({
@@ -73,6 +76,19 @@ export class PayableTabbedViewComponent implements OnChanges{
       case PayableItemsEditionEventType.ITEMS_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.PAYABLE_UPDATED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onDocumentsEditionEvent(event: EventInfo) {
+    switch (event.type as DocumentsEditionEventType) {
+      case DocumentsEditionEventType.DOCUMENTS_UPDATED:
+        const payload = { payableUID: this.payableData.payable.uid };
+        sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.DOCUMENTS_UPDATED, payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

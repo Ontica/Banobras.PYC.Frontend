@@ -40,11 +40,6 @@ export class PayableItemsEditionComponent {
   }
 
 
-  onUpploadBillClicked() {
-
-  }
-
-
   onPayableItemsTableEvent(event: EventInfo) {
     if (this.submitted) {
       return;
