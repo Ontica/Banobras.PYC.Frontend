@@ -20,10 +20,11 @@ export enum FileTypeAccepted {
   csv = '.csv, text/csv',
   image = 'image/*',
   txt = 'text/plain',
+  xml = 'application/xml, text/xml',
 }
 
 
-export type FileType = 'all' | 'pdf' | 'excel' | 'csv' | 'txt' | 'image';
+export type FileType = 'all' | 'pdf' | 'excel' | 'csv' | 'txt' | 'image' | 'xml';
 
 
 export interface FileControlConfig {
