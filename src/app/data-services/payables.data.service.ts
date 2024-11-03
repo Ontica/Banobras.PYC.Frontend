@@ -71,4 +71,13 @@ export class PayablesDataService {
     return this.http.delete<void>(path);
   }
 
+
+  generatePaymentOrder(payableUID: string): EmpObservable<PayableData> {
+    Assertion.assertValue(payableUID, 'payableUID');
+
+    const path = `v2/payments-management/payables/${payableUID}/payment-instruction`;
+
+    return this.http.post<PayableData>(path);
+  }
+
 }

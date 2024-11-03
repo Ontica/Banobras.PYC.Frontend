@@ -60,7 +60,10 @@ export class PayableEditorComponent {
         this.updatePayable(this.payable.uid, event.payload.payableFields as PayableFields);
         return;
       case PayableHeaderEventType.DELETE_PAYABLE:
-        this.deleteRequest(this.payable.uid);
+        this.deletePayable(this.payable.uid);
+        return;
+      case PayableHeaderEventType.GENERATE_PAYMENT_ORDER:
+        this.generatePaymentOrder(this.payable.uid);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -79,12 +82,22 @@ export class PayableEditorComponent {
   }
 
 
-  private deleteRequest(payableUID: string) {
+  private deletePayable(payableUID: string) {
     this.submitted = true;
 
     this.payableData.deletePayable(payableUID)
       .firstValue()
       .then(() => this.resolvePayableDeleted(payableUID))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private generatePaymentOrder(payableUID: string) {
+    this.submitted = true;
+
+    this.payableData.generatePaymentOrder(payableUID)
+      .firstValue()
+      .then(x => this.resolvePayableUpdated(x))
       .finally(() => this.submitted = false);
   }
 

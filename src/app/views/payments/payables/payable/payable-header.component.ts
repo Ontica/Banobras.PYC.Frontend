@@ -34,9 +34,10 @@ import { BudgetType, EmptyPayable, EmptyPayableActions, EmptyPayableEntity, Paya
 
 
 export enum PayableHeaderEventType {
-  CREATE_PAYABLE = 'PayableHeaderComponent.Event.CreatePayable',
-  UPDATE_PAYABLE = 'PayableHeaderComponent.Event.UpdatePayable',
-  DELETE_PAYABLE = 'PayableHeaderComponent.Event.DeletePayable',
+  CREATE_PAYABLE         = 'PayableHeaderComponent.Event.CreatePayable',
+  UPDATE_PAYABLE         = 'PayableHeaderComponent.Event.UpdatePayable',
+  DELETE_PAYABLE         = 'PayableHeaderComponent.Event.DeletePayable',
+  GENERATE_PAYMENT_ORDER = 'PayableHeaderComponent.Event.GeneratePaymentOrder',
 }
 
 interface PayableFormModel extends FormGroup<{
@@ -128,7 +129,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
 
   get hasActions(): boolean {
-    return Object.values(this.actions.can).some(x => !!x);
+    return this.actions.canUpdate || this.actions.canDelete || this.actions.canGeneratePaymentOrder;
   }
 
 
@@ -189,6 +190,11 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   onDeleteButtonClicked() {
     this.showConfirmMessage(PayableHeaderEventType.DELETE_PAYABLE);
+  }
+
+
+  onGeneratePaymentOrderButtonClicked() {
+    this.showConfirmMessage(PayableHeaderEventType.GENERATE_PAYMENT_ORDER);
   }
 
 
@@ -316,7 +322,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   private validateFormDisabled() {
     setTimeout(() => {
-      const disable = this.isSaved && (!this.editionMode || !this.actions.can.update);
+      const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
       this.formHelper.setDisableForm(this.form, disable);
       if (!disable) {
         this.validatePayableEntityDisabled();
@@ -376,6 +382,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
   private getConfirmTitle(eventType: PayableHeaderEventType): string {
     switch (eventType) {
       case PayableHeaderEventType.DELETE_PAYABLE: return 'Eliminar obligación de pago';
+      case PayableHeaderEventType.GENERATE_PAYMENT_ORDER: return 'Generar orden de pago';
       default: return '';
     }
   }
@@ -386,9 +393,13 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
       case PayableHeaderEventType.DELETE_PAYABLE:
         return `Esta operación eliminará la obligación de pago <strong>${this.payable.payableNo}</strong> ` +
                `solicitada por ${this.payable.requestedBy.name} con documento relacionado ` +
-               `<strong>${this.payable.payableType.name}: ${this.payableEntity.entityNo}</strong>.
+               `<strong>${this.payable.payableType.name}: ${this.payableEntity.entityNo}</strong>.` +
+               `<br><br>¿Elimino la obligación de pago?`;
 
-                <br><br>¿Elimino la obligación de pago?`;
+      case PayableHeaderEventType.GENERATE_PAYMENT_ORDER:
+        return `Esta operación generará la orden de pago ` +
+               `para la obligación de pago <strong>${this.payable.payableNo}</strong> ` +
+               `<br><br>¿Genero la orden de pago?`;
 
       default: return '';
     }

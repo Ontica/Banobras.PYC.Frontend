@@ -186,7 +186,7 @@
 
         <ng-container *ngIf="editionMode">
 
-          <button *ngIf="actions.can.delete"
+          <button *ngIf="actions.canDelete"
             type="button" class="btn-warning"
             (click)="onDeleteButtonClicked()">
             Eliminar
@@ -196,13 +196,19 @@
 
         <ng-container *ngIf="!editionMode">
 
+          <button *ngIf="actions.canGeneratePaymentOrder"
+            type="button" class="btn"
+            (click)="onGeneratePaymentOrderButtonClicked()">
+            Generar orden de pago
+          </button>
+
         </ng-container>
 
       </div>
 
       <div class="fx-item fx-end fx-items-center">
 
-        <button *ngIf="!editionMode && (actions.can.delete || actions.can.update)"
+        <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
           class="btn-action"
           (click)="enableEditor(true)">
           Editar
@@ -210,7 +216,7 @@
 
         <ng-container *ngIf="editionMode">
 
-          <button *ngIf="actions.can.update"
+          <button *ngIf="actions.canUpdate"
             [class.btn]="!formHelper.isFormReady(form)"
             [class.btn-action]="formHelper.isFormReady(form)"
             (click)="onSubmitButtonClicked()">
