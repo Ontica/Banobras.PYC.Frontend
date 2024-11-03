@@ -29,9 +29,12 @@
 
     <mat-tab label="Documentos">
 
-      <div class="instruction-text">
-        No se han agregado documentos a la solicitud.
-      </div>
+      <emp-ng-documents-edition
+        entityType="requests"
+        [entityUID]="requestData.request.uid"
+        [documents]="requestData.documents">
+
+      </emp-ng-documents-edition>
 
     </mat-tab>
 
