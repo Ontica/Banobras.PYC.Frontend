@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
+import { DocumentsModule } from '../documents/documents.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
 import { BillsMainPageComponent } from './bills-main-page/bills-main-page.component';
@@ -29,6 +30,7 @@ import { BillsFilterComponent } from './bills-explorer/bills-filter.component';
     AngularMaterialModule,
     SharedModule,
 
+    DocumentsModule,
     ReportsControlsModule,
   ],
   declarations: [
