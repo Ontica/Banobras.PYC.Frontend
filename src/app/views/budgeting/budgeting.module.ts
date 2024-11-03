@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
+import { DocumentsModule } from '../documents/documents.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
 import { BudgetMainPageComponent } from './budgets/budget-main-page/budget-main-page.component';
@@ -61,6 +62,7 @@ import {
     AngularMaterialModule,
     SharedModule,
 
+    DocumentsModule,
     ReportsControlsModule,
   ],
   declarations: [
