@@ -21,6 +21,8 @@ import { CataloguesDataService } from './catalogues.data.service';
 
 import { ContractsDataService } from './contracts.data.service';
 
+import { DocumentsDataService } from './documents.data.service';
+
 import { PayablesDataService } from './payables.data.service';
 
 import { PaymentOrdersDataService } from './payment-orders.data.service';
@@ -41,6 +43,7 @@ import { StepsDataService } from './steps.data.service';
     BudgetsDataService,
     CataloguesDataService,
     ContractsDataService,
+    DocumentsDataService,
     PayablesDataService,
     PaymentOrdersDataService,
     ProductsDataService,
