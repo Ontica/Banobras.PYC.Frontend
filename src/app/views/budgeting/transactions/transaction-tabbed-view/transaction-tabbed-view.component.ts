@@ -19,11 +19,14 @@ import {
   TransactionEntriesEditionEventType
 } from '../transaction-entries/transaction-entries-edition.component';
 
+import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+
 
 export enum TransactionTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'TransactionTabbedViewComponent.Event.CloseButtonClicked',
   DATA_UPDATED         = 'TransactionTabbedViewComponent.Event.DataUpdated',
   DATA_DELETED         = 'TransactionTabbedViewComponent.Event.DataDeleted',
+  REFRESH_DATA         = 'TransactionTabbedViewComponent.Event.RefreshData',
 }
 
 @Component({
@@ -77,7 +80,20 @@ export class TransactionTabbedViewComponent implements OnChanges {
       case TransactionEntriesEditionEventType.UPDATED:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
         sendEvent(this.transactionTabbedViewEvent,
-          TransactionTabbedViewEventType.TRANSACTION_UPDATED, event.payload);
+          TransactionTabbedViewEventType.DATA_UPDATED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onDocumentsEditionEvent(event: EventInfo) {
+    switch (event.type as DocumentsEditionEventType) {
+      case DocumentsEditionEventType.DOCUMENTS_UPDATED:
+        const payload = { transactionUID: this.data.transaction.uid };
+        sendEvent(this.transactionTabbedViewEvent, TransactionTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

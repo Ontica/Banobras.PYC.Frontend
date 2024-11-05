@@ -145,6 +145,7 @@ export interface BudgetTransactionActions {
   canUpdate: boolean;
   canDelete: boolean;
   canAuthorize: boolean;
+  canEditDocuments: boolean;
 }
 
 
@@ -216,6 +217,7 @@ export const EmptyBudgetTransactionActions: BudgetTransactionActions = {
   canUpdate: false,
   canDelete: false,
   canAuthorize: false,
+  canEditDocuments: false,
 }
 
 

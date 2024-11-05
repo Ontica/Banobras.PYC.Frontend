@@ -9,12 +9,15 @@ import { Component } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
+import { ArrayLibrary } from '@app/shared/utils';
+
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
 import { BudgetTransactionsDataService } from '@app/data-services';
 
 import { BudgetTransactionData, BudgetTransactionDescriptor, BudgetTransactionsQuery,
-         EmptyBudgetTransactionData, EmptyBudgetTransactionsQuery } from '@app/models';
+         EmptyBudgetTransactionData, EmptyBudgetTransactionsQuery,
+         mapTransactionDescriptorFromTransaction } from '@app/models';
 
 import { TransactionsExplorerEventType } from '../transactions-explorer/transactions-explorer.component';
 
@@ -86,6 +89,10 @@ export class TransactionsMainPageComponent {
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
 
         return;
+      case TransactionTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
+        this.refreshSelectedData(event.payload.transactionUID);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -110,6 +117,11 @@ export class TransactionsMainPageComponent {
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
+  }
+
+
+  private refreshSelectedData(transactionUID: string) {
+    this.getTransactionData(transactionUID);
   }
 
 

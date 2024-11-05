@@ -31,7 +31,9 @@
       <emp-ng-documents-edition
         entityType="transactions"
         [entityUID]="data.transaction.uid"
-        [documents]="data.documents">
+        [documents]="data.documents"
+        [canEdit]="data.actions.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
 
       </emp-ng-documents-edition>
 
