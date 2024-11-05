@@ -7,34 +7,30 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AngularMaterialModule } from '@app/shared/angular-material.module';
+import { ContractsWorkspaceRoutingModule } from './contracts-workspace-routing.module';
 
-import { SharedModule } from '@app/shared/shared.module';
-
-import { CataloguesAndRulesWorkspaceRoutingModule } from './catalogues-and-rules-workspace-routing.module';
-
+import { ContractsModule } from '@app/views/contracts/contracts.module';
+import { RequestsModule } from '@app/views/requests/requests.module';
 import { ProductsModule } from '@app/views/products/products.module';
 
 import { ProductsMainPageComponent } from './products-main-page/products-main-page.component';
 
 
 @NgModule({
+
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AngularMaterialModule,
-    SharedModule,
 
-    CataloguesAndRulesWorkspaceRoutingModule,
+    ContractsWorkspaceRoutingModule,
 
+    ContractsModule,
+    RequestsModule,
     ProductsModule,
   ],
-
   declarations: [
     ProductsMainPageComponent
   ],
+
 })
-export class CataloguesAndRulesWorkspaceModule { }
+export class ContractsWorkspaceModule { }

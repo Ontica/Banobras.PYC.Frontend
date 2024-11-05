@@ -51,13 +51,13 @@ const routes: Routes = [
       .then((m) => m.CashFlowWorkspaceModule)
   },
   {
-    data: { permission: ROUTES.reglas_y_catalogos.permission },
-    path: ROUTES.reglas_y_catalogos.path,
+    data: { permission: ROUTES.contratos.permission },
+    path: ROUTES.contratos.path,
     component: MainLayoutComponent,
     canActivate: [ParentRouteGuard],
     canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/catalogues-and-rules/catalogues-and-rules-workspace.module')
-      .then((m) => m.CataloguesAndRulesWorkspaceModule)
+    loadChildren: () => import('./workspaces/contracts/contracts-workspace.module')
+      .then((m) => m.ContractsWorkspaceModule)
   },
   {
     data: { permission: ROUTES.administracion.permission },

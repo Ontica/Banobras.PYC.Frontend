@@ -40,11 +40,11 @@ export const ROUTES = {
     fullpath: '/flujo-de-efectivo',
   },
 
-  reglas_y_catalogos: {
+  contratos: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: '',
-    path: 'reglas-y-catalogos',
-    fullpath: '/reglas-y-catalogos',
+    path: 'contratos',
+    fullpath: '/contratos',
   },
 
   administracion: {
@@ -166,13 +166,6 @@ export const ROUTES = {
     fullpath: '/pagos/obligaciones-de-pago',
   },
 
-  pagos_contratos: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos',
-    path: 'contratos',
-    fullpath: '/pagos/contratos',
-  },
-
   pagos_facturas: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'pagos',
@@ -189,7 +182,7 @@ export const ROUTES = {
 
   // #endregion
 
-  // #region reporting-routing module
+  // #region cashflow-routing module
 
   flujo_de_efectivo_codificacion: {
     permission: PERMISSIONS.NOT_REQUIRED,
@@ -214,44 +207,51 @@ export const ROUTES = {
 
   //#endregion
 
-  // #region catalogues-and-rules-routing module
+  // #region contracts-routing module
 
-  reglas_y_catalogos_conceptos_presupuestales: {
+  contratos_solicitudes: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'reglas-y-catalogos',
-    path: 'conceptos-presupuestales',
-    fullpath: '/reglas-y-catalogos/conceptos-presupuestales',
+    parent: 'contratos',
+    path: 'solicitudes',
+    fullpath: '/contratos/solicitudes',
   },
 
-  reglas_y_catalogos_reglas_contabilizadoras: {
+  contratos_explorador: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'reglas-y-catalogos',
-    path: 'reglas-contabilizadoras',
-    fullpath: '/reglas-y-catalogos/reglas-contabilizadoras',
+    parent: 'contratos',
+    path: 'explorador',
+    fullpath: '/contratos/explorador',
   },
 
-  reglas_y_catalogos_valores_externos: {
+  contratos_entregas: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'reglas-y-catalogos',
-    path: 'valores-externos',
-    fullpath: '/reglas-y-catalogos/valores-externos',
+    parent: 'contratos',
+    path: 'entregas',
+    fullpath: '/contratos/entregas',
   },
 
-  reglas_y_catalogos_productos: {
+  contratos_proveedores: {
     permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'reglas-y-catalogos',
-    path: 'productos',
-    fullpath: '/reglas-y-catalogos/productos',
-  },
-
-  reglas_y_catalogos_proveedores: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'reglas-y-catalogos',
+    parent: 'contratos',
     path: 'proveedores',
-    fullpath: '/reglas-y-catalogos/proveedores',
+    fullpath: '/contratos/proveedores',
   },
 
-  // #endregion
+  contratos_productos: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'contratos',
+    path: 'productos',
+    fullpath: '/contratos/productos',
+  },
+
+  contratos_reportes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'contratos',
+    path: 'reportes',
+    fullpath: '/contratos/reportes',
+  },
+
+  //#endregion
 
   // #region system-management-routing module
 

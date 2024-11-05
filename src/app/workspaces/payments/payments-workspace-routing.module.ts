@@ -49,11 +49,6 @@ const routes: Routes = [
     component: PayablesMainPageComponent,
   },
   {
-    data: { permission: ROUTES.pagos_contratos.permission },
-    path: ROUTES.pagos_contratos.path,
-    component: ContractsMainPageComponent,
-  },
-  {
     data: { permission: ROUTES.pagos_facturas.permission },
     path: ROUTES.pagos_facturas.path,
     component: BillsMainPageComponent,

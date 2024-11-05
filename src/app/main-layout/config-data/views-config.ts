@@ -110,13 +110,6 @@ export const PaymentsViews: View[] = [
     permission: ROUTES.pagos_obligaciones_de_pago.permission,
   },
   {
-    name: 'Payments.Contracts',
-    title: 'Contratos',
-    menuTitle: 'Contratos',
-    url: ROUTES.pagos_contratos.fullpath,
-    permission: ROUTES.pagos_contratos.permission,
-  },
-  {
     name: 'Payments.Invoices',
     title: 'Facturas',
     menuTitle: 'Facturas',
@@ -157,36 +150,47 @@ export const CashFlowViews: View[] = [
 ];
 
 
-export const CataloguesAndRulesViews: View[] = [
+export const ContractsViews: View[] = [
   {
-    name: 'CataloguesAndRules.BudgetConcepts',
-    title: 'Conceptos presupuestales',
-    url: ROUTES.reglas_y_catalogos_conceptos_presupuestales.fullpath,
-    permission: ROUTES.reglas_y_catalogos_conceptos_presupuestales.permission,
+    name: 'Contracts.Requests',
+    title: 'Solicitudes',
+    menuTitle: 'Solicitudes',
+    url: ROUTES.contratos_solicitudes.fullpath,
+    permission: ROUTES.contratos_solicitudes.permission,
   },
   {
-    name: 'CataloguesAndRules.AccountingRules',
-    title: 'Reglas contabilizadoras',
-    url: ROUTES.reglas_y_catalogos_reglas_contabilizadoras.fullpath,
-    permission: ROUTES.reglas_y_catalogos_reglas_contabilizadoras.permission,
+    name: 'Contracts.Explorer',
+    title: 'Explorador',
+    menuTitle: 'Explorador',
+    url: ROUTES.contratos_explorador.fullpath,
+    permission: ROUTES.contratos_explorador.permission,
   },
   {
-    name: 'CataloguesAndRules.ExternalVariables',
-    title: 'Valores externos',
-    url: ROUTES.reglas_y_catalogos_valores_externos.fullpath,
-    permission: ROUTES.reglas_y_catalogos_valores_externos.permission,
+    name: 'Contracts.Milestones',
+    title: 'Entregas',
+    menuTitle: 'Entregas',
+    url: ROUTES.contratos_entregas.fullpath,
+    permission: ROUTES.contratos_entregas.permission,
   },
   {
-    name: 'CataloguesAndRules.Products',
+    name: 'Contracts.Products',
     title: 'Productos',
-    url: ROUTES.reglas_y_catalogos_productos.fullpath,
-    permission: ROUTES.reglas_y_catalogos_productos.permission,
+    url: ROUTES.contratos_productos.fullpath,
+    permission: ROUTES.contratos_productos.permission,
   },
   {
-    name: 'CataloguesAndRules.Suppliers',
+    name: 'Contracts.Suppliers',
     title: 'Proveedores',
-    url: ROUTES.reglas_y_catalogos_proveedores.fullpath,
-    permission: ROUTES.reglas_y_catalogos_proveedores.permission,
+    menuTitle: 'Proveedores',
+    url: ROUTES.contratos_proveedores.fullpath,
+    permission: ROUTES.contratos_proveedores.permission,
+  },
+  {
+    name: 'Contracts.Reporting',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.contratos_reportes.fullpath,
+    permission: ROUTES.contratos_reportes.permission,
   },
 ];
 

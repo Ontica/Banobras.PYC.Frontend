@@ -12,19 +12,19 @@ import { View, Layout } from '../common-models/common';
 import {
   UnauthorizedViews,
   SystemManagementViews,
-  CataloguesAndRulesViews,
   StepsViews,
   BudgetViews,
   CashFlowViews,
+  ContractsViews,
   PaymentsViews,
 } from './views-config';
 
 
 export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
-                                                          CataloguesAndRulesViews,
                                                           StepsViews,
                                                           BudgetViews,
                                                           CashFlowViews,
+                                                          ContractsViews,
                                                           PaymentsViews);
 
 
@@ -54,6 +54,14 @@ export const APP_LAYOUTS: Layout[] = [
     permission: ROUTES.flujo_de_efectivo.permission,
   },
   {
+    name: 'Contracts',
+    views: ContractsViews,
+    hint: 'Contratos',
+    defaultTitle: 'Contratos',
+    url: ROUTES.contratos.fullpath,
+    permission: ROUTES.contratos.permission,
+  },
+  {
     name: 'Payments',
     views: PaymentsViews,
     hint: 'Pagos',
@@ -61,14 +69,6 @@ export const APP_LAYOUTS: Layout[] = [
     url: ROUTES.pagos.fullpath,
     permission: ROUTES.pagos.permission,
 
-  },
-  {
-    name: 'CataloguesAndRules',
-    views: CataloguesAndRulesViews,
-    hint: 'Reglas y catálogos',
-    defaultTitle: 'Reglas y catálogos',
-    url: ROUTES.reglas_y_catalogos.fullpath,
-    permission: ROUTES.reglas_y_catalogos.permission,
   },
   {
     name: 'Management',
