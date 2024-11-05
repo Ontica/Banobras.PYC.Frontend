@@ -56,12 +56,12 @@ export interface DocumentProduct {
 
 export function getEntityModule(entityType: DocumentsEntityTypes): string {
   switch (entityType) {
-    case 'bills': return 'billing-management/bills';
-    case 'contracts': return 'contracts';
-    case 'payables': return 'payments-management/payables';
-    case 'payments-orders': return 'payments-management/payment-orders';
-    case 'requests': return 'budgeting/transactions';
-    case 'transactions': return 'payments-management/payment-orders';
+    case 'bills': return 'v2/billing-management/bills';
+    case 'contracts': return 'v2/contracts';
+    case 'payables': return 'v2/payments-management/payables';
+    case 'payments-orders': return 'v2/payments-management/payment-orders';
+    case 'requests': return 'v4/requests';
+    case 'transactions': return 'v2/budgeting/transactions';
     default: return '';
   }
 }

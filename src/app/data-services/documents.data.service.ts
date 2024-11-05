@@ -38,7 +38,7 @@ export class DocumentsDataService {
     formData.append('document', JSON.stringify(dataFields));
     formData.append('media', file);
 
-    const path = `v2/${getEntityModule(entityType)}/${entityUID}/documents`;
+    const path = `${getEntityModule(entityType)}/${entityUID}/documents`;
 
     return this.http.post<Document>(path, formData);
   }
@@ -49,7 +49,7 @@ export class DocumentsDataService {
     Assertion.assertValue(entityUID, 'entityUID');
     Assertion.assertValue(documentUID, 'documentUID');
 
-    const path = `v2/${getEntityModule(entityType)}/${entityUID}/documents/${documentUID}`;
+    const path = `${getEntityModule(entityType)}/${entityUID}/documents/${documentUID}`;
 
     return this.http.delete<void>(path);
   }
