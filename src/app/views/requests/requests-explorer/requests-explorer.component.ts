@@ -36,9 +36,9 @@ export class RequestsExplorerComponent implements OnChanges {
 
   @Input() query: RequestQuery = Object.assign({}, EmptyRequestQuery);
 
-  @Input() requestDataList: RequestDescriptor[] = [];
+  @Input() dataList: RequestDescriptor[] = [];
 
-  @Input() selectedRequestUID = '';
+  @Input() selectedUID = '';
 
   @Input() isLoading = false;
 
@@ -54,7 +54,7 @@ export class RequestsExplorerComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.requestDataList) {
+    if (changes.dataList) {
       this.setText();
       this.showFilters = false;
     }
@@ -114,7 +114,7 @@ export class RequestsExplorerComponent implements OnChanges {
       return;
     }
 
-    this.cardHint = `${this.requestDataList.length} registros encontrados`;
+    this.cardHint = `${this.dataList.length} registros encontrados`;
   }
 
 }

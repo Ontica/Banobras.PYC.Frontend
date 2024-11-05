@@ -9,7 +9,7 @@
 
       <emp-pyc-request-editor
         [requestsList]="requestsList"
-        [request]="requestData.request"
+        [request]="data.request"
         (requestEditorEvent)="onRequestEditorEvent($event)">
 
       </emp-pyc-request-editor>
@@ -20,7 +20,7 @@
 
       <emp-pyc-request-steps-edition
         [requestsList]="requestsList"
-        [requestData]="requestData"
+        [requestData]="data"
         (requestStepsEditionEvent)="onRequestStepsEditionEvent($event)">
 
       </emp-pyc-request-steps-edition>
@@ -31,8 +31,10 @@
 
       <emp-ng-documents-edition
         entityType="requests"
-        [entityUID]="requestData.request.uid"
-        [documents]="requestData.documents">
+        [entityUID]="data.request.uid"
+        [documents]="data.documents"
+        [canEdit]="data.request.actions.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
 
       </emp-ng-documents-edition>
 

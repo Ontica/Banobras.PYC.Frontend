@@ -34,9 +34,9 @@ export class RequestsListComponent implements OnChanges {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-  @Input() requestDataList: RequestDescriptor[] = [];
+  @Input() dataList: RequestDescriptor[] = [];
 
-  @Input() selectedRequestUID = '';
+  @Input() selectedUID = '';
 
   @Input() queryExecuted = false;
 
@@ -48,7 +48,7 @@ export class RequestsListComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.requestDataList) {
+    if (changes.dataList) {
       this.scrollToTop();
       this.selection.clear();
     }
@@ -56,7 +56,7 @@ export class RequestsListComponent implements OnChanges {
 
 
   isSelected(request: RequestDescriptor) {
-    return (this.selectedRequestUID === request.uid);
+    return (this.selectedUID === request.uid);
   }
 
 

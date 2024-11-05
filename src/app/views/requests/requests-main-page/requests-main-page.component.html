@@ -9,8 +9,8 @@
     <emp-pyc-requests-explorer
       [requestsList]="requestsList"
       [query]="query"
-      [requestDataList]="requestDataList"
-      [selectedRequestUID]="selectedRequest.request.uid"
+      [dataList]="dataList"
+      [selectedUID]="selectedData.request.uid"
       [isLoading]="isLoading"
       [queryExecuted]="queryExecuted"
       (requestsExplorerEvent)="onRequestsExplorerEvent($event)">
@@ -23,7 +23,7 @@
 
     <emp-pyc-request-tabbed-view
       [requestsList]="requestsList"
-      [requestData]="selectedRequest"
+      [data]="selectedData"
       (requestTabbedViewEvent)="onRequestTabbedViewEvent($event)">
 
     </emp-pyc-request-tabbed-view>

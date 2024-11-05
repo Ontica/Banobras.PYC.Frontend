@@ -1,7 +1,7 @@
 
 <div class="fx-column-container-fill">
 
-  <emp-ng-list-controls *ngIf="requestDataList.length > 0 && selection.selected.length > 0"
+  <emp-ng-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
     class="fx-item-none"
     [config]="{itemsPronouns: 'las', itemsName: 'solicitudes', selectionMessage: 'seleccionadas'}"
     [selection]="selection"
@@ -11,7 +11,7 @@
   </emp-ng-list-controls>
 
   <emp-pyc-requests-list-header class="fx-item-none"
-    [requestDataList]="requestDataList"
+    [dataList]="dataList"
     [selection]="selection">
 
   </emp-pyc-requests-list-header>
@@ -20,7 +20,7 @@
 
     <cdk-virtual-scroll-viewport itemSize="80">
 
-        <div *cdkVirtualFor="let request of requestDataList"
+        <div *cdkVirtualFor="let request of dataList"
           class="list-item"
           [class.list-item-selected]="isSelected(request)"
           [style.min-height.px]="80">
@@ -38,7 +38,7 @@
 
         </div>
 
-        <div *ngIf="requestDataList.length === 0" class="text-not-found">
+        <div *ngIf="dataList.length === 0" class="text-not-found">
           {{ queryExecuted ?
              'No se encontraron solicitudes con el filtro proporcionado.' :
              'No se ha invocado la búsqueda de solicitudes.' }}

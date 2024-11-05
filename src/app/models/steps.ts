@@ -9,7 +9,7 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { PositioningRule } from './edition-command';
 
-import { EmptyWorkflowActions } from './requests';
+import { EmptyWorkflowActions } from './workflows';
 
 import { WorkflowActions } from './workflows';
 

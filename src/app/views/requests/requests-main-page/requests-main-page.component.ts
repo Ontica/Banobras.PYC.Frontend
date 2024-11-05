@@ -43,9 +43,9 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
   query: RequestQuery = Object.assign({}, EmptyRequestQuery);
 
-  requestDataList: RequestDescriptor[] = [];
+  dataList: RequestDescriptor[] = [];
 
-  selectedRequest: RequestData = EmptyRequestData;
+  selectedData: RequestData = EmptyRequestData;
 
   displayTabbedView = false;
 
@@ -125,15 +125,19 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   onRequestTabbedViewEvent(event: EventInfo) {
     switch (event.type as RequestTabbedViewEventType) {
       case RequestTabbedViewEventType.CLOSE_BUTTON_CLICKED:
-        this.clearSelectedRequest();
+        this.clearSelectedData();
         return;
-      case RequestTabbedViewEventType.REQUEST_UPDATED:
+      case RequestTabbedViewEventType.DATA_UPDATED:
         Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
-        this.resolveRequestUpdated(event.payload.requestUID);
+        this.refreshSelectedData(event.payload.requestUID);
         return;
-      case RequestTabbedViewEventType.REQUEST_DELETED:
+      case RequestTabbedViewEventType.DATA_DELETED:
         Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
-        this.resolveRequestRemoved(event.payload.requestUID);
+        this.removeItemFromList(event.payload.requestUID);
+        return;
+      case RequestTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
+        this.refreshSelectedData(event.payload.requestUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -153,7 +157,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
     this.requestService.searchRequests(query)
       .firstValue()
-      .then(x => this.resolveSearchRequests(x))
+      .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
   }
 
@@ -168,35 +172,30 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private resolveSearchRequests(data: RequestDescriptor[]) {
-    this.setRequestDataList(data, true);
-  }
-
-
   private resolveGetRequest(request: RequestData, refresh: boolean = false) {
-    this.setSelectedRequest(request);
+    this.setSelectedData(request);
 
     if (refresh) {
-      this.addRequestToRequestDataList(request);
+      this.insertItemToList(request);
     }
   }
 
 
   private resolveRequestCreated(request: RequestData) {
-    this.addRequestToRequestDataList(request);
-    this.setSelectedRequest(request);
+    this.insertItemToList(request);
+    this.setSelectedData(request);
   }
 
 
-  private resolveRequestUpdated(requestUID: string) {
+  private refreshSelectedData(requestUID: string) {
     this.getRequest(requestUID, true);
   }
 
 
-  private resolveRequestRemoved(requestUID: string) {
-    const data = this.requestDataList.filter(x => x.uid !== requestUID);
-    this.setRequestDataList(data, true);
-    this.clearSelectedRequest();
+  private removeItemFromList(requestUID: string) {
+    const data = this.dataList.filter(x => x.uid !== requestUID);
+    this.setDataList(data, true);
+    this.clearSelectedData();
   }
 
 
@@ -217,37 +216,37 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
   private setQueryAndClearExplorerData(query: RequestQuery) {
     this.query = Object.assign({}, query);
-    this.clearRequestDataList();
-    this.clearSelectedRequest();
+    this.clearDataList();
+    this.clearSelectedData();
   }
 
 
-  private setRequestDataList(data: RequestDescriptor[], queryExecuted: boolean = true) {
-    this.requestDataList = data ?? [];
+  private setDataList(data: RequestDescriptor[], queryExecuted: boolean = true) {
+    this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
   }
 
 
-  private setSelectedRequest(data: RequestData) {
-    this.selectedRequest = data;
-    this.displayTabbedView = !isEmpty(this.selectedRequest.request);
+  private setSelectedData(data: RequestData) {
+    this.selectedData = data;
+    this.displayTabbedView = !isEmpty(this.selectedData.request);
   }
 
 
-  private addRequestToRequestDataList(data: RequestData) {
-    const newRequest = mapRequestDescriptorFromRequest(data.request);
-    const newRequestDataList = ArrayLibrary.insertItemTop(this.requestDataList, newRequest, 'uid');
-    this.setRequestDataList(newRequestDataList, true);
+  private insertItemToList(data: RequestData) {
+    const dataToInsert = mapRequestDescriptorFromRequest(data.request);
+    const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
+    this.setDataList(dataListNew, true);
   }
 
 
-  private clearRequestDataList() {
-    this.setRequestDataList([], false);
+  private clearDataList() {
+    this.setDataList([], false);
   }
 
 
-  private clearSelectedRequest() {
-    this.setSelectedRequest(EmptyRequestData);
+  private clearSelectedData() {
+    this.setSelectedData(EmptyRequestData);
   }
 
 }

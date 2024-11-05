@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Identifiable } from "@app/core";
+import { Identifiable } from '@app/core';
 
 
 export interface WorkflowInstance {
@@ -28,6 +28,7 @@ export interface WorkflowActions {
   canComplete: boolean;
   canDelete: boolean;
   canInsertWorkItems: boolean;
+  canEditDocuments: boolean;
 }
 
 
@@ -43,3 +44,16 @@ export const WorkflowGroupsList: Identifiable[] = [
   { uid: WorkflowGroups.deadline, name: 'Fecha límite' },
   { uid: WorkflowGroups.process,  name: 'Proceso' },
 ];
+
+
+export const EmptyWorkflowActions: WorkflowActions = {
+  canUpdate: false,
+  canStart: false,
+  canCancel: false,
+  canDelete: false,
+  canSuspend: false,
+  canActivate: false,
+  canComplete: false,
+  canInsertWorkItems: false,
+  canEditDocuments: false,
+};

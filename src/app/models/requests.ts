@@ -11,7 +11,7 @@ import { DataField, InputData } from './_dynamic-form-fields';
 
 import { ExplorerOperation } from './_explorer-data';
 
-import { WorkflowActions, WorkflowHistory, WorkflowInstance } from './workflows';
+import { EmptyWorkflowActions, WorkflowActions, WorkflowHistory, WorkflowInstance } from './workflows';
 
 import { Document } from './documents';
 
@@ -163,18 +163,6 @@ export const EmptyRequestDescriptor: RequestDescriptor = {
   startTime: '',
   endTime: '',
   status: '',
-};
-
-
-export const EmptyWorkflowActions: WorkflowActions = {
-  canUpdate: false,
-  canStart: false,
-  canCancel: false,
-  canDelete: false,
-  canSuspend: false,
-  canActivate: false,
-  canComplete: false,
-  canInsertWorkItems: false,
 };
 
 
