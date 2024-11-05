@@ -15,6 +15,10 @@ import { EmptyPaymentOrderData, PaymentOrderData } from '@app/models';
 
 import { PaymentOrderEditorEventType } from '../payment-order/payment-order-editor.component';
 
+import {
+  DocumentsEditionEventType
+} from '@app/views/documents/documents-edition/documents-edition.component';
+
 
 export enum PaymentOrderTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'PaymentOrderTabbedViewComponent.Event.CloseButtonClicked',
@@ -56,6 +60,19 @@ export class PaymentOrderTabbedViewComponent implements OnChanges {
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         sendEvent(this.paymentOrderTabbedViewEvent,
           PaymentOrderTabbedViewEventType.DATA_UPDATED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onDocumentsEditionEvent(event: EventInfo) {
+    switch (event.type as DocumentsEditionEventType) {
+      case DocumentsEditionEventType.DOCUMENTS_UPDATED:
+        const payload = { paymentOrderUID: this.data.paymentOrder.uid };
+        sendEvent(this.paymentOrderTabbedViewEvent, PaymentOrderTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

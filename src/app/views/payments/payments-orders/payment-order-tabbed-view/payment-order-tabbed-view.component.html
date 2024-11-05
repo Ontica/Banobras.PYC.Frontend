@@ -18,9 +18,14 @@
 
     <mat-tab label="Documentos">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-documents-edition
+        entityType="payments-orders"
+        [entityUID]="data.paymentOrder.uid"
+        [documents]="data.documents"
+        [canEdit]="data.actions.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+
+      </emp-ng-documents-edition>
 
     </mat-tab>
 
