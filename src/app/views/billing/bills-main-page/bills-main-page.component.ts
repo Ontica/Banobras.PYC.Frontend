@@ -29,7 +29,7 @@ export class BillsMainPageComponent {
 
   query: BillsQuery = Object.assign({}, EmptyBillsQuery);
 
-  billsDataTable: BillsDataTable = Object.assign({}, EmptyBillsDataTable);
+  dataList: BillsDataTable = Object.assign({}, EmptyBillsDataTable);
 
   selectedData: BillData = EmptyBillData;
 
@@ -53,23 +53,19 @@ export class BillsMainPageComponent {
         this.setQueryAndClearExplorerData(event.payload.query as BillsQuery);
         this.searchBills(this.query);
         return;
-
       case BillsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as BillsQuery);
         return;
-
       case BillsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
         this.getBillData(event.payload.item.uid);
         return;
-
       case BillsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         this.messageBox.showInDevelopment('Ejecutar operación', event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -82,7 +78,10 @@ export class BillsMainPageComponent {
       case BillTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedData(EmptyBillData);
         return;
-
+      case BillTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.billUID, 'event.payload.billUID');
+        this.refreshSelectedData(event.payload.billUID);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -95,7 +94,7 @@ export class BillsMainPageComponent {
 
     this.billsData.searchBills(query)
       .firstValue()
-      .then(x => this.setBillsDataTable(x, true))
+      .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
   }
 
@@ -110,14 +109,19 @@ export class BillsMainPageComponent {
   }
 
 
-  private setQueryAndClearExplorerData(query: BillsQuery) {
-    this.query = Object.assign({}, query);
-    this.setBillsDataTable([], false);
+  private refreshSelectedData(billUID: string) {
+    this.getBillData(billUID);
   }
 
 
-  private setBillsDataTable(data: BillDescriptor[], queryExecuted: boolean = true) {
-    this.billsDataTable = Object.assign({}, this.billsDataTable, { query: this.query, entries: data });
+  private setQueryAndClearExplorerData(query: BillsQuery) {
+    this.query = Object.assign({}, query);
+    this.setDataList([], false);
+  }
+
+
+  private setDataList(data: BillDescriptor[], queryExecuted: boolean = true) {
+    this.dataList = Object.assign({}, this.dataList, { query: this.query, entries: data });
     this.queryExecuted = queryExecuted;
   }
 

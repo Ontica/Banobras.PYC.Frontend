@@ -32,7 +32,7 @@ export class BillsExplorerComponent implements OnChanges {
 
   @Input() query: BillsQuery = Object.assign({}, EmptyBillsQuery);
 
-  @Input() billsDataTable: BillsDataTable = Object.assign({}, EmptyBillsDataTable);
+  @Input() dataList: BillsDataTable = Object.assign({}, EmptyBillsDataTable);
 
   @Input() selectedUID = null;
 
@@ -50,7 +50,7 @@ export class BillsExplorerComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.billsDataTable) {
+    if (changes.dataList) {
       this.setText();
       this.showFilters = false;
     }
@@ -97,7 +97,7 @@ export class BillsExplorerComponent implements OnChanges {
       return;
     }
 
-    this.cardHint = `${this.billsDataTable.entries.length} registros encontrados`;
+    this.cardHint = `${this.dataList.entries.length} registros encontrados`;
   }
 
 }

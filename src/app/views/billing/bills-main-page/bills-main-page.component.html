@@ -8,7 +8,7 @@
 
     <emp-ng-bills-explorer
       [query]="query"
-      [billsDataTable]="billsDataTable"
+      [dataList]="dataList"
       [selectedUID]="selectedData.bill.uid"
       [isLoading]="isLoading"
       [queryExecuted]="queryExecuted"
@@ -21,7 +21,7 @@
   <div class="secondary" *ngIf="displayTabbedView">
 
     <emp-ng-bill-tabbed-view
-      [billData]="selectedData"
+      [data]="selectedData"
       (billTabbedViewEvent)="onBillTabbedViewEvent($event)">
 
     </emp-ng-bill-tabbed-view>

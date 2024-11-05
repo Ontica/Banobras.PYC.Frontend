@@ -31,7 +31,7 @@
       </emp-ng-bills-filter>
 
       <emp-ng-data-table class="fx-item"
-        [dataTable]="billsDataTable"
+        [dataTable]="dataList"
         [selectedUID]="selectedUID"
         [showExportButton]="false"
         [executed]="queryExecuted"
@@ -39,14 +39,6 @@
         (dataTableEvent)="onBillsTableEvent($event)">
 
       </emp-ng-data-table>
-  <!--
-      <emp-pmt-contracts-list class="fx-item"
-        [dataList]="dataList"
-        [selectedUID]="selectedUID"
-        [queryExecuted]="queryExecuted"
-        (contractsListEvent)="onContractsListEvent($event)">
-
-      </emp-pmt-contracts-list> -->
 
     </div>
 

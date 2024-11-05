@@ -90,6 +90,7 @@ export interface BillData {
   concepts: BillConcept[];
   documents: Document[];
   history: WorkflowHistory[];
+  actions: BillActions;
 }
 
 
@@ -108,6 +109,11 @@ export interface Bill {
 
 export interface BillConcept {
 
+}
+
+
+export interface BillActions {
+  canEditDocuments: boolean;
 }
 
 
@@ -138,11 +144,17 @@ export const EmptyBill: Bill = {
 };
 
 
+export const EmptyBillActions: BillActions = {
+  canEditDocuments: false,
+}
+
+
 export const EmptyBillData: BillData = {
   bill: EmptyBill,
   concepts: [],
   documents: [],
   history: [],
+  actions: EmptyBillActions,
 };
 
 
@@ -179,7 +191,7 @@ export const DefaultBillsColumns: DataTableColumn[] = [
   },
   {
     field: 'issueDate',
-    title: 'Fecha de emisión',
+    title: 'Emisión',
     type: DataTableColumnType.date,
   },
   {

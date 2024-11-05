@@ -13,8 +13,11 @@ import { sendEvent } from '@app/shared/utils';
 
 import { BillData, EmptyBillData } from '@app/models';
 
+import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+
 export enum BillTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'BillTabbedViewComponent.Event.CloseButtonClicked',
+  REFRESH_DATA         = 'BillTabbedViewComponent.Event.RefreshData',
 }
 
 @Component({
@@ -23,7 +26,7 @@ export enum BillTabbedViewEventType {
 })
 export class BillTabbedViewComponent implements OnChanges {
 
-  @Input() billData: BillData = EmptyBillData;
+  @Input() data: BillData = EmptyBillData;
 
   @Output() billTabbedViewEvent = new EventEmitter<EventInfo>();
 
@@ -31,7 +34,7 @@ export class BillTabbedViewComponent implements OnChanges {
 
   hint = '';
 
-  selectedTabIndex = 0;
+  selectedTabIndex = 2;
 
 
   ngOnChanges() {
@@ -44,18 +47,31 @@ export class BillTabbedViewComponent implements OnChanges {
   }
 
 
+  onDocumentsEditionEvent(event: EventInfo) {
+    switch (event.type as DocumentsEditionEventType) {
+      case DocumentsEditionEventType.DOCUMENTS_UPDATED:
+        const payload = { billUID: this.data.bill.uid };
+        sendEvent(this.billTabbedViewEvent, BillTabbedViewEventType.REFRESH_DATA, payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   private setTitle() {
-    const issueDate = !this.billData.bill.issueDate ?
-      'N/D' : DateStringLibrary.format(this.billData.bill.issueDate);
+    const issueDate = !this.data.bill.issueDate ?
+      'N/D' : DateStringLibrary.format(this.data.bill.issueDate);
 
-    const status = this.billData.bill.status.name === 'Eliminada' ?
-      `<span class="tag tag-error tag-small">${this.billData.bill.status.name}</span>` :
-      `<span class="tag tag-small">${this.billData.bill.status.name}</span>`;
+    const status = this.data.bill.status.name === 'Eliminada' ?
+      `<span class="tag tag-error tag-small">${this.data.bill.status.name}</span>` :
+      `<span class="tag tag-small">${this.data.bill.status.name}</span>`;
 
-    this.title = `${this.billData.bill.billNo}` + status;
+    this.title = `${this.data.bill.billNo}` + status;
 
-    this.hint = `<strong>${this.billData.bill.billType?.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
-      `Emisor: ${this.billData.bill.issuedBy.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+    this.hint = `<strong>${this.data.bill.billType?.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
+      `Emisor: ${this.data.bill.issuedBy.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${issueDate}`;
   }
 
