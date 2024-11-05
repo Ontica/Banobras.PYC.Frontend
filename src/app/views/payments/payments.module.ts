@@ -34,6 +34,9 @@ import { PayableCreatorComponent } from './payables/payable/payable-creator.comp
 import { PayableHeaderComponent } from './payables/payable/payable-header.component';
 import { PayableItemsEditionComponent } from './payables/payable-items/payable-items-edition.component';
 import { PayableItemsTableComponent } from './payables/payable-items/payable-items-table.component';
+import { PaymentOrderTabbedViewComponent } from './payments-orders/payment-order-tabbed-view/payment-order-tabbed-view.component';
+import { PaymentOrderEditorComponent } from './payments-orders/payment-order/payment-order-editor.component';
+import { PaymentOrderHeaderComponent } from './payments-orders/payment-order/payment-order-header.component';
 
 
 @NgModule({
@@ -68,6 +71,9 @@ import { PayableItemsTableComponent } from './payables/payable-items/payable-ite
     PayableHeaderComponent,
     PayableItemsEditionComponent,
     PayableItemsTableComponent,
+    PaymentOrderTabbedViewComponent,
+    PaymentOrderEditorComponent,
+    PaymentOrderHeaderComponent,
   ],
   exports: [
     PaymentsOrdersMainPageComponent,

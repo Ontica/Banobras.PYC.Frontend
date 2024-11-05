@@ -1,0 +1,37 @@
+<emp-ng-card
+  [title]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Orden de pago">
+
+      <emp-pmt-payment-order-editor
+        [paymentOrder]="data.paymentOrder"
+        [actions]="data.actions"
+        (paymentOrderEditorEvent)="onPaymentOrderEditorEvent($event)">
+
+      </emp-pmt-payment-order-editor>
+
+    </mat-tab>
+
+    <mat-tab label="Documentos">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Historial">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

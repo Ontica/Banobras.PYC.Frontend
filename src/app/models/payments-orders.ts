@@ -5,9 +5,15 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Identifiable } from '@app/core';
+import { DateString, Empty, Identifiable } from '@app/core';
 
 import { ExplorerOperation } from './_explorer-data';
+
+import { Bill } from './bills';
+
+import { Document } from './documents';
+
+import { WorkflowHistory } from './workflows';
 
 
 export enum PaymentsOrdersStatus {
@@ -74,10 +80,9 @@ export const EmptyPaymentsOrdersQuery: PaymentsOrdersQuery = {
 
 export interface PaymentOrderDescriptor {
   uid: string;
-  paymentOrderNo: string;
   paymentOrderTypeName: string;
+  paymentOrderNo: string;
   payTo: string;
-  payable: string;
   paymentMethod: string;
   total: number;
   currency: string;
@@ -88,8 +93,40 @@ export interface PaymentOrderDescriptor {
 }
 
 
+export interface PaymentOrderFields {
+
+}
+
+
+ export interface PaymentOrderData {
+  paymentOrder: PaymentOrder;
+  items: any[];
+  bills: Bill[];
+  documents: Document[];
+  history: WorkflowHistory[];
+  actions: PaymentOrderActions;
+}
+
+
 export interface PaymentOrder {
   uid: string;
+  orderNo: string;
+  status: Identifiable;
+  payTo: Identifiable;
+  requestedBy: Identifiable;
+  requestedDate: DateString;
+  notes: string;
+  total: number;
+  paymentOrderType: Identifiable;
+  currency: Identifiable;
+  paymentMethod: Identifiable;
+  dueTime: DateString;
+}
+
+
+export interface PaymentOrderActions {
+  canSendToPay: boolean;
+  canEditDocuments: boolean;
 }
 
 
@@ -125,4 +162,48 @@ export const PaymentsOrdersOperationsList: ExplorerOperation[] = [
 
 export const EmptyPaymentOrder: PaymentOrder = {
   uid: '',
+  orderNo: '',
+  payTo: Empty,
+  requestedBy: Empty,
+  requestedDate: '',
+  notes: '',
+  total: null,
+  paymentOrderType: Empty,
+  currency: Empty,
+  paymentMethod: Empty,
+  dueTime: '',
+  status: Empty,
 };
+
+
+export const EmptyPaymentOrderActions: PaymentOrderActions = {
+  canSendToPay: false,
+  canEditDocuments: false,
+}
+
+
+export const EmptyPaymentOrderData: PaymentOrderData = {
+  paymentOrder: EmptyPaymentOrder,
+  items: [],
+  bills: [],
+  documents: [],
+  history: [],
+  actions: EmptyPaymentOrderActions,
+};
+
+
+export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderData): PaymentOrderDescriptor {
+  return {
+    uid: data.paymentOrder.uid,
+    paymentOrderNo: data.paymentOrder.orderNo,
+    payTo: data.paymentOrder.payTo.name,
+    total: data.paymentOrder.total,
+    requestedDate: data.paymentOrder.requestedDate,
+    requestedBy: data.paymentOrder.requestedBy.name,
+    statusName: data.paymentOrder.status.name,
+    paymentOrderTypeName: data.paymentOrder.paymentOrderType.name,
+    currency: data.paymentOrder.currency.name,
+    paymentMethod: data.paymentOrder.paymentMethod.name,
+    dueTime: data.paymentOrder.dueTime,
+  };
+}
