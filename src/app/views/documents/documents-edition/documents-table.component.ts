@@ -20,6 +20,7 @@ import { Document } from '@app/models';
 
 export enum DocumentsTableEventType {
   SELECT_DOCUMENT_CLICKED = 'DocumentsTableComponent.Event.SelectDocumentClicked',
+  SHOW_DOCUMENT_CLICKED   = 'DocumentsTableComponent.Event.ShowDocumentClicked',
   REMOVE_DOCUMENT_CLICKED = 'DocumentsTableComponent.Event.RemoveDocumentClicked',
 }
 
@@ -35,7 +36,8 @@ export class DocumentsTableComponent implements OnChanges {
 
   @Output() documentsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['documentProductName', 'documentNo', 'name', 'documentDate'];
+  displayedColumnsDefault: string[] = ['documentProductName', 'documentNo', 'name', 'documentDate',
+                                       'actionShow'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
@@ -58,6 +60,11 @@ export class DocumentsTableComponent implements OnChanges {
     if (window.getSelection().toString().length <= 0) {
       sendEvent(this.documentsTableEvent, DocumentsTableEventType.SELECT_DOCUMENT_CLICKED, { document });
     }
+  }
+
+
+  onShowDocumentClicked(document: Document) {
+    sendEvent(this.documentsTableEvent, DocumentsTableEventType.SHOW_DOCUMENT_CLICKED, { document });
   }
 
 

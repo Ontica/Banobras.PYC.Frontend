@@ -5,11 +5,13 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
+
+import { FilePreviewComponent } from '@app/shared/containers/file-preview/file-preview.component';
 
 import { DocumentsDataService } from '@app/data-services';
 
@@ -29,6 +31,8 @@ export enum DocumentsEditionEventType {
   templateUrl: './documents-edition.component.html',
 })
 export class DocumentsEditionComponent {
+
+  @ViewChild('filePreview', { static: true }) filePreview: FilePreviewComponent;
 
   @Input() entityType: DocumentsEntityTypes = null;
 
@@ -79,7 +83,10 @@ export class DocumentsEditionComponent {
     }
 
     switch (event.type as DocumentsTableEventType) {
-      case DocumentsTableEventType.SELECT_DOCUMENT_CLICKED:
+      case DocumentsTableEventType.SHOW_DOCUMENT_CLICKED:
+        Assertion.assertValue(event.payload.document.uid, 'event.payload.document.uid');
+        Assertion.assertValue(event.payload.document.file, 'event.payload.document.file');
+        this.openFilePreview(event.payload.document);
         return;
       case DocumentsTableEventType.REMOVE_DOCUMENT_CLICKED:
         Assertion.assertValue(event.payload.document.uid, 'event.payload.document.uid');
@@ -105,6 +112,11 @@ export class DocumentsEditionComponent {
   private emitDocumentsUpdated() {
     const payload = { entityUID: this.entityUID };
     sendEvent(this.documentsEditionEvent, DocumentsEditionEventType.DOCUMENTS_UPDATED, payload);
+  }
+
+
+  private openFilePreview(document: Document) {
+    this.filePreview.open(document.file.url, document.file.type);
   }
 
 }
