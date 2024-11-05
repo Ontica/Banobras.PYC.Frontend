@@ -5,11 +5,13 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { MediaType } from '@app/core';
 
-import { FileReport, FileType } from '@app/models';
+import { FileDownloadService } from '@app/shared/utils';
+
+import { FileType } from '@app/models';
 
 
 @Component({
@@ -17,38 +19,62 @@ import { FileReport, FileType } from '@app/models';
   templateUrl: './file-preview.component.html',
   styleUrls: ['./file-preview.component.scss']
 })
-export class FilePreviewComponent implements OnChanges {
+export class FilePreviewComponent {
 
   @Input() title: string;
 
   @Input() hint: string;
 
-  @Input() file: FileReport;
+  fileUrl: string;
+
+  fileType: string;
 
   hasError = false;
 
-  displayInModal = false;
+  displayModal = false;
 
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.file && !!this.file?.url) {
-      this.open(this.file.url, this.file.type);
-    }
+  constructor(private fileDownload: FileDownloadService) { }
+
+
+  get isUrlValid(): boolean {
+    return this.fileUrl !== null && this.fileUrl !== undefined && this.fileUrl !== '';
+  }
+
+
+  get isHTML(): boolean {
+    return this.fileType === MediaType.html ||
+           this.fileType === FileType.HTML ||
+           this.fileType.toLowerCase() === 'html';
+  }
+
+
+  get isPDF(): boolean {
+    return this.fileType === MediaType.pdf ||
+           this.fileType === FileType.PDF ||
+           this.fileType.toLowerCase() === 'pdf';
   }
 
 
   open(url: string, type: string) {
-    if (!this.isValidUrl(url)) {
+    this.setFileData(url, type);
+
+    if (!this.isUrlValid) {
+      console.log('Invalid URL: ', this.fileUrl);
       return;
     }
 
-    if (this.canOpenWindow(type)) {
-      this.openWindow(url);
-      this.onClose();
+    if (this.isHTML) {
+      this.openWindow(this.fileUrl);
       return;
     }
 
-    this.openModal();
+    if (this.isPDF) {
+      this.openModal();
+      return;
+    }
+
+    this.downloadFile();
   }
 
 
@@ -57,22 +83,20 @@ export class FilePreviewComponent implements OnChanges {
   }
 
 
-  onClose() {
-    this.displayInModal = false;
+  onCloseClicked() {
+    this.displayModal = false;
   }
 
 
-  private isValidUrl(url: string): boolean {
-    return url !== null && url !== undefined && url !== '';
-  }
-
-
-  private canOpenWindow(type: string): boolean {
-    return type === MediaType.html || type === FileType.HTML;
+  private setFileData(url: string, type: string) {
+    this.fileUrl = url;
+    this.fileType = type;
   }
 
 
   private openWindow(url: string, width: number = 1100, height: number = 600) {
+    this.onCloseClicked();
+
     const top = Math.floor((screen.height / 2) - (height / 2));
     const left = Math.floor((screen.width / 2) - (width / 2));
 
@@ -83,7 +107,12 @@ export class FilePreviewComponent implements OnChanges {
 
   private openModal() {
     this.hasError = false;
-    this.displayInModal = true;
+    this.displayModal = true;
+  }
+
+
+  private downloadFile() {
+    this.fileDownload.download(this.fileUrl);
   }
 
 }

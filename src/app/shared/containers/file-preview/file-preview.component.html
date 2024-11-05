@@ -1,18 +1,18 @@
-<emp-ng-modal-window *ngIf="displayInModal"
+<emp-ng-modal-window *ngIf="displayModal"
   [config]="{width:'80%', height: '90%', maxWidth: '960px'}">
 
   <emp-ng-card
     [title]="title"
     [hint]="hint"
-    (cardClose)="onClose()">
+    (cardClose)="onCloseClicked()">
 
     <div class="preview-container preview-padding" *ngIf="!hasError">
 
       <div class="object-preview-container">
 
-        <object *ngIf="file.url"
+        <object *ngIf="fileUrl"
           class="object-preview mat-elevation-z1"
-          [data]="file.url | empSafeUrl"
+          [data]="fileUrl | empSafeUrl"
           (error)="onFileError()">
 
         </object>
