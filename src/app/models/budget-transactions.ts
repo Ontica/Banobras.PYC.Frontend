@@ -144,7 +144,7 @@ export interface BudgetTransactionEntryDescriptor {
 export interface BudgetTransactionActions {
   canUpdate: boolean;
   canDelete: boolean;
-  //TODO: define flags...
+  canAuthorize: boolean;
 }
 
 
@@ -215,6 +215,7 @@ export const EmptyBudgetTransaction: BudgetTransaction = {
 export const EmptyBudgetTransactionActions: BudgetTransactionActions = {
   canUpdate: false,
   canDelete: false,
+  canAuthorize: false,
 }
 
 
@@ -225,3 +226,20 @@ export const EmptyBudgetTransactionData: BudgetTransactionData = {
   history: [],
   actions: EmptyBudgetTransactionActions,
 };
+
+
+export function mapTransactionDescriptorFromTransaction(data: BudgetTransactionData): BudgetTransactionDescriptor {
+  return {
+    uid: data.transaction.uid,
+    transactionNo: data.transaction.transactionNo,
+    basePartyName: data.transaction.baseParty.name,
+    budgetTypeName: data.transaction.budgetType.name,
+    budgetName: data.transaction.budget.name,
+    transactionTypeName: data.transaction.transactionType.name,
+    requestedDate: data.transaction.requestedDate,
+    operationSourceName: data.transaction.operationSource.name,
+    applicationDate: data.transaction.applicationDate,
+    description: data.transaction.description,
+    statusName: data.transaction.status.name,
+  };
+}

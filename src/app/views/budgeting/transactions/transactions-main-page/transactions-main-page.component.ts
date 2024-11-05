@@ -78,11 +78,11 @@ export class TransactionsMainPageComponent {
       case TransactionTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedData(EmptyBudgetTransactionData);
         return;
-      case TransactionTabbedViewEventType.TRANSACTION_UPDATED:
-        Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
-
+      case TransactionTabbedViewEventType.DATA_UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.insertItemToList(event.payload.data as BudgetTransactionData);
         return;
-      case TransactionTabbedViewEventType.TRANSACTION_DELETED:
+      case TransactionTabbedViewEventType.DATA_DELETED:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
 
         return;
@@ -133,6 +133,14 @@ export class TransactionsMainPageComponent {
   private setSelectedData(data: BudgetTransactionData) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.transaction);
+  }
+
+
+  private insertItemToList(data: BudgetTransactionData) {
+    const dataToInsert = mapTransactionDescriptorFromTransaction(data);
+    const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
+    this.setDataList(dataListNew);
+    this.setSelectedData(data);
   }
 
 }

@@ -9,7 +9,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EventInfo, isEmpty } from '@app/core';
 
-import { BudgetTransaction, BudgetTransactionActions, EmptyBudgetTransaction,
+import { sendEvent } from '@app/shared/utils';
+
+import { BudgetTransactionsDataService } from '@app/data-services';
+
+import { BudgetTransaction, BudgetTransactionActions, BudgetTransactionData, EmptyBudgetTransaction,
          EmptyBudgetTransactionActions } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
@@ -35,6 +39,9 @@ export class TransactionEditorComponent {
   submitted = false;
 
 
+  constructor(private transactionsData: BudgetTransactionsDataService) { }
+
+
   get isSaved(): boolean {
     return !isEmpty(this.transaction);
   }
@@ -46,11 +53,28 @@ export class TransactionEditorComponent {
     }
 
     switch (event.type as TransactionHeaderEventType) {
-
+      case TransactionHeaderEventType.AUTHORIZE:
+        this.authorizeTransaction(this.transaction.uid);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private authorizeTransaction(transactionUID: string) {
+    this.submitted = true;
+
+    this.transactionsData.authorizeTransaction(transactionUID)
+      .firstValue()
+      .then(x => this.resolveTransactionUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private resolveTransactionUpdated(data: BudgetTransactionData) {
+    sendEvent(this.transactionEditorEvent, TransactionEditorEventType.UPDATED, { data });
   }
 
 }

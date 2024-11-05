@@ -127,6 +127,12 @@
 
         <ng-container *ngIf="!editionMode">
 
+          <button *ngIf="actions.canAuthorize"
+            type="button" class="btn"
+            (click)="onAuthorizeButtonClicked()">
+            Autorizar
+          </button>
+
         </ng-container>
 
       </div>

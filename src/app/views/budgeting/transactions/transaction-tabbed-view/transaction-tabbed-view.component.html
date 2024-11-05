@@ -5,10 +5,11 @@
 
   <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
 
-    <mat-tab label="Información">
+    <mat-tab label="Transacción">
 
       <emp-bdg-transaction-editor
         [transaction]="data.transaction"
+        [actions]="data.actions"
         (transactionEditorEvent)="onTransactionEditorEvent($event)">
 
       </emp-bdg-transaction-editor>

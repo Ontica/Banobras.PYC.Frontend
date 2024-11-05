@@ -22,8 +22,8 @@ import {
 
 export enum TransactionTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'TransactionTabbedViewComponent.Event.CloseButtonClicked',
-  TRANSACTION_UPDATED  = 'TransactionTabbedViewComponent.Event.TransactionUpdated',
-  TRANSACTION_DELETED  = 'TransactionTabbedViewComponent.Event.TransactionDeleted',
+  DATA_UPDATED         = 'TransactionTabbedViewComponent.Event.DataUpdated',
+  DATA_DELETED         = 'TransactionTabbedViewComponent.Event.DataDeleted',
 }
 
 @Component({
@@ -56,14 +56,14 @@ export class TransactionTabbedViewComponent implements OnChanges {
   onTransactionEditorEvent(event: EventInfo) {
     switch (event.type as TransactionEditorEventType) {
       case TransactionEditorEventType.UPDATED:
-        Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
         sendEvent(this.transactionTabbedViewEvent,
-          TransactionTabbedViewEventType.TRANSACTION_UPDATED, event.payload);
+          TransactionTabbedViewEventType.DATA_UPDATED, event.payload);
         return;
       case TransactionEditorEventType.DELETED:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
         sendEvent(this.transactionTabbedViewEvent,
-          TransactionTabbedViewEventType.TRANSACTION_DELETED, event.payload);
+          TransactionTabbedViewEventType.DATA_DELETED, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

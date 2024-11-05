@@ -20,9 +20,10 @@ import { BudgetTransaction, BudgetTransactionActions, BudgetTransactionFields, E
 
 
 export enum TransactionHeaderEventType {
-  CREATE = 'TransactionHeaderComponent.Event.CreateTransaction',
-  UPDATE = 'TransactionHeaderComponent.Event.UpdateTransaction',
-  DELETE = 'TransactionHeaderComponent.Event.DeleteTransaction',
+  CREATE    = 'TransactionHeaderComponent.Event.CreateTransaction',
+  UPDATE    = 'TransactionHeaderComponent.Event.UpdateTransaction',
+  AUTHORIZE = 'TransactionHeaderComponent.Event.AuthorizeTransaction',
+  DELETE    = 'TransactionHeaderComponent.Event.DeleteTransaction',
 }
 
 interface TransactionFormModel extends FormGroup<{
@@ -101,6 +102,11 @@ export class TransactionHeaderComponent implements OnInit, OnChanges {
 
       sendEvent(this.transactionHeaderEvent, eventType, { transactionFields: this.getFormData() });
     }
+  }
+
+
+  onAuthorizeButtonClicked() {
+    this.showConfirmMessage(TransactionHeaderEventType.AUTHORIZE);
   }
 
 
@@ -195,6 +201,7 @@ export class TransactionHeaderComponent implements OnInit, OnChanges {
     switch (eventType) {
       case TransactionHeaderEventType.DELETE:
         return 'DeleteCancel';
+      case TransactionHeaderEventType.AUTHORIZE:
       default:
         return 'AcceptCancel';
     }
@@ -203,6 +210,7 @@ export class TransactionHeaderComponent implements OnInit, OnChanges {
 
   private getConfirmTitle(eventType: TransactionHeaderEventType): string {
     switch (eventType) {
+      case TransactionHeaderEventType.AUTHORIZE: return 'Autorizar transacción';
       case TransactionHeaderEventType.DELETE: return 'Eliminar transacción';
       default: return '';
     }
@@ -211,6 +219,12 @@ export class TransactionHeaderComponent implements OnInit, OnChanges {
 
   private getConfirmMessage(eventType: TransactionHeaderEventType): string {
     switch (eventType) {
+      case TransactionHeaderEventType.AUTHORIZE:
+        return `Esta operación autotizará la transacción
+                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
+                de <strong>${this.transaction.baseParty.name}</strong>.
+
+                <br><br>¿Autorizo la transacción?`;
       case TransactionHeaderEventType.DELETE:
         return `Esta operación eliminará la transacción
                 <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
