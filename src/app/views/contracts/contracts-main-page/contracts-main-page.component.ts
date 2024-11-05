@@ -52,23 +52,19 @@ export class ContractsMainPageComponent {
         this.setQueryAndClearExplorerData(event.payload.query as ContractsQuery);
         this.searchContracts(this.query);
         return;
-
       case ContractsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as ContractsQuery);
         return;
-
       case ContractsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
         this.getContractData(event.payload.item.uid);
         return;
-
       case ContractsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         this.messageBox.showInDevelopment('Ejecutar operación', event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -81,7 +77,10 @@ export class ContractsMainPageComponent {
       case ContractTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedData(EmptyContractData);
         return;
-
+      case ContractTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.contractUID, 'event.payload.contractUID');
+        this.refreshSelectedData(event.payload.contractUID);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -106,6 +105,11 @@ export class ContractsMainPageComponent {
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
+  }
+
+
+  private refreshSelectedData(contractUID: string) {
+    this.getContractData(contractUID);
   }
 
 

@@ -15,11 +15,14 @@ import { ContractData, EmptyContractData } from '@app/models';
 
 import { ContractEditorEventType } from '../contract/contract-editor.component';
 
+import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+
 
 export enum ContractTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'ContractTabbedViewComponent.Event.CloseButtonClicked',
-  CONTRACT_UPDATED = 'ContractTabbedViewComponent.Event.ContractUpdated',
-  CONTRACT_DELETED = 'ContractTabbedViewComponent.Event.ContractDeleted',
+  DATA_UPDATED         = 'ContractTabbedViewComponent.Event.DataUpdated',
+  DATA_DELETED         = 'ContractTabbedViewComponent.Event.DataDeleted',
+  REFRESH_DATA         = 'ContractTabbedViewComponent.Event.RefreshData',
 }
 
 @Component({
@@ -28,7 +31,7 @@ export enum ContractTabbedViewEventType {
 })
 export class ContractTabbedViewComponent implements OnChanges {
 
-  @Input() contractData: ContractData = EmptyContractData;
+  @Input() data: ContractData = EmptyContractData;
 
   @Output() contractTabbedViewEvent = new EventEmitter<EventInfo>();
 
@@ -54,12 +57,25 @@ export class ContractTabbedViewComponent implements OnChanges {
       case ContractEditorEventType.UPDATED:
         Assertion.assertValue(event.payload.contractUID, 'event.payload.contractUID');
         sendEvent(this.contractTabbedViewEvent,
-          ContractTabbedViewEventType.CONTRACT_UPDATED, event.payload);
+          ContractTabbedViewEventType.DATA_UPDATED, event.payload);
         return;
       case ContractEditorEventType.DELETED:
         Assertion.assertValue(event.payload.contractUID, 'event.payload.contractUID');
         sendEvent(this.contractTabbedViewEvent,
-          ContractTabbedViewEventType.CONTRACT_DELETED, event.payload);
+          ContractTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onDocumentsEditionEvent(event: EventInfo) {
+    switch (event.type as DocumentsEditionEventType) {
+      case DocumentsEditionEventType.DOCUMENTS_UPDATED:
+        const payload = { contractUID: this.data.contract.uid };
+        sendEvent(this.contractTabbedViewEvent, ContractTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -69,17 +85,17 @@ export class ContractTabbedViewComponent implements OnChanges {
 
 
   private setTitle() {
-    const signDate = !this.contractData.contract.signDate ?
-      'N/D' : DateStringLibrary.format(this.contractData.contract.signDate);
+    const signDate = !this.data.contract.signDate ?
+      'N/D' : DateStringLibrary.format(this.data.contract.signDate);
 
-    const status = this.contractData.contract.status.name === 'Eliminado' ?
-      `<span class="tag tag-error tag-small">${this.contractData.contract.status.name}</span>` :
-      `<span class="tag tag-small">${this.contractData.contract.status.name}</span>`;
+    const status = this.data.contract.status.name === 'Eliminado' ?
+      `<span class="tag tag-error tag-small">${this.data.contract.status.name}</span>` :
+      `<span class="tag tag-small">${this.data.contract.status.name}</span>`;
 
-    this.title = `${this.contractData.contract.contractNo}: ${this.contractData.contract.name}` + status;
+    this.title = `${this.data.contract.contractNo}: ${this.data.contract.name}` + status;
 
-    this.hint = `<strong>${this.contractData.contract.contractType.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
-      `${this.contractData.contract.supplier.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+    this.hint = `<strong>${this.data.contract.contractType.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
+      `${this.data.contract.supplier.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${signDate}`;
   }
 

@@ -103,6 +103,7 @@ export interface ContractData {
   milestones: ContractMilestone[];
   documents: Document[];
   history: WorkflowHistory[];
+  actions: ContractActions;
 }
 
 
@@ -169,6 +170,11 @@ export interface ContractMilestoneItem {
 }
 
 
+export interface ContractActions {
+  canEditDocuments: boolean;
+}
+
+
 export const EmptyContractsQuery: ContractsQuery = {
   status: null,
   keywords: '',
@@ -198,10 +204,16 @@ export const EmptyContract: Contract = {
 };
 
 
+export const EmptyContractActions: ContractActions = {
+  canEditDocuments: false,
+}
+
+
 export const EmptyContractData: ContractData = {
   contract: EmptyContract,
   items: [],
   milestones: [],
   documents: [],
   history: [],
+  actions: EmptyContractActions,
 };

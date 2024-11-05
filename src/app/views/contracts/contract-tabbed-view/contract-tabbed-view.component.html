@@ -8,7 +8,7 @@
     <mat-tab label="Contrato">
 
       <emp-pmt-contract-editor
-        [contract]="contractData.contract"
+        [contract]="data.contract"
         (contractEditorEvent)="onContractEditorEvent($event)">
 
       </emp-pmt-contract-editor>
@@ -18,7 +18,7 @@
     <mat-tab label="Conceptos">
 
       <emp-pmt-contract-items-table
-        [items]="contractData.items">
+        [items]="data.items">
 
       </emp-pmt-contract-items-table>
 
@@ -27,7 +27,7 @@
     <mat-tab label="Entregas">
 
       <emp-pmt-contract-milestones-table
-        [milestones]="contractData.milestones">
+        [milestones]="data.milestones">
 
       </emp-pmt-contract-milestones-table>
 
@@ -37,8 +37,10 @@
 
       <emp-ng-documents-edition
         entityType="contracts"
-        [entityUID]="contractData.contract.uid"
-        [documents]="contractData.documents">
+        [entityUID]="data.contract.uid"
+        [documents]="data.documents"
+        [canEdit]="data.actions.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
 
       </emp-ng-documents-edition>
 
