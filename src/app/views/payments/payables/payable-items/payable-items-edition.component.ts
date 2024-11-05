@@ -48,7 +48,7 @@ export class PayableItemsEditionComponent {
     switch (event.type as PayableItemsTableEventType) {
       case PayableItemsTableEventType.SELECT_ITEM_CLICKED:
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.messageBox.showInDevelopment('Seleccionar movimiento', event.payload.item);
+
         return;
       case PayableItemsTableEventType.REMOVE_ITEM_CLICKED:
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');

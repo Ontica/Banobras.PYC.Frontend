@@ -103,15 +103,15 @@ export class PayablesMainPageComponent {
       case PayableTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedData(EmptyPayableData);
         return;
-      case PayableTabbedViewEventType.PAYABLE_UPDATED:
+      case PayableTabbedViewEventType.DATA_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         this.insertItemToList(event.payload.data as PayableData);
         return;
-      case PayableTabbedViewEventType.PAYABLE_DELETED:
+      case PayableTabbedViewEventType.DATA_DELETED:
         Assertion.assertValue(event.payload.payableUID, 'event.payload.payableUID');
         this.removeItemFromList(event.payload.payableUID);
         return;
-      case PayableTabbedViewEventType.DOCUMENTS_UPDATED:
+      case PayableTabbedViewEventType.REFRESH_DATA:
         Assertion.assertValue(event.payload.payableUID, 'event.payload.payableUID');
         this.refreshSelectedData(event.payload.payableUID);
         return;

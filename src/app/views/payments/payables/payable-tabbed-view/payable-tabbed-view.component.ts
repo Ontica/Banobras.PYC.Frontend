@@ -22,9 +22,9 @@ import { DocumentsEditionEventType } from '@app/views/documents/documents-editio
 
 export enum PayableTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'PayableTabbedViewComponent.Event.CloseButtonClicked',
-  PAYABLE_UPDATED      = 'PayableTabbedViewComponent.Event.PayableUpdated',
-  PAYABLE_DELETED      = 'PayableTabbedViewComponent.Event.PayableDeleted',
-  DOCUMENTS_UPDATED    = 'PayableTabbedViewComponent.Event.DocumentsUpdated',
+  DATA_UPDATED         = 'PayableTabbedViewComponent.Event.DataUpdated',
+  DATA_DELETED         = 'PayableTabbedViewComponent.Event.DataDeleted',
+  REFRESH_DATA         = 'PayableTabbedViewComponent.Event.RefreshData',
 }
 
 @Component({
@@ -33,7 +33,7 @@ export enum PayableTabbedViewEventType {
 })
 export class PayableTabbedViewComponent implements OnChanges{
 
-  @Input() payableData: PayableData = EmptyPayableData;
+  @Input() data: PayableData = EmptyPayableData;
 
   @Output() payableTabbedViewEvent = new EventEmitter<EventInfo>();
 
@@ -58,11 +58,11 @@ export class PayableTabbedViewComponent implements OnChanges{
     switch (event.type as PayableEditorEventType) {
       case PayableEditorEventType.PAYABLE_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
-        sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.PAYABLE_UPDATED, event.payload);
+        sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.DATA_UPDATED, event.payload);
         return;
       case PayableEditorEventType.PAYABLE_DELETED:
         Assertion.assertValue(event.payload.payableUID, 'event.payload.payableUID');
-        sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.PAYABLE_DELETED, event.payload);
+        sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.DATA_DELETED, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -75,7 +75,7 @@ export class PayableTabbedViewComponent implements OnChanges{
     switch (event.type as PayableItemsEditionEventType) {
       case PayableItemsEditionEventType.ITEMS_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
-        sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.PAYABLE_UPDATED, event.payload);
+        sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.DATA_UPDATED, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -87,8 +87,8 @@ export class PayableTabbedViewComponent implements OnChanges{
   onDocumentsEditionEvent(event: EventInfo) {
     switch (event.type as DocumentsEditionEventType) {
       case DocumentsEditionEventType.DOCUMENTS_UPDATED:
-        const payload = { payableUID: this.payableData.payable.uid };
-        sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.DOCUMENTS_UPDATED, payload);
+        const payload = { payableUID: this.data.payable.uid };
+        sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -98,18 +98,18 @@ export class PayableTabbedViewComponent implements OnChanges{
 
 
   private setTitle() {
-    const dueTime = !this.payableData.payable.dueTime ?
-      'N/D' : DateStringLibrary.format(this.payableData.payable.dueTime);
+    const dueTime = !this.data.payable.dueTime ?
+      'N/D' : DateStringLibrary.format(this.data.payable.dueTime);
 
-    const status = this.payableData.payable.status.name === 'Eliminada' ?
-      `<span class="tag tag-error tag-small">${this.payableData.payable.status.name}</span>` :
-      `<span class="tag tag-small">${this.payableData.payable.status.name}</span>`;
+    const status = this.data.payable.status.name === 'Eliminada' ?
+      `<span class="tag tag-error tag-small">${this.data.payable.status.name}</span>` :
+      `<span class="tag tag-small">${this.data.payable.status.name}</span>`;
 
-    this.title = `${this.payableData.payable.payableNo}: ${this.payableData.payable.payableType.name}` + status;
+    this.title = `${this.data.payable.payableNo}: ${this.data.payable.payableType.name}` + status;
 
-    this.hint = `<strong>${this.payableData.payable.payTo.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
-      `${this.payableData.payableEntity.entityNo}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${this.payableData.payable.payTo.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+    this.hint = `<strong>${this.data.payable.payTo.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
+      `${this.data.payableEntity.entityNo}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${this.data.payable.payTo.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${dueTime}`;
   }
 

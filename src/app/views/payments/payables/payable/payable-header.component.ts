@@ -253,7 +253,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
       paymentMethodUID: ['', Validators.required],
       paymentAccountUID: ['', Validators.required],
       currencyUID: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       dueTime: [null as DateString, Validators.required],
     });
 

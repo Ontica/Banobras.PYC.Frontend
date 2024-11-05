@@ -8,9 +8,9 @@
     <mat-tab label="Obligación">
 
       <emp-pmt-payable-editor
-        [payable]="payableData.payable"
-        [payableEntity]="payableData.payableEntity"
-        [actions]="payableData.actions"
+        [payable]="data.payable"
+        [payableEntity]="data.payableEntity"
+        [actions]="data.actions"
         (payableEditorEvent)="onPayableEditorEvent($event)">
 
       </emp-pmt-payable-editor>
@@ -20,8 +20,8 @@
     <mat-tab label="Conceptos">
 
       <emp-pmt-payable-items-edition
-        [items]="payableData.items"
-        [actions]="payableData.actions"
+        [items]="data.items"
+        [actions]="data.actions"
         (payableItemsEditionEvent)="onPayableItemsEditionEvent($event)">
 
       </emp-pmt-payable-items-edition>
@@ -32,9 +32,9 @@
 
       <emp-ng-documents-edition
         entityType="payables"
-        [entityUID]="payableData.payable.uid"
-        [documents]="payableData.documents"
-        [canEdit]="payableData.actions.canEditDocuments"
+        [entityUID]="data.payable.uid"
+        [documents]="data.documents"
+        [canEdit]="data.actions.canEditDocuments"
         (documentsEditionEvent)="onDocumentsEditionEvent($event)">
 
       </emp-ng-documents-edition>
