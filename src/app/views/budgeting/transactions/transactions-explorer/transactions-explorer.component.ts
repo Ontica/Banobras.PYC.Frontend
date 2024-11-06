@@ -59,6 +59,11 @@ export class TransactionsExplorerComponent implements OnChanges {
   }
 
 
+  onCreateTransactionClicked() {
+
+  }
+
+
   onTransactionsFilterEvent(event: EventInfo) {
     switch (event.type as TransactionsFilterEventType) {
       case TransactionsFilterEventType.SEARCH_CLICKED:

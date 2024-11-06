@@ -54,6 +54,11 @@ export class ProductsExplorerComponent implements OnChanges {
   }
 
 
+  onCreateProductClicked() {
+
+  }
+
+
   onProductsFilterEvent(event: EventInfo) {
     switch (event.type as ProductsFilterEventType) {
       case ProductsFilterEventType.SEARCH_CLICKED:

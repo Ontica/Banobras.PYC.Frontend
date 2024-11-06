@@ -58,6 +58,11 @@ export class ContractsExplorerComponent implements OnChanges {
   }
 
 
+  onCreateContractClicked() {
+
+  }
+
+
   onContractsFilterEvent(event: EventInfo) {
     switch (event.type as ContractsFilterEventType) {
       case ContractsFilterEventType.SEARCH_CLICKED:
