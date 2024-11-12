@@ -241,7 +241,7 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
-        { requestsList: RequestsList.payments }),
+        { requestsList: this.requestsList }),
       this.cataloguesData.getResponsibles(),
     ])
     .subscribe(([a, b]) => {

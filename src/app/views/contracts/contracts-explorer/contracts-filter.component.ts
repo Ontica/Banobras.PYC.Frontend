@@ -133,7 +133,7 @@ export class ContractsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
-        { requestsList: RequestsList.payments }),
+        { requestsList: RequestsList.contracts }),
       this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
       this.helper.select<BudgetType[]>(PaymentsStateSelector.CONTRACTS_TYPES),
     ])
