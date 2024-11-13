@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { PERMISSIONS } from '../config-data';
+import { LAYOUT_TYPE, PERMISSIONS } from '../config-data';
 
 import { Layout, View, ViewAction } from './common';
 
@@ -28,7 +28,7 @@ export const DefaultNavigationHeader: NavigationHeader = {
 };
 
 
-export function buildNavigationHeader(layout: Layout,
+export function buildNavigationHeader(layout: Layout<LAYOUT_TYPE>,
                                       permissions: string[],
                                       value?: NavigationHeader | View): NavigationHeader {
   const navHeader: NavigationHeader = {

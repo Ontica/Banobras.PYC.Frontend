@@ -43,12 +43,8 @@ export interface AppConfig {
 }
 
 
-export type LayoutType = 'Management' | 'Unauthorized' |
-                         'Steps' | 'Budget' | 'Payments' | 'CashFlow' | 'Contracts';
-
-
-export interface Layout {
-  name: LayoutType;
+export interface Layout<T> {
+  name: T;
   views: View[];
   hint: string;
   defaultTitle: string;

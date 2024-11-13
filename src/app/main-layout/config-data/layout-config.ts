@@ -20,6 +20,10 @@ import {
 } from './views-config';
 
 
+export type LAYOUT_TYPE = 'Management' | 'Unauthorized' |
+                          'Steps' | 'Budget' | 'CashFlow' | 'Contracts' | 'Payments';
+
+
 export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
                                                           StepsViews,
                                                           BudgetViews,
@@ -28,7 +32,7 @@ export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
                                                           PaymentsViews);
 
 
-export const APP_LAYOUTS: Layout[] = [
+export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
   {
     name: 'Steps',
     views: StepsViews,
@@ -68,7 +72,6 @@ export const APP_LAYOUTS: Layout[] = [
     defaultTitle: 'Pagos',
     url: ROUTES.pagos.fullpath,
     permission: ROUTES.pagos.permission,
-
   },
   {
     name: 'Management',
