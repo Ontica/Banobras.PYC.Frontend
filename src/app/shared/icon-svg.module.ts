@@ -25,6 +25,8 @@ export class IconSvgModule {
 
     matIconRegistry.addSvgIcon('emp-xls-file', this.setIconPath(`${this.path}/xls.svg`));
 
+    matIconRegistry.addSvgIcon('emp-xml-file', this.setIconPath(`${this.path}/xml.svg`));
+
     matIconRegistry.addSvgIcon('emp-image-file', this.setIconPath(`${this.path}/image.svg`));
 
     matIconRegistry.addSvgIcon('emp-file', this.setIconPath(`${this.path}/file.svg`));

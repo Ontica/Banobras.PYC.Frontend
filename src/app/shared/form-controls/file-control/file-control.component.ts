@@ -223,6 +223,10 @@ export class FileControlComponent implements OnChanges {
       return 'emp-xls-file';
     }
 
+    if (FileTypeAccepted.xml.includes(type)) {
+      return 'emp-xml-file';
+    }
+
     if (type.startsWith('image/')) {
       return 'emp-image-file';
     }
