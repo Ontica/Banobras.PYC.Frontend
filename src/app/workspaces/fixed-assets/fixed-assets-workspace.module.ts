@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 
 import { FixedAssetsWorkspaceRoutingModule } from './fixed-assets-workspace-routing.module';
 
+import { RequestsModule } from '@app/views/requests/requests.module';
+
 
 @NgModule({
 
@@ -17,11 +19,9 @@ import { FixedAssetsWorkspaceRoutingModule } from './fixed-assets-workspace-rout
     CommonModule,
 
     FixedAssetsWorkspaceRoutingModule,
-  ],
 
-  declarations: [
-
-  ],
+    RequestsModule,
+  ]
 
 })
 export class FixedAssetsWorkspaceModule { }

@@ -19,9 +19,10 @@ import { Step } from './steps';
 
 
 export enum RequestsList {
-  budgeting = 'budgeting',
-  payments  = 'payments',
-  contracts = 'contracts',
+  budgeting    = 'budgeting',
+  payments     = 'payments',
+  contracts    = 'contracts',
+  fixed_assets = 'fixed-assets',
 };
 
 

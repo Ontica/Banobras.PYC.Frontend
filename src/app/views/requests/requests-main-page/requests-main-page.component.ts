@@ -210,6 +210,9 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
       case 'Contracts.Requests':
         this.requestsList = RequestsList.contracts;
         return;
+      case 'FixedAssets.Requests':
+        this.requestsList = RequestsList.fixed_assets;
+        return;
       default:
         this.requestsList = null;
         return;
