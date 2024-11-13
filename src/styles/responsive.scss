@@ -28,6 +28,13 @@
   }
 }
 
+.std-show {
+  display: none;
+
+  @include standard() {
+    display: block;
+  }
+}
 
 .sm-hide {
   @include small() {
