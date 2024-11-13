@@ -33,15 +33,6 @@ const routes: Routes = [
       .then((m) => m.BudgetWorkspaceModule)
   },
   {
-    data: { permission: ROUTES.pagos.permission },
-    path: ROUTES.pagos.path,
-    component: MainLayoutComponent,
-    canActivate: [ParentRouteGuard],
-    canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/payments/payments-workspace.module')
-      .then((m) => m.PaymentsWorkspaceModule)
-  },
-  {
     data: { permission: ROUTES.flujo_de_efectivo.permission },
     path: ROUTES.flujo_de_efectivo.path,
     component: MainLayoutComponent,
@@ -58,6 +49,24 @@ const routes: Routes = [
     canActivateChild: [ChildRouteGuard],
     loadChildren: () => import('./workspaces/contracts/contracts-workspace.module')
       .then((m) => m.ContractsWorkspaceModule)
+  },
+  {
+    data: { permission: ROUTES.pagos.permission },
+    path: ROUTES.pagos.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/payments/payments-workspace.module')
+      .then((m) => m.PaymentsWorkspaceModule)
+  },
+  {
+    data: { permission: ROUTES.activo_fijo.permission },
+    path: ROUTES.activo_fijo.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/fixed-assets/fixed-assets-workspace.module')
+      .then((m) => m.FixedAssetsWorkspaceModule)
   },
   {
     data: { permission: ROUTES.administracion.permission },

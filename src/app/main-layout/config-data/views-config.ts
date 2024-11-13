@@ -51,7 +51,7 @@ export const BudgetViews: View[] = [
     permission: ROUTES.presupuesto_solicitudes.permission,
   },
   {
-    name: 'Budget.transactions',
+    name: 'Budget.Transactions',
     title: 'Transacciones',
     menuTitle: 'Transacciones',
     url: ROUTES.presupuesto_transacciones.fullpath,
@@ -85,44 +85,6 @@ export const BudgetViews: View[] = [
     url: ROUTES.presupuesto_reportes.fullpath,
     permission: ROUTES.presupuesto_reportes.permission,
   }
-];
-
-
-export const PaymentsViews: View[] = [
-  {
-    name: 'Payments.Requests',
-    title: 'Solicitudes',
-    menuTitle: 'Solicitudes',
-    url: ROUTES.pagos_solicitudes.fullpath,
-    permission: ROUTES.pagos_solicitudes.permission,
-  },
-  {
-    name: 'Payments.PaymentsOrders',
-    title: 'Ordenes de pago',
-    url: ROUTES.pagos_ordenes_de_pago.fullpath,
-    permission: ROUTES.pagos_ordenes_de_pago.permission,
-  },
-  {
-    name: 'Payments.Payables',
-    title: 'Obligaciones de pago',
-    menuTitle: 'Obligaciones de pago',
-    url: ROUTES.pagos_obligaciones_de_pago.fullpath,
-    permission: ROUTES.pagos_obligaciones_de_pago.permission,
-  },
-  {
-    name: 'Payments.Invoices',
-    title: 'Facturas',
-    menuTitle: 'Facturas',
-    url: ROUTES.pagos_facturas.fullpath,
-    permission: ROUTES.pagos_facturas.permission,
-  },
-  {
-    name: 'Payments.Reporting',
-    title: 'Reportes',
-    menuTitle: 'Reportes',
-    url: ROUTES.pagos_reportes.fullpath,
-    permission: ROUTES.pagos_reportes.permission,
-  },
 ];
 
 
@@ -192,6 +154,90 @@ export const ContractsViews: View[] = [
     url: ROUTES.contratos_reportes.fullpath,
     permission: ROUTES.contratos_reportes.permission,
   },
+];
+
+
+export const PaymentsViews: View[] = [
+  {
+    name: 'Payments.Requests',
+    title: 'Solicitudes',
+    menuTitle: 'Solicitudes',
+    url: ROUTES.pagos_solicitudes.fullpath,
+    permission: ROUTES.pagos_solicitudes.permission,
+  },
+  {
+    name: 'Payments.PaymentsOrders',
+    title: 'Ordenes de pago',
+    url: ROUTES.pagos_ordenes_de_pago.fullpath,
+    permission: ROUTES.pagos_ordenes_de_pago.permission,
+  },
+  {
+    name: 'Payments.Payables',
+    title: 'Obligaciones de pago',
+    menuTitle: 'Obligaciones de pago',
+    url: ROUTES.pagos_obligaciones_de_pago.fullpath,
+    permission: ROUTES.pagos_obligaciones_de_pago.permission,
+  },
+  {
+    name: 'Payments.Invoices',
+    title: 'Facturas',
+    menuTitle: 'Facturas',
+    url: ROUTES.pagos_facturas.fullpath,
+    permission: ROUTES.pagos_facturas.permission,
+  },
+  {
+    name: 'Payments.Reporting',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.pagos_reportes.fullpath,
+    permission: ROUTES.pagos_reportes.permission,
+  },
+];
+
+
+export const FixedAssetsViews: View[] = [
+  {
+    name: 'FixedAssets.Requests',
+    title: 'Solicitudes',
+    menuTitle: 'Solicitudes',
+    url: ROUTES.activo_fijo_solicitudes.fullpath,
+    permission: ROUTES.activo_fijo_solicitudes.permission,
+  },
+  {
+    name: 'FixedAssets.Transactions',
+    title: 'Transacciones',
+    menuTitle: 'Transacciones',
+    url: ROUTES.activo_fijo_transacciones.fullpath,
+    permission: ROUTES.activo_fijo_transacciones.permission,
+  },
+  {
+    name: 'FixedAssets.Explorer',
+    title: 'Explorador',
+    menuTitle: 'Explorador',
+    url: ROUTES.activo_fijo_explorador.fullpath,
+    permission: ROUTES.activo_fijo_explorador.permission,
+  },
+  {
+    name: 'FixedAssets.Valuation',
+    title: 'Valuación',
+    menuTitle: 'Valuación',
+    url: ROUTES.activo_fijo_valuacion.fullpath,
+    permission: ROUTES.activo_fijo_valuacion.permission,
+  },
+  {
+    name: 'FixedAssets.Configuration',
+    title: 'Configuración',
+    menuTitle: 'Configuración',
+    url: ROUTES.activo_fijo_configuracion.fullpath,
+    permission: ROUTES.activo_fijo_configuracion.permission,
+  },
+  {
+    name: 'FixedAssets.Reporting',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.activo_fijo_reportes.fullpath,
+    permission: ROUTES.activo_fijo_reportes.permission,
+  }
 ];
 
 

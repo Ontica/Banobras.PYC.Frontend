@@ -17,11 +17,12 @@ import {
   CashFlowViews,
   ContractsViews,
   PaymentsViews,
+  FixedAssetsViews,
 } from './views-config';
 
 
 export type LAYOUT_TYPE = 'Management' | 'Unauthorized' |
-                          'Steps' | 'Budget' | 'CashFlow' | 'Contracts' | 'Payments';
+                          'Steps' | 'Budget' | 'CashFlow' | 'Contracts' | 'Payments' | 'FixedAssets';
 
 
 export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
@@ -29,7 +30,8 @@ export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
                                                           BudgetViews,
                                                           CashFlowViews,
                                                           ContractsViews,
-                                                          PaymentsViews);
+                                                          PaymentsViews,
+                                                          FixedAssetsViews);
 
 
 export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
@@ -72,6 +74,14 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
     defaultTitle: 'Pagos',
     url: ROUTES.pagos.fullpath,
     permission: ROUTES.pagos.permission,
+  },
+  {
+    name: 'FixedAssets',
+    views: FixedAssetsViews,
+    hint: 'Activo fijo',
+    defaultTitle: 'Activo fijo',
+    url: ROUTES.activo_fijo.fullpath,
+    permission: ROUTES.activo_fijo.permission,
   },
   {
     name: 'Management',
