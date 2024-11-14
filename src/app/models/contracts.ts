@@ -7,35 +7,25 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { ExplorerOperation } from './_explorer-data';
+import { EntityStatus, ExplorerOperation } from './_explorer-data';
 
 import { Document } from './documents';
 
-import { WorkflowHistory } from './workflows';
+import { History } from './history';
 
 
-export enum ContractsStatus {
-  Pending      = 'Pending',
-  Active       = 'Active',
-  OnReview     = 'OnReview',
-  Suspended    = 'Suspended',
-  Discontinued = 'Discontinued',
-  Deleted      = 'Deleted',
-}
-
-
-export const ContractStatusList: Identifiable<ContractsStatus>[] = [
-  { uid: ContractsStatus.Pending,      name: 'Pendiente' },
-  { uid: ContractsStatus.Active,       name: 'Activo' },
-  { uid: ContractsStatus.OnReview,     name: 'En revisión' },
-  { uid: ContractsStatus.Suspended,    name: 'Suspendido' },
-  { uid: ContractsStatus.Discontinued, name: 'Descontinuado' },
-  { uid: ContractsStatus.Deleted,      name: 'Eliminado' },
+export const ContractStatusList: Identifiable<EntityStatus>[] = [
+  { uid: EntityStatus.Pending,      name: 'Pendiente' },
+  { uid: EntityStatus.Active,       name: 'Activo' },
+  { uid: EntityStatus.OnReview,     name: 'En revisión' },
+  { uid: EntityStatus.Suspended,    name: 'Suspendido' },
+  { uid: EntityStatus.Discontinued, name: 'Descontinuado' },
+  { uid: EntityStatus.Deleted,      name: 'Eliminado' },
 ];
 
 
 export interface ContractsQuery {
-  status: ContractsStatus;
+  status: EntityStatus;
   keywords: string;
   contractNo: string;
   contractTypeUID: string;
@@ -102,7 +92,7 @@ export interface ContractData {
   items: ContractItem[];
   milestones: ContractMilestone[];
   documents: Document[];
-  history: WorkflowHistory[];
+  history: History[];
   actions: ContractActions;
 }
 

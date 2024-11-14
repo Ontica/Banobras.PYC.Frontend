@@ -11,7 +11,7 @@ import { ExplorerOperation } from './_explorer-data';
 
 import { Document } from './documents';
 
-import { WorkflowHistory } from './workflows';
+import { History } from './history';
 
 
 export enum BudgetTransactionsStatus {
@@ -107,7 +107,7 @@ export interface BudgetTransactionData {
   transaction: BudgetTransaction,
   entries: BudgetTransactionEntryDescriptor[];
   documents: Document[];
-  history: WorkflowHistory[];
+  history: History[];
   actions: BudgetTransactionActions;
 }
 

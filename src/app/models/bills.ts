@@ -11,7 +11,7 @@ import { DataTable, DataTableColumn, DataTableColumnType } from './_data-table';
 
 import { Document } from './documents';
 
-import { WorkflowHistory } from './workflows';
+import { History } from './history';
 
 
 export enum BillsStatus {
@@ -89,7 +89,7 @@ export interface BillData {
   bill: Bill;
   concepts: BillConcept[];
   documents: Document[];
-  history: WorkflowHistory[];
+  history: History[];
   actions: BillActions;
 }
 

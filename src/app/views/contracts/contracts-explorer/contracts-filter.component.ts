@@ -23,7 +23,7 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { BudgetType, ContractsQuery, ContractsStatus, ContractStatusList, EmptyContractsQuery,
+import { BudgetType, ContractsQuery, EntityStatus, ContractStatusList, EmptyContractsQuery,
          RequestsList } from '@app/models';
 
 
@@ -34,7 +34,7 @@ export enum ContractsFilterEventType {
 }
 
 interface ContractsFilterFormModel extends FormGroup<{
-  status: FormControl<ContractsStatus>;
+  status: FormControl<EntityStatus>;
   keywords: FormControl<string>;
   contractTypeUID: FormControl<string>;
   managedByOrgUnitUID: FormControl<string>;
@@ -64,7 +64,7 @@ export class ContractsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoading = false;
 
-  statusList: Identifiable<ContractsStatus>[] = ContractStatusList;
+  statusList: Identifiable<EntityStatus>[] = ContractStatusList;
 
   orgUnitsList: Identifiable[] = [];
 

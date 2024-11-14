@@ -11,9 +11,11 @@ import { DataField, InputData } from './_dynamic-form-fields';
 
 import { ExplorerOperation } from './_explorer-data';
 
-import { EmptyWorkflowActions, WorkflowActions, WorkflowHistory, WorkflowInstance } from './workflows';
+import { EmptyWorkflowActions, WorkflowActions, WorkflowInstance } from './workflows';
 
 import { Document } from './documents';
+
+import { History } from './history';
 
 import { Step } from './steps';
 
@@ -97,7 +99,7 @@ export interface RequestData {
   request: Request;
   steps: Step[];
   documents: Document[];
-  history: WorkflowHistory[];
+  history: History[];
   workflowInstances: WorkflowInstance[];
 }
 

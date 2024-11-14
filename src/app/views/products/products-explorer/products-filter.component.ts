@@ -22,7 +22,7 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { EmptyProductsQuery, ProductsQuery, ProductsStatus, ProductStatusList } from '@app/models';
+import { EmptyProductsQuery, ProductsQuery, EntityStatus, ProductStatusList } from '@app/models';
 
 
 export enum ProductsFilterEventType {
@@ -33,7 +33,7 @@ export enum ProductsFilterEventType {
 interface ProductsFilterFormModel extends FormGroup<{
   productCategoryUID: FormControl<string>;
   productTypeUID: FormControl<string>;
-  status: FormControl<ProductsStatus>;
+  status: FormControl<EntityStatus>;
   keywords: FormControl<string>;
   managerUID: FormControl<string>;
   internalCode: FormControl<string>;
@@ -62,7 +62,7 @@ export class ProductsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoading = false;
 
-  statusList: Identifiable<ProductsStatus>[] = ProductStatusList;
+  statusList: Identifiable<EntityStatus>[] = ProductStatusList;
 
   productCategoriesList: Identifiable[] = [];
 

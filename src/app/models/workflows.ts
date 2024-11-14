@@ -14,11 +14,6 @@ export interface WorkflowInstance {
 }
 
 
-export interface WorkflowHistory {
-  uid: string;
-}
-
-
 export interface WorkflowActions {
   canUpdate: boolean;
   canStart: boolean;

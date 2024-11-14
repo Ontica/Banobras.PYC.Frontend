@@ -7,33 +7,23 @@
 
 import { DateString, Identifiable } from '@app/core';
 
-import { ExplorerOperation } from './_explorer-data';
+import { EntityStatus, ExplorerOperation } from './_explorer-data';
 
 
-export enum ProductsStatus {
-  Pending      = 'Pending',
-  Active       = 'Active',
-  OnReview     = 'OnReview',
-  Suspended    = 'Suspended',
-  Discontinued = 'Discontinued',
-  Deleted      = 'Deleted',
-}
-
-
-export const ProductStatusList: Identifiable<ProductsStatus>[] = [
-  { uid: ProductsStatus.Pending,      name: 'Pendiente' },
-  { uid: ProductsStatus.Active,       name: 'Activo' },
-  { uid: ProductsStatus.OnReview,     name: 'En revisión' },
-  { uid: ProductsStatus.Suspended,    name: 'Suspendido' },
-  { uid: ProductsStatus.Discontinued, name: 'Descontinuado' },
-  { uid: ProductsStatus.Deleted,      name: 'Eliminado' },
+export const ProductStatusList: Identifiable<EntityStatus>[] = [
+  { uid: EntityStatus.Pending,      name: 'Pendiente' },
+  { uid: EntityStatus.Active,       name: 'Activo' },
+  { uid: EntityStatus.OnReview,     name: 'En revisión' },
+  { uid: EntityStatus.Suspended,    name: 'Suspendido' },
+  { uid: EntityStatus.Discontinued, name: 'Descontinuado' },
+  { uid: EntityStatus.Deleted,      name: 'Eliminado' },
 ];
 
 
 export interface ProductsQuery {
   productCategoryUID: string;
   productTypeUID: string;
-  status: ProductsStatus;
+  status: EntityStatus;
   keywords: string;
   internalCode: string;
   tags: string[];

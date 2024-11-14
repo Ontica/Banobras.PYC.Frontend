@@ -13,7 +13,7 @@ import { Bill } from './bills';
 
 import { Document } from './documents';
 
-import { WorkflowHistory } from './workflows';
+import { History } from './history';
 
 
 export enum PaymentsOrdersStatus {
@@ -103,7 +103,7 @@ export interface PaymentOrderFields {
   items: any[];
   bills: Bill[];
   documents: Document[];
-  history: WorkflowHistory[];
+  history: History[];
   actions: PaymentOrderActions;
 }
 

@@ -40,6 +40,8 @@ export * from './documents';
 
 export * from './edition-command';
 
+export * from './history';
+
 export * from './imported-data';
 
 export * from './payables';

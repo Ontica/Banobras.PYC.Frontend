@@ -15,7 +15,7 @@ import { Document } from './documents';
 
 import { EmptyPaymentMethod, PaymentMethod } from './payments-orders';
 
-import { WorkflowHistory } from './workflows';
+import { History } from './history';
 
 
 export interface PayablesQuery {
@@ -99,7 +99,7 @@ export interface PayableData {
   items: PayableItem[];
   bills: Bill[];
   documents: Document[];
-  history: WorkflowHistory[];
+  history: History[];
   actions: PayableActions;
 }
 
