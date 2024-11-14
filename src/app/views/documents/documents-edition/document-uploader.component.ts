@@ -81,6 +81,17 @@ export class DocumentUploaderComponent implements OnInit {
   }
 
 
+  onDocumentCategoryChanges() {
+    this.form.controls.documentProduct.reset();
+    this.fileData = null;
+  }
+
+
+  onDocumentProductChanges() {
+    this.fileData = null;
+  }
+
+
   onSubmitButtonClicked() {
     this.isFormInvalidated = true;
 

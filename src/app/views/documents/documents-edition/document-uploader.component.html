@@ -26,7 +26,7 @@
                 [items]="categoriesList"
                 [loading]="isLoading"
                 [showError]="formHelper.isControlInvalid(form.controls.documentCategory)"
-                (changes)="fileData = null">
+                (changes)="onDocumentCategoryChanges()">
               </emp-ng-select>
             </div>
 
@@ -39,7 +39,7 @@
                 [loading]="isLoading"
                 [placeholder]="form.controls.documentCategory.invalid ? 'Seleccione la categoría' : 'Seleccionar'"
                 [showError]="formHelper.isControlInvalid(form.controls.documentProduct)"
-                (changes)="fileData = null">
+                (changes)="onDocumentProductChanges()">
               </emp-ng-select>
             </div>
 
