@@ -28,7 +28,7 @@ export const EntityStatusList: Identifiable<EntityStatus>[] = [
 ];
 
 
-export function isStatusInWarning(statusName: string): boolean {
+export function isEntityStatusInWarning(statusName: string): boolean {
   const status = EntityStatusList.find(x => x.name === statusName)?.uid as EntityStatus;
 
   return [EntityStatus.Deleted,

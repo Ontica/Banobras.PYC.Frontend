@@ -11,7 +11,7 @@ import { EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { ContractDescriptor, isStatusInWarning } from '@app/models';
+import { ContractDescriptor, isEntityStatusInWarning } from '@app/models';
 
 export enum ContractsListItemEventType {
   ITEM_CLICKED  = 'ContractsListItemComponent.Event.ItemClicked',
@@ -31,7 +31,7 @@ export class ContractsListItemComponent {
 
   @Output() contractsListItemEvent = new EventEmitter<EventInfo>();
 
-  isStatusInWarning = isStatusInWarning;
+  isEntityStatusInWarning = isEntityStatusInWarning;
 
 
   onItemClicked() {

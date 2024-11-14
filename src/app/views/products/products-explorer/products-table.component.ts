@@ -15,7 +15,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { isStatusInWarning, ProductDescriptor, ProductsOperationsList } from '@app/models';
+import { isEntityStatusInWarning, ProductDescriptor, ProductsOperationsList } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -49,7 +49,7 @@ export class ProductsTableComponent implements OnChanges {
 
   operationsList = ProductsOperationsList;
 
-  isStatusInWarning = isStatusInWarning;
+  isEntityStatusInWarning = isEntityStatusInWarning;
 
 
   ngOnChanges(changes: SimpleChanges) {

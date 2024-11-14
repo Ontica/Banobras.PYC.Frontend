@@ -15,7 +15,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { FixedAssetDescriptor, FixedAssetsOperationsList, isStatusInWarning } from '@app/models';
+import { FixedAssetDescriptor, FixedAssetsOperationsList, isEntityStatusInWarning } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -51,7 +51,7 @@ export class FixedAssetsTableComponent implements OnChanges {
 
   operationsList = FixedAssetsOperationsList;
 
-  isStatusInWarning = isStatusInWarning;
+  isEntityStatusInWarning = isEntityStatusInWarning;
 
 
   ngOnChanges(changes: SimpleChanges) {
