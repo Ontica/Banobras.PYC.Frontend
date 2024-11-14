@@ -7,6 +7,7 @@
   <div class="primary priority" [class.std-hide]="displayTabbedView">
 
     <emp-bdg-transactions-explorer
+      [queryType]="queryType"
       [query]="query"
       [dataList]="dataList"
       [selectedUID]="selectedData.transaction.uid"
@@ -20,11 +21,15 @@
 
   <div class="secondary" *ngIf="displayTabbedView">
 
-    <emp-bdg-transaction-tabbed-view
-      [data]="selectedData"
-      (transactionTabbedViewEvent)="onTransactionTabbedViewEvent($event)">
+    <ng-container [ngSwitch]="queryType">
 
-    </emp-bdg-transaction-tabbed-view>
+      <emp-bdg-transaction-tabbed-view *ngSwitchCase="'budgets'"
+        [data]="selectedData"
+        (transactionTabbedViewEvent)="onTransactionTabbedViewEvent($event)">
+
+      </emp-bdg-transaction-tabbed-view>
+
+    </ng-container>
 
   </div>
 

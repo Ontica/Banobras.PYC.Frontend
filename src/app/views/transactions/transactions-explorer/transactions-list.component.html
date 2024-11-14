@@ -9,12 +9,23 @@
 
   </emp-ng-list-controls>
 
+  <div [ngSwitch]="queryType">
 
-  <emp-bdg-transactions-list-header class="fx-item-none"
-    [dataList]="dataList"
-    [selection]="selection">
+    <emp-bdg-transactions-list-header *ngSwitchCase="'budgets'"
+      class="fx-item-none"
+      [dataList]="budgetTransactionsList"
+      [selection]="selection">
 
-  </emp-bdg-transactions-list-header>
+    </emp-bdg-transactions-list-header>
+
+    <emp-pyc-fixed-asset-transactions-list-header  *ngSwitchCase="'fixed-assets'"
+      class="fx-item-none"
+      [dataList]="dataList"
+      [selection]="selection">
+
+    </emp-pyc-fixed-asset-transactions-list-header>
+
+  </div>
 
 
   <div #listContainer class="fx-item">
@@ -25,9 +36,9 @@
           class="list-item"
           [class.list-item-selected]="item.uid === selectedUID">
 
-          <div class="list-item-container">
+          <div class="list-item-container" [ngSwitch]="queryType">
 
-            <emp-bdg-transactions-list-item
+            <emp-bdg-transactions-list-item *ngSwitchCase="'budgets'"
               [transaction]="item"
               [selected]="selection.isSelected(item)"
               (transactionsListItemEvent)="onTransactionsListItemEvent($event)">

@@ -23,7 +23,7 @@ import {
 
 import {
   TransactionsMainPageComponent
-} from '@app/views/budgeting/transactions/transactions-main-page/transactions-main-page.component';
+} from '@app/views/transactions/transactions-main-page/transactions-main-page.component';
 
 
 const routes: Routes = [

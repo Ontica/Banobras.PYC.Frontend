@@ -15,11 +15,12 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BudgetTransactionDescriptor, BudgetTransactionsOperationsList } from '@app/models';
+import { BudgetTransactionDescriptor, BudgetTransactionsOperationsList,
+         FixedAssetTransactionDescriptor } from '@app/models';
 
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
-import { TransactionsListItemEventType } from './transactions-list-item.component';
+import { TransactionsListItemEventType } from '../budget/explorer/transactions-list-item.component';
 
 export enum TransactionsListEventType {
   SELECT_CLICKED            = 'TransactionsListComponent.Event.SelectClicked',
@@ -34,7 +35,9 @@ export class TransactionsListComponent implements OnChanges {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-  @Input() dataList: BudgetTransactionDescriptor[] = [];
+  @Input() queryType: 'budgets' | 'fixed-assets' = 'budgets';
+
+  @Input() dataList: BudgetTransactionDescriptor[] | FixedAssetTransactionDescriptor[] = [];
 
   @Input() selectedUID = '';
 
@@ -52,6 +55,11 @@ export class TransactionsListComponent implements OnChanges {
       this.scrollToTop();
       this.selection.clear();
     }
+  }
+
+
+  get budgetTransactionsList(): BudgetTransactionDescriptor[] {
+    return this.dataList as BudgetTransactionDescriptor[];
   }
 
 

@@ -5,34 +5,42 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { ArrayLibrary } from '@app/shared/utils';
 
+import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
+
+import { View } from '@app/main-layout';
+
+import { MainUIStateSelector } from '@app/presentation/exported.presentation.types';
+
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { BudgetTransactionsDataService } from '@app/data-services';
+import { BudgetTransactionsDataService, FixedAssetTransactionsDataService } from '@app/data-services';
 
 import { BudgetTransactionData, BudgetTransactionDescriptor, BudgetTransactionsQuery,
-         EmptyBudgetTransactionData, EmptyBudgetTransactionsQuery,
-         mapTransactionDescriptorFromTransaction } from '@app/models';
+         EmptyBudgetTransactionData, EmptyBudgetTransactionsQuery, FixedAssetTransactionDescriptor,
+         FixedAssetTransactionsQuery, mapTransactionDescriptorFromTransaction } from '@app/models';
 
 import { TransactionsExplorerEventType } from '../transactions-explorer/transactions-explorer.component';
 
-import { TransactionTabbedViewEventType } from '../transaction-tabbed-view/transaction-tabbed-view.component';
+import { TransactionTabbedViewEventType } from '../budget/transaction-tabbed-view/transaction-tabbed-view.component';
 
 
 @Component({
   selector: 'emp-bdg-transactions-main-page',
   templateUrl: './transactions-main-page.component.html',
 })
-export class TransactionsMainPageComponent {
+export class TransactionsMainPageComponent implements OnInit, OnDestroy {
+
+  queryType: 'budgets' | 'fixed-assets' = 'budgets';
 
   query: BudgetTransactionsQuery = Object.assign({}, EmptyBudgetTransactionsQuery);
 
-  dataList: BudgetTransactionDescriptor[] = [];
+  dataList: BudgetTransactionDescriptor[] | FixedAssetTransactionDescriptor[] = [];
 
   selectedData: BudgetTransactionData = EmptyBudgetTransactionData;
 
@@ -44,9 +52,25 @@ export class TransactionsMainPageComponent {
 
   queryExecuted = false;
 
+  helper: SubscriptionHelper;
 
-  constructor(private budgetTransactionsData: BudgetTransactionsDataService,
-              private messageBox: MessageBoxService) { }
+
+  constructor(private uiLayer: PresentationLayer,
+              private budgetTransactionsData: BudgetTransactionsDataService,
+              private fixedAssetTransactionsData: FixedAssetTransactionsDataService,
+              private messageBox: MessageBoxService) {
+    this.helper = uiLayer.createSubscriptionHelper();
+  }
+
+
+  ngOnInit() {
+    this.subscribeToCurrentViewChanges();
+  }
+
+
+  ngOnDestroy() {
+    this.helper.destroy();
+  }
 
 
   onTransactionsExplorerEvent(event: EventInfo) {
@@ -54,7 +78,7 @@ export class TransactionsMainPageComponent {
       case TransactionsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as BudgetTransactionsQuery);
-        this.searchTransactions(this.query);
+        this.validateSearchTransaction(this.query);
         return;
       case TransactionsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
@@ -100,10 +124,55 @@ export class TransactionsMainPageComponent {
   }
 
 
+  private subscribeToCurrentViewChanges() {
+    this.helper.select<View>(MainUIStateSelector.CURRENT_VIEW)
+      .subscribe(x => this.setQueryTypeFromCurrentView(x));
+  }
+
+
+  private setQueryTypeFromCurrentView(newView: View) {
+    switch (newView.name) {
+      case 'Budget.Transactions':
+        this.queryType = 'budgets';
+        return;
+      case 'FixedAssets.Transactions':
+        this.queryType = 'fixed-assets';
+        return;
+      default:
+        this.queryType = null;
+        return;
+    }
+  }
+
+
+  private validateSearchTransaction(query: BudgetTransactionsQuery | FixedAssetTransactionsQuery){
+    switch (this.queryType) {
+      case 'budgets':
+        this.searchTransactions(query as BudgetTransactionsQuery);
+        return;
+      case 'fixed-assets':
+        this.searchFixedAssetTransactions(query as FixedAssetTransactionsQuery);
+        return;
+      default:
+        return;
+    }
+  }
+
+
   private searchTransactions(query: BudgetTransactionsQuery) {
     this.isLoading = true;
 
     this.budgetTransactionsData.searchTransactions(query)
+      .firstValue()
+      .then(x => this.resolveSearchTransactions(x))
+      .finally(() => this.isLoading = false);
+  }
+
+
+  private searchFixedAssetTransactions(query: FixedAssetTransactionsQuery) {
+    this.isLoading = true;
+
+    this.fixedAssetTransactionsData.searchTransactions(query)
       .firstValue()
       .then(x => this.resolveSearchTransactions(x))
       .finally(() => this.isLoading = false);
@@ -125,7 +194,7 @@ export class TransactionsMainPageComponent {
   }
 
 
-  private resolveSearchTransactions(data: BudgetTransactionDescriptor[]) {
+  private resolveSearchTransactions(data: BudgetTransactionDescriptor[] | FixedAssetTransactionDescriptor[]) {
     this.setDataList(data, true);
   }
 
@@ -136,7 +205,8 @@ export class TransactionsMainPageComponent {
   }
 
 
-  private setDataList(data: BudgetTransactionDescriptor[], queryExecuted: boolean = true) {
+  private setDataList(data: BudgetTransactionDescriptor[] | FixedAssetTransactionDescriptor[],
+                      queryExecuted: boolean = true) {
     this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
   }

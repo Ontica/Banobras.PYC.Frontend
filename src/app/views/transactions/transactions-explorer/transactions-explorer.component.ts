@@ -12,11 +12,14 @@ import { Assertion, EventInfo } from '@app/core';
 import { sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionDescriptor, BudgetTransactionsQuery,
-         EmptyBudgetTransactionsQuery } from '@app/models';
+         EmptyBudgetTransactionsQuery,
+         FixedAssetTransactionDescriptor,
+         FixedAssetTransactionsQuery} from '@app/models';
 
-import { TransactionsFilterEventType } from './transactions-filter.component';
+import { TransactionsFilterEventType } from '../budget/explorer/transactions-filter.component';
 
 import { TransactionsListEventType } from './transactions-list.component';
+import { FixedAssetTransactionsFilterEventType } from '../fixed-assets/explorer/transactions-filter.component';
 
 
 export enum TransactionsExplorerEventType {
@@ -32,9 +35,11 @@ export enum TransactionsExplorerEventType {
 })
 export class TransactionsExplorerComponent implements OnChanges {
 
-  @Input() query: BudgetTransactionsQuery = Object.assign({}, EmptyBudgetTransactionsQuery);
+  @Input() queryType: 'budgets' | 'fixed-assets' = 'budgets';
 
-  @Input() dataList: BudgetTransactionDescriptor[] = [];
+  @Input() query: BudgetTransactionsQuery | FixedAssetTransactionsQuery = Object.assign({}, EmptyBudgetTransactionsQuery);
+
+  @Input() dataList: BudgetTransactionDescriptor[] | FixedAssetTransactionDescriptor[] = [];
 
   @Input() selectedUID = '';
 
@@ -59,19 +64,31 @@ export class TransactionsExplorerComponent implements OnChanges {
   }
 
 
+  get budgetTransactionsQuery(): BudgetTransactionsQuery {
+    return this.query as BudgetTransactionsQuery;
+  }
+
+
+  get fixedAssetTransactionsQuery(): FixedAssetTransactionsQuery {
+    return this.query as FixedAssetTransactionsQuery;
+  }
+
+
   onCreateTransactionClicked() {
 
   }
 
 
   onTransactionsFilterEvent(event: EventInfo) {
-    switch (event.type as TransactionsFilterEventType) {
+    switch (event.type as TransactionsFilterEventType | FixedAssetTransactionsFilterEventType) {
       case TransactionsFilterEventType.SEARCH_CLICKED:
+      case FixedAssetTransactionsFilterEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.transactionsExplorerEvent, TransactionsExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
       case TransactionsFilterEventType.CLEAR_CLICKED:
+      case FixedAssetTransactionsFilterEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.transactionsExplorerEvent, TransactionsExplorerEventType.CLEAR_CLICKED,
           event.payload);

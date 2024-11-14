@@ -21,6 +21,8 @@ export * from './contracts.data.service';
 
 export * from './documents.data.service';
 
+export * from './fixed-asset-transactions.data.service';
+
 export * from './fixed-assets.data.service';
 
 export * from './payables.data.service';

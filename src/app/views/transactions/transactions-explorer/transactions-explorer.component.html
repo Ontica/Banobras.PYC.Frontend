@@ -34,14 +34,30 @@
 
       </emp-ng-spinner>
 
-      <emp-bdg-transactions-filter class="fx-item-none"
-        [query]="query"
-        [(showFilters)]="showFilters"
-        (transactionsFilterEvent)="onTransactionsFilterEvent($event)">
+      <div [ngSwitch]="queryType">
 
-      </emp-bdg-transactions-filter>
+        <emp-bdg-transactions-filter *ngSwitchCase="'budgets'"
+          class="fx-item-none"
+          [query]="budgetTransactionsQuery"
+          [(showFilters)]="showFilters"
+          (transactionsFilterEvent)="onTransactionsFilterEvent($event)">
+
+        </emp-bdg-transactions-filter>
+
+
+        <emp-pyc-fixed-asset-transactions-filter *ngSwitchCase="'fixed-assets'"
+          class="fx-item-none"
+          [query]="fixedAssetTransactionsQuery"
+          [(showFilters)]="showFilters"
+          (fixedAssetTransactionsFilterEvent)="onTransactionsFilterEvent($event)">
+
+        </emp-pyc-fixed-asset-transactions-filter>
+
+      </div>
+
 
       <emp-bdg-transactions-list class="fx-item"
+        [queryType]="queryType"
         [dataList]="dataList"
         [selectedUID]="selectedUID"
         [queryExecuted]="queryExecuted"

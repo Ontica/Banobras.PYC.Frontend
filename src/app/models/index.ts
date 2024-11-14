@@ -40,6 +40,8 @@ export * from './documents';
 
 export * from './edition-command';
 
+export * from './fixed-assets-transactions';
+
 export * from './fixed-assets';
 
 export * from './history';

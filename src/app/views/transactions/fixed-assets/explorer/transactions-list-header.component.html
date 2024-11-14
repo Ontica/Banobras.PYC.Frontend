@@ -1,0 +1,49 @@
+<div class="list-header">
+
+  <div class="list-header-container">
+
+    <div class="fx-row-container fx-gap-size fx-items-center sm-fx-gap" style="--gap-size: 32px;">
+
+      <div class="fx-item-size sm-fx-item-none" style="--size: 20px;" *ngIf="dataList.length > 0">
+
+        <emp-ng-check-box-all
+          [(selection)]="selection"
+          [values]="dataList">
+        </emp-ng-check-box-all>
+
+      </div>
+
+      <div class="fx-item nowrap">
+        No. transacción <br>
+        Tipo de transacción<br>
+      </div>
+
+      <div class="fx-item-size sm-fx-item-none" style="--size: 15%;">
+        Área responsable <br>
+        Persona responsable
+      </div>
+
+      <div class="fx-item-size sm-fx-item-none" style="--size: 15%;">
+        Área involucrada <br>
+        Persona involucrada
+      </div>
+
+      <div class="fx-item-size sm-fx-item-none" style="--size: 15%;">
+        Fecha elaboración <br>
+        Fecha registro
+      </div>
+
+
+      <div class="fx-item-size sm-fx-item-none" style="--size: 15%;">
+        Descripción
+      </div>
+
+      <div class="fx-item-size sm-fx-item-none" style="--size: 100px;">
+        Estado
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
