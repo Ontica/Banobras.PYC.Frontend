@@ -18,6 +18,10 @@ import {
 } from '@app/views/fixed-assets/fixed-assets-main-page/fixed-assets-main-page.component';
 
 import {
+  TransactionsMainPageComponent
+} from '@app/views/transactions/transactions-main-page/transactions-main-page.component';
+
+import {
   RequestsMainPageComponent
 } from '@app/views/requests/requests-main-page/requests-main-page.component';
 
@@ -31,7 +35,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.activo_fijo_transacciones.permission },
     path: ROUTES.activo_fijo_transacciones.path,
-    component: DefaultComponent,
+    component: TransactionsMainPageComponent,
   },
   {
     data: { permission: ROUTES.activo_fijo_explorador.permission },

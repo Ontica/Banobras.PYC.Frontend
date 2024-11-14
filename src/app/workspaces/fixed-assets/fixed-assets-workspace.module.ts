@@ -12,6 +12,7 @@ import { FixedAssetsWorkspaceRoutingModule } from './fixed-assets-workspace-rout
 
 import { FixedAssetsModule } from '@app/views/fixed-assets/fixed-assets.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
+import { TransactionsModule } from '@app/views/transactions/transactions.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { RequestsModule } from '@app/views/requests/requests.module';
 
     FixedAssetsModule,
     RequestsModule,
+    TransactionsModule,
   ]
 
 })
