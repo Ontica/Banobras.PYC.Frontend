@@ -19,7 +19,7 @@ import {
 
 import {
   BudgetMainPageComponent
-} from '@app/views/budgeting/budgets/budget-main-page/budget-main-page.component';
+} from '@app/views/budgeting/budget-main-page/budget-main-page.component';
 
 import {
   TransactionsMainPageComponent

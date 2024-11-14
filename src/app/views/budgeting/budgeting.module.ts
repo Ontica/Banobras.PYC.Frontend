@@ -15,13 +15,12 @@ import { SharedModule } from '@app/shared/shared.module';
 import { DocumentsModule } from '../documents/documents.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
-import { BudgetMainPageComponent } from './budgets/budget-main-page/budget-main-page.component';
-import { BudgetExplorerComponent } from './budgets/budget-explorer/budget-explorer.component';
-import { BudgetFilterComponent } from './budgets/budget-explorer/budget-filter.component';
+import { BudgetMainPageComponent } from './budget-main-page/budget-main-page.component';
+import { BudgetExplorerComponent } from './budget-explorer/budget-explorer.component';
+import { BudgetFilterComponent } from './budget-explorer/budget-filter.component';
 import {
   BudgetSegmentItemSelectorComponent
-} from './budgets/budget-segment-items/budget-segment-item-selector.component';
-
+} from './budget-segment-items/budget-segment-item-selector.component';
 
 
 @NgModule({
@@ -41,11 +40,9 @@ import {
     BudgetExplorerComponent,
     BudgetFilterComponent,
     BudgetSegmentItemSelectorComponent,
-    
   ],
   exports: [
     BudgetMainPageComponent,
-
   ]
 })
 export class BudgetingModule { }
