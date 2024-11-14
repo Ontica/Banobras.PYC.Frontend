@@ -15,15 +15,13 @@ import { ROUTES } from '@app/main-layout';
 
 import { SecurityModule } from '@app/views/_security/security.module';
 
-import {
-  AuthenticationMainPageComponent
-} from './authentication-main-page/authentication-main-page.component';
+import { UserAuthenticationComponent } from '@app/views/_security/user-authentication/user-authentication.component';
 
 
 const routes: Routes = [
   {
     path: ROUTES.security_login.path,
-    component: AuthenticationMainPageComponent,
+    component: UserAuthenticationComponent,
   },
   {
     path: '',
@@ -39,10 +37,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     SecurityModule,
-  ],
-
-  declarations: [
-    AuthenticationMainPageComponent,
   ]
 
 })

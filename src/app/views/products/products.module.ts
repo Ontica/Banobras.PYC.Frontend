@@ -14,6 +14,7 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
+import { ProductsMainPageComponent } from './products-main-page/products-main-page.component';
 import { ProductsExplorerComponent } from './products-explorer/products-explorer.component';
 import { ProductsFilterComponent } from './products-explorer/products-filter.component';
 import { ProductsTableComponent } from './products-explorer/products-table.component';
@@ -31,12 +32,13 @@ import { ProductsTableComponent } from './products-explorer/products-table.compo
     ReportsControlsModule,
   ],
   declarations: [
+    ProductsMainPageComponent,
     ProductsExplorerComponent,
     ProductsFilterComponent,
     ProductsTableComponent,
   ],
   exports: [
-    ProductsExplorerComponent,
+    ProductsMainPageComponent,
   ],
 })
 export class ProductsModule { }

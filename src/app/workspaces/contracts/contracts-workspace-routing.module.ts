@@ -17,7 +17,9 @@ import {
   ContractsMainPageComponent
 } from '@app/views/contracts/contracts-main-page/contracts-main-page.component';
 
-import { ProductsMainPageComponent } from './products-main-page/products-main-page.component';
+import {
+  ProductsMainPageComponent
+} from '@app/views/products/products-main-page/products-main-page.component';
 
 import {
   RequestsMainPageComponent

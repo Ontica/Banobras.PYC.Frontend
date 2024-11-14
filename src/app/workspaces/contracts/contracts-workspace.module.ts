@@ -14,8 +14,6 @@ import { ContractsModule } from '@app/views/contracts/contracts.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
 import { ProductsModule } from '@app/views/products/products.module';
 
-import { ProductsMainPageComponent } from './products-main-page/products-main-page.component';
-
 
 @NgModule({
 
@@ -27,9 +25,6 @@ import { ProductsMainPageComponent } from './products-main-page/products-main-pa
     ContractsModule,
     RequestsModule,
     ProductsModule,
-  ],
-  declarations: [
-    ProductsMainPageComponent
   ],
 
 })
