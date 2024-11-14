@@ -18,6 +18,25 @@ export enum EntityStatus {
 }
 
 
+export const EntityStatusList: Identifiable<EntityStatus>[] = [
+  { uid: EntityStatus.Pending,      name: 'Pendiente' },
+  { uid: EntityStatus.Active,       name: 'Activo' },
+  { uid: EntityStatus.OnReview,     name: 'En revisión' },
+  { uid: EntityStatus.Suspended,    name: 'Suspendido' },
+  { uid: EntityStatus.Discontinued, name: 'Descontinuado' },
+  { uid: EntityStatus.Deleted,      name: 'Eliminado' },
+];
+
+
+export function isStatusInWarning(statusName: string): boolean {
+  const status = EntityStatusList.find(x => x.name === statusName)?.uid as EntityStatus;
+
+  return [EntityStatus.Deleted,
+          EntityStatus.Discontinued,
+          EntityStatus.Suspended].includes(status);
+}
+
+
 export interface ExplorerOperation extends Identifiable {
   uid: string;
   name: string;
@@ -34,8 +53,15 @@ export interface ExplorerOperationCommand {
 }
 
 
-export interface DataActions {
+export interface BaseActions {
   canUpdate: boolean;
   canDelete: boolean;
   canEditDocuments: boolean;
 }
+
+
+export const EmptyBaseActions: BaseActions = {
+  canUpdate: false,
+  canDelete: false,
+  canEditDocuments: false,
+};

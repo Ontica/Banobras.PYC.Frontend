@@ -22,7 +22,7 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { EmptyProductsQuery, ProductsQuery, EntityStatus, ProductStatusList } from '@app/models';
+import { EmptyProductsQuery, ProductsQuery, EntityStatus, EntityStatusList } from '@app/models';
 
 
 export enum ProductsFilterEventType {
@@ -62,7 +62,7 @@ export class ProductsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoading = false;
 
-  statusList: Identifiable<EntityStatus>[] = ProductStatusList;
+  statusList: Identifiable<EntityStatus>[] = EntityStatusList;
 
   productCategoriesList: Identifiable[] = [];
 

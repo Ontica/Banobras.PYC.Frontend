@@ -11,7 +11,7 @@ import { EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { ContractDescriptor } from '@app/models';
+import { ContractDescriptor, isStatusInWarning } from '@app/models';
 
 export enum ContractsListItemEventType {
   ITEM_CLICKED  = 'ContractsListItemComponent.Event.ItemClicked',
@@ -30,6 +30,8 @@ export class ContractsListItemComponent {
   @Input() selected = false;
 
   @Output() contractsListItemEvent = new EventEmitter<EventInfo>();
+
+  isStatusInWarning = isStatusInWarning;
 
 
   onItemClicked() {

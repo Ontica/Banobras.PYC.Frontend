@@ -14,16 +14,6 @@ import { Document } from './documents';
 import { History } from './history';
 
 
-export const ContractStatusList: Identifiable<EntityStatus>[] = [
-  { uid: EntityStatus.Pending,      name: 'Pendiente' },
-  { uid: EntityStatus.Active,       name: 'Activo' },
-  { uid: EntityStatus.OnReview,     name: 'En revisión' },
-  { uid: EntityStatus.Suspended,    name: 'Suspendido' },
-  { uid: EntityStatus.Discontinued, name: 'Descontinuado' },
-  { uid: EntityStatus.Deleted,      name: 'Eliminado' },
-];
-
-
 export interface ContractsQuery {
   status: EntityStatus;
   keywords: string;

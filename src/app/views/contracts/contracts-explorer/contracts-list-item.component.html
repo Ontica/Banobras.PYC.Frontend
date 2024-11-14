@@ -34,7 +34,7 @@
 
   <div class="fx-item-size status-column-size sm-fx-item-none">
     <span class="tag" *ngIf="item.statusName"
-      [ngClass]="{'tag-base-error': ['Suspendido', 'Descontinuado' , 'Eliminado'].includes(item.statusName)}">
+      [ngClass]="{'tag-base-error': isStatusInWarning(item.statusName)}">
       {{item.statusName}}
     </span>
     <div class="bold-text" [style.padding-top.rem]="0.4">
