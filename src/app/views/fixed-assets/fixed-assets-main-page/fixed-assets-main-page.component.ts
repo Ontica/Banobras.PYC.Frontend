@@ -18,6 +18,8 @@ import { EmptyFixedAssetHolder, EmptyFixedAssetsQuery, FixedAssetDescriptor, Fix
 
 import { FixedAssetsExplorerEventType } from '../fixed-assets-explorer/fixed-assets-explorer.component';
 
+import { FixedAssetTabbedViewEventType } from '../fixed-asset-tabbed-view/fixed-asset-tabbed-view.component';
+
 
 @Component({
   selector: 'emp-pyc-fixed-assets-main-page',
@@ -71,6 +73,22 @@ export class FixedAssetsMainPageComponent {
   }
 
 
+  onFixedAssetTabbedViewEvent(event: EventInfo) {
+    switch (event.type as FixedAssetTabbedViewEventType) {
+      case FixedAssetTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyFixedAssetHolder);
+        return;
+      case FixedAssetTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
+        this.refreshSelectedData(event.payload.fixedAssetUID);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   private searchFixedAssets(query: FixedAssetsQuery) {
     this.isLoading = true;
 
@@ -88,6 +106,11 @@ export class FixedAssetsMainPageComponent {
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
+  }
+
+
+  private refreshSelectedData(fixedAssetUID: string) {
+    this.getFixedAssetData(fixedAssetUID);
   }
 
 

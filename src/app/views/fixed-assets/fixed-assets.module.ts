@@ -13,11 +13,14 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
+import { DocumentsModule } from '../documents/documents.module';
 
 import { FixedAssetsMainPageComponent } from './fixed-assets-main-page/fixed-assets-main-page.component';
 import { FixedAssetsExplorerComponent } from './fixed-assets-explorer/fixed-assets-explorer.component';
 import { FixedAssetsFilterComponent } from './fixed-assets-explorer/fixed-assets-filter.component';
 import { FixedAssetsTableComponent } from './fixed-assets-explorer/fixed-assets-table.component';
+
+import { FixedAssetTabbedViewComponent } from './fixed-asset-tabbed-view/fixed-asset-tabbed-view.component';
 
 
 @NgModule({
@@ -29,6 +32,7 @@ import { FixedAssetsTableComponent } from './fixed-assets-explorer/fixed-assets-
     AngularMaterialModule,
     SharedModule,
 
+    DocumentsModule,
     ReportsControlsModule,
   ],
   declarations: [
@@ -36,6 +40,7 @@ import { FixedAssetsTableComponent } from './fixed-assets-explorer/fixed-assets-
     FixedAssetsExplorerComponent,
     FixedAssetsFilterComponent,
     FixedAssetsTableComponent,
+    FixedAssetTabbedViewComponent,
   ],
   exports: [
     FixedAssetsMainPageComponent,

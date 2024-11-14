@@ -18,4 +18,14 @@
 
   </div>
 
+  <div class="secondary priority" *ngIf="displayTabbedView">
+
+    <emp-pyc-fixed-asset-tabbed-view
+      [data]="selectedData"
+      (fixedAssetTabbedViewEvent)="onFixedAssetTabbedViewEvent($event)">
+
+    </emp-pyc-fixed-asset-tabbed-view>
+
+  </div>
+
 </div>
