@@ -1,0 +1,21 @@
+<emp-ng-spinner #spinner [visible]="isLoadingSelection">
+
+</emp-ng-spinner>
+
+<div class="explorer">
+
+  <div class="primary" [class.std-hide]="displayTabbedView">
+
+    <emp-pyc-fixed-assets-explorer
+      [query]="query"
+      [dataList]="dataList"
+      [selectedUID]="selectedData.fixedAsset.uid"
+      [isLoading]="isLoading"
+      [queryExecuted]="queryExecuted"
+      (fixedAssetsExplorerEvent)="onFixedAssetsExplorerEvent($event)">
+
+    </emp-pyc-fixed-assets-explorer>
+
+  </div>
+
+</div>
