@@ -14,6 +14,10 @@ import { ROUTES } from '@app/main-layout';
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
 import {
+  FixedAssetsMainPageComponent
+} from '@app/views/fixed-assets/fixed-assets-main-page/fixed-assets-main-page.component';
+
+import {
   RequestsMainPageComponent
 } from '@app/views/requests/requests-main-page/requests-main-page.component';
 
@@ -32,7 +36,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.activo_fijo_explorador.permission },
     path: ROUTES.activo_fijo_explorador.path,
-    component: DefaultComponent,
+    component: FixedAssetsMainPageComponent,
   },
   {
     data: { permission: ROUTES.activo_fijo_valuacion.permission },

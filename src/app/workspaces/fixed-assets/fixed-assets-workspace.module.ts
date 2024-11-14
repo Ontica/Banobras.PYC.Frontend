@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 
 import { FixedAssetsWorkspaceRoutingModule } from './fixed-assets-workspace-routing.module';
 
+import { FixedAssetsModule } from '@app/views/fixed-assets/fixed-assets.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
 
 
@@ -20,6 +21,7 @@ import { RequestsModule } from '@app/views/requests/requests.module';
 
     FixedAssetsWorkspaceRoutingModule,
 
+    FixedAssetsModule,
     RequestsModule,
   ]
 
