@@ -7,13 +7,17 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { EventInfo } from '@app/core';
+import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
 import { EmptyFixedAssetHolder, FixedAssetHolder, isEntityStatusInWarning } from '@app/models';
 
-import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+import { FixedAssetEditorEventType } from '../fixed-asset/fixed-asset-editor.component';
+
+import {
+  DocumentsEditionEventType
+} from '@app/views/documents/documents-edition/documents-edition.component';
 
 
 export enum FixedAssetTabbedViewEventType {
@@ -51,21 +55,21 @@ export class FixedAssetTabbedViewComponent implements OnChanges {
 
 
   onFixedAssetEditorEvent(event: EventInfo) {
-    // switch (event.type as FixedAssetEditorEventType) {
-    //   case FixedAssetEditorEventType.UPDATED:
-    //     Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
-    //     sendEvent(this.fixedAssetTabbedViewEvent,
-    //       FixedAssetTabbedViewEventType.DATA_UPDATED, event.payload);
-    //     return;
-    //   case FixedAssetEditorEventType.DELETED:
-    //     Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
-    //     sendEvent(this.fixedAssetTabbedViewEvent,
-    //       FixedAssetTabbedViewEventType.DATA_DELETED, event.payload);
-    //     return;
-    //   default:
-    //     console.log(`Unhandled user interface event ${event.type}`);
-    //     return;
-    // }
+    switch (event.type as FixedAssetEditorEventType) {
+      case FixedAssetEditorEventType.UPDATED:
+        Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
+        sendEvent(this.fixedAssetTabbedViewEvent,
+          FixedAssetTabbedViewEventType.DATA_UPDATED, event.payload);
+        return;
+      case FixedAssetEditorEventType.DELETED:
+        Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
+        sendEvent(this.fixedAssetTabbedViewEvent,
+          FixedAssetTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 

@@ -7,9 +7,12 @@
 
     <mat-tab label="Activo fijo">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-pyc-fixed-asset-editor
+        [fixedAsset]="data.fixedAsset"
+        [actions]="data.actions"
+        (fixedAssetEditorEvent)="onFixedAssetEditorEvent($event)">
+
+      </emp-pyc-fixed-asset-editor>
 
     </mat-tab>
 

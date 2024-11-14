@@ -39,6 +39,22 @@ export interface FixedAssetDescriptor {
 }
 
 
+export interface FixedAssetFields {
+  fixedAssetTypeUID: string;
+  name: string;
+  description: string;
+  brand: string;
+  model: string;
+  year: number;
+  label: string;
+  custodianOrgUnitUID: string;
+  custodianPersonUID: string;
+  location: string;
+  startDate: DateString;
+  endDate: DateString;
+}
+
+
 export interface FixedAssetHolder {
   fixedAsset: FixedAsset;
   transactions: FixedAssetTransaction[];

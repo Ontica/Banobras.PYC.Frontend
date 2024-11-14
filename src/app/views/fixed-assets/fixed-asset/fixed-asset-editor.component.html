@@ -1,0 +1,17 @@
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="section-title"> Información general del activo fijo</div>
+
+  <emp-pyc-fixed-asset-header
+    [isSaved]="isSaved"
+    [fixedAsset]="fixedAsset"
+    [actions]="actions"
+    (fixedAssetHeaderEvent)="onFixedAssetHeaderEvent($event)">
+
+  </emp-pyc-fixed-asset-header>
+
+</div>

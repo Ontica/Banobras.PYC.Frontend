@@ -19,8 +19,9 @@ import { FixedAssetsMainPageComponent } from './fixed-assets-main-page/fixed-ass
 import { FixedAssetsExplorerComponent } from './fixed-assets-explorer/fixed-assets-explorer.component';
 import { FixedAssetsFilterComponent } from './fixed-assets-explorer/fixed-assets-filter.component';
 import { FixedAssetsTableComponent } from './fixed-assets-explorer/fixed-assets-table.component';
-
 import { FixedAssetTabbedViewComponent } from './fixed-asset-tabbed-view/fixed-asset-tabbed-view.component';
+import { FixedAssetEditorComponent } from './fixed-asset/fixed-asset-editor.component';
+import { FixedAssetHeaderComponent } from './fixed-asset/fixed-asset-header.component';
 
 
 @NgModule({
@@ -41,6 +42,8 @@ import { FixedAssetTabbedViewComponent } from './fixed-asset-tabbed-view/fixed-a
     FixedAssetsFilterComponent,
     FixedAssetsTableComponent,
     FixedAssetTabbedViewComponent,
+    FixedAssetEditorComponent,
+    FixedAssetHeaderComponent,
   ],
   exports: [
     FixedAssetsMainPageComponent,
