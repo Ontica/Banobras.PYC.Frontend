@@ -18,9 +18,10 @@
 
     <mat-tab label="Transacciones">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-pmt-fixed-asset-transactions-table
+        [transactions]="data.transactions">
+
+      </emp-pmt-fixed-asset-transactions-table>
 
     </mat-tab>
 

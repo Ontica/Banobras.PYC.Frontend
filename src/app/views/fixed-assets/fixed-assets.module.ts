@@ -22,6 +22,7 @@ import { FixedAssetsTableComponent } from './fixed-assets-explorer/fixed-assets-
 import { FixedAssetTabbedViewComponent } from './fixed-asset-tabbed-view/fixed-asset-tabbed-view.component';
 import { FixedAssetEditorComponent } from './fixed-asset/fixed-asset-editor.component';
 import { FixedAssetHeaderComponent } from './fixed-asset/fixed-asset-header.component';
+import { FixedAssetTransactionsTableComponent } from './fixed-asset-transactions/fixed-asset-transactions-table.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { FixedAssetHeaderComponent } from './fixed-asset/fixed-asset-header.comp
     FixedAssetTabbedViewComponent,
     FixedAssetEditorComponent,
     FixedAssetHeaderComponent,
+    FixedAssetTransactionsTableComponent,
   ],
   exports: [
     FixedAssetsMainPageComponent,

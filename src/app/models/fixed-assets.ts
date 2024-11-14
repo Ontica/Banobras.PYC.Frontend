@@ -86,6 +86,10 @@ export interface FixedAsset {
 export interface FixedAssetTransaction {
   uid: string;
   name: string;
+  transactionNo: string;
+  resposable: Identifiable;
+  involved: Identifiable;
+  notes: string;
 }
 
 
