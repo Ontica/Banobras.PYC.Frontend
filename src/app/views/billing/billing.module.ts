@@ -21,6 +21,7 @@ import { BillsFilterComponent } from './bills-explorer/bills-filter.component';
 import { BillTabbedViewComponent } from './bill-tabbed-view/bill-tabbed-view.component';
 import { BillEditorComponent } from './bill/bill-editor.component';
 import { BillHeaderComponent } from './bill/bill-header.component';
+import { BillConceptsTableComponent } from './bill/bill-concepts-table.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { BillHeaderComponent } from './bill/bill-header.component';
     BillTabbedViewComponent,
     BillEditorComponent,
     BillHeaderComponent,
+    BillConceptsTableComponent,
   ],
   exports: [
     BillsMainPageComponent,

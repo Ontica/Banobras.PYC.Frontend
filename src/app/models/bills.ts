@@ -125,9 +125,9 @@ export interface BillConcept {
   product: Identifiable;
   description: string;
   quantity: number;
-  initPrice: number;
-  subtotal: number;
+  unitPrice: number;
   discount: number;
+  subtotal: number;
   postedBy: Identifiable;
   postingTime: DateString;
   taxEntries: BillTaxEntry[];

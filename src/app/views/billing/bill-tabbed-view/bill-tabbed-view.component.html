@@ -18,9 +18,10 @@
 
     <mat-tab label="Conceptos">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-bill-concepts-table
+        [concepts]="data.concepts">
+
+      </emp-ng-bill-concepts-table>
 
     </mat-tab>
 
