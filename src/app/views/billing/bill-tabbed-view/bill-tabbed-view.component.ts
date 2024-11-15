@@ -7,13 +7,15 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { DateStringLibrary, EventInfo } from '@app/core';
+import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
 import { BillData, EmptyBillData } from '@app/models';
 
 import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+
+import { BillEditorEventType } from '../bill/bill-editor.component';
 
 export enum BillTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'BillTabbedViewComponent.Event.CloseButtonClicked',
@@ -34,7 +36,7 @@ export class BillTabbedViewComponent implements OnChanges {
 
   hint = '';
 
-  selectedTabIndex = 2;
+  selectedTabIndex = 0;
 
 
   ngOnChanges() {
@@ -44,6 +46,21 @@ export class BillTabbedViewComponent implements OnChanges {
 
   onCloseButtonClicked() {
     sendEvent(this.billTabbedViewEvent, BillTabbedViewEventType.CLOSE_BUTTON_CLICKED);
+  }
+
+
+  onBillEditorEvent(event: EventInfo) {
+    switch (event.type as BillEditorEventType) {
+      case BillEditorEventType.UPDATED:
+      case BillEditorEventType.DELETED:
+        Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
+        sendEvent(this.billTabbedViewEvent,
+          BillTabbedViewEventType.REFRESH_DATA, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 

@@ -7,9 +7,12 @@
 
     <mat-tab label="Factura">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-bill-editor
+        [bill]="data.bill"
+        [actions]="data.actions"
+        (billEditorEvent)="onBillEditorEvent($event)">
+
+      </emp-ng-bill-editor>
 
     </mat-tab>
 

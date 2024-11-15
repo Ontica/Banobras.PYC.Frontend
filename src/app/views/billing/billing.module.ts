@@ -17,8 +17,10 @@ import { ReportsControlsModule } from '../_reports-controls/reports-controls.mod
 
 import { BillsMainPageComponent } from './bills-main-page/bills-main-page.component';
 import { BillsExplorerComponent } from './bills-explorer/bills-explorer.component';
-import { BillTabbedViewComponent } from './bill-tabbed-view/bill-tabbed-view.component';
 import { BillsFilterComponent } from './bills-explorer/bills-filter.component';
+import { BillTabbedViewComponent } from './bill-tabbed-view/bill-tabbed-view.component';
+import { BillEditorComponent } from './bill/bill-editor.component';
+import { BillHeaderComponent } from './bill/bill-header.component';
 
 
 @NgModule({
@@ -36,8 +38,10 @@ import { BillsFilterComponent } from './bills-explorer/bills-filter.component';
   declarations: [
     BillsMainPageComponent,
     BillsExplorerComponent,
-    BillTabbedViewComponent,
     BillsFilterComponent,
+    BillTabbedViewComponent,
+    BillEditorComponent,
+    BillHeaderComponent,
   ],
   exports: [
     BillsMainPageComponent,

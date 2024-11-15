@@ -9,6 +9,8 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { DataTable, DataTableColumn, DataTableColumnType } from './_data-table';
 
+import { BaseActions, EmptyBaseActions } from './_explorer-data';
+
 import { Document } from './documents';
 
 import { History } from './history';
@@ -85,35 +87,75 @@ export interface BillDescriptor {
 }
 
 
+export interface BillFields {
+
+}
+
+
 export interface BillData {
   bill: Bill;
   concepts: BillConcept[];
   documents: Document[];
   history: History[];
-  actions: BillActions;
+  actions: BaseActions;
 }
 
 
 export interface Bill {
   uid: string;
   billNo: string;
-  issuedBy: Identifiable;
-  issuedTo: Identifiable;
+  managedBy: Identifiable;
   category: Identifiable;
   billType: Identifiable;
-  total: number;
   issueDate: DateString;
+  issuedBy: Identifiable;
+  issuedTo: Identifiable;
+  currencyCode: string;
+  subtotal: number;
+  discount: number;
+  total: number;
+  postedBy: Identifiable;
+  postingTime: DateString;
   status: Identifiable;
 }
 
 
 export interface BillConcept {
-
+  uid: string;
+  product: Identifiable;
+  description: string;
+  quantity: number;
+  initPrice: number;
+  subtotal: number;
+  discount: number;
+  postedBy: Identifiable;
+  postingTime: DateString;
+  taxEntries: BillTaxEntry[];
 }
 
 
-export interface BillActions {
-  canEditDocuments: boolean;
+export interface BillTaxEntry {
+  uid: string;
+  taxMethod: Identifiable<BillTaxMethod>;
+  taxFactorType: Identifiable<BillTaxFactorType>;
+  factor: number;
+  baseAmount: number;
+  total: number;
+  postedBy: Identifiable;
+  postingTime: DateString;
+  status: Identifiable;
+}
+
+
+export enum BillTaxMethod {
+  Traslado = 'Traslado',
+  Retencion = 'Retencion'
+}
+
+
+export enum BillTaxFactorType {
+  Cuota = 'Cuota',
+  Tasa = 'Tasa',
 }
 
 
@@ -134,19 +176,20 @@ export const EmptyBillsQuery: BillsQuery = {
 export const EmptyBill: Bill = {
   uid: '',
   billNo: '',
+  managedBy: Empty,
+  category: Empty,
   billType: Empty,
+  issueDate: '',
   issuedBy: Empty,
   issuedTo: Empty,
-  category: Empty,
-  total: null,
-  issueDate: '',
-  status: null,
+  currencyCode: '',
+  subtotal: 0,
+  discount: 0,
+  total: 0,
+  postedBy: Empty,
+  postingTime: '',
+  status: Empty,
 };
-
-
-export const EmptyBillActions: BillActions = {
-  canEditDocuments: false,
-}
 
 
 export const EmptyBillData: BillData = {
@@ -154,7 +197,7 @@ export const EmptyBillData: BillData = {
   concepts: [],
   documents: [],
   history: [],
-  actions: EmptyBillActions,
+  actions: EmptyBaseActions,
 };
 
 

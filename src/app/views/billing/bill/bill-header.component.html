@@ -1,0 +1,199 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-size" style="--size: calc(100% - 126px)">
+
+        <label>Área:</label>
+
+        <emp-ng-select
+          formControlName="managedByUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="managedByList"
+          [loading]="isLoading"
+          [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
+          [showError]="formHelper.isControlInvalid(form.controls.managedByUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-none">
+        <label>Emisión:</label>
+        <emp-ng-datepicker
+          formControlName="issueDate"
+          [showError]="formHelper.isControlInvalid(form.controls.issueDate)">
+
+        </emp-ng-datepicker>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Categoría:</label>
+
+        <emp-ng-select
+          formControlName="categoryUID"
+          [items]="categoriesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.categoryUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Tipo de factura:</label>
+
+        <emp-ng-select
+          formControlName="billTypeUID"
+          [items]="billTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.billTypeUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Emisor:</label>
+
+        <emp-ng-select
+          formControlName="issuedByUID"
+          [items]="issuedByList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.issuedByUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Receptor:</label>
+
+        <emp-ng-select
+          formControlName="issuedToUID"
+          [items]="issuedToList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.issuedToUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-quarter">
+        <label>Moneda:</label>
+        <input type="text" class="text-box"
+          formControlName="currencyCode"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.currencyCode)">
+      </div>
+
+      <div class="fx-item-quarter">
+        <label>Subtotal:</label>
+        <input type="text" class="text-box text-align-right" empNgCurrency
+          formControlName="subtotal"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.subtotal)">
+      </div>
+
+      <div class="fx-item-quarter">
+        <label>Descuento:</label>
+        <input type="text" class="text-box text-align-right" empNgCurrency
+          formControlName="discount"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.discount)">
+      </div>
+
+      <div class="fx-item-quarter">
+        <label>Total:</label>
+        <input type="text" class="text-box text-align-right" empNgCurrency
+          formControlName="total"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.total)">
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canDelete"
+            type="button" class="btn-warning"
+            (click)="onDeleteButtonClicked()">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canUpdate"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>
