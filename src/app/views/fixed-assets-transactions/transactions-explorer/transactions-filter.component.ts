@@ -34,14 +34,16 @@ export enum FixedAssetTransactionsFilterEventType {
 }
 
 interface FixedAssetTransactionsFilterFormModel extends FormGroup<{
-  custodianOrgUnitUID: FormControl<string>;
+  basePartyUID: FormControl<string>;
   status: FormControl<FixedAssetTransactionsStatus>;
   keywords: FormControl<string>;
   transactionTypeUID: FormControl<string>;
+  operationSourceUID: FormControl<string>;
   transactionsNo: FormControl<string[]>;
+  entriesKeywords: FormControl<string>;
+  tags: FormControl<string[]>;
   dateType: FormControl<FixedAssetTransactionQueryDateType>;
   datePeriod: FormControl<DateRange>;
-  tags: FormControl<string[]>;
   partyType: FormControl<FixedAssetTransactionPartyType>;
   partyUID: FormControl<string>;
 }> { }
@@ -69,6 +71,8 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
 
   orgUnitsList: Identifiable[] = [];
 
+  operationSourcesList: Identifiable[] = [];
+
   transactionTypesList: Identifiable[] = [];
 
   statusList: Identifiable<FixedAssetTransactionsStatus>[] = FixedAssetTransactionStatusList;
@@ -77,7 +81,7 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
 
   partyTypesList: Identifiable<FixedAssetTransactionPartyType>[] = FixedAssetTransactionPartyTypesList;
 
-  partiesAPI = SearcherAPIS.transactionsParties;
+  partiesAPI = SearcherAPIS.fixedAssetTransactionsParties;
 
   selectedParty: Identifiable = null;
 
@@ -160,27 +164,31 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      custodianOrgUnitUID: [''],
+      basePartyUID: [''],
       status: [null],
-      keywords: [''],
-      transactionTypeUID: [''],
+      keywords: [null],
+      transactionTypeUID: [null],
+      operationSourceUID: [null],
       transactionsNo: [null],
+      entriesKeywords: [null],
       tags: [null],
       dateType: [FixedAssetTransactionQueryDateType.Requested],
       datePeriod: [EmptyDateRange],
       partyType: [FixedAssetTransactionPartyType.RequestedBy],
-      partyUID: [''],
+      partyUID: [null],
     });
   }
 
 
   private setFormData() {
     this.form.reset({
-      custodianOrgUnitUID: this.query.custodianOrgUnitUID,
+      basePartyUID: this.query.basePartyUID,
       status: this.query.status,
       keywords: this.query.keywords,
       transactionTypeUID: this.query.transactionTypeUID,
+      operationSourceUID: this.query.operationSourceUID,
       transactionsNo: this.query.transactionsNo,
+      entriesKeywords: this.query.entriesKeywords,
       tags: this.query.tags,
       dateType: this.query.dateType ?? FixedAssetTransactionQueryDateType.Requested,
       datePeriod: { fromDate: this.query.fromDate ?? null, toDate: this.query.toDate ?? null },
@@ -192,11 +200,13 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
 
   private getFormData(): FixedAssetTransactionsQuery {
     const query: FixedAssetTransactionsQuery = {
-      custodianOrgUnitUID: this.form.value.custodianOrgUnitUID ?? null,
+      basePartyUID: this.form.value.basePartyUID ?? null,
       status: this.form.value.status ?? null,
       keywords: this.form.value.keywords ?? null,
       transactionTypeUID: this.form.value.transactionTypeUID ?? null,
+      operationSourceUID: this.form.value.operationSourceUID ?? null,
       transactionsNo: this.form.value.transactionsNo ?? null,
+      entriesKeywords: this.form.value.entriesKeywords ?? null,
       tags: this.form.value.tags ?? null,
       dateType: this.form.value.dateType ?? null,
       fromDate: this.form.value.datePeriod?.fromDate ?? '',

@@ -15,7 +15,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { FixedAssetTransaction } from '@app/models';
+import { FixedAssetTransactionDescriptor } from '@app/models';
 
 export enum FixedAssetTransactionsTableEventType {
   SELECT_TRANSACTION_CLICKED = 'FixedAssetTransactionsTableComponent.Event.SelectTransactionClicked',
@@ -28,18 +28,18 @@ export enum FixedAssetTransactionsTableEventType {
 })
 export class FixedAssetTransactionsTableComponent implements OnChanges {
 
-  @Input() transactions: FixedAssetTransaction[] = [];
+  @Input() transactions: FixedAssetTransactionDescriptor[] = [];
 
   @Input() canEdit = false;
 
   @Output() fixedAssetTransactionsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['transactionNo', 'requestedDate', 'transaction', 'resposable', 'involved',
-    'notes'];
+  displayedColumnsDefault: string[] = ['transactionType', 'transactionNo', 'requestedDate', 'resposable',
+    'operationSource', 'description'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
-  dataSource: MatTableDataSource<FixedAssetTransaction>;
+  dataSource: MatTableDataSource<FixedAssetTransactionDescriptor>;
 
 
   constructor(private messageBox: MessageBoxService) {
@@ -54,7 +54,7 @@ export class FixedAssetTransactionsTableComponent implements OnChanges {
   }
 
 
-  onSelectTransactionClicked(transaction: FixedAssetTransaction) {
+  onSelectTransactionClicked(transaction: FixedAssetTransactionDescriptor) {
     if (this.canEdit && window.getSelection().toString().length <= 0) {
       sendEvent(this.fixedAssetTransactionsTableEvent,
         FixedAssetTransactionsTableEventType.SELECT_TRANSACTION_CLICKED, { transaction });
@@ -62,7 +62,7 @@ export class FixedAssetTransactionsTableComponent implements OnChanges {
   }
 
 
-  onRemoveTransactionClicked(transaction: FixedAssetTransaction) {
+  onRemoveTransactionClicked(transaction: FixedAssetTransactionDescriptor) {
     const message = this.getConfirmMessage(transaction);
 
     this.messageBox.confirm(message, 'Eliminar transacción', 'DeleteCancel')
@@ -91,15 +91,15 @@ export class FixedAssetTransactionsTableComponent implements OnChanges {
   }
 
 
-  private getConfirmMessage(transaction: FixedAssetTransaction): string {
+  private getConfirmMessage(transaction: FixedAssetTransactionDescriptor): string {
     return `
       <table class='confirm-data'>
         <tr><td class='nowrap'>Transacción: </td><td><strong>
-          ${transaction.transactionNo}: ${transaction.name}
+          ${transaction.transactionNo}: ${transaction.transactionTypeName}
         </strong></td></tr>
 
-        <tr><td class='nowrap'>Resguardatario: </td><td><strong>
-          ${transaction.resposable.name}
+        <tr><td class='nowrap'>Área responsable: </td><td><strong>
+          ${transaction.basePartyName}
         </strong></td></tr>
       </table>
 

@@ -2,6 +2,11 @@
 
   <table mat-table [dataSource]="dataSource">
 
+    <ng-container matColumnDef="transactionType">
+      <th mat-header-cell *matHeaderCellDef> Tipo </th>
+      <td mat-cell *matCellDef="let row">{{ row.transactionTypeName }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="transactionNo">
       <th mat-header-cell *matHeaderCellDef class="nowrap"> No. transacción </th>
       <td mat-cell *matCellDef="let row">{{ row.transactionNo }}</td>
@@ -12,24 +17,19 @@
       <td mat-cell *matCellDef="let row">{{ row.requestedDate | empDateTimeFormat }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="transaction">
-      <th mat-header-cell *matHeaderCellDef> Operación </th>
-      <td mat-cell *matCellDef="let row">{{ row.name }}</td>
-    </ng-container>
-
     <ng-container matColumnDef="resposable">
-      <th mat-header-cell *matHeaderCellDef> Responsable </th>
-      <td mat-cell *matCellDef="let row">{{ row.resposable.name }}</td>
+      <th mat-header-cell *matHeaderCellDef> Area responsable </th>
+      <td mat-cell *matCellDef="let row">{{ row.basePartyName }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="involved">
-      <th mat-header-cell *matHeaderCellDef > Involucrado </th>
+    <ng-container matColumnDef="operationSource">
+      <th mat-header-cell *matHeaderCellDef > Fuente </th>
       <td mat-cell *matCellDef="let row">{{ row.involved.name }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="notes" >
-      <th mat-header-cell *matHeaderCellDef> Observaciones </th>
-      <td mat-cell *matCellDef="let row">{{ row.notes }}</td>
+    <ng-container matColumnDef="description" >
+      <th mat-header-cell *matHeaderCellDef> Descripción </th>
+      <td mat-cell *matCellDef="let row">{{ row.description }}</td>
     </ng-container>
 
     <ng-container matColumnDef="actionDelete">

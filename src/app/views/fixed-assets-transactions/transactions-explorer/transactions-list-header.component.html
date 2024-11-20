@@ -2,11 +2,11 @@
 
   <div class="list-header-container">
 
-    <div class="fx-row-container fx-gap-size fx-items-center sm-fx-gap" style="--gap-size: 32px;">
+    <div class="fx-row-container fx-gap-size entry-gap-size fx-items-center sm-fx-gap">
 
-      <div class="fx-item-size sm-fx-item-none" style="--size: 20px;" *ngIf="dataList.length > 0">
+      <div class="fx-item-size check-column-size sm-fx-item-none">
 
-        <emp-ng-check-box-all
+        <emp-ng-check-box-all *ngIf="dataList.length > 0"
           [(selection)]="selection"
           [values]="dataList">
         </emp-ng-check-box-all>
@@ -18,27 +18,22 @@
         Tipo de transacción<br>
       </div>
 
-      <div class="fx-item-size sm-fx-item-none" style="--size: 15%;">
+      <div class="fx-item-size first-column-size sm-fx-item-none">
         Área responsable <br>
-        Persona responsable
+        Fuente
       </div>
 
-      <div class="fx-item-size sm-fx-item-none" style="--size: 15%;">
-        Área involucrada <br>
-        Persona involucrada
-      </div>
-
-      <div class="fx-item-size sm-fx-item-none" style="--size: 15%;">
+      <div class="fx-item-size second-column-size sm-fx-item-none">
         Fecha elaboración <br>
         Fecha registro
       </div>
 
 
-      <div class="fx-item-size sm-fx-item-none" style="--size: 15%;">
+      <div class="fx-item-size third-column-size sm-fx-item-none">
         Descripción
       </div>
 
-      <div class="fx-item-size sm-fx-item-none" style="--size: 100px;">
+      <div class="fx-item-size status-column-size sm-fx-item-none">
         Estado
       </div>
 

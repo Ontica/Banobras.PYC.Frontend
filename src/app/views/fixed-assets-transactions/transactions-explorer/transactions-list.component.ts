@@ -19,6 +19,8 @@ import { BudgetTransactionsOperationsList, FixedAssetTransactionDescriptor } fro
 
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
+import { TransactionsListItemEventType } from './transactions-list-item.component';
+
 export enum TransactionsListEventType {
   SELECT_CLICKED            = 'FixedAssetTransactionsListComponent.Event.SelectClicked',
   EXECUTE_OPERATION_CLICKED = 'FixedAssetTransactionsListComponent.Event.ExecuteOperationClicked',
@@ -66,18 +68,18 @@ export class FixedAssetTransactionsListComponent implements OnChanges {
 
 
   onTransactionsListItemEvent(event: EventInfo) {
-    // switch (event.type as TransactionsListItemEventType) {
-    //   case TransactionsListItemEventType.SELECT_CLICKED:
-    //     sendEvent(this.transactionsListEvent, TransactionsListEventType.SELECT_CLICKED, event.payload);
-    //     return;
-    //   case TransactionsListItemEventType.CHECK_CLICKED:
-    //     Assertion.assertValue(event.payload.transaction, 'event.payload.transaction');
-    //     this.selection.toggle(event.payload.transaction);
-    //     return;
-    //   default:
-    //     console.log(`Unhandled user interface event ${event.type}`);
-    //     return;
-    // }
+    switch (event.type as TransactionsListItemEventType) {
+      case TransactionsListItemEventType.SELECT_CLICKED:
+        sendEvent(this.transactionsListEvent, TransactionsListEventType.SELECT_CLICKED, event.payload);
+        return;
+      case TransactionsListItemEventType.CHECK_CLICKED:
+        Assertion.assertValue(event.payload.transaction, 'event.payload.transaction');
+        this.selection.toggle(event.payload.transaction);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 

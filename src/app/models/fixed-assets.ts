@@ -13,7 +13,7 @@ import { Document } from './documents';
 
 import { History } from './history';
 
-import { FixedAssetTransaction } from './fixed-assets-transactions';
+import { FixedAssetTransactionDescriptor } from './fixed-assets-transactions';
 
 
 export interface FixedAssetsQuery {
@@ -64,7 +64,7 @@ export interface FixedAssetFields {
 
 export interface FixedAssetHolder {
   fixedAsset: FixedAsset;
-  transactions: FixedAssetTransaction[];
+  transactions: FixedAssetTransactionDescriptor[];
   documents: Document[];
   history: History[];
   actions: BaseActions;

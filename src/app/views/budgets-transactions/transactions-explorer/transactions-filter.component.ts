@@ -88,7 +88,7 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
 
   partyTypesList: Identifiable<BudgetTransactionPartyType>[] = BudgetTransactionPartyTypesList;
 
-  partiesAPI = SearcherAPIS.transactionsParties;
+  partiesAPI = SearcherAPIS.budgetTransactionsParties;
 
   selectedParty: Identifiable = null;
 

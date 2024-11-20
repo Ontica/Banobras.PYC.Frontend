@@ -6,14 +6,14 @@
 
       <div class="fx-item-half sm-fx-item">
 
-        <label>Área responsable:</label>
+        <label>Área:</label>
 
         <emp-ng-select
-          formControlName="custodianOrgUnitUID"
+          formControlName="basePartyUID"
           [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
           [items]="orgUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.custodianOrgUnitUID)"
+          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)"
           placeholder="Todas">
         </emp-ng-select>
 
@@ -82,7 +82,7 @@
 
         <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
 
-          <div class="fx-item-quarter">
+          <div  class="fx-item-half sm-fx-item">
 
             <label>Tipo de transacción:</label>
 
@@ -97,6 +97,25 @@
 
           </div>
 
+          <div class="fx-item-half sm-fx-item">
+
+            <label>Fuente:</label>
+
+            <emp-ng-select
+              formControlName="operationSourceUID"
+              [config]="{clearable: true}"
+              [items]="operationSourcesList"
+              [loading]="isLoading"
+              [showError]="formHelper.isControlInvalid(form.controls.operationSourceUID)"
+              placeholder="Todas">
+            </emp-ng-select>
+
+          </div>
+
+        </div>
+
+        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
           <div class="fx-item-quarter">
 
             <label>No. transacciones:</label>
@@ -105,6 +124,15 @@
               [showError]="formHelper.isControlInvalid(form.controls.transactionsNo)">
 
             </emp-ng-input-tags>
+
+          </div>
+
+          <div class="fx-item-quarter">
+
+            <label>Filtro por movimientos:</label>
+            <input type="text" class="text-box"
+              formControlName="entriesKeywords"
+              [class.invalid-control]="formHelper.isControlInvalid(form.controls.entriesKeywords)">
 
           </div>
 

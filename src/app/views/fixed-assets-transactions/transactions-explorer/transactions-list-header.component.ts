@@ -14,6 +14,7 @@ import { FixedAssetTransactionDescriptor } from '@app/models';
 @Component({
   selector: 'emp-fa-transactions-list-header',
   templateUrl: './transactions-list-header.component.html',
+  styleUrls: ['./transactions-list-item.component.scss'],
 })
 export class FixedAssetTransactionsListHeaderComponent {
 

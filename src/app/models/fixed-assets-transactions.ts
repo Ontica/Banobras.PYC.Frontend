@@ -61,11 +61,13 @@ export const FixedAssetTransactionPartyTypesList: Identifiable<FixedAssetTransac
 
 
 export interface FixedAssetTransactionsQuery {
-  custodianOrgUnitUID: string;
+  basePartyUID: string;
   status: FixedAssetTransactionsStatus;
   keywords: string;
   transactionTypeUID: string;
+  operationSourceUID: string;
   transactionsNo: string[];
+  entriesKeywords: string;
   tags: string[];
   dateType: FixedAssetTransactionQueryDateType;
   fromDate: DateString;
@@ -77,7 +79,14 @@ export interface FixedAssetTransactionsQuery {
 
 export interface FixedAssetTransactionDescriptor {
   uid: string;
+  transactionTypeName: string;
   transactionNo: string;
+  basePartyName: string;
+  operationSourceName: string;
+  description: string;
+  requestedDate: DateString;
+  applicationDate: DateString;
+  statusName: string;
 }
 
 
@@ -97,12 +106,14 @@ export interface FixedAssetTransactionData {
 
 export interface FixedAssetTransaction {
   uid: string;
+  transactionType: Identifiable;
   transactionNo: string;
-  name: string;
+  baseParty: Identifiable;
+  operationSource: Identifiable;
+  description: string;
   requestedDate: DateString;
-  resposable: Identifiable;
-  involved: Identifiable;
-  notes: string;
+  applicationDate: DateString;
+  status: Identifiable;
 }
 
 export enum FixedAssetTransactionsOperationType {
@@ -136,11 +147,13 @@ export const FixedAssetTransactionsOperationsList: ExplorerOperation[] = [
 
 
 export const EmptyFixedAssetTransactionsQuery: FixedAssetTransactionsQuery = {
-  custodianOrgUnitUID: '',
+  basePartyUID: '',
   status: null,
   keywords: '',
   transactionTypeUID: '',
+  operationSourceUID: '',
   transactionsNo: [],
+  entriesKeywords: '',
   tags: [],
   dateType: FixedAssetTransactionQueryDateType.Registered,
   fromDate: '',
@@ -152,12 +165,14 @@ export const EmptyFixedAssetTransactionsQuery: FixedAssetTransactionsQuery = {
 
 export const EmptyFixedAssetTransaction: FixedAssetTransaction = {
   uid: '',
+  transactionType: Empty,
   transactionNo: '',
-  name: '',
+  baseParty: Empty,
+  operationSource: Empty,
+  description: '',
   requestedDate: '',
-  resposable: Empty,
-  involved: Empty,
-  notes: '',
+  applicationDate: '',
+  status: Empty,
 }
 
 
@@ -174,5 +189,12 @@ export function mapFixedAssetTransactionDescriptorFromTransaction(data: FixedAss
   return {
     uid: data.transaction.uid,
     transactionNo: data.transaction.transactionNo,
+    transactionTypeName: data.transaction.transactionType.name,
+    basePartyName: data.transaction.baseParty.name,
+    operationSourceName: data.transaction.operationSource.name,
+    description: data.transaction.description,
+    requestedDate: data.transaction.requestedDate,
+    applicationDate: data.transaction.applicationDate,
+    statusName: data.transaction.status.name,
   };
 }

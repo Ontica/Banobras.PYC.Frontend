@@ -134,6 +134,7 @@ export class FixedAssetTransactionsMainPageComponent  {
   private setQueryAndClearExplorerData(query: FixedAssetTransactionsQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
+    this.setSelectedData(EmptyFixedAssetTransactionData);
   }
 
 

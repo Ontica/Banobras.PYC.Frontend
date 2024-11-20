@@ -17,9 +17,10 @@ import { ReportsControlsModule } from '../_reports-controls/reports-controls.mod
 
 import { FixedAssetTransactionsMainPageComponent } from './transactions-main-page/transactions-main-page.component';
 import { FixedAssetTransactionsExplorerComponent } from './transactions-explorer/transactions-explorer.component';
+import { FixedAssetTransactionsFilterComponent } from './transactions-explorer/transactions-filter.component';
 import { FixedAssetTransactionsListComponent } from './transactions-explorer/transactions-list.component';
 import { FixedAssetTransactionsListHeaderComponent } from './transactions-explorer/transactions-list-header.component';
-import { FixedAssetTransactionsFilterComponent } from './transactions-explorer/transactions-filter.component';
+import { FixedAssetTransactionsListItemComponent } from './transactions-explorer/transactions-list-item.component';
 
 
 @NgModule({
@@ -40,12 +41,7 @@ import { FixedAssetTransactionsFilterComponent } from './transactions-explorer/t
     FixedAssetTransactionsFilterComponent,
     FixedAssetTransactionsListComponent,
     FixedAssetTransactionsListHeaderComponent,
-
-    // TransactionTabbedViewComponent,
-    // TransactionEditorComponent,
-    // TransactionHeaderComponent,
-    // TransactionEntriesEditionComponent,
-    // TransactionEntriesTableComponent,
+    FixedAssetTransactionsListItemComponent,
   ],
   exports: [
     FixedAssetTransactionsMainPageComponent,
