@@ -41,9 +41,13 @@ export class FixedAssetsTableComponent implements OnChanges {
 
   @Input() queryExecuted = false;
 
+  @Input() displayControls = true;
+
   @Output() fixedAssetsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumns: string[] = ['check', 'fixedAsset', 'type', 'custodian', 'status'];
+  displayedColumnsDefault: string[] = ['fixedAsset', 'type', 'custodian', 'status'];
+
+  displayedColumns = [...this.displayedColumnsDefault];
 
   dataSource: TableVirtualScrollDataSource<FixedAssetDescriptor>;
 
@@ -88,6 +92,17 @@ export class FixedAssetsTableComponent implements OnChanges {
 
   private setDataSource() {
     this.dataSource = new TableVirtualScrollDataSource(this.dataList);
+    this.resetColumns();
+  }
+
+
+  private resetColumns() {
+    if (this.displayControls) {
+      this.displayedColumns = ['check', ...this.displayedColumnsDefault];
+      return;
+    }
+
+    this.displayedColumns = [...this.displayedColumnsDefault];
   }
 
 

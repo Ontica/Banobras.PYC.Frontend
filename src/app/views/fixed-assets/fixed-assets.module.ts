@@ -49,6 +49,7 @@ import { FixedAssetTransactionsTableComponent } from './fixed-asset-transactions
   ],
   exports: [
     FixedAssetsMainPageComponent,
+    FixedAssetsTableComponent,
   ],
 })
 export class FixedAssetsModule { }

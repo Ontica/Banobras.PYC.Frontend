@@ -11,6 +11,8 @@ import { BaseActions, EmptyBaseActions, ExplorerOperation } from './_explorer-da
 
 import { Document } from './documents';
 
+import { FixedAssetDescriptor } from './fixed-assets';
+
 
 export enum FixedAssetTransactionsStatus {
   Pending         = 'Pendiente',
@@ -99,7 +101,7 @@ export interface FixedAssetTransactionFields {
 
 export interface FixedAssetTransactionData {
   transaction: FixedAssetTransaction,
-  entries: any[];
+  entries: FixedAssetDescriptor[];
   documents: Document[];
   history: History[];
   actions: BaseActions;

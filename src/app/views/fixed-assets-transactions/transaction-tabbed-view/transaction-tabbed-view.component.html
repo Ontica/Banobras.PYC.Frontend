@@ -18,11 +18,16 @@
 
     <mat-tab label="Movimientos">
 
-      <!-- <emp-fa-transaction-entries-edition
-        [entries]="data.entries"
-        (transactionEntriesEditionEvent)="onTransactionEntriesEditionEvent($event)">
+      <ng-template matTabContent>
 
-      </emp-fa-transaction-entries-edition> -->
+        <emp-pyc-fixed-assets-table
+          [dataList]="data.entries"
+          [displayControls]="false"
+          [queryExecuted]="true">
+
+        </emp-pyc-fixed-assets-table>
+
+      </ng-template>
 
     </mat-tab>
 

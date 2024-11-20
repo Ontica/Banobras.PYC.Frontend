@@ -12,8 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { DocumentsModule } from '../documents/documents.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
+import { DocumentsModule } from '../documents/documents.module';
+import { FixedAssetsModule } from '../fixed-assets/fixed-assets.module';
 
 import { FixedAssetTransactionsMainPageComponent } from './transactions-main-page/transactions-main-page.component';
 import { FixedAssetTransactionsExplorerComponent } from './transactions-explorer/transactions-explorer.component';
@@ -34,8 +35,9 @@ import { FixedAssetTransactionTabbedViewComponent } from './transaction-tabbed-v
     AngularMaterialModule,
     SharedModule,
 
-    DocumentsModule,
     ReportsControlsModule,
+    DocumentsModule,
+    FixedAssetsModule,
   ],
   declarations: [
     FixedAssetTransactionsMainPageComponent,
@@ -48,8 +50,6 @@ import { FixedAssetTransactionTabbedViewComponent } from './transaction-tabbed-v
     FixedAssetTransactionTabbedViewComponent,
     // TransactionEditorComponent,
     // TransactionHeaderComponent,
-    // TransactionEntriesEditionComponent,
-    // TransactionEntriesTableComponent,
   ],
   exports: [
     FixedAssetTransactionsMainPageComponent,
