@@ -22,7 +22,7 @@ import {
 
 
 export type LAYOUT_TYPE = 'Management' | 'Unauthorized' |
-                          'Steps' | 'Budget' | 'CashFlow' | 'Contracts' | 'Payments' | 'FixedAssets';
+                          'Steps' | 'Contracts' | 'Payments' | 'Budget' | 'FixedAssets' | 'CashFlow';
 
 
 export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
@@ -44,28 +44,12 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
     permission: ROUTES.tareas.permission,
   },
   {
-    name: 'Budget',
-    views: BudgetViews,
-    hint: 'Presupuesto',
-    defaultTitle: 'Presupuesto',
-    url: ROUTES.presupuesto.fullpath,
-    permission: ROUTES.presupuesto.permission,
-  },
-  {
-    name: 'CashFlow',
-    views: CashFlowViews,
-    hint: 'Flujo de efectivo',
-    defaultTitle: 'Flujo de efectivo',
-    url: ROUTES.flujo_de_efectivo.fullpath,
-    permission: ROUTES.flujo_de_efectivo.permission,
-  },
-  {
     name: 'Contracts',
     views: ContractsViews,
-    hint: 'Contratos',
-    defaultTitle: 'Contratos',
-    url: ROUTES.contratos.fullpath,
-    permission: ROUTES.contratos.permission,
+    hint: 'Adquisiciones',
+    defaultTitle: 'Adquisiciones',
+    url: ROUTES.adquisiciones.fullpath,
+    permission: ROUTES.adquisiciones.permission,
   },
   {
     name: 'Payments',
@@ -76,13 +60,29 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
     permission: ROUTES.pagos.permission,
   },
   {
+    name: 'Budget',
+    views: BudgetViews,
+    hint: 'Presupuesto',
+    defaultTitle: 'Presupuesto',
+    url: ROUTES.presupuesto.fullpath,
+    permission: ROUTES.presupuesto.permission,
+  },
+  {
     name: 'FixedAssets',
     views: FixedAssetsViews,
-    hint: 'Activo fijo',
-    defaultTitle: 'Activo fijo',
-    url: ROUTES.activo_fijo.fullpath,
-    permission: ROUTES.activo_fijo.permission,
+    hint: 'Inventarios',
+    defaultTitle: 'Inventarios',
+    url: ROUTES.inventarios.fullpath,
+    permission: ROUTES.inventarios.permission,
   },
+  // {
+  //   name: 'CashFlow',
+  //   views: CashFlowViews,
+  //   hint: 'Flujo de efectivo',
+  //   defaultTitle: 'Flujo de efectivo',
+  //   url: ROUTES.flujo_de_efectivo.fullpath,
+  //   permission: ROUTES.flujo_de_efectivo.permission,
+  // },
   {
     name: 'Management',
     views: SystemManagementViews,

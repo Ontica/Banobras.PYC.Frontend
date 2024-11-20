@@ -28,38 +28,43 @@ import {
 
 const routes: Routes = [
   {
-    data: { permission: ROUTES.activo_fijo_solicitudes.permission },
-    path: ROUTES.activo_fijo_solicitudes.path,
+    data: { permission: ROUTES.inventarios_solicitudes.permission },
+    path: ROUTES.inventarios_solicitudes.path,
     component: RequestsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.activo_fijo_transacciones.permission },
-    path: ROUTES.activo_fijo_transacciones.path,
+    data: { permission: ROUTES.inventarios_transacciones.permission },
+    path: ROUTES.inventarios_transacciones.path,
     component: FixedAssetTransactionsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.activo_fijo_explorador.permission },
-    path: ROUTES.activo_fijo_explorador.path,
+    data: { permission: ROUTES.inventarios_existencias.permission },
+    path: ROUTES.inventarios_existencias.path,
+    component: DefaultComponent,
+  },
+  {
+    data: { permission: ROUTES.inventarios_activo_fijo.permission },
+    path: ROUTES.inventarios_activo_fijo.path,
     component: FixedAssetsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.activo_fijo_valuacion.permission },
-    path: ROUTES.activo_fijo_valuacion.path,
+    data: { permission: ROUTES.inventarios_valuacion.permission },
+    path: ROUTES.inventarios_valuacion.path,
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.activo_fijo_configuracion.permission },
-    path: ROUTES.activo_fijo_configuracion.path,
+    data: { permission: ROUTES.inventarios_configuracion.permission },
+    path: ROUTES.inventarios_configuracion.path,
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.activo_fijo_reportes.permission },
-    path: ROUTES.activo_fijo_reportes.path,
+    data: { permission: ROUTES.inventarios_reportes.permission },
+    path: ROUTES.inventarios_reportes.path,
     component: DefaultComponent,
   },
   {
     path: '',
-    redirectTo: ROUTES.activo_fijo_solicitudes.path,
+    redirectTo: ROUTES.inventarios_solicitudes.path,
     pathMatch: 'full',
   },
 ];

@@ -42,6 +42,102 @@ export const StepsViews: View[] = [
 ];
 
 
+export const ContractsViews: View[] = [
+  {
+    name: 'Contracts.Requests',
+    title: 'Solicitudes',
+    menuTitle: 'Solicitudes',
+    url: ROUTES.adquisiciones_solicitudes.fullpath,
+    permission: ROUTES.adquisiciones_solicitudes.permission,
+  },
+  {
+    name: 'Contracts.Explorer',
+    title: 'Contratos',
+    menuTitle: 'Contratos',
+    url: ROUTES.adquisiciones_contratos.fullpath,
+    permission: ROUTES.adquisiciones_contratos.permission,
+  },
+  {
+    name: 'Contracts.MinorPurchases',
+    title: 'Compras menores',
+    menuTitle: 'Compras menores',
+    url: ROUTES.adquisiciones_compras_menores.fullpath,
+    permission: ROUTES.adquisiciones_compras_menores.permission,
+  },
+  {
+    name: 'Contracts.Milestones',
+    title: 'Entregas',
+    menuTitle: 'Entregas',
+    url: ROUTES.adquisiciones_entregas.fullpath,
+    permission: ROUTES.adquisiciones_entregas.permission,
+  },
+  {
+    name: 'Contracts.Products',
+    title: 'Productos',
+    url: ROUTES.adquisiciones_productos.fullpath,
+    permission: ROUTES.adquisiciones_productos.permission,
+  },
+  {
+    name: 'Contracts.Suppliers',
+    title: 'Proveedores',
+    menuTitle: 'Proveedores',
+    url: ROUTES.adquisiciones_proveedores.fullpath,
+    permission: ROUTES.adquisiciones_proveedores.permission,
+  },
+  {
+    name: 'Contracts.Reporting',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.adquisiciones_reportes.fullpath,
+    permission: ROUTES.adquisiciones_reportes.permission,
+  },
+];
+
+
+export const PaymentsViews: View[] = [
+  {
+    name: 'Payments.Requests',
+    title: 'Solicitudes',
+    menuTitle: 'Solicitudes',
+    url: ROUTES.pagos_solicitudes.fullpath,
+    permission: ROUTES.pagos_solicitudes.permission,
+  },
+  {
+    name: 'Payments.Payables',
+    title: 'Obligaciones de pago',
+    menuTitle: 'Obligaciones de pago',
+    url: ROUTES.pagos_obligaciones_de_pago.fullpath,
+    permission: ROUTES.pagos_obligaciones_de_pago.permission,
+  },
+  {
+    name: 'Payments.PaymentsOrders',
+    title: 'Ordenes de pago',
+    url: ROUTES.pagos_ordenes_de_pago.fullpath,
+    permission: ROUTES.pagos_ordenes_de_pago.permission,
+  },
+  {
+    name: 'Payments.ExpensesAndReimbursement',
+    title: 'Gastos y reembolsos ',
+    url: ROUTES.pagos_gastos_y_reembolsos.fullpath,
+    permission: ROUTES.pagos_gastos_y_reembolsos.permission,
+  },
+  {
+    name: 'Payments.Invoices',
+    title: 'Facturas',
+    menuTitle: 'Facturas',
+    url: ROUTES.pagos_facturas.fullpath,
+    permission: ROUTES.pagos_facturas.permission,
+  },
+  {
+    name: 'Payments.Reporting',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.pagos_reportes.fullpath,
+    permission: ROUTES.pagos_reportes.permission,
+  },
+];
+
+
 export const BudgetViews: View[] = [
   {
     name: 'Budget.Requests',
@@ -88,6 +184,59 @@ export const BudgetViews: View[] = [
 ];
 
 
+export const FixedAssetsViews: View[] = [
+  {
+    name: 'FixedAssets.Requests',
+    title: 'Solicitudes',
+    menuTitle: 'Solicitudes',
+    url: ROUTES.inventarios_solicitudes.fullpath,
+    permission: ROUTES.inventarios_solicitudes.permission,
+  },
+  {
+    name: 'FixedAssets.Transactions',
+    title: 'Transacciones',
+    menuTitle: 'Transacciones',
+    url: ROUTES.inventarios_transacciones.fullpath,
+    permission: ROUTES.inventarios_transacciones.permission,
+  },
+  {
+    name: 'FixedAssets.Stock',
+    title: 'Existencias',
+    menuTitle: 'Existencias',
+    url: ROUTES.inventarios_existencias.fullpath,
+    permission: ROUTES.inventarios_existencias.permission,
+  },
+  {
+    name: 'FixedAssets.Explorer',
+    title: 'Activo fijo',
+    menuTitle: 'Activo fijo',
+    url: ROUTES.inventarios_activo_fijo.fullpath,
+    permission: ROUTES.inventarios_activo_fijo.permission,
+  },
+  {
+    name: 'FixedAssets.Valuation',
+    title: 'Valuación',
+    menuTitle: 'Valuación',
+    url: ROUTES.inventarios_valuacion.fullpath,
+    permission: ROUTES.inventarios_valuacion.permission,
+  },
+  {
+    name: 'FixedAssets.Configuration',
+    title: 'Configuración',
+    menuTitle: 'Configuración',
+    url: ROUTES.inventarios_configuracion.fullpath,
+    permission: ROUTES.inventarios_configuracion.permission,
+  },
+  {
+    name: 'FixedAssets.Reporting',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.inventarios_reportes.fullpath,
+    permission: ROUTES.inventarios_reportes.permission,
+  }
+];
+
+
 export const CashFlowViews: View[] = [
   {
     name: 'CashFlow.Coding',
@@ -109,135 +258,6 @@ export const CashFlowViews: View[] = [
     url: ROUTES.flujo_de_efectivo_reportes.fullpath,
     permission: ROUTES.flujo_de_efectivo_reportes.permission,
   },
-];
-
-
-export const ContractsViews: View[] = [
-  {
-    name: 'Contracts.Requests',
-    title: 'Solicitudes',
-    menuTitle: 'Solicitudes',
-    url: ROUTES.contratos_solicitudes.fullpath,
-    permission: ROUTES.contratos_solicitudes.permission,
-  },
-  {
-    name: 'Contracts.Explorer',
-    title: 'Explorador',
-    menuTitle: 'Explorador',
-    url: ROUTES.contratos_explorador.fullpath,
-    permission: ROUTES.contratos_explorador.permission,
-  },
-  {
-    name: 'Contracts.Milestones',
-    title: 'Entregas',
-    menuTitle: 'Entregas',
-    url: ROUTES.contratos_entregas.fullpath,
-    permission: ROUTES.contratos_entregas.permission,
-  },
-  {
-    name: 'Contracts.Products',
-    title: 'Productos',
-    url: ROUTES.contratos_productos.fullpath,
-    permission: ROUTES.contratos_productos.permission,
-  },
-  {
-    name: 'Contracts.Suppliers',
-    title: 'Proveedores',
-    menuTitle: 'Proveedores',
-    url: ROUTES.contratos_proveedores.fullpath,
-    permission: ROUTES.contratos_proveedores.permission,
-  },
-  {
-    name: 'Contracts.Reporting',
-    title: 'Reportes',
-    menuTitle: 'Reportes',
-    url: ROUTES.contratos_reportes.fullpath,
-    permission: ROUTES.contratos_reportes.permission,
-  },
-];
-
-
-export const PaymentsViews: View[] = [
-  {
-    name: 'Payments.Requests',
-    title: 'Solicitudes',
-    menuTitle: 'Solicitudes',
-    url: ROUTES.pagos_solicitudes.fullpath,
-    permission: ROUTES.pagos_solicitudes.permission,
-  },
-  {
-    name: 'Payments.PaymentsOrders',
-    title: 'Ordenes de pago',
-    url: ROUTES.pagos_ordenes_de_pago.fullpath,
-    permission: ROUTES.pagos_ordenes_de_pago.permission,
-  },
-  {
-    name: 'Payments.Payables',
-    title: 'Obligaciones de pago',
-    menuTitle: 'Obligaciones de pago',
-    url: ROUTES.pagos_obligaciones_de_pago.fullpath,
-    permission: ROUTES.pagos_obligaciones_de_pago.permission,
-  },
-  {
-    name: 'Payments.Invoices',
-    title: 'Facturas',
-    menuTitle: 'Facturas',
-    url: ROUTES.pagos_facturas.fullpath,
-    permission: ROUTES.pagos_facturas.permission,
-  },
-  {
-    name: 'Payments.Reporting',
-    title: 'Reportes',
-    menuTitle: 'Reportes',
-    url: ROUTES.pagos_reportes.fullpath,
-    permission: ROUTES.pagos_reportes.permission,
-  },
-];
-
-
-export const FixedAssetsViews: View[] = [
-  {
-    name: 'FixedAssets.Requests',
-    title: 'Solicitudes',
-    menuTitle: 'Solicitudes',
-    url: ROUTES.activo_fijo_solicitudes.fullpath,
-    permission: ROUTES.activo_fijo_solicitudes.permission,
-  },
-  {
-    name: 'FixedAssets.Transactions',
-    title: 'Transacciones',
-    menuTitle: 'Transacciones',
-    url: ROUTES.activo_fijo_transacciones.fullpath,
-    permission: ROUTES.activo_fijo_transacciones.permission,
-  },
-  {
-    name: 'FixedAssets.Explorer',
-    title: 'Explorador',
-    menuTitle: 'Explorador',
-    url: ROUTES.activo_fijo_explorador.fullpath,
-    permission: ROUTES.activo_fijo_explorador.permission,
-  },
-  {
-    name: 'FixedAssets.Valuation',
-    title: 'Valuación',
-    menuTitle: 'Valuación',
-    url: ROUTES.activo_fijo_valuacion.fullpath,
-    permission: ROUTES.activo_fijo_valuacion.permission,
-  },
-  {
-    name: 'FixedAssets.Configuration',
-    title: 'Configuración',
-    menuTitle: 'Configuración',
-    url: ROUTES.activo_fijo_configuracion.fullpath,
-    permission: ROUTES.activo_fijo_configuracion.permission,
-  },
-  {
-    name: 'FixedAssets.Reporting',
-    title: 'Reportes',
-    menuTitle: 'Reportes',
-    url: ROUTES.activo_fijo_reportes.fullpath,
-    permission: ROUTES.activo_fijo_reportes.permission,
-  }
 ];
 
 

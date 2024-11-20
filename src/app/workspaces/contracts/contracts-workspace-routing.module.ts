@@ -31,38 +31,43 @@ import {
 
 const routes: Routes = [
   {
-    data: { permission: ROUTES.contratos_solicitudes.permission },
-    path: ROUTES.contratos_solicitudes.path,
+    data: { permission: ROUTES.adquisiciones_solicitudes.permission },
+    path: ROUTES.adquisiciones_solicitudes.path,
     component: RequestsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.contratos_explorador.permission },
-    path: ROUTES.contratos_explorador.path,
+    data: { permission: ROUTES.adquisiciones_contratos.permission },
+    path: ROUTES.adquisiciones_contratos.path,
     component: ContractsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.contratos_entregas.permission },
-    path: ROUTES.contratos_entregas.path,
+    data: { permission: ROUTES.adquisiciones_compras_menores.permission },
+    path: ROUTES.adquisiciones_compras_menores.path,
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.contratos_productos.permission },
-    path: ROUTES.contratos_productos.path,
+    data: { permission: ROUTES.adquisiciones_entregas.permission },
+    path: ROUTES.adquisiciones_entregas.path,
+    component: DefaultComponent,
+  },
+  {
+    data: { permission: ROUTES.adquisiciones_productos.permission },
+    path: ROUTES.adquisiciones_productos.path,
     component: ProductsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.contratos_proveedores.permission },
-    path: ROUTES.contratos_proveedores.path,
+    data: { permission: ROUTES.adquisiciones_proveedores.permission },
+    path: ROUTES.adquisiciones_proveedores.path,
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.contratos_reportes.permission },
-    path: ROUTES.contratos_reportes.path,
+    data: { permission: ROUTES.adquisiciones_reportes.permission },
+    path: ROUTES.adquisiciones_reportes.path,
     component: DefaultComponent,
   },
   {
     path: '',
-    redirectTo: ROUTES.contratos_solicitudes.path,
+    redirectTo: ROUTES.adquisiciones_solicitudes.path,
     pathMatch: 'full',
   },
 ];

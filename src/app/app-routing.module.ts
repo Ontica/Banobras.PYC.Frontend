@@ -24,26 +24,8 @@ const routes: Routes = [
       .then((m) => m.StepsWorkspaceModule)
   },
   {
-    data: { permission: ROUTES.presupuesto.permission },
-    path: ROUTES.presupuesto.path,
-    component: MainLayoutComponent,
-    canActivate: [ParentRouteGuard],
-    canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/budget/budget-workspace.module')
-      .then((m) => m.BudgetWorkspaceModule)
-  },
-  {
-    data: { permission: ROUTES.flujo_de_efectivo.permission },
-    path: ROUTES.flujo_de_efectivo.path,
-    component: MainLayoutComponent,
-    canActivate: [ParentRouteGuard],
-    canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/cash-flow/cash-flow-workspace.module')
-      .then((m) => m.CashFlowWorkspaceModule)
-  },
-  {
-    data: { permission: ROUTES.contratos.permission },
-    path: ROUTES.contratos.path,
+    data: { permission: ROUTES.adquisiciones.permission },
+    path: ROUTES.adquisiciones.path,
     component: MainLayoutComponent,
     canActivate: [ParentRouteGuard],
     canActivateChild: [ChildRouteGuard],
@@ -60,13 +42,31 @@ const routes: Routes = [
       .then((m) => m.PaymentsWorkspaceModule)
   },
   {
-    data: { permission: ROUTES.activo_fijo.permission },
-    path: ROUTES.activo_fijo.path,
+    data: { permission: ROUTES.presupuesto.permission },
+    path: ROUTES.presupuesto.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/budget/budget-workspace.module')
+      .then((m) => m.BudgetWorkspaceModule)
+  },
+  {
+    data: { permission: ROUTES.inventarios.permission },
+    path: ROUTES.inventarios.path,
     component: MainLayoutComponent,
     canActivate: [ParentRouteGuard],
     canActivateChild: [ChildRouteGuard],
     loadChildren: () => import('./workspaces/fixed-assets/fixed-assets-workspace.module')
       .then((m) => m.FixedAssetsWorkspaceModule)
+  },
+  {
+    data: { permission: ROUTES.flujo_de_efectivo.permission },
+    path: ROUTES.flujo_de_efectivo.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/cash-flow/cash-flow-workspace.module')
+      .then((m) => m.CashFlowWorkspaceModule)
   },
   {
     data: { permission: ROUTES.administracion.permission },

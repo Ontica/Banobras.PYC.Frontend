@@ -19,25 +19,11 @@ export const ROUTES = {
     fullpath: '/tareas',
   },
 
-  presupuesto: {
+  adquisiciones: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: '',
-    path: 'presupuesto',
-    fullpath: '/presupuesto',
-  },
-
-  flujo_de_efectivo: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: '',
-    path: 'flujo-de-efectivo',
-    fullpath: '/flujo-de-efectivo',
-  },
-
-  contratos: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: '',
-    path: 'contratos',
-    fullpath: '/contratos',
+    path: 'adquisiciones',
+    fullpath: '/adquisiciones',
   },
 
   pagos: {
@@ -47,11 +33,25 @@ export const ROUTES = {
     fullpath: '/pagos',
   },
 
-  activo_fijo: {
+  presupuesto: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: '',
-    path: 'activo-fijo',
-    fullpath: '/activo-fijo',
+    path: 'presupuesto',
+    fullpath: '/presupuesto',
+  },
+
+  inventarios: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: '',
+    path: 'inventarios',
+    fullpath: '/inventarios',
+  },
+
+  flujo_de_efectivo: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: '',
+    path: 'flujo-de-efectivo',
+    fullpath: '/flujo-de-efectivo',
   },
 
   administracion: {
@@ -104,6 +104,105 @@ export const ROUTES = {
 
   // #endregion
 
+  // #region contracts-routing module
+
+  adquisiciones_solicitudes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'adquisiciones',
+    path: 'solicitudes',
+    fullpath: '/adquisiciones/solicitudes',
+  },
+
+  adquisiciones_contratos: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'adquisiciones',
+    path: 'contratos',
+    fullpath: '/adquisiciones/contratos',
+  },
+
+  adquisiciones_compras_menores: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'adquisiciones',
+    path: 'compras-menores',
+    fullpath: '/adquisiciones/compras-menores',
+  },
+
+  adquisiciones_entregas: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'adquisiciones',
+    path: 'entregas',
+    fullpath: '/adquisiciones/entregas',
+  },
+
+  adquisiciones_proveedores: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'adquisiciones',
+    path: 'proveedores',
+    fullpath: '/adquisiciones/proveedores',
+  },
+
+  adquisiciones_productos: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'adquisiciones',
+    path: 'productos',
+    fullpath: '/adquisiciones/productos',
+  },
+
+  adquisiciones_reportes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'adquisiciones',
+    path: 'reportes',
+    fullpath: '/adquisiciones/reportes',
+  },
+
+  //#endregion
+
+  // #region payments-routing module
+
+  pagos_solicitudes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'pagos',
+    path: 'solicitudes',
+    fullpath: '/pagos/solicitudes',
+  },
+
+  pagos_obligaciones_de_pago: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'pagos',
+    path: 'obligaciones-de-pago',
+    fullpath: '/pagos/obligaciones-de-pago',
+  },
+
+  pagos_ordenes_de_pago: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'pagos',
+    path: 'ordenes-de-pago',
+    fullpath: '/pagos/ordenes-de-pago',
+  },
+
+  pagos_gastos_y_reembolsos: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'pagos',
+    path: 'gastos-y-reembolsos',
+    fullpath: '/pagos/gastos-y-reembolsos',
+  },
+
+  pagos_facturas: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'pagos',
+    path: 'facturas',
+    fullpath: '/pagos/facturas',
+  },
+
+  pagos_reportes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'pagos',
+    path: 'reportes',
+    fullpath: '/pagos/reportes',
+  },
+
+  // #endregion
+
   // #region budget-routing module
 
   presupuesto_solicitudes: {
@@ -127,7 +226,7 @@ export const ROUTES = {
     fullpath: '/presupuesto/explorador',
   },
 
-  presupuesto_planeacion_anual : {
+  presupuesto_planeacion_anual: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'presupuesto',
     path: 'planeacion-anual',
@@ -146,6 +245,59 @@ export const ROUTES = {
     parent: 'presupuesto',
     path: 'reportes',
     fullpath: '/presupuesto/reportes',
+  },
+
+  // #endregion
+
+  // #region fixed-assets-routing module
+
+  inventarios_solicitudes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'inventarios',
+    path: 'solicitudes',
+    fullpath: '/inventarios/solicitudes',
+  },
+
+  inventarios_transacciones: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'inventarios',
+    path: 'transacciones',
+    fullpath: '/inventarios/transacciones',
+  },
+
+  inventarios_existencias: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'inventarios',
+    path: 'existencias',
+    fullpath: '/inventarios/existencias',
+  },
+
+  inventarios_activo_fijo: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'inventarios',
+    path: 'activo-fijo',
+    fullpath: '/inventarios/activo-fijo',
+  },
+
+  inventarios_valuacion: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'inventarios',
+    path: 'valuacion',
+    fullpath: '/inventarios/valuacion',
+  },
+
+  inventarios_configuracion: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'inventarios',
+    path: 'configuracion',
+    fullpath: '/inventarios/configuracion',
+  },
+
+  inventarios_reportes: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'inventarios',
+    path: 'reportes',
+    fullpath: '/inventarios/reportes',
   },
 
   // #endregion
@@ -174,137 +326,6 @@ export const ROUTES = {
   },
 
   //#endregion
-
-  // #region contracts-routing module
-
-  contratos_solicitudes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'contratos',
-    path: 'solicitudes',
-    fullpath: '/contratos/solicitudes',
-  },
-
-  contratos_explorador: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'contratos',
-    path: 'explorador',
-    fullpath: '/contratos/explorador',
-  },
-
-  contratos_entregas: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'contratos',
-    path: 'entregas',
-    fullpath: '/contratos/entregas',
-  },
-
-  contratos_proveedores: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'contratos',
-    path: 'proveedores',
-    fullpath: '/contratos/proveedores',
-  },
-
-  contratos_productos: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'contratos',
-    path: 'productos',
-    fullpath: '/contratos/productos',
-  },
-
-  contratos_reportes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'contratos',
-    path: 'reportes',
-    fullpath: '/contratos/reportes',
-  },
-
-  //#endregion
-
-  // #region payments-routing module
-
-  pagos_solicitudes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos',
-    path: 'solicitudes',
-    fullpath: '/pagos/solicitudes',
-  },
-
-  pagos_ordenes_de_pago: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos',
-    path: 'ordenes-de-pago',
-    fullpath: '/pagos/ordenes-de-pago',
-  },
-
-  pagos_obligaciones_de_pago: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos',
-    path: 'obligaciones-de-pago',
-    fullpath: '/pagos/obligaciones-de-pago',
-  },
-
-  pagos_facturas: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos',
-    path: 'facturas',
-    fullpath: '/pagos/facturas',
-  },
-
-  pagos_reportes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'pagos',
-    path: 'reportes',
-    fullpath: '/pagos/reportes',
-  },
-
-  // #endregion
-
-  // #region fixed-assets-routing module
-
-  activo_fijo_solicitudes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'activo-fijo',
-    path: 'solicitudes',
-    fullpath: '/activo-fijo/solicitudes',
-  },
-
-  activo_fijo_transacciones: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'activo-fijo',
-    path: 'transacciones',
-    fullpath: '/activo-fijo/transacciones',
-  },
-
-  activo_fijo_explorador: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'activo-fijo',
-    path: 'explorador',
-    fullpath: '/activo-fijo/explorador',
-  },
-
-  activo_fijo_valuacion: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'activo-fijo',
-    path: 'valuacion',
-    fullpath: '/activo-fijo/valuacion',
-  },
-
-  activo_fijo_configuracion: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'activo-fijo',
-    path: 'configuracion',
-    fullpath: '/activo-fijo/configuracion',
-  },
-
-  activo_fijo_reportes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'activo-fijo',
-    path: 'reportes',
-    fullpath: '/activo-fijo/reportes',
-  },
-
-  // #endregion
 
   // #region system-management-routing module
 

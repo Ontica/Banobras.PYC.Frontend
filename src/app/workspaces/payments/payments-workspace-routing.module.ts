@@ -39,14 +39,19 @@ const routes: Routes = [
     component: RequestsMainPageComponent,
   },
   {
+    data: { permission: ROUTES.pagos_obligaciones_de_pago.permission },
+    path: ROUTES.pagos_obligaciones_de_pago.path,
+    component: PayablesMainPageComponent,
+  },
+  {
     data: { permission: ROUTES.pagos_ordenes_de_pago.permission },
     path: ROUTES.pagos_ordenes_de_pago.path,
     component: PaymentsOrdersMainPageComponent,
   },
   {
-    data: { permission: ROUTES.pagos_obligaciones_de_pago.permission },
-    path: ROUTES.pagos_obligaciones_de_pago.path,
-    component: PayablesMainPageComponent,
+    data: { permission: ROUTES.pagos_gastos_y_reembolsos.permission },
+    path: ROUTES.pagos_gastos_y_reembolsos.path,
+    component: DefaultComponent,
   },
   {
     data: { permission: ROUTES.pagos_facturas.permission },
