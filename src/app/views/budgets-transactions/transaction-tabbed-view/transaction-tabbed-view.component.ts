@@ -114,7 +114,7 @@ export class BudgetTransactionTabbedViewComponent implements OnChanges {
 
     this.hint = `<strong>${this.data.transaction.baseParty.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${this.data.transaction.budgetType.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${this.data.transaction.budgetType.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${this.data.transaction.budget.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${requestedDate}`;
   }
 
