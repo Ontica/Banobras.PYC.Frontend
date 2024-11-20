@@ -24,6 +24,8 @@ import { FixedAssetTransactionsListHeaderComponent } from './transactions-explor
 import { FixedAssetTransactionsListItemComponent } from './transactions-explorer/transactions-list-item.component';
 
 import { FixedAssetTransactionTabbedViewComponent } from './transaction-tabbed-view/transaction-tabbed-view.component';
+import { FixedAssetTransactionEditorComponent } from './transaction/transaction-editor.component';
+import { FixedAssetTransactionHeaderComponent } from './transaction/transaction-header.component';
 
 
 @NgModule({
@@ -48,8 +50,8 @@ import { FixedAssetTransactionTabbedViewComponent } from './transaction-tabbed-v
     FixedAssetTransactionsListItemComponent,
 
     FixedAssetTransactionTabbedViewComponent,
-    // TransactionEditorComponent,
-    // TransactionHeaderComponent,
+    FixedAssetTransactionEditorComponent,
+    FixedAssetTransactionHeaderComponent,
   ],
   exports: [
     FixedAssetTransactionsMainPageComponent,

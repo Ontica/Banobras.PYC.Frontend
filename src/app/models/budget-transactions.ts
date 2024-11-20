@@ -108,7 +108,7 @@ export interface BudgetTransactionData {
   entries: BudgetTransactionEntryDescriptor[];
   documents: Document[];
   history: History[];
-  actions: BudgetTransactionActions;
+  actions: TransactionActions;
 }
 
 
@@ -141,7 +141,7 @@ export interface BudgetTransactionEntryDescriptor {
 }
 
 
-export interface BudgetTransactionActions {
+export interface TransactionActions {
   canUpdate: boolean;
   canDelete: boolean;
   canAuthorize: boolean;
@@ -213,7 +213,7 @@ export const EmptyBudgetTransaction: BudgetTransaction = {
 }
 
 
-export const EmptyBudgetTransactionActions: BudgetTransactionActions = {
+export const EmptyTransactionActions: TransactionActions = {
   canUpdate: false,
   canDelete: false,
   canAuthorize: false,
@@ -226,7 +226,7 @@ export const EmptyBudgetTransactionData: BudgetTransactionData = {
   entries: [],
   documents: [],
   history: [],
-  actions: EmptyBudgetTransactionActions,
+  actions: EmptyTransactionActions,
 };
 
 

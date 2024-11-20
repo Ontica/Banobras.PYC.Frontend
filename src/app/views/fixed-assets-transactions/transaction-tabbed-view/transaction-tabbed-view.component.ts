@@ -13,11 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { FixedAssetTransactionData, EmptyFixedAssetTransactionData } from '@app/models';
 
-// import { TransactionEditorEventType } from '../transaction/transaction-editor.component';
-
-// import {
-//   TransactionEntriesEditionEventType
-// } from '../transaction-entries/transaction-entries-edition.component';
+import { TransactionEditorEventType } from '../transaction/transaction-editor.component';
 
 import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
 
@@ -57,35 +53,21 @@ export class FixedAssetTransactionTabbedViewComponent implements OnChanges {
 
 
   onTransactionEditorEvent(event: EventInfo) {
-    // switch (event.type as TransactionEditorEventType) {
-    //   case TransactionEditorEventType.UPDATED:
-    //     Assertion.assertValue(event.payload.data, 'event.payload.data');
-    //     sendEvent(this.transactionTabbedViewEvent,
-    //       TransactionTabbedViewEventType.DATA_UPDATED, event.payload);
-    //     return;
-    //   case TransactionEditorEventType.DELETED:
-    //     Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
-    //     sendEvent(this.transactionTabbedViewEvent,
-    //       TransactionTabbedViewEventType.DATA_DELETED, event.payload);
-    //     return;
-    //   default:
-    //     console.log(`Unhandled user interface event ${event.type}`);
-    //     return;
-    // }
-  }
-
-
-  onTransactionEntriesEditionEvent(event: EventInfo) {
-    // switch (event.type as TransactionEntriesEditionEventType) {
-    //   case TransactionEntriesEditionEventType.UPDATED:
-    //     Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
-    //     sendEvent(this.transactionTabbedViewEvent,
-    //       TransactionTabbedViewEventType.DATA_UPDATED, event.payload);
-    //     return;
-    //   default:
-    //     console.log(`Unhandled user interface event ${event.type}`);
-    //     return;
-    // }
+    switch (event.type as TransactionEditorEventType) {
+      case TransactionEditorEventType.UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        sendEvent(this.transactionTabbedViewEvent,
+          TransactionTabbedViewEventType.DATA_UPDATED, event.payload);
+        return;
+      case TransactionEditorEventType.DELETED:
+        Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
+        sendEvent(this.transactionTabbedViewEvent,
+          TransactionTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 

@@ -9,28 +9,26 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EventInfo, isEmpty } from '@app/core';
 
-import { sendEvent } from '@app/shared/utils';
+import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { BudgetTransactionsDataService } from '@app/data-services';
-
-import { BudgetTransaction, TransactionActions, BudgetTransactionData, EmptyBudgetTransaction,
+import { FixedAssetTransaction, EmptyFixedAssetTransaction, TransactionActions,
          EmptyTransactionActions } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
 
 
 export enum TransactionEditorEventType {
-  UPDATED = 'BudgetTransactionEditorComponent.Event.TransactionUpdated',
-  DELETED = 'BudgetTransactionEditorComponent.Event.TransactionDeleted',
+  UPDATED = 'FixedAssetTransactionEditorComponent.Event.TransactionUpdated',
+  DELETED = 'FixedAssetTransactionEditorComponent.Event.TransactionDeleted',
 }
 
 @Component({
-  selector: 'emp-bdg-transaction-editor',
+  selector: 'emp-fa-transaction-editor',
   templateUrl: './transaction-editor.component.html',
 })
-export class BudgetTransactionEditorComponent {
+export class FixedAssetTransactionEditorComponent {
 
-  @Input() transaction: BudgetTransaction = EmptyBudgetTransaction;
+  @Input() transaction: FixedAssetTransaction = EmptyFixedAssetTransaction;
 
   @Input() actions: TransactionActions = EmptyTransactionActions;
 
@@ -39,7 +37,7 @@ export class BudgetTransactionEditorComponent {
   submitted = false;
 
 
-  constructor(private transactionsData: BudgetTransactionsDataService) { }
+  constructor(private messageBox: MessageBoxService) { }
 
 
   get isSaved(): boolean {
@@ -54,27 +52,13 @@ export class BudgetTransactionEditorComponent {
 
     switch (event.type as TransactionHeaderEventType) {
       case TransactionHeaderEventType.AUTHORIZE:
-        this.authorizeTransaction(this.transaction.uid);
-        return;
+        this.messageBox.showInDevelopment('Autorizar transacción');
+        return
+
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
-  }
-
-
-  private authorizeTransaction(transactionUID: string) {
-    this.submitted = true;
-
-    this.transactionsData.authorizeTransaction(transactionUID)
-      .firstValue()
-      .then(x => this.resolveTransactionUpdated(x))
-      .finally(() => this.submitted = false);
-  }
-
-
-  private resolveTransactionUpdated(data: BudgetTransactionData) {
-    sendEvent(this.transactionEditorEvent, TransactionEditorEventType.UPDATED, { data });
   }
 
 }

@@ -7,11 +7,13 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { BaseActions, EmptyBaseActions, ExplorerOperation } from './_explorer-data';
+import { ExplorerOperation } from './_explorer-data';
 
 import { Document } from './documents';
 
 import { FixedAssetDescriptor } from './fixed-assets';
+
+import { EmptyTransactionActions, TransactionActions } from './budget-transactions';
 
 
 export enum FixedAssetTransactionsStatus {
@@ -104,7 +106,7 @@ export interface FixedAssetTransactionData {
   entries: FixedAssetDescriptor[];
   documents: Document[];
   history: History[];
-  actions: BaseActions;
+  actions: TransactionActions;
 }
 
 
@@ -185,7 +187,7 @@ export const EmptyFixedAssetTransactionData: FixedAssetTransactionData = {
   entries: [],
   documents: [],
   history: [],
-  actions: EmptyBaseActions,
+  actions: EmptyTransactionActions,
 };
 
 

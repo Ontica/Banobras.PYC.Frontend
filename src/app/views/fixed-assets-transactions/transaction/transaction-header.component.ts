@@ -15,35 +15,33 @@ import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/containers/message-box';
 
-import { BudgetTransaction, TransactionActions, BudgetTransactionFields, EmptyBudgetTransaction,
+import { FixedAssetTransaction, FixedAssetTransactionFields, EmptyFixedAssetTransaction, TransactionActions,
          EmptyTransactionActions } from '@app/models';
 
 
 export enum TransactionHeaderEventType {
-  CREATE    = 'BudgetTransactionHeaderComponent.Event.CreateTransaction',
-  UPDATE    = 'BudgetTransactionHeaderComponent.Event.UpdateTransaction',
-  AUTHORIZE = 'BudgetTransactionHeaderComponent.Event.AuthorizeTransaction',
-  DELETE    = 'BudgetTransactionHeaderComponent.Event.DeleteTransaction',
+  CREATE    = 'FixedAssetTransactionHeaderComponent.Event.CreateTransaction',
+  UPDATE    = 'FixedAssetTransactionHeaderComponent.Event.UpdateTransaction',
+  AUTHORIZE = 'FixedAssetTransactionHeaderComponent.Event.AuthorizeTransaction',
+  DELETE    = 'FixedAssetTransactionHeaderComponent.Event.DeleteTransaction',
 }
 
 interface TransactionFormModel extends FormGroup<{
   basePartyUID: FormControl<string>;
-  budgetTypeUID: FormControl<string>;
-  budgetUID: FormControl<string>;
   transactionTypeUID: FormControl<string>;
   operationSourceUID: FormControl<string>;
   description: FormControl<string>;
 }> { }
 
 @Component({
-  selector: 'emp-bdg-transaction-header',
+  selector: 'emp-fa-transaction-header',
   templateUrl: './transaction-header.component.html',
 })
-export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
+export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
 
   @Input() isSaved = false;
 
-  @Input() transaction: BudgetTransaction = EmptyBudgetTransaction;
+  @Input() transaction: FixedAssetTransaction = EmptyFixedAssetTransaction;
 
   @Input() actions: TransactionActions = EmptyTransactionActions;
 
@@ -58,10 +56,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
   isLoading = false;
 
   organizationalUnitsList: Identifiable[] = [];
-
-  budgetTypesList: Identifiable[] = [];
-
-  budgetsList: Identifiable[] = [];
 
   transactionTypesList: Identifiable[] = [];
 
@@ -136,10 +130,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
   private validateDataLists() {
     this.organizationalUnitsList =
       ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.transaction.baseParty, 'uid');
-    this.budgetTypesList =
-      ArrayLibrary.insertIfNotExist(this.budgetTypesList ?? [], this.transaction.budgetType, 'uid');
-    this.budgetsList =
-      ArrayLibrary.insertIfNotExist(this.budgetsList ?? [], this.transaction.budget, 'uid');
     this.transactionTypesList =
       ArrayLibrary.insertIfNotExist(this.transactionTypesList ?? [], this.transaction.transactionType, 'uid');
     this.operationSourcesList =
@@ -152,8 +142,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
 
     this.form = fb.group({
       basePartyUID: ['', Validators.required],
-      budgetTypeUID: ['', Validators.required],
-      budgetUID: ['', Validators.required],
       transactionTypeUID: ['', Validators.required],
       operationSourceUID: ['', Validators.required],
       description: ['', Validators.required],
@@ -165,8 +153,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
     setTimeout(() => {
       this.form.reset({
         basePartyUID: isEmpty(this.transaction.baseParty) ? null : this.transaction.baseParty.uid,
-        budgetTypeUID: isEmpty(this.transaction.budgetType) ? null : this.transaction.budgetType.uid,
-        budgetUID: isEmpty(this.transaction.budget) ? null : this.transaction.budget.uid,
         transactionTypeUID: isEmpty(this.transaction.transactionType) ? null : this.transaction.transactionType.uid,
         operationSourceUID: isEmpty(this.transaction.operationSource) ? null : this.transaction.operationSource.uid,
         description: this.transaction.description ?? '',
@@ -175,10 +161,10 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
   }
 
 
-  private getFormData(): BudgetTransactionFields {
+  private getFormData(): FixedAssetTransactionFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
-    const data: BudgetTransactionFields = {
+    const data: FixedAssetTransactionFields = {
 
     };
 
