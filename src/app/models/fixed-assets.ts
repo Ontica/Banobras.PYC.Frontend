@@ -94,8 +94,11 @@ export interface FixedAsset {
 
 
 export enum FixedAssetsOperationType {
-  excel  = 'excel',
-  delete = 'delete',
+  excel                = 'excel',
+  requestLoan          = 'requestLoan',
+  requestMintenance    = 'requestMintenance',
+  requestCustodyChange = 'requestCustodyChange ',
+  delete               = 'delete',
 }
 
 
@@ -136,12 +139,24 @@ export const FixedAssetsOperationsList: ExplorerOperation[] = [
     name: 'Exportar'
   },
   {
+    uid: FixedAssetsOperationType.requestLoan,
+    name: 'Solicitar préstamo'
+  },
+  {
+    uid: FixedAssetsOperationType.requestMintenance,
+    name: 'Solicitar mantenimiento'
+  },
+  {
+    uid: FixedAssetsOperationType.requestCustodyChange,
+    name: 'Solicitar cambio de resguardo'
+  },
+  {
     uid: FixedAssetsOperationType.delete,
-    name: 'Eliminar',
+    name: 'Dar de baja',
     showConfirm: true,
     isConfirmWarning: true,
-    confirmOperationMessage: 'eliminará',
-    confirmQuestionMessage: 'Elimino'
+    confirmOperationMessage: 'dará de baja',
+    confirmQuestionMessage: 'Doy de baja'
   },
 ];
 
