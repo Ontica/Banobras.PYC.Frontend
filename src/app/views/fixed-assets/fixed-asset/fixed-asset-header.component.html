@@ -116,11 +116,46 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-one">
-        <label>Localización:</label>
-        <input type="text" class="text-box"
-          formControlName="location"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.location)">
+      <div class="fx-item-half">
+
+        <label>Edificio:</label>
+
+        <emp-ng-select
+          formControlName="buildingUID"
+          [items]="buildingsList"
+          [loading]="isLoading"
+          [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
+          [showError]="formHelper.isControlInvalid(form.controls.buildingUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Piso:</label>
+
+        <emp-ng-select
+          formControlName="floorUID"
+          [items]="floorsList"
+          [loading]="isLoading"
+          [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
+          [showError]="formHelper.isControlInvalid(form.controls.floorUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Lugar:</label>
+
+        <emp-ng-select
+          formControlName="placeUID"
+          [items]="placesList"
+          [loading]="isLoading"
+          [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
+          [showError]="formHelper.isControlInvalid(form.controls.placeUID)">
+        </emp-ng-select>
+
       </div>
 
     </div>

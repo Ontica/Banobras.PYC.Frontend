@@ -35,7 +35,9 @@ interface FixedAssetFormModel extends FormGroup<{
   model: FormControl<string>;
   year: FormControl<number>;
   label: FormControl<string>;
-  location: FormControl<string>;
+  buildingUID: FormControl<string>;
+  floorUID: FormControl<string>;
+  placeUID: FormControl<string>;
   description: FormControl<string>;
 }> { }
 
@@ -66,6 +68,12 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
   fixedAssetTypesList: Identifiable[] = [];
 
   custodianPersonsList: Identifiable[] = [];
+
+  buildingsList: Identifiable[] = [];
+
+  floorsList: Identifiable[] = [];
+
+  placesList: Identifiable[] = [];
 
 
   constructor(private messageBox: MessageBoxService) {
@@ -135,6 +143,12 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
       ArrayLibrary.insertIfNotExist(this.fixedAssetTypesList ?? [], this.fixedAsset.fixedAssetType, 'uid');
     this.custodianPersonsList =
       ArrayLibrary.insertIfNotExist(this.custodianPersonsList ?? [], this.fixedAsset.custodianPerson, 'uid');
+    this.buildingsList =
+      ArrayLibrary.insertIfNotExist(this.buildingsList ?? [], this.fixedAsset.building, 'uid');
+    this.floorsList =
+      ArrayLibrary.insertIfNotExist(this.floorsList ?? [], this.fixedAsset.floor, 'uid');
+    this.placesList =
+      ArrayLibrary.insertIfNotExist(this.placesList ?? [], this.fixedAsset.place, 'uid');
   }
 
 
@@ -151,7 +165,9 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
       model: [''],
       year: [null],
       label: [''],
-      location: [''],
+      buildingUID: [''],
+      floorUID: [''],
+      placeUID: [''],
       description: [''],
     });
   }
@@ -169,7 +185,9 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
         model: this.fixedAsset.model ?? '',
         year: this.fixedAsset.year > 0 ? this.fixedAsset.year : null,
         label: this.fixedAsset.label ?? '',
-        location: this.fixedAsset.location ?? '',
+        buildingUID: isEmpty(this.fixedAsset.building) ? null : this.fixedAsset.building.uid,
+        floorUID: isEmpty(this.fixedAsset.floor) ? null : this.fixedAsset.floor.uid,
+        placeUID: isEmpty(this.fixedAsset.place) ? null : this.fixedAsset.place.uid,
         description: this.fixedAsset.description ?? '',
       });
     });
@@ -189,7 +207,9 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
       label: this.form.value.label ?? null,
       custodianOrgUnitUID: this.form.value.custodianOrgUnitUID ?? null,
       custodianPersonUID: this.form.value.custodianPersonUID ?? null,
-      location: this.form.value.location ?? null,
+      buildingUID: this.form.value.buildingUID ?? null,
+      floorUID: this.form.value.floorUID ?? null,
+      placeUID: this.form.value.placeUID ?? null,
       startDate: this.form.value.datePeriod.fromDate ?? null,
       endDate: this.form.value.datePeriod.toDate ?? null,
     };

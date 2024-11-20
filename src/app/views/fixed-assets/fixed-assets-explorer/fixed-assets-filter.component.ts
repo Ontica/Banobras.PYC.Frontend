@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { combineLatest } from 'rxjs';
 
-import { EventInfo, Identifiable } from '@app/core';
+import { Empty, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -37,6 +37,9 @@ interface FixedAssetsFilterFormModel extends FormGroup<{
   keywords: FormControl<string>;
   fixedAssetTypeUID: FormControl<string>;
   inventoryNo: FormControl<string>;
+  buildingUID: FormControl<string>;
+  floorUID: FormControl<string>;
+  placeUID: FormControl<string>;
 }> { }
 
 
@@ -61,11 +64,21 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   isLoading = false;
 
+  isLoadingFloors = false;
+
+  isLoadingPlaces = false;
+
   statusList: Identifiable<EntityStatus>[] = EntityStatusList;
 
   orgUnitsList: Identifiable[] = [];
 
   fixedAssetTypesList: Identifiable[] = [];
+
+  buildingsList: Identifiable[] = [];
+
+  floorsList: Identifiable[] = [];
+
+  placesList: Identifiable[] = [];
 
   helper: SubscriptionHelper;
 
@@ -100,6 +113,30 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
   }
 
 
+  onBuildingChanges(building: Identifiable) {
+    this.form.controls.floorUID.reset();
+
+    if (isEmpty(building)) {
+      this.floorsList = [];
+    } else {
+      this.getFloors(building.uid);
+    }
+
+    this.onFloorChanges(Empty);
+  }
+
+
+  onFloorChanges(floor: Identifiable) {
+    this.form.controls.placeUID.reset();
+
+    if (isEmpty(floor)) {
+      this.placesList = [];
+    } else {
+      this.getPlaces(floor.uid);
+    }
+  }
+
+
   onSearchClicked() {
     if (this.form.valid) {
       sendEvent(this.fixedAssetsFilterEvent, FixedAssetsFilterEventType.SEARCH_CLICKED,
@@ -122,12 +159,34 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.fixed_assets }),
       this.fixedAssetsData.getFixedAssetTypes(),
+      this.fixedAssetsData.getFixedAssetRootLocations(),
     ])
-    .subscribe(([a, b]) => {
+    .subscribe(([a, b, c]) => {
       this.orgUnitsList = a;
       this.fixedAssetTypesList = b;
+      this.buildingsList = c;
       this.isLoading = false;
     });
+  }
+
+
+  private getFloors(floorUID: string) {
+    this.isLoadingFloors = true;
+
+    this.fixedAssetsData.getFixedAssetLocationsList(floorUID)
+      .firstValue()
+      .then(x => this.floorsList = x)
+      .finally(() => this.isLoadingFloors = false);
+  }
+
+
+  private getPlaces(placeUID: string) {
+    this.isLoadingPlaces = true;
+
+    this.fixedAssetsData.getFixedAssetLocationsList(placeUID)
+      .firstValue()
+      .then(x => this.placesList = x)
+      .finally(() => this.isLoadingPlaces = false);
   }
 
 
@@ -140,6 +199,9 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
       keywords: [null],
       fixedAssetTypeUID: [null],
       inventoryNo: [null],
+      buildingUID: [null],
+      floorUID: [null],
+      placeUID: [null],
     });
   }
 
@@ -151,6 +213,9 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
       keywords: this.query.keywords,
       fixedAssetTypeUID: this.query.fixedAssetTypeUID,
       inventoryNo: this.query.inventoryNo,
+      buildingUID: this.query.buildingUID,
+      floorUID: this.query.floorUID,
+      placeUID: this.query.placeUID,
     });
   }
 
@@ -162,6 +227,9 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
       keywords: this.form.value.keywords ?? null,
       fixedAssetTypeUID: this.form.value.fixedAssetTypeUID ?? null,
       inventoryNo: this.form.value.inventoryNo ?? null,
+      buildingUID: this.form.value.buildingUID ?? null,
+      floorUID: this.form.value.floorUID ?? null,
+      placeUID: this.form.value.placeUID ?? null,
     };
 
     return query;

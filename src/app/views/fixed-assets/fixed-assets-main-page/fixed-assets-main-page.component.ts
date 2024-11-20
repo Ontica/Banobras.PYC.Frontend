@@ -117,6 +117,7 @@ export class FixedAssetsMainPageComponent {
   private setQueryAndClearExplorerData(query: FixedAssetsQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
+    this.setSelectedData(EmptyFixedAssetHolder);
   }
 
 

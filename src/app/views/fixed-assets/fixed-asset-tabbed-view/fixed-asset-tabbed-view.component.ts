@@ -95,7 +95,7 @@ export class FixedAssetTabbedViewComponent implements OnChanges {
 
     this.hint = `<strong>${this.data.fixedAsset.fixedAssetType.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
       `${this.data.fixedAsset.custodianOrgUnit.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${this.data.fixedAsset.location}`;
+      `${this.data.fixedAsset.locationName}`;
   }
 
 }

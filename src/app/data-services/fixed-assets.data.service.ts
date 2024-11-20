@@ -26,6 +26,22 @@ export class FixedAssetsDataService {
   }
 
 
+  getFixedAssetRootLocations(): EmpObservable<Identifiable[]> {
+    const path = 'v2/fixed-assets/locations/root';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getFixedAssetLocationsList(locationUID: string): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(locationUID, 'locationUID');
+
+    const path = `v2/fixed-assets/locations/${locationUID}/children`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   searchFixedAssets(query: FixedAssetsQuery): EmpObservable<FixedAssetDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
