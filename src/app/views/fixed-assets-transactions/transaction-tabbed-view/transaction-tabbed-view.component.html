@@ -1,0 +1,52 @@
+<emp-ng-card
+  [title]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Transacción">
+
+      <!-- <emp-fa-transaction-editor
+        [transaction]="data.transaction"
+        [actions]="data.actions"
+        (transactionEditorEvent)="onTransactionEditorEvent($event)">
+
+      </emp-fa-transaction-editor> -->
+
+    </mat-tab>
+
+    <mat-tab label="Movimientos">
+
+      <!-- <emp-fa-transaction-entries-edition
+        [entries]="data.entries"
+        (transactionEntriesEditionEvent)="onTransactionEntriesEditionEvent($event)">
+
+      </emp-fa-transaction-entries-edition> -->
+
+    </mat-tab>
+
+    <mat-tab label="Documentos">
+
+      <emp-ng-documents-edition
+        entityType="fixed-asset-transactions"
+        [entityUID]="data.transaction.uid"
+        [documents]="data.documents"
+        [canEdit]="data.actions.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+
+      </emp-ng-documents-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Historial">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

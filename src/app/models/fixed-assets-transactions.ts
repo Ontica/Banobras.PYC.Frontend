@@ -9,6 +9,8 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { BaseActions, EmptyBaseActions, ExplorerOperation } from './_explorer-data';
 
+import { Document } from './documents';
+
 
 export enum FixedAssetTransactionsStatus {
   Pending         = 'Pendiente',

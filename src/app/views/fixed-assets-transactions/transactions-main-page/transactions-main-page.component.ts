@@ -15,13 +15,13 @@ import { MessageBoxService } from '@app/shared/containers/message-box';
 
 import { FixedAssetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransactionDescriptor, EmptyFixedAssetTransactionData,
-         EmptyFixedAssetTransactionsQuery, FixedAssetTransactionData, FixedAssetTransactionDescriptor,
-         FixedAssetTransactionsQuery, mapFixedAssetTransactionDescriptorFromTransaction } from '@app/models';
+import { BudgetTransactionDescriptor, EmptyFixedAssetTransactionData, EmptyFixedAssetTransactionsQuery,
+         FixedAssetTransactionData, FixedAssetTransactionDescriptor, FixedAssetTransactionsQuery,
+         mapFixedAssetTransactionDescriptorFromTransaction } from '@app/models';
 
 import { TransactionsExplorerEventType } from '../transactions-explorer/transactions-explorer.component';
 
-// import { TransactionTabbedViewEventType } from '../budget/transaction-tabbed-view/transaction-tabbed-view.component';
+import { TransactionTabbedViewEventType } from '../transaction-tabbed-view/transaction-tabbed-view.component';
 
 
 @Component({
@@ -78,26 +78,26 @@ export class FixedAssetTransactionsMainPageComponent  {
 
 
   onTransactionTabbedViewEvent(event: EventInfo) {
-    // switch (event.type as TransactionTabbedViewEventType) {
-    //   case TransactionTabbedViewEventType.CLOSE_BUTTON_CLICKED:
-    //     this.setSelectedData(EmptyBudgetTransactionData);
-    //     return;
-    //   case TransactionTabbedViewEventType.DATA_UPDATED:
-    //     Assertion.assertValue(event.payload.data, 'event.payload.data');
-    //     this.insertItemToList(event.payload.data as BudgetTransactionData);
-    //     return;
-    //   case TransactionTabbedViewEventType.DATA_DELETED:
-    //     Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
+    switch (event.type as TransactionTabbedViewEventType) {
+      case TransactionTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyFixedAssetTransactionData);
+        return;
+      case TransactionTabbedViewEventType.DATA_UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.insertItemToList(event.payload.data as FixedAssetTransactionData);
+        return;
+      case TransactionTabbedViewEventType.DATA_DELETED:
+        Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
 
-    //     return;
-    //   case TransactionTabbedViewEventType.REFRESH_DATA:
-    //     Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
-    //     this.refreshSelectedData(event.payload.transactionUID);
-    //     return;
-    //   default:
-    //     console.log(`Unhandled user interface event ${event.type}`);
-    //     return;
-    // }
+        return;
+      case TransactionTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
+        this.refreshSelectedData(event.payload.transactionUID);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 
