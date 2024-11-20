@@ -5,9 +5,9 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Identifiable } from '@app/core';
+import { DateString, Empty, Identifiable } from '@app/core';
 
-import { ExplorerOperation } from './_explorer-data';
+import { BaseActions, EmptyBaseActions, ExplorerOperation } from './_explorer-data';
 
 
 export enum FixedAssetTransactionsStatus {
@@ -77,13 +77,33 @@ export interface FixedAssetTransactionsQuery {
 
 export interface FixedAssetTransactionDescriptor {
   uid: string;
+  transactionNo: string;
 }
 
 
-export interface FixedAssetTransactionHolder {
-  transaction: any;
+export interface FixedAssetTransactionFields {
+
 }
 
+
+export interface FixedAssetTransactionData {
+  transaction: FixedAssetTransaction,
+  entries: any[];
+  documents: Document[];
+  history: History[];
+  actions: BaseActions;
+}
+
+
+export interface FixedAssetTransaction {
+  uid: string;
+  transactionNo: string;
+  name: string;
+  requestedDate: DateString;
+  resposable: Identifiable;
+  involved: Identifiable;
+  notes: string;
+}
 
 export enum FixedAssetTransactionsOperationType {
   excel  = 'excel',
@@ -128,3 +148,31 @@ export const EmptyFixedAssetTransactionsQuery: FixedAssetTransactionsQuery = {
   partyType: FixedAssetTransactionPartyType.RegisteredBy,
   partyUID: '',
 };
+
+
+export const EmptyFixedAssetTransaction: FixedAssetTransaction = {
+  uid: '',
+  transactionNo: '',
+  name: '',
+  requestedDate: '',
+  resposable: Empty,
+  involved: Empty,
+  notes: '',
+}
+
+
+export const EmptyFixedAssetTransactionData: FixedAssetTransactionData = {
+  transaction: EmptyFixedAssetTransaction,
+  entries: [],
+  documents: [],
+  history: [],
+  actions: EmptyBaseActions,
+};
+
+
+export function mapFixedAssetTransactionDescriptorFromTransaction(data: FixedAssetTransactionData): FixedAssetTransactionDescriptor {
+  return {
+    uid: data.transaction.uid,
+    transactionNo: data.transaction.transactionNo,
+  };
+}

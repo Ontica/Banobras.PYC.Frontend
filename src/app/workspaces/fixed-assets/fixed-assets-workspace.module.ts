@@ -10,9 +10,9 @@ import { CommonModule } from '@angular/common';
 
 import { FixedAssetsWorkspaceRoutingModule } from './fixed-assets-workspace-routing.module';
 
+import { FixedAssetsTransactionsModule } from '@app/views/fixed-assets-transactions/fixed-assets-transactions.module';
 import { FixedAssetsModule } from '@app/views/fixed-assets/fixed-assets.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
-import { TransactionsModule } from '@app/views/transactions/transactions.module';
 
 
 @NgModule({
@@ -22,9 +22,9 @@ import { TransactionsModule } from '@app/views/transactions/transactions.module'
 
     FixedAssetsWorkspaceRoutingModule,
 
+    FixedAssetsTransactionsModule,
     FixedAssetsModule,
     RequestsModule,
-    TransactionsModule,
   ]
 
 })

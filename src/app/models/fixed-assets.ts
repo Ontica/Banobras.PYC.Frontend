@@ -13,6 +13,8 @@ import { Document } from './documents';
 
 import { History } from './history';
 
+import { FixedAssetTransaction } from './fixed-assets-transactions';
+
 
 export interface FixedAssetsQuery {
   inventoryNo: string;
@@ -80,17 +82,6 @@ export interface FixedAsset {
   startDate: DateString;
   endDate: DateString;
   status: Identifiable;
-}
-
-
-export interface FixedAssetTransaction {
-  uid: string;
-  name: string;
-  requestedDate: DateString;
-  transactionNo: string;
-  resposable: Identifiable;
-  involved: Identifiable;
-  notes: string;
 }
 
 

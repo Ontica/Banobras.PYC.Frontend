@@ -230,7 +230,7 @@ export const EmptyBudgetTransactionData: BudgetTransactionData = {
 };
 
 
-export function mapTransactionDescriptorFromTransaction(data: BudgetTransactionData): BudgetTransactionDescriptor {
+export function mapBudgetTransactionDescriptorFromTransaction(data: BudgetTransactionData): BudgetTransactionDescriptor {
   return {
     uid: data.transaction.uid,
     transactionNo: data.transaction.transactionNo,

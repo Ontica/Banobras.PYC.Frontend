@@ -1,0 +1,31 @@
+<emp-ng-spinner #spinner [visible]="isLoadingSelection">
+
+</emp-ng-spinner>
+
+<div class="explorer">
+
+  <div class="primary priority" [class.std-hide]="displayTabbedView">
+
+    <emp-fa-transactions-explorer
+      [query]="query"
+      [dataList]="dataList"
+      [selectedUID]="selectedData.transaction.uid"
+      [isLoading]="isLoading"
+      [queryExecuted]="queryExecuted"
+      (transactionsExplorerEvent)="onTransactionsExplorerEvent($event)">
+
+    </emp-fa-transactions-explorer>
+
+  </div>
+
+  <div class="secondary" *ngIf="displayTabbedView">
+
+    <!-- <emp-fa-transaction-tabbed-view
+      [data]="selectedData"
+      (transactionTabbedViewEvent)="onTransactionTabbedViewEvent($event)">
+
+    </emp-fa-transaction-tabbed-view> -->
+
+  </div>
+
+</div>

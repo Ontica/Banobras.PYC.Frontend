@@ -12,7 +12,7 @@ import { BudgetWorkspaceRoutingModule } from './budget-workspace-routing.module'
 
 import { BudgetingModule } from '@app/views/budgeting/budgeting.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
-import { TransactionsModule } from '@app/views/transactions/transactions.module';
+import { BudgetTransactionsModule } from '@app/views/budgets-transactions/budget-transactions.module';
 
 @NgModule({
 
@@ -23,7 +23,7 @@ import { TransactionsModule } from '@app/views/transactions/transactions.module'
 
     BudgetingModule,
     RequestsModule,
-    TransactionsModule,
+    BudgetTransactionsModule,
   ]
 
 })

@@ -14,12 +14,12 @@ import { ROUTES } from '@app/main-layout';
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
 import {
-  FixedAssetsMainPageComponent
-} from '@app/views/fixed-assets/fixed-assets-main-page/fixed-assets-main-page.component';
+  FixedAssetTransactionsMainPageComponent
+} from '@app/views/fixed-assets-transactions/transactions-main-page/transactions-main-page.component';
 
 import {
-  TransactionsMainPageComponent
-} from '@app/views/transactions/transactions-main-page/transactions-main-page.component';
+  FixedAssetsMainPageComponent
+} from '@app/views/fixed-assets/fixed-assets-main-page/fixed-assets-main-page.component';
 
 import {
   RequestsMainPageComponent
@@ -35,7 +35,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.activo_fijo_transacciones.permission },
     path: ROUTES.activo_fijo_transacciones.path,
-    component: TransactionsMainPageComponent,
+    component: FixedAssetTransactionsMainPageComponent,
   },
   {
     data: { permission: ROUTES.activo_fijo_explorador.permission },

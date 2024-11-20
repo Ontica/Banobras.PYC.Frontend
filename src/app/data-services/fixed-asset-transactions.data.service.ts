@@ -7,11 +7,10 @@
 
 import { Injectable } from '@angular/core';
 
-import { delay, of } from 'rxjs';
-
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FixedAssetTransactionDescriptor, FixedAssetTransactionsQuery } from '@app/models';
+import { FixedAssetTransactionData, FixedAssetTransactionDescriptor,
+         FixedAssetTransactionsQuery } from '@app/models';
 
 
 @Injectable()
@@ -31,10 +30,18 @@ export class FixedAssetTransactionsDataService {
   searchTransactions(query: FixedAssetTransactionsQuery): EmpObservable<FixedAssetTransactionDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
-    return new EmpObservable<FixedAssetTransactionDescriptor[]>(of([]).pipe(delay(1000)));
-    // const path = 'v2/fixed-assets/transactions/search';
+    const path = 'v2/fixed-assets/transactions/search';
 
-    // return this.http.post<FixedAssetTransactionDescriptor[]>(path, query);
+    return this.http.post<FixedAssetTransactionDescriptor[]>(path, query);
+  }
+
+
+  getTransactionData(transactionUID: string): EmpObservable<FixedAssetTransactionData> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+
+    const path = `v2/fixed-assets/transactions/${transactionUID}`;
+
+    return this.http.get<FixedAssetTransactionData>(path);
   }
 
 }

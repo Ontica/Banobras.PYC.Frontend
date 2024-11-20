@@ -22,8 +22,10 @@ import {
 } from '@app/views/budgeting/budget-main-page/budget-main-page.component';
 
 import {
-  TransactionsMainPageComponent
-} from '@app/views/transactions/transactions-main-page/transactions-main-page.component';
+  BudgetTransactionsMainPageComponent
+} from '@app/views/budgets-transactions/transactions-main-page/transactions-main-page.component';
+
+
 
 
 const routes: Routes = [
@@ -35,7 +37,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.presupuesto_transacciones.permission },
     path: ROUTES.presupuesto_transacciones.path,
-    component: TransactionsMainPageComponent,
+    component: BudgetTransactionsMainPageComponent,
   },
   {
     data: { permission: ROUTES.presupuesto_explorador.permission },
