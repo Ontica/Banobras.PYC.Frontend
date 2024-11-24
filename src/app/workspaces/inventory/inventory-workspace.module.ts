@@ -8,7 +8,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FixedAssetsWorkspaceRoutingModule } from './fixed-assets-workspace-routing.module';
+import { InventoryWorkspaceRoutingModule } from './inventory-workspace-routing.module';
 
 import { FixedAssetsTransactionsModule } from '@app/views/fixed-assets-transactions/fixed-assets-transactions.module';
 import { FixedAssetsModule } from '@app/views/fixed-assets/fixed-assets.module';
@@ -20,7 +20,7 @@ import { RequestsModule } from '@app/views/requests/requests.module';
   imports: [
     CommonModule,
 
-    FixedAssetsWorkspaceRoutingModule,
+    InventoryWorkspaceRoutingModule,
 
     FixedAssetsTransactionsModule,
     FixedAssetsModule,
@@ -28,4 +28,4 @@ import { RequestsModule } from '@app/views/requests/requests.module';
   ]
 
 })
-export class FixedAssetsWorkspaceModule { }
+export class InventoryWorkspaceModule { }

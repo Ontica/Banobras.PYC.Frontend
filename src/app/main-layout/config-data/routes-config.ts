@@ -104,7 +104,7 @@ export const ROUTES = {
 
   // #endregion
 
-  // #region contracts-routing module
+  // #region procurement-routing module
 
   adquisiciones_solicitudes: {
     permission: PERMISSIONS.NOT_REQUIRED,
@@ -249,7 +249,7 @@ export const ROUTES = {
 
   // #endregion
 
-  // #region fixed-assets-routing module
+  // #region inventory-routing module
 
   inventarios_solicitudes: {
     permission: PERMISSIONS.NOT_REQUIRED,

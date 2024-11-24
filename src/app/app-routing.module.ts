@@ -29,8 +29,8 @@ const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [ParentRouteGuard],
     canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/contracts/contracts-workspace.module')
-      .then((m) => m.ContractsWorkspaceModule)
+    loadChildren: () => import('./workspaces/procurement/procurement-workspace.module')
+      .then((m) => m.ProcurementWorkspaceModule)
   },
   {
     data: { permission: ROUTES.pagos.permission },
@@ -56,8 +56,8 @@ const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [ParentRouteGuard],
     canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/fixed-assets/fixed-assets-workspace.module')
-      .then((m) => m.FixedAssetsWorkspaceModule)
+    loadChildren: () => import('./workspaces/inventory/inventory-workspace.module')
+      .then((m) => m.InventoryWorkspaceModule)
   },
   {
     data: { permission: ROUTES.flujo_de_efectivo.permission },

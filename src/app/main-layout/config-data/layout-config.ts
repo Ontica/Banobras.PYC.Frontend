@@ -15,23 +15,23 @@ import {
   StepsViews,
   BudgetViews,
   CashFlowViews,
-  ContractsViews,
+  ProcurementViews,
   PaymentsViews,
-  FixedAssetsViews,
+  InventoryViews,
 } from './views-config';
 
 
 export type LAYOUT_TYPE = 'Management' | 'Unauthorized' |
-                          'Steps' | 'Contracts' | 'Payments' | 'Budget' | 'FixedAssets' | 'CashFlow';
+                          'Steps' | 'Procurement' | 'Payments' | 'Budget' | 'Inventory' | 'CashFlow';
 
 
 export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
                                                           StepsViews,
                                                           BudgetViews,
                                                           CashFlowViews,
-                                                          ContractsViews,
+                                                          ProcurementViews,
                                                           PaymentsViews,
-                                                          FixedAssetsViews);
+                                                          InventoryViews);
 
 
 export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
@@ -44,8 +44,8 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
     permission: ROUTES.tareas.permission,
   },
   {
-    name: 'Contracts',
-    views: ContractsViews,
+    name: 'Procurement',
+    views: ProcurementViews,
     hint: 'Adquisiciones',
     defaultTitle: 'Adquisiciones',
     url: ROUTES.adquisiciones.fullpath,
@@ -68,8 +68,8 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
     permission: ROUTES.presupuesto.permission,
   },
   {
-    name: 'FixedAssets',
-    views: FixedAssetsViews,
+    name: 'Inventory',
+    views: InventoryViews,
     hint: 'Inventarios',
     defaultTitle: 'Inventarios',
     url: ROUTES.inventarios.fullpath,

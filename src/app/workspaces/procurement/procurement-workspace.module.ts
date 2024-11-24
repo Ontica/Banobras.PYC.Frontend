@@ -8,7 +8,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ContractsWorkspaceRoutingModule } from './contracts-workspace-routing.module';
+import { ProcurementWorkspaceRoutingModule } from './procurement-workspace-routing.module';
 
 import { ContractsModule } from '@app/views/contracts/contracts.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
@@ -20,7 +20,7 @@ import { ProductsModule } from '@app/views/products/products.module';
   imports: [
     CommonModule,
 
-    ContractsWorkspaceRoutingModule,
+    ProcurementWorkspaceRoutingModule,
 
     ContractsModule,
     RequestsModule,
@@ -28,4 +28,4 @@ import { ProductsModule } from '@app/views/products/products.module';
   ],
 
 })
-export class ContractsWorkspaceModule { }
+export class ProcurementWorkspaceModule { }
