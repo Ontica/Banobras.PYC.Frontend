@@ -15,10 +15,6 @@ export * from './dynamic-form-helper';
 
 export * from './event-emission';
 
-export * from './file-download.service';
-
 export * from './form-helper';
 
 export * from './format-library';
-
-export * from './printer.service';

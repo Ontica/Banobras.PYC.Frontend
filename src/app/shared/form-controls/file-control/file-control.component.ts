@@ -7,7 +7,9 @@
 
 import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { FileDownloadService, FormatLibrary } from '@app/shared/utils';
+import { FormatLibrary } from '@app/shared/utils';
+
+import { FileDownloadService } from '@app/shared/services';
 
 import { DefaultFileControlConfig, FileData, FileControlActions, FileControlConfig, FileControlMenuOptions,
          FileTypeAccepted, FileType, CsvFileTypeException, FileControlEventData } from './file-control-data';

@@ -11,9 +11,9 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
-import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { MessageBoxService } from '@app/shared/services';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { Contract, ContractFields, DateRange, EmptyContract, EmptyDateRange } from '@app/models';
 

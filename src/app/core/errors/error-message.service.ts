@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Router } from '@angular/router';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { MessageBoxService } from '@app/shared/services';
 
 import { LOGIN_PATH } from '@app/main-layout';
 

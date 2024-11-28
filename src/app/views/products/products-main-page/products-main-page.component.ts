@@ -9,9 +9,9 @@ import { Component } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { ProductsDataService } from '@app/data-services';
+import { MessageBoxService } from '@app/shared/services';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { ProductsDataService } from '@app/data-services';
 
 import { EmptyProductsQuery, ProductDescriptor, ProductsQuery } from '@app/models';
 

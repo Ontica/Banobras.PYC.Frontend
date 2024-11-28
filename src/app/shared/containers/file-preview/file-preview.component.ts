@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
 
 import { MediaType } from '@app/core';
 
-import { FileDownloadService } from '@app/shared/utils';
+import { FileDownloadService } from '@app/shared/services';
 
 import { FileType } from '@app/models';
 

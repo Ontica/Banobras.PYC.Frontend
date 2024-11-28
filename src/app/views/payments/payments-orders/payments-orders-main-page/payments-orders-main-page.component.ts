@@ -9,9 +9,9 @@ import { Component } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
-import { ArrayLibrary } from '@app/shared/utils';
+import { MessageBoxService } from '@app/shared/services';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { ArrayLibrary } from '@app/shared/utils';
 
 import { PaymentOrdersDataService } from '@app/data-services';
 

@@ -16,7 +16,7 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { MessageBoxService } from '@app/shared/services';
 
 import { ArrayLibrary, DynamicFormHelper, FormHelper, sendEvent } from '@app/shared/utils';
 

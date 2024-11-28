@@ -11,11 +11,12 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo } from '@app/core';
 
+import { MessageBoxService } from '@app/shared/services';
+
 import { sendEvent } from '@app/shared/utils';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
-
 import { ContractItem } from '@app/models';
+
 
 export enum ContractItemsTableEventType {
   SELECT_ITEM_CLICKED = 'ContractItemsTableComponent.Event.SelectItemClicked',

@@ -9,9 +9,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { EventInfo, Identifiable } from '@app/core';
 
-import { sendEvent } from '@app/shared/utils';
+import { MessageBoxService } from '@app/shared/services';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { sendEvent } from '@app/shared/utils';
 
 import { EmptyStep, Priority, Step, StepStatus } from '@app/models';
 

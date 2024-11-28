@@ -11,11 +11,11 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { Assertion, Empty, EventInfo, Identifiable } from '@app/core';
 
-import { SecurityItem } from '@app/models';
-
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent } from '@app/shared/utils';
+
+import { SecurityItem } from '@app/models';
 
 import { SecurityItemAssignEventType } from './security-item-assign.component';
 

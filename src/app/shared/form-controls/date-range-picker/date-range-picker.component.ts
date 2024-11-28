@@ -176,9 +176,8 @@ export class DateRangePickerComponent implements ControlValueAccessor, OnChanges
       this.completeValue = obj;
       this.startDate = this.getDateInputValue(obj[this.bindValueStartDate]);
       this.endDate = this.getDateInputValue(obj[this.bindValueEndDate]);
-
       if (!this.startDate || !this.endDate) {
-        console.log(`Invalid date value received in calendar component: '${obj}'.`);
+        console.log(`Invalid date value received in calendar component.`, obj);
       }
     } else {
       this.completeValue = null;

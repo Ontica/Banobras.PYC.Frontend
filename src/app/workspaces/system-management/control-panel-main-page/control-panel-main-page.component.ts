@@ -7,7 +7,7 @@
 
 import { Component } from '@angular/core';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { MessageBoxService } from '@app/shared/services';
 
 import { ControlPanelOption, ControlPanelOptionList } from './control-panel-config';
 

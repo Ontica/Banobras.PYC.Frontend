@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { MessageBoxService } from '@app/shared/services';
 
 import { BudgetsDataService } from '@app/data-services';
 

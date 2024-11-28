@@ -9,7 +9,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 
 import { EventInfo } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { MessageBoxService } from '@app/shared/services';
 
 import { ChangePasswordEventType } from '@app/views/_security/change-password/change-password.component';
 

@@ -19,13 +19,11 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 import { BudgetingStateSelector, CataloguesStateSelector,
          PaymentsStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
-
-import {
-  SelectBoxTypeaheadComponent
-} from '@app/shared/form-controls/select-box-typeahead/select-box-typeahead.component';
+import { MessageBoxService } from '@app/shared/services';
 
 import { FormHelper, sendEvent } from '@app/shared/utils';
+
+import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
 
 import { CataloguesDataService, SearcherAPIS } from '@app/data-services';
 

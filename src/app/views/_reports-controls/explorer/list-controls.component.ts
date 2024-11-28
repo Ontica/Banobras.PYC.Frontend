@@ -11,9 +11,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Entity, EventInfo, isEmpty } from '@app/core';
 
-import { sendEvent } from '@app/shared/utils';
+import { MessageBoxService } from '@app/shared/services';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { sendEvent } from '@app/shared/utils';
 
 import { ExplorerOperation, ExplorerOperationCommand } from '@app/models';
 

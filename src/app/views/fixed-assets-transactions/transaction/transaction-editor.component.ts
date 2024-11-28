@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EventInfo, isEmpty } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { MessageBoxService } from '@app/shared/services';
 
 import { FixedAssetTransaction, EmptyFixedAssetTransaction, TransactionActions,
          EmptyTransactionActions } from '@app/models';

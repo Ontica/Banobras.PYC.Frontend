@@ -11,7 +11,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { Assertion, DateString, EventInfo, Identifiable, isEmpty } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { MessageBoxService } from '@app/shared/services';
 
 import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 

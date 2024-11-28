@@ -11,9 +11,9 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo } from '@app/core';
 
-import { FormatLibrary, sendEvent } from '@app/shared/utils';
+import { MessageBoxService } from '@app/shared/services';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
 import { PayableItem } from '@app/models';
 

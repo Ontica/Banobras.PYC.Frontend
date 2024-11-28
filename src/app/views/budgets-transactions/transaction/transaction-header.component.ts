@@ -11,9 +11,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
-import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { MessageBoxService } from '@app/shared/services';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { BudgetTransaction, TransactionActions, BudgetTransactionFields, EmptyBudgetTransaction,
          EmptyTransactionActions } from '@app/models';

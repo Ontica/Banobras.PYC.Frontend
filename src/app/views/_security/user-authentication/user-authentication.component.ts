@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 
 import { APP_CONFIG } from '@app/main-layout';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { MessageBoxService } from '@app/shared/services';
 
 export enum UserAuthenticationEventType {
   CHANGE_PASSWORD_REQUIRED = 'UserAuthenticationComponent.Event.ChangePasswordRequired',

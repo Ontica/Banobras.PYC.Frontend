@@ -9,11 +9,11 @@ import { Component } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
-
-import { PayablesDataService } from '@app/data-services';
+import { MessageBoxService } from '@app/shared/services';
 
 import { ArrayLibrary } from '@app/shared/utils';
+
+import { PayablesDataService } from '@app/data-services';
 
 import { EmptyPayableData, EmptyPayablesQuery, mapPayableDescriptorFromPayable, PayableData,
          PayableDescriptor, PayablesQuery } from '@app/models';

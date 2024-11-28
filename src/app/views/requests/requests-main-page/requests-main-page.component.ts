@@ -11,13 +11,13 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { View } from '@app/main-layout';
-
 import { MainUIStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { ArrayLibrary } from '@app/shared/utils';
+import { View } from '@app/main-layout';
 
-import { MessageBoxService } from '@app/shared/containers/message-box';
+import { MessageBoxService } from '@app/shared/services';
+
+import { ArrayLibrary } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
