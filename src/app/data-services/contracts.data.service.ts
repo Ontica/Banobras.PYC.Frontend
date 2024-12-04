@@ -20,7 +20,7 @@ export class ContractsDataService {
 
 
   getContractTypes(): EmpObservable<Identifiable[]> {
-    const path = 'v2/contracts/contract-types';
+    const path = 'v8/procurement/contracts/contract-types';
 
     return this.http.get<Identifiable[]>(path);
   }
@@ -29,7 +29,7 @@ export class ContractsDataService {
   searchContracts(query: ContractsQuery): EmpObservable<ContractDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
-    const path = 'v2/contracts/search';
+    const path = 'v8/procurement/contracts/search';
 
     return this.http.post<ContractDescriptor[]>(path, query);
   }
@@ -38,7 +38,7 @@ export class ContractsDataService {
   getContractData(contractUID: string): EmpObservable<ContractData> {
     Assertion.assertValue(contractUID, 'contractUID');
 
-    const path = `v2/contracts/${contractUID}`;
+    const path = `v8/procurement/contracts/${contractUID}`;
 
     return this.http.get<ContractData>(path);
   }
