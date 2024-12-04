@@ -57,17 +57,27 @@
 
       </div>
 
-      <div class="fx-item-half">
+      <div class="fx-item-size" style="--size: calc(50% - 126px)">
 
         <label>Proveedor:</label>
 
         <emp-ng-select
           formControlName="supplierUID"
+          [config]="{showTooltip: true}"
           [items]="suppliersList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.supplierUID)">
         </emp-ng-select>
 
+      </div>
+
+      <div class="fx-item-none">
+        <label>Fecha de firma:</label>
+        <emp-ng-datepicker
+          formControlName="signDate"
+          [showError]="formHelper.isControlInvalid(form.controls.signDate)">
+
+        </emp-ng-datepicker>
       </div>
 
     </div>

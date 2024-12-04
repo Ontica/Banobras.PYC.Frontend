@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
+import { Assertion, DateString, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
@@ -28,6 +28,7 @@ interface ContractFormModel extends FormGroup<{
   managedByOrgUnitUID: FormControl<string>;
   budgetTypeUID: FormControl<string>;
   datePeriod: FormControl<DateRange>;
+  signDate: FormControl<DateString>;
   contractTypeUID: FormControl<string>;
   supplierUID: FormControl<string>;
   contractNo: FormControl<string>;
@@ -151,6 +152,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
       managedByOrgUnitUID: [''],
       budgetTypeUID: [''],
       datePeriod: [EmptyDateRange],
+      signDate: ['' as DateString],
       contractTypeUID: [''],
       supplierUID: [''],
       contractNo: [''],
@@ -168,6 +170,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
         managedByOrgUnitUID: isEmpty(this.contract.managedByOrgUnit) ? null : this.contract.managedByOrgUnit.uid,
         budgetTypeUID: isEmpty(this.contract.budgetType) ? null : this.contract.budgetType.uid,
         datePeriod: { fromDate: this.contract.fromDate ?? null, toDate: this.contract.toDate ?? null },
+        signDate: this.contract.signDate ?? '',
         contractTypeUID: isEmpty(this.contract.contractType) ? null : this.contract.contractType.uid,
         supplierUID: isEmpty(this.contract.supplier) ? null : this.contract.supplier.uid,
         contractNo: this.contract.contractNo ?? '',
@@ -184,7 +187,18 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const data: ContractFields = {
-
+      contractTypeUID: this.form.value.contractTypeUID ?? null,
+      contractNo: this.form.value.contractNo ?? null,
+      name: this.form.value.name ?? null,
+      description: this.form.value.description ?? null,
+      budgetTypeUID: this.form.value.budgetTypeUID ?? null,
+      managedByOrgUnitUID: this.form.value.managedByOrgUnitUID ?? null,
+      fromDate: this.form.value.datePeriod.fromDate ?? null,
+      toDate: this.form.value.datePeriod.toDate ?? null,
+      signDate: this.form.value.signDate ?? null,
+      supplierUID: this.form.value.supplierUID ?? null,
+      currencyUID: this.form.value.currencyUID ?? null,
+      total: !this.form.value.total ? null : FormatLibrary.stringToNumber(this.form.value.total),
     };
 
     return data;
