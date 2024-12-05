@@ -57,7 +57,7 @@ export interface DocumentProduct {
 export function getEntityModule(entityType: DocumentsEntityTypes): string {
   switch (entityType) {
     case 'bills': return 'v2/billing-management/bills';
-    case 'contracts': return 'v2/contracts';
+    case 'contracts': return 'v8/procurement/contracts';
     case 'fixed-assets': return 'v2/fixed-assets';
     case 'payables': return 'v2/payments-management/payables';
     case 'payments-orders': return 'v2/payments-management/payment-orders';
