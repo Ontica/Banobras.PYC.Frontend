@@ -53,6 +53,10 @@ export class DateRangePickerComponent implements ControlValueAccessor, OnChanges
 
   @Input() bindValueEndDate = 'toDate';
 
+  @Input() bindLabelStartDate = 'Fecha inicial';
+
+  @Input() bindlabelEndDate = 'Fecha final';
+
   @Input() showError = false;
 
   @Input() displaySelectionType = true;

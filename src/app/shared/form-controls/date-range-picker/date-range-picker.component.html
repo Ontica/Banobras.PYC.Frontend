@@ -10,7 +10,7 @@
 
     <input type="text" #inputStartDate matStartDate
       autocomplete="off" maxlength="11"
-      placeholder="Fecha inicial"
+      [placeholder]="bindLabelStartDate"
       [disabled]="disabled"
       [ngModel]="startDate"
       (blur)="onBlur()"
@@ -19,7 +19,7 @@
 
     <input type="text" #inputEndDate matEndDate
       autocomplete="off" maxlength="11"
-      placeholder="Fecha final"
+      [placeholder]="bindlabelEndDate"
       [disabled]="disabled || fixedEndDate"
       [ngModel]="endDate"
       (blur)="onBlur()"
