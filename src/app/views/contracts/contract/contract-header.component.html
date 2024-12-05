@@ -11,14 +11,14 @@
         <emp-ng-select
           formControlName="managedByOrgUnitUID"
           [config]="{virtualScroll: true, showTooltip: true}"
-          [items]="organizationalUnitsList"
+          [items]="orgUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.managedByOrgUnitUID)">
         </emp-ng-select>
 
       </div>
 
-      <div class="fx-item-size" style="--size: calc(50% - 221px)">
+      <div class="fx-item-half">
 
         <label>Tipo de presupuesto:</label>
 
@@ -29,15 +29,6 @@
           [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)">
         </emp-ng-select>
 
-      </div>
-
-      <div class="fx-item-none">
-        <label>Fecha inicio / Fecha fin:</label>
-        <emp-ng-date-range-picker
-          formControlName="datePeriod"
-          [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
-
-        </emp-ng-date-range-picker>
       </div>
 
     </div>
@@ -54,53 +45,6 @@
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.contractTypeUID)">
         </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-size" style="--size: calc(50% - 126px)">
-
-        <label>Proveedor:</label>
-
-        <emp-ng-select
-          formControlName="supplierUID"
-          [config]="{showTooltip: true}"
-          [items]="suppliersList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.supplierUID)">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-none">
-        <label>Fecha de firma:</label>
-        <emp-ng-datepicker
-          formControlName="signDate"
-          [showError]="formHelper.isControlInvalid(form.controls.signDate)">
-
-        </emp-ng-datepicker>
-      </div>
-
-    </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-quarter">
-
-        <label>No. de contrato:</label>
-
-        <input type="text" class="text-box"
-          formControlName="contractNo"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.contractNo)">
-
-      </div>
-
-      <div class="fx-item-quarter">
-
-        <label>Nombre del contrato:</label>
-
-        <input type="text" class="text-box"
-          formControlName="name"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
 
       </div>
 
@@ -125,6 +69,77 @@
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
         </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+
+        <label>Nombre del contrato:</label>
+
+        <input type="text" class="text-box"
+          formControlName="name"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+
+      </div>
+
+    </div>
+
+    <mat-divider class="horizontal">
+
+    </mat-divider>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>No. de contrato:</label>
+
+        <input type="text" class="text-box"
+          formControlName="contractNo"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.contractNo)"
+          (change)="onContractNoChange()">
+
+      </div>
+
+      <div class="fx-item-none">
+        <label>Vigencia:</label>
+        <emp-ng-date-range-picker
+          formControlName="datePeriod"
+          bindLabelStartDate="Fecha inicio"
+          bindlabelEndDate="Fecha fin"
+          [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
+
+        </emp-ng-date-range-picker>
+      </div>
+
+      <div class="fx-item-none">
+        <label>Fecha de firma:</label>
+        <emp-ng-datepicker
+          formControlName="signDate"
+          [showError]="formHelper.isControlInvalid(form.controls.signDate)">
+
+        </emp-ng-datepicker>
+      </div>
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+
+        <label>Proveedor:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="supplierUID"
+          [config]="{ showTooltip: true, clearable: !form.value.contractNo }"
+          [searcherAPI]="suppliersAPI"
+          [initialValue]="isSaved ? contract.supplier : null"
+          [showError]="formHelper.isControlInvalid(form.controls.supplierUID)">
+
+        </emp-ng-select-typeahead>
 
       </div>
 
@@ -171,8 +186,7 @@
 
         <ng-container *ngIf="editionMode">
 
-          <!-- *ngIf="actions.canDelete" -->
-          <button *ngIf="canEdit"
+          <button *ngIf="actions.canDelete"
             type="button" class="btn-warning"
             (click)="onDeleteButtonClicked()">
             Eliminar
@@ -187,16 +201,16 @@
       </div>
 
       <div class="fx-item fx-end fx-items-center">
-        <!-- (actions.canDelete || actions.canUpdate)" -->
-        <button *ngIf="!editionMode && canEdit"
+
+        <button *ngIf="!editionMode && hasActions"
           class="btn-action"
           (click)="enableEditor(true)">
           Editar
         </button>
 
         <ng-container *ngIf="editionMode">
-          <!-- *ngIf="actions.canUpdate" -->
-          <button *ngIf="canEdit"
+
+          <button *ngIf="actions.canUpdate"
             [class.btn]="!formHelper.isFormReady(form)"
             [class.btn-action]="formHelper.isFormReady(form)"
             (click)="onSubmitButtonClicked()">

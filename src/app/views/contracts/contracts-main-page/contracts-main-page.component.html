@@ -29,3 +29,8 @@
   </div>
 
 </div>
+
+<emp-pmt-contract-creator *ngIf="displayCreator"
+  (contractCreatorEvent)="onContractCreatorEvent($event)">
+
+</emp-pmt-contract-creator>

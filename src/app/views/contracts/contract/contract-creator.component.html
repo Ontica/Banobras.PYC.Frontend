@@ -1,0 +1,23 @@
+<emp-ng-modal-window [config]="{width:'960px'}">
+
+  <emp-ng-card
+    title="Agregar contrato"
+    hint='Información del contrato.'
+    (cardClose)="onCloseModalClicked()">
+
+      <div class="card-body-padding" [empNgSpinnerHost]="spinner">
+
+        <emp-ng-spinner #spinner [visible]="submitted">
+
+        </emp-ng-spinner>
+
+        <emp-pmt-contract-header
+          (contractHeaderEvent)="onContractHeaderEvent($event)">
+
+        </emp-pmt-contract-header>
+
+      </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

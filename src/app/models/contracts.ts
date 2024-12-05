@@ -35,6 +35,7 @@ export interface ContractDescriptor {
   managedByOrgUnit: string;
   budgetType: string;
   supplier: string;
+  total: number;
   currency: string;
   fromDate: DateString;
   toDate: DateString;
@@ -43,7 +44,18 @@ export interface ContractDescriptor {
 
 
 export interface ContractFields {
-
+  contractTypeUID: string;
+  contractNo: string;
+  name: string;
+  description: string;
+  budgetTypeUID: string;
+  managedByOrgUnitUID: string;
+  fromDate: DateString;
+  toDate: DateString;
+  signDate: DateString;
+  supplierUID: string;
+  currencyUID: string;
+  total: number;
 }
 
 
@@ -151,6 +163,11 @@ export interface ContractMilestoneItem {
 
 
 export interface ContractActions {
+  canUpdate: boolean;
+  canDelete: boolean;
+  canActivate: boolean;
+  canSuspend: boolean;
+  canRequestBudget: boolean;
   canEditDocuments: boolean;
 }
 
@@ -185,6 +202,11 @@ export const EmptyContract: Contract = {
 
 
 export const EmptyContractActions: ContractActions = {
+  canUpdate: false,
+  canDelete: false,
+  canActivate: false,
+  canSuspend: false,
+  canRequestBudget: false,
   canEditDocuments: false,
 }
 
@@ -197,3 +219,23 @@ export const EmptyContractData: ContractData = {
   history: [],
   actions: EmptyContractActions,
 };
+
+
+export function mapContractDescriptorFromContract(contract: Contract): ContractDescriptor {
+  return {
+    uid: contract.uid,
+    contractNo: contract.contractNo,
+    contractType: contract.contractType.name,
+    name: contract.name,
+    description: contract.description,
+    signDate: contract.signDate,
+    managedByOrgUnit: contract.managedByOrgUnit.name,
+    budgetType: contract.budgetType.name,
+    supplier: contract.supplier.name,
+    total: contract.total,
+    currency: contract.currency.name,
+    fromDate: contract.fromDate,
+    toDate: contract.toDate,
+    statusName: contract.status.name,
+  };
+}

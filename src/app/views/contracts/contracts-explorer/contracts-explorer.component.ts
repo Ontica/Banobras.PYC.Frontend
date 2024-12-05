@@ -19,6 +19,7 @@ import { ContractsListEventType } from './contracts-list.component';
 
 
 export enum ContractsExplorerEventType {
+  CREATE_CLICKED            = 'ContractsExplorerComponent.Event.CreateClicked',
   SEARCH_CLICKED            = 'ContractsExplorerComponent.Event.SearchClicked',
   CLEAR_CLICKED             = 'ContractsExplorerComponent.Event.ClearClicked',
   EXECUTE_OPERATION_CLICKED = 'ContractsExplorerComponent.Event.ExecuteOperationClicked',
@@ -59,7 +60,7 @@ export class ContractsExplorerComponent implements OnChanges {
 
 
   onCreateContractClicked() {
-
+    sendEvent(this.contractsExplorerEvent, ContractsExplorerEventType.CREATE_CLICKED);
   }
 
 

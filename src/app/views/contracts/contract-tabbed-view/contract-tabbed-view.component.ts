@@ -55,7 +55,7 @@ export class ContractTabbedViewComponent implements OnChanges {
   onContractEditorEvent(event: EventInfo) {
     switch (event.type as ContractEditorEventType) {
       case ContractEditorEventType.UPDATED:
-        Assertion.assertValue(event.payload.contractUID, 'event.payload.contractUID');
+        Assertion.assertValue(event.payload.contractData, 'event.payload.contractData');
         sendEvent(this.contractTabbedViewEvent,
           ContractTabbedViewEventType.DATA_UPDATED, event.payload);
         return;
@@ -92,7 +92,8 @@ export class ContractTabbedViewComponent implements OnChanges {
       `<span class="tag tag-error tag-small">${this.data.contract.status.name}</span>` :
       `<span class="tag tag-small">${this.data.contract.status.name}</span>`;
 
-    this.title = `${this.data.contract.contractNo}: ${this.data.contract.name}` + status;
+    this.title = `${!this.data.contract.contractNo ? '' : (this.data.contract.contractNo + ': ')}
+      ${this.data.contract.name}` + status;
 
     this.hint = `<strong>${this.data.contract.contractType.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
       `${this.data.contract.supplier.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +

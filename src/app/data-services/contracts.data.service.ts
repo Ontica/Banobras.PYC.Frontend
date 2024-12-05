@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { ContractData, ContractDescriptor, ContractsQuery } from '@app/models';
+import { ContractData, ContractDescriptor, ContractFields, ContractsQuery } from '@app/models';
 
 
 @Injectable()
@@ -41,6 +41,34 @@ export class ContractsDataService {
     const path = `v8/procurement/contracts/${contractUID}`;
 
     return this.http.get<ContractData>(path);
+  }
+
+
+  createContract(dataFields: ContractFields): EmpObservable<ContractData> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/procurement/contracts`;
+
+    return this.http.post<ContractData>(path, dataFields);
+  }
+
+
+  updateContract(contractUID: string, dataFields: ContractFields): EmpObservable<ContractData> {
+    Assertion.assertValue(contractUID, 'contractUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/procurement/contracts/${contractUID}`;
+
+    return this.http.put<ContractData>(path, dataFields);
+  }
+
+
+  deleteContract(contractUID: string): EmpObservable<void> {
+    Assertion.assertValue(contractUID, 'contractUID');
+
+    const path = `v8/procurement/contracts/${contractUID}`;
+
+    return this.http.delete<void>(path);
   }
 
 }

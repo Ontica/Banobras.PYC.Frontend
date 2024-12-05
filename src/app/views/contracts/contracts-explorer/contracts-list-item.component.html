@@ -10,7 +10,7 @@
   <div class="fx-item-size first-column-size sm-fx-item-none">
     <div class="list-item-text-highlight nowrap"
       (click)="onItemClicked()">
-      <a class="bold-text">{{item.contractNo}}</a>
+      <a class="bold-text">{{!item.contractNo ? 'N/D' : item.contractNo}}</a>
     </div>
     <div class="bold-text">{{item.contractType}}</div>
     <div>{{item.name}}</div>
@@ -23,13 +23,11 @@
   </div>
 
   <div class="fx-item">
-    <div class="list-item-text-highlight">{{item.currency}}</div>
-    <div class="bold-text">
-      {{!item.fromDate ? '-' : (item.fromDate | empDateTimeFormat)}}
-    </div>
-    <div>
-      {{!item.toDate ? '-' : (item.toDate | empDateTimeFormat)}}
-    </div>
+    <div class="list-item-text-highlight">{{item.total | empDecimal}}</div>
+    <div class="bold-text">{{item.currency}}</div>
+      {{!item.fromDate ? '' : (item.fromDate | empDateTimeFormat)}}
+      <span *ngIf="(item.fromDate && item.toDate) || (!item.fromDate && !item.toDate)">-</span>
+      {{!item.toDate ? '' : (item.toDate | empDateTimeFormat)}}
   </div>
 
   <div class="fx-item-size status-column-size sm-fx-item-none">

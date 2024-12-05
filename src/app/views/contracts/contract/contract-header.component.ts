@@ -5,17 +5,28 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
+         SimpleChanges } from '@angular/core';
 
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Assertion, DateString, EventInfo, Identifiable, isEmpty } from '@app/core';
+import { combineLatest } from 'rxjs';
+
+import { Assertion, DateString, EventInfo, Identifiable, isEmpty, Validate } from '@app/core';
+
+import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
+
+import { BudgetingStateSelector, CataloguesStateSelector,
+         PaymentsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { MessageBoxService } from '@app/shared/services';
 
 import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { Contract, ContractFields, DateRange, EmptyContract, EmptyDateRange } from '@app/models';
+import { SearcherAPIS } from '@app/data-services';
+
+import { ContractActions, Contract, ContractFields, DateRange, EmptyContractActions, EmptyContract,
+         EmptyDateRange, RequestsList } from '@app/models';
 
 
 export enum ContractHeaderEventType {
@@ -27,14 +38,14 @@ export enum ContractHeaderEventType {
 interface ContractFormModel extends FormGroup<{
   managedByOrgUnitUID: FormControl<string>;
   budgetTypeUID: FormControl<string>;
-  datePeriod: FormControl<DateRange>;
-  signDate: FormControl<DateString>;
   contractTypeUID: FormControl<string>;
-  supplierUID: FormControl<string>;
-  contractNo: FormControl<string>;
-  name: FormControl<string>;
   total: FormControl<string>;
   currencyUID: FormControl<string>;
+  name: FormControl<string>;
+  contractNo: FormControl<string>;
+  datePeriod: FormControl<DateRange>;
+  signDate: FormControl<DateString>;
+  supplierUID: FormControl<string>;
   description: FormControl<string>;
 }> { }
 
@@ -42,15 +53,17 @@ interface ContractFormModel extends FormGroup<{
   selector: 'emp-pmt-contract-header',
   templateUrl: './contract-header.component.html',
 })
-export class ContractHeaderComponent implements OnInit, OnChanges {
+export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() isSaved = false;
 
   @Input() contract: Contract = EmptyContract;
 
-  @Input() canEdit = false;
+  @Input() actions: ContractActions = EmptyContractActions;
 
   @Output() contractHeaderEvent = new EventEmitter<EventInfo>();
+
+  helper: SubscriptionHelper;
 
   form: ContractFormModel;
 
@@ -60,18 +73,20 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
 
   isLoading = false;
 
-  organizationalUnitsList: Identifiable[] = [];
+  orgUnitsList: Identifiable[] = [];
 
   budgetTypesList: Identifiable[] = [];
 
   contractTypesList: Identifiable[] = [];
 
-  suppliersList: Identifiable[] = [];
-
   currenciesList: Identifiable[] = [];
 
+  suppliersAPI = SearcherAPIS.suppliers;
 
-  constructor(private messageBox: MessageBoxService) {
+
+  constructor(private uiLayer: PresentationLayer,
+              private messageBox: MessageBoxService) {
+    this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
     this.enableEditor(true);
   }
@@ -79,6 +94,11 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.loadDataLists();
+  }
+
+
+  ngOnDestroy() {
+    this.helper.destroy();
   }
 
 
@@ -91,7 +111,12 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
 
 
   get hasActions(): boolean {
-    return false; // Object.values(this.actions).some(x => !!x);
+    return this.actions.canUpdate || this.actions.canDelete;
+  }
+
+
+  onContractNoChange() {
+    this.validateFieldsRequired();
   }
 
 
@@ -103,7 +128,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
         eventType = ContractHeaderEventType.UPDATE;
       }
 
-      sendEvent(this.contractHeaderEvent, eventType, { contractFields: this.getFormData() });
+      sendEvent(this.contractHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
   }
 
@@ -120,26 +145,39 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
       this.setFormData();
     }
 
-    const disable = this.isSaved && !this.editionMode //(!this.editionMode || !this.actions.canUpdate);
+    const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
 
     setTimeout(() => this.formHelper.setDisableForm(this.form, disable));
   }
 
 
   private loadDataLists() {
+    this.isLoading = true;
 
+    combineLatest([
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
+        { requestsList: RequestsList.contracts }),
+      this.helper.select<Identifiable[]>(BudgetingStateSelector.BUDGET_TYPES),
+      this.helper.select<Identifiable[]>(PaymentsStateSelector.CONTRACTS_TYPES),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
+    ])
+    .subscribe(([a, b, c, d]) => {
+      this.orgUnitsList = a;
+      this.budgetTypesList = b;
+      this.contractTypesList = c;
+      this.currenciesList = d;
+      this.isLoading = false;
+    });
   }
 
 
   private validateDataLists() {
-    this.organizationalUnitsList =
-      ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.contract.managedByOrgUnit, 'uid');
+    this.orgUnitsList =
+      ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.contract.managedByOrgUnit, 'uid');
     this.budgetTypesList =
       ArrayLibrary.insertIfNotExist(this.budgetTypesList ?? [], this.contract.budgetType, 'uid');
     this.contractTypesList =
       ArrayLibrary.insertIfNotExist(this.contractTypesList ?? [], this.contract.contractType, 'uid');
-    this.suppliersList =
-      ArrayLibrary.insertIfNotExist(this.suppliersList ?? [], this.contract.supplier, 'uid');
     this.currenciesList =
       ArrayLibrary.insertIfNotExist(this.currenciesList ?? [], this.contract.currency, 'uid');
   }
@@ -149,16 +187,16 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      managedByOrgUnitUID: [''],
-      budgetTypeUID: [''],
+      managedByOrgUnitUID: ['', Validators.required],
+      budgetTypeUID: ['', Validators.required],
+      contractTypeUID: ['', Validators.required],
       datePeriod: [EmptyDateRange],
       signDate: ['' as DateString],
-      contractTypeUID: [''],
       supplierUID: [''],
       contractNo: [''],
-      name: [''],
-      total: [''],
-      currencyUID: [''],
+      name: ['', Validators.required],
+      total: ['', Validators.required],
+      currencyUID: ['', Validators.required],
       description: [''],
     });
   }
@@ -169,17 +207,36 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
       this.form.reset({
         managedByOrgUnitUID: isEmpty(this.contract.managedByOrgUnit) ? null : this.contract.managedByOrgUnit.uid,
         budgetTypeUID: isEmpty(this.contract.budgetType) ? null : this.contract.budgetType.uid,
-        datePeriod: { fromDate: this.contract.fromDate ?? null, toDate: this.contract.toDate ?? null },
-        signDate: this.contract.signDate ?? '',
         contractTypeUID: isEmpty(this.contract.contractType) ? null : this.contract.contractType.uid,
-        supplierUID: isEmpty(this.contract.supplier) ? null : this.contract.supplier.uid,
-        contractNo: this.contract.contractNo ?? '',
-        name: this.contract.name ?? '',
         total: FormatLibrary.numberWithCommas(this.contract.total, '1.2-2'),
         currencyUID: isEmpty(this.contract.currency) ? null : this.contract.currency.uid,
+        name: this.contract.name ?? '',
+        contractNo: this.contract.contractNo ?? '',
+        datePeriod: { fromDate: this.contract.fromDate ?? null, toDate: this.contract.toDate ?? null },
+        signDate: this.contract.signDate ?? '',
+        supplierUID: isEmpty(this.contract.supplier) ? null : this.contract.supplier.uid,
         description: this.contract.description ?? '',
       });
+
+      this.validateFieldsRequired();
     });
+  }
+
+
+  private validateFieldsRequired() {
+    const fieldsRequired = !!this.form.value.contractNo;
+
+    if (fieldsRequired) {
+      this.formHelper.setControlValidators(this.form.controls.contractNo, [Validators.required]);
+      this.formHelper.setControlValidators(this.form.controls.supplierUID, [Validators.required]);
+      this.formHelper.setControlValidators(this.form.controls.datePeriod, [Validators.required, Validate.periodRequired]);
+      this.formHelper.setControlValidators(this.form.controls.signDate, [Validators.required]);
+    } else {
+      this.formHelper.clearControlValidators(this.form.controls.contractNo);
+      this.formHelper.clearControlValidators(this.form.controls.supplierUID);
+      this.formHelper.clearControlValidators(this.form.controls.datePeriod);
+      this.formHelper.clearControlValidators(this.form.controls.signDate);
+    }
   }
 
 
@@ -187,18 +244,18 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const data: ContractFields = {
-      contractTypeUID: this.form.value.contractTypeUID ?? null,
-      contractNo: this.form.value.contractNo ?? null,
-      name: this.form.value.name ?? null,
-      description: this.form.value.description ?? null,
-      budgetTypeUID: this.form.value.budgetTypeUID ?? null,
       managedByOrgUnitUID: this.form.value.managedByOrgUnitUID ?? null,
-      fromDate: this.form.value.datePeriod.fromDate ?? null,
-      toDate: this.form.value.datePeriod.toDate ?? null,
-      signDate: this.form.value.signDate ?? null,
-      supplierUID: this.form.value.supplierUID ?? null,
+      budgetTypeUID: this.form.value.budgetTypeUID ?? null,
+      contractTypeUID: this.form.value.contractTypeUID ?? null,
       currencyUID: this.form.value.currencyUID ?? null,
+      name: this.form.value.name ?? null,
       total: !this.form.value.total ? null : FormatLibrary.stringToNumber(this.form.value.total),
+      contractNo: this.form.value.contractNo ?? null,
+      supplierUID: this.form.value.supplierUID ?? '',
+      fromDate: !this.form.value.datePeriod.fromDate ? null : this.form.value.datePeriod.fromDate,
+      toDate: !this.form.value.datePeriod.toDate ? null : this.form.value.datePeriod.toDate,
+      signDate: !this.form.value.signDate ? null : this.form.value.signDate,
+      description: this.form.value.description ?? null,
     };
 
     return data;
@@ -237,11 +294,12 @@ export class ContractHeaderComponent implements OnInit, OnChanges {
   private getConfirmMessage(eventType: ContractHeaderEventType): string {
     switch (eventType) {
       case ContractHeaderEventType.DELETE:
-        return `Esta operación eliminará el contrato
-                <strong>${this.contract.contractNo}: ${this.contract.contractType.name}</strong>
-                (${this.contract.contractType.name})
-                del proveedor <strong>${this.contract.supplier.name}</strong>.
+        const contractNo = !this.contract.contractNo ? '' : `${this.contract.contractNo}: `;
+        const contractSupplier = isEmpty(this.contract.supplier) ? '' :
+          `del proveedor <strong>${this.contract.supplier.name}</strong>`;
 
+        return `Esta operación eliminará el contrato <strong>${contractNo} ${this.contract.name}</strong>
+                (${this.contract.contractType.name}) ${contractSupplier}.
                 <br><br>¿Elimino el contrato?`;
 
       default: return '';

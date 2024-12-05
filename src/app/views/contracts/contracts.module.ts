@@ -22,6 +22,7 @@ import { ContractsListComponent } from './contracts-explorer/contracts-list.comp
 import { ContractsListItemComponent } from './contracts-explorer/contracts-list-item.component';
 import { ContractsListHeaderComponent } from './contracts-explorer/contracts-list-header.component';
 import { ContractTabbedViewComponent } from './contract-tabbed-view/contract-tabbed-view.component';
+import { ContractCreatorComponent } from './contract/contract-creator.component';
 import { ContractEditorComponent } from './contract/contract-editor.component';
 import { ContractHeaderComponent } from './contract/contract-header.component';
 import { ContractItemsTableComponent } from './contract-items/contract-items-table.component';
@@ -48,6 +49,7 @@ import { ContractMilestonesTableComponent } from './contract-milestones/contract
     ContractsListItemComponent,
     ContractsListHeaderComponent,
     ContractTabbedViewComponent,
+    ContractCreatorComponent,
     ContractEditorComponent,
     ContractHeaderComponent,
     ContractItemsTableComponent,

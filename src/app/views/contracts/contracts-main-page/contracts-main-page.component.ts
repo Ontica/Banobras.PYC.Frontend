@@ -11,14 +11,19 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
+import { ArrayLibrary } from '@app/shared/utils';
+
 import { ContractsDataService } from '@app/data-services';
 
-import { ContractData, ContractDescriptor, ContractsQuery, EmptyContractData,
-         EmptyContractsQuery } from '@app/models';
+import { ContractData, ContractDescriptor, ContractsQuery, EmptyContractData, EmptyContractsQuery,
+         mapContractDescriptorFromContract } from '@app/models';
+
+import { ContractCreatorEventType } from '../contract/contract-creator.component';
 
 import { ContractsExplorerEventType } from '../contracts-explorer/contracts-explorer.component';
 
 import { ContractTabbedViewEventType } from '../contract-tabbed-view/contract-tabbed-view.component';
+
 
 @Component({
   selector: 'emp-pmt-contracts-main-page',
@@ -34,6 +39,8 @@ export class ContractsMainPageComponent {
 
   displayTabbedView = false;
 
+  displayCreator = false;
+
   isLoading = false;
 
   isLoadingSelection = false;
@@ -45,8 +52,28 @@ export class ContractsMainPageComponent {
               private messageBox: MessageBoxService) { }
 
 
+  onContractCreatorEvent(event: EventInfo) {
+    switch (event.type as ContractCreatorEventType) {
+      case ContractCreatorEventType.CLOSE_MODAL_CLICKED:
+        this.displayCreator = false;
+        return;
+      case ContractCreatorEventType.CREATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.displayCreator = false;
+        this.resolveContractData(event.payload.data as ContractData);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   onContractsExplorerEvent(event: EventInfo) {
     switch (event.type as ContractsExplorerEventType) {
+      case ContractsExplorerEventType.CREATE_CLICKED:
+        this.displayCreator = true;
+        return;
       case ContractsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as ContractsQuery);
@@ -77,6 +104,14 @@ export class ContractsMainPageComponent {
       case ContractTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedData(EmptyContractData);
         return;
+      case ContractTabbedViewEventType.DATA_UPDATED:
+        Assertion.assertValue(event.payload.contractData, 'event.payload.contractData');
+        this.resolveContractData(event.payload.contractData as ContractData);
+        return;
+      case ContractTabbedViewEventType.DATA_DELETED:
+        Assertion.assertValue(event.payload.contractUID, 'event.payload.contractUID');
+        this.resolveContractDeleted(event.payload.contractUID);
+        return;
       case ContractTabbedViewEventType.REFRESH_DATA:
         Assertion.assertValue(event.payload.contractUID, 'event.payload.contractUID');
         this.refreshSelectedData(event.payload.contractUID);
@@ -93,7 +128,7 @@ export class ContractsMainPageComponent {
 
     this.contractsData.searchContracts(query)
       .firstValue()
-      .then(x => this.setContractsList(x, true))
+      .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
   }
 
@@ -108,6 +143,18 @@ export class ContractsMainPageComponent {
   }
 
 
+  private resolveContractData(data: ContractData) {
+    this.insertItemToList(data);
+    this.setSelectedData(data);
+  }
+
+
+  private resolveContractDeleted(contractUID: string) {
+    this.removeItemFromList(contractUID);
+    this.setSelectedData(EmptyContractData);
+  }
+
+
   private refreshSelectedData(contractUID: string) {
     this.getContractData(contractUID);
   }
@@ -115,11 +162,11 @@ export class ContractsMainPageComponent {
 
   private setQueryAndClearExplorerData(query: ContractsQuery) {
     this.query = Object.assign({}, query);
-    this.setContractsList([], false);
+    this.setDataList([], false);
   }
 
 
-  private setContractsList(data: ContractDescriptor[], queryExecuted: boolean = true) {
+  private setDataList(data: ContractDescriptor[], queryExecuted: boolean = true) {
     this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
   }
@@ -128,6 +175,19 @@ export class ContractsMainPageComponent {
   private setSelectedData(data: ContractData) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.contract);
+  }
+
+
+  private insertItemToList(data: ContractData) {
+    const dataToInsert = mapContractDescriptorFromContract(data.contract);
+    const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
+    this.setDataList(dataListNew, true);
+  }
+
+
+  private removeItemFromList(contractUID: string) {
+    const dataListNew = this.dataList.filter(x => x.uid !== contractUID);
+    this.setDataList(dataListNew);
   }
 
 }

@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RequestCreatorComponent } from './request-creator.component';
+import { ContractCreatorComponent } from './contract-creator.component';
 
-describe('RequestCreatorComponent', () => {
-  let component: RequestCreatorComponent;
-  let fixture: ComponentFixture<RequestCreatorComponent>;
+describe('ContractCreatorComponent', () => {
+  let component: ContractCreatorComponent;
+  let fixture: ComponentFixture<ContractCreatorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RequestCreatorComponent]
+      declarations: [ContractCreatorComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RequestCreatorComponent);
+    fixture = TestBed.createComponent(ContractCreatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
