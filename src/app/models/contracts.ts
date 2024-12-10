@@ -121,11 +121,18 @@ export interface Contract {
 
 export interface ContractItem {
   uid: string;
+  contractItemType: Identifiable;
   contract: Identifiable;
-  supplier: Identifiable;
-  budgetAccount: Identifiable;
+  requesterOrgUnit: Identifiable;
   product: Identifiable;
+  productUnit: Identifiable;
+  budgetAccount: Identifiable;
   project: Identifiable;
+  supplier: Identifiable;
+  periodicityType: Identifiable;
+  minQuantity: number;
+  maxQuantity: number;
+  unitPrice: number;
   description: string;
   unit: Identifiable;
   fromQuantity: number;

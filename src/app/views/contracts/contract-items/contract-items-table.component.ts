@@ -13,7 +13,7 @@ import { EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
 import { ContractItem } from '@app/models';
 
@@ -31,23 +31,23 @@ export class ContractItemsTableComponent implements OnChanges {
 
   @Input() items: ContractItem[] = [];
 
-  @Input() canDelete = false;
+  @Input() isMultipleSuppliers = false;
 
-  @Input() canSelect = false;
+  @Input() isMultipleOrgUnits = false;
+
+  @Input() canDelete = false;
 
   @Output() contractItemsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['product', 'project', 'description', 'unit', 'fromQuantity',
-    'toQuantity', 'unitPrice', 'periodicity'];
+  displayedColumnsDefault: string[] = ['product', 'budgetAccount', 'productUnit', 'minQuantity', 'maxQuantity',
+    'unitPrice', 'periodicityType'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
   dataSource: MatTableDataSource<ContractItem>;
 
 
-  constructor(private messageBox: MessageBoxService) {
-
-  }
+  constructor(private messageBox: MessageBoxService) {}
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -58,7 +58,7 @@ export class ContractItemsTableComponent implements OnChanges {
 
 
   onSelectItemClicked(item: ContractItem) {
-    if (this.canSelect && window.getSelection().toString().length <= 0) {
+    if (window.getSelection().toString().length <= 0) {
       sendEvent(this.contractItemsTableEvent, ContractItemsTableEventType.SELECT_ITEM_CLICKED,
         { item });
     }
@@ -86,26 +86,30 @@ export class ContractItemsTableComponent implements OnChanges {
 
 
   private resetColumns() {
-    this.displayedColumns = [...this.displayedColumnsDefault];
+    let columns = [...this.displayedColumnsDefault];
 
-    if (this.canDelete) {
-      this.displayedColumns.push('actionDelete');
-    }
+    if (this.isMultipleOrgUnits) columns.push('orgUnits');
+    if (this.isMultipleSuppliers) columns.push('supplier');
+    columns.push('project');
+    if (this.canDelete) columns.push('actionDelete');
+
+    this.displayedColumns = columns;
   }
 
 
   private getConfirmMessage(item: ContractItem): string {
     return `
       <table class='confirm-data'>
-        <tr><td class='nowrap'>Concepto: </td><td><strong>
-          ${item.description}
-        </strong></td></tr>
-
         <tr><td class='nowrap'>Producto: </td><td><strong>
-          ${item.product.name} (${item.periodicity.name})
+          ${item.product.name}
+        </strong></td></tr>
+        <tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
+          ${item.budgetAccount.name}
+        </strong></td></tr>
+        <tr><td class='nowrap'>Precio unitario: </td><td><strong>
+          ${FormatLibrary.numberWithCommas(item.unitPrice)} (${item.productUnit.name})
         </strong></td></tr>
       </table>
-
      <br>¿Elimino el concepto?`;
   }
 
