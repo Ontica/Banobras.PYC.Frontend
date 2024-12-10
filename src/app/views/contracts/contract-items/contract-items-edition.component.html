@@ -1,0 +1,35 @@
+<div class="fx-column-container-fill fx-gap-half" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="fx-row-container fx-end fx-items-center" *ngIf="canEdit">
+
+    <button
+      class="btn-action"
+      (click)="onAddItemButtonClicked()">
+      Agregar concepto
+    </button>
+
+  </div>
+
+  <emp-pmt-contract-items-table class="fx-item"
+    [items]="items"
+    [isMultipleOrgUnits]="contract.isForMultipleOrgUnits"
+    [isMultipleSuppliers]="contract.suppliersGroup.length > 0"
+    [canDelete]="canEdit"
+    (contractItemsTableEvent)="onContractItemsTableEvent($event)">
+
+  </emp-pmt-contract-items-table>
+
+</div>
+
+
+<emp-pmt-contract-item-editor *ngIf="displayItemEditor"
+  [contract]="contract"
+  [canUpdate]="canEdit"
+  [item]="selectedItem"
+  (contractItemEditorEvent)="onContractItemEditorEvent($event)">
+
+</emp-pmt-contract-item-editor>

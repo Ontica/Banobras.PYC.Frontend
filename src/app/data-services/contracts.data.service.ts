@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { ContractData, ContractDescriptor, ContractFields, ContractsQuery } from '@app/models';
+import { ContractData, ContractDescriptor, ContractFields, ContractItem, ContractItemFields,
+         ContractsQuery } from '@app/models';
 
 
 @Injectable()
@@ -67,6 +68,40 @@ export class ContractsDataService {
     Assertion.assertValue(contractUID, 'contractUID');
 
     const path = `v8/procurement/contracts/${contractUID}`;
+
+    return this.http.delete<void>(path);
+  }
+
+
+  addContractItem(contractUID: string,
+                  dataFields: ContractItemFields): EmpObservable<ContractItem> {
+    Assertion.assertValue(contractUID, 'contractUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/procurement/contracts/${contractUID}/items`;
+
+    return this.http.post<ContractItem>(path, dataFields);
+  }
+
+
+  updateContractItem(contractUID: string,
+                     contractItemUID: string,
+                     dataFields: ContractItemFields): EmpObservable<ContractItem> {
+    Assertion.assertValue(contractUID, 'contractUID');
+    Assertion.assertValue(contractItemUID, 'contractItemUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/procurement/contracts/${contractUID}/items/${contractItemUID}`;
+
+    return this.http.put<ContractItem>(path, dataFields);
+  }
+
+
+  removeContractItem(contractUID: string, contractItemUID: string): EmpObservable<void> {
+    Assertion.assertValue(contractUID, 'contractUID');
+    Assertion.assertValue(contractItemUID, 'contractItemUID');
+
+    const path = `v8/procurement/contracts/${contractUID}/items/${contractItemUID}`;
 
     return this.http.delete<void>(path);
   }

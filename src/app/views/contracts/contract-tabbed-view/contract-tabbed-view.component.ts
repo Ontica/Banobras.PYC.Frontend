@@ -15,6 +15,8 @@ import { ContractData, EmptyContractData } from '@app/models';
 
 import { ContractEditorEventType } from '../contract/contract-editor.component';
 
+import { ContractItemsEditionEventType } from '../contract-items/contract-items-edition.component';
+
 import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
 
 
@@ -63,6 +65,19 @@ export class ContractTabbedViewComponent implements OnChanges {
         Assertion.assertValue(event.payload.contractUID, 'event.payload.contractUID');
         sendEvent(this.contractTabbedViewEvent,
           ContractTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onContractItemsEditionEvent(event: EventInfo) {
+    switch (event.type as ContractItemsEditionEventType) {
+      case ContractItemsEditionEventType.ITEMS_UPDATED:
+        Assertion.assertValue(event.payload.contractUID, 'event.payload.contractUID');
+        sendEvent(this.contractTabbedViewEvent, ContractTabbedViewEventType.REFRESH_DATA, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

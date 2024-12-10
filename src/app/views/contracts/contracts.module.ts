@@ -25,6 +25,8 @@ import { ContractTabbedViewComponent } from './contract-tabbed-view/contract-tab
 import { ContractCreatorComponent } from './contract/contract-creator.component';
 import { ContractEditorComponent } from './contract/contract-editor.component';
 import { ContractHeaderComponent } from './contract/contract-header.component';
+import { ContractItemEditorComponent } from './contract-items/contract-item-editor.component';
+import { ContractItemsEditionComponent } from './contract-items/contract-items-edition.component';
 import { ContractItemsTableComponent } from './contract-items/contract-items-table.component';
 import { ContractMilestonesTableComponent } from './contract-milestones/contract-milestones-table.component';
 
@@ -52,6 +54,8 @@ import { ContractMilestonesTableComponent } from './contract-milestones/contract
     ContractCreatorComponent,
     ContractEditorComponent,
     ContractHeaderComponent,
+    ContractItemEditorComponent,
+    ContractItemsEditionComponent,
     ContractItemsTableComponent,
     ContractMilestonesTableComponent,
   ],

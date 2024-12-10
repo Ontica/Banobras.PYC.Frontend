@@ -135,11 +135,23 @@ export interface ContractItem {
   maxQuantity: number;
   unitPrice: number;
   description: string;
-  unit: Identifiable;
-  fromQuantity: number;
-  toQuantity: number;
+}
+
+
+export interface ContractItemFields {
+  contractItemTypeUID: string;
+  requisitionItemUID: string;
+  requesterOrgUnitUID: string;
+  supplierUID: string;
+  productUID: string;
+  productUnitUID: string;
+  budgetAccountUID: string;
+  projectUID: string;
+  periodicityTypeUID: string;
+  minQuantity: number;
+  maxQuantity: number;
   unitPrice: number;
-  periodicity: Identifiable;
+  description: string;
 }
 
 
@@ -177,6 +189,7 @@ export interface ContractActions {
   canDelete: boolean;
   canActivate: boolean;
   canSuspend: boolean;
+  canEditItems: boolean;
   canRequestBudget: boolean;
   canEditDocuments: boolean;
 }
@@ -213,11 +226,30 @@ export const EmptyContract: Contract = {
 };
 
 
+export const EmptyContractItem: ContractItem = {
+  uid: '',
+  contractItemType: Empty,
+  requesterOrgUnit: Empty,
+  contract: Empty,
+  supplier: Empty,
+  budgetAccount: Empty,
+  product: Empty,
+  productUnit: Empty,
+  project: Empty,
+  periodicityType: Empty,
+  description: null,
+  minQuantity: null,
+  maxQuantity: null,
+  unitPrice: null,
+}
+
+
 export const EmptyContractActions: ContractActions = {
   canUpdate: false,
   canDelete: false,
   canActivate: false,
   canSuspend: false,
+  canEditItems: false,
   canRequestBudget: false,
   canEditDocuments: false,
 }

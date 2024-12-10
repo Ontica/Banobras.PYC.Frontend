@@ -18,10 +18,13 @@
 
     <mat-tab label="Conceptos">
 
-      <emp-pmt-contract-items-table
-        [items]="data.items">
+      <emp-pmt-contract-items-edition
+        [contract]="data.contract"
+        [items]="data.items"
+        [canEdit]="data.actions.canEditItems"
+        (contractItemsEditionEvent)="onContractItemsEditionEvent($event)">
 
-      </emp-pmt-contract-items-table>
+      </emp-pmt-contract-items-edition>
 
     </mat-tab>
 
