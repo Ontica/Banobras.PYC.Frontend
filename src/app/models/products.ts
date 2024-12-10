@@ -52,6 +52,18 @@ export interface Product {
 }
 
 
+export interface ProductSearch {
+  uid: string;
+  name: string;
+  description: string;
+  internalCode: string;
+  baseUnit: Identifiable;
+  managerName: string;
+  productCategoryName: string;
+  productTypeName: string;
+}
+
+
 export enum ProductsOperationType {
   excel  = 'excel',
 }
