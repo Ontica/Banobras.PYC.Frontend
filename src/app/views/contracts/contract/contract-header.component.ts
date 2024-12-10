@@ -38,7 +38,7 @@ export enum ContractHeaderEventType {
 interface ContractFormModel extends FormGroup<{
   managedByOrgUnitUID: FormControl<string>;
   budgetTypeUID: FormControl<string>;
-  isForMultipleOrgUnit: FormControl<boolean>;
+  isForMultipleOrgUnits: FormControl<boolean>;
   contractTypeUID: FormControl<string>;
   total: FormControl<string>;
   currencyUID: FormControl<string>;
@@ -190,7 +190,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
     this.form = fb.group({
       managedByOrgUnitUID: ['', Validators.required],
       budgetTypeUID: ['', Validators.required],
-      isForMultipleOrgUnit: [false],
+      isForMultipleOrgUnits: [false],
       contractTypeUID: ['', Validators.required],
       datePeriod: [EmptyDateRange],
       signDate: ['' as DateString],
@@ -209,7 +209,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
       this.form.reset({
         managedByOrgUnitUID: isEmpty(this.contract.managedByOrgUnit) ? null : this.contract.managedByOrgUnit.uid,
         budgetTypeUID: isEmpty(this.contract.budgetType) ? null : this.contract.budgetType.uid,
-        isForMultipleOrgUnit: this.contract.isForMultipleOrgUnit,
+        isForMultipleOrgUnits: this.contract.isForMultipleOrgUnits,
         contractTypeUID: isEmpty(this.contract.contractType) ? null : this.contract.contractType.uid,
         total: FormatLibrary.numberWithCommas(this.contract.total, '1.2-2'),
         currencyUID: isEmpty(this.contract.currency) ? null : this.contract.currency.uid,
@@ -249,7 +249,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
     const data: ContractFields = {
       managedByOrgUnitUID: this.form.value.managedByOrgUnitUID ?? null,
       budgetTypeUID: this.form.value.budgetTypeUID ?? null,
-      isForMultipleOrgUnit: this.form.value.isForMultipleOrgUnit,
+      isForMultipleOrgUnits: this.form.value.isForMultipleOrgUnits,
       contractTypeUID: this.form.value.contractTypeUID ?? null,
       currencyUID: this.form.value.currencyUID ?? null,
       name: this.form.value.name ?? null,

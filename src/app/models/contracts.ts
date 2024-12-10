@@ -50,7 +50,7 @@ export interface ContractFields {
   description: string;
   budgetTypeUID: string;
   managedByOrgUnitUID: string;
-  isForMultipleOrgUnit: boolean;
+  isForMultipleOrgUnits: boolean;
   fromDate: DateString;
   toDate: DateString;
   signDate: DateString;
@@ -105,8 +105,9 @@ export interface Contract {
   managedByOrgUnit: Identifiable;
   budgetType: Identifiable;
   contractType: Identifiable;
-  isForMultipleOrgUnit: boolean;
+  isForMultipleOrgUnits: boolean;
   supplier: Identifiable;
+  suppliersGroup: Identifiable[];
   contractNo: string;
   name: string;
   total: number;
@@ -195,11 +196,12 @@ export const EmptyContractsQuery: ContractsQuery = {
 export const EmptyContract: Contract = {
   uid: '',
   contractType: Empty,
-  isForMultipleOrgUnit: false,
+  isForMultipleOrgUnits: false,
   contractNo: '',
   name: '',
   description: '',
   supplier: Empty,
+  suppliersGroup: [],
   managedByOrgUnit: Empty,
   fromDate: '',
   toDate: '',

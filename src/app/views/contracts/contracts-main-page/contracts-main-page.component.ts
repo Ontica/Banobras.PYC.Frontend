@@ -163,6 +163,7 @@ export class ContractsMainPageComponent {
   private setQueryAndClearExplorerData(query: ContractsQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
+    this.setSelectedData(EmptyContractData);
   }
 
 
