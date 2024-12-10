@@ -20,6 +20,7 @@ export enum SelectorType {
   CURRENCIES           = 'PYC.Catalogues.Selector.Currencies.List',
   ORGANIZATIONAL_UNITS = 'PYC.Catalogues.Selector.OrganizationalUnits.List',
   PAYMENTS_METHODS     = 'PYC.Catalogues.Selector.PaymentsMethods.List',
+  PERIODICITY_TYPES    = 'PYC.Catalogues.Selector.PeriodicityTypes.List',
 }
 
 
@@ -27,6 +28,7 @@ const initialState: StateValues = [
   { key: SelectorType.CURRENCIES, value: [] },
   { key: SelectorType.ORGANIZATIONAL_UNITS, value: new Cache<Identifiable[]>() },
   { key: SelectorType.PAYMENTS_METHODS, value: [] },
+  { key: SelectorType.PERIODICITY_TYPES, value: [] },
 ];
 
 
@@ -62,6 +64,12 @@ export class CataloguesPresentationHandler extends AbstractPresentationHandler {
 
       case SelectorType.PAYMENTS_METHODS: {
         const provider = () => this.data.getPaymentMethods();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.PERIODICITY_TYPES: {
+        const provider = () => this.data.getPeriodicityTypes();
 
         return super.selectFirst<U>(selectorType, provider);
       }

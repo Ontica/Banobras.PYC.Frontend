@@ -57,4 +57,11 @@ export class CataloguesDataService {
     return this.http.get<Identifiable[]>(path);
   }
 
+
+  getPeriodicityTypes(): EmpObservable<Identifiable[]> {
+    const path = 'v8/time/periodicity-types';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
 }

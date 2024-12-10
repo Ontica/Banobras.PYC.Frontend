@@ -45,6 +45,13 @@ export interface BudgetSegmentItem {
 }
 
 
+export interface BudgetAccountsForProductQuery {
+  productUID: string;
+  budgetTypeUID: string;
+  orgUnitUID: string;
+}
+
+
 export enum BudgetQueryType {
   planning = 'planning',
 };
