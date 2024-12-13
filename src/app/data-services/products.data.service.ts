@@ -20,14 +20,14 @@ export class ProductsDataService {
 
 
   getProductTypes(): EmpObservable<Identifiable[]> {
-    const path = 'v8/products/product-types';
+    const path = 'v8/product-management/product-types';
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
   getProductCategories(): EmpObservable<Identifiable[]> {
-    const path = 'v8/products/categories';
+    const path = 'v8/product-management/categories';
 
     return this.http.get<Identifiable[]>(path);
   }
@@ -36,7 +36,7 @@ export class ProductsDataService {
   searchProducts(query: ProductsQuery): EmpObservable<ProductDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
-    const path = 'v8/products/search';
+    const path = 'v8/product-management/products/search';
 
     return this.http.post<ProductDescriptor[]>(path, query);
   }
