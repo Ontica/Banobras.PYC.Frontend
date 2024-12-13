@@ -1,0 +1,17 @@
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="section-title"> Información general del producto</div>
+
+  <emp-ng-product-header
+    [isSaved]="isSaved"
+    [product]="product"
+    [actions]="actions"
+    (productHeaderEvent)="onProductHeaderEvent($event)">
+
+  </emp-ng-product-header>
+
+</div>

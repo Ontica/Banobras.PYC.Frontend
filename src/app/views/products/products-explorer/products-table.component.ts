@@ -37,6 +37,8 @@ export class ProductsTableComponent implements OnChanges {
 
   @Input() dataList: ProductDescriptor[] = [];
 
+  @Input() selectedUID = '';
+
   @Input() queryExecuted = false;
 
   @Output() productsTableEvent = new EventEmitter<EventInfo>();
@@ -71,6 +73,11 @@ export class ProductsTableComponent implements OnChanges {
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  onItemClicked(item: ProductDescriptor) {
+    sendEvent(this.productsTableEvent, ProductsTableEventType.SELECT_CLICKED, { item });
   }
 
 

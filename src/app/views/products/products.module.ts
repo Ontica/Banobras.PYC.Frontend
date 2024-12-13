@@ -18,6 +18,10 @@ import { ProductsMainPageComponent } from './products-main-page/products-main-pa
 import { ProductsExplorerComponent } from './products-explorer/products-explorer.component';
 import { ProductsFilterComponent } from './products-explorer/products-filter.component';
 import { ProductsTableComponent } from './products-explorer/products-table.component';
+import { ProductHeaderComponent } from './product/product-header.component';
+import { ProductCreatorComponent } from './product/product-creator.component';
+import { ProductEditorComponent } from './product/product-editor.component';
+import { ProductTabbedViewComponent } from './product-tabbed-view/product-tabbed-view.component';
 
 
 @NgModule({
@@ -36,6 +40,10 @@ import { ProductsTableComponent } from './products-explorer/products-table.compo
     ProductsExplorerComponent,
     ProductsFilterComponent,
     ProductsTableComponent,
+    ProductHeaderComponent,
+    ProductCreatorComponent,
+    ProductEditorComponent,
+    ProductTabbedViewComponent,
   ],
   exports: [
     ProductsMainPageComponent,

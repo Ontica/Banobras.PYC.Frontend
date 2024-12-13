@@ -18,9 +18,11 @@ import { ProductsFilterEventType } from './products-filter.component';
 import { ProductsTableEventType } from './products-table.component';
 
 export enum ProductsExplorerEventType {
+  CREATE_CLICKED            = 'ProductsExplorerComponent.Event.CreateClicked',
   SEARCH_CLICKED            = 'ProductsExplorerComponent.Event.SearchClicked',
   CLEAR_CLICKED             = 'ProductsExplorerComponent.Event.ClearClicked',
   EXECUTE_OPERATION_CLICKED = 'ProductsExplorerComponent.Event.ExecuteOperationClicked',
+  SELECT_CLICKED            = 'ProductsExplorerComponent.Event.SelectClicked',
 }
 
 @Component({
@@ -32,6 +34,8 @@ export class ProductsExplorerComponent implements OnChanges {
   @Input() query: ProductsQuery = Object.assign({}, EmptyProductsQuery);
 
   @Input() dataList: ProductDescriptor[] = [];
+
+  @Input() selectedUID = '';
 
   @Input() isLoading = false;
 
@@ -55,7 +59,7 @@ export class ProductsExplorerComponent implements OnChanges {
 
 
   onCreateProductClicked() {
-
+    sendEvent(this.productsExplorerEvent, ProductsExplorerEventType.CREATE_CLICKED);
   }
 
 
@@ -83,6 +87,11 @@ export class ProductsExplorerComponent implements OnChanges {
       case ProductsTableEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         sendEvent(this.productsExplorerEvent, ProductsExplorerEventType.EXECUTE_OPERATION_CLICKED,
+          event.payload);
+        return;
+      case ProductsTableEventType.SELECT_CLICKED:
+        Assertion.assertValue(event.payload.item, 'event.payload.item');
+        sendEvent(this.productsExplorerEvent, ProductsExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
       default:

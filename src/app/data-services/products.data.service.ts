@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import {  ProductDescriptor, ProductsQuery } from '@app/models';
+import {  ProductHolder, ProductDescriptor, ProductFields, ProductsQuery } from '@app/models';
 
 
 @Injectable()
@@ -39,6 +39,61 @@ export class ProductsDataService {
     const path = 'v8/product-management/products/search';
 
     return this.http.post<ProductDescriptor[]>(path, query);
+  }
+
+
+  getProduct(productUID: string): EmpObservable<ProductHolder> {
+    Assertion.assertValue(productUID, 'productUID');
+
+    const path = `v8/product-management/products/${productUID}`;
+
+    return this.http.get<ProductHolder>(path);
+  }
+
+
+  createProduct(dataFields: ProductFields): EmpObservable<ProductHolder> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/product-management/products/`;
+
+    return this.http.post<ProductHolder>(path, dataFields);
+  }
+
+
+  updateProduct(productUID: string, dataFields: ProductFields): EmpObservable<ProductHolder> {
+    Assertion.assertValue(productUID, 'productUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/product-management/products/${productUID}`;
+
+    return this.http.put<ProductHolder>(path, dataFields);
+  }
+
+
+  deleteProduct(productUID: string): EmpObservable<void> {
+    Assertion.assertValue(productUID, 'productUID');
+
+    const path = `v8/product-management/products/${productUID}`;
+
+    return this.http.delete<void>(path);
+  }
+
+
+  suspendProduct(productUID: string): EmpObservable<ProductHolder> {
+    Assertion.assertValue(productUID, 'productUID');
+
+    const path = `v8/product-management/products/${productUID}/suspend`;
+
+    return this.http.post<ProductHolder>(path);
+  }
+
+
+  activateProduct(productUID: string): EmpObservable<ProductHolder> {
+    Assertion.assertValue(productUID, 'productUID');
+
+    const path = `v8/product-management/products/${productUID}/activate`;
+
+    return this.http.post<ProductHolder>(path);
   }
 
 }

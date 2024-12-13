@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Identifiable } from '@app/core';
+import { DateString, Empty, Identifiable } from '@app/core';
 
 import { EntityStatus, ExplorerOperation } from './_explorer-data';
 
@@ -36,12 +36,32 @@ export interface ProductDescriptor {
 }
 
 
+export interface ProductFields {
+  productCategoryUID: string;
+  managerUID: string;
+  baseUnitUID: string;
+  internalCode: string;
+  name: string;
+  identificators: string[];
+  roles: string[];
+  tags: string[];
+  description: string;
+}
+
+
+export interface ProductHolder {
+  product: Product;
+  actions: ProductActions;
+}
+
+
 export interface Product {
   uid: string;
   name: string;
   description: string;
   internalCode: string;
   tags: string[];
+  identificators: string[];
   baseUnit: Identifiable;
   manager: Identifiable;
   productCategory: Identifiable;
@@ -49,6 +69,14 @@ export interface Product {
   startDate: DateString;
   endDate: DateString;
   status: Identifiable;
+}
+
+
+export interface ProductActions {
+  canUpdate: boolean;
+  canDelete: boolean;
+  canActivate: boolean;
+  canSuspend: boolean;
 }
 
 
@@ -86,3 +114,51 @@ export const EmptyProductsQuery: ProductsQuery = {
   tags: [],
   managerUID: '',
 };
+
+
+export const EmptyProduct: Product = {
+  uid: '',
+  name: '',
+  description: '',
+  internalCode: '',
+  tags: [],
+  identificators: [],
+  baseUnit: Empty,
+  manager: Empty,
+  productCategory: Empty,
+  productType: Empty,
+  startDate: '',
+  endDate: '',
+  status: Empty,
+}
+
+
+export const EmptyProductActions: ProductActions = {
+  canUpdate: false,
+  canDelete: false,
+  canActivate: false,
+  canSuspend: false,
+}
+
+
+export const EmptyProductHolder: ProductHolder = {
+  product: EmptyProduct,
+  actions: EmptyProductActions,
+}
+
+
+export function mapProductDescriptorFromProduct(product: Product): ProductDescriptor {
+  return {
+    uid: product.uid,
+    name: product.name,
+    description: product.description,
+    internalCode: product.internalCode,
+    baseUnitName: product.baseUnit.name,
+    managerName: product.manager.name,
+    productCategoryName: product.productCategory.name,
+    productTypeName: product.productType.name,
+    startDate: product.startDate,
+    endDate: product.endDate,
+    statusName: product.status.name,
+  };
+}

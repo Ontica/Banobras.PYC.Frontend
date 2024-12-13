@@ -1,11 +1,12 @@
 
 <div class="explorer">
 
-  <div class="primary priority">
+  <div class="primary priority" [class.std-hide]="displayTabbedView">
 
     <emp-ng-products-explorer
       [query]="query"
       [dataList]="dataList"
+      [selectedUID]="selectedData.product.uid"
       [isLoading]="isLoading"
       [queryExecuted]="queryExecuted"
       (productsExplorerEvent)="onProductsExplorerEvent($event)">
@@ -14,4 +15,19 @@
 
   </div>
 
+  <div class="secondary priority" *ngIf="displayTabbedView">
+
+    <emp-ng-product-tabbed-view
+      [data]="selectedData"
+      (productTabbedViewEvent)="onProductTabbedViewEvent($event)">
+
+    </emp-ng-product-tabbed-view>
+
+  </div>
+
 </div>
+
+<emp-ng-product-creator *ngIf="displayCreator"
+  (productCreatorEvent)="onProductCreatorEvent($event)">
+
+</emp-ng-product-creator>

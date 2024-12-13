@@ -18,6 +18,7 @@ export enum SearcherAPIS {
   payableEntities               = 'v2/payments-management/payable-entities/search',
   productManagers               = 'v8/product-management/primary-party/product-managers/',
   products                      = 'v8/product-management/products/search/',
+  productUnits                  = 'v8/product-management/product-units/',
   projects                      = 'v8/projects/',
   suppliers                     = 'v8/parties/primary-party/suppliers-list/',
 }

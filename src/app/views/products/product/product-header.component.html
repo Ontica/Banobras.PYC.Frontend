@@ -1,0 +1,216 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Categoría:</label>
+
+        <emp-ng-select
+          formControlName="productCategoryUID"
+          [items]="productCategoriesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.productCategoryUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Administrador:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="managerUID"
+          [searcherAPI]="productManagersAPI"
+          [initialValue]="isSaved ? product.manager : null"
+          [showError]="formHelper.isControlInvalid(form.controls.managerUID)">
+
+        </emp-ng-select-typeahead>
+
+      </div>
+
+      <!-- <div class="fx-item-half">
+
+        <label>Tipo de producto:</label>
+
+        <emp-ng-select
+          formControlName="productTypeUID"
+          [items]="productTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.productTypeUID)">
+        </emp-ng-select>
+
+      </div> -->
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Clave:</label>
+
+        <input type="text" class="text-box"
+          formControlName="internalCode"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.internalCode)">
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Unidad de medida base:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="baseUnitUID"
+          [searcherAPI]="productUnits"
+          [initialValue]="isSaved ? product.baseUnit : null"
+          [showError]="formHelper.isControlInvalid(form.controls.baseUnitUID)">
+
+        </emp-ng-select-typeahead>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+
+        <label>Nombre del producto:</label>
+
+        <input type="text" class="text-box"
+          formControlName="name"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Otras claves:</label>
+        <emp-ng-input-tags
+          formControlName="identificators"
+          [showError]="formHelper.isControlInvalid(form.controls.identificators)">
+
+        </emp-ng-input-tags>
+
+      </div>
+
+
+      <div class="fx-item-half">
+
+        <label>Palabras de búsqueda adicionales:</label>
+        <emp-ng-input-tags
+          formControlName="tags"
+          [showError]="formHelper.isControlInvalid(form.controls.tags)">
+
+        </emp-ng-input-tags>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canDelete"
+            type="button" class="btn-warning"
+            (click)="onEventButtonClicked(eventTypes.DELETE)">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+          <button *ngIf="actions.canActivate"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventTypes.ACTIVATE)">
+            Reactivar
+          </button>
+
+          <button *ngIf="actions.canSuspend"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventTypes.SUSPEND)">
+            Suspender
+          </button>
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canUpdate"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>
