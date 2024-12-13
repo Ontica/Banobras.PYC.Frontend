@@ -86,7 +86,7 @@ export class ContractsMainPageComponent {
       case ContractsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.getContractData(event.payload.item.uid);
+        this.getContract(event.payload.item.uid);
         return;
       case ContractsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
@@ -133,10 +133,10 @@ export class ContractsMainPageComponent {
   }
 
 
-  private getContractData(contractUID: string) {
+  private getContract(contractUID: string) {
     this.isLoadingSelection = true;
 
-    this.contractsData.getContractData(contractUID)
+    this.contractsData.getContract(contractUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
@@ -156,7 +156,7 @@ export class ContractsMainPageComponent {
 
 
   private refreshSelectedData(contractUID: string) {
-    this.getContractData(contractUID);
+    this.getContract(contractUID);
   }
 
 

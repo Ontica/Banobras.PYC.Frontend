@@ -36,7 +36,7 @@ export class ContractsDataService {
   }
 
 
-  getContractData(contractUID: string): EmpObservable<ContractData> {
+  getContract(contractUID: string): EmpObservable<ContractData> {
     Assertion.assertValue(contractUID, 'contractUID');
 
     const path = `v8/procurement/contracts/${contractUID}`;
