@@ -1,5 +1,5 @@
 <emp-ng-card
-  [title]="title"
+  [title]="title + status"
   [hint]="hint"
   (cardClose)="onCloseButtonClicked()">
 
@@ -25,6 +25,25 @@
         (contractItemsEditionEvent)="onContractItemsEditionEvent($event)">
 
       </emp-pmt-contract-items-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Presupuesto">
+
+      <ng-template matTabContent>
+
+        <emp-bdg-budget-management
+          [baseObjectType]="budgetContext"
+          [baseObjectUID]="data.contract.uid"
+          [baseObjectName]="title"
+          [budgetTotal]="data.contract.total"
+          [budgetTransactions]="data.budgetTransactions"
+          [canRequest]="data.actions.canRequestBudget"
+          (budgetManagementEvent)="onBudgetManagementEvent($event)">
+
+        </emp-bdg-budget-management>
+
+      </ng-template>
 
     </mat-tab>
 

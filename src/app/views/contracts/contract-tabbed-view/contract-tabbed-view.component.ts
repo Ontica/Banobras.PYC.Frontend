@@ -11,11 +11,13 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { ContractData, EmptyContractData } from '@app/models';
+import { BudgetContext, ContractData, EmptyContractData } from '@app/models';
 
 import { ContractEditorEventType } from '../contract/contract-editor.component';
 
 import { ContractItemsEditionEventType } from '../contract-items/contract-items-edition.component';
+
+import { BudgetManagementEventType } from '@app/views/budgeting/budget-management/budget-management.component';
 
 import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
 
@@ -39,9 +41,13 @@ export class ContractTabbedViewComponent implements OnChanges {
 
   title = '';
 
+  status = '';
+
   hint = '';
 
   selectedTabIndex = 0;
+
+  budgetContext = BudgetContext.Contract;
 
 
   ngOnChanges() {
@@ -86,6 +92,20 @@ export class ContractTabbedViewComponent implements OnChanges {
   }
 
 
+  onBudgetManagementEvent(event: EventInfo) {
+    switch (event.type as BudgetManagementEventType) {
+      case BudgetManagementEventType.UPDATED:
+        Assertion.assertValue(event.payload.baseObjectUID, 'event.payload.baseObjectUID');
+        sendEvent(this.contractTabbedViewEvent,
+          ContractTabbedViewEventType.REFRESH_DATA, { contractUID: event.payload.baseObjectUID });
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   onDocumentsEditionEvent(event: EventInfo) {
     switch (event.type as DocumentsEditionEventType) {
       case DocumentsEditionEventType.DOCUMENTS_UPDATED:
@@ -103,12 +123,12 @@ export class ContractTabbedViewComponent implements OnChanges {
     const signDate = !this.data.contract.signDate ?
       'N/D' : DateStringLibrary.format(this.data.contract.signDate);
 
-    const status = this.data.contract.status.name === 'Eliminado' ?
+    this.status = this.data.contract.status.name === 'Eliminado' ?
       `<span class="tag tag-error tag-small">${this.data.contract.status.name}</span>` :
       `<span class="tag tag-small">${this.data.contract.status.name}</span>`;
 
     this.title = `${!this.data.contract.contractNo ? '' : (this.data.contract.contractNo + ': ')}
-      ${this.data.contract.name}` + status;
+      ${this.data.contract.name}`;
 
     this.hint = `<strong>${this.data.contract.contractType.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
       `${this.data.contract.supplier.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +

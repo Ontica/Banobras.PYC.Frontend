@@ -13,6 +13,8 @@ import { Document } from './documents';
 
 import { History } from './history';
 
+import { BudgetTransactionDescriptor } from './budget-transactions';
+
 
 export interface ContractsQuery {
   status: EntityStatus;
@@ -93,6 +95,7 @@ export const ContractsOperationsList: ExplorerOperation[] = [
 export interface ContractData {
   contract: Contract;
   items: ContractItem[];
+  budgetTransactions: BudgetTransactionDescriptor[];
   milestones: ContractMilestone[];
   documents: Document[];
   history: History[];
@@ -258,6 +261,7 @@ export const EmptyContractActions: ContractActions = {
 export const EmptyContractData: ContractData = {
   contract: EmptyContract,
   items: [],
+  budgetTransactions: [],
   milestones: [],
   documents: [],
   history: [],
