@@ -49,8 +49,15 @@ export interface ProductFields {
 }
 
 
+export interface ProductBudgetSegmentFields {
+  budgetSegmentUID: string;
+  observations: string;
+}
+
+
 export interface ProductHolder {
   product: Product;
+  budgetSegments: ProductBudgetSegment[];
   actions: ProductActions;
 }
 
@@ -72,11 +79,22 @@ export interface Product {
 }
 
 
+export interface ProductBudgetSegment {
+  uid: string;
+  product: Identifiable;
+  budgetType: Identifiable;
+  budgetSegmentType: Identifiable;
+  budgetSegment: Identifiable;
+  observations: string;
+}
+
+
 export interface ProductActions {
   canUpdate: boolean;
   canDelete: boolean;
   canActivate: boolean;
   canSuspend: boolean;
+  canEditBudgetData: boolean;
 }
 
 
@@ -138,12 +156,24 @@ export const EmptyProductActions: ProductActions = {
   canDelete: false,
   canActivate: false,
   canSuspend: false,
+  canEditBudgetData: false,
 }
 
 
 export const EmptyProductHolder: ProductHolder = {
   product: EmptyProduct,
+  budgetSegments: [],
   actions: EmptyProductActions,
+}
+
+
+export const EmptyProductBudgetSegment: ProductBudgetSegment = {
+  uid: '',
+  product: Empty,
+  budgetType: Empty,
+  budgetSegmentType: Empty,
+  budgetSegment: Empty,
+  observations: '',
 }
 
 

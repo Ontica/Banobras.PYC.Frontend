@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import {  ProductHolder, ProductDescriptor, ProductFields, ProductsQuery,
-          BudgetAccountsForProductQuery } from '@app/models';
+import {  ProductHolder, ProductDescriptor, ProductFields, ProductsQuery, ProductBudgetSegment,
+          ProductBudgetSegmentFields, BudgetAccountsForProductQuery } from '@app/models';
 
 
 @Injectable()
@@ -106,6 +106,27 @@ export class ProductsDataService {
     const path = `v8/product-management/products/${productUID}/activate`;
 
     return this.http.post<ProductHolder>(path);
+  }
+
+
+  addProductBudgetSegment(productUID: string,
+                          dataFields: ProductBudgetSegmentFields): EmpObservable<ProductBudgetSegment> {
+    Assertion.assertValue(productUID, 'productUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/product-management/products/${productUID}/budget-segments`;
+
+    return this.http.post<ProductBudgetSegment>(path, dataFields);
+  }
+
+
+  removeProductBudgetSegment(productUID: string, budgetSegmentUID: string): EmpObservable<void> {
+    Assertion.assertValue(productUID, 'productUID');
+    Assertion.assertValue(budgetSegmentUID, 'budgetSegmentUID');
+
+    const path = `v8/product-management/products/${productUID}/budget-segments/${budgetSegmentUID}`;
+
+    return this.http.delete<void>(path);
   }
 
 }

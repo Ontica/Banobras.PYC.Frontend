@@ -18,9 +18,13 @@
 
     <mat-tab label="Control presupuestal">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-product-budget-segments-edition
+        [productUID]="data.product.uid"
+        [items]="data.budgetSegments"
+        [canEdit]="data.actions.canEditBudgetData"
+        (productBudgetSegmentsEditionEvent)="onProductBudgetSegmentsEditionEvent($event)">
+
+      </emp-ng-product-budget-segments-edition>
 
     </mat-tab>
 

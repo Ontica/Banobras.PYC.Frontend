@@ -22,6 +22,9 @@ import { ProductHeaderComponent } from './product/product-header.component';
 import { ProductCreatorComponent } from './product/product-creator.component';
 import { ProductEditorComponent } from './product/product-editor.component';
 import { ProductTabbedViewComponent } from './product-tabbed-view/product-tabbed-view.component';
+import { ProductBudgetSegmentsEditionComponent } from './product-budget-segments/product-budget-segments-edition.component';
+import { ProductBudgetSegmentsTableComponent } from './product-budget-segments/product-budget-segments-table.component';
+import { ProductBudgetSegmentEditorComponent } from './product-budget-segments/product-budget-segment-editor.component';
 
 
 @NgModule({
@@ -44,6 +47,9 @@ import { ProductTabbedViewComponent } from './product-tabbed-view/product-tabbed
     ProductCreatorComponent,
     ProductEditorComponent,
     ProductTabbedViewComponent,
+    ProductBudgetSegmentsEditionComponent,
+    ProductBudgetSegmentsTableComponent,
+    ProductBudgetSegmentEditorComponent,
   ],
   exports: [
     ProductsMainPageComponent,

@@ -1,0 +1,48 @@
+<div class="fill-table-container" [style.width.%]="100">
+
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="budgetType">
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Tipo de presupuesto</th>
+      <td mat-cell *matCellDef="let row">{{ row.budgetType.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="budgetSegmentType">
+      <th mat-header-cell *matHeaderCellDef> Tipo </th>
+      <td mat-cell *matCellDef="let row">{{ row.budgetSegmentType.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="budgetSegment">
+      <th mat-header-cell *matHeaderCellDef> Partida o concepto presupuestal </th>
+      <td mat-cell *matCellDef="let row">{{ row.budgetSegment.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actionDelete">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let row" class="column-action">
+
+        <button mat-icon-button empNgStopPropagation
+          title="Eliminar partida"
+          (click)="onRemoveItemClicked(row)">
+          <mat-icon>
+            delete
+          </mat-icon>
+        </button>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="notFoundMessage">
+      <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+        Este producto no tiene partidas o conceptos presupuestales.
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectItemClicked(row)"></tr>
+    <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
+      [hidden]="dataSource.data.length > 0"></tr>
+
+  </table>
+
+</div>

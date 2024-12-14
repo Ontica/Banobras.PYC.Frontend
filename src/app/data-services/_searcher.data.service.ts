@@ -16,6 +16,7 @@ export enum SearcherAPIS {
   budgetTransactionsParties     = 'v2/budgeting/transactions/parties/',
   fixedAssetTransactionsParties = 'v2/fixed-assets/transactions/parties/',
   payableEntities               = 'v2/payments-management/payable-entities/search',
+  productBudgetSegments         = 'v8/product-management/budget-segments/available',
   productManagers               = 'v8/product-management/primary-party/product-managers/',
   products                      = 'v8/product-management/products/search/',
   productUnits                  = 'v8/product-management/product-units/',

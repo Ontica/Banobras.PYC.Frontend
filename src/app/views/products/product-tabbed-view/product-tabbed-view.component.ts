@@ -15,6 +15,10 @@ import { ProductHolder, EmptyProductHolder } from '@app/models';
 
 import { ProductEditorEventType } from '../product/product-editor.component';
 
+import {
+  ProductBudgetSegmentsEditionEventType
+} from '../product-budget-segments/product-budget-segments-edition.component';
+
 
 export enum ProductTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'ProductTabbedViewComponent.Event.CloseButtonClicked',
@@ -61,6 +65,19 @@ export class ProductTabbedViewComponent implements OnChanges {
         Assertion.assertValue(event.payload.productUID, 'event.payload.productUID');
         sendEvent(this.productTabbedViewEvent,
           ProductTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onProductBudgetSegmentsEditionEvent(event: EventInfo) {
+    switch (event.type as ProductBudgetSegmentsEditionEventType) {
+      case ProductBudgetSegmentsEditionEventType.ITEMS_UPDATED:
+        Assertion.assertValue(event.payload.productUID, 'event.payload.productUID');
+        sendEvent(this.productTabbedViewEvent, ProductTabbedViewEventType.REFRESH_DATA, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

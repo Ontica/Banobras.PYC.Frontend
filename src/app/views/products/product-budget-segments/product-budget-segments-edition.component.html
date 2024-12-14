@@ -1,0 +1,33 @@
+<div class="fx-column-container-fill fx-gap-half" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="fx-row-container fx-end fx-items-center" *ngIf="canEdit">
+
+    <button
+      class="btn-action"
+      (click)="onAddItemButtonClicked()">
+      Agregar partida
+    </button>
+
+  </div>
+
+  <emp-ng-product-budget-segments-table class="fx-item"
+    [items]="items"
+    [canDelete]="canEdit"
+    (productBudgetSegmentsTableEvent)="onProductBudgetSegmentsTableEvent($event)">
+
+  </emp-ng-product-budget-segments-table>
+
+</div>
+
+
+<emp-ng-product-budget-segment-editor *ngIf="displayItemEditor"
+  [productUID]="productUID"
+  [canUpdate]="canEdit"
+  [item]="selectedItem"
+  (productBudgetSegmentEditorEvent)="onProductBudgetSegmentEditorEvent($event)">
+
+</emp-ng-product-budget-segment-editor>

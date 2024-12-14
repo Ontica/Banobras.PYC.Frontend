@@ -1,0 +1,91 @@
+<emp-ng-modal-window [config]="{width:'900px'}">
+
+  <emp-ng-card
+    title="Agregar partida"
+    hint='Información de la partida'
+    (cardClose)="onCloseButtonClicked()">
+
+    <div class="card-body-padding">
+
+      <form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+        <div class="fx-column-container fx-gap-half">
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Tipo de presupuesto:</label>
+
+              <emp-ng-select
+                formControlName="budgetTypeUID"
+                [items]="budgetTypesList"
+                [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
+                (changes)="onBudgetTypeChanges()">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>Partida o concepto presupuestal:</label>
+
+              <emp-ng-select-typeahead
+                formControlName="budgetSegmentUID"
+                [placeholder]="form.controls.budgetTypeUID.valid ? 'Buscar partida...' : 'Seleccione el tipo de presupuesto...'"
+                [config]="{ searchByQuery: true, showTooltip: true, minTermLength: 2 }"
+                [initQuery]="{ productUID: productUID, budgetTypeUID: form.value.budgetTypeUID, keywords: '' }"
+                [searcherAPI]="productBudgetSegments"
+                [initialValue]="isSaved ? item.budgetSegment : null"
+                [showError]="formHelper.isControlInvalid(form.controls.budgetSegmentUID)">
+
+              </emp-ng-select-typeahead>
+
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-one">
+              <label>Observaciones:</label>
+              <textarea class="text-area" empNgTextareaAutoresize rows="1"
+                formControlName="observations"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.observations)">
+              </textarea>
+            </div>
+
+          </div>
+
+        </div>
+
+        <ng-container *ngIf="!isSaved || (isSaved && canUpdate)">
+
+          <mat-divider class="horizontal">
+
+          </mat-divider>
+
+          <div #rowFooter class="fx-row-container">
+
+             <div class="fx-item fx-end fx-items-center">
+
+                <button
+                  [class.btn]="!formHelper.isFormReady(form)"
+                  [class.btn-action]="formHelper.isFormReady(form)"
+                  (click)="onSubmitButtonClicked()">
+                  {{!isSaved ? 'Agregar' : 'Guardar'}}
+                </button>
+
+              </div>
+
+          </div>
+
+        </ng-container>
+
+      </form>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>
