@@ -1,6 +1,6 @@
 <div class="fx-column-container-fill">
 
-  <emp-ng-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
+  <emp-ng-list-controls *ngIf="displayControls && dataList.length > 0 && selection.selected.length > 0"
     class="fx-item-none"
     [config]="{itemsName: 'transacciones', itemsPronouns: 'las', selectionMessage: 'seleccionadas'}"
     [selection]="selection"
@@ -13,7 +13,8 @@
   <emp-bdg-transactions-list-header
     class="fx-item-none"
     [dataList]="dataList"
-    [selection]="selection">
+    [selection]="selection"
+    [displayControls]="displayControls">
 
   </emp-bdg-transactions-list-header>
 
@@ -31,6 +32,7 @@
             <emp-bdg-transactions-list-item
               [transaction]="item"
               [selected]="selection.isSelected(item)"
+              [displayControls]="displayControls"
               (transactionsListItemEvent)="onTransactionsListItemEvent($event)">
 
             </emp-bdg-transactions-list-item>
@@ -41,7 +43,7 @@
 
         <div *ngIf="dataList.length === 0" class="text-not-found">
           {{ queryExecuted ?
-             'No se encontraron transacciones con el filtro proporcionado.' :
+             'No se encontraron transacciones' + (displayControls ? 'con el filtro proporcionado.' : '.') :
              'No se ha invocado la búsqueda de transacciones.' }}
         </div>
 

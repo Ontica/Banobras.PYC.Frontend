@@ -40,6 +40,8 @@ export class BudgetTransactionsListComponent implements OnChanges {
 
   @Input() queryExecuted = false;
 
+  @Input() displayControls = true;
+
   @Output() transactionsListEvent = new EventEmitter<EventInfo>();
 
   selection = new SelectionModel<BudgetTransactionDescriptor>(true, []);

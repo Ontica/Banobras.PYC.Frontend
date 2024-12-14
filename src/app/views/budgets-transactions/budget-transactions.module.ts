@@ -59,6 +59,7 @@ import { BudgetTransactionEntriesTableComponent } from './transaction-entries/tr
   ],
   exports: [
     BudgetTransactionsMainPageComponent,
+    BudgetTransactionsListComponent,
   ]
 })
 export class BudgetTransactionsModule { }

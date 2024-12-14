@@ -22,4 +22,6 @@ export class BudgetTransactionsListHeaderComponent {
 
   @Input() selection = new SelectionModel<BudgetTransactionDescriptor>(true, []);
 
+  @Input() displayControls = true;
+
 }

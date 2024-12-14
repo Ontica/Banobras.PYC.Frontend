@@ -1,6 +1,6 @@
 <div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
 
-  <div class="fx-item-size check-column-size sm-fx-item-none">
+  <div class="fx-item-size check-column-size sm-fx-item-none" *ngIf="displayControls">
     <mat-checkbox empNgStopPropagation
       [checked]="selected"
       (change)="onCheckClicked()">

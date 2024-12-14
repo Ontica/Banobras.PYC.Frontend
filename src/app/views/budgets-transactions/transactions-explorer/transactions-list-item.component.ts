@@ -30,6 +30,8 @@ export class BudgetTransactionsListItemComponent {
 
   @Input() selected = false;
 
+  @Input() displayControls = true;
+
   @Output() transactionsListItemEvent = new EventEmitter<EventInfo>();
 
 
