@@ -1,29 +1,28 @@
 
+<emp-ng-spinner #spinner [visible]="isLoadingSelection">
+
+</emp-ng-spinner>
+
 <div class="explorer">
 
-  <div class="primary priority" [class.std-hide]="displayTabbedView">
+  <emp-ng-products-explorer
+    class="primary priority"
+    [class.std-hide]="displayTabbedView"
+    [query]="query"
+    [dataList]="dataList"
+    [selectedUID]="selectedData.product.uid"
+    [isLoading]="isLoading"
+    [queryExecuted]="queryExecuted"
+    (productsExplorerEvent)="onProductsExplorerEvent($event)">
 
-    <emp-ng-products-explorer
-      [query]="query"
-      [dataList]="dataList"
-      [selectedUID]="selectedData.product.uid"
-      [isLoading]="isLoading"
-      [queryExecuted]="queryExecuted"
-      (productsExplorerEvent)="onProductsExplorerEvent($event)">
+  </emp-ng-products-explorer>
 
-    </emp-ng-products-explorer>
+  <emp-ng-product-tabbed-view *ngIf="displayTabbedView"
+    class="secondary"
+    [data]="selectedData"
+    (productTabbedViewEvent)="onProductTabbedViewEvent($event)">
 
-  </div>
-
-  <div class="secondary priority" *ngIf="displayTabbedView">
-
-    <emp-ng-product-tabbed-view
-      [data]="selectedData"
-      (productTabbedViewEvent)="onProductTabbedViewEvent($event)">
-
-    </emp-ng-product-tabbed-view>
-
-  </div>
+  </emp-ng-product-tabbed-view>
 
 </div>
 
