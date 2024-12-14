@@ -1,0 +1,27 @@
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="section-title"> Solicitud de suficiencia presupuestal </div>
+
+  <emp-bdg-budget-submitter class="fx-item-none"
+    [baseObjectType]="baseObjectType"
+    [baseObjectUID]="baseObjectUID"
+    [baseObjectName]="baseObjectName"
+    [budgetTotal]="budgetTotal"
+    [canRequest]="canRequest"
+    [canValidate]="canRequest"
+    (budgetSubmitterEvent)=" onBudgetSubmitterEvent($event)">
+
+  </emp-bdg-budget-submitter>
+
+  <emp-bdg-transactions-list  class="fx-item"
+    [dataList]="budgetTransactions"
+    [queryExecuted]="true"
+    [displayControls]="false">
+
+  </emp-bdg-transactions-list>
+
+</div>

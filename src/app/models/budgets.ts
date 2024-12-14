@@ -84,6 +84,25 @@ export interface BudgetEntry extends DataTableEntry {
 }
 
 
+export enum BudgetContext {
+  Contract               = 'ObjectTypeInfo.Contract.Procurement',
+  Milestone              = 'ObjectTypeInfo.Milestone',
+  MinorPurchase          = 'ObjectTypeInfo.MinorPurchase',
+  ExpenseOrReimbursement = 'ObjectTypeInfo.ExpenseOrReimbursement',
+}
+
+
+export interface BudgetRequestFields {
+  baseObjectTypeUID: string;
+  baseObjectUID: string;
+}
+
+
+export interface BudgetValidationResult {
+  result: string;
+}
+
+
 export const EmptyBudgetQuery: BudgetQuery = {
   queryType: null,
   budgetTypeUID: '',

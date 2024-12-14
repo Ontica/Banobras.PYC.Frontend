@@ -1,0 +1,25 @@
+<div *ngIf="canValidate || canRequest"
+  class="fx-row-container fx-gap fx-end"
+  [style.margin-bottom.px]="8">
+
+  <div class="fx-item-none" *ngIf="canValidate">
+
+    <button type="button"
+      class="btn"
+      (click)="onEventButtonClicked(eventType.VALIDATE)">
+      Validar presupuesto
+    </button>
+
+  </div>
+
+  <div class="fx-item-none" *ngIf="canRequest">
+
+    <button type="button"
+      class="btn-action"
+      (click)="onEventButtonClicked(eventType.REQUEST)">
+      Solicitar presupuesto
+    </button>
+
+  </div>
+
+</div>
