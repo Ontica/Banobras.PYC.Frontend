@@ -7,10 +7,9 @@
 
 import { Injectable } from '@angular/core';
 
-import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
+import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { BudgetAccountsForProductQuery, BudgetData, BudgetQuery, BudgetSegmentItem,
-         BudgetType } from '@app/models';
+import { BudgetData, BudgetQuery, BudgetSegmentItem, BudgetType } from '@app/models';
 
 @Injectable()
 export class BudgetsDataService {
@@ -23,17 +22,6 @@ export class BudgetsDataService {
     const path = `v2/budgeting/budget-types`;
 
     return this.http.get<BudgetType[]>(path);
-  }
-
-
-  searchBudgetAccountsForProduct(productUID: string,
-                                 query: BudgetAccountsForProductQuery): EmpObservable<Identifiable[]> {
-    Assertion.assertValue(productUID, 'productUID');
-    Assertion.assertValue(query, 'query');
-
-    const path = `v2/budgeting/products/${productUID}/budget-accounts`;
-
-    return this.http.post<Identifiable[]>(path, query);
   }
 
 

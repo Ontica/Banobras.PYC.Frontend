@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import {  ProductHolder, ProductDescriptor, ProductFields, ProductsQuery } from '@app/models';
+import {  ProductHolder, ProductDescriptor, ProductFields, ProductsQuery,
+          BudgetAccountsForProductQuery } from '@app/models';
 
 
 @Injectable()
@@ -30,6 +31,17 @@ export class ProductsDataService {
     const path = 'v8/product-management/categories';
 
     return this.http.get<Identifiable[]>(path);
+  }
+
+
+  searchBudgetAccountsForProduct(productUID: string,
+                                 query: BudgetAccountsForProductQuery): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(productUID, 'productUID');
+    Assertion.assertValue(query, 'query');
+
+    const path = `v8/product-management/products/${productUID}/budget-accounts`;
+
+    return this.http.post<Identifiable[]>(path, query);
   }
 
 

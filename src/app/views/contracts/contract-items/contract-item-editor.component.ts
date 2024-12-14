@@ -20,7 +20,7 @@ import { CataloguesStateSelector } from '@app/presentation/exported.presentation
 
 import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { BudgetsDataService, SearcherAPIS } from '@app/data-services';
+import { ProductsDataService, SearcherAPIS } from '@app/data-services';
 
 import { BudgetAccountsForProductQuery, Contract, ContractItem, ContractItemFields, EmptyContract,
          EmptyContractItem, ProductSearch, RequestsList } from '@app/models';
@@ -94,7 +94,7 @@ export class ContractItemEditorComponent implements OnChanges, OnInit, OnDestroy
 
 
   constructor(private uiLayer: PresentationLayer,
-              private budgetsData: BudgetsDataService) {
+              private productsData: ProductsDataService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
@@ -256,7 +256,7 @@ export class ContractItemEditorComponent implements OnChanges, OnInit, OnDestroy
                                budgetAccountsDefault?: Identifiable) {
     this.isLoadingBudgetAccounts = true;
 
-    this.budgetsData.searchBudgetAccountsForProduct(productUID, query)
+    this.productsData.searchBudgetAccountsForProduct(productUID, query)
     .firstValue()
       .then(x => this.setBudgetAccountsList(x, budgetAccountsDefault))
       .finally(() => this.isLoadingBudgetAccounts = false);
