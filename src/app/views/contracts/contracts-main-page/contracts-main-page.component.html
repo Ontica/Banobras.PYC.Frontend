@@ -4,29 +4,24 @@
 
 <div class="explorer">
 
-  <div class="primary" [class.std-hide]="displayTabbedView">
+  <emp-pmt-contracts-explorer
+    class="primary"
+    [class.std-hide]="displayTabbedView"
+    [query]="query"
+    [dataList]="dataList"
+    [selectedUID]="selectedData.contract.uid"
+    [isLoading]="isLoading"
+    [queryExecuted]="queryExecuted"
+    (contractsExplorerEvent)="onContractsExplorerEvent($event)">
 
-    <emp-pmt-contracts-explorer
-      [query]="query"
-      [dataList]="dataList"
-      [selectedUID]="selectedData.contract.uid"
-      [isLoading]="isLoading"
-      [queryExecuted]="queryExecuted"
-      (contractsExplorerEvent)="onContractsExplorerEvent($event)">
+  </emp-pmt-contracts-explorer>
 
-    </emp-pmt-contracts-explorer>
+  <emp-pmt-contract-tabbed-view *ngIf="displayTabbedView"
+    class="secondary priority"
+    [data]="selectedData"
+    (contractTabbedViewEvent)="onContractTabbedViewEvent($event)">
 
-  </div>
-
-  <div class="secondary priority" *ngIf="displayTabbedView">
-
-    <emp-pmt-contract-tabbed-view
-      [data]="selectedData"
-      (contractTabbedViewEvent)="onContractTabbedViewEvent($event)">
-
-    </emp-pmt-contract-tabbed-view>
-
-  </div>
+  </emp-pmt-contract-tabbed-view>
 
 </div>
 
