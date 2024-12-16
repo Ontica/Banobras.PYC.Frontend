@@ -18,7 +18,7 @@
 
       </div>
 
-      <div class="fx-item-quarter">
+      <div class="fx-item-half">
 
         <label>Tipo de presupuesto:</label>
 
@@ -28,15 +28,6 @@
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)">
         </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-quarter" [style.margin-top.px]="12">
-
-        <mat-checkbox empNgStopPropagation
-          formControlName="isForMultipleOrgUnits">
-          Sobre múltiples áreas
-        </mat-checkbox>
 
       </div>
 
@@ -59,17 +50,6 @@
 
       <div class="fx-item-quarter">
 
-        <label>Total:</label>
-
-        <input type="text" empNgCurrency
-          class="text-box text-align-right"
-          formControlName="total"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.total)">
-
-      </div>
-
-      <div class="fx-item-quarter">
-
         <label>Moneda:</label>
 
         <emp-ng-select
@@ -78,6 +58,15 @@
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
         </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter" [style.margin-top.px]="12">
+
+        <mat-checkbox empNgStopPropagation
+          formControlName="isForMultipleOrgUnits">
+          Sobre múltiples áreas
+        </mat-checkbox>
 
       </div>
 

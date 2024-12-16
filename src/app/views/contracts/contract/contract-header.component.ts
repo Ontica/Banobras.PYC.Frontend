@@ -40,7 +40,6 @@ interface ContractFormModel extends FormGroup<{
   budgetTypeUID: FormControl<string>;
   isForMultipleOrgUnits: FormControl<boolean>;
   contractTypeUID: FormControl<string>;
-  total: FormControl<string>;
   currencyUID: FormControl<string>;
   name: FormControl<string>;
   contractNo: FormControl<string>;
@@ -146,9 +145,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
       this.setFormData();
     }
 
-    const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
-
-    setTimeout(() => this.formHelper.setDisableForm(this.form, disable));
+    this.validateFormDisabled();
   }
 
 
@@ -197,7 +194,6 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
       supplierUID: [''],
       contractNo: [''],
       name: ['', Validators.required],
-      total: ['', Validators.required],
       currencyUID: ['', Validators.required],
       description: [''],
     });
@@ -211,7 +207,6 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
         budgetTypeUID: isEmpty(this.contract.budgetType) ? null : this.contract.budgetType.uid,
         isForMultipleOrgUnits: this.contract.isForMultipleOrgUnits,
         contractTypeUID: isEmpty(this.contract.contractType) ? null : this.contract.contractType.uid,
-        total: FormatLibrary.numberWithCommas(this.contract.total, '1.2-2'),
         currencyUID: isEmpty(this.contract.currency) ? null : this.contract.currency.uid,
         name: this.contract.name ?? '',
         contractNo: this.contract.contractNo ?? '',
@@ -243,6 +238,14 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
+  private validateFormDisabled() {
+    setTimeout(() => {
+      const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
+      this.formHelper.setDisableForm(this.form, disable);
+    });
+  }
+
+
   private getFormData(): ContractFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
@@ -253,7 +256,6 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
       contractTypeUID: this.form.value.contractTypeUID ?? null,
       currencyUID: this.form.value.currencyUID ?? null,
       name: this.form.value.name ?? null,
-      total: !this.form.value.total ? null : FormatLibrary.stringToNumber(this.form.value.total),
       contractNo: this.form.value.contractNo ?? null,
       supplierUID: this.form.value.supplierUID ?? '',
       fromDate: !this.form.value.datePeriod.fromDate ? null : this.form.value.datePeriod.fromDate,

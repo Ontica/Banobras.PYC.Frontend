@@ -58,7 +58,6 @@ export interface ContractFields {
   signDate: DateString;
   supplierUID: string;
   currencyUID: string;
-  total: number;
 }
 
 

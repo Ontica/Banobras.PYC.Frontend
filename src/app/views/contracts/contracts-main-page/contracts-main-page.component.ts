@@ -60,7 +60,7 @@ export class ContractsMainPageComponent {
       case ContractCreatorEventType.CREATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         this.displayCreator = false;
-        this.resolveContractData(event.payload.data as ContractData);
+        this.resolveContractUpdated(event.payload.data as ContractData);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -106,7 +106,7 @@ export class ContractsMainPageComponent {
         return;
       case ContractTabbedViewEventType.DATA_UPDATED:
         Assertion.assertValue(event.payload.contractData, 'event.payload.contractData');
-        this.resolveContractData(event.payload.contractData as ContractData);
+        this.resolveContractUpdated(event.payload.contractData as ContractData);
         return;
       case ContractTabbedViewEventType.DATA_DELETED:
         Assertion.assertValue(event.payload.contractUID, 'event.payload.contractUID');
@@ -133,17 +133,26 @@ export class ContractsMainPageComponent {
   }
 
 
-  private getContract(contractUID: string) {
+  private getContract(contractUID: string, refresh: boolean = false) {
     this.isLoadingSelection = true;
 
     this.contractsData.getContract(contractUID)
       .firstValue()
-      .then(x => this.setSelectedData(x))
+      .then(x => this.resolveGetContract(x, refresh))
       .finally(() => this.isLoadingSelection = false);
   }
 
 
-  private resolveContractData(data: ContractData) {
+  private resolveGetContract(data: ContractData, refresh: boolean = false) {
+    this.setSelectedData(data);
+
+    if (refresh) {
+      this.insertItemToList(data);
+    }
+  }
+
+
+  private resolveContractUpdated(data: ContractData) {
     this.insertItemToList(data);
     this.setSelectedData(data);
   }
@@ -156,7 +165,7 @@ export class ContractsMainPageComponent {
 
 
   private refreshSelectedData(contractUID: string) {
-    this.getContract(contractUID);
+    this.getContract(contractUID, true);
   }
 
 

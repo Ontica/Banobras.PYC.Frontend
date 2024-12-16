@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 
 import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
-import { sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
 import { BudgetContext, ContractData, EmptyContractData } from '@app/models';
 
@@ -123,6 +123,8 @@ export class ContractTabbedViewComponent implements OnChanges {
     const signDate = !this.data.contract.signDate ?
       'N/D' : DateStringLibrary.format(this.data.contract.signDate);
 
+    const total = FormatLibrary.numberWithCommas(this.data.contract.total, '1.2-2');
+
     this.status = this.data.contract.status.name === 'Eliminado' ?
       `<span class="tag tag-error tag-small">${this.data.contract.status.name}</span>` :
       `<span class="tag tag-small">${this.data.contract.status.name}</span>`;
@@ -132,7 +134,8 @@ export class ContractTabbedViewComponent implements OnChanges {
 
     this.hint = `<strong>${this.data.contract.contractType.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
       `${this.data.contract.supplier.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${signDate}`;
+      `${signDate} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${total}`;
   }
 
 }
