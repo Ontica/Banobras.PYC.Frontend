@@ -35,7 +35,7 @@ export class ProductBudgetSegmentsTableComponent implements OnChanges {
 
   @Output() productBudgetSegmentsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['budgetType', 'budgetSegmentType', 'budgetSegment'];
+  displayedColumnsDefault: string[] = ['budgetType', 'budgetSegmentType', 'budgetSegment', 'observations'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
