@@ -13,8 +13,6 @@ import { sendEvent } from '@app/shared/utils';
 
 import { OrdersDataService } from '@app/data-services';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, OrderTypeConfig,
          EmptyOrderTypeConfig } from '@app/models';
 
@@ -43,8 +41,7 @@ export class OrderEditorComponent {
   submitted = false;
 
 
-  constructor(private orderData: OrdersDataService,
-              private messageBox: MessageBoxService) { }
+  constructor(private orderData: OrdersDataService) { }
 
 
   get isSaved(): boolean {
@@ -60,16 +57,37 @@ export class OrderEditorComponent {
     switch (event.type as OrderHeaderEventType) {
       case OrderHeaderEventType.UPDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.messageBox.showInDevelopment(`Editar ${this.config.orderNameSingular}`,
-          event.payload.dataFields as OrderFields);
+        this.updateOrder(event.payload.dataFields as OrderFields);
         return;
       case OrderHeaderEventType.DELETE:
-        this.messageBox.showInDevelopment(`Eliminar ${this.config.orderNameSingular}`, this.order.uid);
+        this.deleteOrder();
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private updateOrder(orderFields: OrderFields) {
+    this.submitted = true;
+
+    this.orderData.updateOrder(this.order.uid, orderFields)
+      .firstValue()
+      .then(x => sendEvent(this.orderEditorEvent, OrderEditorEventType.UPDATED, { data: x }))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private deleteOrder() {
+    this.submitted = true;
+
+    this.orderData.deleteOrder(this.order.uid)
+      .firstValue()
+      .then(() =>
+        sendEvent(this.orderEditorEvent, OrderEditorEventType.DELETED, {orderUID: this.order.uid})
+      )
+      .finally(() => this.submitted = false);
   }
 
 }

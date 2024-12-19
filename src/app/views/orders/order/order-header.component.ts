@@ -47,6 +47,7 @@ interface OrderFormModel extends FormGroup<{
   identificators: FormControl<string[]>;
   tags: FormControl<string[]>;
   description: FormControl<string>;
+  contractUID: FormControl<string>;
   budgetTypeUID: FormControl<string>;
   budgetUID: FormControl<string>;
   currencyUID: FormControl<string>;
@@ -94,6 +95,8 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   projectsAPI = SearcherAPIS.projects;
 
+  contractAPI = SearcherAPIS.contract;
+
   Priority = Priority;
 
 
@@ -130,6 +133,11 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   get isPayableOrder(): boolean {
     return this.config.orderType === ObjectTypes.PayableOrder;
+  }
+
+
+  get contract(): Identifiable {
+    return this.isPayableOrder ? (this.order as PayableOrder).contract ?? null : null;
   }
 
 
@@ -208,6 +216,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       identificators: [null],
       tags: [null],
       description: [''],
+      contractUID: [''],
       budgetTypeUID: [''],
       budgetUID: [''],
       currencyUID: [''],
@@ -239,6 +248,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   private validateSetOrderFields() {
     if (this.isPayableOrder) {
       const payableOrder = this.order as PayableOrder;
+      this.form.controls.contractUID.reset(isEmpty(payableOrder.contract) ? null : payableOrder.contract.uid);
       this.form.controls.budgetTypeUID.reset(isEmpty(payableOrder.budgetType) ? null : payableOrder.budgetType.uid);
       this.form.controls.budgetUID.reset(isEmpty(payableOrder.budget) ? null : payableOrder.budget.uid);
       this.form.controls.currencyUID.reset(isEmpty(payableOrder.currency) ? null : payableOrder.currency.uid);
@@ -248,16 +258,21 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   private validateFieldsRequired() {
     if (this.isPayableOrder) {
+      this.formHelper.setControlValidators(this.form.controls.contractUID, [Validators.required]);
       this.formHelper.setControlValidators(this.form.controls.budgetTypeUID, [Validators.required]);
       this.formHelper.setControlValidators(this.form.controls.budgetUID, [Validators.required]);
       this.formHelper.setControlValidators(this.form.controls.currencyUID, [Validators.required]);
     } else {
+      this.formHelper.clearControlValidators(this.form.controls.contractUID);
       this.formHelper.clearControlValidators(this.form.controls.budgetTypeUID);
       this.formHelper.clearControlValidators(this.form.controls.budgetUID);
       this.formHelper.clearControlValidators(this.form.controls.currencyUID);
     }
 
-    setTimeout(() => FormHelper.markControlsAsUntouched(this.form.controls.providerUID));
+    setTimeout(() => {
+      FormHelper.markControlsAsUntouched(this.form.controls.contractUID);
+      FormHelper.markControlsAsUntouched(this.form.controls.providerUID);
+    });
   }
 
 
@@ -284,6 +299,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     const data: PayableOrderFields = {
       orderTypeUID: this.config.orderType,
       categoryUID: this.form.value.categoryUID ?? null,
+      contractUID: this.form.value.contractUID ?? null,
       description: this.form.value.description ?? null,
       identificators: this.form.value.identificators ?? [],
       tags: this.form.value.tags ?? [],

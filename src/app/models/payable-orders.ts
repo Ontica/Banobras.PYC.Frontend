@@ -39,9 +39,9 @@ export interface PayableOrderFields extends OrderFields {
   requestedByUID: string;
   projectUID: string;
   priority: Priority;
+  contractUID: string;
   budgetUID: string;
   currencyUID: string;
-  // contractUID: string; // ????
 }
 
 
@@ -56,6 +56,7 @@ export interface PayableOrderHolder extends OrderHolder {
 
 
 export interface PayableOrder extends Order {
+  contract: Identifiable;
   budgetType: Identifiable;
   budget: Identifiable;
   currency: Identifiable;

@@ -13,8 +13,6 @@ import { sendEvent } from '@app/shared/utils';
 
 import { OrdersDataService } from '@app/data-services';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { EmptyOrderTypeConfig, OrderFields, OrderTypeConfig } from '@app/models';
 
 import { OrderHeaderEventType } from './order-header.component';
@@ -38,8 +36,7 @@ export class OrderCreatorComponent {
   submitted = false;
 
 
-  constructor(private orderData: OrdersDataService,
-              private messageBox: MessageBoxService) { }
+  constructor(private orderData: OrdersDataService) { }
 
 
   onCloseModalClicked() {
@@ -55,13 +52,22 @@ export class OrderCreatorComponent {
     switch (event.type as OrderHeaderEventType) {
       case OrderHeaderEventType.CREATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.messageBox.showInDevelopment(`Agregar ${this.config.orderNameSingular}`,
-          event.payload.dataFields as OrderFields);
+        this.createOrder(event.payload.dataFields as OrderFields);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private createOrder(dataFields: OrderFields) {
+    this.submitted = true;
+
+    this.orderData.createOrder(dataFields)
+      .firstValue()
+      .then(x => sendEvent(this.orderCreatorEvent, OrderCreatorEventType.CREATED, { data: x }))
+      .finally(() => this.submitted = false);
   }
 
 }
