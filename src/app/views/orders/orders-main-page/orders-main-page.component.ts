@@ -22,7 +22,7 @@ import { ArrayLibrary } from '@app/shared/utils';
 import { OrdersDataService } from '@app/data-services';
 
 import { OrderHolder, OrderDescriptor, OrdersQuery, EmptyOrderHolder, EmptyOrdersQuery,
-         mapOrderDescriptorFromOrder, OrderTypes, OrderTypeConfig, EmptyOrderTypeConfig, getOrderTypeConfig,
+         mapOrderDescriptorFromOrder, ObjectTypes, OrderTypeConfig, EmptyOrderTypeConfig, getOrderTypeConfig,
          Order, mapPayableOrderDescriptorFromPayableOrder, PayableOrder } from '@app/models';
 
 import { OrdersExplorerEventType } from '../orders-explorer/orders-explorer.component';
@@ -36,7 +36,7 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
 
   helper: SubscriptionHelper;
 
-  orderTypeConfig: OrderTypeConfig = EmptyOrderTypeConfig;
+  config: OrderTypeConfig = EmptyOrderTypeConfig;
 
   query: OrdersQuery = Object.assign({}, EmptyOrdersQuery);
 
@@ -112,16 +112,16 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
   private setRequestsListFromCurrentView(view: View) {
     switch (view.name) {
       case 'Procurement.Milestones':
-        this.orderTypeConfig = getOrderTypeConfig(OrderTypes.PAYABLE_ORDERS)
+        this.config = getOrderTypeConfig(ObjectTypes.PayableOrder)
         return;
       case 'Procurement.MinorPurchases':
-        this.orderTypeConfig = getOrderTypeConfig(OrderTypes.MINOR_PURCHASES)
+        this.config = getOrderTypeConfig(ObjectTypes.MinorPurchase)
         return;
       case 'Payments.ExpensesAndReimbursement':
-        this.orderTypeConfig = getOrderTypeConfig(OrderTypes.EXPENSES)
+        this.config = getOrderTypeConfig(ObjectTypes.Expense)
         return;
       default:
-        this.orderTypeConfig = getOrderTypeConfig(null);
+        this.config = getOrderTypeConfig(null);
         return;
     }
   }
@@ -207,8 +207,8 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
 
 
   private validateMapOrderDescriptorByType(order: Order): OrderDescriptor {
-    switch (this.orderTypeConfig.orderType) {
-      case OrderTypes.PAYABLE_ORDERS:
+    switch (this.config.orderType) {
+      case ObjectTypes.PayableOrder:
         return mapPayableOrderDescriptorFromPayableOrder(order as PayableOrder);
       default:
         return mapOrderDescriptorFromOrder(order);

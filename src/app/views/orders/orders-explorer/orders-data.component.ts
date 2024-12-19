@@ -16,7 +16,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 import { EventInfo } from '@app/core';
 
 import { EmptyOrderTypeConfig, isEntityStatusInWarning, OrderDescriptor, OrdersOperationsList,
-         OrderTypeConfig, OrderTypes, Priority } from '@app/models';
+         OrderTypeConfig, ObjectTypes, Priority } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -36,7 +36,7 @@ export class OrdersDataComponent implements OnChanges {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-  @Input() orderTypeConfig: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
 
   @Input() dataList: OrderDescriptor[] = [];
 
@@ -58,7 +58,7 @@ export class OrdersDataComponent implements OnChanges {
 
   Priority = Priority;
 
-  OrderType = OrderTypes;
+  OrderType = ObjectTypes;
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -100,7 +100,7 @@ export class OrdersDataComponent implements OnChanges {
 
 
   private resetColumns() {
-    if (this.orderTypeConfig.orderType === OrderTypes.PAYABLE_ORDERS) {
+    if (this.config.orderType === ObjectTypes.PayableOrder) {
       this.displayedColumns = ['check', 'order', 'manager', 'especif', 'status'];
       return;
     }

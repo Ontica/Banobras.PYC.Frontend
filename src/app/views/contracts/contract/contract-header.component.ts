@@ -21,7 +21,7 @@ import { BudgetingStateSelector, CataloguesStateSelector,
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 

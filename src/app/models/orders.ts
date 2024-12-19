@@ -17,16 +17,11 @@ import { Priority } from './steps';
 
 import { RequestsList } from './requests';
 
-
-export enum OrderTypes {
-  PAYABLE_ORDERS  = 'ObjectTypeInfo.Order.PayableOrder.ContractOrder',
-  MINOR_PURCHASES = 'ObjectTypeInfo.Order.PayableOrder.PurchaseOrder',
-  EXPENSES        = 'ObjectTypeInfo.Order.PayableOrder.Expenses',
-}
+import { ObjectTypes } from './object-types';
 
 
 export interface OrderTypeConfig {
-  orderType: OrderTypes;
+  orderType: ObjectTypes;
   orderNameSingular: string;
   orderNamePlural: string;
   orderPronounSingular: string;
@@ -47,11 +42,11 @@ export const EmptyOrderTypeConfig: OrderTypeConfig = {
 }
 
 
-export function getOrderTypeConfig(orderType: OrderTypes): OrderTypeConfig {
+export function getOrderTypeConfig(orderType: ObjectTypes): OrderTypeConfig {
   switch (orderType) {
-    case OrderTypes.PAYABLE_ORDERS:
+    case ObjectTypes.PayableOrder:
       return {
-        orderType: OrderTypes.PAYABLE_ORDERS,
+        orderType: ObjectTypes.PayableOrder,
         orderNameSingular: 'entrega',
         orderNamePlural: 'entregas',
         orderPronounSingular: 'la',
@@ -59,9 +54,9 @@ export function getOrderTypeConfig(orderType: OrderTypes): OrderTypeConfig {
         selectionMessage: 'seleccionadas',
         requestsList: RequestsList.contracts,
       };
-    case OrderTypes.MINOR_PURCHASES:
+    case ObjectTypes.MinorPurchase:
       return {
-        orderType: OrderTypes.MINOR_PURCHASES,
+        orderType: ObjectTypes.MinorPurchase,
         orderNameSingular: 'compra menor',
         orderNamePlural: 'compras menores',
         orderPronounSingular: 'la',
@@ -69,9 +64,9 @@ export function getOrderTypeConfig(orderType: OrderTypes): OrderTypeConfig {
         selectionMessage: 'seleccionadas',
         requestsList: RequestsList.contracts,
       };
-    case OrderTypes.EXPENSES:
+    case ObjectTypes.Expense:
       return {
-        orderType: OrderTypes.EXPENSES,
+        orderType: ObjectTypes.Expense,
         orderNameSingular: 'gasto',
         orderNamePlural: 'gastos',
         orderPronounSingular: 'el',
@@ -86,19 +81,14 @@ export function getOrderTypeConfig(orderType: OrderTypes): OrderTypeConfig {
 
 export interface OrdersQuery {
   orderTypeUID: string;
-
   responsibleUID: string;
   status: EntityStatus;
   keywords: string;
-
   categoryUID: string;
   providerUID: string;
   projectUID: string;
-
   orderNo: string;
   priority: Priority;
-
-  // payable orders fields
   // budgetTypeUID: string;
   // budgetUID: string;
 }
@@ -154,7 +144,7 @@ export interface Order {
   providersGroup: Identifiable[];
   requestedBy: Identifiable;
   project: Identifiable;
-  priority: Identifiable;
+  priority: Identifiable<Priority>;
   authorizationTime: DateString;
   authorizedBy: Identifiable;
   closingTime: DateString;

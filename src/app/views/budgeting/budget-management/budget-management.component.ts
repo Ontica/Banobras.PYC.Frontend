@@ -15,7 +15,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { BudgetsDataService } from '@app/data-services';
 
-import { BudgetContext, BudgetRequestFields, BudgetTransactionDescriptor,
+import { ObjectTypes, BudgetRequestFields, BudgetTransactionDescriptor,
          BudgetValidationResult } from '@app/models';
 
 import { BudgetSubmitterEventType } from './budget-submitter.component';
@@ -30,7 +30,7 @@ export enum BudgetManagementEventType {
 })
 export class BudgetManagementComponent {
 
-  @Input() baseObjectType: BudgetContext = null;
+  @Input() baseObjectType: ObjectTypes = null;
 
   @Input() baseObjectUID = '';
 

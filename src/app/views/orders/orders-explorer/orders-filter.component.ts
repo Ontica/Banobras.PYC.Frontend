@@ -47,7 +47,7 @@ interface OrdersFilterFormModel extends FormGroup<{
 })
 export class OrdersFilterComponent implements OnChanges, OnDestroy {
 
-  @Input() orderTypeConfig: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
 
   @Input() query: OrdersQuery = Object.assign({}, EmptyOrdersQuery);
 
@@ -94,7 +94,7 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
       this.setFormData();
     }
 
-    if (changes.orderTypeConfig) {
+    if (changes.config) {
       this.loadDataLists();
     }
   }
@@ -137,30 +137,23 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
 
 
   private loadDataLists() {
-    if (!this.orderTypeConfig.requestsList) {
+    if (!this.config.requestsList) {
       this.orgUnitsList = [];
       return;
     }
 
+    this.isLoading = true;
+
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
-        { requestsList: this.orderTypeConfig.requestsList }),
-      this.ordersData.getOrderCategories(this.orderTypeConfig.orderType),
+        { requestsList: this.config.requestsList }),
+      this.ordersData.getOrderCategories(this.config.orderType),
     ])
     .subscribe(([a, b]) => {
       this.orgUnitsList = a;
       this.categoriesList = b;
       this.isLoading = false;
     });
-
-
-    this.isLoading = true;
-
-    this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
-      { requestsList: this.orderTypeConfig.requestsList })
-      .firstValue()
-      .then(x => this.orgUnitsList = x)
-      .finally(() => this.isLoading = false)
   }
 
 
@@ -196,7 +189,7 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
 
   private getFormData(): OrdersQuery {
     const query: OrdersQuery = {
-      orderTypeUID: this.orderTypeConfig.orderType,
+      orderTypeUID: this.config.orderType,
       responsibleUID: this.form.value.responsibleUID ?? null,
       status: this.form.value.status ?? null,
       keywords: this.form.value.keywords ?? null,

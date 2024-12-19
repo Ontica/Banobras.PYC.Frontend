@@ -4,9 +4,9 @@
 
     <emp-ng-list-controls
       class="fx-item-none"
-      [config]="{itemsName: orderTypeConfig.orderNamePlural ,
-                 itemsPronouns: orderTypeConfig.orderPronounPlural ,
-                 selectionMessage: orderTypeConfig.selectionMessage}"
+      [config]="{itemsName: config.orderNamePlural ,
+                 itemsPronouns: config.orderPronounPlural ,
+                 selectionMessage: config.selectionMessage}"
       [selection]="selection"
       [operationsList]="operationsList"
       (listControlsEvent)="onListControlsEvent($event)">
@@ -23,7 +23,7 @@
       <table mat-table [dataSource]="dataSource">
 
         <ng-container matColumnDef="check">
-          <th mat-header-cell *matHeaderCellDef>
+          <th mat-header-cell *matHeaderCellDef class="column-checkbox">
             <emp-ng-check-box-all title="Todos" *ngIf="dataSource.data.length > 0"
               [(selection)]="selection"
               [values]="dataSource.data">
@@ -39,7 +39,7 @@
 
         <ng-container matColumnDef="order">
           <th mat-header-cell *matHeaderCellDef>
-            No. de {{orderTypeConfig.orderNameSingular}} <br>
+            No. de {{config.orderNameSingular}} <br>
             Categoría <br>
             Área administradora
           </th>
@@ -68,19 +68,19 @@
         <ng-container matColumnDef="especif">
           <th mat-header-cell *matHeaderCellDef class="nowrap">
 
-            <container-element [ngSwitch]="orderTypeConfig.orderType">
+            <container-element [ngSwitch]="config.orderType">
 
-              <ng-container *ngSwitchCase="OrderType.PAYABLE_ORDERS">
+              <ng-container *ngSwitchCase="OrderType.PayableOrder">
                 Presupuesto <br>
                 Total <br>
                 Moneda
               </ng-container>
 
-              <ng-container *ngSwitchCase="OrderType.MINOR_PURCHASES">
+              <ng-container *ngSwitchCase="OrderType.MinorPurchase">
 
               </ng-container>
 
-              <ng-container *ngSwitchCase="OrderType.EXPENSES">
+              <ng-container *ngSwitchCase="OrderType.Expense">
 
               </ng-container>
 
@@ -93,19 +93,19 @@
           </th>
           <td mat-cell *matCellDef="let row">
 
-            <container-element [ngSwitch]="orderTypeConfig.orderType">
+            <container-element [ngSwitch]="config.orderType">
 
-              <ng-container *ngSwitchCase="OrderType.PAYABLE_ORDERS">
+              <ng-container *ngSwitchCase="OrderType.PayableOrder">
                 <div class="text-highlight">{{row.budgetName}}</div>
                 <div class="bold-text">{{row.total | empDecimal}}</div>
                 <div>{{row.currencyName}}</div>
               </ng-container>
 
-              <ng-container *ngSwitchCase="OrderType.MINOR_PURCHASES">
+              <ng-container *ngSwitchCase="OrderType.MinorPurchase">
 
               </ng-container>
 
-              <ng-container *ngSwitchCase="OrderType.EXPENSES">
+              <ng-container *ngSwitchCase="OrderType.Expense">
 
               </ng-container>
 
@@ -141,8 +141,8 @@
 
         <ng-container matColumnDef="notFoundMessage">
           <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
-            {{queryExecuted ? 'No se encontraron ' + orderTypeConfig.orderNamePlural + ' con el filtro proporcionado.' :
-              'No se ha invocado la búsqueda de '+ orderTypeConfig.orderNamePlural + '.'}}
+            {{queryExecuted ? 'No se encontraron ' + config.orderNamePlural + ' con el filtro proporcionado.' :
+              'No se ha invocado la búsqueda de '+ config.orderNamePlural + '.'}}
           </td>
         </ng-container>
 

@@ -3,7 +3,7 @@
   <div class="card-header card-header-flat">
 
     <div class="card-title">
-      Explorador de {{ orderTypeConfig.orderNamePlural }}
+      Explorador de {{ config.orderNamePlural }}
 
       <div class="card-hint" empNgProgressText
         loadingText="Cargando"
@@ -19,7 +19,7 @@
       <button
         class="btn-action"
         (click)="onCreateOrderClicked()">
-        Agregar {{orderTypeConfig.orderNameSingular}}
+        Agregar {{config.orderNameSingular}}
       </button>
 
     </div>
@@ -35,7 +35,7 @@
       </emp-ng-spinner>
 
       <emp-ng-orders-filter class="fx-item-none"
-        [orderTypeConfig]="orderTypeConfig"
+        [config]="config"
         [query]="query"
         [(showFilters)]="showFilters"
         (ordersFilterEvent)="onOrdersFilterEvent($event)">
@@ -43,7 +43,7 @@
       </emp-ng-orders-filter>
 
       <emp-ng-orders-data class="fx-item"
-        [orderTypeConfig]="orderTypeConfig"
+        [config]="config"
         [dataList]="dataList"
         [selectedUID]="selectedUID"
         [queryExecuted]="queryExecuted"

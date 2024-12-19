@@ -13,7 +13,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
-import { BudgetContext, BudgetRequestFields } from '@app/models';
+import { ObjectTypes, BudgetRequestFields } from '@app/models';
 
 export enum BudgetSubmitterEventType {
   REQUEST  = 'BudgetSubmitterComponent.Event.RequestClicked',
@@ -26,7 +26,7 @@ export enum BudgetSubmitterEventType {
 })
 export class BudgetSubmitterComponent {
 
-  @Input() baseObjectType: BudgetContext = null;
+  @Input() baseObjectType: ObjectTypes = null;
 
   @Input() baseObjectUID = '';
 
@@ -48,13 +48,13 @@ export class BudgetSubmitterComponent {
 
   get baseObjectTypeName(): string {
     switch (this.baseObjectType) {
-      case BudgetContext.Contract:
+      case ObjectTypes.Contract:
         return 'CONTRATO';
-      case BudgetContext.Milestone:
+      case ObjectTypes.PayableOrder:
         return 'ENTREGA';
-      case BudgetContext.MinorPurchase:
+      case ObjectTypes.MinorPurchase:
         return 'COMPRA MENOR';
-      case BudgetContext.ExpenseOrReimbursement:
+      case ObjectTypes.Expense:
         return 'GASTO O REEMBOLSO';
       default:
         return 'OBJETO INDEFINIDO';

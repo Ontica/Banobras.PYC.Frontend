@@ -11,7 +11,7 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
-import { BudgetContext, ContractData, EmptyContractData } from '@app/models';
+import { ObjectTypes, ContractData, EmptyContractData } from '@app/models';
 
 import { ContractEditorEventType } from '../contract/contract-editor.component';
 
@@ -47,7 +47,7 @@ export class ContractTabbedViewComponent implements OnChanges {
 
   selectedTabIndex = 0;
 
-  budgetContext = BudgetContext.Contract;
+  objectType = ObjectTypes.Contract;
 
 
   ngOnChanges() {

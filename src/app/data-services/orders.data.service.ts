@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { OrderHolder, OrderDescriptor, OrdersQuery, OrderTypes } from '@app/models';
+import { OrderHolder, OrderDescriptor, OrdersQuery, ObjectTypes } from '@app/models';
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class OrdersDataService {
   constructor(private http: HttpService) { }
 
 
-  getOrderCategories(orderType: OrderTypes): EmpObservable<Identifiable[]> {
+  getOrderCategories(orderType: ObjectTypes): EmpObservable<Identifiable[]> {
     Assertion.assertValue(orderType, 'orderType');
 
     const path = `v8/order-management/order-types/${orderType}/categories`;

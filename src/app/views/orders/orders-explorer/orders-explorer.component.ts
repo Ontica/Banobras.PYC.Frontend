@@ -32,7 +32,7 @@ export enum OrdersExplorerEventType {
 })
 export class OrdersExplorerComponent implements OnChanges {
 
-  @Input() orderTypeConfig: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
 
   @Input() query: OrdersQuery = Object.assign({}, EmptyOrdersQuery);
 
