@@ -15,9 +15,7 @@ import { DefaultComponent } from '@app/shared/components/default-component/defau
 
 import { BillsMainPageComponent } from '@app/views/billing/bills-main-page/bills-main-page.component';
 
-import {
-  ContractsMainPageComponent
-} from '@app/views/contracts/contracts-main-page/contracts-main-page.component';
+import { OrdersMainPageComponent } from '@app/views/orders/orders-main-page/orders-main-page.component';
 
 import {
   PayablesMainPageComponent
@@ -51,7 +49,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.pagos_gastos_y_reembolsos.permission },
     path: ROUTES.pagos_gastos_y_reembolsos.path,
-    component: DefaultComponent,
+    component: OrdersMainPageComponent,
   },
   {
     data: { permission: ROUTES.pagos_facturas.permission },

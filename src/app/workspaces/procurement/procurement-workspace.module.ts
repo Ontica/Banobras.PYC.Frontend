@@ -11,8 +11,9 @@ import { CommonModule } from '@angular/common';
 import { ProcurementWorkspaceRoutingModule } from './procurement-workspace-routing.module';
 
 import { ContractsModule } from '@app/views/contracts/contracts.module';
-import { RequestsModule } from '@app/views/requests/requests.module';
+import { OrdersModule } from '@app/views/orders/orders.module';
 import { ProductsModule } from '@app/views/products/products.module';
+import { RequestsModule } from '@app/views/requests/requests.module';
 
 
 @NgModule({
@@ -23,8 +24,9 @@ import { ProductsModule } from '@app/views/products/products.module';
     ProcurementWorkspaceRoutingModule,
 
     ContractsModule,
-    RequestsModule,
+    OrdersModule,
     ProductsModule,
+    RequestsModule,
   ],
 
 })

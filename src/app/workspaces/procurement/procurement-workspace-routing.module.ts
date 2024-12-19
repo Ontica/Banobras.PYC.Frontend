@@ -17,6 +17,8 @@ import {
   ContractsMainPageComponent
 } from '@app/views/contracts/contracts-main-page/contracts-main-page.component';
 
+import { OrdersMainPageComponent } from '@app/views/orders/orders-main-page/orders-main-page.component';
+
 import {
   ProductsMainPageComponent
 } from '@app/views/products/products-main-page/products-main-page.component';
@@ -24,9 +26,6 @@ import {
 import {
   RequestsMainPageComponent
 } from '@app/views/requests/requests-main-page/requests-main-page.component';
-
-
-
 
 
 const routes: Routes = [
@@ -43,12 +42,12 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.adquisiciones_compras_menores.permission },
     path: ROUTES.adquisiciones_compras_menores.path,
-    component: DefaultComponent,
+    component: OrdersMainPageComponent,
   },
   {
     data: { permission: ROUTES.adquisiciones_entregas.permission },
     path: ROUTES.adquisiciones_entregas.path,
-    component: DefaultComponent,
+    component: OrdersMainPageComponent,
   },
   {
     data: { permission: ROUTES.adquisiciones_productos.permission },
