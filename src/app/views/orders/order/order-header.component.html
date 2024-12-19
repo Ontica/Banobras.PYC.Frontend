@@ -267,13 +267,25 @@
 
           <button *ngIf="actions.canDelete"
             type="button" class="btn-warning"
-            (click)="onDeleteButtonClicked()">
+            (click)="onEventButtonClicked(eventTypes.DELETE)">
             Eliminar
           </button>
 
         </ng-container>
 
         <ng-container *ngIf="!editionMode">
+
+          <button *ngIf="actions.canActivate"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventTypes.ACTIVATE)">
+            Reactivar
+          </button>
+
+          <button *ngIf="actions.canSuspend"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventTypes.SUSPEND)">
+            Suspender
+          </button>
 
         </ng-container>
 

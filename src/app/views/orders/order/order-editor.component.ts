@@ -14,7 +14,7 @@ import { sendEvent } from '@app/shared/utils';
 import { OrdersDataService } from '@app/data-services';
 
 import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, OrderTypeConfig,
-         EmptyOrderTypeConfig } from '@app/models';
+         EmptyOrderTypeConfig, OrderHolder } from '@app/models';
 
 import { OrderHeaderEventType } from './order-header.component';
 
@@ -62,6 +62,12 @@ export class OrderEditorComponent {
       case OrderHeaderEventType.DELETE:
         this.deleteOrder();
         return;
+      case OrderHeaderEventType.SUSPEND:
+        this.suspendOrder();
+        return;
+      case OrderHeaderEventType.ACTIVATE:
+        this.activateOrder();
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -74,7 +80,7 @@ export class OrderEditorComponent {
 
     this.orderData.updateOrder(this.order.uid, orderFields)
       .firstValue()
-      .then(x => sendEvent(this.orderEditorEvent, OrderEditorEventType.UPDATED, { data: x }))
+      .then(x => this.resolveOrderUpdated(x))
       .finally(() => this.submitted = false);
   }
 
@@ -84,10 +90,40 @@ export class OrderEditorComponent {
 
     this.orderData.deleteOrder(this.order.uid)
       .firstValue()
-      .then(() =>
-        sendEvent(this.orderEditorEvent, OrderEditorEventType.DELETED, {orderUID: this.order.uid})
-      )
+      .then(() => this.resolveOrderDeleted(this.order.uid))
       .finally(() => this.submitted = false);
+  }
+
+
+  private suspendOrder() {
+    this.submitted = true;
+
+    this.orderData.suspendOrder(this.order.uid)
+      .firstValue()
+      .then(x => this.resolveOrderUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private activateOrder() {
+    this.submitted = true;
+
+    this.orderData.activateOrder(this.order.uid)
+      .firstValue()
+      .then(x => this.resolveOrderUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private resolveOrderUpdated(data: OrderHolder) {
+    const payload = { data };
+    sendEvent(this.orderEditorEvent, OrderEditorEventType.UPDATED, payload);
+  }
+
+
+  private resolveOrderDeleted(orderUID: string) {
+    const payload = { orderUID };
+    sendEvent(this.orderEditorEvent, OrderEditorEventType.DELETED, payload);
   }
 
 }

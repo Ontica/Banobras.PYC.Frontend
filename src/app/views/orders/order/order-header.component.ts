@@ -30,9 +30,11 @@ import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, Priori
 
 
 export enum OrderHeaderEventType {
-  CREATE = 'OrderHeaderComponent.Event.CreateOrder',
-  UPDATE = 'OrderHeaderComponent.Event.UpdateOrder',
-  DELETE = 'OrderHeaderComponent.Event.DeleteOrder',
+  CREATE   = 'OrderHeaderComponent.Event.CreateOrder',
+  UPDATE   = 'OrderHeaderComponent.Event.UpdateOrder',
+  DELETE   = 'OrderHeaderComponent.Event.DeleteOrder',
+  ACTIVATE = 'OrderHeaderComponent.Event.ActivateOrder',
+  SUSPEND  = 'OrderHeaderComponent.Event.SuspendOrder',
 }
 
 interface OrderFormModel extends FormGroup<{
@@ -74,6 +76,8 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   form: OrderFormModel;
 
   formHelper = FormHelper;
+
+  eventTypes = OrderHeaderEventType;
 
   editionMode = false;
 
@@ -127,7 +131,8 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   get hasActions(): boolean {
-    return this.actions.canUpdate || this.actions.canDelete;
+    return this.actions.canUpdate || this.actions.canDelete ||
+           this.actions.canActivate || this.actions.canSuspend;
   }
 
 
@@ -155,13 +160,13 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
         eventType = OrderHeaderEventType.UPDATE;
       }
 
-      sendEvent(this.orderHeaderEvent, eventType, { dataFields: this.getOrderFields() });
+      sendEvent(this.orderHeaderEvent, eventType, { dataFields: this.validateGetOrderFields() });
     }
   }
 
 
-  onDeleteButtonClicked() {
-    this.showConfirmMessage(OrderHeaderEventType.DELETE);
+  onEventButtonClicked(eventType: OrderHeaderEventType) {
+    this.showConfirmMessage(eventType);
   }
 
 
@@ -215,7 +220,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       projectUID: [''],
       identificators: [null],
       tags: [null],
-      description: [''],
+      description: ['', Validators.required],
       contractUID: [''],
       budgetTypeUID: [''],
       budgetUID: [''],
@@ -284,10 +289,13 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  private getOrderFields(): OrderFields {
+  private validateGetOrderFields(): OrderFields {
     switch (this.config.orderType) {
-      case ObjectTypes.PayableOrder: return this.getPayableOrderFields();
-    default:
+      case ObjectTypes.PayableOrder:
+      case ObjectTypes.MinorPurchase:
+      case ObjectTypes.Expense:
+        return this.isPayableOrder ? this.getPayableOrderFields() : this.getOrderFields();
+      default:
         throw Assertion.assertNoReachThisCode(`Unhandled order type: ${this.config.orderType}.`);
     }
   }
@@ -318,6 +326,28 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
+  private getOrderFields(): OrderFields {
+    Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
+
+    const data: OrderFields = {
+      orderTypeUID: this.config.orderType,
+      categoryUID: this.form.value.categoryUID ?? null,
+      description: this.form.value.description ?? null,
+      identificators: this.form.value.identificators ?? [],
+      tags: this.form.value.tags ?? [],
+      responsibleUID: this.form.value.responsibleUID ?? null,
+      beneficiaryUID: this.form.value.beneficiaryUID ?? null,
+      isForMultipleBeneficiaries: this.form.value.isForMultipleBeneficiaries,
+      providerUID: this.form.value.providerUID ?? null,
+      requestedByUID: this.form.value.requestedByUID ?? null,
+      projectUID: this.form.value.projectUID ?? null,
+      priority: this.form.value.priority ?? null,
+    };
+
+    return data;
+  }
+
+
   private showConfirmMessage(eventType: OrderHeaderEventType) {
     const confirmType = this.getConfirmType(eventType);
     const title = this.getConfirmTitle(eventType);
@@ -332,7 +362,9 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   private getConfirmType(eventType: OrderHeaderEventType): 'AcceptCancel' | 'DeleteCancel' {
     switch (eventType) {
       case OrderHeaderEventType.DELETE:
+      case OrderHeaderEventType.SUSPEND:
         return 'DeleteCancel';
+      case OrderHeaderEventType.ACTIVATE:
       default:
         return 'AcceptCancel';
     }
@@ -342,22 +374,34 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   private getConfirmTitle(eventType: OrderHeaderEventType): string {
     switch (eventType) {
       case OrderHeaderEventType.DELETE: return `Eliminar ${this.config.orderNameSingular}`;
+      case OrderHeaderEventType.SUSPEND: return `Suspender ${this.config.orderNameSingular}`;
+      case OrderHeaderEventType.ACTIVATE: return `Reactivar ${this.config.orderNameSingular}`;
       default: return '';
     }
   }
 
 
   private getConfirmMessage(eventType: OrderHeaderEventType): string {
+    const orderTypeName = `${this.config.orderPronounSingular} ${this.config.orderNameSingular}`;
+    const orderNo = !this.order.orderNo ? '' : `${this.order.orderNo}: `;
+    const provider = isEmpty(this.order.provider) ? '' :
+      `del proveedor <strong>${this.order.provider.name}</strong>`;
+
     switch (eventType) {
       case OrderHeaderEventType.DELETE:
-        const orderTypeName = `${this.config.orderPronounSingular} ${this.config.orderNameSingular}`;
-        const orderNo = !this.order.orderNo ? '' : `${this.order.orderNo}: `;
-        const provider = isEmpty(this.order.provider) ? '' :
-          `del proveedor <strong>${this.order.provider.name}</strong>`;
-
         return `Esta operación eliminará ${orderTypeName} <strong>${orderNo}</strong>
                 (${this.order.category.name}) ${provider}.
                 <br><br>¿Elimino ${orderTypeName}?`;
+
+      case OrderHeaderEventType.SUSPEND:
+        return `Esta operación suspenderá ${orderTypeName} <strong>${orderNo}</strong>
+                (${this.order.category.name}) ${provider}.
+                <br><br>¿Suspendo ${orderTypeName}?`;
+
+      case OrderHeaderEventType.ACTIVATE:
+        return `Esta operación reactivará ${orderTypeName} <strong>${orderNo}</strong>
+                (${this.order.category.name}) ${provider}.
+                <br><br>¿Reactivo ${orderTypeName}?`;
 
       default: return '';
     }

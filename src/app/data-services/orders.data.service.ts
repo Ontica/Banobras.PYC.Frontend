@@ -74,4 +74,22 @@ export class OrdersDataService {
     return this.http.delete<void>(path);
   }
 
+
+  suspendOrder(orderUID: string): EmpObservable<OrderHolder> {
+    Assertion.assertValue(orderUID, 'orderUID');
+
+    const path = `v8/order-management/orders/${orderUID}/suspend`;
+
+    return this.http.post<OrderHolder>(path);
+  }
+
+
+  activateOrder(orderUID: string): EmpObservable<OrderHolder> {
+    Assertion.assertValue(orderUID, 'orderUID');
+
+    const path = `v8/order-management/orders/${orderUID}/activate`;
+
+    return this.http.post<OrderHolder>(path);
+  }
+
 }
