@@ -1,0 +1,58 @@
+<div class="card card-border">
+
+  <div class="card-header card-header-flat">
+
+    <div class="card-title">
+      Explorador de {{ orderTypeConfig.orderNamePlural }}
+
+      <div class="card-hint" empNgProgressText
+        loadingText="Cargando"
+        [finalText]="cardHint"
+        [isLoading]="isLoading">
+      </div>
+
+
+    </div>
+
+    <div class="card-header-options">
+
+      <button
+        class="btn-action"
+        (click)="onCreateOrderClicked()">
+        Agregar {{orderTypeConfig.orderNameSingular}}
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="card-body" [empNgSpinnerHost]="spinner">
+
+    <div class="fx-column-container-fill">
+
+      <emp-ng-spinner #spinner [visible]="isLoading">
+
+      </emp-ng-spinner>
+
+      <emp-ng-orders-filter class="fx-item-none"
+        [orderTypeConfig]="orderTypeConfig"
+        [query]="query"
+        [(showFilters)]="showFilters"
+        (ordersFilterEvent)="onOrdersFilterEvent($event)">
+
+      </emp-ng-orders-filter>
+
+      <emp-ng-orders-data class="fx-item"
+        [orderTypeConfig]="orderTypeConfig"
+        [dataList]="dataList"
+        [selectedUID]="selectedUID"
+        [queryExecuted]="queryExecuted"
+        (ordersDataEvent)="onOrdersDataEvent($event)">
+
+      </emp-ng-orders-data>
+
+    </div>
+
+  </div>
+
+</div>

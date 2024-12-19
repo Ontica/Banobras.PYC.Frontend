@@ -1,0 +1,161 @@
+<div class="fx-column-container-fill">
+
+  <div class="fx-item-none" *ngIf="dataList.length > 0 && selection.selected.length > 0">
+
+    <emp-ng-list-controls
+      class="fx-item-none"
+      [config]="{itemsName: orderTypeConfig.orderNamePlural ,
+                 itemsPronouns: orderTypeConfig.orderPronounPlural ,
+                 selectionMessage: orderTypeConfig.selectionMessage}"
+      [selection]="selection"
+      [operationsList]="operationsList"
+      (listControlsEvent)="onListControlsEvent($event)">
+
+    </emp-ng-list-controls>
+
+  </div>
+
+
+  <div class="fx-item">
+
+    <cdk-virtual-scroll-viewport headerHeight="57" tvsItemSize="57">
+
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="check">
+          <th mat-header-cell *matHeaderCellDef>
+            <emp-ng-check-box-all title="Todos" *ngIf="dataSource.data.length > 0"
+              [(selection)]="selection"
+              [values]="dataSource.data">
+            </emp-ng-check-box-all>
+          </th>
+          <td mat-cell *matCellDef="let row" class="column-checkbox">
+            <mat-checkbox empNgStopPropagation
+              [checked]="selection.isSelected(row)"
+              (change)="selection.toggle(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="order">
+          <th mat-header-cell *matHeaderCellDef>
+            No. de {{orderTypeConfig.orderNameSingular}} <br>
+            Categoría <br>
+            Área administradora
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <a empNgStopPropagation class="link-highlight bold-text" (click)="onItemClicked(row)">
+              {{ !!row.orderNo ? row.orderNo : '-' }}
+            </a>
+            <div class="bold-text">{{ row.categoryName }}</div>
+            {{ row.responsibleName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="manager">
+          <th mat-header-cell *matHeaderCellDef class="nowrap">
+            Área beneficiaria <br>
+            Proveedor <br>
+            Proyecto
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="text-highlight">{{row.beneficiaryName}}</div>
+            <div class="bold-text">{{row.providerName}}</div>
+            <div>{{row.projectName}}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="especif">
+          <th mat-header-cell *matHeaderCellDef class="nowrap">
+
+            <container-element [ngSwitch]="orderTypeConfig.orderType">
+
+              <ng-container *ngSwitchCase="OrderType.PAYABLE_ORDERS">
+                Presupuesto <br>
+                Total <br>
+                Moneda
+              </ng-container>
+
+              <ng-container *ngSwitchCase="OrderType.MINOR_PURCHASES">
+
+              </ng-container>
+
+              <ng-container *ngSwitchCase="OrderType.EXPENSES">
+
+              </ng-container>
+
+              <ng-container *ngSwitchDefault>
+
+              </ng-container>
+
+            </container-element>
+
+          </th>
+          <td mat-cell *matCellDef="let row">
+
+            <container-element [ngSwitch]="orderTypeConfig.orderType">
+
+              <ng-container *ngSwitchCase="OrderType.PAYABLE_ORDERS">
+                <div class="text-highlight">{{row.budgetName}}</div>
+                <div class="bold-text">{{row.total | empDecimal}}</div>
+                <div>{{row.currencyName}}</div>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="OrderType.MINOR_PURCHASES">
+
+              </ng-container>
+
+              <ng-container *ngSwitchCase="OrderType.EXPENSES">
+
+              </ng-container>
+
+              <ng-container *ngSwitchDefault>
+
+              </ng-container>
+
+            </container-element>
+
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef class="nowrap">
+            Prioridad <br>
+            Estado
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <div *ngIf="!!row.priorityName"
+              class="fx-item-size" [style.--size.px]="50" >
+
+              <span class="tag tag-small" [style.margin]="0"
+                [ngClass]="{
+                              'tag-base-error':    row.priorityUID === Priority.Urgent,
+                              'tag-base-warning':  row.priorityUID === Priority.High,
+                              'tag-base-success':  row.priorityUID === Priority.Normal,
+                              'tag-base-disabled': row.priorityUID === Priority.Low,
+                            }">{{row.priorityName}}</span>
+            </div>
+            <div [style.margin-top.px]="4">{{row.statusName}}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="notFoundMessage">
+          <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+            {{queryExecuted ? 'No se encontraron ' + orderTypeConfig.orderNamePlural + ' con el filtro proporcionado.' :
+              'No se ha invocado la búsqueda de '+ orderTypeConfig.orderNamePlural + '.'}}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          [class.row-selected]="row.uid === selectedUID"></tr>
+        <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
+          [hidden]="dataSource.data.length > 0"></tr>
+
+      </table>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

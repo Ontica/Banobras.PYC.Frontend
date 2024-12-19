@@ -1,0 +1,190 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section form-container">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+      <div class="fx-item-half sm-fx-item">
+
+        <label>Área administradora:</label>
+
+        <emp-ng-select
+          formControlName="responsibleUID"
+          [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.responsibleUID)"
+          placeholder="Todas">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-sixth sm-fx-item">
+
+        <label>Estado:</label>
+
+        <emp-ng-select
+          formControlName="status"
+          [config]="{clearable: true}"
+          [items]="statusList"
+          [showError]="formHelper.isControlInvalid(form.controls.status)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item fx-items-end sm-fx-item">
+
+        <div class="input-search-container">
+
+          <input type="text" class="text-box" name="keywords"
+            placeholder="Buscar..."
+            formControlName="keywords"
+            (keyup.enter)="onSearchClicked()"
+            (keyup.escape)="form.controls.keywords.reset()">
+
+        </div>
+
+      </div>
+
+
+      <div #filterOptionsSection class="fx-item-none fx-items-start" [style.paddingTop.px]="13">
+
+        <button title="Buscar"
+          [class.btn-icon-action]="this.form.valid"
+          [class.btn-icon]="!this.form.valid"
+          (click)="onSearchClicked()">
+
+          <mat-icon>search</mat-icon>
+
+        </button>
+
+        <mat-divider vertical="true" class="vertical-slim">
+
+        </mat-divider>
+
+        <button class="btn-base btn-filter-options"
+          (click)="onShowFiltersClicked()" >
+          {{showFilters ? 'Ocultar' :'Mostrar'}} <mat-icon>filter_list</mat-icon>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="showFilters" [@empExpandCollapse]>
+
+      <div class="fx-column-container fx-gap-half">
+
+        <mat-divider class="horizontal-md">
+
+        </mat-divider>
+
+        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+          <div class="fx-item-half sm-fx-item">
+
+            <label>Categoría:</label>
+
+            <emp-ng-select
+              formControlName="categoryUID"
+              [config]="{clearable: true}"
+              [items]="categoriesList"
+              [loading]="isLoading"
+              [showError]="formHelper.isControlInvalid(form.controls.categoryUID)"
+              placeholder="Todas">
+            </emp-ng-select>
+
+          </div>
+
+          <div class="fx-item-quarter sm-fx-item">
+
+            <label>Número de {{orderTypeConfig.orderNameSingular}}:</label>
+
+            <input type="text" class="text-box"
+              formControlName="orderNo"
+              [class.invalid-control]="formHelper.isControlInvalid(form.controls.orderNo)">
+
+          </div>
+
+          <div class="fx-item-quarter sm-fx-item">
+
+            <label>Prioridad:</label>
+
+            <emp-ng-select
+              formControlName="priority"
+              [config]="{clearable: true}"
+              [items]="priorityList"
+              [loading]="isLoading"
+              [showError]="formHelper.isControlInvalid(form.controls.priority)"
+              placeholder="Todas">
+            </emp-ng-select>
+
+          </div>
+
+        </div>
+
+        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+          <div class="fx-item-half sm-fx-item">
+
+            <label>Proveedor:</label>
+
+            <emp-ng-select-typeahead
+              formControlName="providerUID"
+              [config]="{ clearable: true }"
+              [searcherAPI]="suppliersAPI"
+              [initialValue]="selectedSupplier"
+              (changes)="onSupplierChanges($event)"
+              placeholder="Todos">
+
+            </emp-ng-select-typeahead>
+
+          </div>
+
+          <div class="fx-item-half sm-fx-item">
+
+            <label>Proyecto:</label>
+
+            <emp-ng-select-typeahead
+              formControlName="projectUID"
+              [config]="{ clearable: true }"
+              [searcherAPI]="projectsAPI"
+              [initialValue]="selectedProject"
+              (changes)="onProjectChanges($event)"
+              placeholder="Todos">
+
+            </emp-ng-select-typeahead>
+
+          </div>
+
+        </div>
+
+        <mat-divider class="horizontal-slim">
+
+        </mat-divider>
+
+        <div class="fx-row-container fx-end fx-items-end">
+
+          <mat-divider vertical="true" class="vertical-inline">
+
+          </mat-divider>
+
+          <div class="fx-item-none">
+
+            <button class="btn-base btn-filter-options"
+              (click)="onClearFilters()">
+              Limpiar <mat-icon>filter_list</mat-icon>
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

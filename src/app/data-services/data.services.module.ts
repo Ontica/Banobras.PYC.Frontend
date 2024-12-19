@@ -13,9 +13,9 @@ import { SearcherDataService } from './_searcher.data.service';
 
 import { BillsDataService } from './bills.data.service';
 
-import { BudgetTransactionsDataService } from './budget-transactions.data.service';
-
 import { BudgetsDataService } from './budgets.data.service';
+
+import { BudgetTransactionsDataService } from './budget-transactions.data.service';
 
 import { CataloguesDataService } from './catalogues.data.service';
 
@@ -23,9 +23,11 @@ import { ContractsDataService } from './contracts.data.service';
 
 import { DocumentsDataService } from './documents.data.service';
 
+import { FixedAssetsDataService } from './fixed-assets.data.service';
+
 import { FixedAssetTransactionsDataService } from './fixed-asset-transactions.data.service';
 
-import { FixedAssetsDataService } from './fixed-assets.data.service';
+import { OrdersDataService } from './orders.data.service';
 
 import { PayablesDataService } from './payables.data.service';
 
@@ -37,19 +39,21 @@ import { RequestsDataService } from './requests.data.service';
 
 import { StepsDataService } from './steps.data.service';
 
+
 @NgModule({
 
   providers: [
     AccessControlDataService,
     SearcherDataService,
     BillsDataService,
-    BudgetTransactionsDataService,
     BudgetsDataService,
+    BudgetTransactionsDataService,
     CataloguesDataService,
     ContractsDataService,
     DocumentsDataService,
-    FixedAssetTransactionsDataService,
     FixedAssetsDataService,
+    FixedAssetTransactionsDataService,
+    OrdersDataService,
     PayablesDataService,
     PaymentOrdersDataService,
     ProductsDataService,

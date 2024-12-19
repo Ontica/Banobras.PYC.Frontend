@@ -1,0 +1,19 @@
+<emp-ng-spinner #spinner [visible]="isLoadingSelection">
+
+</emp-ng-spinner>
+
+<div class="explorer">
+
+  <emp-ng-orders-explorer
+    class="primary"
+    [orderTypeConfig]="orderTypeConfig"
+    [query]="query"
+    [dataList]="dataList"
+    [selectedUID]="selectedData.order.uid"
+    [isLoading]="isLoading"
+    [queryExecuted]="queryExecuted"
+    (ordersExplorerEvent)="onOrdersExplorerEvent($event)">
+
+  </emp-ng-orders-explorer>
+
+</div>
