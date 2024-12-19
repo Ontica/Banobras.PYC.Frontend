@@ -37,6 +37,12 @@ export function isEntityStatusInWarning(statusName: string): boolean {
 }
 
 
+export enum ExplorerOperationType {
+  excel  = 'excel',
+  print  = 'print',
+  delete = 'delete',
+}
+
 export interface ExplorerOperation extends Identifiable {
   uid: string;
   name: string;

@@ -9,7 +9,7 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { DataField, InputData } from './_dynamic-form-fields';
 
-import { ExplorerOperation } from './_explorer-data';
+import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
 import { EmptyWorkflowActions, WorkflowActions, WorkflowInstance } from './workflows';
 
@@ -65,27 +65,20 @@ export interface RequestType extends Identifiable {
 };
 
 
-export enum RequestsOperationType {
-  excel  = 'excel',
-  print  = 'print',
-  delete = 'delete',
-}
-
-
 export const RequestsOperationList: ExplorerOperation[] = [
   {
-    uid: RequestsOperationType.excel,
+    uid: ExplorerOperationType.excel,
     name: 'Exportar'
   },
   {
-    uid: RequestsOperationType.print,
+    uid: ExplorerOperationType.print,
     name: 'Imprimir',
     showConfirm: true,
     confirmOperationMessage: 'imprimirá',
     confirmQuestionMessage: 'Imprimo'
   },
   {
-    uid: RequestsOperationType.delete,
+    uid: ExplorerOperationType.delete,
     name: 'Eliminar',
     showConfirm: true,
     isConfirmWarning: true,
@@ -93,7 +86,6 @@ export const RequestsOperationList: ExplorerOperation[] = [
     confirmQuestionMessage: 'Elimino'
   },
 ];
-
 
 export interface RequestData {
   request: Request;

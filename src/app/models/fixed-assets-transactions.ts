@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { ExplorerOperation } from './_explorer-data';
+import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
 import { Document } from './documents';
 
@@ -122,27 +122,21 @@ export interface FixedAssetTransaction {
   status: Identifiable;
 }
 
-export enum FixedAssetTransactionsOperationType {
-  excel  = 'excel',
-  print  = 'print',
-  delete = 'delete',
-}
-
 
 export const FixedAssetTransactionsOperationsList: ExplorerOperation[] = [
   {
-    uid: FixedAssetTransactionsOperationType.excel,
+    uid: ExplorerOperationType.excel,
     name: 'Exportar'
   },
   {
-    uid: FixedAssetTransactionsOperationType.print,
+    uid: ExplorerOperationType.print,
     name: 'Imprimir',
     showConfirm: true,
     confirmOperationMessage: 'imprimirá',
     confirmQuestionMessage: 'Imprimo'
   },
   {
-    uid: FixedAssetTransactionsOperationType.delete,
+    uid: ExplorerOperationType.delete,
     name: 'Eliminar',
     showConfirm: true,
     isConfirmWarning: true,

@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { ExplorerOperation } from './_explorer-data';
+import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
 import { Bill } from './bills';
 
@@ -54,13 +54,6 @@ export const PayableStatusList: Identifiable<PayablesStatus>[] = [
   { uid: PayablesStatus.Payed,     name: 'Pagado' },
   { uid: PayablesStatus.Deleted,   name: 'Eliminado' },
 ];
-
-
-export enum PayablesOperationType {
-  excel  = 'excel',
-  print  = 'print',
-  delete = 'delete',
-}
 
 
 export interface PayableDescriptor {
@@ -160,18 +153,18 @@ export interface PayableEntityItem {
 
 export const PayablesOperationsList: ExplorerOperation[] = [
   {
-    uid: PayablesOperationType.excel,
+    uid: ExplorerOperationType.excel,
     name: 'Exportar'
   },
   {
-    uid: PayablesOperationType.print,
+    uid: ExplorerOperationType.print,
     name: 'Imprimir',
     showConfirm: true,
     confirmOperationMessage: 'imprimirá',
     confirmQuestionMessage: 'Imprimo'
   },
   {
-    uid: PayablesOperationType.delete,
+    uid: ExplorerOperationType.delete,
     name: 'Eliminar',
     showConfirm: true,
     isConfirmWarning: true,

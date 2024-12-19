@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { ExplorerOperation } from './_explorer-data';
+import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
 import { Bill } from './bills';
 
@@ -130,27 +130,20 @@ export interface PaymentOrderActions {
 }
 
 
-export enum PaymentsOrdersOperationType {
-  excel  = 'excel',
-  print  = 'print',
-  delete = 'delete',
-}
-
-
 export const PaymentsOrdersOperationsList: ExplorerOperation[] = [
   {
-    uid: PaymentsOrdersOperationType.excel,
+    uid: ExplorerOperationType.excel,
     name: 'Exportar'
   },
   {
-    uid: PaymentsOrdersOperationType.print,
+    uid: ExplorerOperationType.print,
     name: 'Imprimir',
     showConfirm: true,
     confirmOperationMessage: 'imprimirá',
     confirmQuestionMessage: 'Imprimo'
   },
   {
-    uid: PaymentsOrdersOperationType.delete,
+    uid: ExplorerOperationType.delete,
     name: 'Eliminar',
     showConfirm: true,
     isConfirmWarning: true,

@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { EntityStatus, ExplorerOperation } from './_explorer-data';
+import { EntityStatus, ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
 
 export interface ProductsQuery {
@@ -110,14 +110,9 @@ export interface ProductSearch {
 }
 
 
-export enum ProductsOperationType {
-  excel  = 'excel',
-}
-
-
 export const ProductsOperationsList: ExplorerOperation[] = [
   {
-    uid: ProductsOperationType.excel,
+    uid: ExplorerOperationType.excel,
     name: 'Exportar'
   },
 ];

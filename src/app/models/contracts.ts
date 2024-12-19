@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { EntityStatus, ExplorerOperation } from './_explorer-data';
+import { EntityStatus, ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
 import { Document } from './documents';
 
@@ -61,27 +61,20 @@ export interface ContractFields {
 }
 
 
-export enum ContractsOperationType {
-  excel  = 'excel',
-  print  = 'print',
-  delete = 'delete',
-}
-
-
 export const ContractsOperationsList: ExplorerOperation[] = [
   {
-    uid: ContractsOperationType.excel,
+    uid: ExplorerOperationType.excel,
     name: 'Exportar'
   },
   {
-    uid: ContractsOperationType.print,
+    uid: ExplorerOperationType.print,
     name: 'Imprimir',
     showConfirm: true,
     confirmOperationMessage: 'imprimirá',
     confirmQuestionMessage: 'Imprimo'
   },
   {
-    uid: ContractsOperationType.delete,
+    uid: ExplorerOperationType.delete,
     name: 'Eliminar',
     showConfirm: true,
     isConfirmWarning: true,
