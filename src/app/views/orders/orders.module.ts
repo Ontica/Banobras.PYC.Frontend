@@ -21,6 +21,9 @@ import { OrdersExplorerComponent } from './orders-explorer/orders-explorer.compo
 import { OrdersFilterComponent } from './orders-explorer/orders-filter.component';
 import { OrdersDataComponent } from './orders-explorer/orders-data.component';
 import { OrderTabbedViewComponent } from './order-tabbed-view/order-tabbed-view.component';
+import { OrderHeaderComponent } from './order/order-header.component';
+import { OrderCreatorComponent } from './order/order-creator.component';
+import { OrderEditorComponent } from './order/order-editor.component';
 
 
 @NgModule({
@@ -42,6 +45,9 @@ import { OrderTabbedViewComponent } from './order-tabbed-view/order-tabbed-view.
     OrdersFilterComponent,
     OrdersDataComponent,
     OrderTabbedViewComponent,
+    OrderHeaderComponent,
+    OrderCreatorComponent,
+    OrderEditorComponent,
   ],
   exports: [
     OrdersMainPageComponent,

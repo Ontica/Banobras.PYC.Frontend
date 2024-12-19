@@ -118,7 +118,18 @@ export interface OrderDescriptor {
 
 
 export interface OrderFields {
-
+  orderTypeUID: string;
+  categoryUID: string;
+  priority: Priority;
+  responsibleUID: string;
+  beneficiaryUID: string;
+  requestedByUID: string;
+  providerUID: string;
+  isForMultipleBeneficiaries: boolean;
+  projectUID: string;
+  identificators: string[];
+  tags: string[];
+  description: string;
 }
 
 

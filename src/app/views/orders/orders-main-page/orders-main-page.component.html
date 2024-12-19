@@ -26,3 +26,9 @@
   </emp-ng-order-tabbed-view>
 
 </div>
+
+<emp-ng-order-creator *ngIf="displayCreator"
+  [config]="config"
+  (orderCreatorEvent)="onOrderCreatorEvent($event)">
+
+</emp-ng-order-creator>

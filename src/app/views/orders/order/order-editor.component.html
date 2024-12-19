@@ -1,0 +1,18 @@
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="section-title"> Información general de {{config.orderPronounSingular}} {{config.orderNameSingular}}</div>
+
+  <emp-ng-order-header
+    [config]="config"
+    [isSaved]="isSaved"
+    [order]="order"
+    [actions]="actions"
+    (orderHeaderEvent)="onOrderHeaderEvent($event)">
+
+  </emp-ng-order-header>
+
+</div>

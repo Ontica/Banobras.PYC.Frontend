@@ -1,0 +1,24 @@
+<emp-ng-modal-window [config]="{width:'960px'}">
+
+  <emp-ng-card
+    [title]="'Agregar ' + config.orderNameSingular"
+    [hint]="'Información de ' + config.orderPronounSingular + ' '  + config.orderNameSingular + '.'"
+    (cardClose)="onCloseModalClicked()">
+
+      <div class="card-body-padding" [empNgSpinnerHost]="spinner">
+
+        <emp-ng-spinner #spinner [visible]="submitted">
+
+        </emp-ng-spinner>
+
+        <emp-ng-order-header
+          [config]="config"
+          (orderHeaderEvent)="onOrderHeaderEvent($event)">
+
+        </emp-ng-order-header>
+
+      </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

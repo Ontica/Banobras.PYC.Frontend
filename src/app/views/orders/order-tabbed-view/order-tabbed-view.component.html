@@ -7,9 +7,13 @@
 
     <mat-tab [label]="config.orderNameSingular">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-order-editor
+        [config]="config"
+        [order]="data.order"
+        [actions]="data.actions"
+        (orderEditorEvent)="onOrderEditorEvent($event)">
+
+      </emp-ng-order-editor>
 
     </mat-tab>
 

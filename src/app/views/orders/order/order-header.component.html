@@ -1,0 +1,297 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Categoría:</label>
+
+        <emp-ng-select
+          formControlName="categoryUID"
+          [items]="categoriesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.categoryUID)">
+        </emp-ng-select>
+
+      </div>
+
+
+      <div class="fx-item-half">
+
+        <label>Prioridad:</label>
+
+        <emp-ng-select
+          formControlName="priority"
+          [items]="prioritiesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.priority)">
+          <ng-template #optionTemplate let-item="item">
+            <div [style.width.%]="100"
+              [ngClass]="{'Default':    item.uid === Priority.Low,
+                          'Verde':      item.uid === Priority.Normal,
+                          'Secundario': item.uid === Priority.High,
+                          'Terciario':  item.uid === Priority.Urgent}">
+              {{item.name}}
+            </div>
+          </ng-template>
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Área administradora:</label>
+
+        <emp-ng-select
+          formControlName="responsibleUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.responsibleUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Área beneficiaria:</label>
+
+        <emp-ng-select
+          formControlName="beneficiaryUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.beneficiaryUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Área solicitante:</label>
+
+        <emp-ng-select
+          formControlName="requestedByUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half" [style.margin-top.px]="12">
+
+        <mat-checkbox empNgStopPropagation
+          formControlName="isForMultipleBeneficiaries">
+          Sobre múltiples áreas beneficiarias
+        </mat-checkbox>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Proveedor:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="providerUID"
+          [config]="{ showTooltip: true, clearable: !form.value.providerUID }"
+          [searcherAPI]="suppliersAPI"
+          [initialValue]="isSaved ? order.provider : null"
+          [showError]="formHelper.isControlInvalid(form.controls.providerUID)">
+
+        </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Proyecto:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="projectUID"
+          [config]="{ showTooltip: true }"
+          [searcherAPI]="projectsAPI"
+          [initialValue]="isSaved ? order.project : null"
+          [showError]="formHelper.isControlInvalid(form.controls.projectUID)">
+
+        </emp-ng-select-typeahead>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container" *ngIf="isPayableOrder">
+
+      <div class="fx-item-half">
+
+        <label>Tipo de presupuesto:</label>
+
+        <emp-ng-select
+          formControlName="budgetTypeUID"
+          [items]="budgetTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
+          (changes)="onBudgetTypeChanged($event)">
+        </emp-ng-select>
+
+      </div>
+
+
+      <div class="fx-item-quarter">
+
+        <label>Presupuesto:</label>
+
+        <emp-ng-select
+          formControlName="budgetUID"
+          [items]="budgetsList"
+          [loading]="isLoading"
+          [placeholder]="form.controls.budgetTypeUID.invalid ? 'Seleccione el tipo de presupuesto' : 'Seleccionar'"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Moneda:</label>
+
+        <emp-ng-select
+          formControlName="currencyUID"
+          [items]="currenciesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Otras claves:</label>
+        <emp-ng-input-tags
+          formControlName="identificators"
+          [showError]="formHelper.isControlInvalid(form.controls.identificators)">
+
+        </emp-ng-input-tags>
+
+      </div>
+
+
+      <div class="fx-item-half">
+
+        <label>Palabras de búsqueda adicionales:</label>
+        <emp-ng-input-tags
+          formControlName="tags"
+          [showError]="formHelper.isControlInvalid(form.controls.tags)">
+
+        </emp-ng-input-tags>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canDelete"
+            type="button" class="btn-warning"
+            (click)="onDeleteButtonClicked()">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode && hasActions"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canUpdate"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>

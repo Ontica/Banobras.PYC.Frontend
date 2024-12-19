@@ -25,6 +25,8 @@ import { OrderHolder, OrderDescriptor, OrdersQuery, EmptyOrderHolder, EmptyOrder
          mapOrderDescriptorFromOrder, ObjectTypes, OrderTypeConfig, EmptyOrderTypeConfig, getOrderTypeConfig,
          Order, mapPayableOrderDescriptorFromPayableOrder, PayableOrder } from '@app/models';
 
+import { OrderCreatorEventType } from '../order/order-creator.component';
+
 import { OrdersExplorerEventType } from '../orders-explorer/orders-explorer.component';
 
 import { OrderTabbedViewEventType } from '../order-tabbed-view/order-tabbed-view.component';
@@ -74,11 +76,27 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
   }
 
 
+  onOrderCreatorEvent(event: EventInfo) {
+    switch (event.type as OrderCreatorEventType) {
+      case OrderCreatorEventType.CLOSE_MODAL_CLICKED:
+        this.displayCreator = false;
+        return;
+      case OrderCreatorEventType.CREATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.displayCreator = false;
+        this.resolveOrderChange(event.payload.data as OrderHolder);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   onOrdersExplorerEvent(event: EventInfo) {
     switch (event.type as OrdersExplorerEventType) {
       case OrdersExplorerEventType.CREATE_CLICKED:
         this.displayCreator = true;
-        this.messageBox.showInDevelopment('Agregar ' + this.orderTypeConfig.orderNameSingular, event.payload);
         return;
       case OrdersExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');

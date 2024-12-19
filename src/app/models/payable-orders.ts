@@ -13,7 +13,9 @@ import { Document } from './documents';
 
 import { History } from './history';
 
-import { Order, OrderActions, OrderDescriptor, OrderHolder, OrderItem } from './orders';
+import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem } from './orders';
+
+import { Priority } from './steps';
 
 
 export interface PayableOrderDescriptor extends OrderDescriptor {
@@ -21,6 +23,25 @@ export interface PayableOrderDescriptor extends OrderDescriptor {
   budgetName: string;
   currencyName: string;
   total: number;
+}
+
+
+export interface PayableOrderFields extends OrderFields {
+  orderTypeUID: string;
+  categoryUID: string;
+  description: string;
+  identificators: string[];
+  tags: string[];
+  responsibleUID: string;
+  beneficiaryUID: string;
+  isForMultipleBeneficiaries: boolean;
+  providerUID: string;
+  requestedByUID: string;
+  projectUID: string;
+  priority: Priority;
+  budgetUID: string;
+  currencyUID: string;
+  // contractUID: string; // ????
 }
 
 
