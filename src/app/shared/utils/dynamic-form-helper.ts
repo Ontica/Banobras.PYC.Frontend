@@ -5,9 +5,9 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { FormFieldData, InputData, DataField } from "@app/models";
+import { FormFieldData, InputData, DataField } from '@app/models';
 
 
 export class DynamicFormHelper {

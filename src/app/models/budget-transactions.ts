@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { ExplorerOperation } from './_explorer-data';
+import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
 import { Document } from './documents';
 
@@ -149,27 +149,20 @@ export interface TransactionActions {
 }
 
 
-export enum BudgetTransactionsOperationType {
-  excel  = 'excel',
-  print  = 'print',
-  delete = 'delete',
-}
-
-
 export const BudgetTransactionsOperationsList: ExplorerOperation[] = [
   {
-    uid: BudgetTransactionsOperationType.excel,
+    uid: ExplorerOperationType.excel,
     name: 'Exportar'
   },
   {
-    uid: BudgetTransactionsOperationType.print,
+    uid: ExplorerOperationType.print,
     name: 'Imprimir',
     showConfirm: true,
     confirmOperationMessage: 'imprimirá',
     confirmQuestionMessage: 'Imprimo'
   },
   {
-    uid: BudgetTransactionsOperationType.delete,
+    uid: ExplorerOperationType.delete,
     name: 'Eliminar',
     showConfirm: true,
     isConfirmWarning: true,

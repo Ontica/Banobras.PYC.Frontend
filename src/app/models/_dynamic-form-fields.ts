@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Identifiable } from "@app/core";
+import { Identifiable } from '@app/core';
 
 
 export enum FormFieldDataType {

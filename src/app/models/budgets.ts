@@ -5,9 +5,9 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Identifiable } from "@app/core";
+import { Identifiable } from '@app/core';
 
-import { DataTable, DataTableColumn, DataTableEntry } from "./_data-table";
+import { DataTable, DataTableColumn, DataTableEntry } from './_data-table';
 
 
 export interface BudgetType {
