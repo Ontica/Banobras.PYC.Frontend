@@ -239,7 +239,7 @@ export const DefaultBillsColumns: DataTableColumn[] = [
   },
   {
     field: 'statusName',
-    title: 'Estatus',
+    title: 'Estado',
     type: DataTableColumnType.text_tag,
   },
 ];
