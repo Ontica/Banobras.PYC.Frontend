@@ -19,9 +19,14 @@
 
     <mat-tab label="Conceptos">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-order-items-edition
+        [config]="config"
+        [order]="data.order"
+        [items]="data.items"
+        [canEdit]="data.actions.canEditItems"
+        (orderItemsEditionEvent)="onOrderItemsEditionEvent($event)">
+
+      </emp-ng-order-items-edition>
 
     </mat-tab>
 

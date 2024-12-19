@@ -47,7 +47,7 @@ export interface PayableOrderFields extends OrderFields {
 
 export interface PayableOrderHolder extends OrderHolder {
   order: PayableOrder;
-  items: OrderItem[];
+  items: PayableOrderItem[];
   documents: Document[];
   history: History[];
   budgetTransactions: BudgetTransactionDescriptor[];
@@ -60,6 +60,21 @@ export interface PayableOrder extends Order {
   budget: Identifiable;
   currency: Identifiable;
   total: number;
+}
+
+
+export interface PayableOrderItem extends OrderItem {
+  uid: string;
+  order: Identifiable;
+  orderType: Identifiable;
+  product: Identifiable;
+  budgetAccount: Identifiable;
+  productUnit: Identifiable;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+  description: string;
+  status: Identifiable;
 }
 
 

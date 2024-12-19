@@ -173,7 +173,14 @@ export interface OrderItemFields {
 
 
 export interface OrderItem {
-
+  uid: string;
+  order: Identifiable;
+  orderType: Identifiable;
+  description: string;
+  product: Identifiable;
+  productUnit: Identifiable;
+  quantity: number;
+  status: Identifiable;
 }
 
 
@@ -221,6 +228,18 @@ export const EmptyOrder: Order = {
   authorizedBy: Empty,
   closingTime: '',
   closedBy: Empty,
+  status: Empty,
+}
+
+
+export const EmptyOrderItem: OrderItem = {
+  uid: '',
+  order: Empty,
+  orderType: Empty,
+  description: '',
+  product: Empty,
+  productUnit: Empty,
+  quantity: null,
   status: Empty,
 }
 

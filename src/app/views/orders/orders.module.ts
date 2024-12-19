@@ -24,6 +24,8 @@ import { OrderTabbedViewComponent } from './order-tabbed-view/order-tabbed-view.
 import { OrderHeaderComponent } from './order/order-header.component';
 import { OrderCreatorComponent } from './order/order-creator.component';
 import { OrderEditorComponent } from './order/order-editor.component';
+import { OrderItemsEditionComponent } from './order-items/order-items-edition.component';
+import { OrderItemsTableComponent } from './order-items/order-items-table.component';
 
 
 @NgModule({
@@ -48,6 +50,8 @@ import { OrderEditorComponent } from './order/order-editor.component';
     OrderHeaderComponent,
     OrderCreatorComponent,
     OrderEditorComponent,
+    OrderItemsEditionComponent,
+    OrderItemsTableComponent,
   ],
   exports: [
     OrdersMainPageComponent,

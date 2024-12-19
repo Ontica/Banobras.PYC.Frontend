@@ -16,6 +16,8 @@ import { OrderHolder, EmptyOrderHolder, OrderTypeConfig, EmptyOrderTypeConfig, O
 
 import { OrderEditorEventType } from '../order/order-editor.component';
 
+import { OrderItemsEditionEventType } from '../order-items/order-items-edition.component';
+
 import { BudgetManagementEventType } from '@app/views/budgeting/budget-management/budget-management.component';
 
 import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
@@ -82,6 +84,19 @@ export class OrderTabbedViewComponent implements OnChanges {
         Assertion.assertValue(event.payload.orderUID, 'event.payload.orderUID');
         sendEvent(this.orderTabbedViewEvent,
           OrderTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onOrderItemsEditionEvent(event: EventInfo) {
+    switch (event.type as OrderItemsEditionEventType) {
+      case OrderItemsEditionEventType.ITEMS_UPDATED:
+        Assertion.assertValue(event.payload.orderUID, 'event.payload.orderUID');
+        sendEvent(this.orderTabbedViewEvent, OrderTabbedViewEventType.REFRESH_DATA, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
