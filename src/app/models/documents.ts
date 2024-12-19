@@ -13,7 +13,7 @@ import { FileType } from '@app/shared/form-controls/file-control/file-control-da
 
 
 export type DocumentsEntityTypes = 'bills' | 'contracts' | 'fixed-assets' |'payables' | 'payments-orders' |
-  'requests' | 'budget-transactions' | 'fixed-asset-transactions';
+  'requests' | 'orders' | 'budget-transactions' | 'fixed-asset-transactions';
 
 
 export interface Document {
@@ -62,6 +62,7 @@ export function getEntityModule(entityType: DocumentsEntityTypes): string {
     case 'payables': return 'v2/payments-management/payables';
     case 'payments-orders': return 'v2/payments-management/payment-orders';
     case 'requests': return 'v4/requests';
+    case 'orders': return 'v8/order-management/orders';
     case 'budget-transactions': return 'v2/budgeting/transactions';
     case 'fixed-asset-transactions': return 'v2/fixed-assets/transactions';
     default: return '';

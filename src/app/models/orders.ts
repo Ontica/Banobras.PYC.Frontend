@@ -17,6 +17,8 @@ import { Priority } from './steps';
 
 import { RequestsList } from './requests';
 
+import { BudgetTransactionDescriptor } from './budget-transactions';
+
 import { ObjectTypes } from './object-types';
 
 
@@ -123,6 +125,7 @@ export interface OrderFields {
 export interface OrderHolder {
   order: Order;
   items: OrderItem[];
+  budgetTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
   history: History[];
   actions: OrderActions;
@@ -165,8 +168,12 @@ export interface OrderItem {
 
 export interface OrderActions {
   canUpdate: boolean;
-  canDelete: boolean;
   canEditDocuments: boolean;
+  canDelete: boolean;
+  canActivate: boolean;
+  canSuspend: boolean;
+  canEditItems: boolean;
+  canRequestBudget: boolean;
 }
 
 
@@ -210,13 +217,18 @@ export const EmptyOrder: Order = {
 export const EmptyOrderActions: OrderActions = {
   canUpdate: false,
   canDelete: false,
+  canEditItems: false,
+  canRequestBudget: false,
   canEditDocuments: false,
+  canActivate: false,
+  canSuspend: false,
 };
 
 
 export const EmptyOrderHolder: OrderHolder = {
   order: EmptyOrder,
   items: [],
+  budgetTransactions: [],
   documents: [],
   history: [],
   actions: EmptyOrderActions,

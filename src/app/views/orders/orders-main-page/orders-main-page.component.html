@@ -6,6 +6,7 @@
 
   <emp-ng-orders-explorer
     class="primary"
+    [class.std-hide]="displayTabbedView"
     [config]="config"
     [query]="query"
     [dataList]="dataList"
@@ -15,5 +16,13 @@
     (ordersExplorerEvent)="onOrdersExplorerEvent($event)">
 
   </emp-ng-orders-explorer>
+
+  <emp-ng-order-tabbed-view *ngIf="displayTabbedView"
+    class="secondary priority"
+    [config]="config"
+    [data]="selectedData"
+    (orderTabbedViewEvent)="onOrderTabbedViewEvent($event)">
+
+  </emp-ng-order-tabbed-view>
 
 </div>

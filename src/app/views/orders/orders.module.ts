@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
+import { BudgetingModule } from '../budgeting/budgeting.module';
 import { DocumentsModule } from '../documents/documents.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
@@ -19,6 +20,7 @@ import { OrdersMainPageComponent } from './orders-main-page/orders-main-page.com
 import { OrdersExplorerComponent } from './orders-explorer/orders-explorer.component';
 import { OrdersFilterComponent } from './orders-explorer/orders-filter.component';
 import { OrdersDataComponent } from './orders-explorer/orders-data.component';
+import { OrderTabbedViewComponent } from './order-tabbed-view/order-tabbed-view.component';
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { OrdersDataComponent } from './orders-explorer/orders-data.component';
     AngularMaterialModule,
     SharedModule,
 
+    BudgetingModule,
     DocumentsModule,
     ReportsControlsModule,
   ],
@@ -38,6 +41,7 @@ import { OrdersDataComponent } from './orders-explorer/orders-data.component';
     OrdersExplorerComponent,
     OrdersFilterComponent,
     OrdersDataComponent,
+    OrderTabbedViewComponent,
   ],
   exports: [
     OrdersMainPageComponent,

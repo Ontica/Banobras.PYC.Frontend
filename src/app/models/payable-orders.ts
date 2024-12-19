@@ -43,10 +43,7 @@ export interface PayableOrder extends Order {
 
 
 export interface PayableOrderActions extends OrderActions {
-  canUpdate: boolean;
-  canDelete: boolean;
-  canEditDocuments: boolean;
-  canRequestBudget: boolean;
+
 }
 
 

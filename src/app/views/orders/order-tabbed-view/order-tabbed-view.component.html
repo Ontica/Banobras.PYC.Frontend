@@ -1,0 +1,66 @@
+<emp-ng-card
+  [title]="title + status"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab [label]="config.orderNameSingular">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Conceptos">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Presupuesto">
+
+      <ng-template matTabContent>
+
+        <emp-bdg-budget-management
+          [baseObjectType]="config.orderType"
+          [baseObjectUID]="data.order.uid"
+          [baseObjectName]="title"
+          [budgetTotal]="orderTotal"
+          [budgetTransactions]="data.budgetTransactions"
+          [canRequest]="data.actions.canRequestBudget"
+          (budgetManagementEvent)="onBudgetManagementEvent($event)">
+
+        </emp-bdg-budget-management>
+
+      </ng-template>
+
+    </mat-tab>
+
+    <mat-tab label="Documentos">
+
+      <emp-ng-documents-edition
+        entityType="orders"
+        [entityUID]="data.order.uid"
+        [documents]="data.documents"
+        [canEdit]="data.actions.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+
+      </emp-ng-documents-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Historial">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

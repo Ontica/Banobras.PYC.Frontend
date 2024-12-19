@@ -27,6 +27,8 @@ import { OrderHolder, OrderDescriptor, OrdersQuery, EmptyOrderHolder, EmptyOrder
 
 import { OrdersExplorerEventType } from '../orders-explorer/orders-explorer.component';
 
+import { OrderTabbedViewEventType } from '../order-tabbed-view/order-tabbed-view.component';
+
 
 @Component({
   selector: 'emp-ng-orders-main-page',
@@ -95,6 +97,30 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
       case OrdersExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         this.messageBox.showInDevelopment('Ejecutar operación', event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onOrderTabbedViewEvent(event: EventInfo) {
+    switch (event.type as OrderTabbedViewEventType) {
+      case OrderTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyOrderHolder);
+        return;
+      case OrderTabbedViewEventType.DATA_UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.resolveOrderChange(event.payload.data as OrderHolder);
+        return;
+      case OrderTabbedViewEventType.DATA_DELETED:
+        Assertion.assertValue(event.payload.orderUID, 'event.payload.orderUID');
+        this.resolveOrderDeleted(event.payload.orderUID);
+        return;
+      case OrderTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.orderUID, 'event.payload.orderUID');
+        this.refreshSelectedData(event.payload.orderUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -202,7 +228,6 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
   private removeItemFromList(orderUID: string) {
     const data = this.dataList.filter(x => x.uid !== orderUID);
     this.setDataList(data);
-    this.setSelectedData(EmptyOrderHolder);
   }
 
 
