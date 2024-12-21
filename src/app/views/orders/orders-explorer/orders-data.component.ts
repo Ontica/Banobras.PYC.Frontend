@@ -100,7 +100,7 @@ export class OrdersDataComponent implements OnChanges {
 
 
   private resetColumns() {
-    if (this.config.orderType === ObjectTypes.PayableOrder) {
+    if (this.config.orderType === ObjectTypes.CONTRACT_ORDER) {
       this.displayedColumns = ['check', 'order', 'manager', 'especif', 'status'];
       return;
     }

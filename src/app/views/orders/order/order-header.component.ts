@@ -137,7 +137,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   get isPayableOrder(): boolean {
-    return this.config.orderType === ObjectTypes.PayableOrder;
+    return this.config.orderType === ObjectTypes.CONTRACT_ORDER;
   }
 
 
@@ -291,10 +291,9 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   private validateGetOrderFields(): OrderFields {
     switch (this.config.orderType) {
-      case ObjectTypes.PayableOrder:
-      case ObjectTypes.MinorPurchase:
-      case ObjectTypes.Expense:
-        return this.isPayableOrder ? this.getPayableOrderFields() : this.getOrderFields();
+      case ObjectTypes.CONTRACT_ORDER:
+      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.EXPENSE:
       default:
         throw Assertion.assertNoReachThisCode(`Unhandled order type: ${this.config.orderType}.`);
     }

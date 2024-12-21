@@ -60,7 +60,7 @@ export class OrderTabbedViewComponent implements OnChanges {
 
   get orderTotal(): number {
     switch (this.config.orderType) {
-      case ObjectTypes.PayableOrder:
+      case ObjectTypes.CONTRACT_ORDER:
         return (this.data.order as PayableOrder).total ?? null;
       default:
         return null;

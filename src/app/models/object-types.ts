@@ -6,8 +6,8 @@
  */
 
 export enum ObjectTypes {
-  Contract      = 'ObjectTypeInfo.Contract.Procurement',
-  PayableOrder  = 'ObjectTypeInfo.Order.PayableOrder.ContractOrder',
-  MinorPurchase = 'ObjectTypeInfo.Order.PayableOrder.PurchaseOrder',
-  Expense       = 'ObjectTypeInfo.Order.PayableOrder.Expenses',
+  CONTRACT       = 'ObjectTypeInfo.Contract.Procurement',
+  CONTRACT_ORDER = 'ObjectTypeInfo.Order.PayableOrder.ContractOrder',
+  PURCHASE_ORDER = 'ObjectTypeInfo.Order.PayableOrder.PurchaseOrder',
+  EXPENSE        = 'ObjectTypeInfo.Order.PayableOrder.Expenses',
 }

@@ -48,13 +48,13 @@ export class BudgetSubmitterComponent {
 
   get baseObjectTypeName(): string {
     switch (this.baseObjectType) {
-      case ObjectTypes.Contract:
+      case ObjectTypes.CONTRACT:
         return 'CONTRATO';
-      case ObjectTypes.PayableOrder:
+      case ObjectTypes.CONTRACT_ORDER:
         return 'ENTREGA';
-      case ObjectTypes.MinorPurchase:
+      case ObjectTypes.PURCHASE_ORDER:
         return 'COMPRA MENOR';
-      case ObjectTypes.Expense:
+      case ObjectTypes.EXPENSE:
         return 'GASTO O REEMBOLSO';
       default:
         return 'OBJETO INDEFINIDO';

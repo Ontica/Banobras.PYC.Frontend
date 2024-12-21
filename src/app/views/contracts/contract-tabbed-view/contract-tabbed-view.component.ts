@@ -47,7 +47,7 @@ export class ContractTabbedViewComponent implements OnChanges {
 
   selectedTabIndex = 0;
 
-  objectType = ObjectTypes.Contract;
+  objectType = ObjectTypes.CONTRACT;
 
 
   ngOnChanges() {

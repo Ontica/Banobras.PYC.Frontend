@@ -156,13 +156,13 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
   private setRequestsListFromCurrentView(view: View) {
     switch (view.name) {
       case 'Procurement.Milestones':
-        this.config = getOrderTypeConfig(ObjectTypes.PayableOrder)
+        this.config = getOrderTypeConfig(ObjectTypes.CONTRACT_ORDER)
         return;
       case 'Procurement.MinorPurchases':
-        this.config = getOrderTypeConfig(ObjectTypes.MinorPurchase)
+        this.config = getOrderTypeConfig(ObjectTypes.PURCHASE_ORDER)
         return;
       case 'Payments.ExpensesAndReimbursement':
-        this.config = getOrderTypeConfig(ObjectTypes.Expense)
+        this.config = getOrderTypeConfig(ObjectTypes.EXPENSE)
         return;
       default:
         this.config = getOrderTypeConfig(null);
@@ -251,7 +251,7 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
 
   private validateMapOrderDescriptorByType(order: Order): OrderDescriptor {
     switch (this.config.orderType) {
-      case ObjectTypes.PayableOrder:
+      case ObjectTypes.CONTRACT_ORDER:
         return mapPayableOrderDescriptorFromPayableOrder(order as PayableOrder);
       default:
         return mapOrderDescriptorFromOrder(order);

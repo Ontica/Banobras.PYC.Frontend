@@ -70,17 +70,17 @@
 
             <container-element [ngSwitch]="config.orderType">
 
-              <ng-container *ngSwitchCase="OrderType.PayableOrder">
+              <ng-container *ngSwitchCase="OrderType.CONTRACT_ORDER">
                 Presupuesto <br>
                 Total <br>
                 Moneda
               </ng-container>
 
-              <ng-container *ngSwitchCase="OrderType.MinorPurchase">
+              <ng-container *ngSwitchCase="OrderType.PURCHASE_ORDER">
 
               </ng-container>
 
-              <ng-container *ngSwitchCase="OrderType.Expense">
+              <ng-container *ngSwitchCase="OrderType.EXPENSE">
 
               </ng-container>
 
@@ -95,17 +95,17 @@
 
             <container-element [ngSwitch]="config.orderType">
 
-              <ng-container *ngSwitchCase="OrderType.PayableOrder">
+              <ng-container *ngSwitchCase="OrderType.CONTRACT_ORDER">
                 <div class="text-highlight">{{row.budgetName}}</div>
                 <div class="bold-text">{{row.total | empDecimal}}</div>
                 <div>{{row.currencyName}}</div>
               </ng-container>
 
-              <ng-container *ngSwitchCase="OrderType.MinorPurchase">
+              <ng-container *ngSwitchCase="OrderType.PURCHASE_ORDER">
 
               </ng-container>
 
-              <ng-container *ngSwitchCase="OrderType.Expense">
+              <ng-container *ngSwitchCase="OrderType.EXPENSE">
 
               </ng-container>
 

@@ -46,9 +46,9 @@ export const EmptyOrderTypeConfig: OrderTypeConfig = {
 
 export function getOrderTypeConfig(orderType: ObjectTypes): OrderTypeConfig {
   switch (orderType) {
-    case ObjectTypes.PayableOrder:
+    case ObjectTypes.CONTRACT_ORDER:
       return {
-        orderType: ObjectTypes.PayableOrder,
+        orderType,
         orderNameSingular: 'entrega',
         orderNamePlural: 'entregas',
         orderPronounSingular: 'la',
@@ -56,9 +56,9 @@ export function getOrderTypeConfig(orderType: ObjectTypes): OrderTypeConfig {
         selectionMessage: 'seleccionadas',
         requestsList: RequestsList.contracts,
       };
-    case ObjectTypes.MinorPurchase:
+    case ObjectTypes.PURCHASE_ORDER:
       return {
-        orderType: ObjectTypes.MinorPurchase,
+        orderType,
         orderNameSingular: 'compra menor',
         orderNamePlural: 'compras menores',
         orderPronounSingular: 'la',
@@ -66,9 +66,9 @@ export function getOrderTypeConfig(orderType: ObjectTypes): OrderTypeConfig {
         selectionMessage: 'seleccionadas',
         requestsList: RequestsList.contracts,
       };
-    case ObjectTypes.Expense:
+    case ObjectTypes.EXPENSE:
       return {
-        orderType: ObjectTypes.Expense,
+        orderType,
         orderNameSingular: 'gasto',
         orderNamePlural: 'gastos',
         orderPronounSingular: 'el',
