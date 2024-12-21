@@ -7,16 +7,10 @@
 
 import { Identifiable } from '@app/core';
 
-import { BudgetTransactionDescriptor } from './budget-transactions';
-
-import { Document } from './documents';
-
-import { History } from './history';
-
-import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem } from './orders';
+import { PayableOrder, PayableOrderDescriptor, PayableOrderFields, PayableOrderItem } from './payable-orders';
 
 
-export interface PayableOrderDescriptor extends OrderDescriptor {
+export interface ContractOrderDescriptor extends PayableOrderDescriptor {
   budgetTypeName: string;
   budgetName: string;
   currencyName: string;
@@ -24,43 +18,22 @@ export interface PayableOrderDescriptor extends OrderDescriptor {
 }
 
 
-export interface PayableOrderFields extends OrderFields {
-  budgetUID: string;
-  currencyUID: string;
+export interface ContractOrder extends PayableOrder {
+  contract: Identifiable;
 }
 
 
-export interface PayableOrderHolder extends OrderHolder {
-  order: PayableOrder;
-  items: PayableOrderItem[];
-  documents: Document[];
-  history: History[];
-  budgetTransactions: BudgetTransactionDescriptor[];
-  actions: PayableOrderActions;
+export interface ContractOrderFields extends PayableOrderFields {
+  contractUID: string;
 }
 
 
-export interface PayableOrder extends Order {
-  budgetType: Identifiable;
-  budget: Identifiable;
-  currency: Identifiable;
-  total: number;
+export interface ContractOrderItem extends PayableOrderItem {
+  contractItem: Identifiable;
 }
 
 
-export interface PayableOrderItem extends OrderItem {
-  budgetAccount: Identifiable;
-  unitPrice: number;
-  total: number;
-}
-
-
-export interface PayableOrderActions extends OrderActions {
-
-}
-
-
-export function mapPayableOrderDescriptorFromPayableOrder(order: PayableOrder): PayableOrderDescriptor {
+export function mapContractOrderDescriptorFromContractOrder(order: ContractOrder): ContractOrderDescriptor {
   return {
     uid: order.uid,
     typeName: order.type.name,

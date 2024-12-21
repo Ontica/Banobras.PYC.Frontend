@@ -34,6 +34,8 @@ export * from './budget-transactions';
 
 export * from './budgets';
 
+export * from './contract-orders';
+
 export * from './contracts';
 
 export * from './documents';

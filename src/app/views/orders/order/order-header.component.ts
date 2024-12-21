@@ -25,8 +25,8 @@ import { MessageBoxService } from '@app/shared/services';
 import { OrdersDataService, SearcherAPIS } from '@app/data-services';
 
 import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, Priority, PriorityList,
-         OrderTypeConfig, EmptyOrderTypeConfig, ObjectTypes, PayableOrder, PayableOrderFields,
-         BudgetType } from '@app/models';
+         OrderTypeConfig, EmptyOrderTypeConfig, ObjectTypes, PayableOrder, PayableOrderFields, BudgetType,
+         ContractOrder, ContractOrderFields } from '@app/models';
 
 
 export enum OrderHeaderEventType {
@@ -49,10 +49,10 @@ interface OrderFormModel extends FormGroup<{
   identificators: FormControl<string[]>;
   tags: FormControl<string[]>;
   description: FormControl<string>;
-  contractUID: FormControl<string>;
   budgetTypeUID: FormControl<string>;
   budgetUID: FormControl<string>;
   currencyUID: FormControl<string>;
+  contractUID: FormControl<string>;
 }> { }
 
 @Component({
@@ -136,13 +136,20 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  get isPayableOrder(): boolean {
+  get contractFieldsRequired(): boolean {
     return this.config.orderType === ObjectTypes.CONTRACT_ORDER;
   }
 
 
+  get payableFieldsRequired(): boolean {
+    return [ObjectTypes.CONTRACT_ORDER,
+            ObjectTypes.PURCHASE_ORDER,
+            ObjectTypes.EXPENSE].includes(this.config.orderType);
+  }
+
+
   get contract(): Identifiable {
-    return this.isPayableOrder ? (this.order as PayableOrder).contract ?? null : null;
+    return this.contractFieldsRequired ? (this.order as ContractOrder).contract ?? null : null;
   }
 
 
@@ -221,10 +228,10 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       identificators: [null],
       tags: [null],
       description: ['', Validators.required],
-      contractUID: [''],
       budgetTypeUID: [''],
       budgetUID: [''],
       currencyUID: [''],
+      contractUID: [''],
     });
   }
 
@@ -251,33 +258,43 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private validateSetOrderFields() {
-    if (this.isPayableOrder) {
+    if (this.contractFieldsRequired) {
+      this.setControlUIDValue(this.form.controls.contractUID, this.contract);
+    }
+
+    if (this.payableFieldsRequired) {
       const payableOrder = this.order as PayableOrder;
-      this.form.controls.contractUID.reset(isEmpty(payableOrder.contract) ? null : payableOrder.contract.uid);
-      this.form.controls.budgetTypeUID.reset(isEmpty(payableOrder.budgetType) ? null : payableOrder.budgetType.uid);
-      this.form.controls.budgetUID.reset(isEmpty(payableOrder.budget) ? null : payableOrder.budget.uid);
-      this.form.controls.currencyUID.reset(isEmpty(payableOrder.currency) ? null : payableOrder.currency.uid);
+      this.setControlUIDValue(this.form.controls.budgetTypeUID, payableOrder.budgetType);
+      this.setControlUIDValue(this.form.controls.budgetUID, payableOrder.budget);
+      this.setControlUIDValue(this.form.controls.currencyUID, payableOrder.currency);
     }
   }
 
 
+  private setControlUIDValue(control: FormControl<any>, value: Identifiable) {
+    control.reset(isEmpty(value) ? null : value.uid);
+  }
+
+
   private validateFieldsRequired() {
-    if (this.isPayableOrder) {
-      this.formHelper.setControlValidators(this.form.controls.contractUID, [Validators.required]);
-      this.formHelper.setControlValidators(this.form.controls.budgetTypeUID, [Validators.required]);
-      this.formHelper.setControlValidators(this.form.controls.budgetUID, [Validators.required]);
-      this.formHelper.setControlValidators(this.form.controls.currencyUID, [Validators.required]);
-    } else {
-      this.formHelper.clearControlValidators(this.form.controls.contractUID);
-      this.formHelper.clearControlValidators(this.form.controls.budgetTypeUID);
-      this.formHelper.clearControlValidators(this.form.controls.budgetUID);
-      this.formHelper.clearControlValidators(this.form.controls.currencyUID);
-    }
+    this.validateFieldRequired(this.form.controls.contractUID, this.contractFieldsRequired);
+    this.validateFieldRequired(this.form.controls.budgetTypeUID, this.payableFieldsRequired);
+    this.validateFieldRequired(this.form.controls.budgetUID, this.payableFieldsRequired);
+    this.validateFieldRequired(this.form.controls.currencyUID, this.payableFieldsRequired);
 
     setTimeout(() => {
       FormHelper.markControlsAsUntouched(this.form.controls.contractUID);
       FormHelper.markControlsAsUntouched(this.form.controls.providerUID);
     });
+  }
+
+
+  private validateFieldRequired(control: FormControl<any>, required: boolean) {
+    if (required) {
+      this.formHelper.setControlValidators(control, [Validators.required]);
+    } else {
+      this.formHelper.clearControlValidators(control);
+    }
   }
 
 
@@ -294,9 +311,27 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       case ObjectTypes.CONTRACT_ORDER:
       case ObjectTypes.PURCHASE_ORDER:
       case ObjectTypes.EXPENSE:
+        if (this.contractFieldsRequired) return this.getContractOrderFields();
+        if (this.payableFieldsRequired) return this.getPayableOrderFields();
+        return this.getOrderFields();
       default:
         throw Assertion.assertNoReachThisCode(`Unhandled order type: ${this.config.orderType}.`);
     }
+  }
+
+
+  private getContractOrderFields(): ContractOrderFields {
+    Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
+
+    const data: ContractOrderFields = {
+      ...this.getPayableOrderFields(),
+      ...
+      {
+        contractUID: this.form.value.contractUID ?? null,
+      }
+    };
+
+    return data;
   }
 
 
@@ -304,21 +339,12 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const data: PayableOrderFields = {
-      orderTypeUID: this.config.orderType,
-      categoryUID: this.form.value.categoryUID ?? null,
-      contractUID: this.form.value.contractUID ?? null,
-      description: this.form.value.description ?? null,
-      identificators: this.form.value.identificators ?? [],
-      tags: this.form.value.tags ?? [],
-      responsibleUID: this.form.value.responsibleUID ?? null,
-      beneficiaryUID: this.form.value.beneficiaryUID ?? null,
-      isForMultipleBeneficiaries: this.form.value.isForMultipleBeneficiaries,
-      providerUID: this.form.value.providerUID ?? null,
-      requestedByUID: this.form.value.requestedByUID ?? null,
-      projectUID: this.form.value.projectUID ?? null,
-      priority: this.form.value.priority ?? null,
-      budgetUID: this.form.value.budgetUID ?? null,
-      currencyUID: this.form.value.currencyUID ?? null,
+      ...this.getOrderFields(),
+      ...
+      {
+        budgetUID: this.form.value.budgetUID ?? null,
+        currencyUID: this.form.value.currencyUID ?? null,
+      }
     };
 
     return data;

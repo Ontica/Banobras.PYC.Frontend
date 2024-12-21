@@ -133,7 +133,7 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="isPayableOrder">
+      <div class="fx-item-half" *ngIf="contractFieldsRequired">
 
         <label>Contrato:</label>
 
@@ -151,7 +151,7 @@
 
     </div>
 
-    <div class="fx-row-container" *ngIf="isPayableOrder">
+    <div class="fx-row-container" *ngIf="payableFieldsRequired">
 
       <div class="fx-item-half">
 
