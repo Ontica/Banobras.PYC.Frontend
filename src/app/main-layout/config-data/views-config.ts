@@ -11,45 +11,45 @@ import { View } from '../common-models/common';
 
 
 export const StepsViews: View[] = [
-  {
-    name: 'Steps.MyInbox',
-    title: 'Mis tareas pendientes',
-    menuTitle: 'Mis tareas pendientes',
-    url: ROUTES.tareas_pendientes.fullpath,
-    permission: ROUTES.tareas_pendientes.permission,
-  },
-  {
-    name: 'Steps.ControlDesk',
-    title: 'Mesa de control',
-    menuTitle: 'Mesa de control',
-    url: ROUTES.tareas_mesa_de_control.fullpath,
-    permission: ROUTES.tareas_mesa_de_control.permission,
-  },
-  {
-    name: 'Steps.Finished',
-    title: 'Completadas',
-    menuTitle: 'Completadas',
-    url: ROUTES.tareas_completadas.fullpath,
-    permission: ROUTES.tareas_completadas.permission,
-  },
-  {
-    name: 'Steps.All',
-    title: 'Todas',
-    menuTitle: 'Todas',
-    url: ROUTES.tareas_todas.fullpath,
-    permission: ROUTES.tareas_todas.permission,
-  },
+  // {
+  //   name: 'Steps.MyInbox',
+  //   title: 'Mis tareas pendientes',
+  //   menuTitle: 'Mis tareas pendientes',
+  //   url: ROUTES.tareas_pendientes.fullpath,
+  //   permission: ROUTES.tareas_pendientes.permission,
+  // },
+  // {
+  //   name: 'Steps.ControlDesk',
+  //   title: 'Mesa de control',
+  //   menuTitle: 'Mesa de control',
+  //   url: ROUTES.tareas_mesa_de_control.fullpath,
+  //   permission: ROUTES.tareas_mesa_de_control.permission,
+  // },
+  // {
+  //   name: 'Steps.Finished',
+  //   title: 'Completadas',
+  //   menuTitle: 'Completadas',
+  //   url: ROUTES.tareas_completadas.fullpath,
+  //   permission: ROUTES.tareas_completadas.permission,
+  // },
+  // {
+  //   name: 'Steps.All',
+  //   title: 'Todas',
+  //   menuTitle: 'Todas',
+  //   url: ROUTES.tareas_todas.fullpath,
+  //   permission: ROUTES.tareas_todas.permission,
+  // },
 ];
 
 
 export const ProcurementViews: View[] = [
-  {
-    name: 'Procurement.Requests',
-    title: 'Solicitudes',
-    menuTitle: 'Solicitudes',
-    url: ROUTES.adquisiciones_solicitudes.fullpath,
-    permission: ROUTES.adquisiciones_solicitudes.permission,
-  },
+  // {
+  //   name: 'Procurement.Requests',
+  //   title: 'Solicitudes',
+  //   menuTitle: 'Solicitudes',
+  //   url: ROUTES.adquisiciones_solicitudes.fullpath,
+  //   permission: ROUTES.adquisiciones_solicitudes.permission,
+  // },
   {
     name: 'Procurement.Explorer',
     title: 'Contratos',
@@ -95,13 +95,13 @@ export const ProcurementViews: View[] = [
 
 
 export const PaymentsViews: View[] = [
-  {
-    name: 'Payments.Requests',
-    title: 'Solicitudes',
-    menuTitle: 'Solicitudes',
-    url: ROUTES.pagos_solicitudes.fullpath,
-    permission: ROUTES.pagos_solicitudes.permission,
-  },
+  // {
+  //   name: 'Payments.Requests',
+  //   title: 'Solicitudes',
+  //   menuTitle: 'Solicitudes',
+  //   url: ROUTES.pagos_solicitudes.fullpath,
+  //   permission: ROUTES.pagos_solicitudes.permission,
+  // },
   {
     name: 'Payments.Payables',
     title: 'Obligaciones de pago',
@@ -139,13 +139,13 @@ export const PaymentsViews: View[] = [
 
 
 export const BudgetViews: View[] = [
-  {
-    name: 'Budget.Requests',
-    title: 'Solicitudes',
-    menuTitle: 'Solicitudes',
-    url: ROUTES.presupuesto_solicitudes.fullpath,
-    permission: ROUTES.presupuesto_solicitudes.permission,
-  },
+  // {
+  //   name: 'Budget.Requests',
+  //   title: 'Solicitudes',
+  //   menuTitle: 'Solicitudes',
+  //   url: ROUTES.presupuesto_solicitudes.fullpath,
+  //   permission: ROUTES.presupuesto_solicitudes.permission,
+  // },
   {
     name: 'Budget.Transactions',
     title: 'Transacciones',
@@ -185,79 +185,79 @@ export const BudgetViews: View[] = [
 
 
 export const InventoryViews: View[] = [
-  {
-    name: 'Inventory.Requests',
-    title: 'Solicitudes',
-    menuTitle: 'Solicitudes',
-    url: ROUTES.inventarios_solicitudes.fullpath,
-    permission: ROUTES.inventarios_solicitudes.permission,
-  },
-  {
-    name: 'Inventory.Transactions',
-    title: 'Transacciones',
-    menuTitle: 'Transacciones',
-    url: ROUTES.inventarios_transacciones.fullpath,
-    permission: ROUTES.inventarios_transacciones.permission,
-  },
-  {
-    name: 'Inventory.Stock',
-    title: 'Existencias',
-    menuTitle: 'Existencias',
-    url: ROUTES.inventarios_existencias.fullpath,
-    permission: ROUTES.inventarios_existencias.permission,
-  },
-  {
-    name: 'Inventory.Explorer',
-    title: 'Activo fijo',
-    menuTitle: 'Activo fijo',
-    url: ROUTES.inventarios_activo_fijo.fullpath,
-    permission: ROUTES.inventarios_activo_fijo.permission,
-  },
-  {
-    name: 'Inventory.Valuation',
-    title: 'Valuación',
-    menuTitle: 'Valuación',
-    url: ROUTES.inventarios_valuacion.fullpath,
-    permission: ROUTES.inventarios_valuacion.permission,
-  },
-  {
-    name: 'Inventory.Configuration',
-    title: 'Configuración',
-    menuTitle: 'Configuración',
-    url: ROUTES.inventarios_configuracion.fullpath,
-    permission: ROUTES.inventarios_configuracion.permission,
-  },
-  {
-    name: 'Inventory.Reporting',
-    title: 'Reportes',
-    menuTitle: 'Reportes',
-    url: ROUTES.inventarios_reportes.fullpath,
-    permission: ROUTES.inventarios_reportes.permission,
-  }
+  // {
+  //   name: 'Inventory.Requests',
+  //   title: 'Solicitudes',
+  //   menuTitle: 'Solicitudes',
+  //   url: ROUTES.inventarios_solicitudes.fullpath,
+  //   permission: ROUTES.inventarios_solicitudes.permission,
+  // },
+  // {
+  //   name: 'Inventory.Transactions',
+  //   title: 'Transacciones',
+  //   menuTitle: 'Transacciones',
+  //   url: ROUTES.inventarios_transacciones.fullpath,
+  //   permission: ROUTES.inventarios_transacciones.permission,
+  // },
+  // {
+  //   name: 'Inventory.Stock',
+  //   title: 'Existencias',
+  //   menuTitle: 'Existencias',
+  //   url: ROUTES.inventarios_existencias.fullpath,
+  //   permission: ROUTES.inventarios_existencias.permission,
+  // },
+  // {
+  //   name: 'Inventory.Explorer',
+  //   title: 'Activo fijo',
+  //   menuTitle: 'Activo fijo',
+  //   url: ROUTES.inventarios_activo_fijo.fullpath,
+  //   permission: ROUTES.inventarios_activo_fijo.permission,
+  // },
+  // {
+  //   name: 'Inventory.Valuation',
+  //   title: 'Valuación',
+  //   menuTitle: 'Valuación',
+  //   url: ROUTES.inventarios_valuacion.fullpath,
+  //   permission: ROUTES.inventarios_valuacion.permission,
+  // },
+  // {
+  //   name: 'Inventory.Configuration',
+  //   title: 'Configuración',
+  //   menuTitle: 'Configuración',
+  //   url: ROUTES.inventarios_configuracion.fullpath,
+  //   permission: ROUTES.inventarios_configuracion.permission,
+  // },
+  // {
+  //   name: 'Inventory.Reporting',
+  //   title: 'Reportes',
+  //   menuTitle: 'Reportes',
+  //   url: ROUTES.inventarios_reportes.fullpath,
+  //   permission: ROUTES.inventarios_reportes.permission,
+  // }
 ];
 
 
 export const CashFlowViews: View[] = [
-  {
-    name: 'CashFlow.Coding',
-    title: 'Codificación',
-    url: ROUTES.flujo_de_efectivo_codificacion.fullpath,
-    permission: ROUTES.flujo_de_efectivo_codificacion.permission,
-  },
-  {
-    name: 'CashFlow.Rules',
-    title: 'Reglas',
-    menuTitle: 'Reglas',
-    url: ROUTES.flujo_de_efectivo_reglas.fullpath,
-    permission: ROUTES.flujo_de_efectivo_reglas.permission,
-  },
-  {
-    name: 'CashFlow.Reports',
-    title: 'Reportes',
-    menuTitle: 'Reportes',
-    url: ROUTES.flujo_de_efectivo_reportes.fullpath,
-    permission: ROUTES.flujo_de_efectivo_reportes.permission,
-  },
+  // {
+  //   name: 'CashFlow.Coding',
+  //   title: 'Codificación',
+  //   url: ROUTES.flujo_de_efectivo_codificacion.fullpath,
+  //   permission: ROUTES.flujo_de_efectivo_codificacion.permission,
+  // },
+  // {
+  //   name: 'CashFlow.Rules',
+  //   title: 'Reglas',
+  //   menuTitle: 'Reglas',
+  //   url: ROUTES.flujo_de_efectivo_reglas.fullpath,
+  //   permission: ROUTES.flujo_de_efectivo_reglas.permission,
+  // },
+  // {
+  //   name: 'CashFlow.Reports',
+  //   title: 'Reportes',
+  //   menuTitle: 'Reportes',
+  //   url: ROUTES.flujo_de_efectivo_reportes.fullpath,
+  //   permission: ROUTES.flujo_de_efectivo_reportes.permission,
+  // },
 ];
 
 

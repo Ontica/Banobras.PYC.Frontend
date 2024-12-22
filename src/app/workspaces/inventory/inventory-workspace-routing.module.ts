@@ -13,6 +13,10 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
+// import {
+//   RequestsMainPageComponent
+// } from '@app/views/requests/requests-main-page/requests-main-page.component';
+
 import {
   FixedAssetTransactionsMainPageComponent
 } from '@app/views/fixed-assets-transactions/transactions-main-page/transactions-main-page.component';
@@ -21,17 +25,13 @@ import {
   FixedAssetsMainPageComponent
 } from '@app/views/fixed-assets/fixed-assets-main-page/fixed-assets-main-page.component';
 
-import {
-  RequestsMainPageComponent
-} from '@app/views/requests/requests-main-page/requests-main-page.component';
-
 
 const routes: Routes = [
-  {
-    data: { permission: ROUTES.inventarios_solicitudes.permission },
-    path: ROUTES.inventarios_solicitudes.path,
-    component: RequestsMainPageComponent,
-  },
+  // {
+  //   data: { permission: ROUTES.inventarios_solicitudes.permission },
+  //   path: ROUTES.inventarios_solicitudes.path,
+  //   component: RequestsMainPageComponent,
+  // },
   {
     data: { permission: ROUTES.inventarios_transacciones.permission },
     path: ROUTES.inventarios_transacciones.path,
@@ -64,7 +64,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.inventarios_solicitudes.path,
+    redirectTo: ROUTES.inventarios_transacciones.path,
     pathMatch: 'full',
   },
 ];

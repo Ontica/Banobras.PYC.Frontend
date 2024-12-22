@@ -14,15 +14,15 @@ import { ChildRouteGuard, ParentRouteGuard } from './core';
 import { DEFAULT_PATH, MainLayoutComponent, NoContentComponent, ROUTES } from '@app/main-layout';
 
 const routes: Routes = [
-  {
-    data: { permission: ROUTES.tareas.permission },
-    path: ROUTES.tareas.path,
-    component: MainLayoutComponent,
-    canActivate: [ParentRouteGuard],
-    canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/steps/steps-workspace.module')
-      .then((m) => m.StepsWorkspaceModule)
-  },
+  // {
+  //   data: { permission: ROUTES.tareas.permission },
+  //   path: ROUTES.tareas.path,
+  //   component: MainLayoutComponent,
+  //   canActivate: [ParentRouteGuard],
+  //   canActivateChild: [ChildRouteGuard],
+  //   loadChildren: () => import('./workspaces/steps/steps-workspace.module')
+  //     .then((m) => m.StepsWorkspaceModule)
+  // },
   {
     data: { permission: ROUTES.adquisiciones.permission },
     path: ROUTES.adquisiciones.path,
@@ -50,24 +50,24 @@ const routes: Routes = [
     loadChildren: () => import('./workspaces/budget/budget-workspace.module')
       .then((m) => m.BudgetWorkspaceModule)
   },
-  {
-    data: { permission: ROUTES.inventarios.permission },
-    path: ROUTES.inventarios.path,
-    component: MainLayoutComponent,
-    canActivate: [ParentRouteGuard],
-    canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/inventory/inventory-workspace.module')
-      .then((m) => m.InventoryWorkspaceModule)
-  },
-  {
-    data: { permission: ROUTES.flujo_de_efectivo.permission },
-    path: ROUTES.flujo_de_efectivo.path,
-    component: MainLayoutComponent,
-    canActivate: [ParentRouteGuard],
-    canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/cash-flow/cash-flow-workspace.module')
-      .then((m) => m.CashFlowWorkspaceModule)
-  },
+  // {
+  //   data: { permission: ROUTES.inventarios.permission },
+  //   path: ROUTES.inventarios.path,
+  //   component: MainLayoutComponent,
+  //   canActivate: [ParentRouteGuard],
+  //   canActivateChild: [ChildRouteGuard],
+  //   loadChildren: () => import('./workspaces/inventory/inventory-workspace.module')
+  //     .then((m) => m.InventoryWorkspaceModule)
+  // },
+  // {
+  //   data: { permission: ROUTES.flujo_de_efectivo.permission },
+  //   path: ROUTES.flujo_de_efectivo.path,
+  //   component: MainLayoutComponent,
+  //   canActivate: [ParentRouteGuard],
+  //   canActivateChild: [ChildRouteGuard],
+  //   loadChildren: () => import('./workspaces/cash-flow/cash-flow-workspace.module')
+  //     .then((m) => m.CashFlowWorkspaceModule)
+  // },
   {
     data: { permission: ROUTES.administracion.permission },
     path: ROUTES.administracion.path,

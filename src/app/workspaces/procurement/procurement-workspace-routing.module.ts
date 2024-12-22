@@ -13,6 +13,10 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
+// import {
+//   RequestsMainPageComponent
+// } from '@app/views/requests/requests-main-page/requests-main-page.component';
+
 import {
   ContractsMainPageComponent
 } from '@app/views/contracts/contracts-main-page/contracts-main-page.component';
@@ -23,17 +27,13 @@ import {
   ProductsMainPageComponent
 } from '@app/views/products/products-main-page/products-main-page.component';
 
-import {
-  RequestsMainPageComponent
-} from '@app/views/requests/requests-main-page/requests-main-page.component';
-
 
 const routes: Routes = [
-  {
-    data: { permission: ROUTES.adquisiciones_solicitudes.permission },
-    path: ROUTES.adquisiciones_solicitudes.path,
-    component: RequestsMainPageComponent,
-  },
+  // {
+  //   data: { permission: ROUTES.adquisiciones_solicitudes.permission },
+  //   path: ROUTES.adquisiciones_solicitudes.path,
+  //   component: RequestsMainPageComponent,
+  // },
   {
     data: { permission: ROUTES.adquisiciones_contratos.permission },
     path: ROUTES.adquisiciones_contratos.path,
@@ -66,7 +66,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.adquisiciones_solicitudes.path,
+    redirectTo: ROUTES.adquisiciones_contratos.path,
     pathMatch: 'full',
   },
 ];

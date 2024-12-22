@@ -35,14 +35,14 @@ export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
 
 
 export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
-  {
-    name: 'Steps',
-    views: StepsViews,
-    hint: 'Tareas',
-    defaultTitle: 'Tareas',
-    url: ROUTES.tareas.fullpath,
-    permission: ROUTES.tareas.permission,
-  },
+  // {
+  //   name: 'Steps',
+  //   views: StepsViews,
+  //   hint: 'Tareas',
+  //   defaultTitle: 'Tareas',
+  //   url: ROUTES.tareas.fullpath,
+  //   permission: ROUTES.tareas.permission,
+  // },
   {
     name: 'Procurement',
     views: ProcurementViews,
@@ -67,14 +67,14 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
     url: ROUTES.presupuesto.fullpath,
     permission: ROUTES.presupuesto.permission,
   },
-  {
-    name: 'Inventory',
-    views: InventoryViews,
-    hint: 'Inventarios',
-    defaultTitle: 'Inventarios',
-    url: ROUTES.inventarios.fullpath,
-    permission: ROUTES.inventarios.permission,
-  },
+  // {
+  //   name: 'Inventory',
+  //   views: InventoryViews,
+  //   hint: 'Inventarios',
+  //   defaultTitle: 'Inventarios',
+  //   url: ROUTES.inventarios.fullpath,
+  //   permission: ROUTES.inventarios.permission,
+  // },
   // {
   //   name: 'CashFlow',
   //   views: CashFlowViews,

@@ -25,17 +25,17 @@ import {
   PaymentsOrdersMainPageComponent
 } from '@app/views/payments/payments-orders/payments-orders-main-page/payments-orders-main-page.component';
 
-import {
-  RequestsMainPageComponent
-} from '@app/views/requests/requests-main-page/requests-main-page.component';
+// import {
+//   RequestsMainPageComponent
+// } from '@app/views/requests/requests-main-page/requests-main-page.component';
 
 
 const routes: Routes = [
-  {
-    data: { permission: ROUTES.pagos_solicitudes.permission },
-    path: ROUTES.pagos_solicitudes.path,
-    component: RequestsMainPageComponent,
-  },
+  // {
+  //   data: { permission: ROUTES.pagos_solicitudes.permission },
+  //   path: ROUTES.pagos_solicitudes.path,
+  //   component: RequestsMainPageComponent,
+  // },
   {
     data: { permission: ROUTES.pagos_obligaciones_de_pago.permission },
     path: ROUTES.pagos_obligaciones_de_pago.path,
@@ -63,7 +63,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.pagos_solicitudes.path,
+    redirectTo: ROUTES.pagos_obligaciones_de_pago.path,
     pathMatch: 'full',
   },
 ];

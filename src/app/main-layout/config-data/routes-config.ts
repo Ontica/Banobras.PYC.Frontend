@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { PERMISSIONS } from "./permissions-config";
+import { PERMISSIONS } from './permissions-config';
 
 
 export const ROUTES = {

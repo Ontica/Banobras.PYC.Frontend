@@ -13,9 +13,9 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components/default-component/default.component';
 
-import {
-  RequestsMainPageComponent
-} from '@app/views/requests/requests-main-page/requests-main-page.component';
+// import {
+//   RequestsMainPageComponent
+// } from '@app/views/requests/requests-main-page/requests-main-page.component';
 
 import {
   BudgetMainPageComponent
@@ -29,11 +29,11 @@ import {
 
 
 const routes: Routes = [
-  {
-    data: { permission: ROUTES.presupuesto_solicitudes.permission },
-    path: ROUTES.presupuesto_solicitudes.path,
-    component: RequestsMainPageComponent,
-  },
+  // {
+  //   data: { permission: ROUTES.presupuesto_solicitudes.permission },
+  //   path: ROUTES.presupuesto_solicitudes.path,
+  //   component: RequestsMainPageComponent,
+  // },
   {
     data: { permission: ROUTES.presupuesto_transacciones.permission },
     path: ROUTES.presupuesto_transacciones.path,
@@ -61,7 +61,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.presupuesto_solicitudes.path,
+    redirectTo: ROUTES.presupuesto_transacciones.path,
     pathMatch: 'full',
   },
 ];
