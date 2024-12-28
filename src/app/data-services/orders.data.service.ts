@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { OrderHolder, OrderDescriptor, OrderFields, OrdersQuery, ObjectTypes } from '@app/models';
+import { OrderHolder, OrderDescriptor, OrderFields, OrderItem, OrderItemFields, OrdersQuery,
+         ObjectTypes } from '@app/models';
 
 
 @Injectable()
@@ -90,6 +91,41 @@ export class OrdersDataService {
     const path = `v8/order-management/orders/${orderUID}/activate`;
 
     return this.http.post<OrderHolder>(path);
+  }
+
+
+  addOrderItem(orderUID: string,
+               dataFields: OrderItemFields): EmpObservable<OrderItem> {
+    Assertion.assertValue(orderUID, 'orderUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/order-management/orders/${orderUID}/items`;
+
+    return this.http.post<OrderItem>(path, dataFields);
+  }
+
+
+  updateOrderItem(orderUID: string,
+                  orderItemUID: string,
+                  dataFields: OrderItemFields): EmpObservable<OrderItem> {
+    Assertion.assertValue(orderUID, 'orderUID');
+    Assertion.assertValue(orderItemUID, 'orderItemUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/order-management/orders/${orderUID}/items/${orderItemUID}`;
+
+    return this.http.put<OrderItem>(path, dataFields);
+  }
+
+
+  removeOrderItem(orderUID: string,
+                  orderItemUID: string): EmpObservable<void> {
+    Assertion.assertValue(orderUID, 'orderUID');
+    Assertion.assertValue(orderItemUID, 'orderItemUID');
+
+    const path = `v8/order-management/orders/${orderUID}/items/${orderItemUID}`;
+
+    return this.http.delete<void>(path);
   }
 
 }

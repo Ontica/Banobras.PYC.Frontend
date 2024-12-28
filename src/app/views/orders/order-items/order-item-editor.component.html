@@ -1,0 +1,253 @@
+<emp-ng-modal-window [config]="{width:'1024px'}">
+
+  <emp-ng-card
+    [title]="title"
+    hint='Información del concepto'
+    (cardClose)="onCloseButtonClicked()">
+
+    <div class="card-body-padding">
+
+      <form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+        <div class="fx-column-container fx-gap-half">
+
+          <div class="section-title"> Información del concepto </div>
+
+          <div class="fx-row-container" *ngIf="contractItemFieldRequired">
+
+            <div class="fx-item-one">
+
+              <label>Concepto del contrato:</label>
+
+              <emp-ng-select
+                formControlName="contractItemUID"
+                [config]="{showTooltip: true}"
+                [items]="contractItemsList"
+                [showError]="formHelper.isControlInvalid(form.controls.contractItemUID)"
+                (changes)="onContractItemChanges($event)">
+
+                <ng-template #optionTemplate let-item="item">
+
+                  <div class="item wrap">
+
+                    <span class="item-highlight">
+                      {{item.product?.name | uppercase}} ({{item.productUnit?.name | uppercase}})
+                    </span> <br>
+
+                    <span class="item-text-xs">
+                      {{item.budgetAccount?.name}} | {{item.periodicityType.name}} | Min: {{item.minQuantity | empDecimal}} | Max: {{item.maxQuantity | empDecimal}} | PU: {{item.unitPrice | empDecimal}}
+                    </span>
+
+                  </div>
+
+                </ng-template>
+
+              </emp-ng-select>
+
+            </div>
+
+          </div>
+
+          <mat-divider class="horizontal" *ngIf="contractItemFieldRequired">
+
+          </mat-divider>
+
+          <div class="fx-row-container" *ngIf="payableFieldsRequired">
+
+            <div class="fx-item-one">
+
+              <label>Área solicitante:</label>
+
+              <emp-ng-select
+                formControlName="requestedByUID"
+                [config]="{virtualScroll: true, showTooltip: true}"
+                [items]="orgUnitsList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)"
+                (changes)="onRequestedByChanges($event)">
+
+              </emp-ng-select>
+
+            </div>
+
+          </div>
+
+          <div class="fx-row-container" *ngIf="payableFieldsRequired">
+
+            <div class="fx-item-half">
+
+              <label>Producto:</label>
+
+              <emp-ng-select-typeahead
+                formControlName="productUID"
+                [config]="{virtualScroll: true, showTooltip: true}"
+                [searcherAPI]="productsAPI"
+                [initialValue]="isSaved ? item.product : null"
+                [showError]="formHelper.isControlInvalid(form.controls.productUID)"
+                (changes)="onProductChanges($event)">
+
+              </emp-ng-select-typeahead>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>Unidad:</label>
+
+              <emp-ng-select
+                formControlName="productUnitUID"
+                [config]="{notFoundText: form.controls.productUID.invalid ?
+                          'No se encontraron registros' : 'El producto no tiene unidades'}"
+                [items]="productUnitsList"
+                [placeholder]="form.controls.productUID.invalid ? 'Seleccione el producto' : selectionPlaceholder"
+                [showError]="formHelper.isControlInvalid(form.controls.productUnitUID)">
+
+              </emp-ng-select>
+
+            </div>
+
+          </div>
+
+          <div class="fx-row-container" *ngIf="payableFieldsRequired">
+
+            <div class="fx-item-half">
+
+              <label>Cuenta presupuestal:</label>
+
+              <emp-ng-select
+                formControlName="budgetAccountUID"
+                [config]="{showTooltip: true}"
+                [items]="budgetAccountsList"
+                [loading]="isLoadingBudgetAccounts"
+                [placeholder]="form.controls.productUID.invalid ? 'Seleccione el producto' : selectionPlaceholder"
+                [showError]="formHelper.isControlInvalid(form.controls.budgetAccountUID)">
+
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>Proyecto:</label>
+
+              <emp-ng-select-typeahead
+                formControlName="projectUID"
+                [config]="{clearable: true, showTooltip: true}"
+                [searcherAPI]="projectsAPI"
+                [initialValue]="isSaved ? item.project : null"
+                [showError]="formHelper.isControlInvalid(form.controls.projectUID)">
+
+              </emp-ng-select-typeahead>
+
+            </div>
+
+          </div>
+
+          <mat-divider class="horizontal" *ngIf="payableFieldsRequired">
+
+          </mat-divider>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-quarter">
+
+              <label>Cantidad:</label>
+
+              <emp-ng-input-numeric
+                formControlName="quantity"
+                [minDecimals]="0"
+                [maxDecimals]="2"
+                [showError]="formHelper.isControlInvalid(form.controls.quantity)"
+                (valueChange)="onTotalChanges()">
+
+              </emp-ng-input-numeric>
+
+            </div>
+
+            <div class="fx-item-quarter">
+
+              <label>Precio unitario:</label>
+
+              <emp-ng-input-numeric
+                formControlName="unitPrice"
+                [showError]="formHelper.isControlInvalid(form.controls.unitPrice)"
+                (valueChange)="onTotalChanges()">
+
+              </emp-ng-input-numeric>
+
+            </div>
+
+            <div class="fx-item-quarter">
+
+              <label>Descuento:</label>
+
+              <emp-ng-input-numeric
+                formControlName="discount"
+                [showError]="formHelper.isControlInvalid(form.controls.discount)"
+                (valueChange)="onTotalChanges()">
+
+              </emp-ng-input-numeric>
+
+            </div>
+
+
+            <div class="fx-item-quarter">
+
+              <label>Total:</label>
+
+              <emp-ng-input-numeric
+                formControlName="total"
+                [showError]="formHelper.isControlInvalid(form.controls.total)">
+
+              </emp-ng-input-numeric>
+
+            </div>
+
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-one">
+              <label>Descripción:</label>
+              <textarea class="text-area" empNgTextareaAutoresize rows="1"
+                formControlName="description"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+
+              </textarea>
+            </div>
+
+          </div>
+
+        </div>
+
+        <ng-container *ngIf="!isSaved || (isSaved && canUpdate)">
+
+          <mat-divider class="horizontal">
+
+          </mat-divider>
+
+          <div #rowFooter class="fx-row-container">
+
+             <div class="fx-item fx-end fx-items-center">
+
+                <button
+                  [class.btn]="!formHelper.isFormReady(form)"
+                  [class.btn-action]="formHelper.isFormReady(form)"
+                  (click)="onSubmitButtonClicked()">
+                  {{!isSaved ? 'Agregar' : 'Guardar'}}
+                </button>
+
+              </div>
+
+          </div>
+
+        </ng-container>
+
+      </form>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

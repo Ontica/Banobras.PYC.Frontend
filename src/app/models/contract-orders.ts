@@ -5,11 +5,10 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Identifiable } from '@app/core';
+import { PayableOrder, PayableOrderDescriptor, PayableOrderFields, PayableOrderItem,
+         PayableOrderItemFields } from './payable-orders';
 
-import { PayableOrder, PayableOrderDescriptor, PayableOrderFields, PayableOrderItem } from './payable-orders';
-
-import { Contract } from './contracts';
+import { Contract, ContractItem } from './contracts';
 
 
 export interface ContractOrderDescriptor extends PayableOrderDescriptor {
@@ -27,7 +26,12 @@ export interface ContractOrder extends PayableOrder {
 
 
 export interface ContractOrderItem extends PayableOrderItem {
-  contractItem: Identifiable;
+  contractItem: ContractItem;
+}
+
+
+export interface ContractOrderItemFields extends PayableOrderItemFields {
+  contractItemUID: string;
 }
 
 

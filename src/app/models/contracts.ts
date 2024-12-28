@@ -130,6 +130,7 @@ export interface ContractItem {
   maxQuantity: number;
   unitPrice: number;
   description: string;
+  name: string;
 }
 
 
@@ -236,6 +237,7 @@ export const EmptyContractItem: ContractItem = {
   minQuantity: null,
   maxQuantity: null,
   unitPrice: null,
+  name: null,
 }
 
 

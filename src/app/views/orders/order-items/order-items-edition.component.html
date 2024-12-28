@@ -25,3 +25,13 @@
   </emp-ng-order-items-table>
 
 </div>
+
+
+<emp-ng-order-item-editor *ngIf="displayItemEditor"
+  [config]="config"
+  [order]="order"
+  [canUpdate]="canEdit"
+  [item]="selectedItem"
+  (orderItemEditorEvent)="onOrderItemEditorEvent($event)">
+
+</emp-ng-order-item-editor>

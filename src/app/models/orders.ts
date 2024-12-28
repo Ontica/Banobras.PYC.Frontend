@@ -165,20 +165,17 @@ export interface Order {
 }
 
 
-export interface OrderItemFields {
-
-}
-
-
 export interface OrderItem {
   uid: string;
   order: Identifiable;
-  orderType: Identifiable;
-  description: string;
+  orderType: Identifiable<ObjectTypes>;
   product: Identifiable;
   productUnit: Identifiable;
   quantity: number;
+  description: string;
   status: Identifiable;
+  requestedBy: Identifiable;
+  project: Identifiable;
 }
 
 
@@ -190,6 +187,16 @@ export interface OrderActions {
   canSuspend: boolean;
   canEditItems: boolean;
   canRequestBudget: boolean;
+}
+
+
+export interface OrderItemFields {
+  productUID: string;
+  productUnitUID: string;
+  requestedByUID: string;
+  projectUID: string;
+  quantity: number;
+  description: string;
 }
 
 
@@ -234,10 +241,12 @@ export const EmptyOrderItem: OrderItem = {
   uid: '',
   order: Empty,
   orderType: Empty,
-  description: '',
   product: Empty,
   productUnit: Empty,
+  project: Empty,
+  requestedBy: Empty,
   quantity: null,
+  description: '',
   status: Empty,
 }
 

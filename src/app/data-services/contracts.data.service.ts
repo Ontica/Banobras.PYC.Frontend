@@ -36,6 +36,13 @@ export class ContractsDataService {
   }
 
 
+  getContractItemsToOrder(contractUID: string): EmpObservable<ContractItem[]> {
+    const path = `v8/procurement/contracts/${contractUID}/items/to-order`;
+
+    return this.http.get<ContractItem[]>(path);
+  }
+
+
   searchContracts(query: ContractsQuery): EmpObservable<ContractDescriptor[]> {
     Assertion.assertValue(query, 'query');
 

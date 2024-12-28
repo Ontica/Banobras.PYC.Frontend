@@ -13,7 +13,8 @@ import { Document } from './documents';
 
 import { History } from './history';
 
-import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem } from './orders';
+import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem,
+         OrderItemFields } from './orders';
 
 
 export interface PayableOrderDescriptor extends OrderDescriptor {
@@ -51,12 +52,21 @@ export interface PayableOrder extends Order {
 export interface PayableOrderItem extends OrderItem {
   budgetAccount: Identifiable;
   unitPrice: number;
+  discount: number;
+  currency: Identifiable;
   total: number;
 }
 
 
 export interface PayableOrderActions extends OrderActions {
 
+}
+
+
+export interface PayableOrderItemFields extends OrderItemFields {
+  budgetAccountUID: string;
+  unitPrice: number;
+  discount: number;
 }
 
 

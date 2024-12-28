@@ -59,7 +59,9 @@ export class OrderItemsTableComponent implements OnChanges {
 
 
   get isPayableOrder(): boolean {
-    return this.config.orderType === ObjectTypes.CONTRACT_ORDER;
+    return [ObjectTypes.CONTRACT_ORDER,
+            ObjectTypes.PURCHASE_ORDER,
+            ObjectTypes.EXPENSE].includes(this.config.orderType);
   }
 
 
@@ -95,7 +97,7 @@ export class OrderItemsTableComponent implements OnChanges {
     let columns = [];
 
     if (this.isPayableOrder) {
-      columns = ['product', 'budgetAccount', 'productUnit', 'quantity', 'unitPrice', 'total']
+      columns = ['product', 'budgetAccount', 'productUnit', 'quantity', 'unitPrice', 'discount', 'total']
     } else {
       columns = ['product', 'productUnit', 'quantity']
     }
@@ -112,32 +114,33 @@ export class OrderItemsTableComponent implements OnChanges {
         <tr><td class='nowrap'>Producto: </td><td><strong>
           ${item.product.name} (${item.productUnit.name})
         </strong></td></tr>
-        <tr><td class='nowrap'>Cantidad: </td><td><strong>
-          ${FormatLibrary.numberWithCommas(item.quantity)}
-        </strong></td></tr>
-        ${this.budgetAccountText(item)}
+        ${this.getConfirmMessageByOrderType(item)}
       </table>
-     <br>¿Elimino el concepto?`;
+    <br>¿Elimino el concepto?`;
   }
 
 
-  private budgetAccountText(item: OrderItem): string {
-    if (!this.isPayableOrder) {
-      return '';
+  private getConfirmMessageByOrderType(item: OrderItem): string {
+    if (this.isPayableOrder) {
+      const payableOrderItem = item as PayableOrderItem;
+
+      return `<tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
+                ${payableOrderItem.budgetAccount.name}
+              </strong></td></tr>
+              <tr><td class='nowrap'>Cantidad: </td><td><strong>
+                ${FormatLibrary.numberWithCommas(item.quantity, '1.0-2')}
+              </strong></td></tr>
+              <tr><td class='nowrap'>Precio unitario: </td><td><strong>
+                ${FormatLibrary.numberWithCommas(payableOrderItem.unitPrice, '1.2-2')}
+              </strong></td></tr>
+              <tr><td class='nowrap'>Total: </td><td><strong>
+                ${FormatLibrary.numberWithCommas(payableOrderItem.total, '1.2-2')}
+              </strong></td></tr>`;
+    } else {
+      return `<tr><td class='nowrap'>Cantidad: </td><td><strong>
+                ${FormatLibrary.numberWithCommas(item.quantity, '1.0-2')}
+              </strong></td></tr>`;
     }
-
-    const payableOrderItem = item as PayableOrderItem;
-
-    return `<tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
-              ${payableOrderItem.budgetAccount.name}
-            </strong></td></tr>
-            <tr><td class='nowrap'>Precio unitario: </td><td><strong>
-              ${FormatLibrary.numberWithCommas(payableOrderItem.unitPrice)} (${payableOrderItem.productUnit.name})
-            </strong></td></tr>
-            <tr><td class='nowrap'>Total: </td><td><strong>
-              ${FormatLibrary.numberWithCommas(payableOrderItem.total)}
-            </strong></td></tr>`;
-
   }
 
 }

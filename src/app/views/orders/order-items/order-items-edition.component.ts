@@ -13,12 +13,12 @@ import { sendEvent } from '@app/shared/utils';
 
 import { OrdersDataService } from '@app/data-services';
 
-import { OrderItem, EmptyOrderItem, Order, EmptyOrder, OrderTypeConfig,
+import { OrderItem, EmptyOrderItem, OrderItemFields, Order, EmptyOrder, OrderTypeConfig,
          EmptyOrderTypeConfig } from '@app/models';
 
 import { OrderItemsTableEventType } from './order-items-table.component';
 
-import { MessageBoxService } from '@app/shared/services';
+import { OrderItemEditorEventType } from './order-item-editor.component';
 
 
 export enum OrderItemsEditionEventType {
@@ -48,12 +48,39 @@ export class OrderItemsEditionComponent {
   selectedItem = EmptyOrderItem;
 
 
-  constructor(private ordersData: OrdersDataService,
-              private messageBox: MessageBoxService) { }
+  constructor(private ordersData: OrdersDataService) { }
 
 
   onAddItemButtonClicked() {
-    this.messageBox.showInDevelopment('Agregar concepto');
+    this.setSelectedItem(EmptyOrderItem, true);
+  }
+
+
+  onOrderItemEditorEvent(event: EventInfo) {
+    if (this.submitted) {
+      return;
+    }
+
+    switch (event.type as OrderItemEditorEventType) {
+      case OrderItemEditorEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedItem(EmptyOrderItem);
+        return;
+      case OrderItemEditorEventType.ADD_ITEM:
+        Assertion.assertValue(event.payload.orderUID, 'event.payload.orderUID');
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.addOrderItem(event.payload.orderUID, event.payload.dataFields);
+        return;
+      case OrderItemEditorEventType.UPDATE_ITEM:
+        Assertion.assertValue(event.payload.orderUID, 'event.payload.orderUID');
+        Assertion.assertValue(event.payload.orderItemUID, 'event.payload.orderItemUID');
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.updateOrderItem(event.payload.orderUID, event.payload.orderItemUID,
+          event.payload.dataFields);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 
@@ -63,14 +90,61 @@ export class OrderItemsEditionComponent {
     }
 
     switch (event.type as OrderItemsTableEventType) {
+      case OrderItemsTableEventType.SELECT_ITEM_CLICKED:
+        Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
+        this.setSelectedItem(event.payload.item as OrderItem);
+        return;
       case OrderItemsTableEventType.REMOVE_ITEM_CLICKED:
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.messageBox.showInDevelopment('Eliminar concepto');
+        this.removeOrderItem(this.order.uid, event.payload.item.uid);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private addOrderItem(orderUID: string, dataFields: OrderItemFields) {
+    this.submitted = true;
+
+    this.ordersData.addOrderItem(orderUID, dataFields)
+      .firstValue()
+      .then(x => this.resolveOrderUpdated())
+      .finally(() => this.submitted = false);
+  }
+
+
+  private updateOrderItem(orderUID: string, orderItemUID: string, dataFields: OrderItemFields) {
+    this.submitted = true;
+
+    this.ordersData.updateOrderItem(orderUID, orderItemUID, dataFields)
+      .firstValue()
+      .then(x => this.resolveOrderUpdated())
+      .finally(() => this.submitted = false);
+  }
+
+
+  private removeOrderItem(orderUID: string, orderItemUID: string) {
+    this.submitted = true;
+
+    this.ordersData.removeOrderItem(orderUID, orderItemUID)
+      .firstValue()
+      .then(x => this.resolveOrderUpdated())
+      .finally(() => this.submitted = false);
+  }
+
+
+  private resolveOrderUpdated() {
+    const payload = { orderUID: this.order.uid };
+    sendEvent(this.orderItemsEditionEvent, OrderItemsEditionEventType.ITEMS_UPDATED, payload);
+    this.setSelectedItem(EmptyOrderItem);
+  }
+
+
+  private setSelectedItem(item: OrderItem, display?: boolean) {
+    this.selectedItem = item;
+    this.displayItemEditor = display ?? !isEmpty(item);
   }
 
 }
