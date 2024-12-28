@@ -52,6 +52,7 @@
             [ngClass]="{'text-align-right': column.type === dataTableColumnType.decimal,
                         'nowrap': column.type === dataTableColumnType.text_nowrap,
                         'item-strikethrough': column.isColumnStrikethrough && row[column.fieldConditionStrikethrough],
+                        'info-text': column.type === dataTableColumnType.text_highlight,
                         'column-checkbox': column.type === dataTableColumnType.check_box,
                         'column-action': column.type === dataTableColumnType.delete_button}">
 
