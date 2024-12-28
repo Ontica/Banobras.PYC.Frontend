@@ -15,6 +15,7 @@ import { ContractsModule } from '@app/views/contracts/contracts.module';
 import { OrdersModule } from '@app/views/orders/orders.module';
 import { PaymentsModule } from '@app/views/payments/payments.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
+import { SuppliersModule } from '@app/views/suppliers/suppliers.module';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { RequestsModule } from '@app/views/requests/requests.module';
     OrdersModule,
     PaymentsModule,
     RequestsModule,
+    SuppliersModule,
   ]
 
 })
