@@ -13,10 +13,10 @@
           [items]="categoriesList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.categoryUID)">
+
         </emp-ng-select>
 
       </div>
-
 
       <div class="fx-item-half">
 
@@ -27,7 +27,9 @@
           [items]="prioritiesList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.priority)">
+
           <ng-template #optionTemplate let-item="item">
+
             <div [style.width.%]="100"
               [ngClass]="{'Default':    item.uid === Priority.Low,
                           'Verde':      item.uid === Priority.Normal,
@@ -35,7 +37,9 @@
                           'Terciario':  item.uid === Priority.Urgent}">
               {{item.name}}
             </div>
+
           </ng-template>
+
         </emp-ng-select>
 
       </div>
@@ -54,6 +58,7 @@
           [items]="orgUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.responsibleUID)">
+
         </emp-ng-select>
 
       </div>
@@ -68,6 +73,7 @@
           [items]="orgUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.beneficiaryUID)">
+
         </emp-ng-select>
 
       </div>
@@ -86,6 +92,7 @@
           [items]="orgUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)">
+
         </emp-ng-select>
 
       </div>
@@ -125,11 +132,27 @@
         <emp-ng-select-typeahead
           formControlName="providerUID"
           [config]="{ showTooltip: true }"
-          [searcherAPI]="suppliersAPI"
+          [searcherAPI]="providersAPI"
           [initialValue]="isSaved ? order.provider : null"
-          [showError]="formHelper.isControlInvalid(form.controls.providerUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.providerUID)"
+          (changes)="onProviderChanges($event)">
 
         </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-half" *ngIf="payableFieldsRequired">
+
+        <label>Moneda:</label>
+
+        <emp-ng-select
+          formControlName="currencyUID"
+          [items]="currenciesList"
+          [loading]="isLoading"
+          [placeholder]="contractFieldsRequired && form.controls.contractUID.invalid ? 'Seleccione el contrato' : 'Seleccionar'"
+          [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+
+        </emp-ng-select>
 
       </div>
 
@@ -137,23 +160,44 @@
 
         <label>Contrato:</label>
 
-        <emp-ng-select-typeahead
+        <emp-ng-select
           formControlName="contractUID"
-          [config]="{ searchByQuery: true }"
-          [initQuery]="{ keywords: '' }"
-          [searcherAPI]="contractAPI"
-          [initialValue]="isSaved ? contract : null"
-          [showError]="formHelper.isControlInvalid(form.controls.contractUID)">
+          [config]="{showTooltip: true}"
+          [items]="contractsList"
+          [loading]="isContractsLoading"
+          [placeholder]="form.controls.providerUID.invalid ? 'Seleccione el proveedor' : 'Seleccionar'"
+          [showError]="formHelper.isControlInvalid(form.controls.contractUID)"
+          (changes)="onContractChanges($event)">
 
-        </emp-ng-select-typeahead>
+          <ng-template #labelTemplate let-item="item">
+            {{(!!item.contractNo ? item.contractNo : 'N/D') | uppercase}} | {{item.budgetType?.name}} | {{item.currency?.name}}
+          </ng-template>
+
+          <ng-template #optionTemplate let-item="item">
+
+            <div class="item wrap">
+
+              <span class="item-highlight">
+                {{(!!item.contractNo ? item.contractNo : 'N/D') | uppercase}} | {{item.budgetType?.name}} | {{item.currency?.name}}
+              </span> <br>
+
+              <span class="item-text-xs">
+                {{item.name}}
+              </span>
+
+            </div>
+
+          </ng-template>
+
+        </emp-ng-select>
 
       </div>
 
     </div>
 
-    <div class="fx-row-container" *ngIf="payableFieldsRequired">
+    <div class="fx-row-container">
 
-      <div class="fx-item-half">
+      <div class="fx-item-half" *ngIf="payableFieldsRequired">
 
         <label>Tipo de presupuesto:</label>
 
@@ -162,13 +206,15 @@
           [items]="budgetTypesList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
+          [placeholder]="contractFieldsRequired && form.controls.contractUID.invalid ? 'Seleccione el contrato' : 'Seleccionar'"
           (changes)="onBudgetTypeChanged($event)">
+
         </emp-ng-select>
 
       </div>
 
 
-      <div class="fx-item-quarter">
+      <div class="fx-item-half" *ngIf="payableFieldsRequired || contractFieldsRequired">
 
         <label>Presupuesto:</label>
 
@@ -176,21 +222,9 @@
           formControlName="budgetUID"
           [items]="budgetsList"
           [loading]="isLoading"
-          [placeholder]="form.controls.budgetTypeUID.invalid ? 'Seleccione el tipo de presupuesto' : 'Seleccionar'"
+          [placeholder]="budgetPlaceholder"
           [showError]="formHelper.isControlInvalid(form.controls.budgetUID)">
-        </emp-ng-select>
 
-      </div>
-
-      <div class="fx-item-quarter">
-
-        <label>Moneda:</label>
-
-        <emp-ng-select
-          formControlName="currencyUID"
-          [items]="currenciesList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
         </emp-ng-select>
 
       </div>
@@ -231,6 +265,7 @@
         <textarea class="text-area" empNgTextareaAutoresize rows="1"
           formControlName="description"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+
         </textarea>
       </div>
 

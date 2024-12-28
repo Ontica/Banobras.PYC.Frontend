@@ -11,8 +11,8 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { OrderHolder, EmptyOrderHolder, OrderTypeConfig, EmptyOrderTypeConfig, ObjectTypes,
-         PayableOrder } from '@app/models';
+import { OrderHolder, EmptyOrderHolder, OrderTypeConfig, EmptyOrderTypeConfig, ObjectTypes, PayableOrder,
+         ContractOrder } from '@app/models';
 
 import { OrderEditorEventType } from '../order/order-editor.component';
 
@@ -136,6 +136,8 @@ export class OrderTabbedViewComponent implements OnChanges {
     const authorizationTime = !this.data.order.authorizationTime ?
       'N/D' : DateStringLibrary.format(this.data.order.authorizationTime);
 
+    const entityName = this.getPayableEntityName() + '&nbsp; &nbsp; | &nbsp; &nbsp;';
+
     this.status = this.data.order.status.name === 'Eliminado' ?
       `<span class="tag tag-error tag-small">${this.data.order.status.name}</span>` :
       `<span class="tag tag-small">${this.data.order.status.name}</span>`;
@@ -143,10 +145,20 @@ export class OrderTabbedViewComponent implements OnChanges {
     this.title = `${!this.data.order.orderNo ? '' : (this.data.order.orderNo + ': ')}
       ${this.data.order.category.name}`;
 
-    this.hint = `<strong>${this.data.order.responsible.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
-      `${this.data.order.provider.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${this.data.order.beneficiary.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${authorizationTime}`;
+    this.hint = `<strong>${this.data.order.provider.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
+      `${entityName} ${authorizationTime}`;
+  }
+
+
+  private getPayableEntityName(): string {
+    const isContractOrder = this.config.orderType === ObjectTypes.CONTRACT_ORDER;
+    if (isContractOrder) {
+      const order = this.data.order as ContractOrder;
+      const contractNo = order?.contract?.contractNo ?? '';
+      return contractNo;
+    }
+
+    return 'N/D';
   }
 
 }

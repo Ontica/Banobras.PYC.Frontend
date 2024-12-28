@@ -9,22 +9,20 @@ import { Identifiable } from '@app/core';
 
 import { PayableOrder, PayableOrderDescriptor, PayableOrderFields, PayableOrderItem } from './payable-orders';
 
+import { Contract } from './contracts';
+
 
 export interface ContractOrderDescriptor extends PayableOrderDescriptor {
-  budgetTypeName: string;
-  budgetName: string;
-  currencyName: string;
-  total: number;
+
+}
+
+export interface ContractOrderFields extends PayableOrderFields {
+  contractUID: string;
 }
 
 
 export interface ContractOrder extends PayableOrder {
-  contract: Identifiable;
-}
-
-
-export interface ContractOrderFields extends PayableOrderFields {
-  contractUID: string;
+  contract: Contract;
 }
 
 

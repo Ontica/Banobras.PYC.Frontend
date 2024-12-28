@@ -91,8 +91,6 @@ export interface OrdersQuery {
   projectUID: string;
   orderNo: string;
   priority: Priority;
-  // budgetTypeUID: string;
-  // budgetUID: string;
 }
 
 
