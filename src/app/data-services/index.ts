@@ -36,3 +36,5 @@ export * from './products.data.service';
 export * from './requests.data.service';
 
 export * from './steps.data.service';
+
+export * from './suppliers.data.service';
