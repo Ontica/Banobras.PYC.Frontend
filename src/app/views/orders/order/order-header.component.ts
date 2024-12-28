@@ -22,7 +22,7 @@ import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { ContractsDataService, OrdersDataService, SearcherAPIS } from '@app/data-services';
+import { OrdersDataService, SearcherAPIS, SuppliersDataService } from '@app/data-services';
 
 import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, Priority, PriorityList,
          OrderTypeConfig, EmptyOrderTypeConfig, ObjectTypes, PayableOrder, PayableOrderFields, BudgetType,
@@ -108,7 +108,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   constructor(private uiLayer: PresentationLayer,
               private ordersData: OrdersDataService,
-              private contractsData: ContractsDataService,
+              private suppliersData: SuppliersDataService,
               private messageBox: MessageBoxService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
@@ -243,7 +243,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   private getContracts(providerUID: string, initData: boolean = false) {
     this.isContractsLoading = true;
-    this.contractsData.getContractsToOrder(providerUID)
+    this.suppliersData.getSupplierContractsToOrder(providerUID)
       .firstValue()
       .then(x => this.setContractsList(x, initData))
       .finally(() => this.isContractsLoading = false);

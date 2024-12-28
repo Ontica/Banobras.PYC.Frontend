@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { Contract, ContractData, ContractDescriptor, ContractFields, ContractItem, ContractItemFields,
+import { ContractData, ContractDescriptor, ContractFields, ContractItem, ContractItemFields,
          ContractsQuery } from '@app/models';
 
 
@@ -24,15 +24,6 @@ export class ContractsDataService {
     const path = 'v8/procurement/contracts/contract-types';
 
     return this.http.get<Identifiable[]>(path);
-  }
-
-
-  getContractsToOrder(supplierUID: string): EmpObservable<Contract[]> {
-    Assertion.assertValue(supplierUID, 'supplierUID');
-
-    const path = `v8/procurement/suppliers/${supplierUID}/contracts/to-order`;
-
-    return this.http.get<Contract[]>(path);
   }
 
 

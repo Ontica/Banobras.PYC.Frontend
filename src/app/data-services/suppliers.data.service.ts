@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { SupplierDescriptor, SuppliersQuery } from '@app/models';
+import { Contract, SupplierDescriptor, SuppliersQuery } from '@app/models';
 
 
 @Injectable()
@@ -25,6 +25,15 @@ export class SuppliersDataService {
     const path = 'v8/procurement/suppliers/search';
 
     return this.http.post<SupplierDescriptor[]>(path, query);
+  }
+
+
+  getSupplierContractsToOrder(supplierUID: string): EmpObservable<Contract[]> {
+    Assertion.assertValue(supplierUID, 'supplierUID');
+
+    const path = `v8/procurement/suppliers/${supplierUID}/contracts/to-order`;
+
+    return this.http.get<Contract[]>(path);
   }
 
 }
