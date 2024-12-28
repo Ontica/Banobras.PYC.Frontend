@@ -55,11 +55,6 @@ const routes: Routes = [
     component: ProductsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.adquisiciones_proveedores.permission },
-    path: ROUTES.adquisiciones_proveedores.path,
-    component: DefaultComponent,
-  },
-  {
     data: { permission: ROUTES.adquisiciones_reportes.permission },
     path: ROUTES.adquisiciones_reportes.path,
     component: DefaultComponent,

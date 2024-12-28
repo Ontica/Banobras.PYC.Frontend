@@ -78,13 +78,6 @@ export const ProcurementViews: View[] = [
     permission: ROUTES.adquisiciones_productos.permission,
   },
   {
-    name: 'Procurement.Suppliers',
-    title: 'Proveedores',
-    menuTitle: 'Proveedores',
-    url: ROUTES.adquisiciones_proveedores.fullpath,
-    permission: ROUTES.adquisiciones_proveedores.permission,
-  },
-  {
     name: 'Procurement.Reporting',
     title: 'Reportes',
     menuTitle: 'Reportes',
@@ -127,6 +120,13 @@ export const PaymentsViews: View[] = [
     menuTitle: 'Facturas',
     url: ROUTES.pagos_facturas.fullpath,
     permission: ROUTES.pagos_facturas.permission,
+  },
+  {
+    name: 'Payments.Suppliers',
+    title: 'Proveedores',
+    menuTitle: 'Proveedores',
+    url: ROUTES.pagos_proveedores.fullpath,
+    permission: ROUTES.pagos_proveedores.permission,
   },
   {
     name: 'Payments.Reporting',

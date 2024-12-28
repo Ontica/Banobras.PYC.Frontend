@@ -134,13 +134,6 @@ export const ROUTES = {
     fullpath: '/adquisiciones/entregas',
   },
 
-  adquisiciones_proveedores: {
-    permission: PERMISSIONS.NOT_REQUIRED,
-    parent: 'adquisiciones',
-    path: 'proveedores',
-    fullpath: '/adquisiciones/proveedores',
-  },
-
   adquisiciones_productos: {
     permission: PERMISSIONS.NOT_REQUIRED,
     parent: 'adquisiciones',
@@ -192,6 +185,13 @@ export const ROUTES = {
     parent: 'pagos',
     path: 'facturas',
     fullpath: '/pagos/facturas',
+  },
+
+  pagos_proveedores: {
+    permission: PERMISSIONS.NOT_REQUIRED,
+    parent: 'pagos',
+    path: 'proveedores',
+    fullpath: '/pagos/proveedores',
   },
 
   pagos_reportes: {
