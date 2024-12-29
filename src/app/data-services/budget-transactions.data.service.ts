@@ -35,7 +35,7 @@ export class BudgetTransactionsDataService {
   }
 
 
-  getTransactionData(transactionUID: string): EmpObservable<BudgetTransactionData> {
+  getTransaction(transactionUID: string): EmpObservable<BudgetTransactionData> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/budgeting/transactions/${transactionUID}`;

@@ -67,7 +67,7 @@ export class BudgetTransactionsMainPageComponent {
       case TransactionsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.transaction, ' event.payload.transaction');
         Assertion.assertValue(event.payload.transaction.uid, 'event.payload.transaction.uid');
-        this.getTransactionData(event.payload.transaction.uid);
+        this.getTransaction(event.payload.transaction.uid);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -91,7 +91,7 @@ export class BudgetTransactionsMainPageComponent {
         return;
       case TransactionTabbedViewEventType.REFRESH_DATA:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
-        this.refreshSelectedData(event.payload.transactionUID);
+        this.getTransaction(event.payload.transactionUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -105,28 +105,18 @@ export class BudgetTransactionsMainPageComponent {
 
     this.budgetTransactionsData.searchTransactions(query)
       .firstValue()
-      .then(x => this.resolveSearchTransactions(x))
+      .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
   }
 
 
-  private getTransactionData(transactionUID: string) {
+  private getTransaction(transactionUID: string) {
     this.isLoadingSelection = true;
 
-    this.budgetTransactionsData.getTransactionData(transactionUID)
+    this.budgetTransactionsData.getTransaction(transactionUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
-  }
-
-
-  private refreshSelectedData(transactionUID: string) {
-    this.getTransactionData(transactionUID);
-  }
-
-
-  private resolveSearchTransactions(data: BudgetTransactionDescriptor[]) {
-    this.setDataList(data, true);
   }
 
 
@@ -150,7 +140,7 @@ export class BudgetTransactionsMainPageComponent {
 
 
   private insertItemToList(data: BudgetTransactionData) {
-    const dataToInsert = mapBudgetTransactionDescriptorFromTransaction(data);
+    const dataToInsert = mapBudgetTransactionDescriptorFromTransaction(data.transaction);
     const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
     this.setDataList(dataListNew);
     this.setSelectedData(data);

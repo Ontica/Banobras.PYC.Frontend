@@ -99,6 +99,7 @@ export interface BudgetTransactionDescriptor {
   requestedDate: DateString;
   operationSourceName: string;
   applicationDate: DateString;
+  total: number;
   description: string;
   statusName: string;
 }
@@ -129,6 +130,7 @@ export interface BudgetTransaction {
   description: string;
   requestedDate: DateString;
   applicationDate: DateString;
+  total: number;
   status: Identifiable;
 }
 
@@ -208,6 +210,7 @@ export const EmptyBudgetTransaction: BudgetTransaction = {
   description: '',
   requestedDate: '',
   applicationDate: '',
+  total: null,
   status: Empty,
 }
 
@@ -229,18 +232,19 @@ export const EmptyBudgetTransactionData: BudgetTransactionData = {
 };
 
 
-export function mapBudgetTransactionDescriptorFromTransaction(data: BudgetTransactionData): BudgetTransactionDescriptor {
+export function mapBudgetTransactionDescriptorFromTransaction(data: BudgetTransaction): BudgetTransactionDescriptor {
   return {
-    uid: data.transaction.uid,
-    transactionNo: data.transaction.transactionNo,
-    basePartyName: data.transaction.baseParty.name,
-    budgetTypeName: data.transaction.budgetType.name,
-    budgetName: data.transaction.budget.name,
-    transactionTypeName: data.transaction.transactionType.name,
-    requestedDate: data.transaction.requestedDate,
-    operationSourceName: data.transaction.operationSource.name,
-    applicationDate: data.transaction.applicationDate,
-    description: data.transaction.description,
-    statusName: data.transaction.status.name,
+    uid: data.uid,
+    transactionNo: data.transactionNo,
+    basePartyName: data.baseParty.name,
+    budgetTypeName: data.budgetType.name,
+    budgetName: data.budget.name,
+    transactionTypeName: data.transactionType.name,
+    requestedDate: data.requestedDate,
+    operationSourceName: data.operationSource.name,
+    applicationDate: data.applicationDate,
+    description: data.description,
+    total: data.total,
+    statusName: data.status.name,
   };
 }

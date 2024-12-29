@@ -19,14 +19,14 @@
   <div class="fx-item-size first-column-size sm-fx-item-none">
     <div class="list-item-text-highlight">{{transaction.budgetTypeName}}</div>
     <div class="bold-text">{{transaction.budgetName}}</div>
-    <div>{{transaction.requestedDate | empDateTimeFormat}} </div>
+    <div>{{transaction.total | empDecimal}}</div>
   </div>
 
 
   <div class="fx-item-size second-column-size sm-fx-item-none">
     <div class="list-item-text-highlight">{{transaction.operationSourceName}}</div>
     <div>
-      {{!transaction.applicationDate ? '-' : (transaction.applicationDate | empDateTimeFormat)}}
+      {{!transaction.requestedDate ? '-' : (transaction.requestedDate | empDateTimeFormat)}}
     </div>
   </div>
 
@@ -39,6 +39,9 @@
       [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(transaction.statusName)}">
       {{transaction.statusName}}
     </span>
+    <div [style.padding-top.rem]="0.4">
+      {{!transaction.applicationDate ? '-' : (transaction.applicationDate | empDateTimeFormat)}}
+    </div>
   </div>
 
 </div>
