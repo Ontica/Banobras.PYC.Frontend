@@ -87,7 +87,7 @@ export class BudgetTransactionsMainPageComponent {
         return;
       case TransactionTabbedViewEventType.DATA_DELETED:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
-
+        this.removeItemFromList(event.payload.transactionUID);
         return;
       case TransactionTabbedViewEventType.REFRESH_DATA:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
@@ -144,6 +144,13 @@ export class BudgetTransactionsMainPageComponent {
     const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
     this.setDataList(dataListNew);
     this.setSelectedData(data);
+  }
+
+
+  private removeItemFromList(transactionUID: string) {
+    const dataListNew = this.dataList.filter(x => x.uid !== transactionUID);
+    this.setDataList(dataListNew);
+    this.setSelectedData(EmptyBudgetTransactionData);
   }
 
 }

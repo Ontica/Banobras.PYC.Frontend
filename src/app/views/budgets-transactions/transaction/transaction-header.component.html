@@ -119,7 +119,7 @@
 
           <button *ngIf="actions.canDelete"
             type="button" class="btn-warning"
-            (click)="onDeleteButtonClicked()">
+            (click)="onEventButtonClicked(eventType.DELETE)">
             Eliminar
           </button>
 
@@ -129,8 +129,14 @@
 
           <button *ngIf="actions.canAuthorize"
             type="button" class="btn"
-            (click)="onAuthorizeButtonClicked()">
+            (click)="onEventButtonClicked(eventType.AUTHORIZE)">
             Autorizar
+          </button>
+
+          <button *ngIf="actions.canReject"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventType.REJECT)">
+            Rechazar
           </button>
 
         </ng-container>

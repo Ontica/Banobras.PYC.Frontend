@@ -153,6 +153,7 @@ export interface TransactionActions {
   canUpdate: boolean;
   canDelete: boolean;
   canAuthorize: boolean;
+  canReject: boolean;
   canEditDocuments: boolean;
 }
 
@@ -219,6 +220,7 @@ export const EmptyTransactionActions: TransactionActions = {
   canUpdate: false,
   canDelete: false,
   canAuthorize: false,
+  canReject: false,
   canEditDocuments: false,
 }
 

@@ -22,8 +22,9 @@ import { BudgetTransaction, TransactionActions, BudgetTransactionFields, EmptyBu
 export enum TransactionHeaderEventType {
   CREATE    = 'BudgetTransactionHeaderComponent.Event.CreateTransaction',
   UPDATE    = 'BudgetTransactionHeaderComponent.Event.UpdateTransaction',
-  AUTHORIZE = 'BudgetTransactionHeaderComponent.Event.AuthorizeTransaction',
   DELETE    = 'BudgetTransactionHeaderComponent.Event.DeleteTransaction',
+  AUTHORIZE = 'BudgetTransactionHeaderComponent.Event.AuthorizeTransaction',
+  REJECT    = 'BudgetTransactionHeaderComponent.Event.RejectTransaction',
 }
 
 interface TransactionFormModel extends FormGroup<{
@@ -67,6 +68,8 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
 
   operationSourcesList: Identifiable[] = [];
 
+  eventType = TransactionHeaderEventType;
+
 
   constructor(private messageBox: MessageBoxService) {
     this.initForm();
@@ -88,30 +91,21 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
 
 
   get hasActions(): boolean {
-    return Object.values(this.actions).some(x => !!x);
+    return this.actions.canAuthorize || this.actions.canReject ||
+           this.actions.canDelete || this.actions.canUpdate;
   }
 
 
   onSubmitButtonClicked() {
     if (this.formHelper.isFormReadyAndInvalidate(this.form)) {
-      let eventType = TransactionHeaderEventType.CREATE;
-
-      if (this.isSaved) {
-        eventType = TransactionHeaderEventType.UPDATE;
-      }
-
-      sendEvent(this.transactionHeaderEvent, eventType, { transactionFields: this.getFormData() });
+      const eventType = this.isSaved ? TransactionHeaderEventType.UPDATE : TransactionHeaderEventType.CREATE;
+      sendEvent(this.transactionHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
   }
 
 
-  onAuthorizeButtonClicked() {
-    this.showConfirmMessage(TransactionHeaderEventType.AUTHORIZE);
-  }
-
-
-  onDeleteButtonClicked() {
-    this.showConfirmMessage(TransactionHeaderEventType.DELETE);
+  onEventButtonClicked(eventType: TransactionHeaderEventType) {
+    this.showConfirmMessage(eventType);
   }
 
 
@@ -200,6 +194,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
   private getConfirmType(eventType: TransactionHeaderEventType): 'AcceptCancel' | 'DeleteCancel' {
     switch (eventType) {
       case TransactionHeaderEventType.DELETE:
+      case TransactionHeaderEventType.REJECT:
         return 'DeleteCancel';
       case TransactionHeaderEventType.AUTHORIZE:
       default:
@@ -210,8 +205,9 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
 
   private getConfirmTitle(eventType: TransactionHeaderEventType): string {
     switch (eventType) {
-      case TransactionHeaderEventType.AUTHORIZE: return 'Autorizar transacción';
       case TransactionHeaderEventType.DELETE: return 'Eliminar transacción';
+      case TransactionHeaderEventType.REJECT: return 'Rechazar transacción';
+      case TransactionHeaderEventType.AUTHORIZE: return 'Autorizar transacción';
       default: return '';
     }
   }
@@ -219,19 +215,24 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges {
 
   private getConfirmMessage(eventType: TransactionHeaderEventType): string {
     switch (eventType) {
-      case TransactionHeaderEventType.AUTHORIZE:
-        return `Esta operación autotizará la transacción
-                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.baseParty.name}</strong>.
-
-                <br><br>¿Autorizo la transacción?`;
       case TransactionHeaderEventType.DELETE:
         return `Esta operación eliminará la transacción
                 <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
                 de <strong>${this.transaction.baseParty.name}</strong>.
 
                 <br><br>¿Elimino la transacción?`;
+      case TransactionHeaderEventType.REJECT:
+        return `Esta operación rechazará la transacción
+                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
+                de <strong>${this.transaction.baseParty.name}</strong>.
 
+                <br><br>¿Rechazo la transacción?`;
+      case TransactionHeaderEventType.AUTHORIZE:
+        return `Esta operación autorizará la transacción
+                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
+                de <strong>${this.transaction.baseParty.name}</strong>.
+
+                <br><br>¿Autorizo la transacción?`;
       default: return '';
     }
   }

@@ -56,6 +56,12 @@ export class BudgetTransactionEditorComponent {
       case TransactionHeaderEventType.AUTHORIZE:
         this.authorizeTransaction(this.transaction.uid);
         return;
+      case TransactionHeaderEventType.REJECT:
+        this.rejectTransaction(this.transaction.uid);
+        return;
+      case TransactionHeaderEventType.DELETE:
+        this.deleteTransaction(this.transaction.uid);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -73,8 +79,33 @@ export class BudgetTransactionEditorComponent {
   }
 
 
+  private rejectTransaction(transactionUID: string) {
+    this.submitted = true;
+
+    this.transactionsData.rejectTransaction(transactionUID)
+      .firstValue()
+      .then(x => this.resolveTransactionUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private deleteTransaction(transactionUID: string) {
+    this.submitted = true;
+
+    this.transactionsData.deleteTransaction(transactionUID)
+      .firstValue()
+      .then(() => this.resolveTransactionDeleted(transactionUID))
+      .finally(() => this.submitted = false);
+  }
+
+
   private resolveTransactionUpdated(data: BudgetTransactionData) {
     sendEvent(this.transactionEditorEvent, TransactionEditorEventType.UPDATED, { data });
+  }
+
+
+  private resolveTransactionDeleted(transactionUID: string) {
+    sendEvent(this.transactionEditorEvent, TransactionEditorEventType.DELETED, { transactionUID });
   }
 
 }

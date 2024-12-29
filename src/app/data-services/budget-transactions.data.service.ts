@@ -52,4 +52,22 @@ export class BudgetTransactionsDataService {
     return this.http.post<BudgetTransactionData>(path);
   }
 
+
+  rejectTransaction(transactionUID: string): EmpObservable<BudgetTransactionData> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/reject`;
+
+    return this.http.post<BudgetTransactionData>(path);
+  }
+
+
+  deleteTransaction(transactionUID: string): EmpObservable<void> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}`;
+
+    return this.http.delete<void>(path);
+  }
+
 }
