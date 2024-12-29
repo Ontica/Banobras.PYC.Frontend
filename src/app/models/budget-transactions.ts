@@ -15,17 +15,23 @@ import { History } from './history';
 
 
 export enum BudgetTransactionsStatus {
-  Pending         = 'Pendiente',
-  OnAuthorization = 'En autorización',
-  Completed       = 'Completada',
-  Deleted         = 'Eliminada',
+  Pending         = 'Pending',
+  OnAuthorization = 'OnAuthorization',
+  Authorized      = 'Authorized',
+  Closed          = 'Closed',
+  Rejected        = 'Rejected',
+  Canceled        = 'Canceled',
+  Deleted         = 'Deleted',
 }
 
 
 export const BudgetTransactionStatusList: Identifiable<BudgetTransactionsStatus>[] = [
   { uid: BudgetTransactionsStatus.Pending,         name: 'Pendiente' },
   { uid: BudgetTransactionsStatus.OnAuthorization, name: 'En autorización' },
-  { uid: BudgetTransactionsStatus.Completed,       name: 'Completada' },
+  { uid: BudgetTransactionsStatus.Authorized,      name: 'Autorizada' },
+  { uid: BudgetTransactionsStatus.Closed,          name: 'Cerrada' },
+  { uid: BudgetTransactionsStatus.Rejected,        name: 'Rechazada' },
+  { uid: BudgetTransactionsStatus.Canceled,        name: 'Cancelada' },
   { uid: BudgetTransactionsStatus.Deleted,         name: 'Eliminada' },
 ];
 
