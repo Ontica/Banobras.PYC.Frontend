@@ -92,7 +92,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges {
 
 
   get hasActions(): boolean {
-    return Object.values(this.actions).some(x => !!x);
+    return this.actions.canSendToPay;
   }
 
 

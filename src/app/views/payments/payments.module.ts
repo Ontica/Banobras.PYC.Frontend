@@ -21,6 +21,7 @@ import { PaymentsOrdersFilterComponent } from './payments-orders/payments-orders
 import { PaymentsOrdersListComponent } from './payments-orders/payments-orders-explorer/payments-orders-list.component';
 import { PaymentsOrdersListItemComponent } from './payments-orders/payments-orders-explorer/payments-orders-list-item.component';
 import { PaymentsOrdersListHeaderComponent } from './payments-orders/payments-orders-explorer/payments-orders-list-header.component';
+import { InstructionLogTableComponent } from './payments-orders/instruction-log/instruction-log-table.component';
 
 import { PayablesMainPageComponent } from './payables/payables-main-page/payables-main-page.component';
 import { PayablesExplorerComponent } from './payables/payables-explorer/payables-explorer.component';
@@ -58,6 +59,7 @@ import { PaymentOrderHeaderComponent } from './payments-orders/payment-order/pay
     PaymentsOrdersListComponent,
     PaymentsOrdersListItemComponent,
     PaymentsOrdersListHeaderComponent,
+    InstructionLogTableComponent,
 
     PayablesMainPageComponent,
     PayablesExplorerComponent,

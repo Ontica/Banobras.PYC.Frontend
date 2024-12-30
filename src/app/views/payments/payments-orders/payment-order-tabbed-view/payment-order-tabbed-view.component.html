@@ -16,6 +16,15 @@
 
     </mat-tab>
 
+    <mat-tab label="Bitácora">
+
+      <emp-pmt-instruction-log-table
+        [log]="data.log">
+
+      </emp-pmt-instruction-log-table>
+
+    </mat-tab>
+
     <mat-tab label="Documentos">
 
       <emp-ng-documents-edition

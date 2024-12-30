@@ -60,24 +60,6 @@ export interface PaymentMethod {
 }
 
 
-export const EmptyPaymentMethod: PaymentMethod = {
-  uid: '',
-  name: '',
-  linkedToAccount: false,
-}
-
-
-export const EmptyPaymentsOrdersQuery: PaymentsOrdersQuery = {
-  status: null,
-  requesterOrgUnitUID: '',
-  paymentOrderTypeUID: '',
-  paymentMethodUID: '',
-  keywords: '',
-  fromDate: '',
-  toDate: '',
-};
-
-
 export interface PaymentOrderDescriptor {
   uid: string;
   paymentOrderTypeName: string;
@@ -101,6 +83,7 @@ export interface PaymentOrderFields {
  export interface PaymentOrderData {
   paymentOrder: PaymentOrder;
   items: any[];
+  log: PaymentInstructionLog[];
   bills: Bill[];
   documents: Document[];
   history: History[];
@@ -121,6 +104,19 @@ export interface PaymentOrder {
   currency: Identifiable;
   paymentMethod: Identifiable;
   dueTime: DateString;
+}
+
+
+export interface PaymentInstructionLog {
+  uid: string;
+  paymentOrdeNo: string;
+  paymentMethod: string;
+  total: number;
+  currency: string;
+  requestTime: DateString;
+  requestCode: string;
+  description: string;
+  statusName: string;
 }
 
 
@@ -153,6 +149,17 @@ export const PaymentsOrdersOperationsList: ExplorerOperation[] = [
 ];
 
 
+export const EmptyPaymentsOrdersQuery: PaymentsOrdersQuery = {
+  status: null,
+  requesterOrgUnitUID: '',
+  paymentOrderTypeUID: '',
+  paymentMethodUID: '',
+  keywords: '',
+  fromDate: '',
+  toDate: '',
+};
+
+
 export const EmptyPaymentOrder: PaymentOrder = {
   uid: '',
   orderNo: '',
@@ -178,11 +185,21 @@ export const EmptyPaymentOrderActions: PaymentOrderActions = {
 export const EmptyPaymentOrderData: PaymentOrderData = {
   paymentOrder: EmptyPaymentOrder,
   items: [],
+  log: [],
   bills: [],
   documents: [],
   history: [],
   actions: EmptyPaymentOrderActions,
 };
+
+
+export const EmptyPaymentMethod: PaymentMethod = {
+  uid: '',
+  name: '',
+  linkedToAccount: false,
+}
+
+
 
 
 export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderData): PaymentOrderDescriptor {
