@@ -4,7 +4,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-size" style="--size: calc(100% - 126px)">
+      <div class="fx-item-half">
 
         <label>Área solicitante:</label>
 
@@ -13,7 +13,24 @@
           [config]="{virtualScroll: true, showTooltip: true}"
           [items]="organizationalUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.organizationalUnitUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.organizationalUnitUID)"
+          (changes)="onPayableEntityReset()">
+
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-size" style="--size: calc(50% - 126px)">
+
+        <label>Tipo de obligación:</label>
+
+        <emp-ng-select
+          formControlName="payableTypeUID"
+          [items]="payableTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.payableTypeUID)"
+          (changes)="onPayableEntityReset()">
+
         </emp-ng-select>
 
       </div>
@@ -32,113 +49,156 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-third">
-
-        <label>Tipo de presupuesto:</label>
-
-        <emp-ng-select
-          formControlName="budgetTypeUID"
-          [items]="budgetTypesList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-third">
-
-        <label>Tipo de obligación:</label>
-
-        <emp-ng-select
-          formControlName="payableTypeUID"
-          [items]="payableTypesList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.payableTypeUID)"
-          (changes)="onPayableTypeChanges()">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-third">
+      <div class="fx-item">
 
         <label>Documento relacionado:</label>
 
         <emp-ng-select-typeahead #payableEntitySearcher
           formControlName="payableEntityUID"
-          bindLabel="entityNo"
-          [placeholder]="form.controls.payableTypeUID.valid ? 'Buscar documento...' : 'Seleccione el tipo de obligación...'"
-          [config]="{ searchByQuery: true }"
-          [initQuery]="{ payableTypeUID: form.value.payableTypeUID, keywords: '' }"
+          [placeholder]="payableEntityPlaceholder"
+          [config]="{ searchByQuery: true, showTooltip: true }"
+          [initQuery]="{
+              payableTypeUID: form.value.payableTypeUID,
+              organizationalUnitUID: form.value.organizationalUnitUID ?? null,
+              keywords: ''
+          }"
           [searcherAPI]="payableEntitiesAPI"
-          [initialValue]="payableEntity"
-          [showError]="formHelper.isControlInvalid(form.controls.payableEntityUID)">
+          [initialValue]="isSaved && !editionMode ? payableEntity : null"
+          [showError]="formHelper.isControlInvalid(form.controls.payableEntityUID)"
+          (changes)="onPayableEntityChanges($event)">
+
+          <ng-template #tLabelTemplate let-item="item">
+            {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | Cuenta: {{!item?.name ? 'N/D' : item?.name}}
+          </ng-template>
+
+          <ng-template #tOptionTemplate let-item="item">
+
+            <div class="item wrap">
+
+              <span class="item-highlight">
+                {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}}  | {{item.payTo?.name}} | {{item.budget?.name}} | {{item.total ?? 0 | empDecimal}} | {{item.currency?.name}}
+              </span> <br>
+              <span class="item-text-xs">
+                {{!item?.name ? 'N/D' : item?.name}}
+              </span>
+
+            </div>
+
+          </ng-template>
 
         </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Presupuesto:</label>
+
+        <emp-ng-select
+          formControlName="budgetUID"
+          [items]="!selectedPayableEntity?.budget?.uid ? [] : [selectedPayableEntity.budget]"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetUID)"
+          [placeholder]="payableEntityDataPlaceholder">
+
+        </emp-ng-select>
 
       </div>
 
     </div>
 
-
     <div class="fx-row-container">
 
-      <div class="fx-item-two-third">
+      <div class="fx-item-half">
 
         <label>Pagar a:</label>
 
-        <emp-ng-select-typeahead
+        <emp-ng-select
           formControlName="payToUID"
-          [searcherAPI]="suppliersAPI"
-          [initialValue]="payable.payTo"
+          [config]="{showTooltip: true}"
+          [items]="!selectedPayableEntity?.payTo?.uid ? [] : [selectedPayableEntity.payTo]"
           [showError]="formHelper.isControlInvalid(form.controls.payToUID)"
-          (changes)="onPayToChanges($event)">
+          [placeholder]="payableEntityDataPlaceholder">
 
-        </emp-ng-select-typeahead>
+        </emp-ng-select>
 
       </div>
 
-      <div class="fx-item-third">
+      <div class="fx-item-quarter">
+
+        <label>Total:</label>
+
+        <emp-ng-input-numeric
+          formControlName="total"
+          [showError]="formHelper.isControlInvalid(form.controls.total)"
+          [placeholder]="payableEntityDataPlaceholder">
+
+        </emp-ng-input-numeric>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Moneda:</label>
+
+        <emp-ng-select
+          formControlName="currencyUID"
+          [items]="!selectedPayableEntity?.currency?.uid ? [] : [selectedPayableEntity.currency]"
+          [showError]="formHelper.isControlInvalid(form.controls.currencyUID)"
+          [placeholder]="payableEntityDataPlaceholder">
+
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
 
         <label>Método de pago:</label>
 
         <emp-ng-select
           formControlName="paymentMethodUID"
           [items]="paymentMethodsList"
-          [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.paymentMethodUID)"
+          [placeholder]="paymentMethodPlaceholder"
           (changes)="onPaymentMethodChanges($event)">
+
         </emp-ng-select>
 
       </div>
 
-    </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-third">
+      <div class="fx-item-half">
 
         <label>Cuenta:</label>
 
         <emp-ng-select
           formControlName="paymentAccountUID"
-          [items]="partyPaymentAccountsList"
-          [loading]="isLoadingPartyPaymentAccount"
+          [items]="paymentAccountsList"
           [placeholder]="paymentAccountPlaceholder"
           [showError]="formHelper.isControlInvalid(form.controls.paymentAccountUID)">
 
-        </emp-ng-select>
+          <ng-template #labelTemplate let-item="item">
+             {{item.institution?.name}} | {{!!item.accountNo ? item.accountNo : 'N/D'}}
+          </ng-template>
 
-      </div>
+          <ng-template #optionTemplate let-item="item">
 
-      <div class="fx-item-third">
+            <div class="item wrap">
 
-        <label>Moneda:</label>
+              <span class="item-highlight">
+                {{item.institution?.name}} | Cuenta: {{!!item.accountNo ? item.accountNo : 'N/D'}}
+              </span> <br>
 
-        <emp-ng-select
-          formControlName="currencyUID"
-          [items]="currenciesList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+              <span class="item-text-xs">
+                CLABE: {{item.clabe}} | Titular: {{item.holderName}}
+              </span>
+
+            </div>
+
+          </ng-template>
+
         </emp-ng-select>
 
       </div>
@@ -188,7 +248,7 @@
 
           <button *ngIf="actions.canDelete"
             type="button" class="btn-warning"
-            (click)="onDeleteButtonClicked()">
+            (click)="onEventButtonClicked(eventTypes.DELETE_PAYABLE)">
             Eliminar
           </button>
 
@@ -198,7 +258,7 @@
 
           <button *ngIf="actions.canGeneratePaymentOrder"
             type="button" class="btn"
-            (click)="onGeneratePaymentOrderButtonClicked()">
+            (click)="onEventButtonClicked(eventTypes.GENERATE_PAYMENT_ORDER)">
             Generar orden de pago
           </button>
 

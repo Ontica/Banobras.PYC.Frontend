@@ -13,7 +13,7 @@ import { Bill } from './bills';
 
 import { Document } from './documents';
 
-import { EmptyPaymentMethod, PaymentMethod } from './payments-orders';
+import { EmptyPaymentMethod, PaymentAccount, PaymentMethod } from './payments-orders';
 
 import { History } from './history';
 
@@ -73,16 +73,13 @@ export interface PayableDescriptor {
 
 
 export interface PayableFields {
-  payableTypeUID: string;
-  payableEntityUID: string;
-  description: string;
   organizationalUnitUID: string;
-  payToUID: string;
+  payableTypeUID: string;
+  dueTime: DateString;
+  payableEntityUID: string;
   paymentMethodUID: string;
   paymentAccountUID: string;
-  currencyUID: string;
-  budgetTypeUID: string;
-  dueTime: DateString;
+  description: string;
 }
 
 
@@ -103,12 +100,15 @@ export interface Payable {
   payableType: Identifiable;
   description: string;
   requestedBy: Identifiable;
-  budgetType: Identifiable;
   payTo: Identifiable;
+  budgetType: Identifiable;
+  budget: Identifiable;
+  total: number;
+  currency: Identifiable;
+  exchangeRateType: Identifiable;
+  exchangeRate: number;
   paymentMethod: PaymentMethod;
   paymentAccount: Identifiable;
-  currency: Identifiable;
-  total: number;
   requestedTime: DateString;
   dueTime: DateString;
   status: Identifiable;
@@ -121,8 +121,12 @@ export interface PayableEntity {
   entityNo: string;
   name: string;
   description: string;
-  attributes: any[];
-  ítems: PayableEntityItem[];
+  payTo: Identifiable;
+  budget: Identifiable;
+  currency: Identifiable;
+  paymentAccounts: PaymentAccount[];
+  total: number;
+  items: PayableEntityItem[];
 }
 
 
@@ -188,8 +192,12 @@ export const EmptyPayableEntity: PayableEntity = {
   entityNo: '',
   name: '',
   description: '',
-  attributes: [],
-  ítems: [],
+  payTo: Empty,
+  budget: Empty,
+  currency: Empty,
+  paymentAccounts: [],
+  total: null,
+  items: [],
 }
 
 
@@ -199,12 +207,15 @@ export const EmptyPayable: Payable = {
   payableType: Empty,
   description: '',
   requestedBy: Empty,
-  budgetType: Empty,
   payTo: Empty,
+  budgetType: Empty,
+  budget: Empty,
+  total: null,
+  currency: Empty,
+  exchangeRateType: Empty,
+  exchangeRate: null,
   paymentMethod: EmptyPaymentMethod,
   paymentAccount: Empty,
-  currency: Empty,
-  total: 0,
   requestedTime: '',
   dueTime: '',
   status: Empty,

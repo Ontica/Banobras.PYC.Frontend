@@ -6,7 +6,7 @@
  */
 
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
-         SimpleChanges, ViewChild } from '@angular/core';
+         SimpleChanges } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -16,19 +16,16 @@ import { Assertion, DateString, EventInfo, Identifiable, isEmpty } from '@app/co
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { BudgetingStateSelector, CataloguesStateSelector,
-         PaymentsStateSelector } from '@app/presentation/exported.presentation.types';
+import { CataloguesStateSelector, PaymentsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
-
-import { CataloguesDataService, SearcherAPIS } from '@app/data-services';
+import { SearcherAPIS } from '@app/data-services';
 
 import { BudgetType, EmptyPayable, EmptyPayableActions, EmptyPayableEntity, Payable, PayableActions,
-         PayableEntity, PayableFields, PaymentMethod, RequestsList } from '@app/models';
+         PayableEntity, PayableFields, PaymentAccount, PaymentMethod, RequestsList } from '@app/models';
 
 
 export enum PayableHeaderEventType {
@@ -42,11 +39,12 @@ interface PayableFormModel extends FormGroup<{
   organizationalUnitUID: FormControl<string>;
   payableTypeUID: FormControl<string>;
   payableEntityUID: FormControl<string>;
-  budgetTypeUID: FormControl<string>;
+  budgetUID: FormControl<string>;
   payToUID: FormControl<string>;
+  total: FormControl<number>;
+  currencyUID: FormControl<string>;
   paymentMethodUID: FormControl<string>;
   paymentAccountUID: FormControl<string>;
-  currencyUID: FormControl<string>;
   description: FormControl<string>;
   dueTime: FormControl<DateString>;
 }> { }
@@ -56,8 +54,6 @@ interface PayableFormModel extends FormGroup<{
   templateUrl: './payable-header.component.html',
 })
 export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
-
-  @ViewChild('payableEntitySearcher') payableEntitySearcher: SelectBoxTypeaheadComponent;
 
   @Input() isSaved = false;
 
@@ -79,29 +75,24 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   isLoading = false;
 
-  isLoadingPartyPaymentAccount = false;
-
   organizationalUnitsList: Identifiable[] = [];
 
   payableTypesList: Identifiable[] = [];
 
-  budgetTypesList: Identifiable[] = [];
-
-  currenciesList: Identifiable[] = [];
-
   paymentMethodsList: PaymentMethod[] = [];
 
-  paymentMethodSelected: PaymentMethod = null;
+  paymentAccountsList: PaymentAccount[] = [];
 
-  partyPaymentAccountsList: Identifiable[] = [];
+  selectedPayableEntity: PayableEntity = null;
 
-  suppliersAPI = SearcherAPIS.suppliers;
+  linkedToAccount = false;
 
   payableEntitiesAPI = SearcherAPIS.payableEntities;
 
+  eventTypes = PayableHeaderEventType;
+
 
   constructor(private uiLayer: PresentationLayer,
-              private cataloguesData: CataloguesDataService,
               private messageBox: MessageBoxService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
@@ -131,45 +122,78 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
+  get payableEntityPlaceholder(): string {
+    if (!this.editionMode) {
+      return 'No determinado';
+    }
+
+    if (!this.form.getRawValue().organizationalUnitUID) {
+      return 'Seleccione el área...';
+    }
+
+    if (!this.form.getRawValue().payableTypeUID) {
+      return 'Seleccione el tipo de obligación...';
+    }
+
+    return 'Buscar documento...';
+  }
+
+
+  get payableEntityDataPlaceholder(): string {
+    if (!this.editionMode) {
+      return 'No determinado';
+    }
+
+    return isEmpty(this.selectedPayableEntity) ? 'Seleccione el documento...' :
+      'El documento no tiene datos asociados...'
+  }
+
+
+  get paymentMethodPlaceholder(): string {
+    if (!this.editionMode) {
+      return 'No determinado';
+    }
+
+    if (!this.form.getRawValue().payableEntityUID) {
+      return 'Seleccione el documento...';
+    }
+
+    return 'Seleccionar';
+  }
+
+
   get paymentAccountPlaceholder(): string {
     if (!this.editionMode) {
-      return 'No aplica';
+      return this.linkedToAccount ? 'No determinado' : 'No aplica';
     }
 
-    if (this.form.controls.payToUID.valid) {
-      if (this.form.controls.paymentMethodUID.valid) {
-        return  this.paymentMethodSelected.linkedToAccount ? 'Seleccionar' : 'No aplica';
-      } else {
-        return 'Seleccione el método de pago'
-      }
+    if (!this.form.getRawValue().payableEntityUID) {
+      return 'Seleccione el documento...';
     }
-    return 'Seleccione a quien pagar';
+
+    if (!this.form.getRawValue().paymentMethodUID) {
+      return 'Seleccione el método de pago...'
+    }
+
+    return this.linkedToAccount ? 'Seleccionar' : 'No aplica';
   }
 
 
-  onPayableTypeChanges() {
-    this.resetPayableEntity();
-    this.validatePayableEntityDisabled();
+  onPayableEntityReset() {
+    this.form.controls.payableEntityUID.reset();
+    this.validatePayableEntityData(null);
   }
 
 
-  onPayToChanges(party: Identifiable) {
-    this.form.controls.paymentAccountUID.reset();
-
-    if (isEmpty(party)) {
-      this.partyPaymentAccountsList = [];
-    } else {
-      this.getPartyPaymentAccouts(party.uid);
-    }
-
-    this.validatePaymentAccountDisabled();
+  onPayableEntityChanges(entity: PayableEntity) {
+    this.validatePayableEntityData(entity);
   }
 
 
   onPaymentMethodChanges(paymentMethod: PaymentMethod) {
+    this.linkedToAccount = isEmpty(paymentMethod) ? false : paymentMethod.linkedToAccount;
     this.form.controls.paymentAccountUID.reset();
-    this.paymentMethodSelected = paymentMethod;
-    this.validatePaymentAccountDisabled();
+    this.validatePaymentAccountData();
   }
 
 
@@ -186,13 +210,8 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  onDeleteButtonClicked() {
-    this.showConfirmMessage(PayableHeaderEventType.DELETE_PAYABLE);
-  }
-
-
-  onGeneratePaymentOrderButtonClicked() {
-    this.showConfirmMessage(PayableHeaderEventType.GENERATE_PAYMENT_ORDER);
+  onEventButtonClicked(eventType: PayableHeaderEventType) {
+    this.showConfirmMessage(eventType);
   }
 
 
@@ -213,29 +232,13 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.payments }),
-      this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
       this.helper.select<BudgetType[]>(PaymentsStateSelector.PAYABLES_TYPES),
-      this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
-      this.helper.select<PaymentMethod[]>(CataloguesStateSelector.PAYMENTS_METHODS),
     ])
-    .subscribe(([a, b, c, d, e]) => {
+    .subscribe(([a, b]) => {
       this.organizationalUnitsList = a;
-      this.budgetTypesList = b;
-      this.payableTypesList = c;
-      this.currenciesList = d;
-      this.paymentMethodsList = e;
+      this.payableTypesList = b;
       this.isLoading = false;
     });
-  }
-
-
-  private getPartyPaymentAccouts(partyUID: string) {
-    this.isLoadingPartyPaymentAccount = true;
-
-    this.cataloguesData.getPartyPaymentAccouts(partyUID)
-      .firstValue()
-      .then(x => this.partyPaymentAccountsList = x)
-      .finally(() => this.isLoadingPartyPaymentAccount = false);
   }
 
 
@@ -246,16 +249,15 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
       organizationalUnitUID: ['', Validators.required],
       payableTypeUID: ['', Validators.required],
       payableEntityUID: ['', Validators.required],
-      budgetTypeUID: ['', Validators.required],
+      budgetUID: ['', Validators.required],
       payToUID: ['', Validators.required],
+      total: [null as number, Validators.required],
       paymentMethodUID: ['', Validators.required],
       paymentAccountUID: ['', Validators.required],
       currencyUID: ['', Validators.required],
       description: [''],
       dueTime: [null as DateString, Validators.required],
     });
-
-    this.validateFormControls();
   }
 
 
@@ -265,8 +267,9 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
         organizationalUnitUID: isEmpty(this.payable.requestedBy) ? null : this.payable.requestedBy.uid,
         payableTypeUID: isEmpty(this.payable.payableType) ? null : this.payable.payableType.uid,
         payableEntityUID: isEmpty(this.payableEntity) ? null : this.payableEntity.uid,
-        budgetTypeUID: isEmpty(this.payable.budgetType) ? null : this.payable.budgetType.uid,
+        budgetUID: isEmpty(this.payable.budget) ? null : this.payable.budget.uid,
         payToUID: isEmpty(this.payable.payTo) ? null : this.payable.payTo.uid,
+        total: this.payable.total ?? null,
         paymentMethodUID: isEmpty(this.payable.paymentMethod) ? null : this.payable.paymentMethod.uid,
         paymentAccountUID: isEmpty(this.payable.paymentAccount) ? null : this.payable.paymentAccount.uid,
         currencyUID: isEmpty(this.payable.currency) ? null : this.payable.currency.uid,
@@ -274,17 +277,13 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
         dueTime: this.payable.dueTime ?? null,
       });
 
-      this.paymentMethodSelected = isEmpty(this.payable.paymentMethod) ? null : this.payable.paymentMethod;
-      this.loadPartyPaymentAccountsList();
+      this.selectedPayableEntity = isEmpty(this.payableEntity) ? null : this.payableEntity;
+      this.linkedToAccount = isEmpty(this.payable.paymentMethod) ? false :
+        this.payable.paymentMethod.linkedToAccount;
+
+      this.validatePaymentMethodsData();
+      this.validatePaymentAccountData();
     });
-  }
-
-
-  private loadPartyPaymentAccountsList() {
-    if (!isEmpty(this.payable.payTo)) {
-      this.partyPaymentAccountsList = [];
-      this.getPartyPaymentAccouts(this.payable.payTo.uid);
-    }
   }
 
 
@@ -294,27 +293,14 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
     const data: PayableFields = {
       organizationalUnitUID: this.form.value.organizationalUnitUID ?? '',
       payableTypeUID: this.form.value.payableTypeUID ?? '',
+      dueTime: this.form.value.dueTime ?? '',
       payableEntityUID: this.form.value.payableEntityUID ?? '',
-      budgetTypeUID: this.form.value.budgetTypeUID ?? '',
-      payToUID: this.form.value.payToUID ?? '',
       paymentMethodUID: this.form.value.paymentMethodUID ?? '',
       paymentAccountUID: this.form.value.paymentAccountUID ?? '',
-      currencyUID: this.form.value.currencyUID ?? '',
       description: this.form.value.description ?? '',
-      dueTime: this.form.value.dueTime ?? '',
     };
 
     return data;
-  }
-
-
-  private validateFormControls() {
-    setTimeout(() => {
-      FormHelper.markControlsAsUntouched(this.form.controls.payToUID);
-      FormHelper.markControlsAsUntouched(this.form.controls.payableEntityUID);
-      FormHelper.setDisableControl(this.form.controls.payableEntityUID);
-      FormHelper.setDisableControl(this.form.controls.paymentAccountUID);
-    }, 10);
   }
 
 
@@ -322,38 +308,63 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
     setTimeout(() => {
       const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
       this.formHelper.setDisableForm(this.form, disable);
+
       if (!disable) {
         this.validatePayableEntityDisabled();
-        this.validatePaymentAccountDisabled();
       };
-    });
+    }, 10);
   }
 
 
-  private resetPayableEntity() {
-    this.form.controls.payableEntityUID.reset();
+  private validatePayableEntityData(entity: PayableEntity) {
+    const isEmptyEntity = isEmpty(entity);
+    this.selectedPayableEntity = isEmptyEntity ? null : entity;
+    this.linkedToAccount = false;
 
-    if (this.isSaved) {
-      this.payableEntitySearcher.clearSearcherData(); // TODO: check this when it has initial value
-    }
+    this.form.controls.payToUID.reset(isEmptyEntity ? null : this.selectedPayableEntity.payTo.uid);
+    this.form.controls.budgetUID.reset(isEmptyEntity ? null : this.selectedPayableEntity.budget.uid);
+    this.form.controls.currencyUID.reset(isEmptyEntity ? null : this.selectedPayableEntity.currency.uid);
+    this.form.controls.total.reset(isEmptyEntity ? null : this.selectedPayableEntity.total);
+    this.form.controls.paymentMethodUID.reset();
+    this.form.controls.paymentAccountUID.reset();
+
+    this.validatePayableEntityDisabled();
+    this.validatePaymentMethodsData();
+    this.validatePaymentAccountData();
   }
 
 
   private validatePayableEntityDisabled() {
-    setTimeout(() => {
-      const disable = !this.form.value.payableTypeUID;
-      FormHelper.setDisableControl(this.form.controls.payableEntityUID, disable);
-    });
+    const entityNotReady = !this.form.value.payableTypeUID || !this.form.value.organizationalUnitUID;
+    const payableEntityInvalid = isEmpty(this.selectedPayableEntity);
+    const payableAccountNotRequired = payableEntityInvalid || !this.linkedToAccount;
+
+    FormHelper.setDisableControl(this.form.controls.payableEntityUID, entityNotReady);
+
+    FormHelper.setDisableControl(this.form.controls.paymentMethodUID, payableEntityInvalid);
+    FormHelper.setDisableControl(this.form.controls.paymentAccountUID, payableAccountNotRequired);
+    FormHelper.setDisableControl(this.form.controls.payToUID);
+    FormHelper.setDisableControl(this.form.controls.budgetUID);
+    FormHelper.setDisableControl(this.form.controls.total);
+    FormHelper.setDisableControl(this.form.controls.currencyUID);
   }
 
 
-  private validatePaymentAccountDisabled() {
-    setTimeout(() => {
-      const disable = !this.form.value.payToUID || isEmpty(this.paymentMethodSelected) ||
-        !this.paymentMethodSelected.linkedToAccount;
-      FormHelper.setDisableControl(this.form.controls.paymentAccountUID, disable);
-    });
+  private validatePaymentMethodsData() {
+    const paymentMethodsList = this.selectedPayableEntity?.paymentAccounts?.map(x => x.paymentMethod) ?? [];
+    this.paymentMethodsList = ArrayLibrary.getUniqueItems(paymentMethodsList);
   }
+
+
+  private validatePaymentAccountData() {
+    const paymentMethodUID = this.form.getRawValue().paymentMethodUID;
+
+    this.paymentAccountsList = this.linkedToAccount ?
+      this.selectedPayableEntity?.paymentAccounts?.filter(x => x.paymentMethod.uid === paymentMethodUID) : [];
+
+    this.validatePayableEntityDisabled();
+  }
+
 
 
   private showConfirmMessage(eventType: PayableHeaderEventType) {

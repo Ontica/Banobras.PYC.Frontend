@@ -53,6 +53,18 @@ export interface PaymentsOrdersQuery {
 }
 
 
+export interface PaymentAccount {
+  uid: string;
+  name: string;
+  paymentMethod: PaymentMethod;
+  currency: Identifiable;
+  institution: Identifiable;
+  accountNo: string;
+  holderName: string;
+  clabe: string;
+}
+
+
 export interface PaymentMethod {
   uid: string;
   name: string;
@@ -200,6 +212,16 @@ export const EmptyPaymentMethod: PaymentMethod = {
 }
 
 
+export const EmptyPaymentAccount: PaymentAccount = {
+  uid: '',
+  name: '',
+  paymentMethod: EmptyPaymentMethod,
+  currency: Empty,
+  institution: Empty,
+  accountNo: '',
+  holderName: '',
+  clabe: '',
+}
 
 
 export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderData): PaymentOrderDescriptor {
