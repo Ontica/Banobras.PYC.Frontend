@@ -155,7 +155,7 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
 
   private setRequestsListFromCurrentView(view: View) {
     switch (view.name) {
-      case 'Procurement.Milestones':
+      case 'Procurement.ContractOrders':
         this.config = getOrderTypeConfig(ObjectTypes.CONTRACT_ORDER)
         return;
       case 'Procurement.MinorPurchases':

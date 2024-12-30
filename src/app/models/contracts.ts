@@ -15,6 +15,8 @@ import { History } from './history';
 
 import { BudgetTransactionDescriptor } from './budget-transactions';
 
+import { ContractOrderDescriptor } from './contract-orders';
+
 
 export interface ContractsQuery {
   status: EntityStatus;
@@ -88,7 +90,7 @@ export interface ContractData {
   contract: Contract;
   items: ContractItem[];
   budgetTransactions: BudgetTransactionDescriptor[];
-  milestones: ContractMilestone[];
+  orders: ContractOrderDescriptor[];
   documents: Document[];
   history: History[];
   actions: ContractActions;
@@ -148,35 +150,6 @@ export interface ContractItemFields {
   maxQuantity: number;
   unitPrice: number;
   description: string;
-}
-
-
-export interface ContractMilestone {
-  uid: string;
-  managedByOrgUnit: Identifiable;
-  contract: Identifiable;
-  supplier: Identifiable;
-  milestoneNo: string;
-  name: string;
-  description: string;
-  total: number;
-  status: Identifiable;
-  items: ContractMilestoneItem[];
-}
-
-
-export interface ContractMilestoneItem {
-  uid: string;
-  contractMilestone: Identifiable;
-  contractItem: Identifiable;
-  description: string;
-  product: Identifiable;
-  productUnit: Identifiable;
-  quantity: number;
-  unitPrice: number;
-  total: number;
-  budgetAccount: Identifiable;
-  status: Identifiable;
 }
 
 
@@ -256,7 +229,7 @@ export const EmptyContractData: ContractData = {
   contract: EmptyContract,
   items: [],
   budgetTransactions: [],
-  milestones: [],
+  orders: [],
   documents: [],
   history: [],
   actions: EmptyContractActions,

@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContractMilestonesTableComponent } from './contract-milestones-table.component';
+import { ContractOrdersTableComponent } from './contract-orders-table.component';
 
-describe('ContractMilestonesTableComponent', () => {
-  let component: ContractMilestonesTableComponent;
-  let fixture: ComponentFixture<ContractMilestonesTableComponent>;
+describe('ContractOrdersTableComponent', () => {
+  let component: ContractOrdersTableComponent;
+  let fixture: ComponentFixture<ContractOrdersTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ContractMilestonesTableComponent]
+      declarations: [ContractOrdersTableComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ContractMilestonesTableComponent);
+    fixture = TestBed.createComponent(ContractOrdersTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

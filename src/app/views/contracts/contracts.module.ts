@@ -29,7 +29,7 @@ import { ContractHeaderComponent } from './contract/contract-header.component';
 import { ContractItemEditorComponent } from './contract-items/contract-item-editor.component';
 import { ContractItemsEditionComponent } from './contract-items/contract-items-edition.component';
 import { ContractItemsTableComponent } from './contract-items/contract-items-table.component';
-import { ContractMilestonesTableComponent } from './contract-milestones/contract-milestones-table.component';
+import { ContractOrdersTableComponent } from './contract-orders/contract-orders-table.component';
 
 
 @NgModule({
@@ -59,7 +59,7 @@ import { ContractMilestonesTableComponent } from './contract-milestones/contract
     ContractItemEditorComponent,
     ContractItemsEditionComponent,
     ContractItemsTableComponent,
-    ContractMilestonesTableComponent,
+    ContractOrdersTableComponent,
   ],
   exports: [
     ContractsMainPageComponent,

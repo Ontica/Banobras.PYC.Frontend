@@ -65,7 +65,7 @@ export const ProcurementViews: View[] = [
     permission: ROUTES.adquisiciones_compras_menores.permission,
   },
   {
-    name: 'Procurement.Milestones',
+    name: 'Procurement.ContractOrders',
     title: 'Entregas',
     menuTitle: 'Entregas',
     url: ROUTES.adquisiciones_entregas.fullpath,

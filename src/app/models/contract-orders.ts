@@ -12,7 +12,8 @@ import { Contract, ContractItem } from './contracts';
 
 
 export interface ContractOrderDescriptor extends PayableOrderDescriptor {
-
+  contractNo: string;
+  contractName: string;
 }
 
 export interface ContractOrderFields extends PayableOrderFields {
@@ -38,6 +39,8 @@ export interface ContractOrderItemFields extends PayableOrderItemFields {
 export function mapContractOrderDescriptorFromContractOrder(order: ContractOrder): ContractOrderDescriptor {
   return {
     uid: order.uid,
+    contractNo: order.contract.contractNo,
+    contractName: order.contract.name,
     typeName: order.type.name,
     categoryName: order.category.name,
     orderNo: order.orderNo,
