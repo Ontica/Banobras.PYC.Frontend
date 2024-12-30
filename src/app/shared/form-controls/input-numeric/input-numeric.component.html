@@ -8,6 +8,7 @@
   [ngModel]="formattedValue"
   [disabled]="disabled"
   [class.invalid-control]="showError"
+  [placeholder]="placeholder"
   (blur)="onBlur()"
   (change)="onInputChange(input.value)"
   (keyup.enter)="onKeyupEnter(input.value)"

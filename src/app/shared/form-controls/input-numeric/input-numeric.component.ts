@@ -38,6 +38,8 @@ export class InputNumericComponent implements ControlValueAccessor {
 
   @Input() noMargin = false;
 
+  @Input() placeholder = '';
+
   @Input() format: 'decimal' | 'percent' = 'decimal';
 
   @Output() valueChange = new EventEmitter<number>();
