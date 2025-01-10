@@ -50,15 +50,15 @@ const routes: Routes = [
     loadChildren: () => import('./workspaces/budget/budget-workspace.module')
       .then((m) => m.BudgetWorkspaceModule)
   },
-  // {
-  //   data: { permission: ROUTES.inventarios.permission },
-  //   path: ROUTES.inventarios.path,
-  //   component: MainLayoutComponent,
-  //   canActivate: [ParentRouteGuard],
-  //   canActivateChild: [ChildRouteGuard],
-  //   loadChildren: () => import('./workspaces/inventory/inventory-workspace.module')
-  //     .then((m) => m.InventoryWorkspaceModule)
-  // },
+  {
+    data: { permission: ROUTES.inventarios.permission },
+    path: ROUTES.inventarios.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/inventory/inventory-workspace.module')
+      .then((m) => m.InventoryWorkspaceModule)
+  },
   // {
   //   data: { permission: ROUTES.flujo_de_efectivo.permission },
   //   path: ROUTES.flujo_de_efectivo.path,
