@@ -13,42 +13,42 @@ export const ROUTES = {
   // #region app-routing module
 
   tareas: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.MODULE_TAREAS,
     parent: '',
     path: 'tareas',
     fullpath: '/tareas',
   },
 
   adquisiciones: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.MODULE_ADQUISICIONES,
     parent: '',
     path: 'adquisiciones',
     fullpath: '/adquisiciones',
   },
 
   pagos: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.MODULE_PAGOS,
     parent: '',
     path: 'pagos',
     fullpath: '/pagos',
   },
 
   presupuesto: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.MODULE_PRESUPUESTO,
     parent: '',
     path: 'presupuesto',
     fullpath: '/presupuesto',
   },
 
   inventarios: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.MODULE_INVENTARIOS,
     parent: '',
     path: 'inventarios',
     fullpath: '/inventarios',
   },
 
   flujo_de_efectivo: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.MODULE_FLUJO_DE_EFECTIVO,
     parent: '',
     path: 'flujo-de-efectivo',
     fullpath: '/flujo-de-efectivo',
@@ -78,25 +78,25 @@ export const ROUTES = {
   // #region steps-routing module
 
   tareas_pendientes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_TAREAS_PENDIENTES,
     parent: 'tareas',
     path: 'pendientes',
     fullpath: '/tareas/pendientes',
   },
   tareas_mesa_de_control: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_TAREAS_MESA_DE_CONTROL,
     parent: 'tareas',
     path: 'mesa-de-control',
     fullpath: '/tareas/mesa-de-control',
   },
   tareas_completadas: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_TAREAS_COMPLETADAS,
     parent: 'tareas',
     path: 'completadas',
     fullpath: '/tareas/completadas',
   },
   tareas_todas: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_TAREAS_TODAS,
     parent: 'tareas',
     path: 'todas',
     fullpath: '/tareas/todas',
@@ -107,42 +107,42 @@ export const ROUTES = {
   // #region procurement-routing module
 
   adquisiciones_solicitudes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_ADQUISICIONES_SOLICITUDES,
     parent: 'adquisiciones',
     path: 'solicitudes',
     fullpath: '/adquisiciones/solicitudes',
   },
 
   adquisiciones_contratos: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_ADQUISICIONES_CONTRATOS,
     parent: 'adquisiciones',
     path: 'contratos',
     fullpath: '/adquisiciones/contratos',
   },
 
   adquisiciones_compras_menores: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_ADQUISICIONES_COMPRAS_MENORES,
     parent: 'adquisiciones',
     path: 'compras-menores',
     fullpath: '/adquisiciones/compras-menores',
   },
 
   adquisiciones_entregas: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_ADQUISICIONES_ENTREGAS,
     parent: 'adquisiciones',
     path: 'entregas',
     fullpath: '/adquisiciones/entregas',
   },
 
   adquisiciones_productos: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_ADQUISICIONES_PRODUCTOS,
     parent: 'adquisiciones',
     path: 'productos',
     fullpath: '/adquisiciones/productos',
   },
 
   adquisiciones_reportes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_ADQUISICIONES_REPORTES,
     parent: 'adquisiciones',
     path: 'reportes',
     fullpath: '/adquisiciones/reportes',
@@ -153,49 +153,49 @@ export const ROUTES = {
   // #region payments-routing module
 
   pagos_solicitudes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PAGOS_SOLICITUDES,
     parent: 'pagos',
     path: 'solicitudes',
     fullpath: '/pagos/solicitudes',
   },
 
   pagos_obligaciones_de_pago: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PAGOS_OBLIGACIONES_DE_PAGO,
     parent: 'pagos',
     path: 'obligaciones-de-pago',
     fullpath: '/pagos/obligaciones-de-pago',
   },
 
   pagos_ordenes_de_pago: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PAGOS_ORDENES_DE_PAGO,
     parent: 'pagos',
     path: 'ordenes-de-pago',
     fullpath: '/pagos/ordenes-de-pago',
   },
 
   pagos_gastos_y_reembolsos: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PAGOS_GASTOS_Y_REEMBOLSOS,
     parent: 'pagos',
     path: 'gastos-y-reembolsos',
     fullpath: '/pagos/gastos-y-reembolsos',
   },
 
   pagos_facturas: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PAGOS_FACTURAS,
     parent: 'pagos',
     path: 'facturas',
     fullpath: '/pagos/facturas',
   },
 
   pagos_proveedores: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PAGOS_PROVEEDORES,
     parent: 'pagos',
     path: 'proveedores',
     fullpath: '/pagos/proveedores',
   },
 
   pagos_reportes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PAGOS_REPORTES,
     parent: 'pagos',
     path: 'reportes',
     fullpath: '/pagos/reportes',
@@ -206,42 +206,42 @@ export const ROUTES = {
   // #region budget-routing module
 
   presupuesto_solicitudes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_SOLICITUDES,
     parent: 'presupuesto',
     path: 'solicitudes',
     fullpath: '/presupuesto/solicitudes',
   },
 
   presupuesto_transacciones: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_TRANSACCIONES,
     parent: 'presupuesto',
     path: 'transacciones',
     fullpath: '/presupuesto/transacciones',
   },
 
   presupuesto_explorador: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_EXPLORADOR,
     parent: 'presupuesto',
     path: 'explorador',
     fullpath: '/presupuesto/explorador',
   },
 
   presupuesto_planeacion_anual: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_PLANEACION_ANUAL,
     parent: 'presupuesto',
     path: 'planeacion-anual',
     fullpath: '/presupuesto/planeacion-anual',
   },
 
   presupuesto_configuracion: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_CONFIGURACION,
     parent: 'presupuesto',
     path: 'configuracion',
     fullpath: '/presupuesto/configuracion',
   },
 
   presupuesto_reportes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_REPORTES,
     parent: 'presupuesto',
     path: 'reportes',
     fullpath: '/presupuesto/reportes',
@@ -252,49 +252,49 @@ export const ROUTES = {
   // #region inventory-routing module
 
   inventarios_solicitudes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_SOLICITUDES,
     parent: 'inventarios',
     path: 'solicitudes',
     fullpath: '/inventarios/solicitudes',
   },
 
   inventarios_transacciones: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_TRANSACCIONES,
     parent: 'inventarios',
     path: 'transacciones',
     fullpath: '/inventarios/transacciones',
   },
 
   inventarios_existencias: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_EXISTENCIAS,
     parent: 'inventarios',
     path: 'existencias',
     fullpath: '/inventarios/existencias',
   },
 
   inventarios_activo_fijo: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_ACTIVO_FIJO,
     parent: 'inventarios',
     path: 'activo-fijo',
     fullpath: '/inventarios/activo-fijo',
   },
 
   inventarios_valuacion: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_VALUACION,
     parent: 'inventarios',
     path: 'valuacion',
     fullpath: '/inventarios/valuacion',
   },
 
   inventarios_configuracion: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_CONFIGURACION,
     parent: 'inventarios',
     path: 'configuracion',
     fullpath: '/inventarios/configuracion',
   },
 
   inventarios_reportes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_REPORTES,
     parent: 'inventarios',
     path: 'reportes',
     fullpath: '/inventarios/reportes',
@@ -305,21 +305,21 @@ export const ROUTES = {
   // #region cashflow-routing module
 
   flujo_de_efectivo_codificacion: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_CODIFICACION,
     parent: 'flujo-de-efectivo',
     path: 'codificacion',
     fullpath: '/flujo-de-efectivo/codificacion',
   },
 
   flujo_de_efectivo_reglas: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_REGLAS,
     parent: 'flujo-de-efectivo',
     path: 'reglas',
     fullpath: '/flujo-de-efectivo/reglas',
   },
 
   flujo_de_efectivo_reportes: {
-    permission: PERMISSIONS.NOT_REQUIRED,
+    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_REPORTES,
     parent: 'flujo-de-efectivo',
     path: 'reportes',
     fullpath: '/flujo-de-efectivo/reportes',
