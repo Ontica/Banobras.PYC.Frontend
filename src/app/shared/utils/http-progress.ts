@@ -8,9 +8,7 @@
 import { HttpErrorResponse, HttpEvent, HttpEventType, HttpProgressEvent,
          HttpResponse } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
-
-import { distinctUntilChanged, scan } from 'rxjs/operators';
+import { Observable, of, distinctUntilChanged, scan } from 'rxjs';
 
 
 export function isHttpResponse<T>(event: HttpEvent<T>): event is HttpResponse<T> {

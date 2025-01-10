@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { FilePreviewComponent } from '@app/shared/containers/file-preview/file-preview.component';
+import { FilePreviewComponent } from '@app/shared/containers';
 
 import { DocumentsDataService } from '@app/data-services';
 

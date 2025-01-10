@@ -8,12 +8,12 @@
 
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, map } from 'rxjs';
 
 import { Assertion } from '../general/assertion';
 
 import { HttpHandler } from './http-handler';
+
 import { Service, HttpMethod } from './common-types';
 
 @Injectable()

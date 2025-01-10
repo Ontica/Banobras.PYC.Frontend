@@ -7,7 +7,7 @@
 
 import { Component, Input } from '@angular/core';
 
-import { AlertService } from '@app/shared/containers/alert/alert.service';
+import { AlertService } from '@app/shared/services';
 
 
 @Component({

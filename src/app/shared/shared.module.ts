@@ -15,7 +15,7 @@ import { SharedFormControlsModule } from './form-controls/shared-form-controls.m
 import { SharedIndicatorsModule } from './indicators/shared-indicators.module';
 import { SharedPipesModule } from './pipes/shared-pipes.module';
 
-import { FileDownloadService, PrinterService } from './services';
+import { FileDownloadService, PrinterService, UrlViewerService } from './services';
 import { SAVER, getSaver } from './utils/saver.provider';
 
 
@@ -48,6 +48,7 @@ import { SAVER, getSaver } from './utils/saver.provider';
     DecimalPipe,
     PrinterService,
     FileDownloadService,
+    UrlViewerService,
     { provide: SAVER, useFactory: getSaver },
   ]
 

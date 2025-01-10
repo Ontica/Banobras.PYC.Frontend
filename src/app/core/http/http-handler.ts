@@ -9,9 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { forkJoin } from 'rxjs';
-
-import { map, mergeMap } from 'rxjs/operators';
+import { forkJoin, map, mergeMap } from 'rxjs';
 
 import { SessionService } from '../general/session.service';
 

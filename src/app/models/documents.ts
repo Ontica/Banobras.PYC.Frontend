@@ -9,7 +9,7 @@ import { DateString, Identifiable } from '@app/core';
 
 import { FileReport } from './reporting';
 
-import { FileType } from '@app/shared/form-controls/file-control/file-control-data';
+import { FileType } from '@app/shared/form-controls';
 
 
 export type DocumentsEntityTypes = 'bills' | 'contracts' | 'fixed-assets' |'payables' | 'payments-orders' |

@@ -5,6 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
+
 export interface AppData {
   name: string;
   nameShort: string;
@@ -63,6 +64,7 @@ export interface View {
   url: string;
   menuTitle?: string;
   disabled?: boolean;
+  hidden?: boolean;
   permission?: string;
   actions?: ViewAction[];
 }

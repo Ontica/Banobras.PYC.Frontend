@@ -18,3 +18,5 @@ export * from './event-emission';
 export * from './form-helper';
 
 export * from './format-library';
+
+export * from './http-progress';

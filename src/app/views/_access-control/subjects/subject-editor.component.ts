@@ -59,7 +59,7 @@ export class SubjectEditorComponent {
     switch (event.type as SubjectHeaderEventType) {
       case SubjectHeaderEventType.UPDATE_SUBJECT:
         Assertion.assertValue(event.payload.subject, 'event.payload.subject');
-        this.updateSubject(this.subject.uid,  event.payload.subject as SubjectFields);
+        this.updateSubject(this.subject.uid, event.payload.subject as SubjectFields);
         return;
       case SubjectHeaderEventType.GENERATE_PASSWORD:
         this.generatePasswordToSubject();

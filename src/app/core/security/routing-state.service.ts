@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Router, NavigationEnd } from '@angular/router';
 
-import { filter, take } from 'rxjs/operators';
+import { filter, take } from 'rxjs';
 
 
 @Injectable()

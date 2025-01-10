@@ -7,9 +7,7 @@
 
 import { Directive, ElementRef, OnChanges, Input, OnDestroy } from '@angular/core';
 
-import { interval, Subscription } from 'rxjs';
-
-import { tap } from 'rxjs/operators';
+import { interval, Subscription, tap } from 'rxjs';
 
 
 @Directive({

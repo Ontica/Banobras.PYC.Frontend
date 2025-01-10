@@ -13,4 +13,6 @@ export { MessageBoxService } from './containers/message-box/message.box.service'
 
 export { PrinterService } from './utils/printer.service';
 
+export { UrlViewerService } from './utils/url-viewer.service';
+
 export { SpinnerService } from './indicators/spinner/spinner.service';

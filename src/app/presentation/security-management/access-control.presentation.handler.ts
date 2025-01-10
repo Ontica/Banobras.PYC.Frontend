@@ -45,7 +45,7 @@ export class AccessControlPresentationHandler extends AbstractPresentationHandle
 
     switch (selectorType) {
 
-      case SelectorType.WORKAREAS_LIST:{
+      case SelectorType.WORKAREAS_LIST: {
         const provider = () => this.data.getWorkareas();
 
         return super.selectFirst<U>(selectorType, provider);

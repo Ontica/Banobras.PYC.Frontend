@@ -14,14 +14,14 @@ import { AbstractPresentationHandler, StateValues } from '@app/core/presentation
 import { NavigationHeader, DefaultNavigationHeader, buildNavigationHeader, Layout, View, DefaultView,
          ViewActionType } from '@app/main-layout/common-models';
 
-import { APP_LAYOUTS, APP_VIEWS, LAYOUT_TYPE, TOOLS_LIST,
-         DefaultTool, Tool } from '@app/main-layout/config-data';
+import { APP_LAYOUTS, APP_VIEWS, LAYOUT_TYPE, TOOLS_LIST, DefaultTool,
+         Tool } from '@app/main-layout/config-data';
 
 
 export enum ActionType {
   SET_CURRENT_VIEW_FROM_URL = 'Empiria.UI-Item.MainUserInterface.SetCurrentViewFromUrl',
   SET_VIEW_ACTION           = 'Empiria.UI-Item.MainUserInterface.SetViewAction',
-  SET_VIEW_ACTION_DEFAULT   =  'Empiria.UI-Item.MainUserInterface.SetViewActionDefault',
+  SET_VIEW_ACTION_DEFAULT   = 'Empiria.UI-Item.MainUserInterface.SetViewActionDefault',
   SET_IS_PROCESSING_FLAG    = 'Empiria.UI-Item.MainUserInterface.SetIsProcessingFlag',
   SET_TOOL_SELECTED         = 'Empiria.UI-Item.MainUserInterface.SetToolSelected',
 }

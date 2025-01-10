@@ -7,7 +7,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs';
 
 import { Assertion } from '../general/assertion';
 

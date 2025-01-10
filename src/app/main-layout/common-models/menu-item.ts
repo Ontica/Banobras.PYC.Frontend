@@ -18,14 +18,17 @@ export class MenuItem {
 
   private disabledFlag = false;
 
+  private hiddenFlag = false;
+
   private selectedFlag = false;
 
 
-  constructor(text: string, action = '', routerLink = '', disabled = false) {
+  constructor(text: string, action = '', routerLink = '', disabled = false, hidden = false) {
     this.text = text;
     this.action = action;
     this.routerLink = routerLink;
     this.disabledFlag = disabled;
+    this.hiddenFlag = hidden;
   }
 
 
@@ -36,6 +39,11 @@ export class MenuItem {
 
   get enabled(): boolean {
     return !this.disabledFlag;
+  }
+
+
+  get hidden(): boolean {
+    return this.hiddenFlag;
   }
 
 
@@ -63,5 +71,5 @@ export class MenuItem {
 
 
 export function createMenuItemForView(view: View): MenuItem {
-  return new MenuItem(view.menuTitle || view.title, undefined, view.url, view.disabled);
+  return new MenuItem(view.menuTitle || view.title, undefined, view.url, view.disabled, view.hidden);
 }

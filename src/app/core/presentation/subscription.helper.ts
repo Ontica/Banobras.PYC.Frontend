@@ -5,9 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Subject, Subscription } from 'rxjs';
-
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 import { PresentationLayer } from './presentation-layer';
 

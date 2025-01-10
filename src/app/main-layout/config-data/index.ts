@@ -11,8 +11,8 @@ export * from './permissions-config';
 
 export * from './routes-config';
 
-export * from './tools-config';
-
 export * from './layout-config';
 
 export * from './views-config';
+
+export * from './tools-config';

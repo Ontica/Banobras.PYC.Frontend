@@ -88,3 +88,8 @@ export function isTypeOf(instance: PartitionedType, typeName: string) {
   }
   return (instance.type === typeName);
 }
+
+
+export function isValidMediaBase(media: MediaBase): boolean {
+  return (!media || !media.url || !media.mediaType);
+}

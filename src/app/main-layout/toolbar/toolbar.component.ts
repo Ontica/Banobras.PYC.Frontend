@@ -7,9 +7,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Subject } from 'rxjs';
-
-import { takeUntil } from 'rxjs/operators';
+import { Subject, takeUntil } from 'rxjs';
 
 import { PresentationState } from '@app/core/presentation';
 

@@ -18,12 +18,6 @@ export enum AccessControlControlsEventType {
 @Component({
   selector: 'emp-ng-access-control-controls',
   templateUrl: './access-control-controls.component.html',
-  styles: [`
-    .controls-container {
-      padding: 5px;
-      margin: 3px;
-    }`
-  ],
 })
 export class AccessControlControlsComponent {
 

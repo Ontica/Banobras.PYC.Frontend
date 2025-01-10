@@ -6,14 +6,18 @@
     <mat-expansion-panel *empNgHasPermission="layout.permission">
 
       <mat-expansion-panel-header>
+
         <mat-panel-title>
+
           <li *empNgHasPermission="layout.permission"
             [ngClass]="{'selected': isLayoutSelected(layout)}">
 
             <a class="menu-layout"> {{ layout.defaultTitle | uppercase }} </a>
 
           </li>
+
         </mat-panel-title>
+
       </mat-expansion-panel-header>
 
 
@@ -21,10 +25,14 @@
 
         <li *ngFor="let view of layout.views" routerLinkActive='selected'>
 
-          <a *empNgHasPermission="view.permission" class="menu-view"
-            [routerLink]='view.url'>
-            {{ view.title | uppercase }}
-          </a>
+          <ng-container *ngIf="!view.disabled && !view.hidden">
+
+            <a *empNgHasPermission="view.permission" class="menu-view"
+              [routerLink]='view.url'>
+              {{ view.title | uppercase }}
+            </a>
+
+          </ng-container>
 
         </li>
 

@@ -7,7 +7,7 @@
 
 import { DateString, Identifiable } from '@app/core';
 
-import { FileData, FileTypeAccepted } from '@app/shared/form-controls/file-control/file-control-data';
+import { FileData, FileTypeAccepted } from '@app/shared/form-controls';
 
 import { FileType as ReportingFileType } from './reporting';
 
