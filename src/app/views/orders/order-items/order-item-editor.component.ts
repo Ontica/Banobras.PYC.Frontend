@@ -433,13 +433,12 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   private validateGetOrderItemFields(): OrderItemFields {
     switch (this.config.orderType) {
       case ObjectTypes.CONTRACT_ORDER:
+        return this.getContractOrderItemFields();
       case ObjectTypes.PURCHASE_ORDER:
       case ObjectTypes.EXPENSE:
-        if (this.contractItemFieldRequired) return this.getContractOrderItemFields();
-        if (this.payableFieldsRequired) return this.getPayableOrderItemFields();
-        return this.getOrderItemFields();
+        return this.getPayableOrderItemFields();
       default:
-        throw Assertion.assertNoReachThisCode(`Unhandled order type: ${this.config.orderType}.`);
+        return this.getOrderItemFields();
     }
   }
 

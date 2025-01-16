@@ -364,13 +364,12 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   private validateGetOrderFields(): OrderFields {
     switch (this.config.orderType) {
       case ObjectTypes.CONTRACT_ORDER:
+        return this.getContractOrderFields();
       case ObjectTypes.PURCHASE_ORDER:
       case ObjectTypes.EXPENSE:
-        if (this.contractFieldsRequired) return this.getContractOrderFields();
-        if (this.payableFieldsRequired) return this.getPayableOrderFields();
-        return this.getOrderFields();
+        return this.getPayableOrderFields();
       default:
-        throw Assertion.assertNoReachThisCode(`Unhandled order type: ${this.config.orderType}.`);
+        return this.getOrderFields();
     }
   }
 

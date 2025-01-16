@@ -21,9 +21,10 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { OrdersDataService } from '@app/data-services';
 
-import { OrderHolder, OrderDescriptor, OrdersQuery, EmptyOrderHolder, EmptyOrdersQuery,
-         mapOrderDescriptorFromOrder, ObjectTypes, OrderTypeConfig, EmptyOrderTypeConfig, getOrderTypeConfig,
-         Order, mapPayableOrderDescriptorFromPayableOrder, PayableOrder } from '@app/models';
+import { ObjectTypes, OrderTypeConfig, Order, PayableOrder, ContractOrder, OrderDescriptor, OrdersQuery,
+         OrderHolder, EmptyOrderHolder, EmptyOrdersQuery, EmptyOrderTypeConfig, getOrderTypeConfig,
+         mapOrderDescriptorFromOrder, mapPayableOrderDescriptorFromPayableOrder,
+         mapContractOrderDescriptorFromContractOrder } from '@app/models';
 
 import { OrderCreatorEventType } from '../order/order-creator.component';
 
@@ -252,6 +253,9 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
   private validateMapOrderDescriptorByType(order: Order): OrderDescriptor {
     switch (this.config.orderType) {
       case ObjectTypes.CONTRACT_ORDER:
+        return mapContractOrderDescriptorFromContractOrder(order as ContractOrder);
+      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.EXPENSE:
         return mapPayableOrderDescriptorFromPayableOrder(order as PayableOrder);
       default:
         return mapOrderDescriptorFromOrder(order);
