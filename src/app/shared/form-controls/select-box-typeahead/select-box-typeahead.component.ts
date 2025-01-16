@@ -27,7 +27,7 @@ export interface SelectBoxTypeaheadConfig {
   multiple?: boolean;
   searchByQuery?: boolean;
   showTooltip?: boolean;
-  virtualScroll?: boolean;
+  virtualScrollThreshold?: number;
 }
 
 
@@ -38,7 +38,7 @@ const DefaultSelectBoxTypeaheadConfig: SelectBoxTypeaheadConfig = {
   multiple: false,
   searchByQuery: false,
   showTooltip: false,
-  virtualScroll: false,
+  virtualScrollThreshold: 50,
 };
 
 @Component({
@@ -100,6 +100,8 @@ export class SelectBoxTypeaheadComponent implements ControlValueAccessor, OnInit
   searcherTerm$ = new Subject<string>();
 
   isLoading = false;
+
+  enableVirtualScroll = false;
 
   onChange: any = () => { };
 
@@ -205,7 +207,11 @@ export class SelectBoxTypeaheadComponent implements ControlValueAccessor, OnInit
             .pipe(
               delay(2000),
               catchError(() => of([])),
-              tap(() => this.setIsLoading(false))
+              tap(x => {
+                this.setIsLoading(false)
+                this.enableVirtualScroll = x.length > this.config.virtualScrollThreshold;
+                console.log('searcher virtual-scroll: '+ this.enableVirtualScroll);
+              })
             ))
       )
     );

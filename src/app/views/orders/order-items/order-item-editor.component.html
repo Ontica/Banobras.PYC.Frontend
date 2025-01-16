@@ -80,7 +80,7 @@
 
               <emp-ng-select-typeahead
                 formControlName="productUID"
-                [config]="{virtualScroll: true, showTooltip: true}"
+                [config]="{showTooltip: true}"
                 [searcherAPI]="productsAPI"
                 [initialValue]="isSaved ? item.product : null"
                 [showError]="formHelper.isControlInvalid(form.controls.productUID)"
