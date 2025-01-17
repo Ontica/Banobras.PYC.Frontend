@@ -21,7 +21,7 @@ import {
 } from './views-config';
 
 
-export type LAYOUT_TYPE = 'Management' | 'Unauthorized' |
+export type LAYOUT_TYPE = 'SystemManagement' | 'Unauthorized' |
                           'Steps' | 'Procurement' | 'Payments' | 'Budget' | 'Inventory' | 'CashFlow';
 
 
@@ -84,7 +84,7 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
   //   permission: ROUTES.flujo_de_efectivo.permission,
   // },
   {
-    name: 'Management',
+    name: 'SystemManagement',
     views: SystemManagementViews,
     hint: 'Herramientas de administración del sistema',
     defaultTitle: 'Administración',
