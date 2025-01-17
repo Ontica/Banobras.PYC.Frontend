@@ -210,7 +210,6 @@ export class SelectBoxTypeaheadComponent implements ControlValueAccessor, OnInit
               tap(x => {
                 this.setIsLoading(false)
                 this.enableVirtualScroll = x.length > this.config.virtualScrollThreshold;
-                console.log('searcher virtual-scroll: '+ this.enableVirtualScroll);
               })
             ))
       )

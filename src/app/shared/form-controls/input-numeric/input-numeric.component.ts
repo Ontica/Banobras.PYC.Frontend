@@ -26,7 +26,7 @@ import { FormatLibrary } from '@app/shared/utils';
 })
 export class InputNumericComponent implements ControlValueAccessor {
 
-  @ViewChild("input") inputField: ElementRef;
+  @ViewChild('input') inputField: ElementRef;
 
   @Input() id: string;
 
