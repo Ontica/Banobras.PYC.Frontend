@@ -47,6 +47,8 @@ export class DataTableComponent implements OnChanges {
 
   @Input() selectedUID: string = null;
 
+  @Input() selectedFieldValue: { field: string; value: any; } = null;
+
   @Input() executed = true;
 
   @Input() controlsAligned = false;
@@ -132,6 +134,12 @@ export class DataTableComponent implements OnChanges {
       !!entry.clickableEntry ||
       (this.clickableEntry && ClickeableItemTypeList.includes(entry.itemType))
     );
+  }
+
+
+  isSelectedEntry(entry: DataTableEntry): boolean {
+    return entry === this.selectedEntry || entry.uid === this.selectedUID ||
+      (!!this.selectedFieldValue && entry[this.selectedFieldValue.field] === this.selectedFieldValue.value);
   }
 
 

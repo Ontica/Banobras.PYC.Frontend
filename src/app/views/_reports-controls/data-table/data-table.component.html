@@ -118,7 +118,7 @@
           [ngClass]="{'item-type-summary': summaryItemTypeList.includes(row.itemType),
                       'item-type-group':   groupItemTypeList.includes(row.itemType),
                       'item-type-total':   totalItemTypeList.includes(row.itemType),
-                      'row-selected':      row === selectedEntry || row.uid === selectedUID,
+                      'row-selected':      isSelectedEntry(row),
                       'selectable-row':    isClickableEntry(row)}"
           (click)="onRowClicked(row)">
         </tr>
