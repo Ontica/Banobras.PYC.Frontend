@@ -25,7 +25,7 @@ import { MessageBoxService } from '@app/shared/services';
 import { OrdersDataService, SearcherAPIS, SuppliersDataService } from '@app/data-services';
 
 import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, Priority, PriorityList,
-         OrderTypeConfig, EmptyOrderTypeConfig, ObjectTypes, PayableOrder, PayableOrderFields, BudgetType,
+         OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrder, PayableOrderFields, BudgetType,
          ContractOrder, ContractOrderFields, Contract } from '@app/models';
 
 
@@ -61,7 +61,7 @@ interface OrderFormModel extends FormGroup<{
 })
 export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
-  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderExplorerTypeConfig<ObjectTypes> = EmptyOrderExplorerTypeConfig;
 
   @Input() isSaved = false;
 
@@ -141,13 +141,13 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   get contractFieldsRequired(): boolean {
-    return this.config.orderType === ObjectTypes.CONTRACT_ORDER;
+    return this.config.type === ObjectTypes.CONTRACT_ORDER;
   }
 
 
   get payableFieldsRequired(): boolean {
     return [ObjectTypes.PURCHASE_ORDER,
-            ObjectTypes.EXPENSE].includes(this.config.orderType);
+            ObjectTypes.EXPENSE].includes(this.config.type);
   }
 
 
@@ -226,7 +226,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: this.config.requestsList }),
-      this.ordersData.getOrderCategories(this.config.orderType),
+      this.ordersData.getOrderCategories(this.config.type),
       this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
     ])
@@ -362,7 +362,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private validateGetOrderFields(): OrderFields {
-    switch (this.config.orderType) {
+    switch (this.config.type) {
       case ObjectTypes.CONTRACT_ORDER:
         return this.getContractOrderFields();
       case ObjectTypes.PURCHASE_ORDER:
@@ -439,7 +439,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     const formValues = this.form.getRawValue();
 
     const data: OrderFields = {
-      orderTypeUID: this.config.orderType,
+      orderTypeUID: this.config.type,
       categoryUID: formValues.categoryUID ?? null,
       description: formValues.description ?? null,
       identificators: formValues.identificators ?? [],
@@ -482,16 +482,16 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   private getConfirmTitle(eventType: OrderHeaderEventType): string {
     switch (eventType) {
-      case OrderHeaderEventType.DELETE: return `Eliminar ${this.config.orderNameSingular}`;
-      case OrderHeaderEventType.SUSPEND: return `Suspender ${this.config.orderNameSingular}`;
-      case OrderHeaderEventType.ACTIVATE: return `Reactivar ${this.config.orderNameSingular}`;
+      case OrderHeaderEventType.DELETE: return `Eliminar ${this.config.nameSingular}`;
+      case OrderHeaderEventType.SUSPEND: return `Suspender ${this.config.nameSingular}`;
+      case OrderHeaderEventType.ACTIVATE: return `Reactivar ${this.config.nameSingular}`;
       default: return '';
     }
   }
 
 
   private getConfirmMessage(eventType: OrderHeaderEventType): string {
-    const orderTypeName = `${this.config.orderPronounSingular} ${this.config.orderNameSingular}`;
+    const orderTypeName = `${this.config.pronounSingular} ${this.config.nameSingular}`;
     const orderNo = !this.order.orderNo ? '' : `${this.order.orderNo}: `;
     const provider = isEmpty(this.order.provider) ? '' :
       `del proveedor <strong>${this.order.provider.name}</strong>`;

@@ -5,7 +5,7 @@
 
   <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
 
-    <mat-tab [label]="config.orderNameSingular">
+    <mat-tab [label]="config.nameSingular">
 
       <emp-ng-order-editor
         [config]="config"
@@ -35,7 +35,7 @@
       <ng-template matTabContent>
 
         <emp-bdg-budget-management
-          [baseObjectType]="config.orderType"
+          [baseObjectType]="config.type"
           [baseObjectUID]="data.order.uid"
           [baseObjectName]="title"
           [budgetTotal]="orderTotal"

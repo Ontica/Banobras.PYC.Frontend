@@ -13,7 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { OrdersDataService } from '@app/data-services';
 
-import { EmptyOrderTypeConfig, OrderFields, OrderTypeConfig } from '@app/models';
+import { EmptyOrderExplorerTypeConfig, OrderFields, OrderExplorerTypeConfig, ObjectTypes } from '@app/models';
 
 import { OrderHeaderEventType } from './order-header.component';
 
@@ -29,7 +29,7 @@ export enum OrderCreatorEventType {
 })
 export class OrderCreatorComponent {
 
-  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderExplorerTypeConfig<ObjectTypes> = EmptyOrderExplorerTypeConfig;
 
   @Output() orderCreatorEvent = new EventEmitter<EventInfo>();
 

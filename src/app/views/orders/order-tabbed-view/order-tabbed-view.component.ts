@@ -11,7 +11,7 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { OrderHolder, EmptyOrderHolder, OrderTypeConfig, EmptyOrderTypeConfig, ObjectTypes, PayableOrder,
+import { OrderHolder, EmptyOrderHolder, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrder,
          ContractOrder } from '@app/models';
 
 import { OrderEditorEventType } from '../order/order-editor.component';
@@ -36,7 +36,7 @@ export enum OrderTabbedViewEventType {
 })
 export class OrderTabbedViewComponent implements OnChanges {
 
-  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderExplorerTypeConfig<ObjectTypes> = EmptyOrderExplorerTypeConfig;
 
   @Input() data: OrderHolder = EmptyOrderHolder;
 
@@ -59,7 +59,7 @@ export class OrderTabbedViewComponent implements OnChanges {
 
 
   get orderTotal(): number {
-    switch (this.config.orderType) {
+    switch (this.config.type) {
       case ObjectTypes.CONTRACT_ORDER:
         return (this.data.order as PayableOrder).total ?? null;
       default:
@@ -151,7 +151,7 @@ export class OrderTabbedViewComponent implements OnChanges {
 
 
   private getPayableEntityName(): string {
-    const isContractOrder = this.config.orderType === ObjectTypes.CONTRACT_ORDER;
+    const isContractOrder = this.config.type === ObjectTypes.CONTRACT_ORDER;
     if (isContractOrder) {
       const order = this.data.order as ContractOrder;
       const contractNo = order?.contract?.contractNo ?? '';

@@ -21,9 +21,9 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { OrdersDataService } from '@app/data-services';
 
-import { ObjectTypes, OrderTypeConfig, Order, PayableOrder, ContractOrder, OrderDescriptor, OrdersQuery,
-         OrderHolder, EmptyOrderHolder, EmptyOrdersQuery, EmptyOrderTypeConfig, getOrderTypeConfig,
-         mapOrderDescriptorFromOrder, mapPayableOrderDescriptorFromPayableOrder,
+import { ObjectTypes, OrderExplorerTypeConfig, Order, PayableOrder, ContractOrder, OrderDescriptor,
+         OrdersQuery, OrderHolder, EmptyOrderHolder, EmptyOrdersQuery, EmptyOrderExplorerTypeConfig,
+         getOrderExplorerTypeConfig, mapOrderDescriptorFromOrder, mapPayableOrderDescriptorFromPayableOrder,
          mapContractOrderDescriptorFromContractOrder } from '@app/models';
 
 import { OrderCreatorEventType } from '../order/order-creator.component';
@@ -41,7 +41,7 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
 
   helper: SubscriptionHelper;
 
-  config: OrderTypeConfig = EmptyOrderTypeConfig;
+  config: OrderExplorerTypeConfig<ObjectTypes> = EmptyOrderExplorerTypeConfig;
 
   query: OrdersQuery = Object.assign({}, EmptyOrdersQuery);
 
@@ -157,16 +157,16 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
   private setRequestsListFromCurrentView(view: View) {
     switch (view.name) {
       case 'Procurement.ContractOrders':
-        this.config = getOrderTypeConfig(ObjectTypes.CONTRACT_ORDER)
+        this.config = getOrderExplorerTypeConfig(ObjectTypes.CONTRACT_ORDER)
         return;
       case 'Procurement.MinorPurchases':
-        this.config = getOrderTypeConfig(ObjectTypes.PURCHASE_ORDER)
+        this.config = getOrderExplorerTypeConfig(ObjectTypes.PURCHASE_ORDER)
         return;
       case 'Payments.ExpensesAndReimbursement':
-        this.config = getOrderTypeConfig(ObjectTypes.EXPENSE)
+        this.config = getOrderExplorerTypeConfig(ObjectTypes.EXPENSE)
         return;
       default:
-        this.config = getOrderTypeConfig(null);
+        this.config = getOrderExplorerTypeConfig(null);
         return;
     }
   }
@@ -251,7 +251,7 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
 
 
   private validateMapOrderDescriptorByType(order: Order): OrderDescriptor {
-    switch (this.config.orderType) {
+    switch (this.config.type) {
       case ObjectTypes.CONTRACT_ORDER:
         return mapContractOrderDescriptorFromContractOrder(order as ContractOrder);
       case ObjectTypes.PURCHASE_ORDER:

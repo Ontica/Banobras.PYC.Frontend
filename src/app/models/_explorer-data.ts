@@ -8,6 +8,16 @@
 import { Identifiable } from '@app/core';
 
 
+export interface ExplorerTypeConfig<T> {
+  type: T;
+  nameSingular: string;
+  namePlural: string;
+  pronounSingular: string;
+  pronounPlural: string;
+  selectionMessage: string;
+}
+
+
 export enum EntityStatus {
   Pending      = 'Pending',
   Active       = 'Active',

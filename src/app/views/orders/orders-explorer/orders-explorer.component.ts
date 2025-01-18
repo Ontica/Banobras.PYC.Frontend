@@ -11,8 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyOrdersQuery, EmptyOrderTypeConfig, OrderDescriptor, OrdersQuery,
-         OrderTypeConfig } from '@app/models';
+import { EmptyOrdersQuery, EmptyOrderExplorerTypeConfig, OrderDescriptor, OrdersQuery,
+         OrderExplorerTypeConfig, ObjectTypes } from '@app/models';
 
 import { OrdersFilterEventType } from './orders-filter.component';
 
@@ -32,7 +32,7 @@ export enum OrdersExplorerEventType {
 })
 export class OrdersExplorerComponent implements OnChanges {
 
-  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderExplorerTypeConfig<ObjectTypes> = EmptyOrderExplorerTypeConfig;
 
   @Input() query: OrdersQuery = Object.assign({}, EmptyOrdersQuery);
 

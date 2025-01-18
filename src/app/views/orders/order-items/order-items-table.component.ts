@@ -15,7 +15,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
-import { EmptyOrderTypeConfig, ObjectTypes, OrderItem, OrderTypeConfig, PayableOrderItem } from '@app/models';
+import { EmptyOrderExplorerTypeConfig, ObjectTypes, OrderItem, OrderExplorerTypeConfig, PayableOrderItem } from '@app/models';
 
 
 export enum OrderItemsTableEventType {
@@ -29,7 +29,7 @@ export enum OrderItemsTableEventType {
 })
 export class OrderItemsTableComponent implements OnChanges {
 
-  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderExplorerTypeConfig<ObjectTypes> = EmptyOrderExplorerTypeConfig;
 
   @Input() items: OrderItem[] = [];
 
@@ -61,7 +61,7 @@ export class OrderItemsTableComponent implements OnChanges {
   get isPayableOrder(): boolean {
     return [ObjectTypes.CONTRACT_ORDER,
             ObjectTypes.PURCHASE_ORDER,
-            ObjectTypes.EXPENSE].includes(this.config.orderType);
+            ObjectTypes.EXPENSE].includes(this.config.type);
   }
 
 

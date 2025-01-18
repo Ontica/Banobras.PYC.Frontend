@@ -21,7 +21,7 @@ import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/
 import { ContractsDataService, ProductsDataService, SearcherAPIS } from '@app/data-services';
 
 import { BudgetAccountsForProductQuery, Order, OrderItem, OrderItemFields, EmptyOrder, EmptyOrderItem,
-         ProductSearch, OrderTypeConfig, EmptyOrderTypeConfig, ObjectTypes, PayableOrderItem,
+         ProductSearch, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrderItem,
          ContractOrderItem, ContractOrderItemFields, PayableOrderItemFields, PayableOrder, ContractOrder,
          ContractItem } from '@app/models';
 
@@ -52,7 +52,7 @@ interface OrderItemFormModel extends FormGroup<{
 })
 export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
-  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderExplorerTypeConfig<ObjectTypes> = EmptyOrderExplorerTypeConfig;
 
   @Input() order: Order = EmptyOrder;
 
@@ -123,13 +123,13 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
 
   get contractItemFieldRequired(): boolean {
-    return this.config.orderType === ObjectTypes.CONTRACT_ORDER;
+    return this.config.type === ObjectTypes.CONTRACT_ORDER;
   }
 
 
   get payableFieldsRequired(): boolean {
     return [ObjectTypes.PURCHASE_ORDER,
-            ObjectTypes.EXPENSE].includes(this.config.orderType);
+            ObjectTypes.EXPENSE].includes(this.config.type);
   }
 
 
@@ -431,7 +431,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private validateGetOrderItemFields(): OrderItemFields {
-    switch (this.config.orderType) {
+    switch (this.config.type) {
       case ObjectTypes.CONTRACT_ORDER:
         return this.getContractOrderItemFields();
       case ObjectTypes.PURCHASE_ORDER:

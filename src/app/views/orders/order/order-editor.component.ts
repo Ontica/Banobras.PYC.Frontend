@@ -13,8 +13,8 @@ import { sendEvent } from '@app/shared/utils';
 
 import { OrdersDataService } from '@app/data-services';
 
-import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, OrderTypeConfig,
-         EmptyOrderTypeConfig, OrderHolder } from '@app/models';
+import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, OrderExplorerTypeConfig,
+         EmptyOrderExplorerTypeConfig, OrderHolder, ObjectTypes } from '@app/models';
 
 import { OrderHeaderEventType } from './order-header.component';
 
@@ -30,7 +30,7 @@ export enum OrderEditorEventType {
 })
 export class OrderEditorComponent {
 
-  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderExplorerTypeConfig<ObjectTypes> = EmptyOrderExplorerTypeConfig;
 
   @Input() order: Order = EmptyOrder;
 

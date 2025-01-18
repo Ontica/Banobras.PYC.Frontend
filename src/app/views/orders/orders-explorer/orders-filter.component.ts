@@ -21,8 +21,8 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { OrdersDataService, SearcherAPIS } from '@app/data-services';
 
-import { OrdersQuery, EntityStatus, EntityStatusList, EmptyOrdersQuery, Priority, OrderTypeConfig,
-         EmptyOrderTypeConfig, PriorityList } from '@app/models';
+import { OrdersQuery, EntityStatus, EntityStatusList, EmptyOrdersQuery, Priority, OrderExplorerTypeConfig,
+         EmptyOrderExplorerTypeConfig, PriorityList, ObjectTypes } from '@app/models';
 
 export enum OrdersFilterEventType {
   SEARCH_CLICKED = 'OrdersFilterComponent.Event.SearchClicked',
@@ -47,7 +47,7 @@ interface OrdersFilterFormModel extends FormGroup<{
 })
 export class OrdersFilterComponent implements OnChanges, OnDestroy {
 
-  @Input() config: OrderTypeConfig = EmptyOrderTypeConfig;
+  @Input() config: OrderExplorerTypeConfig<ObjectTypes> = EmptyOrderExplorerTypeConfig;
 
   @Input() query: OrdersQuery = Object.assign({}, EmptyOrdersQuery);
 
@@ -147,7 +147,7 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: this.config.requestsList }),
-      this.ordersData.getOrderCategories(this.config.orderType),
+      this.ordersData.getOrderCategories(this.config.type),
     ])
     .subscribe(([a, b]) => {
       this.orgUnitsList = a;
@@ -189,7 +189,7 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
 
   private getFormData(): OrdersQuery {
     const query: OrdersQuery = {
-      orderTypeUID: this.config.orderType,
+      orderTypeUID: this.config.type,
       responsibleUID: this.form.value.responsibleUID ?? null,
       status: this.form.value.status ?? null,
       keywords: this.form.value.keywords ?? null,

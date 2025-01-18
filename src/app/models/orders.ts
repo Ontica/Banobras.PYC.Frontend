@@ -11,7 +11,7 @@ import { Document } from './documents';
 
 import { History } from './history';
 
-import { EntityStatus, ExplorerOperation, ExplorerOperationType } from './_explorer-data';
+import { EntityStatus, ExplorerOperation, ExplorerOperationType, ExplorerTypeConfig } from './_explorer-data';
 
 import { Priority } from './steps';
 
@@ -19,64 +19,64 @@ import { RequestsList } from './requests';
 
 import { BudgetTransactionDescriptor } from './budget-transactions';
 
-import { ObjectTypes } from './object-types';
+
+export enum ObjectTypes {
+  CONTRACT       = 'ObjectTypeInfo.Contract.Procurement',
+  CONTRACT_ORDER = 'ObjectTypeInfo.Order.PayableOrder.ContractOrder',
+  PURCHASE_ORDER = 'ObjectTypeInfo.Order.PayableOrder.PurchaseOrder',
+  EXPENSE        = 'ObjectTypeInfo.Order.PayableOrder.Expenses',
+}
 
 
-export interface OrderTypeConfig {
-  orderType: ObjectTypes;
-  orderNameSingular: string;
-  orderNamePlural: string;
-  orderPronounSingular: string;
-  orderPronounPlural: string;
-  selectionMessage: string;
+export interface OrderExplorerTypeConfig<T> extends ExplorerTypeConfig<T> {
   requestsList: RequestsList;
 }
 
 
-export const EmptyOrderTypeConfig: OrderTypeConfig = {
-  orderType: null,
-  orderNameSingular: 'Orden',
-  orderNamePlural: 'Ordenes',
-  orderPronounSingular: 'la',
-  orderPronounPlural: 'las',
+export const EmptyOrderExplorerTypeConfig: OrderExplorerTypeConfig<ObjectTypes> = {
+  type: null,
+  nameSingular: 'Orden',
+  namePlural: 'Ordenes',
+  pronounSingular: 'la',
+  pronounPlural: 'las',
   selectionMessage: 'seleccionadas',
   requestsList: null,
 }
 
 
-export function getOrderTypeConfig(orderType: ObjectTypes): OrderTypeConfig {
-  switch (orderType) {
+export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerTypeConfig<ObjectTypes> {
+  switch (type) {
     case ObjectTypes.CONTRACT_ORDER:
       return {
-        orderType,
-        orderNameSingular: 'entrega',
-        orderNamePlural: 'entregas',
-        orderPronounSingular: 'la',
-        orderPronounPlural: 'las',
+        type,
+        nameSingular: 'entrega',
+        namePlural: 'entregas',
+        pronounSingular: 'la',
+        pronounPlural: 'las',
         selectionMessage: 'seleccionadas',
         requestsList: RequestsList.contracts,
       };
     case ObjectTypes.PURCHASE_ORDER:
       return {
-        orderType,
-        orderNameSingular: 'compra menor',
-        orderNamePlural: 'compras menores',
-        orderPronounSingular: 'la',
-        orderPronounPlural: 'las',
+        type,
+        nameSingular: 'compra menor',
+        namePlural: 'compras menores',
+        pronounSingular: 'la',
+        pronounPlural: 'las',
         selectionMessage: 'seleccionadas',
         requestsList: RequestsList.contracts,
       };
     case ObjectTypes.EXPENSE:
       return {
-        orderType,
-        orderNameSingular: 'gasto',
-        orderNamePlural: 'gastos',
-        orderPronounSingular: 'el',
-        orderPronounPlural: 'los',
+        type,
+        nameSingular: 'gasto',
+        namePlural: 'gastos',
+        pronounSingular: 'el',
+        pronounPlural: 'los',
         selectionMessage: 'seleccionados',
         requestsList: RequestsList.payments,
       };
-    default: return EmptyOrderTypeConfig;
+    default: return EmptyOrderExplorerTypeConfig;
   }
 }
 
