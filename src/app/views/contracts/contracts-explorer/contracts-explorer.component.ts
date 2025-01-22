@@ -9,6 +9,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
+import { PERMISSIONS } from '@app/main-layout';
+
 import { sendEvent } from '@app/shared/utils';
 
 import { ContractDescriptor, ContractsQuery, EmptyContractsQuery } from '@app/models';
@@ -49,6 +51,8 @@ export class ContractsExplorerComponent implements OnChanges {
   cardHint = 'Seleccionar los filtros';
 
   showFilters = false;
+
+  PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
 
 
   ngOnChanges(changes: SimpleChanges) {

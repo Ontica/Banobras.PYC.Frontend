@@ -150,11 +150,11 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
 
   private subscribeToCurrentViewChanges() {
     this.helper.select<View>(MainUIStateSelector.CURRENT_VIEW)
-      .subscribe(x => this.setRequestsListFromCurrentView(x));
+      .subscribe(x => this.setExplorerConfigFromCurrentView(x));
   }
 
 
-  private setRequestsListFromCurrentView(view: View) {
+  private setExplorerConfigFromCurrentView(view: View) {
     switch (view.name) {
       case 'Procurement.ContractOrders':
         this.config = getOrderExplorerTypeConfig(ObjectTypes.CONTRACT_ORDER)

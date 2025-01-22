@@ -7,6 +7,8 @@
 
 import { Identifiable } from '@app/core';
 
+import { PERMISSIONS } from '@app/main-layout';
+
 
 export interface ExplorerTypeConfig<T> {
   type: T;
@@ -15,6 +17,7 @@ export interface ExplorerTypeConfig<T> {
   pronounSingular: string;
   pronounPlural: string;
   selectionMessage: string;
+  permissionToCreate: PERMISSIONS;
 }
 
 

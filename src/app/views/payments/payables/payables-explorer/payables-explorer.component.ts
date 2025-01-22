@@ -9,6 +9,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
+import { PERMISSIONS } from '@app/main-layout';
+
 import { sendEvent } from '@app/shared/utils';
 
 import { EmptyPayablesQuery, PayableDescriptor, PayablesQuery } from '@app/models';
@@ -16,6 +18,7 @@ import { EmptyPayablesQuery, PayableDescriptor, PayablesQuery } from '@app/model
 import { PayablesFilterEventType } from './payables-filter.component';
 
 import { PayablesListEventType } from './payables-list.component';
+
 
 export enum PayablesExplorerEventType {
   CREATE_CLICKED            = 'PayablesExplorerComponent.Event.CreateClicked',
@@ -48,6 +51,8 @@ export class PayablesExplorerComponent implements OnChanges {
   cardHint = 'Seleccionar los filtros';
 
   showFilters = false;
+
+  PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
 
 
   ngOnChanges(changes: SimpleChanges) {

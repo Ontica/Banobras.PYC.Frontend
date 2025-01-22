@@ -16,7 +16,7 @@
 
     <div class="card-header-options">
 
-      <button
+      <button *empNgHasPermission="config.permissionToCreate"
         class="btn-action"
         (click)="onCreateOrderClicked()">
         Agregar {{config.nameSingular}}

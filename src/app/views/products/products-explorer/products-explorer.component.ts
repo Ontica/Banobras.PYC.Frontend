@@ -9,6 +9,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
+import { PERMISSIONS } from '@app/main-layout';
+
 import { sendEvent } from '@app/shared/utils';
 
 import { EmptyProductsQuery, ProductDescriptor, ProductsQuery } from '@app/models';
@@ -16,6 +18,7 @@ import { EmptyProductsQuery, ProductDescriptor, ProductsQuery } from '@app/model
 import { ProductsFilterEventType } from './products-filter.component';
 
 import { ProductsTableEventType } from './products-table.component';
+
 
 export enum ProductsExplorerEventType {
   CREATE_CLICKED            = 'ProductsExplorerComponent.Event.CreateClicked',
@@ -48,6 +51,8 @@ export class ProductsExplorerComponent implements OnChanges {
   cardHint = 'Seleccionar los filtros';
 
   showFilters = false;
+
+  PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
 
 
   ngOnChanges(changes: SimpleChanges) {

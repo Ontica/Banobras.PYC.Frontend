@@ -7,6 +7,8 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
+import { PERMISSIONS } from '@app/main-layout';
+
 import { Document } from './documents';
 
 import { History } from './history';
@@ -41,6 +43,7 @@ export const EmptyOrderExplorerTypeConfig: OrderExplorerTypeConfig<ObjectTypes> 
   pronounPlural: 'las',
   selectionMessage: 'seleccionadas',
   requestsList: null,
+  permissionToCreate: null,
 }
 
 
@@ -55,6 +58,7 @@ export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerType
         pronounPlural: 'las',
         selectionMessage: 'seleccionadas',
         requestsList: RequestsList.contracts,
+        permissionToCreate: PERMISSIONS.NOT_REQUIRED,
       };
     case ObjectTypes.PURCHASE_ORDER:
       return {
@@ -65,6 +69,7 @@ export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerType
         pronounPlural: 'las',
         selectionMessage: 'seleccionadas',
         requestsList: RequestsList.contracts,
+        permissionToCreate: PERMISSIONS.NOT_REQUIRED,
       };
     case ObjectTypes.EXPENSE:
       return {
@@ -75,6 +80,7 @@ export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerType
         pronounPlural: 'los',
         selectionMessage: 'seleccionados',
         requestsList: RequestsList.payments,
+        permissionToCreate: PERMISSIONS.NOT_REQUIRED,
       };
     default: return EmptyOrderExplorerTypeConfig;
   }

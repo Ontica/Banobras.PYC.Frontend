@@ -16,7 +16,7 @@
 
     <div class="card-header-options">
 
-      <button
+      <button *empNgHasPermission="PERMISSION_TO_CREATE"
         class="btn-action"
         (click)="onCreateProductClicked()">
         Agregar producto
