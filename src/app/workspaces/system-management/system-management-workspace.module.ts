@@ -46,9 +46,5 @@ import {
     ControlPanelMainPageComponent,
   ],
 
-  exports: [
-
-  ]
-
 })
 export class SystemManagementWorkspaceModule { }

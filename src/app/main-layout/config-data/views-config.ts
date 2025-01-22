@@ -269,6 +269,12 @@ export const SystemManagementViews: View[] = [
     permission: ROUTES.administracion_panel_de_control.permission,
   },
   {
+    name: 'SystemManagementViews.OrganizationalUnits',
+    title: 'Áreas',
+    url: ROUTES.administracion_areas.fullpath,
+    permission: ROUTES.administracion_areas.permission,
+  },
+  {
     name: 'SystemManagementViews.AccessControl',
     title: 'Control de accesos',
     url: ROUTES.administracion_control_de_accesos.fullpath,

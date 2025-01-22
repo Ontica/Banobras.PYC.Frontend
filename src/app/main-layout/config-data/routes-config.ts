@@ -343,6 +343,13 @@ export const ROUTES = {
     fullpath: '/administracion/control-de-accesos',
   },
 
+  administracion_areas: {
+    permission: PERMISSIONS.ROUTE_AREAS,
+    parent: 'administracion',
+    path: 'areas',
+    fullpath: '/administracion/areas',
+  },
+
   // #endregion
 
   // #region security-routing module

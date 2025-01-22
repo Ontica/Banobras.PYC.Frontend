@@ -96,6 +96,9 @@ export enum PERMISSIONS {
   // CONTROL DE ACCESOS
   ROUTE_CONTROL_DE_ACCESOS = 'route-control-de-accesos',
   FEATURE_EDICION_CONTROL_DE_ACCESOS = 'feature-edicion-control-de-accesos',
+
+  // AREAS
+  ROUTE_AREAS = 'route-areas',
 }
 
 

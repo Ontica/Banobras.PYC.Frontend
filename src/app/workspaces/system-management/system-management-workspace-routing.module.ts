@@ -11,6 +11,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ROUTES } from '@app/main-layout';
 
+import { DefaultComponent } from '@app/shared/components';
+
 import {
   AccessControlMainPageComponent
 } from './access-control-main-page/access-control-main-page.component';
@@ -25,6 +27,11 @@ const routes: Routes = [
     data: { permission: ROUTES.administracion_panel_de_control.permission },
     path: ROUTES.administracion_panel_de_control.path,
     component: ControlPanelMainPageComponent,
+  },
+  {
+    data: { permission: ROUTES.administracion_areas.permission },
+    path: ROUTES.administracion_areas.path,
+    component: DefaultComponent,
   },
   {
     data: { permission: ROUTES.administracion_control_de_accesos.permission },
