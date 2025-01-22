@@ -64,7 +64,7 @@ export class AccessControlViewerComponent implements OnInit {
 
   QueryTypes = AccessControlQueryType;
 
-  Permissions = PERMISSIONS;
+  PERMISSION_TO_CREATE = PERMISSIONS.FEATURE_EDICION_CONTROL_DE_ACCESOS;
 
 
   constructor(private accessControlData: AccessControlDataService,
