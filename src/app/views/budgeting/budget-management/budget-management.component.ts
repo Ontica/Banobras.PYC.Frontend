@@ -101,7 +101,7 @@ export class BudgetManagementComponent {
 
 
   private resolveValidateAvaibleBudget(response: BudgetValidationResult) {
-    this.messageBox.show(response.result, 'Validar presupuesto')
+    this.messageBox.show(response.result, 'Validar suficiencia')
   }
 
 }

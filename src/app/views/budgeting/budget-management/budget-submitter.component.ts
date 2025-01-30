@@ -91,7 +91,7 @@ export class BudgetSubmitterComponent {
   private getConfirmTitle(eventType: BudgetSubmitterEventType): string {
     switch (eventType) {
       case BudgetSubmitterEventType.REQUEST: return 'Solicitar suficiencia presupuestal';
-      case BudgetSubmitterEventType.VALIDATE: return 'Validar presupuesto';
+      case BudgetSubmitterEventType.VALIDATE: return 'Validar suficiencia';
       default: return '';
     }
   }
