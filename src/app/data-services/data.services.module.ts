@@ -29,6 +29,8 @@ import { FixedAssetTransactionsDataService } from './fixed-asset-transactions.da
 
 import { OrdersDataService } from './orders.data.service';
 
+import { PartiesDataService } from './parties.data.service';
+
 import { PayablesDataService } from './payables.data.service';
 
 import { PaymentOrdersDataService } from './payment-orders.data.service';
@@ -56,6 +58,7 @@ import { SuppliersDataService } from './suppliers.data.service';
     FixedAssetsDataService,
     FixedAssetTransactionsDataService,
     OrdersDataService,
+    PartiesDataService,
     PayablesDataService,
     PaymentOrdersDataService,
     ProductsDataService,

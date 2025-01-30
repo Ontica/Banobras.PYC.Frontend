@@ -17,6 +17,8 @@ import { BillsMainPageComponent } from '@app/views/billing/bills-main-page/bills
 
 import { OrdersMainPageComponent } from '@app/views/orders/orders-main-page/orders-main-page.component';
 
+import { PartiesMainPageComponent } from '@app/views/parties/parties-main-page/parties-main-page.component';
+
 import {
   PayablesMainPageComponent
 } from '@app/views/payments/payables/payables-main-page/payables-main-page.component';
@@ -24,10 +26,6 @@ import {
 import {
   PaymentsOrdersMainPageComponent
 } from '@app/views/payments/payments-orders/payments-orders-main-page/payments-orders-main-page.component';
-
-import {
-  SuppliersMainPageComponent
-} from '@app/views/suppliers/suppliers-main-page/suppliers-main-page.component';
 
 // import {
 //   RequestsMainPageComponent
@@ -63,7 +61,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.pagos_proveedores.permission },
     path: ROUTES.pagos_proveedores.path,
-    component: SuppliersMainPageComponent,
+    component: PartiesMainPageComponent,
   },
   {
     data: { permission: ROUTES.pagos_reportes.permission },

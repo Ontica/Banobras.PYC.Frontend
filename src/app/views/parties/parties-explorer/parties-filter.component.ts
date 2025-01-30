@@ -13,36 +13,39 @@ import { EventInfo, Identifiable } from '@app/core';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { EmptySuppliersQuery, SuppliersQuery, EntityStatus, EntityStatusList } from '@app/models';
+import { EmptyPartiesQuery, PartiesQuery, EntityStatus, EntityStatusList, PartyObjectTypes,
+         EmptyPartyExplorerTypeConfig, ExplorerTypeConfig } from '@app/models';
 
 
-export enum SuppliersFilterEventType {
-  SEARCH_CLICKED = 'SuppliersFilterComponent.Event.SearchClicked',
-  CLEAR_CLICKED  = 'SuppliersFilterComponent.Event.ClearClicked',
+export enum PartiesFilterEventType {
+  SEARCH_CLICKED = 'PartiesFilterComponent.Event.SearchClicked',
+  CLEAR_CLICKED  = 'PartiesFilterComponent.Event.ClearClicked',
 }
 
-interface SuppliersFilterFormModel extends FormGroup<{
+interface PartiesFilterFormModel extends FormGroup<{
   status: FormControl<EntityStatus>;
   keywords: FormControl<string>;
 }> { }
 
 
 @Component({
-  selector: 'emp-ng-suppliers-filter',
-  templateUrl: './suppliers-filter.component.html',
+  selector: 'emp-ng-parties-filter',
+  templateUrl: './parties-filter.component.html',
   animations: [empExpandCollapse],
 })
-export class SuppliersFilterComponent implements OnChanges, OnInit {
+export class PartiesFilterComponent implements OnChanges, OnInit {
 
-  @Input() query: SuppliersQuery = Object.assign({}, EmptySuppliersQuery);
+  @Input() config: ExplorerTypeConfig<PartyObjectTypes> = EmptyPartyExplorerTypeConfig;
+
+  @Input() query: PartiesQuery = Object.assign({}, EmptyPartiesQuery);
 
   @Input() showFilters = false;
 
   @Output() showFiltersChange = new EventEmitter<boolean>();
 
-  @Output() suppliersFilterEvent = new EventEmitter<EventInfo>();
+  @Output() partiesFilterEvent = new EventEmitter<EventInfo>();
 
-  form: SuppliersFilterFormModel;
+  form: PartiesFilterFormModel;
 
   formHelper = FormHelper;
 
@@ -76,7 +79,7 @@ export class SuppliersFilterComponent implements OnChanges, OnInit {
 
   onSearchClicked() {
     if (this.form.valid) {
-      sendEvent(this.suppliersFilterEvent, SuppliersFilterEventType.SEARCH_CLICKED,
+      sendEvent(this.partiesFilterEvent, PartiesFilterEventType.SEARCH_CLICKED,
         { query: this.getFormData() });
     }
   }
@@ -84,7 +87,7 @@ export class SuppliersFilterComponent implements OnChanges, OnInit {
 
   onClearFilters() {
     this.clearFilters();
-    sendEvent(this.suppliersFilterEvent, SuppliersFilterEventType.CLEAR_CLICKED,
+    sendEvent(this.partiesFilterEvent, PartiesFilterEventType.CLEAR_CLICKED,
       { query: this.getFormData() });
   }
 
@@ -112,8 +115,9 @@ export class SuppliersFilterComponent implements OnChanges, OnInit {
   }
 
 
-  private getFormData(): SuppliersQuery {
-    const query: SuppliersQuery = {
+  private getFormData(): PartiesQuery {
+    const query: PartiesQuery = {
+      typeUID: this.config.type,
       status: this.form.value.status ?? null,
       keywords: this.form.value.keywords ?? null,
     };

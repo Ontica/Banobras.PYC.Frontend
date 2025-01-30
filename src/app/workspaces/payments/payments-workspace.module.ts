@@ -13,9 +13,10 @@ import { PaymentsWorkspaceRoutingModule } from './payments-workspace-routing.mod
 import { BillingModule } from '@app/views/billing/billing.module';
 import { ContractsModule } from '@app/views/contracts/contracts.module';
 import { OrdersModule } from '@app/views/orders/orders.module';
+import { PartiesModule } from '@app/views/parties/parties.module';
 import { PaymentsModule } from '@app/views/payments/payments.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
-import { SuppliersModule } from '@app/views/suppliers/suppliers.module';
+
 
 
 @NgModule({
@@ -28,9 +29,9 @@ import { SuppliersModule } from '@app/views/suppliers/suppliers.module';
     BillingModule,
     ContractsModule,
     OrdersModule,
+    PartiesModule,
     PaymentsModule,
     RequestsModule,
-    SuppliersModule,
   ]
 
 })

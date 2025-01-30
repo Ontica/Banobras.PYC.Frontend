@@ -13,6 +13,7 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { AccessControlModule } from '@app/views/_access-control/access-control.module';
+import { PartiesModule } from '@app/views/parties/parties.module';
 
 import { SystemManagementWorkspaceRoutingModule } from './system-management-workspace-routing.module';
 
@@ -37,6 +38,7 @@ import {
     SharedModule,
 
     AccessControlModule,
+    PartiesModule,
 
     SystemManagementWorkspaceRoutingModule,
   ],

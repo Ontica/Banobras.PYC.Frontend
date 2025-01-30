@@ -9,22 +9,22 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { Contract } from '@app/models';
+import { PartiesQuery, PartyDescriptor, SupplierDescriptor } from '@app/models';
 
 
 @Injectable()
-export class SuppliersDataService {
+export class PartiesDataService {
 
 
   constructor(private http: HttpService) { }
 
 
-  getSupplierContractsToOrder(supplierUID: string): EmpObservable<Contract[]> {
-    Assertion.assertValue(supplierUID, 'supplierUID');
+  searchParties(query: PartiesQuery): EmpObservable<PartyDescriptor[]> {
+    Assertion.assertValue(query, 'query');
 
-    const path = `v8/procurement/suppliers/${supplierUID}/contracts/to-order`;
+    const path = 'v8/procurement/suppliers/search';
 
-    return this.http.get<Contract[]>(path);
+    return this.http.post<SupplierDescriptor[]>(path, query);
   }
 
 }

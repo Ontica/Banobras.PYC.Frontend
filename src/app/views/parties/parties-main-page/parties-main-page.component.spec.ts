@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SuppliersExplorerComponent } from './suppliers-explorer.component';
+import { PartiesMainPageComponent } from './parties-main-page.component';
 
-describe('SuppliersExplorerComponent', () => {
-  let component: SuppliersExplorerComponent;
-  let fixture: ComponentFixture<SuppliersExplorerComponent>;
+describe('PartiesMainPageComponent', () => {
+  let component: PartiesMainPageComponent;
+  let fixture: ComponentFixture<PartiesMainPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SuppliersExplorerComponent]
+      declarations: [PartiesMainPageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SuppliersExplorerComponent);
+    fixture = TestBed.createComponent(PartiesMainPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

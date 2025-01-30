@@ -27,6 +27,8 @@ export * from './fixed-assets.data.service';
 
 export * from './orders.data.service';
 
+export * from './parties.data.service';
+
 export * from './payables.data.service';
 
 export * from './payment-orders.data.service';

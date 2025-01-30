@@ -52,6 +52,8 @@ export * from './imported-data';
 
 export * from './orders';
 
+export * from './parties';
+
 export * from './payable-orders';
 
 export * from './payables';

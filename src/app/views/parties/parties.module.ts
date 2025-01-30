@@ -14,9 +14,9 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
-import { SuppliersMainPageComponent } from './suppliers-main-page/suppliers-main-page.component';
-import { SuppliersExplorerComponent } from './suppliers-explorer/suppliers-explorer.component';
-import { SuppliersFilterComponent } from './suppliers-explorer/suppliers-filter.component';
+import { PartiesMainPageComponent } from './parties-main-page/parties-main-page.component';
+import { PartiesExplorerComponent } from './parties-explorer/parties-explorer.component';
+import { PartiesFilterComponent } from './parties-explorer/parties-filter.component';
 
 
 @NgModule({
@@ -31,12 +31,12 @@ import { SuppliersFilterComponent } from './suppliers-explorer/suppliers-filter.
     ReportsControlsModule,
   ],
   declarations: [
-    SuppliersMainPageComponent,
-    SuppliersExplorerComponent,
-    SuppliersFilterComponent,
+    PartiesMainPageComponent,
+    PartiesExplorerComponent,
+    PartiesFilterComponent,
   ],
   exports: [
-    SuppliersMainPageComponent,
+    PartiesMainPageComponent,
   ],
 })
-export class SuppliersModule { }
+export class PartiesModule { }

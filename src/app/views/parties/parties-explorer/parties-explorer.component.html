@@ -3,7 +3,7 @@
   <div class="card-header card-header-flat">
 
     <div class="card-title">
-      {{ cardTitle }}
+      Explorador de {{ config.namePlural }}
 
       <div class="card-hint" empNgProgressText
         loadingText="Cargando"
@@ -16,10 +16,10 @@
 
     <div class="card-header-options">
 
-      <button *ngIf="false"
+      <button *empNgHasPermission="config.permissionToCreate"
         class="btn-action"
-        (click)="onCreateSupplierClicked()">
-        Agregar proveedor
+        (click)="onCreatePartyClicked()">
+        Agregar {{config.nameSingular}}
       </button>
 
     </div>
@@ -34,20 +34,21 @@
 
       </emp-ng-spinner>
 
-      <emp-ng-suppliers-filter class="fx-item-none"
+      <emp-ng-parties-filter class="fx-item-none"
+        [config]="config"
         [query]="query"
         [(showFilters)]="showFilters"
-        (suppliersFilterEvent)="onSuppliersFilterEvent($event)">
+        (partiesFilterEvent)="onPartiesFilterEvent($event)">
 
-      </emp-ng-suppliers-filter>
+      </emp-ng-parties-filter>
 
       <emp-ng-data-table class="fx-item"
-        [dataTable]="dataList"
+        [dataTable]="data"
         [selectedUID]="selectedUID"
         [executed]="queryExecuted"
         [showControls]="false"
         [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"
-        (dataTableEvent)="onSuppliersTableEvent($event)">
+        (dataTableEvent)="onPartiesTableEvent($event)">
 
       </emp-ng-data-table>
 
