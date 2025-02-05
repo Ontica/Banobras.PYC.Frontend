@@ -87,6 +87,17 @@ export class DateStringLibrary {
   }
 
 
+  static getLastDayOfYearFromDateString(value: DateString): DateString {
+    if (!this.isDate(value)) {
+      return '';
+    }
+
+    const date = this.toDate(value);
+    const lastDate = moment(date).endOf('year');
+    return this.mapDateStringFromMoment(lastDate);
+  }
+
+
   static todayAddDays(days: number): DateString {
     const date = moment().add(days, 'days');
     return this.mapDateStringFromMoment(date);
