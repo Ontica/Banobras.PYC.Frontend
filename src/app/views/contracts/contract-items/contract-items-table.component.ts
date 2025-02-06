@@ -35,6 +35,8 @@ export class ContractItemsTableComponent implements OnChanges {
 
   @Input() isMultipleOrgUnits = false;
 
+  @Input() isMultiYear = false;
+
   @Input() canDelete = false;
 
   @Output() contractItemsTableEvent = new EventEmitter<EventInfo>();
@@ -88,6 +90,7 @@ export class ContractItemsTableComponent implements OnChanges {
   private resetColumns() {
     let columns = [...this.displayedColumnsDefault];
 
+    if (this.isMultiYear) columns.push('budget');
     if (this.isMultipleOrgUnits) columns.push('orgUnits');
     if (this.isMultipleSuppliers) columns.push('supplier');
     columns.push('project');

@@ -13,6 +13,8 @@ import { Document } from './documents';
 
 import { History } from './history';
 
+import { EmptyBudgetType } from './budgets';
+
 import { BudgetTransactionDescriptor } from './budget-transactions';
 
 import { ContractOrderDescriptor } from './contract-orders';
@@ -53,6 +55,7 @@ export interface ContractFields {
   name: string;
   description: string;
   budgetTypeUID: string;
+  budgetsUIDs: string[];
   managedByOrgUnitUID: string;
   isForMultipleOrgUnits: boolean;
   fromDate: DateString;
@@ -101,6 +104,7 @@ export interface Contract {
   uid: string;
   managedByOrgUnit: Identifiable;
   budgetType: Identifiable;
+  budgets: Identifiable[];
   contractType: Identifiable;
   isForMultipleOrgUnits: boolean;
   supplier: Identifiable;
@@ -122,11 +126,12 @@ export interface ContractItem {
   contractItemType: Identifiable;
   contract: Identifiable;
   requesterOrgUnit: Identifiable;
+  supplier: Identifiable;
+  budget: Identifiable;
   product: Identifiable;
   productUnit: Identifiable;
   budgetAccount: Identifiable;
   project: Identifiable;
-  supplier: Identifiable;
   periodicityType: Identifiable;
   minQuantity: number;
   maxQuantity: number;
@@ -141,6 +146,7 @@ export interface ContractItemFields {
   requisitionItemUID: string;
   requesterOrgUnitUID: string;
   supplierUID: string;
+  budgetUID: string;
   productUID: string;
   productUnitUID: string;
   budgetAccountUID: string;
@@ -177,20 +183,21 @@ export const EmptyContractsQuery: ContractsQuery = {
 
 export const EmptyContract: Contract = {
   uid: '',
+  managedByOrgUnit: Empty,
+  budgetType: EmptyBudgetType,
+  budgets: [],
   contractType: Empty,
   isForMultipleOrgUnits: false,
-  contractNo: '',
-  name: '',
-  description: '',
   supplier: Empty,
   suppliersGroup: [],
-  managedByOrgUnit: Empty,
+  contractNo: '',
+  name: '',
+  total: null,
+  currency: Empty,
   fromDate: '',
   toDate: '',
+  description: '',
   signDate: '',
-  budgetType: Empty,
-  currency: Empty,
-  total: null,
   status: Empty,
 };
 
@@ -198,9 +205,10 @@ export const EmptyContract: Contract = {
 export const EmptyContractItem: ContractItem = {
   uid: '',
   contractItemType: Empty,
-  requesterOrgUnit: Empty,
   contract: Empty,
+  requesterOrgUnit: Empty,
   supplier: Empty,
+  budget: Empty,
   budgetAccount: Empty,
   product: Empty,
   productUnit: Empty,

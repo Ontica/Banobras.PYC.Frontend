@@ -13,6 +13,7 @@ import { DataTable, DataTableColumn, DataTableEntry } from './_data-table';
 export interface BudgetType {
   uid: string;
   name: string;
+  multiyear: boolean;
   budgets: Budget[];
   segmentTypes: BudgetSegmentType[];
   transactionTypes: Identifiable[];
@@ -46,9 +47,9 @@ export interface BudgetSegmentItem {
 
 
 export interface BudgetAccountsForProductQuery {
-  productUID: string;
-  budgetTypeUID: string;
+  budgetUID: string;
   orgUnitUID: string;
+  productUID: string;
 }
 
 
@@ -92,6 +93,16 @@ export interface BudgetRequestFields {
 
 export interface BudgetValidationResult {
   result: string;
+}
+
+
+export const EmptyBudgetType: BudgetType = {
+  uid: '',
+  name: '',
+  multiyear: false,
+  budgets: [],
+  segmentTypes: [],
+  transactionTypes: [],
 }
 
 

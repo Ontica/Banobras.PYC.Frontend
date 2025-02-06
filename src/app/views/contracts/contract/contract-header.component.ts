@@ -26,7 +26,7 @@ import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 import { SearcherAPIS } from '@app/data-services';
 
 import { ContractActions, Contract, ContractFields, DateRange, EmptyContractActions, EmptyContract,
-         EmptyDateRange, RequestsList } from '@app/models';
+         EmptyDateRange, RequestsList, BudgetType, Budget } from '@app/models';
 
 
 export enum ContractHeaderEventType {
@@ -38,6 +38,7 @@ export enum ContractHeaderEventType {
 interface ContractFormModel extends FormGroup<{
   managedByOrgUnitUID: FormControl<string>;
   budgetTypeUID: FormControl<string>;
+  budgetsUIDs: FormControl<string[]>;
   isForMultipleOrgUnits: FormControl<boolean>;
   contractTypeUID: FormControl<string>;
   currencyUID: FormControl<string>;
@@ -75,13 +76,17 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   orgUnitsList: Identifiable[] = [];
 
-  budgetTypesList: Identifiable[] = [];
+  budgetTypesList: BudgetType[] = [];
+
+  budgetsList: Budget[] = [];
 
   contractTypesList: Identifiable[] = [];
 
   currenciesList: Identifiable[] = [];
 
   suppliersAPI = SearcherAPIS.suppliers;
+
+  multiyear = false;
 
 
   constructor(private uiLayer: PresentationLayer,
@@ -112,6 +117,20 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   get hasActions(): boolean {
     return this.actions.canUpdate || this.actions.canDelete;
+  }
+
+
+  onBudgetTypeChanges(type: BudgetType) {
+    this.form.controls.budgetsUIDs.reset();
+    this.setBudgetTypeData(type);
+  }
+
+
+  onBudgetChanges(budgets: Budget[]) {
+    if (!this.multiyear && budgets.length > 1) {
+      const lastSelected = budgets[budgets.length - 1];
+      this.form.controls.budgetsUIDs.reset([lastSelected.uid]);
+    }
   }
 
 
@@ -155,7 +174,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.contracts }),
-      this.helper.select<Identifiable[]>(BudgetingStateSelector.BUDGET_TYPES),
+      this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
       this.helper.select<Identifiable[]>(PaymentsStateSelector.CONTRACTS_TYPES),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
     ])
@@ -164,6 +183,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
       this.budgetTypesList = b;
       this.contractTypesList = c;
       this.currenciesList = d;
+      this.validateInitBudgetTypeData();
       this.isLoading = false;
     });
   }
@@ -172,12 +192,18 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
   private validateDataLists() {
     this.orgUnitsList =
       ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.contract.managedByOrgUnit, 'uid');
-    this.budgetTypesList =
-      ArrayLibrary.insertIfNotExist(this.budgetTypesList ?? [], this.contract.budgetType, 'uid');
     this.contractTypesList =
       ArrayLibrary.insertIfNotExist(this.contractTypesList ?? [], this.contract.contractType, 'uid');
     this.currenciesList =
       ArrayLibrary.insertIfNotExist(this.currenciesList ?? [], this.contract.currency, 'uid');
+  }
+
+
+  private validateInitBudgetTypeData() {
+    if (this.isSaved) {
+      const budgetType = this.budgetTypesList.find(x => x.uid === this.contract.budgetType.uid);
+      this.setBudgetTypeData(budgetType);
+    }
   }
 
 
@@ -187,6 +213,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
     this.form = fb.group({
       managedByOrgUnitUID: ['', Validators.required],
       budgetTypeUID: ['', Validators.required],
+      budgetsUIDs: [[] as string[], Validators.required],
       isForMultipleOrgUnits: [false],
       contractTypeUID: ['', Validators.required],
       datePeriod: [EmptyDateRange],
@@ -205,6 +232,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
       this.form.reset({
         managedByOrgUnitUID: isEmpty(this.contract.managedByOrgUnit) ? null : this.contract.managedByOrgUnit.uid,
         budgetTypeUID: isEmpty(this.contract.budgetType) ? null : this.contract.budgetType.uid,
+        budgetsUIDs: this.contract.budgets?.map(x => x.uid) ?? [],
         isForMultipleOrgUnits: this.contract.isForMultipleOrgUnits,
         contractTypeUID: isEmpty(this.contract.contractType) ? null : this.contract.contractType.uid,
         currencyUID: isEmpty(this.contract.currency) ? null : this.contract.currency.uid,
@@ -216,6 +244,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
         description: this.contract.description ?? '',
       });
 
+      this.validateInitBudgetTypeData();
       this.validateFieldsRequired();
     });
   }
@@ -252,6 +281,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
     const data: ContractFields = {
       managedByOrgUnitUID: this.form.value.managedByOrgUnitUID ?? null,
       budgetTypeUID: this.form.value.budgetTypeUID ?? null,
+      budgetsUIDs: this.form.value.budgetsUIDs ?? [],
       isForMultipleOrgUnits: this.form.value.isForMultipleOrgUnits,
       contractTypeUID: this.form.value.contractTypeUID ?? null,
       currencyUID: this.form.value.currencyUID ?? null,
@@ -310,6 +340,13 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
       default: return '';
     }
+  }
+
+
+
+  private setBudgetTypeData(type: BudgetType) {
+    this.multiyear = type.multiyear;
+    this.budgetsList = type.budgets;
   }
 
 

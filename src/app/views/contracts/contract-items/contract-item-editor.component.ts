@@ -22,7 +22,7 @@ import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/
 
 import { ProductsDataService, SearcherAPIS } from '@app/data-services';
 
-import { BudgetAccountsForProductQuery, Contract, ContractItem, ContractItemFields, EmptyContract,
+import { Budget, BudgetAccountsForProductQuery, Contract, ContractItem, ContractItemFields, EmptyContract,
          EmptyContractItem, ProductSearch, RequestsList } from '@app/models';
 
 
@@ -37,6 +37,7 @@ interface ContractItemFormModel extends FormGroup<{
   requisitionItemUID: FormControl<string>;
   requesterOrgUnitUID: FormControl<string>;
   supplierUID: FormControl<string>;
+  budgetUID: FormControl<string>;
   periodicityTypeUID: FormControl<string>;
   productUID: FormControl<string>;
   productUnitUID: FormControl<string>;
@@ -136,8 +137,28 @@ export class ContractItemEditorComponent implements OnChanges, OnInit, OnDestroy
   }
 
 
+  get budgetAccountPlaceholder(): string {
+    if (this.form.controls.budgetUID.invalid) {
+      return 'Seleccione el presupuesto';
+    }
+
+    if (this.form.controls.productUID.invalid) {
+      return 'Seleccione el producto';
+    }
+
+    return this.selectionPlaceholder;
+  }
+
+
   onRequesterOrgUnitChanges(orgUnit: Identifiable) {
     this.form.controls.budgetAccountUID.reset();
+    this.budgetAccountsList = [];
+    this.validateSearchBudgetAccounts();
+  }
+
+
+  onBudgetChanges(budget: Budget) {
+    this.form.controls.budgetAccountUID.reset(null);
     this.budgetAccountsList = [];
     this.validateSearchBudgetAccounts();
   }
@@ -148,10 +169,7 @@ export class ContractItemEditorComponent implements OnChanges, OnInit, OnDestroy
     this.form.controls.budgetAccountUID.reset(null);
     this.productUnitsList = isEmpty(product.baseUnit) ? [] : [product.baseUnit];
     this.budgetAccountsList = [];
-
-    if (!isEmpty(product)) {
-      this.validateSearchBudgetAccounts();
-    }
+    this.validateSearchBudgetAccounts();
   }
 
 
@@ -235,15 +253,15 @@ export class ContractItemEditorComponent implements OnChanges, OnInit, OnDestroy
 
 
   private validateSearchBudgetAccounts(budgetAccountsDefault?: Identifiable) {
-    const budgetTypeUID = this.contract.budgetType.uid;
+    const budgetUID = this.form.value.budgetUID;
 
     const orgUnitUID = this.isOrgUnitRequired ?
       this.form.value.requesterOrgUnitUID : this.contract.managedByOrgUnit.uid;
 
     const productUID = this.form.value.productUID;
 
-    if (!!budgetTypeUID && !!orgUnitUID && !!productUID) {
-      const query: BudgetAccountsForProductQuery = { budgetTypeUID, orgUnitUID, productUID };
+    if (!!budgetUID && !!orgUnitUID && !!productUID) {
+      const query: BudgetAccountsForProductQuery = { budgetUID, orgUnitUID, productUID };
       this.searchBudgetAccounts(productUID, query, budgetAccountsDefault);
     } else {
       this.setBudgetAccountsList([], budgetAccountsDefault);
@@ -277,12 +295,13 @@ export class ContractItemEditorComponent implements OnChanges, OnInit, OnDestroy
       contractItemTypeUID: [null],
       requisitionItemUID: [null],
       requesterOrgUnitUID: [''],
-      periodicityTypeUID: ['', Validators.required],
-      productUID: ['', Validators.required],
-      productUnitUID: ['', Validators.required],
-      budgetAccountUID: ['', Validators.required],
-      projectUID: [''],
       supplierUID: [''],
+      budgetUID: ['', Validators.required],
+      productUID: ['', Validators.required],
+      budgetAccountUID: ['', Validators.required],
+      productUnitUID: ['', Validators.required],
+      periodicityTypeUID: ['', Validators.required],
+      projectUID: [''],
       unitPrice: ['', Validators.required],
       minQuantity: ['', Validators.required],
       maxQuantity: ['', Validators.required],
@@ -306,6 +325,7 @@ export class ContractItemEditorComponent implements OnChanges, OnInit, OnDestroy
         requisitionItemUID: null,
         requesterOrgUnitUID: isEmpty(this.item.requesterOrgUnit) ? null : this.item.requesterOrgUnit.uid,
         supplierUID: supplierUID,
+        budgetUID: isEmpty(this.item.budget) ? null : this.item.budget.uid,
         productUID: isEmpty(this.item.product) ? null : this.item.product.uid,
         productUnitUID: isEmpty(this.item.productUnit) ? null : this.item.productUnit.uid,
         budgetAccountUID: isEmpty(this.item.budgetAccount) ? null : this.item.budgetAccount.uid,
@@ -345,6 +365,7 @@ export class ContractItemEditorComponent implements OnChanges, OnInit, OnDestroy
       requisitionItemUID: formModel.requisitionItemUID ?? '',
       requesterOrgUnitUID: formModel.requesterOrgUnitUID ?? '',
       supplierUID: formModel.supplierUID ?? '',
+      budgetUID: formModel.budgetUID ?? '',
       productUID: formModel.productUID ?? '',
       productUnitUID: formModel.productUnitUID ?? '',
       budgetAccountUID: formModel.budgetAccountUID ?? '',

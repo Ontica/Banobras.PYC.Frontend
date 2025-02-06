@@ -37,6 +37,11 @@
       <td mat-cell *matCellDef="let row">{{ row.periodicityType.name }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="budget">
+      <th mat-header-cell *matHeaderCellDef> Presupuesto </th>
+      <td mat-cell *matCellDef="let row">{{ row.budget.name }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="orgUnits">
       <th mat-header-cell *matHeaderCellDef> Área </th>
       <td mat-cell *matCellDef="let row">{{ row.requesterOrgUnit.name }}</td>

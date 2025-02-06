@@ -41,8 +41,6 @@ export class ContractTabbedViewComponent implements OnChanges {
 
   title = '';
 
-  status = '';
-
   hint = '';
 
   selectedTabIndex = 0;
@@ -120,20 +118,23 @@ export class ContractTabbedViewComponent implements OnChanges {
 
 
   private setTitle() {
+    const status = this.data.contract.status.name === 'Eliminado' ?
+      `<span class="tag tag-error tag-small">${this.data.contract.status.name}</span>` :
+      `<span class="tag tag-small">${this.data.contract.status.name}</span>`;
+
     const signDate = !this.data.contract.signDate ?
       'N/D' : DateStringLibrary.format(this.data.contract.signDate);
 
     const total = FormatLibrary.numberWithCommas(this.data.contract.total, '1.2-2');
 
-    this.status = this.data.contract.status.name === 'Eliminado' ?
-      `<span class="tag tag-error tag-small">${this.data.contract.status.name}</span>` :
-      `<span class="tag tag-small">${this.data.contract.status.name}</span>`;
+    const type = this.data.contract.budgets.length > 1 ? 'Plurianual' : 'Anual';
 
     this.title = `${!this.data.contract.contractNo ? '' : (this.data.contract.contractNo + ': ')}
-      ${this.data.contract.name}`;
+      ${this.data.contract.name} ${status}`;
 
     this.hint = `<strong>${this.data.contract.contractType.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
       `${this.data.contract.supplier.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${type} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${signDate} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${total}`;
   }

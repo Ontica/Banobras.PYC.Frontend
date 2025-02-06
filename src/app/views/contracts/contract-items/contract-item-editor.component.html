@@ -50,6 +50,42 @@
 
             <div class="fx-item-half">
 
+              <label>Presupuesto:</label>
+
+              <emp-ng-select
+                formControlName="budgetUID"
+                [items]="contract.budgets ?? []"
+                [showError]="formHelper.isControlInvalid(form.controls.budgetUID)"
+                (changes)="onBudgetChanges($event)">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>Proyecto:</label>
+
+              <emp-ng-select-typeahead
+                formControlName="projectUID"
+                [config]="{clearable: true}"
+                [searcherAPI]="projectsAPI"
+                [initialValue]="isSaved ? item.project : null"
+                [showError]="formHelper.isControlInvalid(form.controls.projectUID)">
+
+              </emp-ng-select-typeahead>
+
+            </div>
+
+          </div>
+
+          <mat-divider class="horizontal">
+
+          </mat-divider>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
               <label>Producto:</label>
 
               <emp-ng-select-typeahead
@@ -83,32 +119,18 @@
 
           <div class="fx-row-container">
 
-            <div class="fx-item-half">
+            <div class="fx-item-one">
 
               <label>Cuenta presupuestal:</label>
 
               <emp-ng-select
                 formControlName="budgetAccountUID"
+                [config]="{showTooltip: true}"
                 [items]="budgetAccountsList"
                 [loading]="isLoadingBudgetAccounts"
-                [placeholder]="form.controls.productUID.invalid ? 'Seleccione el producto' : selectionPlaceholder"
+                [placeholder]="budgetAccountPlaceholder"
                 [showError]="formHelper.isControlInvalid(form.controls.budgetAccountUID)">
               </emp-ng-select>
-
-            </div>
-
-            <div class="fx-item-half">
-
-              <label>Proyecto:</label>
-
-              <emp-ng-select-typeahead
-                formControlName="projectUID"
-                [config]="{clearable: true}"
-                [searcherAPI]="projectsAPI"
-                [initialValue]="isSaved ? item.project : null"
-                [showError]="formHelper.isControlInvalid(form.controls.projectUID)">
-
-              </emp-ng-select-typeahead>
 
             </div>
 

@@ -18,7 +18,7 @@
 
       </div>
 
-      <div class="fx-item-half">
+      <div class="fx-item-quarter">
 
         <label>Tipo de presupuesto:</label>
 
@@ -26,7 +26,24 @@
           formControlName="budgetTypeUID"
           [items]="budgetTypesList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
+          (changes)="onBudgetTypeChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>{{this.multiyear ? 'Presupuestos' : 'Presupuesto'}}:</label>
+
+        <emp-ng-select
+          formControlName="budgetsUIDs"
+          bindLabel="year"
+          [config]="{multiple: true}"
+          [items]="budgetsList"
+          [placeholder]="form.controls.budgetTypeUID.invalid ? 'Seleccione el tipo' : 'Seleccionar'"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetsUIDs)"
+          (changes)="onBudgetChanges($event)">
         </emp-ng-select>
 
       </div>
