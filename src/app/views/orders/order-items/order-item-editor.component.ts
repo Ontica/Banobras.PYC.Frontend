@@ -279,15 +279,15 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   private validateLoadContractItems() {
     if (this.contractItemFieldRequired && !this.isSaved) {
       const contractOrder = this.order as ContractOrder;
-      this.getContractItemsToOrder(contractOrder.contract.uid);
+      this.getContractItemsToOrder(contractOrder.contract.uid, contractOrder.budget.uid);
     }
   }
 
 
-  private getContractItemsToOrder(contractUID: string)  {
+  private getContractItemsToOrder(contractUID: string, budgetUID: string)  {
     this.isLoadingContractItems = true;
 
-    this.contractData.getContractItemsToOrder(contractUID)
+    this.contractData.getContractItemsToOrder(contractUID, budgetUID)
       .firstValue()
       .then(x => this.setContratItems(x))
       .finally(() => this.isLoadingContractItems = false);
@@ -316,12 +316,12 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
     if (this.payableFieldsRequired) {
       const payableOrder = this.order as PayableOrder;
 
-      const budgetTypeUID = payableOrder.budgetType.uid;
+      const budgetUID = payableOrder.budget.uid;
       const orgUnitUID = this.form.getRawValue().requestedByUID;
       const productUID = this.form.getRawValue().productUID;
 
-      if (!!budgetTypeUID && !!orgUnitUID && !!productUID) {
-        const query: BudgetAccountsForProductQuery = { budgetTypeUID, orgUnitUID, productUID };
+      if (!!budgetUID && !!orgUnitUID && !!productUID) {
+        const query: BudgetAccountsForProductQuery = { budgetUID, orgUnitUID, productUID };
         this.searchBudgetAccounts(productUID, query, budgetAccountsDefault);
       } else {
         this.setBudgetAccountsList([], budgetAccountsDefault);

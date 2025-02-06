@@ -25,8 +25,8 @@ import { MessageBoxService } from '@app/shared/services';
 import { OrdersDataService, SearcherAPIS, SuppliersDataService } from '@app/data-services';
 
 import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, Priority, PriorityList,
-         OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrder, PayableOrderFields, BudgetType,
-         ContractOrder, ContractOrderFields, Contract } from '@app/models';
+         OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrder, PayableOrderFields,
+         BudgetType, ContractOrder, ContractOrderFields, Contract } from '@app/models';
 
 
 export enum OrderHeaderEventType {
@@ -169,8 +169,8 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       this.form.controls.currencyUID.reset();
     }
 
-    const budgetType = this.budgetTypesList.find(x => x.uid === item.budgetType.uid) ?? null;
-    this.onBudgetTypeChanged(budgetType);
+    this.form.controls.budgetUID.reset();
+    this.budgetsList = item?.budgets ?? [];
   }
 
 
@@ -390,10 +390,19 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private validateSetBudgetsList() {
-    if (this.isSaved && (this.payableFieldsRequired || this.contractFieldsRequired)) {
+    if (!this.isSaved) {
+      return;
+    }
+
+    if (this.payableFieldsRequired) {
       const payableOrder = this.order as PayableOrder;
       const budgetType = this.budgetTypesList.find(x => x.uid === payableOrder.budgetType?.uid);
       this.budgetsList = budgetType?.budgets ?? [];
+    }
+
+    if (this.contractFieldsRequired) {
+      const contractOrder = this.order as ContractOrder;
+      this.budgetsList = contractOrder?.contract.budgets ?? [];
     }
   }
 
