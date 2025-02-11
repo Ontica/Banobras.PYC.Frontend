@@ -117,6 +117,7 @@ export class BillsMainPageComponent {
   private setQueryAndClearExplorerData(query: BillsQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
+    this.setSelectedData(EmptyBillData);
   }
 
 

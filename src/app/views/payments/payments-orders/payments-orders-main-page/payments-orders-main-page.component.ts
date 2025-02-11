@@ -130,12 +130,8 @@ export class PaymentsOrdersMainPageComponent {
 
   private setQueryAndClearExplorerData(query: PaymentsOrdersQuery) {
     this.query = Object.assign({}, query);
-    this.clearDataList();
-  }
-
-
-  private clearDataList() {
     this.setDataList([], false);
+    this.setSelectedData(EmptyPaymentOrderData);
   }
 
 

@@ -125,7 +125,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   onRequestTabbedViewEvent(event: EventInfo) {
     switch (event.type as RequestTabbedViewEventType) {
       case RequestTabbedViewEventType.CLOSE_BUTTON_CLICKED:
-        this.clearSelectedData();
+        this.setSelectedData(EmptyRequestData);
         return;
       case RequestTabbedViewEventType.DATA_UPDATED:
         Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
@@ -195,7 +195,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
   private removeItemFromList(requestUID: string) {
     const data = this.dataList.filter(x => x.uid !== requestUID);
     this.setDataList(data, true);
-    this.clearSelectedData();
+    this.setSelectedData(EmptyRequestData);
   }
 
 
@@ -222,8 +222,8 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
 
   private setQueryAndClearExplorerData(query: RequestQuery) {
     this.query = Object.assign({}, query);
-    this.clearDataList();
-    this.clearSelectedData();
+    this.setDataList([], false);
+    this.setSelectedData(EmptyRequestData);
   }
 
 
@@ -243,16 +243,6 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
     const dataToInsert = mapRequestDescriptorFromRequest(data.request);
     const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
     this.setDataList(dataListNew, true);
-  }
-
-
-  private clearDataList() {
-    this.setDataList([], false);
-  }
-
-
-  private clearSelectedData() {
-    this.setSelectedData(EmptyRequestData);
   }
 
 }

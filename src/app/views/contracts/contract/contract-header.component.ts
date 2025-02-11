@@ -102,16 +102,16 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  ngOnDestroy() {
-    this.helper.destroy();
-  }
-
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.contract && this.isSaved) {
       this.enableEditor(false);
       this.validateDataLists();
     }
+  }
+
+
+  ngOnDestroy() {
+    this.helper.destroy();
   }
 
 
