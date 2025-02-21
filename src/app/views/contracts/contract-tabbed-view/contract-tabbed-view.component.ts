@@ -43,6 +43,8 @@ export class ContractTabbedViewComponent implements OnChanges {
 
   hint = '';
 
+  status = '';
+
   selectedTabIndex = 0;
 
   objectType = ObjectTypes.CONTRACT;
@@ -118,10 +120,6 @@ export class ContractTabbedViewComponent implements OnChanges {
 
 
   private setTitle() {
-    const status = this.data.contract.status.name === 'Eliminado' ?
-      `<span class="tag tag-error tag-small">${this.data.contract.status.name}</span>` :
-      `<span class="tag tag-small">${this.data.contract.status.name}</span>`;
-
     const signDate = !this.data.contract.signDate ?
       'N/D' : DateStringLibrary.format(this.data.contract.signDate);
 
@@ -130,7 +128,11 @@ export class ContractTabbedViewComponent implements OnChanges {
     const type = this.data.contract.budgets.length > 1 ? 'Plurianual' : 'Anual';
 
     this.title = `${!this.data.contract.contractNo ? '' : (this.data.contract.contractNo + ': ')}
-      ${this.data.contract.name} ${status}`;
+      ${this.data.contract.name}`;
+
+    this.status = this.data.contract.status.name === 'Eliminado' ?
+      `<span class="tag tag-error tag-small">${this.data.contract.status.name}</span>` :
+      `<span class="tag tag-small">${this.data.contract.status.name}</span>`;
 
     this.hint = `<strong>${this.data.contract.contractType.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
       `${this.data.contract.supplier.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
