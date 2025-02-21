@@ -7,7 +7,7 @@
     </mat-checkbox>
   </div>
 
-  <div class="fx-item">
+  <div class="fx-item-size first-column-size sm-fx-item-none">
     <div class="list-item-text-highlight nowrap"
       (click)="onSelectClicked()">
       <a class="bold-text">{{transaction.transactionNo}}</a>
@@ -16,22 +16,18 @@
     <div>{{transaction.basePartyName}}</div>
   </div>
 
-  <div class="fx-item-size first-column-size sm-fx-item-none">
+  <div class="fx-item-size second-column-size sm-fx-item-none">
     <div class="list-item-text-highlight">{{transaction.budgetTypeName}}</div>
     <div class="bold-text">{{transaction.budgetName}}</div>
     <div>{{transaction.total | empDecimal}}</div>
   </div>
 
 
-  <div class="fx-item-size second-column-size sm-fx-item-none">
+  <div class="fx-item">
     <div class="list-item-text-highlight">{{transaction.operationSourceName}}</div>
     <div>
       {{!transaction.requestedDate ? '-' : (transaction.requestedDate | empDateTimeFormat)}}
     </div>
-  </div>
-
-  <div class="fx-item-size third-column-size sm-fx-item-none">
-    <div>{{transaction.description}} </div>
   </div>
 
   <div class="fx-item-size status-column-size sm-fx-item-none">
