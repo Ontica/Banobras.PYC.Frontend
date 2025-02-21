@@ -4,28 +4,23 @@
 
 <div class="explorer">
 
-  <div class="primary priority" [class.std-hide]="displayTabbedView">
+  <emp-fa-transactions-explorer
+    class="primary priority"
+    [class.std-hide]="displayTabbedView"
+    [query]="query"
+    [dataList]="dataList"
+    [selectedUID]="selectedData.transaction.uid"
+    [isLoading]="isLoading"
+    [queryExecuted]="queryExecuted"
+    (transactionsExplorerEvent)="onTransactionsExplorerEvent($event)">
 
-    <emp-fa-transactions-explorer
-      [query]="query"
-      [dataList]="dataList"
-      [selectedUID]="selectedData.transaction.uid"
-      [isLoading]="isLoading"
-      [queryExecuted]="queryExecuted"
-      (transactionsExplorerEvent)="onTransactionsExplorerEvent($event)">
+  </emp-fa-transactions-explorer>
 
-    </emp-fa-transactions-explorer>
+  <emp-fa-transaction-tabbed-view *ngIf="displayTabbedView"
+    class="secondary std-stacked"
+    [data]="selectedData"
+    (transactionTabbedViewEvent)="onTransactionTabbedViewEvent($event)">
 
-  </div>
-
-  <div class="secondary" *ngIf="displayTabbedView">
-
-    <emp-fa-transaction-tabbed-view
-      [data]="selectedData"
-      (transactionTabbedViewEvent)="onTransactionTabbedViewEvent($event)">
-
-    </emp-fa-transaction-tabbed-view>
-
-  </div>
+  </emp-fa-transaction-tabbed-view>
 
 </div>

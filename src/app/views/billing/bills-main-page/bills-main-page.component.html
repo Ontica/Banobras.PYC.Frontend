@@ -4,28 +4,23 @@
 
 <div class="explorer">
 
-  <div class="primary priority" [class.std-hide]="displayTabbedView">
+  <emp-ng-bills-explorer
+    class="primary priority"
+    [class.std-hide]="displayTabbedView"
+    [query]="query"
+    [dataList]="dataList"
+    [selectedUID]="selectedData.bill.uid"
+    [isLoading]="isLoading"
+    [queryExecuted]="queryExecuted"
+    (billsExplorerEvent)="onBillsExplorerEvent($event)">
 
-    <emp-ng-bills-explorer
-      [query]="query"
-      [dataList]="dataList"
-      [selectedUID]="selectedData.bill.uid"
-      [isLoading]="isLoading"
-      [queryExecuted]="queryExecuted"
-      (billsExplorerEvent)="onBillsExplorerEvent($event)">
+  </emp-ng-bills-explorer>
 
-    </emp-ng-bills-explorer>
+  <emp-ng-bill-tabbed-view *ngIf="displayTabbedView"
+    class="secondary std-stacked"
+    [data]="selectedData"
+    (billTabbedViewEvent)="onBillTabbedViewEvent($event)">
 
-  </div>
-
-  <div class="secondary" *ngIf="displayTabbedView">
-
-    <emp-ng-bill-tabbed-view
-      [data]="selectedData"
-      (billTabbedViewEvent)="onBillTabbedViewEvent($event)">
-
-    </emp-ng-bill-tabbed-view>
-
-  </div>
+  </emp-ng-bill-tabbed-view>
 
 </div>

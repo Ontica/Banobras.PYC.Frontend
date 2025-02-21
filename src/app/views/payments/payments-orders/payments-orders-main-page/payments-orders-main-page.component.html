@@ -4,28 +4,23 @@
 
 <div class="explorer">
 
-  <div class="primary" [class.std-hide]="displayTabbedView">
+  <emp-pmt-payments-orders-explorer
+    class="primary"
+    [class.std-hide]="displayTabbedView"
+    [query]="query"
+    [paymentsOrdersList]="dataList"
+    [selectedPaymentOrderUID]="selectedData.paymentOrder.uid"
+    [isLoading]="isLoading"
+    [queryExecuted]="queryExecuted"
+    (paymentsOrdersExplorerEvent)="onPaymentsOrdersExplorerEvent($event)">
 
-    <emp-pmt-payments-orders-explorer
-      [query]="query"
-      [paymentsOrdersList]="dataList"
-      [selectedPaymentOrderUID]="selectedData.paymentOrder.uid"
-      [isLoading]="isLoading"
-      [queryExecuted]="queryExecuted"
-      (paymentsOrdersExplorerEvent)="onPaymentsOrdersExplorerEvent($event)">
+  </emp-pmt-payments-orders-explorer>
 
-    </emp-pmt-payments-orders-explorer>
+  <emp-pmt-payment-order-tabbed-view *ngIf="displayTabbedView"
+    class="secondary priority std-stacked"
+    [data]="selectedData"
+    (paymentOrderTabbedViewEvent)="onPaymentOrderTabbedViewEvent($event)">
 
-  </div>
-
-  <div class="secondary priority" *ngIf="displayTabbedView">
-
-    <emp-pmt-payment-order-tabbed-view
-      [data]="selectedData"
-      (paymentOrderTabbedViewEvent)="onPaymentOrderTabbedViewEvent($event)">
-
-    </emp-pmt-payment-order-tabbed-view>
-
-  </div>
+  </emp-pmt-payment-order-tabbed-view>
 
 </div>

@@ -4,21 +4,19 @@
 
 <div class="explorer">
 
-  <div class="primary priority" [class.std-hide]="displayTabbedView">
+  <emp-bdg-budget-explorer
+    class="primary priority"
+    [class.std-hide]="displayTabbedView"
+    [queryType]="queryType"
+    [data]="data"
+    [entrySelected]="entrySelected"
+    [isLoading]="isLoading"
+    [queryExecuted]="queryExecuted"
+    (budgetExplorerEvent)="onBudgetExplorerEvent($event)">
 
-    <emp-bdg-budget-explorer
-      [queryType]="queryType"
-      [data]="data"
-      [entrySelected]="entrySelected"
-      [isLoading]="isLoading"
-      [queryExecuted]="queryExecuted"
-      (budgetExplorerEvent)="onBudgetExplorerEvent($event)">
+  </emp-bdg-budget-explorer>
 
-    </emp-bdg-budget-explorer>
-
-  </div>
-
-  <div class="secondary" *ngIf="displayTabbedView">
+  <div class="secondary std-stacked" *ngIf="displayTabbedView">
 
   </div>
 

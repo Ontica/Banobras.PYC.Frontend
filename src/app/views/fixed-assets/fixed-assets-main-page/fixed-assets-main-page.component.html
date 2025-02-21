@@ -4,28 +4,23 @@
 
 <div class="explorer">
 
-  <div class="primary" [class.std-hide]="displayTabbedView">
+  <emp-pyc-fixed-assets-explorer
+    class="primary"
+    [class.std-hide]="displayTabbedView"
+    [query]="query"
+    [dataList]="dataList"
+    [selectedUID]="selectedData.fixedAsset.uid"
+    [isLoading]="isLoading"
+    [queryExecuted]="queryExecuted"
+    (fixedAssetsExplorerEvent)="onFixedAssetsExplorerEvent($event)">
 
-    <emp-pyc-fixed-assets-explorer
-      [query]="query"
-      [dataList]="dataList"
-      [selectedUID]="selectedData.fixedAsset.uid"
-      [isLoading]="isLoading"
-      [queryExecuted]="queryExecuted"
-      (fixedAssetsExplorerEvent)="onFixedAssetsExplorerEvent($event)">
+  </emp-pyc-fixed-assets-explorer>
 
-    </emp-pyc-fixed-assets-explorer>
+  <emp-pyc-fixed-asset-tabbed-view  *ngIf="displayTabbedView"
+    class="secondary priority std-stacked"
+    [data]="selectedData"
+    (fixedAssetTabbedViewEvent)="onFixedAssetTabbedViewEvent($event)">
 
-  </div>
-
-  <div class="secondary priority" *ngIf="displayTabbedView">
-
-    <emp-pyc-fixed-asset-tabbed-view
-      [data]="selectedData"
-      (fixedAssetTabbedViewEvent)="onFixedAssetTabbedViewEvent($event)">
-
-    </emp-pyc-fixed-asset-tabbed-view>
-
-  </div>
+  </emp-pyc-fixed-asset-tabbed-view>
 
 </div>

@@ -216,3 +216,20 @@
     }
   }
 }
+
+
+@include standard() {
+
+  .std-stacked {
+    background-color: $white;
+    border: 1px solid $border-color-light;
+    height: calc(100% - 10px) !important;
+    margin-top: 10px;
+
+    > * > .card {
+      margin: -10px -10px 0 10px;
+    }
+
+  }
+
+}
