@@ -11,7 +11,7 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BudgetTransactionData, EmptyBudgetTransactionData } from '@app/models';
+import { BudgetTransactionHolder, EmptyBudgetTransactionHolder } from '@app/models';
 
 import { TransactionEditorEventType } from '../transaction/transaction-editor.component';
 
@@ -35,7 +35,7 @@ export enum TransactionTabbedViewEventType {
 })
 export class BudgetTransactionTabbedViewComponent implements OnChanges {
 
-  @Input() data: BudgetTransactionData = EmptyBudgetTransactionData;
+  @Input() data: BudgetTransactionHolder = EmptyBudgetTransactionHolder;
 
   @Output() transactionTabbedViewEvent = new EventEmitter<EventInfo>();
 

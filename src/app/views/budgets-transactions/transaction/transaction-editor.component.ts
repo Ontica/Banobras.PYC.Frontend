@@ -7,14 +7,14 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { EventInfo, isEmpty } from '@app/core';
+import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransaction, TransactionActions, BudgetTransactionData, EmptyBudgetTransaction,
-         EmptyTransactionActions } from '@app/models';
+import { BudgetTransaction, TransactionActions, BudgetTransactionHolder, EmptyBudgetTransaction,
+         EmptyTransactionActions, BudgetTransactionFields } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
 
@@ -53,6 +53,10 @@ export class BudgetTransactionEditorComponent {
     }
 
     switch (event.type as TransactionHeaderEventType) {
+      case TransactionHeaderEventType.UPDATE:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.updateTransaction(event.payload.dataFields as BudgetTransactionFields);
+        return;
       case TransactionHeaderEventType.AUTHORIZE:
         this.authorizeTransaction(this.transaction.uid);
         return;
@@ -66,6 +70,16 @@ export class BudgetTransactionEditorComponent {
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private updateTransaction(transactionFields: BudgetTransactionFields) {
+    this.submitted = true;
+
+    this.transactionsData.updateTransaction(this.transaction.uid, transactionFields)
+      .firstValue()
+      .then(x => sendEvent(this.transactionEditorEvent, TransactionEditorEventType.UPDATED, { data: x }))
+      .finally(() => this.submitted = false);
   }
 
 
@@ -99,7 +113,7 @@ export class BudgetTransactionEditorComponent {
   }
 
 
-  private resolveTransactionUpdated(data: BudgetTransactionData) {
+  private resolveTransactionUpdated(data: BudgetTransactionHolder) {
     sendEvent(this.transactionEditorEvent, TransactionEditorEventType.UPDATED, { data });
   }
 

@@ -9,9 +9,34 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
+import { Budget, BudgetSegmentType } from './budgets';
+
 import { Document } from './documents';
 
 import { History } from './history';
+
+
+export interface BudgetTypeForEdition {
+  uid: string;
+  name: string;
+  multiyear: boolean;
+  budgets: BudgetForEdition[];
+}
+
+
+export interface BudgetForEdition extends Budget {
+  operationSources: Identifiable[];
+  segmentTypes: BudgetSegmentType[];
+  transactionTypes: TransactionTypeForEdition[];
+}
+
+
+export interface TransactionTypeForEdition {
+  uid: string;
+  name: string;
+  operationSources: Identifiable[];
+  relatedDocumentTypes: Identifiable[];
+}
 
 
 export enum BudgetTransactionsStatus {
@@ -105,12 +130,21 @@ export interface BudgetTransactionDescriptor {
 }
 
 
-export interface BudgetTransactionFields {
+ export interface BudgetTransactionFields {
+    basePartyUID: string;
+    baseBudgetUID: string;
+    transactionTypeUID: string;
+    operationSourceUID: string;
+    applicationDate: DateString;
+    description: string;
+    justification: string;
+    baseEntityTypeUID: string;
+    baseEntityUID: string;
+    requestedByUID?: string;
+  }
 
-}
 
-
-export interface BudgetTransactionData {
+export interface BudgetTransactionHolder {
   transaction: BudgetTransaction,
   entries: BudgetTransactionEntryDescriptor[];
   documents: Document[];
@@ -127,11 +161,12 @@ export interface BudgetTransaction {
   budget: Identifiable;
   transactionType: Identifiable;
   operationSource: Identifiable;
-  description: string;
-  requestedDate: DateString;
   applicationDate: DateString;
+  description: string;
+  justification: string;
   total: number;
   status: Identifiable;
+  requestedDate: DateString;
 }
 
 
@@ -208,9 +243,10 @@ export const EmptyBudgetTransaction: BudgetTransaction = {
   budget: Empty,
   baseParty: Empty,
   operationSource: Empty,
-  description: '',
-  requestedDate: '',
   applicationDate: '',
+  description: '',
+  justification: '',
+  requestedDate: '',
   total: null,
   status: Empty,
 }
@@ -225,7 +261,7 @@ export const EmptyTransactionActions: TransactionActions = {
 }
 
 
-export const EmptyBudgetTransactionData: BudgetTransactionData = {
+export const EmptyBudgetTransactionHolder: BudgetTransactionHolder = {
   transaction: EmptyBudgetTransaction,
   entries: [],
   documents: [],

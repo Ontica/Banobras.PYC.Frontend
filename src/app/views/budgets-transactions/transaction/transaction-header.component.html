@@ -4,29 +4,46 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-two-third">
+      <div class="fx-item-quarter">
 
-        <label>Área:</label>
+        <label>Tipo de presupuesto:</label>
 
         <emp-ng-select
-          formControlName="basePartyUID"
-          [config]="{virtualScroll: true, showTooltip: true}"
-          [items]="organizationalUnitsList"
+          formControlName="budgetTypeUID"
+          [items]="budgetTypesList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
+          (changes)="onBudgetTypeChanged($event)">
         </emp-ng-select>
 
       </div>
 
-      <div class="fx-item-third">
+      <div class="fx-item-quarter">
 
-        <label>Fuente:</label>
+        <label>Presupuesto:</label>
 
         <emp-ng-select
-          formControlName="operationSourceUID"
-          [items]="operationSourcesList"
+          formControlName="budgetUID"
+          [items]="budgetsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.operationSourceUID)">
+          [placeholder]="budgetTypePlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetUID)"
+          (changes)="onBudgetChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Tipo de transacción:</label>
+
+        <emp-ng-select
+          formControlName="transactionTypeUID"
+          [items]="transactionTypesList"
+          [loading]="isLoading"
+          [placeholder]="budgetPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.transactionTypeUID)"
+          (changes)="onTransactionTypeChanges($event)">
         </emp-ng-select>
 
       </div>
@@ -35,42 +52,104 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-third">
+      <div class="fx-item-half">
 
-        <label>Tipo de presupuesto:</label>
+        <label>Área:</label>
 
         <emp-ng-select
-          formControlName="budgetTypeUID"
-          [items]="budgetTypesList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)">
+          formControlName="basePartyUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoadingOrgUnits"
+          [placeholder]="transactionTypePlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)">
         </emp-ng-select>
 
       </div>
 
-      <div class="fx-item-third">
+      <div class="fx-item-quarter">
 
-        <label>Presupuesto:</label>
+        <label>Fuente:</label>
 
         <emp-ng-select
-          formControlName="budgetUID"
-          [items]="budgetsList"
+          formControlName="operationSourceUID"
+          [items]="operationSourcesList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.budgetUID)">
+          [placeholder]="transactionTypePlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.operationSourceUID)">
         </emp-ng-select>
 
       </div>
 
-      <div class="fx-item-third">
+      <div class="fx-item-none">
 
-        <label>Tipo de transacción:</label>
+        <label>Fecha de aplicación:</label>
+
+        <emp-ng-datepicker
+          formControlName="applicationDate"
+          [showError]="formHelper.isControlInvalid(form.controls.applicationDate)">
+        </emp-ng-datepicker>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-quarter">
+
+        <label>Tipo de documento relacionado:</label>
 
         <emp-ng-select
-          formControlName="transactionTypeUID"
-          [items]="transactionTypesList"
+          formControlName="baseEntityTypeUID"
+          [config]="{clearable: true }"
+          [items]="baseEntityTypesList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.transactionTypeUID)">
+          [placeholder]="baseEntityTypePlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.baseEntityTypeUID)"
+          (changes)="onBaseEntityTypeChanges()">
         </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item">
+
+        <label>Documento relacionado:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="baseEntityUID"
+          [placeholder]="baseEntityPlaceholder"
+          [config]="{ searchByQuery: true, showTooltip: true, clearable: true }"
+          [initQuery]="{
+              payableTypeUID: form.value.baseEntityTypeUID,
+              organizationalUnitUID: form.value.basePartyUID ?? null,
+              keywords: ''
+          }"
+          [searcherAPI]="baseEntitiesAPI"
+          [initialValue]="isSaved && !editionMode ? baseEntity : null"
+          [showError]="formHelper.isControlInvalid(form.controls.baseEntityUID)"
+          (changes)="onBaseEntityChanges()">
+
+          <ng-template #tLabelTemplate let-item="item">
+            {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | Cuenta: {{!item?.name ? 'N/D' : item?.name}}
+          </ng-template>
+
+          <ng-template #tOptionTemplate let-item="item">
+
+            <div class="item wrap">
+
+              <span class="item-highlight">
+                {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}}  | {{item.payTo?.name}} | {{item.budget?.name}} | {{item.total ?? 0 | empDecimal}} | {{item.currency?.name}}
+              </span> <br>
+              <span class="item-text-xs">
+                {{!item?.name ? 'N/D' : item?.name}}
+              </span>
+
+            </div>
+
+          </ng-template>
+
+        </emp-ng-select-typeahead>
 
       </div>
 
@@ -83,6 +162,18 @@
         <textarea class="text-area" empNgTextareaAutoresize rows="1"
           formControlName="description"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Justificación:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="justification"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.justification)">
         </textarea>
       </div>
 

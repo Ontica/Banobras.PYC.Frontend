@@ -15,11 +15,13 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { BudgetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransactionData, BudgetTransactionDescriptor, BudgetTransactionsQuery,
-         EmptyBudgetTransactionData, EmptyBudgetTransactionsQuery,
+import { BudgetTransactionHolder, BudgetTransactionDescriptor, BudgetTransactionsQuery,
+         EmptyBudgetTransactionHolder, EmptyBudgetTransactionsQuery,
          mapBudgetTransactionDescriptorFromTransaction } from '@app/models';
 
 import { TransactionsExplorerEventType } from '../transactions-explorer/transactions-explorer.component';
+
+import { TransactionCreatorEventType } from '../transaction/transaction-creator.component';
 
 import { TransactionTabbedViewEventType } from '../transaction-tabbed-view/transaction-tabbed-view.component';
 
@@ -34,9 +36,11 @@ export class BudgetTransactionsMainPageComponent {
 
   dataList: BudgetTransactionDescriptor[] = [];
 
-  selectedData: BudgetTransactionData = EmptyBudgetTransactionData;
+  selectedData: BudgetTransactionHolder = EmptyBudgetTransactionHolder;
 
   displayTabbedView = false;
+
+  displayCreator = false;
 
   isLoading = false;
 
@@ -49,8 +53,29 @@ export class BudgetTransactionsMainPageComponent {
               private messageBox: MessageBoxService) { }
 
 
+
+  onTransactionCreatorEvent(event: EventInfo) {
+    switch (event.type as TransactionCreatorEventType) {
+      case TransactionCreatorEventType.CLOSE_MODAL_CLICKED:
+        this.displayCreator = false;
+        return;
+      case TransactionCreatorEventType.CREATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.displayCreator = false;
+        this.insertItemToList(event.payload.data as BudgetTransactionHolder);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   onTransactionsExplorerEvent(event: EventInfo) {
     switch (event.type as TransactionsExplorerEventType) {
+      case TransactionsExplorerEventType.CREATE_CLICKED:
+        this.displayCreator = true;
+        return;
       case TransactionsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as BudgetTransactionsQuery);
@@ -79,11 +104,11 @@ export class BudgetTransactionsMainPageComponent {
   onTransactionTabbedViewEvent(event: EventInfo) {
     switch (event.type as TransactionTabbedViewEventType) {
       case TransactionTabbedViewEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedData(EmptyBudgetTransactionData);
+        this.setSelectedData(EmptyBudgetTransactionHolder);
         return;
       case TransactionTabbedViewEventType.DATA_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
-        this.insertItemToList(event.payload.data as BudgetTransactionData);
+        this.insertItemToList(event.payload.data as BudgetTransactionHolder);
         return;
       case TransactionTabbedViewEventType.DATA_DELETED:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
@@ -123,6 +148,7 @@ export class BudgetTransactionsMainPageComponent {
   private setQueryAndClearExplorerData(query: BudgetTransactionsQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
+    this.setSelectedData(EmptyBudgetTransactionHolder);
   }
 
 
@@ -133,13 +159,13 @@ export class BudgetTransactionsMainPageComponent {
   }
 
 
-  private setSelectedData(data: BudgetTransactionData) {
+  private setSelectedData(data: BudgetTransactionHolder) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.transaction);
   }
 
 
-  private insertItemToList(data: BudgetTransactionData) {
+  private insertItemToList(data: BudgetTransactionHolder) {
     const dataToInsert = mapBudgetTransactionDescriptorFromTransaction(data.transaction);
     const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
     this.setDataList(dataListNew);
@@ -150,7 +176,7 @@ export class BudgetTransactionsMainPageComponent {
   private removeItemFromList(transactionUID: string) {
     const dataListNew = this.dataList.filter(x => x.uid !== transactionUID);
     this.setDataList(dataListNew);
-    this.setSelectedData(EmptyBudgetTransactionData);
+    this.setSelectedData(EmptyBudgetTransactionHolder);
   }
 
 }

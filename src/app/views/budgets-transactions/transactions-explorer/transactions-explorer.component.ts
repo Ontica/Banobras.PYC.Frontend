@@ -22,6 +22,7 @@ import { TransactionsListEventType } from './transactions-list.component';
 
 
 export enum TransactionsExplorerEventType {
+  CREATE_CLICKED            = 'BudgetTransactionsExplorerComponent.Event.CreateClicked',
   SEARCH_CLICKED            = 'BudgetTransactionsExplorerComponent.Event.SearchClicked',
   CLEAR_CLICKED             = 'BudgetTransactionsExplorerComponent.Event.ClearClicked',
   EXECUTE_OPERATION_CLICKED = 'BudgetTransactionsExplorerComponent.Event.ExecuteOperationClicked',
@@ -64,7 +65,7 @@ export class BudgetTransactionsExplorerComponent implements OnChanges {
 
 
   onCreateTransactionClicked() {
-
+    sendEvent(this.transactionsExplorerEvent, TransactionsExplorerEventType.CREATE_CLICKED);
   }
 
 

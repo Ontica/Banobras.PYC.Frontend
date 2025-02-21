@@ -15,16 +15,18 @@ import { BudgetsDataService, BudgetTransactionsDataService } from '@app/data-ser
 
 
 export enum SelectorType {
-  BUDGET_TYPES          = 'PYC.Budgeting.Selector.BudgetTypes.List',
-  SEGMENT_ITEMS_BY_TYPE = 'PYC.Budgeting.Selector.SegmentItemsByType.List',
-  OPERATION_SOURCES     = 'PYC.Budgeting.Selector.OperationSources.List',
+  BUDGET_TYPES             = 'PYC.Budgeting.Selector.BudgetTypes.List',
+  BUDGET_TYPES_FOR_EDITION = 'PYC.Budgeting.Selector.BudgetTypesForEdition.List',
+  SEGMENT_ITEMS_BY_TYPE    = 'PYC.Budgeting.Selector.SegmentItemsByType.List',
+  OPERATION_SOURCES        = 'PYC.Budgeting.Selector.OperationSources.List',
 }
 
 
 const initialState: StateValues = [
-  { key: SelectorType.BUDGET_TYPES         , value: [] },
-  { key: SelectorType.SEGMENT_ITEMS_BY_TYPE, value: new Cache<Identifiable[]>() },
-  { key: SelectorType.OPERATION_SOURCES, value: [] },
+  { key: SelectorType.BUDGET_TYPES,             value: [] },
+  { key: SelectorType.BUDGET_TYPES_FOR_EDITION, value: [] },
+  { key: SelectorType.SEGMENT_ITEMS_BY_TYPE,    value: new Cache<Identifiable[]>() },
+  { key: SelectorType.OPERATION_SOURCES,        value: [] },
 ];
 
 
@@ -46,6 +48,12 @@ export class BudgetingPresentationHandler extends AbstractPresentationHandler {
 
       case SelectorType.BUDGET_TYPES: {
         const provider = () => this.budgetsData.getBudgetTypes();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.BUDGET_TYPES_FOR_EDITION: {
+        const provider = () => this.transactionsData.getBudgetTypesForTransactionEdition();
 
         return super.selectFirst<U>(selectorType, provider);
       }

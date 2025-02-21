@@ -25,4 +25,8 @@
 
 </div>
 
-</div>
+
+<emp-bdg-transaction-creator *ngIf="displayCreator"
+  (transactionCreatorEvent)="onTransactionCreatorEvent($event)">
+
+</emp-bdg-transaction-creator>

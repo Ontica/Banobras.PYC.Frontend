@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { BudgetTransactionData, BudgetTransactionDescriptor, BudgetTransactionsQuery } from '@app/models';
+import { BudgetTransactionHolder, BudgetTransactionDescriptor, BudgetTransactionFields,
+         BudgetTransactionsQuery, BudgetTypeForEdition } from '@app/models';
 
 
 @Injectable()
@@ -17,6 +18,25 @@ export class BudgetTransactionsDataService {
 
 
   constructor(private http: HttpService) { }
+
+
+  getBudgetTypesForTransactionEdition(): EmpObservable<BudgetTypeForEdition[]> {
+    const path = `v2/budgeting/budget-types/for-transaction-edition`;
+
+    return this.http.get<BudgetTypeForEdition[]>(path);
+  }
+
+
+  getOrganizationalUnitsForTransactionEdition(budgetUID: string,
+                                              transactionTypeUID: string): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(budgetUID, 'budgetUID');
+    Assertion.assertValue(transactionTypeUID, 'transactionTypeUID');
+
+    const path = `v2/budgeting/organizational-units/for-transaction-edition` +
+      `?budgetUID=${budgetUID}&transactionTypeUID=${transactionTypeUID}`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
 
 
   getOperationSources(): EmpObservable<Identifiable[]> {
@@ -35,30 +55,49 @@ export class BudgetTransactionsDataService {
   }
 
 
-  getTransaction(transactionUID: string): EmpObservable<BudgetTransactionData> {
+  getTransaction(transactionUID: string): EmpObservable<BudgetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/budgeting/transactions/${transactionUID}`;
 
-    return this.http.get<BudgetTransactionData>(path);
+    return this.http.get<BudgetTransactionHolder>(path);
   }
 
 
-  authorizeTransaction(transactionUID: string): EmpObservable<BudgetTransactionData> {
+  createTransaction(dataFields: BudgetTransactionFields): EmpObservable<BudgetTransactionHolder> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/transactions`;
+
+    return this.http.post<BudgetTransactionHolder>(path, dataFields);
+  }
+
+
+  updateTransaction(transactionUID: string, dataFields: BudgetTransactionFields): EmpObservable<BudgetTransactionHolder> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/transactions/${transactionUID}`;
+
+    return this.http.put<BudgetTransactionHolder>(path, dataFields);
+  }
+
+
+  authorizeTransaction(transactionUID: string): EmpObservable<BudgetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/budgeting/transactions/${transactionUID}/authorize`;
 
-    return this.http.post<BudgetTransactionData>(path);
+    return this.http.post<BudgetTransactionHolder>(path);
   }
 
 
-  rejectTransaction(transactionUID: string): EmpObservable<BudgetTransactionData> {
+  rejectTransaction(transactionUID: string): EmpObservable<BudgetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/budgeting/transactions/${transactionUID}/reject`;
 
-    return this.http.post<BudgetTransactionData>(path);
+    return this.http.post<BudgetTransactionHolder>(path);
   }
 
 
