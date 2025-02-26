@@ -62,7 +62,8 @@
           [items]="orgUnitsList"
           [loading]="isLoadingOrgUnits"
           [placeholder]="transactionTypePlaceholder"
-          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)"
+          (changes)="onOrgUnitsChanges($event)">
         </emp-ng-select>
 
       </div>
@@ -121,7 +122,7 @@
           [placeholder]="baseEntityPlaceholder"
           [config]="{ searchByQuery: true, showTooltip: true, clearable: true }"
           [initQuery]="{
-              payableTypeUID: form.value.baseEntityTypeUID,
+              relatedDocumentTypeUID: form.value.baseEntityTypeUID,
               organizationalUnitUID: form.value.basePartyUID ?? null,
               keywords: ''
           }"

@@ -237,6 +237,11 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   }
 
 
+  onOrgUnitsChanges(orgUnit: Identifiable) {
+    this.validateBaseEntityDisabled();
+  }
+
+
   onBaseEntityTypeChanges() {
     this.form.controls.baseEntityUID.reset();
 
@@ -324,6 +329,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
 
   private validateDataInLists() {
+    // TODO: validar inicializacion de datos
     // this.budgetTypesList = ArrayLibrary.insertIfNotExist(this.budgetTypesList ?? [],
     //   this.transaction.budgetType, 'uid');
     // this.budgetsList = ArrayLibrary.insertIfNotExist(this.budgetsList ?? [],
@@ -339,7 +345,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
   private validateBaseEntityDisabled() {
     const entityTypeNotReady = !this.form.value.transactionTypeUID || this.baseEntityTypesList.length === 0;
-    const entityNotReady = entityTypeNotReady || !this.form.value.baseEntityTypeUID;
+    const entityNotReady = entityTypeNotReady || !this.form.value.baseEntityTypeUID || !this.form.value.basePartyUID;
     FormHelper.setDisableControl(this.form.controls.baseEntityTypeUID, entityTypeNotReady);
     FormHelper.setDisableControl(this.form.controls.baseEntityUID, entityNotReady);
   }
