@@ -200,32 +200,11 @@ export const InventoryViews: View[] = [
     permission: ROUTES.inventarios_transacciones.permission,
   },
   {
-    name: 'Inventory.Stock',
-    title: 'Existencias',
-    menuTitle: 'Existencias',
-    url: ROUTES.inventarios_existencias.fullpath,
-    permission: ROUTES.inventarios_existencias.permission,
-  },
-  {
     name: 'Inventory.Explorer',
     title: 'Activo fijo',
     menuTitle: 'Activo fijo',
     url: ROUTES.inventarios_activo_fijo.fullpath,
     permission: ROUTES.inventarios_activo_fijo.permission,
-  },
-  {
-    name: 'Inventory.Valuation',
-    title: 'Valuación',
-    menuTitle: 'Valuación',
-    url: ROUTES.inventarios_valuacion.fullpath,
-    permission: ROUTES.inventarios_valuacion.permission,
-  },
-  {
-    name: 'Inventory.Configuration',
-    title: 'Configuración',
-    menuTitle: 'Configuración',
-    url: ROUTES.inventarios_configuracion.fullpath,
-    permission: ROUTES.inventarios_configuracion.permission,
   },
   {
     name: 'Inventory.Reporting',

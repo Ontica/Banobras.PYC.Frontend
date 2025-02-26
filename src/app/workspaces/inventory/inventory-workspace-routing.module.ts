@@ -38,24 +38,9 @@ const routes: Routes = [
     component: FixedAssetTransactionsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.inventarios_existencias.permission },
-    path: ROUTES.inventarios_existencias.path,
-    component: DefaultComponent,
-  },
-  {
     data: { permission: ROUTES.inventarios_activo_fijo.permission },
     path: ROUTES.inventarios_activo_fijo.path,
     component: FixedAssetsMainPageComponent,
-  },
-  {
-    data: { permission: ROUTES.inventarios_valuacion.permission },
-    path: ROUTES.inventarios_valuacion.path,
-    component: DefaultComponent,
-  },
-  {
-    data: { permission: ROUTES.inventarios_configuracion.permission },
-    path: ROUTES.inventarios_configuracion.path,
-    component: DefaultComponent,
   },
   {
     data: { permission: ROUTES.inventarios_reportes.permission },

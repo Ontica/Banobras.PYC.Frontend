@@ -265,32 +265,11 @@ export const ROUTES = {
     fullpath: '/inventarios/transacciones',
   },
 
-  inventarios_existencias: {
-    permission: PERMISSIONS.ROUTE_INVENTARIOS_EXISTENCIAS,
-    parent: 'inventarios',
-    path: 'existencias',
-    fullpath: '/inventarios/existencias',
-  },
-
   inventarios_activo_fijo: {
     permission: PERMISSIONS.ROUTE_INVENTARIOS_ACTIVO_FIJO,
     parent: 'inventarios',
     path: 'activo-fijo',
     fullpath: '/inventarios/activo-fijo',
-  },
-
-  inventarios_valuacion: {
-    permission: PERMISSIONS.ROUTE_INVENTARIOS_VALUACION,
-    parent: 'inventarios',
-    path: 'valuacion',
-    fullpath: '/inventarios/valuacion',
-  },
-
-  inventarios_configuracion: {
-    permission: PERMISSIONS.ROUTE_INVENTARIOS_CONFIGURACION,
-    parent: 'inventarios',
-    path: 'configuracion',
-    fullpath: '/inventarios/configuracion',
   },
 
   inventarios_reportes: {

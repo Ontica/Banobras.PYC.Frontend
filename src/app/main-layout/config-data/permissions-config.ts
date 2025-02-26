@@ -68,10 +68,7 @@ export enum PERMISSIONS {
 
   ROUTE_INVENTARIOS_SOLICITUDES = 'route-inventarios-solicitudes',
   ROUTE_INVENTARIOS_TRANSACCIONES = 'route-inventarios-transacciones',
-  ROUTE_INVENTARIOS_EXISTENCIAS = 'route-inventarios-existencias',
   ROUTE_INVENTARIOS_ACTIVO_FIJO = 'route-inventarios-activo-fijo',
-  ROUTE_INVENTARIOS_VALUACION = 'route-inventarios-valuacion',
-  ROUTE_INVENTARIOS_CONFIGURACION = 'route-inventarios-configuracion',
   ROUTE_INVENTARIOS_REPORTES = 'route-inventarios-reportes',
 
   //
