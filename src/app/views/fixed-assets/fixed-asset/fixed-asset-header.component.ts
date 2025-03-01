@@ -28,8 +28,8 @@ export enum FixedAssetHeaderEventType {
 interface FixedAssetFormModel extends FormGroup<{
   fixedAssetTypeUID: FormControl<string>;
   datePeriod: FormControl<DateRange>;
-  custodianOrgUnitUID: FormControl<string>;
-  custodianPersonUID: FormControl<string>;
+  assetKeeperOrgUnitUID: FormControl<string>;
+  assetKeeperUID: FormControl<string>;
   name: FormControl<string>;
   brand: FormControl<string>;
   model: FormControl<string>;
@@ -67,7 +67,7 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
 
   fixedAssetTypesList: Identifiable[] = [];
 
-  custodianPersonsList: Identifiable[] = [];
+  assetKeepersList: Identifiable[] = [];
 
   buildingsList: Identifiable[] = [];
 
@@ -137,12 +137,16 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
 
 
   private validateDataLists() {
-    this.organizationalUnitsList =
-      ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.fixedAsset.custodianOrgUnit, 'uid');
+    if (this.fixedAsset.assetKeeperOrgUnit) {
+      this.organizationalUnitsList =
+        ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.fixedAsset.assetKeeperOrgUnit, 'uid');
+    }
+    if (this.fixedAsset.assetKeeper) {
+      this.assetKeepersList =
+        ArrayLibrary.insertIfNotExist(this.assetKeepersList ?? [], this.fixedAsset.assetKeeper, 'uid');
+    }
     this.fixedAssetTypesList =
       ArrayLibrary.insertIfNotExist(this.fixedAssetTypesList ?? [], this.fixedAsset.fixedAssetType, 'uid');
-    this.custodianPersonsList =
-      ArrayLibrary.insertIfNotExist(this.custodianPersonsList ?? [], this.fixedAsset.custodianPerson, 'uid');
     this.buildingsList =
       ArrayLibrary.insertIfNotExist(this.buildingsList ?? [], this.fixedAsset.building, 'uid');
     this.floorsList =
@@ -159,8 +163,8 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
       fixedAssetTypeUID: [''],
       datePeriod: [EmptyDateRange],
       name: [''],
-      custodianOrgUnitUID: [''],
-      custodianPersonUID: [''],
+      assetKeeperOrgUnitUID: [''],
+      assetKeeperUID: [''],
       brand: [''],
       model: [''],
       year: [null],
@@ -179,8 +183,8 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
         fixedAssetTypeUID: isEmpty(this.fixedAsset.fixedAssetType) ? null : this.fixedAsset.fixedAssetType.uid,
         name: this.fixedAsset.name ?? '',
         datePeriod: { fromDate: this.fixedAsset.startDate ?? null, toDate: this.fixedAsset.endDate ?? null },
-        custodianOrgUnitUID: isEmpty(this.fixedAsset.custodianOrgUnit) ? null : this.fixedAsset.custodianOrgUnit.uid,
-        custodianPersonUID: isEmpty(this.fixedAsset.custodianPerson) ? null : this.fixedAsset.custodianPerson.uid,
+        assetKeeperOrgUnitUID: isEmpty(this.fixedAsset.assetKeeperOrgUnit) ? null : this.fixedAsset.assetKeeperOrgUnit.uid,
+        assetKeeperUID: isEmpty(this.fixedAsset.assetKeeper) ? null : this.fixedAsset.assetKeeper.uid,
         brand: this.fixedAsset.brand ?? '',
         model: this.fixedAsset.model ?? '',
         year: this.fixedAsset.year > 0 ? this.fixedAsset.year : null,
@@ -205,8 +209,8 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
       model: this.form.value.model ?? null,
       year: this.form.value.year > 0 ? this.form.value.year : null,
       label: this.form.value.label ?? null,
-      custodianOrgUnitUID: this.form.value.custodianOrgUnitUID ?? null,
-      custodianPersonUID: this.form.value.custodianPersonUID ?? null,
+      assetKeeperOrgUnitUID: this.form.value.assetKeeperOrgUnitUID ?? null,
+      assetKeeperUID: this.form.value.assetKeeperUID ?? null,
       buildingUID: this.form.value.buildingUID ?? null,
       floorUID: this.form.value.floorUID ?? null,
       placeUID: this.form.value.placeUID ?? null,
@@ -253,7 +257,7 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
         return `Esta operación eliminará el activo fijo
                 <strong>${this.fixedAsset.inventoryNo}: ${this.fixedAsset.name}</strong>
                 (${this.fixedAsset.fixedAssetType.name})
-                del área responsable <strong>${this.fixedAsset.custodianOrgUnit.name}</strong>.
+                del área responsable <strong>${this.fixedAsset.assetKeeperOrgUnit?.name ?? 'No definido'}</strong>.
 
                 <br><br>¿Elimino el activo fijo?`;
 

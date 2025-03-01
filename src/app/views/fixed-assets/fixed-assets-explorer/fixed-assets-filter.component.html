@@ -6,16 +6,16 @@
 
       <div class="fx-item-half sm-fx-item">
 
-        <label>Área responsable:</label>
+        <label>Persona responsable:</label>
 
-        <emp-ng-select
-          formControlName="custodianOrgUnitUID"
-          [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
-          [items]="orgUnitsList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.custodianOrgUnitUID)"
-          placeholder="Todas">
-        </emp-ng-select>
+        <emp-ng-select-typeahead
+          formControlName="assetKeeperUID"
+          [config]="{ clearable: true }"
+          [searcherAPI]="keepersAPI"
+          [initialValue]="selectedAssetKeeper"
+          placeholder="Todos"
+          (changes)="onAssetKeeperChanges($event)">
+        </emp-ng-select-typeahead>
 
       </div>
 
@@ -84,6 +84,21 @@
 
           <div class="fx-item-half sm-fx-item">
 
+            <label>Área responsable:</label>
+
+            <emp-ng-select
+              formControlName="assetKeeperOrgUnitUID"
+              [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
+              [items]="orgUnitsList"
+              [loading]="isLoading"
+              [showError]="formHelper.isControlInvalid(form.controls.assetKeeperOrgUnitUID)"
+              placeholder="Todas">
+            </emp-ng-select>
+
+          </div>
+
+          <div class="fx-item-quarter sm-fx-item">
+
             <label>Tipo de activo fijo:</label>
 
             <emp-ng-select
@@ -97,7 +112,7 @@
 
           </div>
 
-          <div class="fx-item-half sm-fx-item">
+          <div class="fx-item-quarter sm-fx-item">
 
             <label>Número de inventario:</label>
 

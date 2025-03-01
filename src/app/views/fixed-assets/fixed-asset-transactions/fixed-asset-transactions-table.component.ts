@@ -98,8 +98,8 @@ export class FixedAssetTransactionsTableComponent implements OnChanges {
           ${transaction.transactionNo}: ${transaction.transactionTypeName}
         </strong></td></tr>
 
-        <tr><td class='nowrap'>Área responsable: </td><td><strong>
-          ${transaction.basePartyName}
+        <tr><td class='nowrap'>Responsable: </td><td><strong>
+          ${transaction.assetKeeperName} (${transaction.assetKeeperOrgUnitName})
         </strong></td></tr>
       </table>
 

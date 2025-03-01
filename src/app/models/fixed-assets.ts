@@ -17,7 +17,8 @@ import { FixedAssetTransactionDescriptor } from './fixed-assets-transactions';
 
 
 export interface FixedAssetsQuery {
-  custodianOrgUnitUID: string;
+  assetKeeperUID: string;
+  assetKeeperOrgUnitUID: string;
   status: EntityStatus;
   keywords: string;
   fixedAssetTypeUID: string;
@@ -30,7 +31,8 @@ export interface FixedAssetsQuery {
 
 export interface FixedAssetDescriptor {
   uid: string;
-  custodianOrgUnitName: string;
+  assetKeeperOrgUnitName: string;
+  assetKeeperName: string;
   fixedAssetTypeName: string;
   inventoryNo: string;
   name: string;
@@ -52,8 +54,8 @@ export interface FixedAssetFields {
   model: string;
   year: number;
   label: string;
-  custodianOrgUnitUID: string;
-  custodianPersonUID: string;
+  assetKeeperUID: string;
+  assetKeeperOrgUnitUID: string;
   buildingUID: string;
   floorUID: string;
   placeUID: string;
@@ -81,8 +83,8 @@ export interface FixedAsset {
   model: string;
   year: number;
   label: string;
-  custodianOrgUnit: Identifiable;
-  custodianPerson: Identifiable;
+  assetKeeperOrgUnit: Identifiable;
+  assetKeeper: Identifiable;
   building: Identifiable;
   floor: Identifiable;
   place: Identifiable;
@@ -112,8 +114,8 @@ export const EmptyFixedAsset: FixedAsset = {
   model: '',
   year: null,
   label: '',
-  custodianOrgUnit: Empty,
-  custodianPerson: Empty,
+  assetKeeperOrgUnit: Empty,
+  assetKeeper: Empty,
   building: Empty,
   floor: Empty,
   place: Empty,
@@ -162,7 +164,8 @@ export const FixedAssetsOperationsList: ExplorerOperation[] = [
 
 
 export const EmptyFixedAssetsQuery: FixedAssetsQuery = {
-  custodianOrgUnitUID: '',
+  assetKeeperUID: '',
+  assetKeeperOrgUnitUID: '',
   status: null,
   keywords: '',
   inventoryNo: '',

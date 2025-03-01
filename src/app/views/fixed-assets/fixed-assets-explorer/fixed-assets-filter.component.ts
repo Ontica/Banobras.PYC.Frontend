@@ -18,7 +18,7 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { FixedAssetsDataService } from '@app/data-services';
+import { FixedAssetsDataService, SearcherAPIS } from '@app/data-services';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -32,7 +32,8 @@ export enum FixedAssetsFilterEventType {
 }
 
 interface FixedAssetsFilterFormModel extends FormGroup<{
-  custodianOrgUnitUID: FormControl<string>;
+  assetKeeperUID: FormControl<string>;
+  assetKeeperOrgUnitUID: FormControl<string>;
   status: FormControl<EntityStatus>;
   keywords: FormControl<string>;
   fixedAssetTypeUID: FormControl<string>;
@@ -80,6 +81,10 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   placesList: Identifiable[] = [];
 
+  keepersAPI = SearcherAPIS.fixedAssetKeepers;
+
+  selectedAssetKeeper: Identifiable = null;
+
   helper: SubscriptionHelper;
 
 
@@ -107,9 +112,8 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
   }
 
 
-  onShowFiltersClicked() {
-    this.showFilters = !this.showFilters;
-    this.showFiltersChange.emit(this.showFilters);
+  onAssetKeeperChanges(keeper: Identifiable) {
+    this.selectedAssetKeeper = isEmpty(keeper) ? null : keeper;
   }
 
 
@@ -134,6 +138,12 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
     } else {
       this.getPlaces(floor.uid);
     }
+  }
+
+
+  onShowFiltersClicked() {
+    this.showFilters = !this.showFilters;
+    this.showFiltersChange.emit(this.showFilters);
   }
 
 
@@ -194,7 +204,8 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      custodianOrgUnitUID: [null],
+      assetKeeperUID: [''],
+      assetKeeperOrgUnitUID: [''],
       status: [null],
       keywords: [null],
       fixedAssetTypeUID: [null],
@@ -208,7 +219,8 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   private setFormData() {
     this.form.reset({
-      custodianOrgUnitUID: this.query.custodianOrgUnitUID,
+      assetKeeperUID: this.query.assetKeeperUID,
+      assetKeeperOrgUnitUID: this.query.assetKeeperOrgUnitUID,
       status: this.query.status,
       keywords: this.query.keywords,
       fixedAssetTypeUID: this.query.fixedAssetTypeUID,
@@ -222,7 +234,8 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   private getFormData(): FixedAssetsQuery {
     const query: FixedAssetsQuery = {
-      custodianOrgUnitUID: this.form.value.custodianOrgUnitUID ?? null,
+      assetKeeperUID: this.form.value.assetKeeperUID ?? null,
+      assetKeeperOrgUnitUID: this.form.value.assetKeeperOrgUnitUID ?? null,
       status: this.form.value.status ?? null,
       keywords: this.form.value.keywords ?? null,
       fixedAssetTypeUID: this.form.value.fixedAssetTypeUID ?? null,
@@ -238,6 +251,9 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   private clearFilters() {
     this.form.reset();
+    this.selectedAssetKeeper = null;
+    this.floorsList = [];
+    this.placesList = [];
   }
 
 }

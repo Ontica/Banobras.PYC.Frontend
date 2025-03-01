@@ -9,11 +9,11 @@
         <label>Área responsable:</label>
 
         <emp-ng-select
-          formControlName="custodianOrgUnitUID"
+          formControlName="assetKeeperOrgUnitUID"
           [config]="{virtualScroll: true, showTooltip: true}"
           [items]="organizationalUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.custodianOrgUnitUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.assetKeeperOrgUnitUID)">
         </emp-ng-select>
 
       </div>
@@ -46,14 +46,14 @@
 
       <div class="fx-item-half">
 
-        <label>Resguardatario:</label>
+        <label>Persona responsable:</label>
 
         <emp-ng-select
-          formControlName="custodianPersonUID"
-          [items]="custodianPersonsList"
+          formControlName="assetKeeperUID"
+          [items]="assetKeepersList"
           [loading]="isLoading"
           [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
-          [showError]="formHelper.isControlInvalid(form.controls.custodianPersonUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.assetKeeperUID)">
         </emp-ng-select>
 
       </div>

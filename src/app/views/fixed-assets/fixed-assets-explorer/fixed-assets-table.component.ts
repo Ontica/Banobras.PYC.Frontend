@@ -39,13 +39,15 @@ export class FixedAssetsTableComponent implements OnChanges {
 
   @Input() selectedUID = '';
 
-  @Input() queryExecuted = false;
-
   @Input() displayControls = true;
+
+  @Input() displayAssetKeeper = true;
+
+  @Input() queryExecuted = false;
 
   @Output() fixedAssetsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['fixedAsset', 'type', 'custodian', 'status'];
+  displayedColumnsDefault: string[] = ['inventoryNo', 'name', 'locationName']; // 'type',
 
   displayedColumns = [...this.displayedColumnsDefault];
 
@@ -97,12 +99,13 @@ export class FixedAssetsTableComponent implements OnChanges {
 
 
   private resetColumns() {
-    if (this.displayControls) {
-      this.displayedColumns = ['check', ...this.displayedColumnsDefault];
-      return;
-    }
+    let columns: string[] = [];
 
-    this.displayedColumns = [...this.displayedColumnsDefault];
+    if (this.displayControls) columns.push('check');
+    columns = [...columns, ...this.displayedColumnsDefault];
+    if (this.displayAssetKeeper) columns = [...columns, ...['assetKeeper', 'assetKeeperOrgUnit']];
+
+    this.displayedColumns = columns;
   }
 
 

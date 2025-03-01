@@ -14,6 +14,7 @@ import { DataTableQuery } from '@app/models';
 
 export enum SearcherAPIS {
   budgetTransactionsParties     = 'v2/budgeting/transactions/parties/',
+  fixedAssetKeepers             = 'v2/fixed-assets/keepers',
   fixedAssetTransactionsParties = 'v2/fixed-assets/transactions/parties/',
   payableEntities               = 'v2/payments-management/payable-entities/search',
   relatedDocumentsForEdition    = 'v2/budgeting/related-documents/for-transaction-edition/search',
