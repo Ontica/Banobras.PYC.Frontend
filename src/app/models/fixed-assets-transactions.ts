@@ -72,7 +72,9 @@ export interface FixedAssetTransactionsQuery {
   status: FixedAssetTransactionsStatus;
   keywords: string;
   transactionTypeUID: string;
-  operationSourceUID: string;
+  buildingUID: string;
+  floorUID: string;
+  placeUID: string;
   transactionsNo: string[];
   entriesKeywords: string;
   tags: string[];
@@ -155,7 +157,9 @@ export const EmptyFixedAssetTransactionsQuery: FixedAssetTransactionsQuery = {
   status: null,
   keywords: '',
   transactionTypeUID: '',
-  operationSourceUID: '',
+  buildingUID: '',
+  floorUID: '',
+  placeUID: '',
   transactionsNo: [],
   entriesKeywords: '',
   tags: [],
