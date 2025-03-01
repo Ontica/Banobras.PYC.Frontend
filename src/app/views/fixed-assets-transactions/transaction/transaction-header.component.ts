@@ -26,6 +26,7 @@ export enum TransactionHeaderEventType {
   UPDATE    = 'FixedAssetTransactionHeaderComponent.Event.UpdateTransaction',
   AUTHORIZE = 'FixedAssetTransactionHeaderComponent.Event.AuthorizeTransaction',
   DELETE    = 'FixedAssetTransactionHeaderComponent.Event.DeleteTransaction',
+  CLONE     = 'FixedAssetTransactionHeaderComponent.Event.CloneTransaction',
 }
 
 interface TransactionFormModel extends FormGroup<{
@@ -111,6 +112,11 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
 
   onDeleteButtonClicked() {
     this.showConfirmMessage(TransactionHeaderEventType.DELETE);
+  }
+
+
+  onCloneButtonClicked() {
+    this.showConfirmMessage(TransactionHeaderEventType.CLONE);
   }
 
 
@@ -207,6 +213,7 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
     switch (eventType) {
       case TransactionHeaderEventType.AUTHORIZE: return 'Autorizar transacción';
       case TransactionHeaderEventType.DELETE: return 'Eliminar transacción';
+      case TransactionHeaderEventType.CLONE: return 'Clonar transacción';
       default: return '';
     }
   }
@@ -226,6 +233,12 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
                 de <strong>${this.transaction.assetKeeper?.name} (${this.transaction.assetKeeperOrgUnit?.name})</strong>.
 
                 <br><br>¿Elimino la transacción?`;
+      case TransactionHeaderEventType.CLONE:
+        return `Esta operación clonará la transacción
+                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
+                de <strong>${this.transaction.assetKeeper?.name} (${this.transaction.assetKeeperOrgUnit?.name})</strong>.
+
+                <br><br>¿Clono la transacción?`;
 
       default: return '';
     }

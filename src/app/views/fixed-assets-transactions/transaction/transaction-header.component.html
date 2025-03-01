@@ -121,6 +121,12 @@
             Autorizar
           </button>
 
+          <button *ngIf="actions.canClone"
+            type="button" class="btn"
+            (click)="onCloneButtonClicked()">
+            Clonar
+          </button>
+
         </ng-container>
 
       </div>
