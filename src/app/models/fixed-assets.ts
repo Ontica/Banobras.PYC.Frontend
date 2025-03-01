@@ -137,10 +137,6 @@ export const EmptyFixedAssetHolder: FixedAssetHolder = {
 
 export const FixedAssetsOperationsList: ExplorerOperation[] = [
   {
-    uid: FixedAssetsOperationType.excel,
-    name: 'Exportar'
-  },
-  {
     uid: FixedAssetsOperationType.requestLoan,
     name: 'Solicitar préstamo'
   },

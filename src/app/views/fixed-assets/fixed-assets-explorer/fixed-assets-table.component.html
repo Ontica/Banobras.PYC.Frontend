@@ -1,15 +1,13 @@
 <div class="fx-column-container-fill">
 
-  <div class="fx-item-none" *ngIf="dataList.length > 0 && selection.selected.length > 0">
+  <emp-ng-list-controls *ngIf="displayControls && queryExecuted"
+    class="fx-item-none"
+    [config]="{itemsName: 'activos fijos', itemsPronouns: 'los', selectionMessage: 'seleccionados', showExportButton: true}"
+    [selection]="selection"
+    [operationsList]="operationsList"
+    (listControlsEvent)="onListControlsEvent($event)">
 
-    <emp-ng-list-controls
-      class="fx-item-none"
-      [config]="{itemsName: 'activos fijos', itemsPronouns: 'los', selectionMessage: 'seleccionados'}"
-      [selection]="selection"
-      [operationsList]="operationsList"
-      (listControlsEvent)="onListControlsEvent($event)">
-
-    </emp-ng-list-controls>
+  </emp-ng-list-controls>
 
   <div class="fx-item">
 

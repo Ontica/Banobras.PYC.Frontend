@@ -47,3 +47,10 @@
   </div>
 
 </div>
+
+<emp-ng-export-report-modal *ngIf="displayExportModal"
+  title="Exportar de activo fijo"
+  [fileUrl]="fileUrl"
+  (exportReportModalEvent)="onExportReportModalEvent($event)">
+
+</emp-ng-export-report-modal>

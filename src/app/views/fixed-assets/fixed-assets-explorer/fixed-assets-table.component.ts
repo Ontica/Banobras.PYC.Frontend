@@ -25,6 +25,7 @@ import { ListControlsEventType } from '@app/views/_reports-controls/explorer/lis
 export enum FixedAssetsTableEventType {
   SELECT_CLICKED            = 'FixedAssetsTableComponent.Event.SelectClicked',
   EXECUTE_OPERATION_CLICKED = 'FixedAssetsTableComponent.Event.ExecuteOperationClicked',
+  EXPORT_DATA_CLICKED       = 'FixedAssetsTableComponent.Event.ExportDataClicked',
 }
 
 @Component({
@@ -74,6 +75,9 @@ export class FixedAssetsTableComponent implements OnChanges {
       case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
         sendEvent(this.fixedAssetsTableEvent, FixedAssetsTableEventType.EXECUTE_OPERATION_CLICKED,
           event.payload);
+        return;
+      case ListControlsEventType.EXPORT_BUTTON_CLICKED:
+        sendEvent(this.fixedAssetsTableEvent, FixedAssetsTableEventType.EXPORT_DATA_CLICKED);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

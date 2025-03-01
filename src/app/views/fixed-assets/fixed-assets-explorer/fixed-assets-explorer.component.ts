@@ -17,11 +17,16 @@ import { FixedAssetsFilterEventType } from './fixed-assets-filter.component';
 
 import { FixedAssetsTableEventType } from './fixed-assets-table.component';
 
+import {
+  ExportReportModalEventType
+} from '@app/views/_reports-controls/export-report-modal/export-report-modal.component';
+
 
 export enum FixedAssetsExplorerEventType {
   SEARCH_CLICKED            = 'FixedAssetsExplorerComponent.Event.SearchClicked',
   CLEAR_CLICKED             = 'FixedAssetsExplorerComponent.Event.ClearClicked',
   EXECUTE_OPERATION_CLICKED = 'FixedAssetsExplorerComponent.Event.ExecuteOperationClicked',
+  EXPORT_CLICKED            = 'FixedAssetsExplorerComponent.Event.ExportClicked',
   SELECT_CLICKED            = 'FixedAssetsExplorerComponent.Event.SelectClicked',
 }
 
@@ -37,6 +42,8 @@ export class FixedAssetsExplorerComponent implements OnChanges {
 
   @Input() selectedUID = '';
 
+  @Input() fileUrl = '';
+
   @Input() isLoading = false;
 
   @Input() queryExecuted = false;
@@ -48,6 +55,8 @@ export class FixedAssetsExplorerComponent implements OnChanges {
   cardHint = 'Seleccionar los filtros';
 
   showFilters = false;
+
+  displayExportModal = false;
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -65,13 +74,11 @@ export class FixedAssetsExplorerComponent implements OnChanges {
         sendEvent(this.fixedAssetsExplorerEvent, FixedAssetsExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
-
       case FixedAssetsFilterEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.fixedAssetsExplorerEvent, FixedAssetsExplorerEventType.CLEAR_CLICKED,
           event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -86,13 +93,30 @@ export class FixedAssetsExplorerComponent implements OnChanges {
         sendEvent(this.fixedAssetsExplorerEvent, FixedAssetsExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
-
       case FixedAssetsTableEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         sendEvent(this.fixedAssetsExplorerEvent, FixedAssetsExplorerEventType.EXECUTE_OPERATION_CLICKED,
           event.payload);
         return;
+      case FixedAssetsTableEventType.EXPORT_DATA_CLICKED:
+        this.setDisplayExportModal(true);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
 
+
+  onExportReportModalEvent(event: EventInfo) {
+    switch (event.type as ExportReportModalEventType) {
+      case ExportReportModalEventType.CLOSE_MODAL_CLICKED:
+        this.setDisplayExportModal(false);
+        return;
+      case ExportReportModalEventType.EXPORT_BUTTON_CLICKED:
+        sendEvent(this.fixedAssetsExplorerEvent, FixedAssetsExplorerEventType.EXPORT_CLICKED,
+          { query: this.query });
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -107,6 +131,12 @@ export class FixedAssetsExplorerComponent implements OnChanges {
     }
 
     this.cardHint = `${this.dataList.length} registros encontrados`;
+  }
+
+
+  private setDisplayExportModal(display: boolean) {
+    this.displayExportModal = display;
+    this.fileUrl = '';
   }
 
 }
