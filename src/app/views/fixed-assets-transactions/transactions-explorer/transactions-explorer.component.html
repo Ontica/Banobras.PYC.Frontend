@@ -55,3 +55,11 @@
   </div>
 
 </div>
+
+
+<emp-ng-export-report-modal *ngIf="displayExportModal"
+  title="Exportar transacciones de activo fijo"
+  [fileUrl]="fileUrl"
+  (exportReportModalEvent)="onExportReportModalEvent($event)">
+
+</emp-ng-export-report-modal>

@@ -130,10 +130,6 @@ export interface FixedAssetTransaction {
 
 export const FixedAssetTransactionsOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excel,
-    name: 'Exportar'
-  },
-  {
     uid: ExplorerOperationType.print,
     name: 'Imprimir',
     showConfirm: true,

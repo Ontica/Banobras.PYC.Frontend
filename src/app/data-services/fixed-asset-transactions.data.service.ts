@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FixedAssetTransactionData, FixedAssetTransactionDescriptor,
+import { FileReport, FixedAssetTransactionData, FixedAssetTransactionDescriptor,
          FixedAssetTransactionsQuery } from '@app/models';
 
 
@@ -33,6 +33,15 @@ export class FixedAssetTransactionsDataService {
     const path = 'v2/fixed-assets/transactions/search';
 
     return this.http.post<FixedAssetTransactionDescriptor[]>(path, query);
+  }
+
+
+  exportTransactions(query: FixedAssetTransactionsQuery): EmpObservable<FileReport> {
+    Assertion.assertValue(query, 'query');
+
+    const path = 'v2/fixed-assets/transactions/export';
+
+    return this.http.post<FileReport>(path, query);
   }
 
 

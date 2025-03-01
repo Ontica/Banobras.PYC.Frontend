@@ -24,6 +24,7 @@ import { TransactionsListItemEventType } from './transactions-list-item.componen
 export enum TransactionsListEventType {
   SELECT_CLICKED            = 'FixedAssetTransactionsListComponent.Event.SelectClicked',
   EXECUTE_OPERATION_CLICKED = 'FixedAssetTransactionsListComponent.Event.ExecuteOperationClicked',
+  EXPORT_DATA_CLICKED       = 'FixedAssetTransactionsListComponent.Event.ExportDataClicked',
 }
 
 @Component({
@@ -59,6 +60,9 @@ export class FixedAssetTransactionsListComponent implements OnChanges {
     switch (event.type as ListControlsEventType) {
       case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
         sendEvent(this.transactionsListEvent, TransactionsListEventType.EXECUTE_OPERATION_CLICKED, event.payload);
+        return;
+      case ListControlsEventType.EXPORT_BUTTON_CLICKED:
+        sendEvent(this.transactionsListEvent, TransactionsListEventType.EXPORT_DATA_CLICKED);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

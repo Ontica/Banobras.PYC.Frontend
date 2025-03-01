@@ -20,11 +20,16 @@ import { TransactionsListEventType } from './transactions-list.component';
 
 import { FixedAssetTransactionsFilterEventType } from './transactions-filter.component';
 
+import {
+  ExportReportModalEventType
+} from '@app/views/_reports-controls/export-report-modal/export-report-modal.component';
+
 
 export enum TransactionsExplorerEventType {
   SEARCH_CLICKED            = 'FixedAssetTransactionsExplorerComponent.Event.SearchClicked',
   CLEAR_CLICKED             = 'FixedAssetTransactionsExplorerComponent.Event.ClearClicked',
   EXECUTE_OPERATION_CLICKED = 'FixedAssetTransactionsExplorerComponent.Event.ExecuteOperationClicked',
+  EXPORT_CLICKED            = 'FixedAssetTransactionsExplorerComponent.Event.ExportClicked',
   SELECT_CLICKED            = 'FixedAssetTransactionsExplorerComponent.Event.SelectClicked',
 }
 
@@ -40,6 +45,8 @@ export class FixedAssetTransactionsExplorerComponent implements OnChanges {
 
   @Input() selectedUID = '';
 
+  @Input() fileUrl = '';
+
   @Input() isLoading = false;
 
   @Input() queryExecuted = false;
@@ -52,7 +59,7 @@ export class FixedAssetTransactionsExplorerComponent implements OnChanges {
 
   showFilters = false;
 
-  PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
+  displayExportModal = false;
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -99,6 +106,25 @@ export class FixedAssetTransactionsExplorerComponent implements OnChanges {
         sendEvent(this.transactionsExplorerEvent, TransactionsExplorerEventType.EXECUTE_OPERATION_CLICKED,
           event.payload);
         return;
+      case TransactionsListEventType.EXPORT_DATA_CLICKED:
+        this.setDisplayExportModal(true);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onExportReportModalEvent(event: EventInfo) {
+    switch (event.type as ExportReportModalEventType) {
+      case ExportReportModalEventType.CLOSE_MODAL_CLICKED:
+        this.setDisplayExportModal(false);
+        return;
+      case ExportReportModalEventType.EXPORT_BUTTON_CLICKED:
+        sendEvent(this.transactionsExplorerEvent, TransactionsExplorerEventType.EXPORT_CLICKED,
+          { query: this.query });
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -113,6 +139,12 @@ export class FixedAssetTransactionsExplorerComponent implements OnChanges {
     }
 
     this.cardHint = `${this.dataList.length} registros encontrados`;
+  }
+
+
+  private setDisplayExportModal(display: boolean) {
+    this.displayExportModal = display;
+    this.fileUrl = '';
   }
 
 }

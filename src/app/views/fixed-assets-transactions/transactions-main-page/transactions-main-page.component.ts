@@ -38,6 +38,8 @@ export class FixedAssetTransactionsMainPageComponent  {
 
   displayTabbedView = false;
 
+  fileUrl = '';
+
   isLoading = false;
 
   isLoadingSelection = false;
@@ -60,6 +62,9 @@ export class FixedAssetTransactionsMainPageComponent  {
       case TransactionsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as FixedAssetTransactionsQuery);
+        return;
+      case TransactionsExplorerEventType.EXPORT_CLICKED:
+        this.exportTransactions(this.query);
         return;
       case TransactionsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
@@ -108,6 +113,13 @@ export class FixedAssetTransactionsMainPageComponent  {
       .firstValue()
       .then(x => this.resolveSearchTransactions(x))
       .finally(() => this.isLoading = false);
+  }
+
+
+  private exportTransactions(query: FixedAssetTransactionsQuery) {
+    this.fixedAssetTransactionsData.exportTransactions(query)
+      .firstValue()
+      .then(x => {this.fileUrl = x.url});
   }
 
 
