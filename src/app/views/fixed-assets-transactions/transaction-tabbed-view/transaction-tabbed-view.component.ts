@@ -94,7 +94,7 @@ export class FixedAssetTransactionTabbedViewComponent implements OnChanges {
 
     this.title = `${this.data.transaction.transactionNo}: ${this.data.transaction.transactionType.name} ${status}`;
 
-    this.hint = `<strong>${this.data.transaction.baseParty.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+    this.hint = `<strong>${this.data.transaction.assetKeeper?.name ?? 'No definido'} (${this.data.transaction.assetKeeperOrgUnit?.name ?? 'No definido'}) &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${this.data.transaction.operationSource.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${requestedDate}`;
   }

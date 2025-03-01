@@ -67,7 +67,8 @@ export const FixedAssetTransactionPartyTypesList: Identifiable<FixedAssetTransac
 
 
 export interface FixedAssetTransactionsQuery {
-  basePartyUID: string;
+  assetKeeperUID: string;
+  assetKeeperOrgUnitUID: string;
   status: FixedAssetTransactionsStatus;
   keywords: string;
   transactionTypeUID: string;
@@ -87,7 +88,8 @@ export interface FixedAssetTransactionDescriptor {
   uid: string;
   transactionTypeName: string;
   transactionNo: string;
-  basePartyName: string;
+  assetKeeperOrgUnitName: string;
+  assetKeeperName: string;
   operationSourceName: string;
   description: string;
   requestedDate: DateString;
@@ -114,7 +116,8 @@ export interface FixedAssetTransaction {
   uid: string;
   transactionType: Identifiable;
   transactionNo: string;
-  baseParty: Identifiable;
+  assetKeeperOrgUnit: Identifiable;
+  assetKeeper: Identifiable;
   operationSource: Identifiable;
   description: string;
   requestedDate: DateString;
@@ -147,7 +150,8 @@ export const FixedAssetTransactionsOperationsList: ExplorerOperation[] = [
 
 
 export const EmptyFixedAssetTransactionsQuery: FixedAssetTransactionsQuery = {
-  basePartyUID: '',
+  assetKeeperUID: '',
+  assetKeeperOrgUnitUID: '',
   status: null,
   keywords: '',
   transactionTypeUID: '',
@@ -167,7 +171,8 @@ export const EmptyFixedAssetTransaction: FixedAssetTransaction = {
   uid: '',
   transactionType: Empty,
   transactionNo: '',
-  baseParty: Empty,
+  assetKeeperOrgUnit: Empty,
+  assetKeeper: Empty,
   operationSource: Empty,
   description: '',
   requestedDate: '',
@@ -190,7 +195,8 @@ export function mapFixedAssetTransactionDescriptorFromTransaction(data: FixedAss
     uid: data.transaction.uid,
     transactionNo: data.transaction.transactionNo,
     transactionTypeName: data.transaction.transactionType.name,
-    basePartyName: data.transaction.baseParty.name,
+    assetKeeperOrgUnitName: data.transaction.assetKeeperOrgUnit.name,
+    assetKeeperName: data.transaction.assetKeeper.name,
     operationSourceName: data.transaction.operationSource.name,
     description: data.transaction.description,
     requestedDate: data.transaction.requestedDate,

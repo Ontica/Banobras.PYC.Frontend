@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { combineLatest } from 'rxjs';
 
-import { EventInfo, Identifiable, isEmpty } from '@app/core';
+import { Empty, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -34,7 +34,8 @@ export enum FixedAssetTransactionsFilterEventType {
 }
 
 interface FixedAssetTransactionsFilterFormModel extends FormGroup<{
-  basePartyUID: FormControl<string>;
+  assetKeeperUID: FormControl<string>;
+  assetKeeperOrgUnitUID: FormControl<string>;
   status: FormControl<FixedAssetTransactionsStatus>;
   keywords: FormControl<string>;
   transactionTypeUID: FormControl<string>;
@@ -81,9 +82,13 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
 
   partyTypesList: Identifiable<FixedAssetTransactionPartyType>[] = FixedAssetTransactionPartyTypesList;
 
+  keepersAPI = SearcherAPIS.fixedAssetKeepers;
+
   partiesAPI = SearcherAPIS.fixedAssetTransactionsParties;
 
   selectedParty: Identifiable = null;
+
+  selectedAssetKeeper: Identifiable = null;
 
   helper: SubscriptionHelper;
 
@@ -109,6 +114,11 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
 
   ngOnDestroy() {
     this.helper.destroy();
+  }
+
+
+  onAssetKeeperChanges(keeper: Identifiable) {
+    this.selectedAssetKeeper = isEmpty(keeper) ? null : keeper;
   }
 
 
@@ -164,7 +174,8 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      basePartyUID: [''],
+      assetKeeperUID: [''],
+      assetKeeperOrgUnitUID: [''],
       status: [null],
       keywords: [null],
       transactionTypeUID: [null],
@@ -182,7 +193,8 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
 
   private setFormData() {
     this.form.reset({
-      basePartyUID: this.query.basePartyUID,
+      assetKeeperUID: this.query.assetKeeperUID,
+      assetKeeperOrgUnitUID: this.query.assetKeeperOrgUnitUID,
       status: this.query.status,
       keywords: this.query.keywords,
       transactionTypeUID: this.query.transactionTypeUID,
@@ -200,7 +212,8 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
 
   private getFormData(): FixedAssetTransactionsQuery {
     const query: FixedAssetTransactionsQuery = {
-      basePartyUID: this.form.value.basePartyUID ?? null,
+      assetKeeperUID: this.form.value.assetKeeperUID ?? null,
+      assetKeeperOrgUnitUID: this.form.value.assetKeeperOrgUnitUID ?? null,
       status: this.form.value.status ?? null,
       keywords: this.form.value.keywords ?? null,
       transactionTypeUID: this.form.value.transactionTypeUID ?? null,
@@ -222,6 +235,7 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
   private clearFilters() {
     this.form.reset();
     this.selectedParty = null;
+    this.selectedAssetKeeper = null;
   }
 
 }

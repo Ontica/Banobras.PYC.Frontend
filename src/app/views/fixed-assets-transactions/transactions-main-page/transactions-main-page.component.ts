@@ -15,8 +15,8 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { FixedAssetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransactionDescriptor, EmptyFixedAssetTransactionData, EmptyFixedAssetTransactionsQuery,
-         FixedAssetTransactionData, FixedAssetTransactionDescriptor, FixedAssetTransactionsQuery,
+import { EmptyFixedAssetTransactionData, EmptyFixedAssetTransactionsQuery, FixedAssetTransactionData,
+         FixedAssetTransactionDescriptor, FixedAssetTransactionsQuery,
          mapFixedAssetTransactionDescriptorFromTransaction } from '@app/models';
 
 import { TransactionsExplorerEventType } from '../transactions-explorer/transactions-explorer.component';
@@ -32,7 +32,7 @@ export class FixedAssetTransactionsMainPageComponent  {
 
   query: FixedAssetTransactionsQuery = Object.assign({}, EmptyFixedAssetTransactionsQuery);
 
-  dataList: BudgetTransactionDescriptor[] | FixedAssetTransactionDescriptor[] = [];
+  dataList: FixedAssetTransactionDescriptor[] = [];
 
   selectedData: FixedAssetTransactionData = EmptyFixedAssetTransactionData;
 

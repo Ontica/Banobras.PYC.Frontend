@@ -15,7 +15,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BudgetTransactionsOperationsList, FixedAssetTransactionDescriptor } from '@app/models';
+import { FixedAssetTransactionDescriptor, FixedAssetTransactionsOperationsList } from '@app/models';
 
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
@@ -44,7 +44,7 @@ export class FixedAssetTransactionsListComponent implements OnChanges {
 
   selection = new SelectionModel<FixedAssetTransactionDescriptor>(true, []);
 
-  operationsList = BudgetTransactionsOperationsList;
+  operationsList = FixedAssetTransactionsOperationsList;
 
 
   ngOnChanges(changes: SimpleChanges) {

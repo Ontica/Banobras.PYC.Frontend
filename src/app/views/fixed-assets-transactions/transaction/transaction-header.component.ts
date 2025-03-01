@@ -15,6 +15,8 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
+import { SearcherAPIS } from '@app/data-services';
+
 import { FixedAssetTransaction, FixedAssetTransactionFields, EmptyFixedAssetTransaction, TransactionActions,
          EmptyTransactionActions } from '@app/models';
 
@@ -27,7 +29,8 @@ export enum TransactionHeaderEventType {
 }
 
 interface TransactionFormModel extends FormGroup<{
-  basePartyUID: FormControl<string>;
+  assetKeeperUID: FormControl<string>;
+  assetKeeperOrgUnitUID: FormControl<string>;
   transactionTypeUID: FormControl<string>;
   operationSourceUID: FormControl<string>;
   description: FormControl<string>;
@@ -60,6 +63,8 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
   transactionTypesList: Identifiable[] = [];
 
   operationSourcesList: Identifiable[] = [];
+
+  keepersAPI = SearcherAPIS.fixedAssetKeepers;
 
 
   constructor(private messageBox: MessageBoxService) {
@@ -128,8 +133,10 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
 
 
   private validateDataLists() {
-    this.organizationalUnitsList =
-      ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.transaction.baseParty, 'uid');
+    if (this.transaction.assetKeeperOrgUnit) {
+      this.organizationalUnitsList =
+        ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.transaction.assetKeeperOrgUnit, 'uid');
+    }
     this.transactionTypesList =
       ArrayLibrary.insertIfNotExist(this.transactionTypesList ?? [], this.transaction.transactionType, 'uid');
     this.operationSourcesList =
@@ -141,7 +148,8 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      basePartyUID: ['', Validators.required],
+      assetKeeperUID: ['', Validators.required],
+      assetKeeperOrgUnitUID: ['', Validators.required],
       transactionTypeUID: ['', Validators.required],
       operationSourceUID: ['', Validators.required],
       description: ['', Validators.required],
@@ -152,7 +160,8 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        basePartyUID: isEmpty(this.transaction.baseParty) ? null : this.transaction.baseParty.uid,
+        assetKeeperUID: isEmpty(this.transaction.assetKeeper) ? null : this.transaction.assetKeeper.uid,
+        assetKeeperOrgUnitUID: isEmpty(this.transaction.assetKeeperOrgUnit) ? null : this.transaction.assetKeeperOrgUnit.uid,
         transactionTypeUID: isEmpty(this.transaction.transactionType) ? null : this.transaction.transactionType.uid,
         operationSourceUID: isEmpty(this.transaction.operationSource) ? null : this.transaction.operationSource.uid,
         description: this.transaction.description ?? '',
@@ -208,13 +217,13 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
       case TransactionHeaderEventType.AUTHORIZE:
         return `Esta operación autotizará la transacción
                 <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.baseParty.name}</strong>.
+                de <strong>${this.transaction.assetKeeper?.name} (${this.transaction.assetKeeperOrgUnit?.name})</strong>.
 
                 <br><br>¿Autorizo la transacción?`;
       case TransactionHeaderEventType.DELETE:
         return `Esta operación eliminará la transacción
                 <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.baseParty.name}</strong>.
+                de <strong>${this.transaction.assetKeeper?.name} (${this.transaction.assetKeeperOrgUnit?.name})</strong>.
 
                 <br><br>¿Elimino la transacción?`;
 

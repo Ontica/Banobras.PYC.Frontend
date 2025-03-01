@@ -5,7 +5,7 @@
 <div class="explorer">
 
   <emp-fa-transactions-explorer
-    class="primary priority"
+    class="primary"
     [class.std-hide]="displayTabbedView"
     [query]="query"
     [dataList]="dataList"
@@ -17,7 +17,7 @@
   </emp-fa-transactions-explorer>
 
   <emp-fa-transaction-tabbed-view *ngIf="displayTabbedView"
-    class="secondary std-stacked"
+    class="secondary priority std-stacked"
     [data]="selectedData"
     (transactionTabbedViewEvent)="onTransactionTabbedViewEvent($event)">
 

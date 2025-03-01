@@ -14,15 +14,15 @@
 }
 
 .first-column-size {
-  --size: 20%;
-}
-
-.second-column-size {
   --size: 15%;
 }
 
-.third-column-size {
+.second-column-size {
   --size: 20%;
+}
+
+.third-column-size {
+  --size: 100px;
 }
 
 .status-column-size {

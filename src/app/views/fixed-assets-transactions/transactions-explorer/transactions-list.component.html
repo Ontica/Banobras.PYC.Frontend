@@ -9,40 +9,39 @@
 
   </emp-ng-list-controls>
 
-    <emp-fa-transactions-list-header
-      class="fx-item-none"
-      [dataList]="dataList"
-      [selection]="selection">
+  <emp-fa-transactions-list-header
+    class="fx-item-none"
+    [dataList]="dataList"
+    [selection]="selection">
 
-    </emp-fa-transactions-list-header>
-
+  </emp-fa-transactions-list-header>
 
   <div #listContainer class="fx-item">
 
-    <cdk-virtual-scroll-viewport itemSize="55">
+    <cdk-virtual-scroll-viewport itemSize="45">
 
-        <div *cdkVirtualFor="let item of dataList"
-          class="list-item"
-          [class.list-item-selected]="item.uid === selectedUID">
+      <div *cdkVirtualFor="let item of dataList"
+        class="list-item"
+        [class.list-item-selected]="item.uid === selectedUID">
 
-          <div class="list-item-container">
+        <div class="list-item-container">
 
-            <emp-fa-transactions-list-item
-              [transaction]="item"
-              [selected]="selection.isSelected(item)"
-              (transactionsListItemEvent)="onTransactionsListItemEvent($event)">
+          <emp-fa-transactions-list-item
+            [transaction]="item"
+            [selected]="selection.isSelected(item)"
+            (transactionsListItemEvent)="onTransactionsListItemEvent($event)">
 
-            </emp-fa-transactions-list-item>
-
-          </div>
+          </emp-fa-transactions-list-item>
 
         </div>
 
-        <div *ngIf="dataList.length === 0" class="text-not-found">
-          {{ queryExecuted ?
-             'No se encontraron transacciones con el filtro proporcionado.' :
-             'No se ha invocado la búsqueda de transacciones.' }}
-        </div>
+      </div>
+
+      <div *ngIf="dataList.length === 0" class="text-not-found">
+        {{ queryExecuted ?
+            'No se encontraron transacciones con el filtro proporcionado.' :
+            'No se ha invocado la búsqueda de transacciones.' }}
+      </div>
 
     </cdk-virtual-scroll-viewport>
 

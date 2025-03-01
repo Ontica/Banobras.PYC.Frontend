@@ -4,21 +4,39 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-third">
+      <div class="fx-item-half">
 
-        <label>Área:</label>
+        <label>Persona responsable:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="assetKeeperUID"
+          [searcherAPI]="keepersAPI"
+          [initialValue]="isSaved && !editionMode && !!transaction.assetKeeper ? transaction.assetKeeper : null"
+          [placeholder]="isSaved && !editionMode ? 'No definido' : 'Buscar...'">
+        </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Área responsable:</label>
 
         <emp-ng-select
-          formControlName="basePartyUID"
+          formControlName="assetKeeperOrgUnitUID"
           [config]="{virtualScroll: true, showTooltip: true}"
           [items]="organizationalUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.assetKeeperOrgUnitUID)"
+          [placeholder]="isSaved && !editionMode ? 'No definido' : 'Seleccione'">
         </emp-ng-select>
 
       </div>
 
-      <div class="fx-item-third">
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
 
         <label>Tipo de transacción:</label>
 
@@ -31,7 +49,7 @@
 
       </div>
 
-      <div class="fx-item-third">
+      <div class="fx-item-half">
 
         <label>Fuente:</label>
 
