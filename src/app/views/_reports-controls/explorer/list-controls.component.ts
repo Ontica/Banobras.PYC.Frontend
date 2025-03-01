@@ -20,19 +20,22 @@ import { ExplorerOperation, ExplorerOperationCommand } from '@app/models';
 
 export enum ListControlsEventType {
   EXECUTE_OPERATION_CLICKED = 'ListControlsComponent.Event.ExecuteOperationClicked',
+  EXPORT_BUTTON_CLICKED     = 'ListControlsComponent.Event.ExportButtonClicked',
 }
 
 export interface ListControlConfig {
   itemsName?: string;
   itemsPronouns?: string;
   selectionMessage?: string;
+  showExportButton?: boolean;
 }
 
 
 const DefaultListControlConfig: ListControlConfig = {
   itemsName: 'elementos',
   itemsPronouns: 'los',
-  selectionMessage: 'seleccionados'
+  selectionMessage: 'seleccionados',
+  showExportButton: false,
 };
 
 
@@ -85,6 +88,11 @@ export class ListControlsComponent {
     }
 
     this.validateShowConfirmMessage();
+  }
+
+
+  onExportButtonClicked() {
+    sendEvent(this.listControlsEvent, ListControlsEventType.EXPORT_BUTTON_CLICKED);
   }
 
 

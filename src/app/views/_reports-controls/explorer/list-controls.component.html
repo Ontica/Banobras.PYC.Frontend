@@ -38,9 +38,22 @@
 
     </div>
 
+    <mat-divider vertical="true" class="vertical-inline" *ngIf="config.showExportButton">
+
+    </mat-divider>
+
   </ng-container>
 
   <div class="fx-item sm-hide">
+
+  </div>
+
+  <div class="fx-item-none fx-row-container" *ngIf="config.showExportButton" [style.marginRight.px]="8">
+
+    <button class="btn"
+      (click)="onExportButtonClicked()">
+      Exportar
+    </button>
 
   </div>
 
