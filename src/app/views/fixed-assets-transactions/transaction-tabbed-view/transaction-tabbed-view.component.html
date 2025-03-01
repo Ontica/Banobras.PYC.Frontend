@@ -32,6 +32,19 @@
 
     </mat-tab>
 
+    <mat-tab label="Impresión">
+
+      <ng-template matTabContent>
+
+        <emp-fa-transaction-print-view
+          [transactionUID]="data.transaction.uid">
+
+        </emp-fa-transaction-print-view>
+
+      </ng-template>
+
+    </mat-tab>
+
     <mat-tab label="Documentos">
 
       <emp-ng-documents-edition

@@ -24,6 +24,7 @@ import { FixedAssetTransactionsListHeaderComponent } from './transactions-explor
 import { FixedAssetTransactionsListItemComponent } from './transactions-explorer/transactions-list-item.component';
 
 import { FixedAssetTransactionTabbedViewComponent } from './transaction-tabbed-view/transaction-tabbed-view.component';
+import { FixedAssetTransactionPrintViewComponent } from './transaction-tabbed-view/transaction-print-view.component';
 import { FixedAssetTransactionEditorComponent } from './transaction/transaction-editor.component';
 import { FixedAssetTransactionHeaderComponent } from './transaction/transaction-header.component';
 
@@ -50,6 +51,7 @@ import { FixedAssetTransactionHeaderComponent } from './transaction/transaction-
     FixedAssetTransactionsListItemComponent,
 
     FixedAssetTransactionTabbedViewComponent,
+    FixedAssetTransactionPrintViewComponent,
     FixedAssetTransactionEditorComponent,
     FixedAssetTransactionHeaderComponent,
   ],

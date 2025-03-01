@@ -53,4 +53,13 @@ export class FixedAssetTransactionsDataService {
     return this.http.get<FixedAssetTransactionData>(path);
   }
 
+
+  getTransactionForPrint(transactionUID: string): EmpObservable<FileReport> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+
+    const path = `v2/fixed-assets/transactions/${transactionUID}/print`;
+
+    return this.http.get<FileReport>(path);
+  }
+
 }
