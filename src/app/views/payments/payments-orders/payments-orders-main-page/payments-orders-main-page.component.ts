@@ -66,7 +66,7 @@ export class PaymentsOrdersMainPageComponent {
       case PaymentsOrdersExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.getPaymentOrderData(event.payload.item.uid);
+        this.getPaymentOrder(event.payload.item.uid);
         return;
       case PaymentsOrdersExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
@@ -113,10 +113,10 @@ export class PaymentsOrdersMainPageComponent {
   }
 
 
-  private getPaymentOrderData(paymentOrderUID: string) {
+  private getPaymentOrder(paymentOrderUID: string) {
     this.isLoadingSelection = true;
 
-    this.paymentOrdersData.getPaymentOrderData(paymentOrderUID)
+    this.paymentOrdersData.getPaymentOrder(paymentOrderUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
@@ -124,7 +124,7 @@ export class PaymentsOrdersMainPageComponent {
 
 
   private refreshSelectedData(paymentOrderUID: string) {
-    this.getPaymentOrderData(paymentOrderUID);
+    this.getPaymentOrder(paymentOrderUID);
   }
 
 

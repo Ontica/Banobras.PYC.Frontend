@@ -35,9 +35,9 @@ export class PaymentsOrdersListComponent implements OnChanges {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-  @Input() paymentsOrdersList: PaymentOrderDescriptor[] = [];
+  @Input() dataList: PaymentOrderDescriptor[] = [];
 
-  @Input() selectedPaymentOrderUID = '';
+  @Input() selectedUID = '';
 
   @Input() queryExecuted = false;
 
@@ -49,7 +49,7 @@ export class PaymentsOrdersListComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.paymentsOrdersList) {
+    if (changes.dataList) {
       this.scrollToTop();
       this.selection.clear();
     }

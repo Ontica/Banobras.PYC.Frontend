@@ -35,7 +35,7 @@ export class PaymentOrdersDataService {
   }
 
 
-  getPaymentOrderData(paymentOrderUID: string): EmpObservable<PaymentOrderData> {
+  getPaymentOrder(paymentOrderUID: string): EmpObservable<PaymentOrderData> {
     Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
 
     const path = `v2/payments-management/payment-orders/${paymentOrderUID}`;

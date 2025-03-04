@@ -8,8 +8,8 @@
     class="primary"
     [class.std-hide]="displayTabbedView"
     [query]="query"
-    [paymentsOrdersList]="dataList"
-    [selectedPaymentOrderUID]="selectedData.paymentOrder.uid"
+    [dataList]="dataList"
+    [selectedUID]="selectedData.paymentOrder.uid"
     [isLoading]="isLoading"
     [queryExecuted]="queryExecuted"
     (paymentsOrdersExplorerEvent)="onPaymentsOrdersExplorerEvent($event)">

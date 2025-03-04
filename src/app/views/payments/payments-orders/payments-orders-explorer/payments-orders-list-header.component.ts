@@ -19,7 +19,7 @@ import { PaymentOrderDescriptor } from '@app/models';
 })
 export class PaymentsOrdersListHeaderComponent {
 
-  @Input() paymentsOrdersList: PaymentOrderDescriptor[] = [];
+  @Input() dataList: PaymentOrderDescriptor[] = [];
 
   @Input() selection = new SelectionModel<PaymentOrderDescriptor>(true, []);
 

@@ -33,9 +33,9 @@ export class PaymentsOrdersExplorerComponent implements OnChanges {
 
   @Input() query: PaymentsOrdersQuery = Object.assign({}, EmptyPaymentsOrdersQuery);
 
-  @Input() paymentsOrdersList: PaymentOrderDescriptor[] = [];
+  @Input() dataList: PaymentOrderDescriptor[] = [];
 
-  @Input() selectedPaymentOrderUID = '';
+  @Input() selectedUID = '';
 
   @Input() isLoading = false;
 
@@ -51,7 +51,7 @@ export class PaymentsOrdersExplorerComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.paymentsOrdersList) {
+    if (changes.dataList) {
       this.setText();
       this.showFilters = false;
     }
@@ -106,7 +106,7 @@ export class PaymentsOrdersExplorerComponent implements OnChanges {
       return;
     }
 
-    this.cardHint = `${this.paymentsOrdersList.length} registros encontrados`;
+    this.cardHint = `${this.dataList.length} registros encontrados`;
   }
 
 }

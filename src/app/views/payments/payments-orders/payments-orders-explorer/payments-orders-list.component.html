@@ -1,6 +1,6 @@
 <div class="fx-column-container-fill">
 
-  <emp-ng-list-controls *ngIf="paymentsOrdersList.length > 0 && selection.selected.length > 0"
+  <emp-ng-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
     class="fx-item-none"
     [config]="{itemsPronouns: 'las', itemsName: 'ordenes de pago', selectionMessage: 'seleccionadas'}"
     [selection]="selection"
@@ -11,7 +11,7 @@
 
 
   <emp-pmt-payments-orders-list-header class="fx-item-none"
-    [paymentsOrdersList]="paymentsOrdersList"
+    [dataList]="dataList"
     [selection]="selection">
 
   </emp-pmt-payments-orders-list-header>
@@ -21,9 +21,9 @@
 
     <cdk-virtual-scroll-viewport itemSize="61">
 
-        <div *cdkVirtualFor="let item of paymentsOrdersList"
+        <div *cdkVirtualFor="let item of dataList"
           class="list-item"
-          [class.list-item-selected]="item.uid === selectedPaymentOrderUID">
+          [class.list-item-selected]="item.uid === selectedUID">
 
           <div class="list-item-container">
 
@@ -38,7 +38,7 @@
 
         </div>
 
-        <div *ngIf="paymentsOrdersList.length === 0" class="text-not-found">
+        <div *ngIf="dataList.length === 0" class="text-not-found">
           {{ queryExecuted ?
              'No se encontraron ordenes de pago con el filtro proporcionado.' :
              'No se ha invocado la búsqueda de ordenes de pago.' }}
