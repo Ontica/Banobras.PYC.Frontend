@@ -104,7 +104,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges {
         eventType = PaymentOrderHeaderEventType.UPDATE;
       }
 
-      sendEvent(this.paymentOrderHeaderEvent, eventType, { paymentOrderFields: this.getFormData() });
+      sendEvent(this.paymentOrderHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
   }
 

@@ -15,8 +15,8 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { PaymentOrdersDataService } from '@app/data-services';
 
-import { EmptyPaymentOrderData, EmptyPaymentsOrdersQuery, mapPaymentOrderDescriptorFromPaymentOrder,
-         PaymentOrderData, PaymentOrderDescriptor, PaymentsOrdersQuery } from '@app/models';
+import { EmptyPaymentOrderHolder, EmptyPaymentsOrdersQuery, mapPaymentOrderDescriptorFromPaymentOrder,
+         PaymentOrderHolder, PaymentOrderDescriptor, PaymentsOrdersQuery } from '@app/models';
 
 import {
   PaymentsOrdersExplorerEventType
@@ -37,7 +37,7 @@ export class PaymentsOrdersMainPageComponent {
 
   dataList: PaymentOrderDescriptor[] = [];
 
-  selectedData: PaymentOrderData = EmptyPaymentOrderData;
+  selectedData: PaymentOrderHolder = EmptyPaymentOrderHolder;
 
   displayTabbedView = false;
 
@@ -82,11 +82,11 @@ export class PaymentsOrdersMainPageComponent {
   onPaymentOrderTabbedViewEvent(event: EventInfo) {
     switch (event.type as PaymentOrderTabbedViewEventType) {
       case PaymentOrderTabbedViewEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedData(EmptyPaymentOrderData);
+        this.setSelectedData(EmptyPaymentOrderHolder);
         return;
       case PaymentOrderTabbedViewEventType.DATA_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
-        this.insertItemToList(event.payload.data as PaymentOrderData);
+        this.insertItemToList(event.payload.data as PaymentOrderHolder);
         return;
       case PaymentOrderTabbedViewEventType.DATA_DELETED:
         Assertion.assertValue(event.payload.paymentOrderUID, 'event.payload.paymentOrderUID');
@@ -131,7 +131,7 @@ export class PaymentsOrdersMainPageComponent {
   private setQueryAndClearExplorerData(query: PaymentsOrdersQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
-    this.setSelectedData(EmptyPaymentOrderData);
+    this.setSelectedData(EmptyPaymentOrderHolder);
   }
 
 
@@ -141,14 +141,14 @@ export class PaymentsOrdersMainPageComponent {
   }
 
 
-  private setSelectedData(data: PaymentOrderData) {
+  private setSelectedData(data: PaymentOrderHolder) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.paymentOrder);
   }
 
 
-  private insertItemToList(data: PaymentOrderData) {
-    const dataToInsert = mapPaymentOrderDescriptorFromPaymentOrder(data);
+  private insertItemToList(data: PaymentOrderHolder) {
+    const dataToInsert = mapPaymentOrderDescriptorFromPaymentOrder(data.paymentOrder);
     const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
     this.setDataList(dataListNew);
     this.setSelectedData(data);
@@ -158,7 +158,7 @@ export class PaymentsOrdersMainPageComponent {
   private removeItemFromList(dataUID: string) {
     const dataListNew = this.dataList.filter(x => x.uid !== dataUID);
     this.setDataList(dataListNew);
-    this.setSelectedData(EmptyPaymentOrderData);
+    this.setSelectedData(EmptyPaymentOrderHolder);
   }
 
 }

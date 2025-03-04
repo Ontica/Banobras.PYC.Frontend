@@ -11,7 +11,7 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
-import { EmptyPaymentOrderData, PaymentOrderData } from '@app/models';
+import { EmptyPaymentOrderHolder, PaymentOrderHolder } from '@app/models';
 
 import { PaymentOrderEditorEventType } from '../payment-order/payment-order-editor.component';
 
@@ -33,7 +33,7 @@ export enum PaymentOrderTabbedViewEventType {
 })
 export class PaymentOrderTabbedViewComponent implements OnChanges {
 
-  @Input() data: PaymentOrderData = EmptyPaymentOrderData;
+  @Input() data: PaymentOrderHolder = EmptyPaymentOrderHolder;
 
   @Output() paymentOrderTabbedViewEvent = new EventEmitter<EventInfo>();
 

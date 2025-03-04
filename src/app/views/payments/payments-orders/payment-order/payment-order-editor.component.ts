@@ -14,7 +14,7 @@ import { sendEvent } from '@app/shared/utils';
 import { PaymentOrdersDataService } from '@app/data-services';
 
 import { EmptyPaymentOrder, EmptyPaymentOrderActions, PaymentOrder, PaymentOrderActions,
-         PaymentOrderData } from '@app/models';
+         PaymentOrderHolder } from '@app/models';
 
 import { PaymentOrderHeaderEventType } from './payment-order-header.component';
 
@@ -73,7 +73,7 @@ export class PaymentOrderEditorComponent {
   }
 
 
-  private resolvePaymentDataUpdated(data: PaymentOrderData) {
+  private resolvePaymentDataUpdated(data: PaymentOrderHolder) {
     sendEvent(this.paymentOrderEditorEvent, PaymentOrderEditorEventType.UPDATED, { data });
   }
 

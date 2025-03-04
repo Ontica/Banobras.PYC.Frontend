@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { PaymentOrderData, PaymentOrderDescriptor, PaymentsOrdersQuery } from '@app/models';
+import { PaymentOrderHolder, PaymentOrderDescriptor, PaymentsOrdersQuery } from '@app/models';
 
 
 @Injectable()
@@ -35,21 +35,21 @@ export class PaymentOrdersDataService {
   }
 
 
-  getPaymentOrder(paymentOrderUID: string): EmpObservable<PaymentOrderData> {
+  getPaymentOrder(paymentOrderUID: string): EmpObservable<PaymentOrderHolder> {
     Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
 
     const path = `v2/payments-management/payment-orders/${paymentOrderUID}`;
 
-    return this.http.get<PaymentOrderData>(path);
+    return this.http.get<PaymentOrderHolder>(path);
   }
 
 
-  sentToPay(paymentOrderUID: string): EmpObservable<PaymentOrderData> {
+  sentToPay(paymentOrderUID: string): EmpObservable<PaymentOrderHolder> {
     Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
 
     const path = `v2/payments-management/payment-orders/${paymentOrderUID}/pay`;
 
-    return this.http.post<PaymentOrderData>(path);
+    return this.http.post<PaymentOrderHolder>(path);
   }
 
 }

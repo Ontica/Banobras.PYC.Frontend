@@ -92,7 +92,7 @@ export interface PaymentOrderFields {
 }
 
 
- export interface PaymentOrderData {
+ export interface PaymentOrderHolder {
   paymentOrder: PaymentOrder;
   items: any[];
   log: PaymentInstructionLog[];
@@ -194,7 +194,7 @@ export const EmptyPaymentOrderActions: PaymentOrderActions = {
 }
 
 
-export const EmptyPaymentOrderData: PaymentOrderData = {
+export const EmptyPaymentOrderHolder: PaymentOrderHolder = {
   paymentOrder: EmptyPaymentOrder,
   items: [],
   log: [],
@@ -224,7 +224,7 @@ export const EmptyPaymentAccount: PaymentAccount = {
 }
 
 
-export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderData): PaymentOrderDescriptor {
+export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderHolder): PaymentOrderDescriptor {
   return {
     uid: data.paymentOrder.uid,
     paymentOrderNo: data.paymentOrder.orderNo,
