@@ -18,11 +18,11 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { FixedAssetsDataService, SearcherAPIS } from '@app/data-services';
+import { AssetsDataService, SearcherAPIS } from '@app/data-services';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { EmptyFixedAssetsQuery, FixedAssetsQuery, EntityStatus, EntityStatusList,
+import { EmptyAssetsQuery, AssetsQuery, EntityStatus, EntityStatusList,
          RequestsList } from '@app/models';
 
 
@@ -32,12 +32,12 @@ export enum FixedAssetsFilterEventType {
 }
 
 interface FixedAssetsFilterFormModel extends FormGroup<{
-  assetKeeperUID: FormControl<string>;
-  assetKeeperOrgUnitUID: FormControl<string>;
+  assignedToUID: FormControl<string>;
+  assignedToOrgUnitUID: FormControl<string>;
   status: FormControl<EntityStatus>;
   keywords: FormControl<string>;
-  fixedAssetTypeUID: FormControl<string>;
-  inventoryNo: FormControl<string>;
+  assetTypeUID: FormControl<string>;
+  assetNo: FormControl<string>;
   buildingUID: FormControl<string>;
   floorUID: FormControl<string>;
   placeUID: FormControl<string>;
@@ -51,7 +51,7 @@ interface FixedAssetsFilterFormModel extends FormGroup<{
 })
 export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
-  @Input() query: FixedAssetsQuery = Object.assign({}, EmptyFixedAssetsQuery);
+  @Input() query: AssetsQuery = Object.assign({}, EmptyAssetsQuery);
 
   @Input() showFilters = false;
 
@@ -73,7 +73,7 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   orgUnitsList: Identifiable[] = [];
 
-  fixedAssetTypesList: Identifiable[] = [];
+  assetTypesList: Identifiable[] = [];
 
   buildingsList: Identifiable[] = [];
 
@@ -81,15 +81,15 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   placesList: Identifiable[] = [];
 
-  keepersAPI = SearcherAPIS.fixedAssetKeepers;
+  keepersAPI = SearcherAPIS.assetsAssignees;
 
-  selectedAssetKeeper: Identifiable = null;
+  selectedAssignedTo: Identifiable = null;
 
   helper: SubscriptionHelper;
 
 
   constructor(private uiLayer: PresentationLayer,
-              private fixedAssetsData: FixedAssetsDataService) {
+              private assetsData: AssetsDataService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
@@ -112,8 +112,8 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
   }
 
 
-  onAssetKeeperChanges(keeper: Identifiable) {
-    this.selectedAssetKeeper = isEmpty(keeper) ? null : keeper;
+  onAssignedToChanges(keeper: Identifiable) {
+    this.selectedAssignedTo = isEmpty(keeper) ? null : keeper;
   }
 
 
@@ -168,12 +168,12 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.fixed_assets }),
-      this.fixedAssetsData.getFixedAssetTypes(),
-      this.fixedAssetsData.getFixedAssetRootLocations(),
+      this.assetsData.getAssetTypes(),
+      this.assetsData.getAssetRootLocations(),
     ])
     .subscribe(([a, b, c]) => {
       this.orgUnitsList = a;
-      this.fixedAssetTypesList = b;
+      this.assetTypesList = b;
       this.buildingsList = c;
       this.isLoading = false;
     });
@@ -183,7 +183,7 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
   private getFloors(floorUID: string) {
     this.isLoadingFloors = true;
 
-    this.fixedAssetsData.getFixedAssetLocationsList(floorUID)
+    this.assetsData.getAssetLocationsList(floorUID)
       .firstValue()
       .then(x => this.floorsList = x)
       .finally(() => this.isLoadingFloors = false);
@@ -193,7 +193,7 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
   private getPlaces(placeUID: string) {
     this.isLoadingPlaces = true;
 
-    this.fixedAssetsData.getFixedAssetLocationsList(placeUID)
+    this.assetsData.getAssetLocationsList(placeUID)
       .firstValue()
       .then(x => this.placesList = x)
       .finally(() => this.isLoadingPlaces = false);
@@ -204,12 +204,12 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      assetKeeperUID: [''],
-      assetKeeperOrgUnitUID: [''],
+      assignedToUID: [''],
+      assignedToOrgUnitUID: [''],
       status: [null],
       keywords: [null],
-      fixedAssetTypeUID: [null],
-      inventoryNo: [null],
+      assetTypeUID: [null],
+      assetNo: [null],
       buildingUID: [null],
       floorUID: [null],
       placeUID: [null],
@@ -219,12 +219,12 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   private setFormData() {
     this.form.reset({
-      assetKeeperUID: this.query.assetKeeperUID,
-      assetKeeperOrgUnitUID: this.query.assetKeeperOrgUnitUID,
+      assignedToUID: this.query.assignedToUID,
+      assignedToOrgUnitUID: this.query.assignedToOrgUnitUID,
       status: this.query.status,
       keywords: this.query.keywords,
-      fixedAssetTypeUID: this.query.fixedAssetTypeUID,
-      inventoryNo: this.query.inventoryNo,
+      assetTypeUID: this.query.assetTypeUID,
+      assetNo: this.query.assetNo,
       buildingUID: this.query.buildingUID,
       floorUID: this.query.floorUID,
       placeUID: this.query.placeUID,
@@ -232,14 +232,14 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
   }
 
 
-  private getFormData(): FixedAssetsQuery {
-    const query: FixedAssetsQuery = {
-      assetKeeperUID: this.form.value.assetKeeperUID ?? null,
-      assetKeeperOrgUnitUID: this.form.value.assetKeeperOrgUnitUID ?? null,
+  private getFormData(): AssetsQuery {
+    const query: AssetsQuery = {
+      assignedToUID: this.form.value.assignedToUID ?? null,
+      assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
       status: this.form.value.status ?? null,
       keywords: this.form.value.keywords ?? null,
-      fixedAssetTypeUID: this.form.value.fixedAssetTypeUID ?? null,
-      inventoryNo: this.form.value.inventoryNo ?? null,
+      assetTypeUID: this.form.value.assetTypeUID ?? null,
+      assetNo: this.form.value.assetNo ?? null,
       buildingUID: this.form.value.buildingUID ?? null,
       floorUID: this.form.value.floorUID ?? null,
       placeUID: this.form.value.placeUID ?? null,
@@ -251,7 +251,7 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   private clearFilters() {
     this.form.reset();
-    this.selectedAssetKeeper = null;
+    this.selectedAssignedTo = null;
     this.floorsList = [];
     this.placesList = [];
   }

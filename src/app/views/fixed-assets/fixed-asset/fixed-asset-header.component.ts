@@ -15,7 +15,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { FixedAsset, FixedAssetFields, DateRange, EmptyFixedAsset, EmptyDateRange, BaseActions,
+import { Asset, AssetFields, DateRange, EmptyAsset, EmptyDateRange, BaseActions,
          EmptyBaseActions } from '@app/models';
 
 
@@ -26,15 +26,14 @@ export enum FixedAssetHeaderEventType {
 }
 
 interface FixedAssetFormModel extends FormGroup<{
-  fixedAssetTypeUID: FormControl<string>;
+  assetTypeUID: FormControl<string>;
   datePeriod: FormControl<DateRange>;
-  assetKeeperOrgUnitUID: FormControl<string>;
-  assetKeeperUID: FormControl<string>;
+  assignedToOrgUnitUID: FormControl<string>;
+  assignedToUID: FormControl<string>;
   name: FormControl<string>;
   brand: FormControl<string>;
   model: FormControl<string>;
   year: FormControl<number>;
-  label: FormControl<string>;
   buildingUID: FormControl<string>;
   floorUID: FormControl<string>;
   placeUID: FormControl<string>;
@@ -49,7 +48,7 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
 
   @Input() isSaved = false;
 
-  @Input() fixedAsset: FixedAsset = EmptyFixedAsset;
+  @Input() asset: Asset = EmptyAsset;
 
   @Input() actions: BaseActions = EmptyBaseActions;
 
@@ -65,9 +64,9 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
 
   organizationalUnitsList: Identifiable[] = [];
 
-  fixedAssetTypesList: Identifiable[] = [];
+  assetTypesList: Identifiable[] = [];
 
-  assetKeepersList: Identifiable[] = [];
+  assignedTosList: Identifiable[] = [];
 
   buildingsList: Identifiable[] = [];
 
@@ -88,7 +87,7 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.fixedAsset && this.isSaved) {
+    if (changes.asset && this.isSaved) {
       this.enableEditor(false);
       this.validateDataLists();
     }
@@ -108,7 +107,7 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
         eventType = FixedAssetHeaderEventType.UPDATE;
       }
 
-      sendEvent(this.fixedAssetHeaderEvent, eventType, { fixedAssetFields: this.getFormData() });
+      sendEvent(this.fixedAssetHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
   }
 
@@ -137,22 +136,24 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
 
 
   private validateDataLists() {
-    if (this.fixedAsset.assetKeeperOrgUnit) {
+    if (this.asset.assignedToOrgUnit) {
       this.organizationalUnitsList =
-        ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.fixedAsset.assetKeeperOrgUnit, 'uid');
+        ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.asset.assignedToOrgUnit, 'uid');
     }
-    if (this.fixedAsset.assetKeeper) {
-      this.assetKeepersList =
-        ArrayLibrary.insertIfNotExist(this.assetKeepersList ?? [], this.fixedAsset.assetKeeper, 'uid');
+    if (this.asset.assignedTo) {
+      this.assignedTosList =
+        ArrayLibrary.insertIfNotExist(this.assignedTosList ?? [], this.asset.assignedTo, 'uid');
     }
-    this.fixedAssetTypesList =
-      ArrayLibrary.insertIfNotExist(this.fixedAssetTypesList ?? [], this.fixedAsset.fixedAssetType, 'uid');
+    if (this.asset.assetType) {
+      this.assetTypesList =
+        ArrayLibrary.insertIfNotExist(this.assetTypesList ?? [], this.asset.assetType, 'uid');
+    }
     this.buildingsList =
-      ArrayLibrary.insertIfNotExist(this.buildingsList ?? [], this.fixedAsset.building, 'uid');
+      ArrayLibrary.insertIfNotExist(this.buildingsList ?? [], this.asset.building, 'uid');
     this.floorsList =
-      ArrayLibrary.insertIfNotExist(this.floorsList ?? [], this.fixedAsset.floor, 'uid');
+      ArrayLibrary.insertIfNotExist(this.floorsList ?? [], this.asset.floor, 'uid');
     this.placesList =
-      ArrayLibrary.insertIfNotExist(this.placesList ?? [], this.fixedAsset.place, 'uid');
+      ArrayLibrary.insertIfNotExist(this.placesList ?? [], this.asset.place, 'uid');
   }
 
 
@@ -160,15 +161,14 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      fixedAssetTypeUID: [''],
+      assetTypeUID: [''],
       datePeriod: [EmptyDateRange],
       name: [''],
-      assetKeeperOrgUnitUID: [''],
-      assetKeeperUID: [''],
+      assignedToOrgUnitUID: [''],
+      assignedToUID: [''],
       brand: [''],
       model: [''],
       year: [null],
-      label: [''],
       buildingUID: [''],
       floorUID: [''],
       placeUID: [''],
@@ -180,37 +180,35 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        fixedAssetTypeUID: isEmpty(this.fixedAsset.fixedAssetType) ? null : this.fixedAsset.fixedAssetType.uid,
-        name: this.fixedAsset.name ?? '',
-        datePeriod: { fromDate: this.fixedAsset.startDate ?? null, toDate: this.fixedAsset.endDate ?? null },
-        assetKeeperOrgUnitUID: isEmpty(this.fixedAsset.assetKeeperOrgUnit) ? null : this.fixedAsset.assetKeeperOrgUnit.uid,
-        assetKeeperUID: isEmpty(this.fixedAsset.assetKeeper) ? null : this.fixedAsset.assetKeeper.uid,
-        brand: this.fixedAsset.brand ?? '',
-        model: this.fixedAsset.model ?? '',
-        year: this.fixedAsset.year > 0 ? this.fixedAsset.year : null,
-        label: this.fixedAsset.label ?? '',
-        buildingUID: isEmpty(this.fixedAsset.building) ? null : this.fixedAsset.building.uid,
-        floorUID: isEmpty(this.fixedAsset.floor) ? null : this.fixedAsset.floor.uid,
-        placeUID: isEmpty(this.fixedAsset.place) ? null : this.fixedAsset.place.uid,
-        description: this.fixedAsset.description ?? '',
+        assetTypeUID: isEmpty(this.asset.assetType) ? null : this.asset.assetType.uid,
+        name: this.asset.name ?? '',
+        datePeriod: { fromDate: this.asset.startDate ?? null, toDate: this.asset.endDate ?? null },
+        assignedToOrgUnitUID: isEmpty(this.asset.assignedToOrgUnit) ? null : this.asset.assignedToOrgUnit.uid,
+        assignedToUID: isEmpty(this.asset.assignedTo) ? null : this.asset.assignedTo.uid,
+        brand: this.asset.brand ?? '',
+        model: this.asset.model ?? '',
+        year: this.asset.year > 0 ? this.asset.year : null,
+        buildingUID: isEmpty(this.asset.building) ? null : this.asset.building.uid,
+        floorUID: isEmpty(this.asset.floor) ? null : this.asset.floor.uid,
+        placeUID: isEmpty(this.asset.place) ? null : this.asset.place.uid,
+        description: this.asset.description ?? '',
       });
     });
   }
 
 
-  private getFormData(): FixedAssetFields {
+  private getFormData(): AssetFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
-    const data: FixedAssetFields = {
-      fixedAssetTypeUID: this.form.value.fixedAssetTypeUID ?? null,
+    const data: AssetFields = {
+      assetTypeUID: this.form.value.assetTypeUID ?? null,
       name: this.form.value.name ?? null,
       description: this.form.value.description ?? null,
       brand: this.form.value.brand ?? null,
       model: this.form.value.model ?? null,
       year: this.form.value.year > 0 ? this.form.value.year : null,
-      label: this.form.value.label ?? null,
-      assetKeeperOrgUnitUID: this.form.value.assetKeeperOrgUnitUID ?? null,
-      assetKeeperUID: this.form.value.assetKeeperUID ?? null,
+      assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
+      assignedToUID: this.form.value.assignedToUID ?? null,
       buildingUID: this.form.value.buildingUID ?? null,
       floorUID: this.form.value.floorUID ?? null,
       placeUID: this.form.value.placeUID ?? null,
@@ -255,9 +253,9 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
     switch (eventType) {
       case FixedAssetHeaderEventType.DELETE:
         return `Esta operación eliminará el activo fijo
-                <strong>${this.fixedAsset.inventoryNo}: ${this.fixedAsset.name}</strong>
-                (${this.fixedAsset.fixedAssetType.name})
-                del área responsable <strong>${this.fixedAsset.assetKeeperOrgUnit?.name ?? 'No definido'}</strong>.
+                <strong>${this.asset.assetNo}: ${this.asset.name}</strong>
+                (${this.asset.assetType?.name ?? 'No determinado'})
+                del área responsable <strong>${this.asset.assignedToOrgUnit?.name ?? 'No determinado'}</strong>.
 
                 <br><br>¿Elimino el activo fijo?`;
 
@@ -268,7 +266,7 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
 
   private validateAndSendEvent(eventType: FixedAssetHeaderEventType, send: boolean) {
     if (send) {
-      sendEvent(this.fixedAssetHeaderEvent, eventType, { fixedAssetUID: this.fixedAsset.uid });
+      sendEvent(this.fixedAssetHeaderEvent, eventType, { assetUID: this.asset.uid });
     }
   }
 

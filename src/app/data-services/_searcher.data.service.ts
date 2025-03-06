@@ -13,17 +13,16 @@ import { DataTableQuery } from '@app/models';
 
 
 export enum SearcherAPIS {
-  budgetTransactionsParties     = 'v2/budgeting/transactions/parties/',
-  fixedAssetKeepers             = 'v2/fixed-assets/keepers',
-  fixedAssetTransactionsParties = 'v2/fixed-assets/transactions/parties/',
-  payableEntities               = 'v2/payments-management/payable-entities/search',
-  relatedDocumentsForEdition    = 'v2/budgeting/related-documents/for-transaction-edition/search',
-  productBudgetSegments         = 'v8/product-management/budget-segments/available',
-  productManagers               = 'v8/product-management/primary-party/product-managers/',
-  products                      = 'v8/product-management/products/search/',
-  productUnits                  = 'v8/product-management/product-units/',
-  projects                      = 'v8/projects/',
-  suppliers                     = 'v8/parties/primary-party/suppliers-list/',
+  budgetTransactionsParties   = 'v2/budgeting/transactions/parties/',
+  assetsAssignees             = 'v2/assets/assignees',
+  payableEntities             = 'v2/payments-management/payable-entities/search',
+  relatedDocumentsForEdition  = 'v2/budgeting/related-documents/for-transaction-edition/search',
+  productBudgetSegments       = 'v8/product-management/budget-segments/available',
+  productManagers             = 'v8/product-management/primary-party/product-managers/',
+  products                    = 'v8/product-management/products/search/',
+  productUnits                = 'v8/product-management/product-units/',
+  projects                    = 'v8/projects/',
+  suppliers                   = 'v8/parties/primary-party/suppliers-list/',
 }
 
 @Injectable()

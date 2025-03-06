@@ -12,19 +12,14 @@
       <td mat-cell *matCellDef="let row">{{ row.transactionNo }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="requestedDate">
+    <ng-container matColumnDef="requestedTime">
       <th mat-header-cell *matHeaderCellDef> Fecha </th>
-      <td mat-cell *matCellDef="let row">{{ row.requestedDate | empDateTimeFormat }}</td>
+      <td mat-cell *matCellDef="let row">{{ row.requestedTime | empDateTimeFormat }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="resposable">
-      <th mat-header-cell *matHeaderCellDef> Área responsable </th>
-      <td mat-cell *matCellDef="let row">{{ row.basePartyName }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="operationSource">
-      <th mat-header-cell *matHeaderCellDef > Fuente </th>
-      <td mat-cell *matCellDef="let row">{{ row.operationSourceName }}</td>
+    <ng-container matColumnDef="assignedTo">
+      <th mat-header-cell *matHeaderCellDef> Responsable </th>
+      <td mat-cell *matCellDef="let row">{{ row.assignedToName }} ({{row.assignedToOrgUnitName}})</td>
     </ng-container>
 
     <ng-container matColumnDef="description" >

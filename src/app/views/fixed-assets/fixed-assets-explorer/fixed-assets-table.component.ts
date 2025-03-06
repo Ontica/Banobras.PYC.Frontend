@@ -15,7 +15,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { FixedAssetDescriptor, FixedAssetsOperationsList, isEntityStatusInWarning } from '@app/models';
+import { AssetDescriptor, AssetsOperationsList, isEntityStatusInWarning } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -36,27 +36,27 @@ export class FixedAssetsTableComponent implements OnChanges {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-  @Input() dataList: FixedAssetDescriptor[] = [];
+  @Input() dataList: AssetDescriptor[] = [];
 
   @Input() selectedUID = '';
 
   @Input() displayControls = true;
 
-  @Input() displayAssetKeeper = true;
+  @Input() displayAssignedTo = true;
 
   @Input() queryExecuted = false;
 
   @Output() fixedAssetsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['inventoryNo', 'name', 'locationName']; // 'type',
+  displayedColumnsDefault: string[] = ['assetNo', 'name', 'locationName']; // 'assetTypeName',
 
   displayedColumns = [...this.displayedColumnsDefault];
 
-  dataSource: TableVirtualScrollDataSource<FixedAssetDescriptor>;
+  dataSource: TableVirtualScrollDataSource<AssetDescriptor>;
 
-  selection = new SelectionModel<FixedAssetDescriptor>(true, []);
+  selection = new SelectionModel<AssetDescriptor>(true, []);
 
-  operationsList = FixedAssetsOperationsList;
+  operationsList = AssetsOperationsList;
 
   isEntityStatusInWarning = isEntityStatusInWarning;
 
@@ -86,7 +86,7 @@ export class FixedAssetsTableComponent implements OnChanges {
   }
 
 
-  onRowClicked(item: FixedAssetDescriptor) {
+  onRowClicked(item: AssetDescriptor) {
     sendEvent(this.fixedAssetsTableEvent, FixedAssetsTableEventType.SELECT_CLICKED, { item });
   }
 
@@ -107,7 +107,7 @@ export class FixedAssetsTableComponent implements OnChanges {
 
     if (this.displayControls) columns.push('check');
     columns = [...columns, ...this.displayedColumnsDefault];
-    if (this.displayAssetKeeper) columns = [...columns, ...['assetKeeper', 'assetKeeperOrgUnit']];
+    if (this.displayAssignedTo) columns = [...columns, ...['assignedTo', 'assignedToOrgUnit']];
 
     this.displayedColumns = columns;
   }

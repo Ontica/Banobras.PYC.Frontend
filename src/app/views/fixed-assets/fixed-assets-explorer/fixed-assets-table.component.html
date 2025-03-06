@@ -30,11 +30,11 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="inventoryNo">
+        <ng-container matColumnDef="assetNo">
           <th mat-header-cell *matHeaderCellDef class="nowrap"> No. inventario </th>
           <td mat-cell *matCellDef="let row">
             <a class="item-link" (click)="onRowClicked(row)">
-              {{ !!row.inventoryNo ? row.inventoryNo : 'No definido' }}
+              {{ !!row.assetNo ? row.assetNo : 'No determinado' }}
             </a>
           </td>
         </ng-container>
@@ -46,7 +46,7 @@
 
         <!-- <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef> Tipo </th>
-          <td mat-cell *matCellDef="let row">{{row.fixedAssetTypeName}}</td>
+          <td mat-cell *matCellDef="let row">{{row.assetTypeName}}</td>
         </ng-container> -->
 
         <ng-container matColumnDef="locationName">
@@ -54,14 +54,14 @@
           <td mat-cell *matCellDef="let row">{{row.locationName}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="assetKeeper">
+        <ng-container matColumnDef="assignedTo">
           <th mat-header-cell *matHeaderCellDef class="nowrap"> Persona responsable </th>
-          <td mat-cell *matCellDef="let row">{{row.assetKeeperName ?? 'No definido'}}</td>
+          <td mat-cell *matCellDef="let row">{{!row.assignedToName ? 'No determinado' : row.assignedToName}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="assetKeeperOrgUnit">
+        <ng-container matColumnDef="assignedToOrgUnit">
           <th mat-header-cell *matHeaderCellDef class="nowrap"> Área responsable </th>
-          <td mat-cell *matCellDef="let row">{{row.assetKeeperOrgUnitName ?? 'No definido'}}</td>
+          <td mat-cell *matCellDef="let row">{{!row.assignedToOrgUnitName ? 'No determinado' : row.assignedToOrgUnitName}}</td>
         </ng-container>
 
         <ng-container matColumnDef="notFoundMessage">

@@ -8,7 +8,7 @@
     <mat-tab label="Activo fijo">
 
       <emp-pyc-fixed-asset-editor
-        [fixedAsset]="data.fixedAsset"
+        [asset]="data.asset"
         [actions]="data.actions"
         (fixedAssetEditorEvent)="onFixedAssetEditorEvent($event)">
 
@@ -28,8 +28,8 @@
     <mat-tab label="Documentos">
 
       <emp-ng-documents-edition
-        entityType="fixed-assets"
-        [entityUID]="data.fixedAsset.uid"
+        entityType="assets"
+        [entityUID]="data.asset.uid"
         [documents]="data.documents"
         [canEdit]="data.actions.canEditDocuments"
         (documentsEditionEvent)="onDocumentsEditionEvent($event)">

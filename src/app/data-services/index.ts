@@ -9,6 +9,8 @@ export * from './_access-control.data.service';
 
 export * from './_searcher.data.service';
 
+export * from './assets.data.service';
+
 export * from './bills.data.service';
 
 export * from './budget-transactions.data.service';
@@ -22,8 +24,6 @@ export * from './contracts.data.service';
 export * from './documents.data.service';
 
 export * from './fixed-asset-transactions.data.service';
-
-export * from './fixed-assets.data.service';
 
 export * from './orders.data.service';
 

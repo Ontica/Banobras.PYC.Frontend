@@ -11,6 +11,8 @@ import { AccessControlDataService } from './_access-control.data.service';
 
 import { SearcherDataService } from './_searcher.data.service';
 
+import { AssetsDataService } from './assets.data.service';
+
 import { BillsDataService } from './bills.data.service';
 
 import { BudgetsDataService } from './budgets.data.service';
@@ -22,8 +24,6 @@ import { CataloguesDataService } from './catalogues.data.service';
 import { ContractsDataService } from './contracts.data.service';
 
 import { DocumentsDataService } from './documents.data.service';
-
-import { FixedAssetsDataService } from './fixed-assets.data.service';
 
 import { FixedAssetTransactionsDataService } from './fixed-asset-transactions.data.service';
 
@@ -49,13 +49,13 @@ import { SuppliersDataService } from './suppliers.data.service';
   providers: [
     AccessControlDataService,
     SearcherDataService,
+    AssetsDataService,
     BillsDataService,
     BudgetsDataService,
     BudgetTransactionsDataService,
     CataloguesDataService,
     ContractsDataService,
     DocumentsDataService,
-    FixedAssetsDataService,
     FixedAssetTransactionsDataService,
     OrdersDataService,
     PartiesDataService,

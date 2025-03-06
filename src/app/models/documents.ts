@@ -12,7 +12,7 @@ import { FileReport } from './reporting';
 import { FileType } from '@app/shared/form-controls';
 
 
-export type DocumentsEntityTypes = 'bills' | 'contracts' | 'fixed-assets' |'payables' | 'payments-orders' |
+export type DocumentsEntityTypes = 'bills' | 'contracts' | 'assets' |'payables' | 'payments-orders' |
   'requests' | 'orders' | 'budget-transactions' | 'fixed-asset-transactions';
 
 
@@ -58,7 +58,7 @@ export function getEntityModule(entityType: DocumentsEntityTypes): string {
   switch (entityType) {
     case 'bills': return 'v2/billing-management/bills';
     case 'contracts': return 'v8/procurement/contracts';
-    case 'fixed-assets': return 'v2/fixed-assets';
+    case 'assets': return 'v2/assets';
     case 'payables': return 'v2/payments-management/payables';
     case 'payments-orders': return 'v2/payments-management/payment-orders';
     case 'requests': return 'v4/requests';

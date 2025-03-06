@@ -9,12 +9,12 @@
         <label>Persona responsable:</label>
 
         <emp-ng-select-typeahead
-          formControlName="assetKeeperUID"
+          formControlName="assignedToUID"
           [config]="{ clearable: true }"
           [searcherAPI]="keepersAPI"
-          [initialValue]="selectedAssetKeeper"
+          [initialValue]="selectedAssignedTo"
           placeholder="Todos"
-          (changes)="onAssetKeeperChanges($event)">
+          (changes)="onAssignedToChanges($event)">
         </emp-ng-select-typeahead>
 
       </div>
@@ -87,11 +87,11 @@
             <label>Área responsable:</label>
 
             <emp-ng-select
-              formControlName="assetKeeperOrgUnitUID"
+              formControlName="assignedToOrgUnitUID"
               [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
               [items]="orgUnitsList"
               [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.assetKeeperOrgUnitUID)"
+              [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)"
               placeholder="Todas">
             </emp-ng-select>
 
@@ -102,11 +102,11 @@
             <label>Tipo de activo fijo:</label>
 
             <emp-ng-select
-              formControlName="fixedAssetTypeUID"
+              formControlName="assetTypeUID"
               [config]="{clearable: true}"
-              [items]="fixedAssetTypesList"
+              [items]="assetTypesList"
               [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.fixedAssetTypeUID)"
+              [showError]="formHelper.isControlInvalid(form.controls.assetTypeUID)"
               placeholder="Todos">
             </emp-ng-select>
 
@@ -117,8 +117,8 @@
             <label>Número de inventario:</label>
 
             <input type="text" class="text-box"
-              formControlName="inventoryNo"
-              [class.invalid-control]="formHelper.isControlInvalid(form.controls.inventoryNo)">
+              formControlName="assetNo"
+              [class.invalid-control]="formHelper.isControlInvalid(form.controls.assetNo)">
 
           </div>
 

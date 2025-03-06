@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EventInfo, isEmpty } from '@app/core';
 
-import { FixedAsset, EmptyFixedAsset, BaseActions, EmptyBaseActions } from '@app/models';
+import { Asset, EmptyAsset, BaseActions, EmptyBaseActions } from '@app/models';
 
 import { FixedAssetHeaderEventType } from './fixed-asset-header.component';
 
@@ -25,7 +25,7 @@ export enum FixedAssetEditorEventType {
 })
 export class FixedAssetEditorComponent {
 
-  @Input() fixedAsset: FixedAsset = EmptyFixedAsset;
+  @Input() asset: Asset = EmptyAsset;
 
   @Input() actions: BaseActions = EmptyBaseActions;
 
@@ -35,7 +35,7 @@ export class FixedAssetEditorComponent {
 
 
   get isSaved(): boolean {
-    return !isEmpty(this.fixedAsset);
+    return !isEmpty(this.asset);
   }
 
 

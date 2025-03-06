@@ -11,10 +11,10 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { FixedAssetsDataService } from '@app/data-services';
+import { AssetsDataService } from '@app/data-services';
 
-import { EmptyFixedAssetHolder, EmptyFixedAssetsQuery, FixedAssetDescriptor, FixedAssetHolder,
-         FixedAssetsQuery } from '@app/models';
+import { EmptyAssetHolder, EmptyAssetsQuery, AssetDescriptor, AssetHolder,
+         AssetsQuery } from '@app/models';
 
 import { FixedAssetsExplorerEventType } from '../fixed-assets-explorer/fixed-assets-explorer.component';
 
@@ -27,11 +27,11 @@ import { FixedAssetTabbedViewEventType } from '../fixed-asset-tabbed-view/fixed-
 })
 export class FixedAssetsMainPageComponent {
 
-  query: FixedAssetsQuery = Object.assign({}, EmptyFixedAssetsQuery);
+  query: AssetsQuery = Object.assign({}, EmptyAssetsQuery);
 
-  dataList: FixedAssetDescriptor[] = [];
+  dataList: AssetDescriptor[] = [];
 
-  selectedData: FixedAssetHolder = EmptyFixedAssetHolder;
+  selectedData: AssetHolder = EmptyAssetHolder;
 
   displayTabbedView = false;
 
@@ -44,28 +44,28 @@ export class FixedAssetsMainPageComponent {
   queryExecuted = false;
 
 
-  constructor(private fixedAssetsData: FixedAssetsDataService,
-    private messageBox: MessageBoxService) { }
+  constructor(private assetsData: AssetsDataService,
+              private messageBox: MessageBoxService) { }
 
 
   onFixedAssetsExplorerEvent(event: EventInfo) {
     switch (event.type as FixedAssetsExplorerEventType) {
       case FixedAssetsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearExplorerData(event.payload.query as FixedAssetsQuery);
-        this.searchFixedAssets(this.query);
+        this.setQueryAndClearExplorerData(event.payload.query as AssetsQuery);
+        this.searchAssets(this.query);
         return;
       case FixedAssetsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearExplorerData(event.payload.query as FixedAssetsQuery);
+        this.setQueryAndClearExplorerData(event.payload.query as AssetsQuery);
         return;
       case FixedAssetsExplorerEventType.EXPORT_CLICKED:
-        this.exportTransactions(this.query);
+        this.exportAssets(this.query);
         return;
       case FixedAssetsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.getFixedAssetData(event.payload.item.uid);
+        this.getAsset(event.payload.item.uid);
         return;
       case FixedAssetsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
@@ -81,7 +81,7 @@ export class FixedAssetsMainPageComponent {
   onFixedAssetTabbedViewEvent(event: EventInfo) {
     switch (event.type as FixedAssetTabbedViewEventType) {
       case FixedAssetTabbedViewEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedData(EmptyFixedAssetHolder);
+        this.setSelectedData(EmptyAssetHolder);
         return;
       case FixedAssetTabbedViewEventType.REFRESH_DATA:
         Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
@@ -94,54 +94,54 @@ export class FixedAssetsMainPageComponent {
   }
 
 
-  private searchFixedAssets(query: FixedAssetsQuery) {
+  private searchAssets(query: AssetsQuery) {
     this.isLoading = true;
 
-    this.fixedAssetsData.searchFixedAssets(query)
+    this.assetsData.searchAssets(query)
       .firstValue()
       .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
   }
 
 
-  private exportTransactions(query: FixedAssetsQuery) {
-    this.fixedAssetsData.exportFixedAssets(query)
+  private exportAssets(query: AssetsQuery) {
+    this.assetsData.exportAssets(query)
       .firstValue()
       .then(x => {this.fileUrl = x.url});
   }
 
 
-  private getFixedAssetData(fixedAssetUID: string) {
+  private getAsset(assetUID: string) {
     this.isLoadingSelection = true;
 
-    this.fixedAssetsData.getFixedAsset(fixedAssetUID)
+    this.assetsData.getAsset(assetUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
   }
 
 
-  private refreshSelectedData(fixedAssetUID: string) {
-    this.getFixedAssetData(fixedAssetUID);
+  private refreshSelectedData(assetUID: string) {
+    this.getAsset(assetUID);
   }
 
 
-  private setQueryAndClearExplorerData(query: FixedAssetsQuery) {
+  private setQueryAndClearExplorerData(query: AssetsQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
-    this.setSelectedData(EmptyFixedAssetHolder);
+    this.setSelectedData(EmptyAssetHolder);
   }
 
 
-  private setDataList(data: FixedAssetDescriptor[], queryExecuted: boolean = true) {
+  private setDataList(data: AssetDescriptor[], queryExecuted: boolean = true) {
     this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
   }
 
 
-  private setSelectedData(data: FixedAssetHolder) {
+  private setSelectedData(data: AssetHolder) {
     this.selectedData = data;
-    this.displayTabbedView = !isEmpty(this.selectedData.fixedAsset);
+    this.displayTabbedView = !isEmpty(this.selectedData.asset);
   }
 
 }

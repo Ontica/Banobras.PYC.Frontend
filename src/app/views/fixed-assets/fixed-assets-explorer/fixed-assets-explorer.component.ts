@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyFixedAssetsQuery, FixedAssetDescriptor, FixedAssetsQuery } from '@app/models';
+import { EmptyAssetsQuery, AssetDescriptor, AssetsQuery } from '@app/models';
 
 import { FixedAssetsFilterEventType } from './fixed-assets-filter.component';
 
@@ -36,9 +36,9 @@ export enum FixedAssetsExplorerEventType {
 })
 export class FixedAssetsExplorerComponent implements OnChanges {
 
-  @Input() query: FixedAssetsQuery = Object.assign({}, EmptyFixedAssetsQuery);
+  @Input() query: AssetsQuery = Object.assign({}, EmptyAssetsQuery);
 
-  @Input() dataList: FixedAssetDescriptor[] = [];
+  @Input() dataList: AssetDescriptor[] = [];
 
   @Input() selectedUID = '';
 

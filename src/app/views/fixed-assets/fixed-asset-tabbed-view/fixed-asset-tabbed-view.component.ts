@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyFixedAssetHolder, FixedAssetHolder, isEntityStatusInWarning } from '@app/models';
+import { EmptyAssetHolder, AssetHolder, isEntityStatusInWarning } from '@app/models';
 
 import { FixedAssetEditorEventType } from '../fixed-asset/fixed-asset-editor.component';
 
@@ -33,7 +33,7 @@ export enum FixedAssetTabbedViewEventType {
 })
 export class FixedAssetTabbedViewComponent implements OnChanges {
 
-  @Input() data: FixedAssetHolder = EmptyFixedAssetHolder;
+  @Input() data: AssetHolder = EmptyAssetHolder;
 
   @Output() fixedAssetTabbedViewEvent = new EventEmitter<EventInfo>();
 
@@ -76,7 +76,7 @@ export class FixedAssetTabbedViewComponent implements OnChanges {
   onDocumentsEditionEvent(event: EventInfo) {
     switch (event.type as DocumentsEditionEventType) {
       case DocumentsEditionEventType.DOCUMENTS_UPDATED:
-        const payload = { fixedAssetUID: this.data.fixedAsset.uid };
+        const payload = { fixedAssetUID: this.data.asset.uid };
         sendEvent(this.fixedAssetTabbedViewEvent, FixedAssetTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:
@@ -87,15 +87,15 @@ export class FixedAssetTabbedViewComponent implements OnChanges {
 
 
   private setTitle() {
-    const status = isEntityStatusInWarning(this.data.fixedAsset.status.name) ?
-      `<span class="tag tag-error tag-small">${this.data.fixedAsset.status.name}</span>` :
-      `<span class="tag tag-small">${this.data.fixedAsset.status.name}</span>`;
+    const status = isEntityStatusInWarning(this.data.asset.status.name) ?
+      `<span class="tag tag-error tag-small">${this.data.asset.status.name}</span>` :
+      `<span class="tag tag-small">${this.data.asset.status.name}</span>`;
 
-    this.title = `${this.data.fixedAsset.inventoryNo}: ${this.data.fixedAsset.name}` + status;
+    this.title = `${this.data.asset.assetNo}: ${this.data.asset.name}` + status;
 
-    this.hint = `<strong>${this.data.fixedAsset.fixedAssetType.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
-      `${ this.data.fixedAsset.assetKeeper?.name ?? 'No definido'} (${this.data.fixedAsset.assetKeeperOrgUnit?.name ?? 'No definido'}) &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${this.data.fixedAsset.locationName}`;
+    this.hint = `<strong>${this.data.asset.assetType?.name ?? 'No determinado'} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
+      `${ this.data.asset.assignedTo?.name ?? 'No determinado'} (${this.data.asset.assignedToOrgUnit?.name ?? 'No determinado'}) &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${this.data.asset.locationName}`;
   }
 
 }

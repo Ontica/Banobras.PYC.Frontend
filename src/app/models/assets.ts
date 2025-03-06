@@ -13,49 +13,47 @@ import { Document } from './documents';
 
 import { History } from './history';
 
-import { FixedAssetTransactionDescriptor } from './fixed-assets-transactions';
+import { AssetTransactionDescriptor } from './assets-transactions';
 
 
-export interface FixedAssetsQuery {
-  assetKeeperUID: string;
-  assetKeeperOrgUnitUID: string;
+export interface AssetsQuery {
+  assignedToUID: string;
+  assignedToOrgUnitUID: string;
   status: EntityStatus;
   keywords: string;
-  fixedAssetTypeUID: string;
-  inventoryNo: string;
+  assetTypeUID: string;
+  assetNo: string;
   buildingUID: string;
   floorUID: string;
   placeUID: string;
 }
 
 
-export interface FixedAssetDescriptor {
+export interface AssetDescriptor {
   uid: string;
-  assetKeeperOrgUnitName: string;
-  assetKeeperName: string;
-  fixedAssetTypeName: string;
-  inventoryNo: string;
+  assetNo: string;
+  assetTypeName: string;
   name: string;
+  description: string;
+  assignedToName: string;
+  assignedToOrgUnitName: string;
   locationName: string;
   condition: string;
-  label: string;
-  description: string;
   startDate: DateString;
   endDate: DateString;
   statusName: string;
 }
 
 
-export interface FixedAssetFields {
-  fixedAssetTypeUID: string;
+export interface AssetFields {
+  assetTypeUID: string;
   name: string;
   description: string;
   brand: string;
   model: string;
   year: number;
-  label: string;
-  assetKeeperUID: string;
-  assetKeeperOrgUnitUID: string;
+  assignedToUID: string;
+  assignedToOrgUnitUID: string;
   buildingUID: string;
   floorUID: string;
   placeUID: string;
@@ -64,27 +62,28 @@ export interface FixedAssetFields {
 }
 
 
-export interface FixedAssetHolder {
-  fixedAsset: FixedAsset;
-  transactions: FixedAssetTransactionDescriptor[];
+export interface AssetHolder {
+  asset: Asset;
+  transactions: AssetTransactionDescriptor[];
   documents: Document[];
   history: History[];
   actions: BaseActions;
 }
 
 
-export interface FixedAsset {
+export interface Asset {
   uid: string;
-  fixedAssetType: Identifiable;
-  inventoryNo: string;
+  assetType: Identifiable;
+  assetNo: string;
   name: string;
   description: string;
   brand: string;
   model: string;
   year: number;
-  label: string;
-  assetKeeperOrgUnit: Identifiable;
-  assetKeeper: Identifiable;
+  assignedTo: Identifiable;
+  assignedToOrgUnit: Identifiable;
+  manager: Identifiable;
+  managerOrgUnit: Identifiable;
   building: Identifiable;
   floor: Identifiable;
   place: Identifiable;
@@ -95,7 +94,7 @@ export interface FixedAsset {
 }
 
 
-export enum FixedAssetsOperationType {
+export enum AssetsOperationType {
   excel                = 'excel',
   requestLoan          = 'requestLoan',
   requestMintenance    = 'requestMintenance',
@@ -104,18 +103,19 @@ export enum FixedAssetsOperationType {
 }
 
 
-export const EmptyFixedAsset: FixedAsset = {
+export const EmptyAsset: Asset = {
   uid: '',
-  fixedAssetType: Empty,
-  inventoryNo: '',
+  assetType: Empty,
+  assetNo: '',
   name: '',
   description: '',
   brand: '',
   model: '',
   year: null,
-  label: '',
-  assetKeeperOrgUnit: Empty,
-  assetKeeper: Empty,
+  assignedToOrgUnit: Empty,
+  assignedTo: Empty,
+  manager: Empty,
+  managerOrgUnit: Empty,
   building: Empty,
   floor: Empty,
   place: Empty,
@@ -126,8 +126,8 @@ export const EmptyFixedAsset: FixedAsset = {
 };
 
 
-export const EmptyFixedAssetHolder: FixedAssetHolder = {
-  fixedAsset: EmptyFixedAsset,
+export const EmptyAssetHolder: AssetHolder = {
+  asset: EmptyAsset,
   transactions: [],
   documents: [],
   history: [],
@@ -135,21 +135,21 @@ export const EmptyFixedAssetHolder: FixedAssetHolder = {
 };
 
 
-export const FixedAssetsOperationsList: ExplorerOperation[] = [
+export const AssetsOperationsList: ExplorerOperation[] = [
   {
-    uid: FixedAssetsOperationType.requestLoan,
+    uid: AssetsOperationType.requestLoan,
     name: 'Solicitar préstamo'
   },
   {
-    uid: FixedAssetsOperationType.requestMintenance,
+    uid: AssetsOperationType.requestMintenance,
     name: 'Solicitar mantenimiento'
   },
   {
-    uid: FixedAssetsOperationType.requestCustodyChange,
+    uid: AssetsOperationType.requestCustodyChange,
     name: 'Solicitar cambio de resguardo'
   },
   {
-    uid: FixedAssetsOperationType.delete,
+    uid: AssetsOperationType.delete,
     name: 'Dar de baja',
     showConfirm: true,
     isConfirmWarning: true,
@@ -159,13 +159,13 @@ export const FixedAssetsOperationsList: ExplorerOperation[] = [
 ];
 
 
-export const EmptyFixedAssetsQuery: FixedAssetsQuery = {
-  assetKeeperUID: '',
-  assetKeeperOrgUnitUID: '',
+export const EmptyAssetsQuery: AssetsQuery = {
+  assignedToUID: '',
+  assignedToOrgUnitUID: '',
   status: null,
   keywords: '',
-  inventoryNo: '',
-  fixedAssetTypeUID: '',
+  assetNo: '',
+  assetTypeUID: '',
   buildingUID: '',
   floorUID: '',
   placeUID: '',
