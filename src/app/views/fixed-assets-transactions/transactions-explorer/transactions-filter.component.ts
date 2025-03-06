@@ -20,12 +20,12 @@ import { CataloguesStateSelector } from '@app/presentation/exported.presentation
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { FixedAssetsDataService, FixedAssetTransactionsDataService, SearcherAPIS } from '@app/data-services';
+import { AssetsDataService, AssetsTransactionsDataService, SearcherAPIS } from '@app/data-services';
 
-import { FixedAssetTransactionPartyType, FixedAssetTransactionPartyTypesList,
-         FixedAssetTransactionQueryDateType, FixedAssetTransactionQueryDateTypesList,
-         FixedAssetTransactionsQuery, FixedAssetTransactionsStatus, FixedAssetTransactionStatusList,
-         DateRange, EmptyFixedAssetTransactionsQuery, EmptyDateRange, RequestsList } from '@app/models';
+import { AssetTransactionPartyType, AssetTransactionPartyTypesList,
+         AssetTransactionQueryDateType, AssetTransactionQueryDateTypesList,
+         AssetTransactionsQuery, AssetTransactionsStatus, AssetTransactionStatusList,
+         DateRange, EmptyAssetTransactionsQuery, EmptyDateRange, RequestsList } from '@app/models';
 
 
 export enum FixedAssetTransactionsFilterEventType {
@@ -34,9 +34,9 @@ export enum FixedAssetTransactionsFilterEventType {
 }
 
 interface FixedAssetTransactionsFilterFormModel extends FormGroup<{
-  assetKeeperUID: FormControl<string>;
-  assetKeeperOrgUnitUID: FormControl<string>;
-  status: FormControl<FixedAssetTransactionsStatus>;
+  assignedToUID: FormControl<string>;
+  assignedToOrgUnitUID: FormControl<string>;
+  status: FormControl<AssetTransactionsStatus>;
   keywords: FormControl<string>;
   transactionTypeUID: FormControl<string>;
   buildingUID: FormControl<string>;
@@ -45,9 +45,9 @@ interface FixedAssetTransactionsFilterFormModel extends FormGroup<{
   transactionsNo: FormControl<string[]>;
   entriesKeywords: FormControl<string>;
   tags: FormControl<string[]>;
-  dateType: FormControl<FixedAssetTransactionQueryDateType>;
+  dateType: FormControl<AssetTransactionQueryDateType>;
   datePeriod: FormControl<DateRange>;
-  partyType: FormControl<FixedAssetTransactionPartyType>;
+  partyType: FormControl<AssetTransactionPartyType>;
   partyUID: FormControl<string>;
 }> { }
 
@@ -58,7 +58,7 @@ interface FixedAssetTransactionsFilterFormModel extends FormGroup<{
 })
 export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
-  @Input() query: FixedAssetTransactionsQuery = Object.assign({}, EmptyFixedAssetTransactionsQuery);
+  @Input() query: AssetTransactionsQuery = Object.assign({}, EmptyAssetTransactionsQuery);
 
   @Input() showFilters = false;
 
@@ -86,26 +86,26 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
 
   placesList: Identifiable[] = [];
 
-  statusList: Identifiable<FixedAssetTransactionsStatus>[] = FixedAssetTransactionStatusList;
+  statusList: Identifiable<AssetTransactionsStatus>[] = AssetTransactionStatusList;
 
-  dateTypesList: Identifiable<FixedAssetTransactionQueryDateType>[] = FixedAssetTransactionQueryDateTypesList;
+  dateTypesList: Identifiable<AssetTransactionQueryDateType>[] = AssetTransactionQueryDateTypesList;
 
-  partyTypesList: Identifiable<FixedAssetTransactionPartyType>[] = FixedAssetTransactionPartyTypesList;
+  partyTypesList: Identifiable<AssetTransactionPartyType>[] = AssetTransactionPartyTypesList;
 
-  keepersAPI = SearcherAPIS.fixedAssetKeepers;
+  keepersAPI = SearcherAPIS.assetsTransactionsAssignees;
 
-  partiesAPI = SearcherAPIS.fixedAssetTransactionsParties;
+  partiesAPI = SearcherAPIS.assetTransactionsParties;
 
   selectedParty: Identifiable = null;
 
-  selectedAssetKeeper: Identifiable = null;
+  selectedAssignedTo: Identifiable = null;
 
   helper: SubscriptionHelper;
 
 
   constructor(private uiLayer: PresentationLayer,
-              private transactionsData: FixedAssetTransactionsDataService,
-              private fixedAssetsData: FixedAssetsDataService) {
+              private transactionsData: AssetsTransactionsDataService,
+              private assetsData: AssetsDataService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
@@ -128,12 +128,12 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
   }
 
 
-  onAssetKeeperChanges(keeper: Identifiable) {
-    this.selectedAssetKeeper = isEmpty(keeper) ? null : keeper;
+  onAssignedToChanges(keeper: Identifiable) {
+    this.selectedAssignedTo = isEmpty(keeper) ? null : keeper;
   }
 
 
-  onPartyTypeChanges(partyType: Identifiable<FixedAssetTransactionPartyType>) {
+  onPartyTypeChanges(partyType: Identifiable<AssetTransactionPartyType>) {
     this.form.controls.partyUID.reset();
     this.selectedParty = null;
   }
@@ -195,8 +195,8 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.fixed_assets }),
-      this.transactionsData.getFixedAssetTransactionsTypes(),
-      this.fixedAssetsData.getFixedAssetRootLocations(),
+      this.transactionsData.getAssetTransactionsTypes(),
+      this.assetsData.getAssetRootLocations(),
     ])
     .subscribe(([a, b, c]) => {
       this.orgUnitsList = a;
@@ -210,7 +210,7 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
   private getFloors(floorUID: string) {
     this.isLoadingFloors = true;
 
-    this.fixedAssetsData.getFixedAssetLocationsList(floorUID)
+    this.assetsData.getAssetLocationsList(floorUID)
       .firstValue()
       .then(x => this.floorsList = x)
       .finally(() => this.isLoadingFloors = false);
@@ -220,7 +220,7 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
   private getPlaces(placeUID: string) {
     this.isLoadingPlaces = true;
 
-    this.fixedAssetsData.getFixedAssetLocationsList(placeUID)
+    this.assetsData.getAssetLocationsList(placeUID)
       .firstValue()
       .then(x => this.placesList = x)
       .finally(() => this.isLoadingPlaces = false);
@@ -231,8 +231,8 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      assetKeeperUID: [''],
-      assetKeeperOrgUnitUID: [''],
+      assignedToUID: [''],
+      assignedToOrgUnitUID: [''],
       status: [null],
       keywords: [null],
       transactionTypeUID: [null],
@@ -242,9 +242,9 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
       transactionsNo: [null],
       entriesKeywords: [null],
       tags: [null],
-      dateType: [FixedAssetTransactionQueryDateType.Requested],
+      dateType: [AssetTransactionQueryDateType.Requested],
       datePeriod: [EmptyDateRange],
-      partyType: [FixedAssetTransactionPartyType.RequestedBy],
+      partyType: [AssetTransactionPartyType.RequestedBy],
       partyUID: [null],
     });
   }
@@ -252,8 +252,8 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
 
   private setFormData() {
     this.form.reset({
-      assetKeeperUID: this.query.assetKeeperUID,
-      assetKeeperOrgUnitUID: this.query.assetKeeperOrgUnitUID,
+      assignedToUID: this.query.assignedToUID,
+      assignedToOrgUnitUID: this.query.assignedToOrgUnitUID,
       status: this.query.status,
       keywords: this.query.keywords,
       transactionTypeUID: this.query.transactionTypeUID,
@@ -263,18 +263,18 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
       transactionsNo: this.query.transactionsNo,
       entriesKeywords: this.query.entriesKeywords,
       tags: this.query.tags,
-      dateType: this.query.dateType ?? FixedAssetTransactionQueryDateType.Requested,
+      dateType: this.query.dateType ?? AssetTransactionQueryDateType.Requested,
       datePeriod: { fromDate: this.query.fromDate ?? null, toDate: this.query.toDate ?? null },
-      partyType: this.query.partyType ?? FixedAssetTransactionPartyType.RequestedBy,
+      partyType: this.query.partyType ?? AssetTransactionPartyType.RequestedBy,
       partyUID: this.query.partyUID,
     });
   }
 
 
-  private getFormData(): FixedAssetTransactionsQuery {
-    const query: FixedAssetTransactionsQuery = {
-      assetKeeperUID: this.form.value.assetKeeperUID ?? null,
-      assetKeeperOrgUnitUID: this.form.value.assetKeeperOrgUnitUID ?? null,
+  private getFormData(): AssetTransactionsQuery {
+    const query: AssetTransactionsQuery = {
+      assignedToUID: this.form.value.assignedToUID ?? null,
+      assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
       status: this.form.value.status ?? null,
       keywords: this.form.value.keywords ?? null,
       transactionTypeUID: this.form.value.transactionTypeUID ?? null,
@@ -298,7 +298,7 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
   private clearFilters() {
     this.form.reset();
     this.selectedParty = null;
-    this.selectedAssetKeeper = null;
+    this.selectedAssignedTo = null;
     this.floorsList = [];
     this.placesList = [];
   }

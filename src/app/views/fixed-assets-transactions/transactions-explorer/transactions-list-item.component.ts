@@ -11,7 +11,7 @@ import { EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { FixedAssetTransactionDescriptor } from '@app/models';
+import { AssetTransactionDescriptor } from '@app/models';
 
 
 export enum TransactionsListItemEventType {
@@ -26,7 +26,7 @@ export enum TransactionsListItemEventType {
 })
 export class FixedAssetTransactionsListItemComponent {
 
-  @Input() transaction: FixedAssetTransactionDescriptor;
+  @Input() transaction: AssetTransactionDescriptor;
 
   @Input() selected = false;
 

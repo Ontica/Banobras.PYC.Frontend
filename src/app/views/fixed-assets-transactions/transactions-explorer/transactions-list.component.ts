@@ -15,7 +15,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { FixedAssetTransactionDescriptor, FixedAssetTransactionsOperationsList } from '@app/models';
+import { AssetTransactionDescriptor, AssetTransactionsOperationsList } from '@app/models';
 
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
@@ -35,7 +35,7 @@ export class FixedAssetTransactionsListComponent implements OnChanges {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-  @Input() dataList: FixedAssetTransactionDescriptor[] = [];
+  @Input() dataList: AssetTransactionDescriptor[] = [];
 
   @Input() selectedUID = '';
 
@@ -43,9 +43,9 @@ export class FixedAssetTransactionsListComponent implements OnChanges {
 
   @Output() transactionsListEvent = new EventEmitter<EventInfo>();
 
-  selection = new SelectionModel<FixedAssetTransactionDescriptor>(true, []);
+  selection = new SelectionModel<AssetTransactionDescriptor>(true, []);
 
-  operationsList = FixedAssetTransactionsOperationsList;
+  operationsList = AssetTransactionsOperationsList;
 
 
   ngOnChanges(changes: SimpleChanges) {

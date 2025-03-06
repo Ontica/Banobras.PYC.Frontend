@@ -11,7 +11,7 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { FixedAssetTransactionData, EmptyFixedAssetTransactionData } from '@app/models';
+import { AssetTransactionHolder, EmptyAssetTransactionHolder } from '@app/models';
 
 import { TransactionEditorEventType } from '../transaction/transaction-editor.component';
 
@@ -31,7 +31,7 @@ export enum TransactionTabbedViewEventType {
 })
 export class FixedAssetTransactionTabbedViewComponent implements OnChanges {
 
-  @Input() data: FixedAssetTransactionData = EmptyFixedAssetTransactionData;
+  @Input() data: AssetTransactionHolder = EmptyAssetTransactionHolder;
 
   @Output() transactionTabbedViewEvent = new EventEmitter<EventInfo>();
 
@@ -85,8 +85,8 @@ export class FixedAssetTransactionTabbedViewComponent implements OnChanges {
 
 
   private setTitle() {
-    const requestedDate = !this.data.transaction.requestedDate ? 'N/D' :
-      DateStringLibrary.format(this.data.transaction.requestedDate);
+    const requestedTime = !this.data.transaction.requestedTime ? 'N/D' :
+      DateStringLibrary.format(this.data.transaction.requestedTime);
 
     const status = this.data.transaction.status.name === 'Eliminada' ?
       `<span class="tag tag-error tag-small">${this.data.transaction.status.name}</span>` :
@@ -94,9 +94,9 @@ export class FixedAssetTransactionTabbedViewComponent implements OnChanges {
 
     this.title = `${this.data.transaction.transactionNo}: ${this.data.transaction.transactionType.name} ${status}`;
 
-    this.hint = `<strong>${this.data.transaction.assetKeeper?.name ?? 'No definido'} (${this.data.transaction.assetKeeperOrgUnit?.name ?? 'No definido'}) &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+    this.hint = `<strong>${this.data.transaction.assignedTo?.name ?? 'No determinado'} (${this.data.transaction.assignedToOrgUnit?.name ?? 'No determinado'}) &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${this.data.transaction.operationSource.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${requestedDate}`;
+      `${requestedTime}`;
   }
 
 }

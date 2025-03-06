@@ -9,10 +9,10 @@
         <label>Persona responsable:</label>
 
         <emp-ng-select-typeahead
-          formControlName="assetKeeperUID"
+          formControlName="assignedToUID"
           [searcherAPI]="keepersAPI"
-          [initialValue]="isSaved && !editionMode && !!transaction.assetKeeper ? transaction.assetKeeper : null"
-          [placeholder]="isSaved && !editionMode ? 'No definido' : 'Buscar...'">
+          [initialValue]="isSaved && !editionMode && !!transaction.assignedTo ? transaction.assignedTo : null"
+          [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Buscar...'">
         </emp-ng-select-typeahead>
 
       </div>
@@ -22,12 +22,12 @@
         <label>Área responsable:</label>
 
         <emp-ng-select
-          formControlName="assetKeeperOrgUnitUID"
+          formControlName="assignedToOrgUnitUID"
           [config]="{virtualScroll: true, showTooltip: true}"
           [items]="organizationalUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.assetKeeperOrgUnitUID)"
-          [placeholder]="isSaved && !editionMode ? 'No definido' : 'Seleccione'">
+          [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)"
+          [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Seleccione'">
         </emp-ng-select>
 
       </div>

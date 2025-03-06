@@ -9,7 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 import { Component, Input } from '@angular/core';
 
-import { FixedAssetTransactionDescriptor } from '@app/models';
+import { AssetTransactionDescriptor } from '@app/models';
 
 @Component({
   selector: 'emp-fa-transactions-list-header',
@@ -18,8 +18,8 @@ import { FixedAssetTransactionDescriptor } from '@app/models';
 })
 export class FixedAssetTransactionsListHeaderComponent {
 
-  @Input() dataList: FixedAssetTransactionDescriptor[] = [];
+  @Input() dataList: AssetTransactionDescriptor[] = [];
 
-  @Input() selection = new SelectionModel<FixedAssetTransactionDescriptor>(true, []);
+  @Input() selection = new SelectionModel<AssetTransactionDescriptor>(true, []);
 
 }

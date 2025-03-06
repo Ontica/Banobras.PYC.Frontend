@@ -13,8 +13,8 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyFixedAssetTransactionsQuery, FixedAssetTransactionDescriptor,
-         FixedAssetTransactionsQuery } from '@app/models';
+import { EmptyAssetTransactionsQuery, AssetTransactionDescriptor,
+         AssetTransactionsQuery } from '@app/models';
 
 import { TransactionsListEventType } from './transactions-list.component';
 
@@ -39,9 +39,9 @@ export enum TransactionsExplorerEventType {
 })
 export class FixedAssetTransactionsExplorerComponent implements OnChanges {
 
-  @Input() query: FixedAssetTransactionsQuery = Object.assign({}, EmptyFixedAssetTransactionsQuery);
+  @Input() query: AssetTransactionsQuery = Object.assign({}, EmptyAssetTransactionsQuery);
 
-  @Input() dataList: FixedAssetTransactionDescriptor[] = [];
+  @Input() dataList: AssetTransactionDescriptor[] = [];
 
   @Input() selectedUID = '';
 
@@ -60,6 +60,8 @@ export class FixedAssetTransactionsExplorerComponent implements OnChanges {
   showFilters = false;
 
   displayExportModal = false;
+
+  PERMISSION_TO_CREATE = PERMISSIONS.FEATURE_EDICION_TRANSACCIONES_INVENTARIO;
 
 
   ngOnChanges(changes: SimpleChanges) {

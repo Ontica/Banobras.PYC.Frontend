@@ -16,17 +16,17 @@
   </div>
 
   <div class="fx-item-size second-column-size sm-fx-item-none">
-    <div class="list-item-text-highlight">{{transaction.assetKeeperName ?? 'No definido'}}</div>
-    <div class="bold-text">{{transaction.assetKeeperOrgUnitName ?? 'No definido'}}</div>
+    <div class="list-item-text-highlight">{{transaction.assignedToName ?? 'No determinado'}}</div>
+    <div class="bold-text">{{transaction.assignedToOrgUnitName ?? 'No determinado'}}</div>
   </div>
 
 
   <div class="fx-item-size third-column-size sm-fx-item-none">
     <div>
-      {{!transaction.applicationDate ? '-' : (transaction.applicationDate | empDateTimeFormat)}}
+      {{!transaction.applicationTime ? '-' : (transaction.applicationTime | empDateTimeFormat)}}
     </div>
     <div>
-      {{!transaction.requestedDate ? '-' : (transaction.requestedDate | empDateTimeFormat)}}
+      {{!transaction.requestedTime ? '-' : (transaction.requestedTime | empDateTimeFormat)}}
     </div>
   </div>
 

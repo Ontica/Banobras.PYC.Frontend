@@ -30,6 +30,8 @@ export * from './_operations-log';
 
 export * from './assets';
 
+export * from './assets-transactions';
+
 export * from './bills';
 
 export * from './budget-transactions';
@@ -43,8 +45,6 @@ export * from './contracts';
 export * from './documents';
 
 export * from './edition-command';
-
-export * from './fixed-assets-transactions';
 
 export * from './history';
 

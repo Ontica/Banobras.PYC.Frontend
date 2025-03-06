@@ -24,7 +24,7 @@
           [dataList]="data.entries"
           [displayControls]="false"
           [queryExecuted]="true"
-          [displayAssetKeeper]="false">
+          [displayAssignedTo]="false">
 
         </emp-pyc-fixed-assets-table>
 
@@ -48,7 +48,7 @@
     <mat-tab label="Documentos">
 
       <emp-ng-documents-edition
-        entityType="fixed-asset-transactions"
+        entityType="asset-transactions"
         [entityUID]="data.transaction.uid"
         [documents]="data.documents"
         [canEdit]="data.actions.canEditDocuments"

@@ -11,7 +11,7 @@ import { EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { FixedAssetTransaction, EmptyFixedAssetTransaction, TransactionActions,
+import { AssetTransaction, EmptyAssetTransaction, TransactionActions,
          EmptyTransactionActions } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
@@ -28,7 +28,7 @@ export enum TransactionEditorEventType {
 })
 export class FixedAssetTransactionEditorComponent {
 
-  @Input() transaction: FixedAssetTransaction = EmptyFixedAssetTransaction;
+  @Input() transaction: AssetTransaction = EmptyAssetTransaction;
 
   @Input() actions: TransactionActions = EmptyTransactionActions;
 

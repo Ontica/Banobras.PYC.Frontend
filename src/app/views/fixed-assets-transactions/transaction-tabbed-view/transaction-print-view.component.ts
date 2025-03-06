@@ -7,7 +7,7 @@
 
 import { Component, Input, OnChanges } from '@angular/core';
 
-import { FixedAssetTransactionsDataService } from '@app/data-services';
+import { AssetsTransactionsDataService } from '@app/data-services';
 
 @Component({
   selector: 'emp-fa-transaction-print-view',
@@ -24,7 +24,7 @@ export class FixedAssetTransactionPrintViewComponent implements OnChanges {
   hasError = false;
 
 
-  constructor(private fixedAssetTransactionsData: FixedAssetTransactionsDataService) {}
+  constructor(private assetsTransactionsData: AssetsTransactionsDataService) {}
 
 
   ngOnChanges() {
@@ -45,7 +45,7 @@ export class FixedAssetTransactionPrintViewComponent implements OnChanges {
 
     this.isLoading = true;
 
-    this.fixedAssetTransactionsData.getTransactionForPrint(this.transactionUID)
+    this.assetsTransactionsData.getTransactionForPrint(this.transactionUID)
       .firstValue()
       .then(x => this.fileUrl = x.url)
       .catch(() => this.onFileError())

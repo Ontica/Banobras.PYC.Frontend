@@ -17,7 +17,7 @@ import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { FixedAssetTransaction, FixedAssetTransactionFields, EmptyFixedAssetTransaction, TransactionActions,
+import { AssetTransaction, AssetTransactionFields, EmptyAssetTransaction, TransactionActions,
          EmptyTransactionActions } from '@app/models';
 
 
@@ -30,8 +30,8 @@ export enum TransactionHeaderEventType {
 }
 
 interface TransactionFormModel extends FormGroup<{
-  assetKeeperUID: FormControl<string>;
-  assetKeeperOrgUnitUID: FormControl<string>;
+  assignedToUID: FormControl<string>;
+  assignedToOrgUnitUID: FormControl<string>;
   transactionTypeUID: FormControl<string>;
   operationSourceUID: FormControl<string>;
   description: FormControl<string>;
@@ -45,7 +45,7 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
 
   @Input() isSaved = false;
 
-  @Input() transaction: FixedAssetTransaction = EmptyFixedAssetTransaction;
+  @Input() transaction: AssetTransaction = EmptyAssetTransaction;
 
   @Input() actions: TransactionActions = EmptyTransactionActions;
 
@@ -65,7 +65,7 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
 
   operationSourcesList: Identifiable[] = [];
 
-  keepersAPI = SearcherAPIS.fixedAssetKeepers;
+  keepersAPI = SearcherAPIS.assetsTransactionsAssignees;
 
 
   constructor(private messageBox: MessageBoxService) {
@@ -139,9 +139,9 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
 
 
   private validateDataLists() {
-    if (this.transaction.assetKeeperOrgUnit) {
+    if (this.transaction.assignedToOrgUnit) {
       this.organizationalUnitsList =
-        ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.transaction.assetKeeperOrgUnit, 'uid');
+        ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.transaction.assignedToOrgUnit, 'uid');
     }
     this.transactionTypesList =
       ArrayLibrary.insertIfNotExist(this.transactionTypesList ?? [], this.transaction.transactionType, 'uid');
@@ -154,8 +154,8 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      assetKeeperUID: ['', Validators.required],
-      assetKeeperOrgUnitUID: ['', Validators.required],
+      assignedToUID: ['', Validators.required],
+      assignedToOrgUnitUID: ['', Validators.required],
       transactionTypeUID: ['', Validators.required],
       operationSourceUID: ['', Validators.required],
       description: ['', Validators.required],
@@ -166,8 +166,8 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        assetKeeperUID: isEmpty(this.transaction.assetKeeper) ? null : this.transaction.assetKeeper.uid,
-        assetKeeperOrgUnitUID: isEmpty(this.transaction.assetKeeperOrgUnit) ? null : this.transaction.assetKeeperOrgUnit.uid,
+        assignedToUID: isEmpty(this.transaction.assignedTo) ? null : this.transaction.assignedTo.uid,
+        assignedToOrgUnitUID: isEmpty(this.transaction.assignedToOrgUnit) ? null : this.transaction.assignedToOrgUnit.uid,
         transactionTypeUID: isEmpty(this.transaction.transactionType) ? null : this.transaction.transactionType.uid,
         operationSourceUID: isEmpty(this.transaction.operationSource) ? null : this.transaction.operationSource.uid,
         description: this.transaction.description ?? '',
@@ -176,10 +176,10 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
   }
 
 
-  private getFormData(): FixedAssetTransactionFields {
+  private getFormData(): AssetTransactionFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
-    const data: FixedAssetTransactionFields = {
+    const data: AssetTransactionFields = {
 
     };
 
@@ -224,19 +224,19 @@ export class FixedAssetTransactionHeaderComponent implements OnInit, OnChanges {
       case TransactionHeaderEventType.AUTHORIZE:
         return `Esta operación autotizará la transacción
                 <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.assetKeeper?.name} (${this.transaction.assetKeeperOrgUnit?.name})</strong>.
+                de <strong>${this.transaction.assignedTo?.name} (${this.transaction.assignedToOrgUnit?.name})</strong>.
 
                 <br><br>¿Autorizo la transacción?`;
       case TransactionHeaderEventType.DELETE:
         return `Esta operación eliminará la transacción
                 <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.assetKeeper?.name} (${this.transaction.assetKeeperOrgUnit?.name})</strong>.
+                de <strong>${this.transaction.assignedTo?.name} (${this.transaction.assignedToOrgUnit?.name})</strong>.
 
                 <br><br>¿Elimino la transacción?`;
       case TransactionHeaderEventType.CLONE:
         return `Esta operación clonará la transacción
                 <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.assetKeeper?.name} (${this.transaction.assetKeeperOrgUnit?.name})</strong>.
+                de <strong>${this.transaction.assignedTo?.name} (${this.transaction.assignedToOrgUnit?.name})</strong>.
 
                 <br><br>¿Clono la transacción?`;
 
