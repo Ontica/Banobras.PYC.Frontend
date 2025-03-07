@@ -88,7 +88,16 @@ export interface PaymentOrderDescriptor {
 
 
 export interface PaymentOrderFields {
-
+  payToUID: string;
+  paymentAccountUID: string;
+  controlNo: string;
+  referenceNumber: string;
+  total: number;
+  currencyUID: string;
+  paymentMethodUID: string;
+  requestedByUID: string;
+  dueTime: DateString;
+  notes: string;
 }
 
 
@@ -105,17 +114,20 @@ export interface PaymentOrderFields {
 
 export interface PaymentOrder {
   uid: string;
-  orderNo: string;
-  status: Identifiable;
-  payTo: Identifiable;
-  requestedBy: Identifiable;
-  requestedDate: DateString;
-  notes: string;
-  total: number;
   paymentOrderType: Identifiable;
+  orderNo: string;
+  payTo: Identifiable;
+  paymentAccount: Identifiable;
+  controlNo: string;
+  referenceNumber: string;
+  total: number;
   currency: Identifiable;
   paymentMethod: Identifiable;
+  requestedBy: Identifiable;
   dueTime: DateString;
+  requestedDate: DateString;
+  notes: string;
+  status: Identifiable;
 }
 
 
@@ -133,6 +145,8 @@ export interface PaymentInstructionLog {
 
 
 export interface PaymentOrderActions {
+  canUpdate: boolean;
+  canDelete: boolean;
   canSendToPay: boolean;
   canEditDocuments: boolean;
 }
@@ -174,21 +188,26 @@ export const EmptyPaymentsOrdersQuery: PaymentsOrdersQuery = {
 
 export const EmptyPaymentOrder: PaymentOrder = {
   uid: '',
+  paymentOrderType: Empty,
   orderNo: '',
   payTo: Empty,
-  requestedBy: Empty,
-  requestedDate: '',
-  notes: '',
+  paymentAccount: Empty,
+  controlNo: '',
+  referenceNumber: '',
   total: null,
-  paymentOrderType: Empty,
   currency: Empty,
   paymentMethod: Empty,
   dueTime: '',
+  requestedBy: Empty,
+  requestedDate: '',
+  notes: '',
   status: Empty,
 };
 
 
 export const EmptyPaymentOrderActions: PaymentOrderActions = {
+  canUpdate: false,
+  canDelete: false,
   canSendToPay: false,
   canEditDocuments: false,
 }

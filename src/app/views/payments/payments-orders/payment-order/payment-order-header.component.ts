@@ -7,7 +7,7 @@
 
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Assertion, DateString, EventInfo, Identifiable, isEmpty } from '@app/core';
 
@@ -17,7 +17,7 @@ import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { EmptyPaymentOrder, EmptyPaymentOrderActions, PaymentOrder, PaymentOrderActions,
+import { EmptyPaymentOrder, EmptyPaymentOrderActions, PaymentAccount, PaymentOrder, PaymentOrderActions,
          PaymentOrderFields } from '@app/models';
 
 
@@ -31,11 +31,13 @@ export enum PaymentOrderHeaderEventType {
 interface PaymentOrderFormModel extends FormGroup<{
   requestedByUID: FormControl<string>;
   dueTime: FormControl<DateString>;
-  paymentOrderTypeUID: FormControl<string>;
   payToUID: FormControl<string>;
-  paymentMethodUID: FormControl<string>;
-  total: FormControl<string>;
+  paymentAccountUID: FormControl<string>;
+  controlNo: FormControl<string>;
+  referenceNumber: FormControl<string>;
+  total: FormControl<number>;
   currencyUID: FormControl<string>;
+  paymentMethodUID: FormControl<string>;
   notes: FormControl<string>;
 }> { }
 
@@ -69,6 +71,10 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges {
 
   currenciesList: Identifiable[] = [];
 
+  paymentAccountsList: PaymentAccount[] = [];
+
+  linkedToAccount = false;
+
   suppliersAPI = SearcherAPIS.suppliers;
 
 
@@ -88,11 +94,22 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges {
       this.enableEditor(false);
       this.validateDataLists();
     }
+
+    this.validateFieldsRequired();
   }
 
 
   get hasActions(): boolean {
-    return this.actions.canSendToPay;
+    return this.actions.canUpdate || this.actions.canDelete || this.actions.canSendToPay;
+  }
+
+
+  get paymentAccountPlaceholder(): string {
+    if (!this.editionMode) {
+      return 'No determinado';
+    }
+
+    return 'Seleccionar';
   }
 
 
@@ -126,9 +143,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges {
       this.setFormData();
     }
 
-    const disable = this.isSaved; //&& (!this.editionMode || !this.actions.canUpdate);
-
-    setTimeout(() => this.formHelper.setDisableForm(this.form, disable));
+    this.validateFormDisabled();
   }
 
 
@@ -153,14 +168,16 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      requestedByUID: [''],
-      dueTime: ['' as DateString],
-      paymentOrderTypeUID: [''],
-      payToUID: [''],
-      paymentMethodUID: [''],
-      total: [''],
-      currencyUID: [''],
-      notes: [''],
+      requestedByUID: ['', Validators.required],
+      dueTime: ['' as DateString, Validators.required],
+      payToUID: ['', Validators.required],
+      paymentAccountUID: ['', Validators.required],
+      controlNo: ['', Validators.required],
+      referenceNumber: ['', Validators.required],
+      total: [null as number, Validators.required],
+      currencyUID: ['', Validators.required],
+      paymentMethodUID: ['', Validators.required],
+      notes: ['', Validators.required],
     });
   }
 
@@ -170,14 +187,31 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges {
       this.form.reset({
         requestedByUID: isEmpty(this.paymentOrder.requestedBy) ? null : this.paymentOrder.requestedBy.uid,
         dueTime: this.paymentOrder.dueTime ?? '',
-        paymentOrderTypeUID: isEmpty(this.paymentOrder.paymentOrderType) ? null : this.paymentOrder.paymentOrderType.uid,
         payToUID: isEmpty(this.paymentOrder.payTo) ? null : this.paymentOrder.payTo.uid,
-        paymentMethodUID: isEmpty(this.paymentOrder.paymentMethod) ? null : this.paymentOrder.paymentMethod.uid,
-        total: FormatLibrary.numberWithCommas(this.paymentOrder.total, '1.2-2'),
+        paymentAccountUID: isEmpty(this.paymentOrder.paymentAccount) ? null : this.paymentOrder.paymentAccount.uid,
+        controlNo: this.paymentOrder.controlNo ?? '',
+        referenceNumber: this.paymentOrder.referenceNumber ?? '',
+        total: this.paymentOrder.total ?? null,
         currencyUID: isEmpty(this.paymentOrder.currency) ? null : this.paymentOrder.currency.uid,
+        paymentMethodUID: isEmpty(this.paymentOrder.paymentMethod) ? null : this.paymentOrder.paymentMethod.uid,
         notes: this.paymentOrder.notes ?? '',
       });
     });
+  }
+
+
+  private validateFieldsRequired() {
+    setTimeout(() => {
+      FormHelper.markControlsAsUntouched(this.form.controls.paymentAccountUID);
+    });
+  }
+
+
+  private validateFormDisabled() {
+    // setTimeout(() => {
+      const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
+      FormHelper.setDisableForm(this.form, disable);
+    // }, 10);
   }
 
 
@@ -185,7 +219,16 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const data: PaymentOrderFields = {
-
+      requestedByUID: this.form.value.requestedByUID ?? null,
+      dueTime: this.form.value.dueTime ?? null,
+      payToUID: this.form.value.payToUID ?? null,
+      paymentAccountUID: this.form.value.paymentAccountUID ?? null,
+      controlNo: this.form.value.controlNo ?? null,
+      referenceNumber: this.form.value.referenceNumber ?? null,
+      total: this.form.value.total ?? null,
+      currencyUID: this.form.value.currencyUID ?? null,
+      paymentMethodUID: this.form.value.paymentMethodUID ?? null,
+      notes: this.form.value.notes ?? null,
     };
 
     return data;

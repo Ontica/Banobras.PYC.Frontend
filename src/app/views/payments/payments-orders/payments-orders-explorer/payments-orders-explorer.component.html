@@ -13,6 +13,16 @@
 
     </div>
 
+    <div class="card-header-options">
+
+      <button *empNgHasPermission="PERMISSION_TO_CREATE"
+        class="btn-action"
+        (click)="onCreatePaymentOrderClicked()">
+        Agregar pago
+      </button>
+
+    </div>
+
   </div>
 
   <div class="card-body" [empNgSpinnerHost]="spinner">

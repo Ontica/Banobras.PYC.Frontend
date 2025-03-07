@@ -128,7 +128,7 @@ export class ContractsMainPageComponent {
 
     this.contractsData.searchContracts(query)
       .firstValue()
-      .then(x => this.setDataList(x, true))
+      .then(x => this.setDataList(x))
       .finally(() => this.isLoading = false);
   }
 
@@ -191,7 +191,7 @@ export class ContractsMainPageComponent {
   private insertItemToList(data: ContractData) {
     const dataToInsert = mapContractDescriptorFromContract(data.contract);
     const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
-    this.setDataList(dataListNew, true);
+    this.setDataList(dataListNew);
   }
 
 

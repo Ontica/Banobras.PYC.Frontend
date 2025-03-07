@@ -4,7 +4,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-size" style="--size: calc(100% - 126px)">
+      <div class="fx-item-half">
 
         <label>Área solicitante:</label>
 
@@ -17,6 +17,18 @@
         </emp-ng-select>
 
       </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Número de control:</label>
+
+        <input type="text" class="text-box"
+          formControlName="controlNo"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.controlNo)">
+
+      </div>
+
+      <div class="fx-item"></div>
 
       <div class="fx-item-none">
 
@@ -32,30 +44,53 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-third">
-
-        <label>Tipo de orden:</label>
-
-        <emp-ng-select
-          formControlName="paymentOrderTypeUID"
-          [items]="paymentOrderTypesList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.paymentOrderTypeUID)">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-two-third">
+      <div class="fx-item-half">
 
         <label>Pagar a:</label>
 
         <emp-ng-select-typeahead
           formControlName="payToUID"
+          [config]="{ showTooltip: true }"
           [searcherAPI]="suppliersAPI"
-          [initialValue]="paymentOrder.payTo"
+          [initialValue]="isSaved ? paymentOrder.payTo : null"
           [showError]="formHelper.isControlInvalid(form.controls.payToUID)">
 
         </emp-ng-select-typeahead>
+
+      </div>
+
+
+      <div class="fx-item-half">
+
+        <label>Cuenta:</label>
+
+        <emp-ng-select
+          formControlName="paymentAccountUID"
+          [items]="paymentAccountsList"
+          [placeholder]="paymentAccountPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.paymentAccountUID)">
+
+          <ng-template #labelTemplate let-item="item">
+             {{item.institution?.name}} | {{!!item.accountNo ? item.accountNo : 'N/D'}}
+          </ng-template>
+
+          <ng-template #optionTemplate let-item="item">
+
+            <div class="item wrap">
+
+              <span class="item-highlight">
+                {{item.institution?.name}} | Cuenta: {{!!item.accountNo ? item.accountNo : 'N/D'}}
+              </span> <br>
+
+              <span class="item-text-xs">
+                CLABE: {{item.clabe}} | Titular: {{item.holderName}}
+              </span>
+
+            </div>
+
+          </ng-template>
+
+        </emp-ng-select>
 
       </div>
 
@@ -63,18 +98,20 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-third">
+      <div class="fx-item-quarter">
 
         <label>Total:</label>
 
-        <input type="text" empNgCurrency
-          class="text-box text-align-right"
+        <emp-ng-input-numeric
           formControlName="total"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.total)">
+          [showError]="formHelper.isControlInvalid(form.controls.total)"
+          [placeholder]="!editionMode ? 'No determinado' : ''">
+
+        </emp-ng-input-numeric>
 
       </div>
 
-      <div class="fx-item-third">
+      <div class="fx-item-quarter">
 
         <label>Moneda:</label>
 
@@ -87,8 +124,7 @@
 
       </div>
 
-
-      <div class="fx-item-third">
+      <div class="fx-item-quarter">
 
         <label>Método de pago:</label>
 
@@ -98,6 +134,16 @@
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.paymentMethodUID)">
         </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Referencia:</label>
+
+        <input type="text" class="text-box"
+          formControlName="referenceNumber"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.referenceNumber)">
 
       </div>
 
@@ -144,11 +190,11 @@
 
         <ng-container *ngIf="editionMode">
 
-          <!-- <button *ngIf="actions.canDelete"
+          <button *ngIf="actions.canDelete"
             type="button" class="btn-warning"
             (click)="onDeleteButtonClicked()">
             Eliminar
-          </button> -->
+          </button>
 
         </ng-container>
 
@@ -166,7 +212,7 @@
 
       <div class="fx-item fx-end fx-items-center">
 
-        <!-- <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
+        <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
           class="btn-action"
           (click)="enableEditor(true)">
           Editar
@@ -187,7 +233,7 @@
             Descartar Cambios
           </button>
 
-        </ng-container> -->
+        </ng-container>
 
       </div>
 

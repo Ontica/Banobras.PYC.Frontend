@@ -7,13 +7,13 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { EventInfo, isEmpty } from '@app/core';
+import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
 import { PaymentOrdersDataService } from '@app/data-services';
 
-import { EmptyPaymentOrder, EmptyPaymentOrderActions, PaymentOrder, PaymentOrderActions,
+import { EmptyPaymentOrder, EmptyPaymentOrderActions, PaymentOrder, PaymentOrderActions, PaymentOrderFields,
          PaymentOrderHolder } from '@app/models';
 
 import { PaymentOrderHeaderEventType } from './payment-order-header.component';
@@ -53,6 +53,13 @@ export class PaymentOrderEditorComponent {
     }
 
     switch (event.type as PaymentOrderHeaderEventType) {
+      case PaymentOrderHeaderEventType.UPDATE:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.updatePaymentOrder(this.paymentOrder.uid, event.payload.dataFields as PaymentOrderFields);
+        return;
+      case PaymentOrderHeaderEventType.DELETE:
+        this.deletePaymentOrder(this.paymentOrder.uid);
+        return;
       case PaymentOrderHeaderEventType.SEND_TO_PAY:
         this.sentToPay(this.paymentOrder.uid);
         return;
@@ -63,18 +70,44 @@ export class PaymentOrderEditorComponent {
   }
 
 
+  private updatePaymentOrder(paymentOrderUID: string, datafields: PaymentOrderFields) {
+    this.submitted = true;
+
+    this.paymentOrdersData.updatePaymentOrder(paymentOrderUID, datafields)
+      .firstValue()
+      .then(x => this.resolveDataUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+
+  private deletePaymentOrder(paymentOrderUID: string) {
+    this.submitted = true;
+
+    this.paymentOrdersData.deletePaymentOrder(paymentOrderUID)
+      .firstValue()
+      .then(() => this.resolveDataDeleted(paymentOrderUID))
+      .finally(() => this.submitted = false);
+  }
+
+
   private sentToPay(paymentOrderUID: string) {
     this.submitted = true;
 
     this.paymentOrdersData.sentToPay(paymentOrderUID)
       .firstValue()
-      .then(x => this.resolvePaymentDataUpdated(x))
+      .then(x => this.resolveDataUpdated(x))
       .finally(() => this.submitted = false);
   }
 
 
-  private resolvePaymentDataUpdated(data: PaymentOrderHolder) {
+  private resolveDataUpdated(data: PaymentOrderHolder) {
     sendEvent(this.paymentOrderEditorEvent, PaymentOrderEditorEventType.UPDATED, { data });
+  }
+
+
+  private resolveDataDeleted(paymentOrderUID: string) {
+    sendEvent(this.paymentOrderEditorEvent, PaymentOrderEditorEventType.DELETED, { paymentOrderUID });
   }
 
 }

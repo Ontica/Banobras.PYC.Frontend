@@ -22,6 +22,8 @@ import {
   PaymentsOrdersExplorerEventType
 } from '../payments-orders-explorer/payments-orders-explorer.component';
 
+import { PaymentOrderCreatorEventType } from '../payment-order/payment-order-creator.component';
+
 import {
   PaymentOrderTabbedViewEventType
 } from '../payment-order-tabbed-view/payment-order-tabbed-view.component';
@@ -41,6 +43,8 @@ export class PaymentsOrdersMainPageComponent {
 
   displayTabbedView = false;
 
+  displayCreator = false;
+
   isLoading = false;
 
   isLoadingSelection = false;
@@ -52,8 +56,28 @@ export class PaymentsOrdersMainPageComponent {
               private messageBox: MessageBoxService)  { }
 
 
+  onPaymentOrderCreatorEvent(event: EventInfo) {
+    switch (event.type as PaymentOrderCreatorEventType) {
+      case PaymentOrderCreatorEventType.CLOSE_MODAL_CLICKED:
+        this.displayCreator = false;
+        return;
+      case PaymentOrderCreatorEventType.CREATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.displayCreator = false;
+        this.insertItemToList(event.payload.data as PaymentOrderHolder);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   onPaymentsOrdersExplorerEvent(event: EventInfo) {
     switch (event.type as PaymentsOrdersExplorerEventType) {
+      case PaymentsOrdersExplorerEventType.CREATE_CLICKED:
+        this.displayCreator = true;
+        return;
       case PaymentsOrdersExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as PaymentsOrdersQuery);

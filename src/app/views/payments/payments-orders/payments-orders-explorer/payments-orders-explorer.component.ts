@@ -9,6 +9,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
+import { PERMISSIONS } from '@app/main-layout';
+
 import { sendEvent } from '@app/shared/utils';
 
 import { EmptyPaymentsOrdersQuery, PaymentOrderDescriptor, PaymentsOrdersQuery } from '@app/models';
@@ -19,6 +21,7 @@ import { PaymentsOrdersListEventType } from './payments-orders-list.component';
 
 
 export enum PaymentsOrdersExplorerEventType {
+  CREATE_CLICKED            = 'PaymentsOrdersExplorerComponent.Event.CreateClicked',
   SEARCH_CLICKED            = 'PaymentsOrdersExplorerComponent.Event.SearchClicked',
   CLEAR_CLICKED             = 'PaymentsOrdersExplorerComponent.Event.ClearClicked',
   EXECUTE_OPERATION_CLICKED = 'PaymentsOrdersExplorerComponent.Event.ExecuteOperationClicked',
@@ -49,12 +52,19 @@ export class PaymentsOrdersExplorerComponent implements OnChanges {
 
   showFilters = false;
 
+  PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.dataList) {
       this.setText();
       this.showFilters = false;
     }
+  }
+
+
+  onCreatePaymentOrderClicked() {
+    sendEvent(this.paymentsOrdersExplorerEvent, PaymentsOrdersExplorerEventType.CREATE_CLICKED);
   }
 
 

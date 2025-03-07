@@ -24,3 +24,9 @@
   </emp-pmt-payment-order-tabbed-view>
 
 </div>
+
+
+<emp-pmt-payment-order-creator *ngIf="displayCreator"
+  (paymentOrderCreatorEvent)="onPaymentOrderCreatorEvent($event)">
+
+</emp-pmt-payment-order-creator>

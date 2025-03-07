@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { PaymentOrderHolder, PaymentOrderDescriptor, PaymentsOrdersQuery } from '@app/models';
+import { PaymentOrderHolder, PaymentOrderDescriptor, PaymentOrderFields,
+         PaymentsOrdersQuery } from '@app/models';
 
 
 @Injectable()
@@ -41,6 +42,34 @@ export class PaymentOrdersDataService {
     const path = `v2/payments-management/payment-orders/${paymentOrderUID}`;
 
     return this.http.get<PaymentOrderHolder>(path);
+  }
+
+
+  createPaymentOrder(dataFields: PaymentOrderFields): EmpObservable<PaymentOrderHolder> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/payments-management/payment-orders/`;
+
+    return this.http.post<PaymentOrderHolder>(path, dataFields);
+  }
+
+
+  updatePaymentOrder(paymentOrderUID: string, dataFields: PaymentOrderFields): EmpObservable<PaymentOrderHolder> {
+    Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/payments-management/payment-orders/${paymentOrderUID}`;
+
+    return this.http.put<PaymentOrderHolder>(path, dataFields);
+  }
+
+
+  deletePaymentOrder(paymentOrderUID: string): EmpObservable<void> {
+    Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
+
+    const path = `v2/payments-management/payment-orders/${paymentOrderUID}`;
+
+    return this.http.delete<void>(path);
   }
 
 

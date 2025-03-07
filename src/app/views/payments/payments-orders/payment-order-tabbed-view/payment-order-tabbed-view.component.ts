@@ -61,6 +61,11 @@ export class PaymentOrderTabbedViewComponent implements OnChanges {
         sendEvent(this.paymentOrderTabbedViewEvent,
           PaymentOrderTabbedViewEventType.DATA_UPDATED, event.payload);
         return;
+      case PaymentOrderEditorEventType.DELETED:
+        Assertion.assertValue(event.payload.paymentOrderUID, 'event.payload.paymentOrderUID');
+        sendEvent(this.paymentOrderTabbedViewEvent,
+          PaymentOrderTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
