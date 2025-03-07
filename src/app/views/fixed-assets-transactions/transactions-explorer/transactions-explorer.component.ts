@@ -61,7 +61,7 @@ export class FixedAssetTransactionsExplorerComponent implements OnChanges {
 
   displayExportModal = false;
 
-  PERMISSION_TO_CREATE = PERMISSIONS.FEATURE_EDICION_TRANSACCIONES_INVENTARIO;
+  PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
 
 
   ngOnChanges(changes: SimpleChanges) {

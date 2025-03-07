@@ -145,7 +145,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
 
   get contractItemPlaceholder(): string {
-    return this.contractItemFieldRequired ? 'Seleccione el concepto del contrato' : 'No definido';
+    return this.contractItemFieldRequired ? 'Seleccione el concepto del contrato' : 'No determinado';
   }
 
 
