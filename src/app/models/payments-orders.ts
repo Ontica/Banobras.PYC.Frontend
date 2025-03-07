@@ -224,18 +224,18 @@ export const EmptyPaymentAccount: PaymentAccount = {
 }
 
 
-export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderHolder): PaymentOrderDescriptor {
+export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrder): PaymentOrderDescriptor {
   return {
-    uid: data.paymentOrder.uid,
-    paymentOrderNo: data.paymentOrder.orderNo,
-    payTo: data.paymentOrder.payTo.name,
-    total: data.paymentOrder.total,
-    requestedDate: data.paymentOrder.requestedDate,
-    requestedBy: data.paymentOrder.requestedBy.name,
-    statusName: data.paymentOrder.status.name,
-    paymentOrderTypeName: data.paymentOrder.paymentOrderType.name,
-    currency: data.paymentOrder.currency.name,
-    paymentMethod: data.paymentOrder.paymentMethod.name,
-    dueTime: data.paymentOrder.dueTime,
+    uid: data.uid,
+    paymentOrderNo: data.orderNo,
+    payTo: data.payTo.name,
+    total: data.total,
+    requestedDate: data.requestedDate,
+    requestedBy: data.requestedBy.name,
+    statusName: data.status.name,
+    paymentOrderTypeName: data.paymentOrderType.name,
+    currency: data.currency.name,
+    paymentMethod: data.paymentMethod.name,
+    dueTime: data.dueTime,
   };
 }
