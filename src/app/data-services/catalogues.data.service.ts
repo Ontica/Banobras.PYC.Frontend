@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { PaymentMethod, RequestsList } from '@app/models';
+import { PaymentAccount, PaymentMethod, RequestsList } from '@app/models';
 
 
 @Injectable()
@@ -49,12 +49,12 @@ export class CataloguesDataService {
   }
 
 
-  getPartyPaymentAccouts(partyUID: string): EmpObservable<Identifiable[]> {
-    Assertion.assertValue(partyUID, 'partyUID ');
+  getPartyPaymentAccouts(partyUID: string): EmpObservable<PaymentAccount[]> {
+    Assertion.assertValue(partyUID, 'partyUID');
 
     const path = `v8/financial/parties/${partyUID}/payment-accounts`;
 
-    return this.http.get<Identifiable[]>(path);
+    return this.http.get<PaymentAccount[]>(path);
   }
 
 

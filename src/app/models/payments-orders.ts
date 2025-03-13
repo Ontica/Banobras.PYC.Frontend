@@ -117,12 +117,12 @@ export interface PaymentOrder {
   paymentOrderType: Identifiable;
   orderNo: string;
   payTo: Identifiable;
-  paymentAccount: Identifiable;
+  paymentAccount: PaymentAccount;
   controlNo: string;
   referenceNumber: string;
   total: number;
   currency: Identifiable;
-  paymentMethod: Identifiable;
+  paymentMethod: PaymentMethod;
   requestedBy: Identifiable;
   dueTime: DateString;
   requestedDate: DateString;
@@ -186,17 +186,36 @@ export const EmptyPaymentsOrdersQuery: PaymentsOrdersQuery = {
 };
 
 
+export const EmptyPaymentMethod: PaymentMethod = {
+  uid: '',
+  name: '',
+  linkedToAccount: false,
+};
+
+
+export const EmptyPaymentAccount: PaymentAccount = {
+  uid: '',
+  name: '',
+  paymentMethod: EmptyPaymentMethod,
+  currency: Empty,
+  institution: Empty,
+  accountNo: '',
+  holderName: '',
+  clabe: '',
+}
+
+
 export const EmptyPaymentOrder: PaymentOrder = {
   uid: '',
   paymentOrderType: Empty,
   orderNo: '',
   payTo: Empty,
-  paymentAccount: Empty,
+  paymentAccount: EmptyPaymentAccount,
   controlNo: '',
   referenceNumber: '',
   total: null,
   currency: Empty,
-  paymentMethod: Empty,
+  paymentMethod: EmptyPaymentMethod,
   dueTime: '',
   requestedBy: Empty,
   requestedDate: '',
@@ -222,25 +241,6 @@ export const EmptyPaymentOrderHolder: PaymentOrderHolder = {
   history: [],
   actions: EmptyPaymentOrderActions,
 };
-
-
-export const EmptyPaymentMethod: PaymentMethod = {
-  uid: '',
-  name: '',
-  linkedToAccount: false,
-}
-
-
-export const EmptyPaymentAccount: PaymentAccount = {
-  uid: '',
-  name: '',
-  paymentMethod: EmptyPaymentMethod,
-  currency: Empty,
-  institution: Empty,
-  accountNo: '',
-  holderName: '',
-  clabe: '',
-}
 
 
 export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrder): PaymentOrderDescriptor {
