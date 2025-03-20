@@ -24,12 +24,12 @@ export class FixedAssetTransactionPrintViewComponent implements OnChanges {
   hasError = false;
 
 
-  constructor(private assetsTransactionsData: AssetsTransactionsDataService) {}
+  constructor(private transactionsData: AssetsTransactionsDataService) {}
 
 
   ngOnChanges() {
     this.resetData();
-    this.getTransactionForPrint();
+    this.getDataForPrint();
   }
 
 
@@ -38,14 +38,14 @@ export class FixedAssetTransactionPrintViewComponent implements OnChanges {
   }
 
 
-  private getTransactionForPrint() {
+  private getDataForPrint() {
     if (!this.transactionUID) {
       return;
     }
 
     this.isLoading = true;
 
-    this.assetsTransactionsData.getTransactionForPrint(this.transactionUID)
+    this.transactionsData.getAssetTransactionForPrint(this.transactionUID)
       .firstValue()
       .then(x => this.fileUrl = x.url)
       .catch(() => this.onFileError())

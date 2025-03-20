@@ -109,7 +109,7 @@ export class FixedAssetTransactionsMainPageComponent  {
   private searchTransactions(query: AssetTransactionsQuery) {
     this.isLoading = true;
 
-    this.transactionsData.searchTransactions(query)
+    this.transactionsData.searchAssetTransactions(query)
       .firstValue()
       .then(x => this.resolveSearchTransactions(x))
       .finally(() => this.isLoading = false);
@@ -117,7 +117,7 @@ export class FixedAssetTransactionsMainPageComponent  {
 
 
   private exportTransactions(query: AssetTransactionsQuery) {
-    this.transactionsData.exportTransactions(query)
+    this.transactionsData.exportAssetTransactions(query)
       .firstValue()
       .then(x => {this.fileUrl = x.url});
   }
@@ -126,20 +126,20 @@ export class FixedAssetTransactionsMainPageComponent  {
   private getTransaction(transactionUID: string) {
     this.isLoadingSelection = true;
 
-    this.transactionsData.getTransaction(transactionUID)
+    this.transactionsData.getAssetTransaction(transactionUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
   }
 
 
-  private refreshSelectedData(transactionUID: string) {
-    this.getTransaction(transactionUID);
+  private resolveSearchTransactions(data: AssetTransactionDescriptor[]) {
+    this.setDataList(data, true);
   }
 
 
-  private resolveSearchTransactions(data: AssetTransactionDescriptor[]) {
-    this.setDataList(data, true);
+  private refreshSelectedData(transactionUID: string) {
+    this.getTransaction(transactionUID);
   }
 
 

@@ -27,7 +27,7 @@ export class AssetsTransactionsDataService {
   }
 
 
-  searchTransactions(query: AssetTransactionsQuery): EmpObservable<AssetTransactionDescriptor[]> {
+  searchAssetTransactions(query: AssetTransactionsQuery): EmpObservable<AssetTransactionDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v2/assets/transactions/search';
@@ -36,7 +36,7 @@ export class AssetsTransactionsDataService {
   }
 
 
-  exportTransactions(query: AssetTransactionsQuery): EmpObservable<FileReport> {
+  exportAssetTransactions(query: AssetTransactionsQuery): EmpObservable<FileReport> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v2/assets/transactions/export';
@@ -45,7 +45,7 @@ export class AssetsTransactionsDataService {
   }
 
 
-  getTransaction(transactionUID: string): EmpObservable<AssetTransactionHolder> {
+  getAssetTransaction(transactionUID: string): EmpObservable<AssetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/assets/transactions/${transactionUID}`;
@@ -54,7 +54,7 @@ export class AssetsTransactionsDataService {
   }
 
 
-  getTransactionForPrint(transactionUID: string): EmpObservable<FileReport> {
+  getAssetTransactionForPrint(transactionUID: string): EmpObservable<FileReport> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/assets/transactions/${transactionUID}/print`;
