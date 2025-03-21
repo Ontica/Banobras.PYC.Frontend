@@ -1,0 +1,50 @@
+<div class="fx-column-container-fill">
+
+  <emp-ng-list-controls *ngIf="queryExecuted"
+    class="fx-item-none"
+    [config]="{itemsName: 'transacciones', itemsPronouns: 'las', selectionMessage: 'seleccionadas', showExportButton: true}"
+    [selection]="selection"
+    [operationsList]="operationsList"
+    (listControlsEvent)="onListControlsEvent($event)">
+
+  </emp-ng-list-controls>
+
+  <emp-pyc-transactions-list-header
+    class="fx-item-none"
+    [dataList]="dataList"
+    [selection]="selection">
+
+  </emp-pyc-transactions-list-header>
+
+  <div #listContainer class="fx-item">
+
+    <cdk-virtual-scroll-viewport itemSize="45">
+
+      <div *cdkVirtualFor="let item of dataList"
+        class="list-item"
+        [class.list-item-selected]="item.uid === selectedUID">
+
+        <div class="list-item-container">
+
+          <emp-pyc-transactions-list-item
+            [transaction]="item"
+            [selected]="selection.isSelected(item)"
+            (transactionsListItemEvent)="onTransactionsListItemEvent($event)">
+
+          </emp-pyc-transactions-list-item>
+
+        </div>
+
+      </div>
+
+      <div *ngIf="dataList.length === 0" class="text-not-found">
+        {{ queryExecuted ?
+            'No se encontraron transacciones con el filtro proporcionado.' :
+            'No se ha invocado la búsqueda de transacciones.' }}
+      </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

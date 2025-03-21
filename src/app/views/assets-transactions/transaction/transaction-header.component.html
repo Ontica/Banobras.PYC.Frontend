@@ -1,0 +1,285 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item">
+
+        <label>Tipo de transacción:</label>
+
+        <emp-ng-select
+          formControlName="transactionTypeUID"
+          [items]="transactionTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.transactionTypeUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-none">
+
+        <label>Fecha de registro:</label>
+
+        <emp-ng-datepicker
+          formControlName="requestedTime"
+          [showError]="formHelper.isControlInvalid(form.controls.requestedTime)">
+        </emp-ng-datepicker>
+
+      </div>
+
+      <div class="fx-item-none">
+
+        <label>Fecha de aplicación:</label>
+
+        <emp-ng-datepicker
+          formControlName="applicationTime"
+          [showError]="formHelper.isControlInvalid(form.controls.applicationTime)">
+        </emp-ng-datepicker>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Persona responsable:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="assignedToUID"
+          [searcherAPI]="keepersAPI"
+          [initialValue]="isSaved && !editionMode && !!transaction.assignedTo ? transaction.assignedTo : null"
+          [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Buscar...'">
+        </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Área responsable:</label>
+
+        <emp-ng-select
+          formControlName="assignedToOrgUnitUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="organizationalUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)"
+          [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Seleccione'">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Persona administradora:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="managerUID"
+          [searcherAPI]="keepersAPI"
+          [initialValue]="isSaved && !editionMode && !!transaction.manager ? transaction.manager : null"
+          [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Buscar...'">
+        </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Área administradora:</label>
+
+        <emp-ng-select
+          formControlName="managerOrgUnitUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="organizationalUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.managerOrgUnitUID)"
+          [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Seleccione'">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+      <div class="fx-item-half sm-fx-item">
+
+        <label>Edificio:</label>
+
+        <emp-ng-select
+          formControlName="buildingUID"
+          [config]="{clearable: true}"
+          [items]="buildingsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.buildingUID)"
+          (changes)="onBuildingChanges($event)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter sm-fx-item">
+
+        <label>Piso:</label>
+
+        <emp-ng-select
+          formControlName="floorUID"
+          [config]="{clearable: true, notFoundText: 'Seleccione el edificio'}"
+          [items]="floorsList"
+          [loading]="isLoadingFloors"
+          [showError]="formHelper.isControlInvalid(form.controls.floorUID)"
+          (changes)="onFloorChanges($event)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter sm-fx-item">
+
+        <label>Lugar:</label>
+
+        <emp-ng-select
+          formControlName="placeUID"
+          [config]="{clearable: true, notFoundText: 'Seleccione el piso'}"
+          [items]="placesList"
+          [loading]="isLoadingPlaces"
+          [showError]="formHelper.isControlInvalid(form.controls.placeUID)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Otras claves:</label>
+        <emp-ng-input-tags
+          formControlName="identificators"
+          [showError]="formHelper.isControlInvalid(form.controls.identificators)">
+
+        </emp-ng-input-tags>
+
+      </div>
+
+
+      <div class="fx-item-half">
+
+        <label>Palabras de búsqueda adicionales:</label>
+        <emp-ng-input-tags
+          formControlName="tags"
+          [showError]="formHelper.isControlInvalid(form.controls.tags)">
+
+        </emp-ng-input-tags>
+
+      </div>
+
+    </div>
+
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canDelete"
+            type="button" class="btn-warning"
+            (click)="onDeleteButtonClicked()">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+          <button *ngIf="actions.canAuthorize"
+            type="button" class="btn"
+            (click)="onAuthorizeButtonClicked()">
+            Autorizar
+          </button>
+
+          <button *ngIf="actions.canClone"
+            type="button" class="btn"
+            (click)="onCloneButtonClicked()">
+            Clonar
+          </button>
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canUpdate"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 
 import { InventoryWorkspaceRoutingModule } from './inventory-workspace-routing.module';
 
-import { FixedAssetsTransactionsModule } from '@app/views/fixed-assets-transactions/fixed-assets-transactions.module';
+import { AssetsTransactionsModule } from '@app/views/assets-transactions/assets-transactions.module';
 import { AssetsModule } from '@app/views/assets/assets.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
 
@@ -22,7 +22,7 @@ import { RequestsModule } from '@app/views/requests/requests.module';
 
     InventoryWorkspaceRoutingModule,
 
-    FixedAssetsTransactionsModule,
+    AssetsTransactionsModule,
     AssetsModule,
     RequestsModule,
   ]

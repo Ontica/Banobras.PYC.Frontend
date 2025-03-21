@@ -18,8 +18,8 @@ import { DefaultComponent } from '@app/shared/components';
 // } from '@app/views/requests/requests-main-page/requests-main-page.component';
 
 import {
-  FixedAssetTransactionsMainPageComponent
-} from '@app/views/fixed-assets-transactions/transactions-main-page/transactions-main-page.component';
+  AssetTransactionsMainPageComponent
+} from '@app/views/assets-transactions/transactions-main-page/transactions-main-page.component';
 
 import {
   AssetsMainPageComponent
@@ -35,7 +35,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.inventarios_transacciones.permission },
     path: ROUTES.inventarios_transacciones.path,
-    component: FixedAssetTransactionsMainPageComponent,
+    component: AssetTransactionsMainPageComponent,
   },
   {
     data: { permission: ROUTES.inventarios_activo_fijo.permission },
