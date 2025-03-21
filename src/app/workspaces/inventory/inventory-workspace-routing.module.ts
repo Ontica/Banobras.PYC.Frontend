@@ -22,8 +22,8 @@ import {
 } from '@app/views/fixed-assets-transactions/transactions-main-page/transactions-main-page.component';
 
 import {
-  FixedAssetsMainPageComponent
-} from '@app/views/fixed-assets/fixed-assets-main-page/fixed-assets-main-page.component';
+  AssetsMainPageComponent
+} from '@app/views/assets/assets-main-page/assets-main-page.component';
 
 
 const routes: Routes = [
@@ -40,7 +40,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.inventarios_activo_fijo.permission },
     path: ROUTES.inventarios_activo_fijo.path,
-    component: FixedAssetsMainPageComponent,
+    component: AssetsMainPageComponent,
   },
   {
     data: { permission: ROUTES.inventarios_reportes.permission },

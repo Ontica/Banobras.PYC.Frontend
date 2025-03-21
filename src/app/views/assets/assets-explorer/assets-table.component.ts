@@ -22,17 +22,17 @@ import { sendEvent } from '@app/shared/utils';
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
 
-export enum FixedAssetsTableEventType {
-  SELECT_CLICKED            = 'FixedAssetsTableComponent.Event.SelectClicked',
-  EXECUTE_OPERATION_CLICKED = 'FixedAssetsTableComponent.Event.ExecuteOperationClicked',
-  EXPORT_DATA_CLICKED       = 'FixedAssetsTableComponent.Event.ExportDataClicked',
+export enum AssetsTableEventType {
+  SELECT_CLICKED            = 'AssetsTableComponent.Event.SelectClicked',
+  EXECUTE_OPERATION_CLICKED = 'AssetsTableComponent.Event.ExecuteOperationClicked',
+  EXPORT_DATA_CLICKED       = 'AssetsTableComponent.Event.ExportDataClicked',
 }
 
 @Component({
-  selector: 'emp-pyc-fixed-assets-table',
-  templateUrl: './fixed-assets-table.component.html',
+  selector: 'emp-pyc-assets-table',
+  templateUrl: './assets-table.component.html',
 })
-export class FixedAssetsTableComponent implements OnChanges {
+export class AssetsTableComponent implements OnChanges {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
@@ -46,7 +46,7 @@ export class FixedAssetsTableComponent implements OnChanges {
 
   @Input() queryExecuted = false;
 
-  @Output() fixedAssetsTableEvent = new EventEmitter<EventInfo>();
+  @Output() assetsTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumnsDefault: string[] = ['assetNo', 'name', 'locationName']; // 'assetTypeName',
 
@@ -73,11 +73,11 @@ export class FixedAssetsTableComponent implements OnChanges {
   onListControlsEvent(event: EventInfo) {
     switch (event.type as ListControlsEventType) {
       case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
-        sendEvent(this.fixedAssetsTableEvent, FixedAssetsTableEventType.EXECUTE_OPERATION_CLICKED,
+        sendEvent(this.assetsTableEvent, AssetsTableEventType.EXECUTE_OPERATION_CLICKED,
           event.payload);
         return;
       case ListControlsEventType.EXPORT_BUTTON_CLICKED:
-        sendEvent(this.fixedAssetsTableEvent, FixedAssetsTableEventType.EXPORT_DATA_CLICKED);
+        sendEvent(this.assetsTableEvent, AssetsTableEventType.EXPORT_DATA_CLICKED);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -87,7 +87,7 @@ export class FixedAssetsTableComponent implements OnChanges {
 
 
   onRowClicked(item: AssetDescriptor) {
-    sendEvent(this.fixedAssetsTableEvent, FixedAssetsTableEventType.SELECT_CLICKED, { item });
+    sendEvent(this.assetsTableEvent, AssetsTableEventType.SELECT_CLICKED, { item });
   }
 
 

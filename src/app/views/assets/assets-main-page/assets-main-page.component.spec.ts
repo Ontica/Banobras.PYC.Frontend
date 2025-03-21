@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FixedAssetTabbedViewComponent } from './fixed-asset-tabbed-view.component';
+import { AssetsMainPageComponent } from './assets-main-page.component';
 
-describe('FixedAssetTabbedViewComponent', () => {
-  let component: FixedAssetTabbedViewComponent;
-  let fixture: ComponentFixture<FixedAssetTabbedViewComponent>;
+describe('AssetsMainPageComponent', () => {
+  let component: AssetsMainPageComponent;
+  let fixture: ComponentFixture<AssetsMainPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FixedAssetTabbedViewComponent]
+      declarations: [AssetsMainPageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FixedAssetTabbedViewComponent);
+    fixture = TestBed.createComponent(AssetsMainPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

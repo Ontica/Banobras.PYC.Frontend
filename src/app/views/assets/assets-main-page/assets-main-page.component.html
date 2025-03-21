@@ -4,7 +4,7 @@
 
 <div class="explorer">
 
-  <emp-pyc-fixed-assets-explorer
+  <emp-pyc-assets-explorer
     class="primary"
     [class.std-hide]="displayTabbedView"
     [query]="query"
@@ -13,15 +13,15 @@
     [fileUrl]="fileUrl"
     [isLoading]="isLoading"
     [queryExecuted]="queryExecuted"
-    (fixedAssetsExplorerEvent)="onFixedAssetsExplorerEvent($event)">
+    (assetsExplorerEvent)="onAssetsExplorerEvent($event)">
 
-  </emp-pyc-fixed-assets-explorer>
+  </emp-pyc-assets-explorer>
 
-  <emp-pyc-fixed-asset-tabbed-view  *ngIf="displayTabbedView"
+  <emp-pyc-asset-tabbed-view  *ngIf="displayTabbedView"
     class="secondary priority std-stacked"
     [data]="selectedData"
-    (fixedAssetTabbedViewEvent)="onFixedAssetTabbedViewEvent($event)">
+    (assetTabbedViewEvent)="ondAssetTabbedViewEvent($event)">
 
-  </emp-pyc-fixed-asset-tabbed-view>
+  </emp-pyc-asset-tabbed-view>
 
 </div>

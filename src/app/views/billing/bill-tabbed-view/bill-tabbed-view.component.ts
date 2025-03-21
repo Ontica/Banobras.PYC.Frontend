@@ -53,7 +53,7 @@ export class BillTabbedViewComponent implements OnChanges {
     switch (event.type as BillEditorEventType) {
       case BillEditorEventType.UPDATED:
       case BillEditorEventType.DELETED:
-        Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
+        Assertion.assertValue(event.payload.billUID, 'event.payload.billUID');
         sendEvent(this.billTabbedViewEvent,
           BillTabbedViewEventType.REFRESH_DATA, event.payload);
         return;

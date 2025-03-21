@@ -14,7 +14,7 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 import { DocumentsModule } from '../documents/documents.module';
-import { FixedAssetsModule } from '../fixed-assets/fixed-assets.module';
+import { AssetsModule } from '../assets/assets.module';
 
 import { FixedAssetTransactionsMainPageComponent } from './transactions-main-page/transactions-main-page.component';
 import { FixedAssetTransactionsExplorerComponent } from './transactions-explorer/transactions-explorer.component';
@@ -40,7 +40,7 @@ import { FixedAssetTransactionHeaderComponent } from './transaction/transaction-
 
     ReportsControlsModule,
     DocumentsModule,
-    FixedAssetsModule,
+    AssetsModule,
   ],
   declarations: [
     FixedAssetTransactionsMainPageComponent,

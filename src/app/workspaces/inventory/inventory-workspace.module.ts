@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { InventoryWorkspaceRoutingModule } from './inventory-workspace-routing.module';
 
 import { FixedAssetsTransactionsModule } from '@app/views/fixed-assets-transactions/fixed-assets-transactions.module';
-import { FixedAssetsModule } from '@app/views/fixed-assets/fixed-assets.module';
+import { AssetsModule } from '@app/views/assets/assets.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
 
 
@@ -23,7 +23,7 @@ import { RequestsModule } from '@app/views/requests/requests.module';
     InventoryWorkspaceRoutingModule,
 
     FixedAssetsTransactionsModule,
-    FixedAssetsModule,
+    AssetsModule,
     RequestsModule,
   ]
 

@@ -17,22 +17,22 @@ import { sendEvent } from '@app/shared/utils';
 
 import { AssetTransactionDescriptor } from '@app/models';
 
-export enum FixedAssetTransactionsTableEventType {
-  SELECT_TRANSACTION_CLICKED = 'FixedAssetTransactionsTableComponent.Event.SelectTransactionClicked',
-  REMOVE_TRANSACTION_CLICKED = 'FixedAssetTransactionsTableComponent.Event.RemoveTransactionClicked',
+export enum AssetTransactionsTableEventType {
+  SELECT_CLICKED = 'AssetTransactionsTableComponent.Event.SelectClicked',
+  REMOVE_CLICKED = 'AssetTransactionsTableComponent.Event.RemoveClicked',
 }
 
 @Component({
-  selector: 'emp-pmt-fixed-asset-transactions-table',
-  templateUrl: './fixed-asset-transactions-table.component.html',
+  selector: 'emp-pyc-asset-transactions-table',
+  templateUrl: './asset-transactions-table.component.html',
 })
-export class FixedAssetTransactionsTableComponent implements OnChanges {
+export class AssetTransactionsTableComponent implements OnChanges {
 
   @Input() transactions: AssetTransactionDescriptor[] = [];
 
   @Input() canEdit = false;
 
-  @Output() fixedAssetTransactionsTableEvent = new EventEmitter<EventInfo>();
+  @Output() assetTransactionsTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumnsDefault: string[] = ['transactionType', 'transactionNo', 'requestedTime', 'assignedTo',
     'description'];
@@ -56,8 +56,8 @@ export class FixedAssetTransactionsTableComponent implements OnChanges {
 
   onSelectTransactionClicked(transaction: AssetTransactionDescriptor) {
     if (this.canEdit && window.getSelection().toString().length <= 0) {
-      sendEvent(this.fixedAssetTransactionsTableEvent,
-        FixedAssetTransactionsTableEventType.SELECT_TRANSACTION_CLICKED, { transaction });
+      sendEvent(this.assetTransactionsTableEvent,
+        AssetTransactionsTableEventType.SELECT_CLICKED, { transaction });
     }
   }
 
@@ -69,8 +69,8 @@ export class FixedAssetTransactionsTableComponent implements OnChanges {
       .firstValue()
       .then(x => {
         if (x) {
-          sendEvent(this.fixedAssetTransactionsTableEvent,
-            FixedAssetTransactionsTableEventType.REMOVE_TRANSACTION_CLICKED, { transaction });
+          sendEvent(this.assetTransactionsTableEvent,
+            AssetTransactionsTableEventType.REMOVE_CLICKED, { transaction });
         }
       });
   }

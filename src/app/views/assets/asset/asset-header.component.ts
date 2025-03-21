@@ -19,13 +19,13 @@ import { Asset, AssetFields, DateRange, EmptyAsset, EmptyDateRange, BaseActions,
          EmptyBaseActions } from '@app/models';
 
 
-export enum FixedAssetHeaderEventType {
-  CREATE = 'FixedAssetHeaderComponent.Event.CreateFixedAsset',
-  UPDATE = 'FixedAssetHeaderComponent.Event.UpdateFixedAsset',
-  DELETE = 'FixedAssetHeaderComponent.Event.DeleteFixedAsset',
+export enum AssetHeaderEventType {
+  CREATE = 'AssetHeaderComponent.Event.CreateAsset',
+  UPDATE = 'AssetHeaderComponent.Event.UpdateAsset',
+  DELETE = 'AssetHeaderComponent.Event.DeleteAsset',
 }
 
-interface FixedAssetFormModel extends FormGroup<{
+interface AssetFormModel extends FormGroup<{
   assetTypeUID: FormControl<string>;
   datePeriod: FormControl<DateRange>;
   assignedToOrgUnitUID: FormControl<string>;
@@ -41,10 +41,10 @@ interface FixedAssetFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-pyc-fixed-asset-header',
-  templateUrl: './fixed-asset-header.component.html',
+  selector: 'emp-pyc-asset-header',
+  templateUrl: './asset-header.component.html',
 })
-export class FixedAssetHeaderComponent implements OnInit, OnChanges {
+export class AssetHeaderComponent implements OnInit, OnChanges {
 
   @Input() isSaved = false;
 
@@ -52,9 +52,9 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
 
   @Input() actions: BaseActions = EmptyBaseActions;
 
-  @Output() fixedAssetHeaderEvent = new EventEmitter<EventInfo>();
+  @Output() assetHeaderEvent = new EventEmitter<EventInfo>();
 
-  form: FixedAssetFormModel;
+  form: AssetFormModel;
 
   formHelper = FormHelper;
 
@@ -101,19 +101,19 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
 
   onSubmitButtonClicked() {
     if (this.formHelper.isFormReadyAndInvalidate(this.form)) {
-      let eventType = FixedAssetHeaderEventType.CREATE;
+      let eventType = AssetHeaderEventType.CREATE;
 
       if (this.isSaved) {
-        eventType = FixedAssetHeaderEventType.UPDATE;
+        eventType = AssetHeaderEventType.UPDATE;
       }
 
-      sendEvent(this.fixedAssetHeaderEvent, eventType, { dataFields: this.getFormData() });
+      sendEvent(this.assetHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
   }
 
 
   onDeleteButtonClicked() {
-    this.showConfirmMessage(FixedAssetHeaderEventType.DELETE);
+    this.showConfirmMessage(AssetHeaderEventType.DELETE);
   }
 
 
@@ -220,7 +220,7 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
   }
 
 
-  private showConfirmMessage(eventType: FixedAssetHeaderEventType) {
+  private showConfirmMessage(eventType: AssetHeaderEventType) {
     const confirmType = this.getConfirmType(eventType);
     const title = this.getConfirmTitle(eventType);
     const message = this.getConfirmMessage(eventType);
@@ -231,9 +231,9 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
   }
 
 
-  private getConfirmType(eventType: FixedAssetHeaderEventType): 'AcceptCancel' | 'DeleteCancel' {
+  private getConfirmType(eventType: AssetHeaderEventType): 'AcceptCancel' | 'DeleteCancel' {
     switch (eventType) {
-      case FixedAssetHeaderEventType.DELETE:
+      case AssetHeaderEventType.DELETE:
         return 'DeleteCancel';
       default:
         return 'AcceptCancel';
@@ -241,17 +241,17 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
   }
 
 
-  private getConfirmTitle(eventType: FixedAssetHeaderEventType): string {
+  private getConfirmTitle(eventType: AssetHeaderEventType): string {
     switch (eventType) {
-      case FixedAssetHeaderEventType.DELETE: return 'Eliminar activo fijo';
+      case AssetHeaderEventType.DELETE: return 'Eliminar activo fijo';
       default: return '';
     }
   }
 
 
-  private getConfirmMessage(eventType: FixedAssetHeaderEventType): string {
+  private getConfirmMessage(eventType: AssetHeaderEventType): string {
     switch (eventType) {
-      case FixedAssetHeaderEventType.DELETE:
+      case AssetHeaderEventType.DELETE:
         return `Esta operación eliminará el activo fijo
                 <strong>${this.asset.assetNo}: ${this.asset.name}</strong>
                 (${this.asset.assetType?.name ?? 'No determinado'})
@@ -264,9 +264,9 @@ export class FixedAssetHeaderComponent implements OnInit, OnChanges {
   }
 
 
-  private validateAndSendEvent(eventType: FixedAssetHeaderEventType, send: boolean) {
+  private validateAndSendEvent(eventType: AssetHeaderEventType, send: boolean) {
     if (send) {
-      sendEvent(this.fixedAssetHeaderEvent, eventType, { assetUID: this.asset.uid });
+      sendEvent(this.assetHeaderEvent, eventType, { assetUID: this.asset.uid });
     }
   }
 

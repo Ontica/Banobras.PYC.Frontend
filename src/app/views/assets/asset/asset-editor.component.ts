@@ -11,25 +11,25 @@ import { EventInfo, isEmpty } from '@app/core';
 
 import { Asset, EmptyAsset, BaseActions, EmptyBaseActions } from '@app/models';
 
-import { FixedAssetHeaderEventType } from './fixed-asset-header.component';
+import { AssetHeaderEventType } from './asset-header.component';
 
 
-export enum FixedAssetEditorEventType {
-  UPDATED = 'FixedAssetEditorComponent.Event.FixedAssetUpdated',
-  DELETED = 'FixedAssetEditorComponent.Event.FixedAssetDeleted',
+export enum AssetEditorEventType {
+  UPDATED = 'AssetEditorComponent.Event.AssetUpdated',
+  DELETED = 'AssetEditorComponent.Event.AssetDeleted',
 }
 
 @Component({
-  selector: 'emp-pyc-fixed-asset-editor',
-  templateUrl: './fixed-asset-editor.component.html',
+  selector: 'emp-pyc-asset-editor',
+  templateUrl: './asset-editor.component.html',
 })
-export class FixedAssetEditorComponent {
+export class AssetEditorComponent {
 
   @Input() asset: Asset = EmptyAsset;
 
   @Input() actions: BaseActions = EmptyBaseActions;
 
-  @Output() fixedAssetEditorEvent = new EventEmitter<EventInfo>();
+  @Output() assetEditorEvent = new EventEmitter<EventInfo>();
 
   submitted = false;
 
@@ -39,12 +39,12 @@ export class FixedAssetEditorComponent {
   }
 
 
-  onFixedAssetHeaderEvent(event: EventInfo) {
+  onAssetHeaderEvent(event: EventInfo) {
     if (this.submitted) {
       return;
     }
 
-    switch (event.type as FixedAssetHeaderEventType) {
+    switch (event.type as AssetHeaderEventType) {
 
       default:
         console.log(`Unhandled user interface event ${event.type}`);

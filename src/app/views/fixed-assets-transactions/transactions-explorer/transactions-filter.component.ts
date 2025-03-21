@@ -194,7 +194,7 @@ export class FixedAssetTransactionsFilterComponent implements OnChanges, OnInit,
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
-        { requestsList: RequestsList.fixed_assets }),
+        { requestsList: RequestsList.assets }),
       this.transactionsData.getAssetTransactionsTypes(),
       this.assetsData.getAssetRootLocations(),
     ])

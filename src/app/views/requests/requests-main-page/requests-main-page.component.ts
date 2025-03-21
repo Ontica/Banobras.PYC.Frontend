@@ -211,7 +211,7 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
         this.requestsList = RequestsList.contracts; // TODO: rename the requestslist to this module
         return;
       case 'Inventory.Requests':
-        this.requestsList = RequestsList.fixed_assets; // TODO: rename the requestslist to this module
+        this.requestsList = RequestsList.assets; // TODO: rename the requestslist to this module
         return;
       default:
         this.requestsList = null;

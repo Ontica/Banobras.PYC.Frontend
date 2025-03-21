@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FixedAssetsFilterComponent } from './fixed-assets-filter.component';
+import { AssetsExplorerComponent } from './assets-explorer.component';
 
-describe('FixedAssetsFilterComponent', () => {
-  let component: FixedAssetsFilterComponent;
-  let fixture: ComponentFixture<FixedAssetsFilterComponent>;
+describe('AssetsExplorerComponent', () => {
+  let component: AssetsExplorerComponent;
+  let fixture: ComponentFixture<AssetsExplorerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FixedAssetsFilterComponent]
+      declarations: [AssetsExplorerComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FixedAssetsFilterComponent);
+    fixture = TestBed.createComponent(AssetsExplorerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

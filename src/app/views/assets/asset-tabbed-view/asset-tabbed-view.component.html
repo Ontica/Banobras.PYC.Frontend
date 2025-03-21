@@ -7,21 +7,21 @@
 
     <mat-tab label="Activo fijo">
 
-      <emp-pyc-fixed-asset-editor
+      <emp-pyc-asset-editor
         [asset]="data.asset"
         [actions]="data.actions"
-        (fixedAssetEditorEvent)="onFixedAssetEditorEvent($event)">
+        (assetEditorEvent)="onAssetEditorEvent($event)">
 
-      </emp-pyc-fixed-asset-editor>
+      </emp-pyc-asset-editor>
 
     </mat-tab>
 
     <mat-tab label="Transacciones">
 
-      <emp-pmt-fixed-asset-transactions-table
+      <emp-pyc-asset-transactions-table
         [transactions]="data.transactions">
 
-      </emp-pmt-fixed-asset-transactions-table>
+      </emp-pyc-asset-transactions-table>
 
     </mat-tab>
 

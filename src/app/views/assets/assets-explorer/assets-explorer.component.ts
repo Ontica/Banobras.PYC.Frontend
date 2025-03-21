@@ -13,28 +13,28 @@ import { sendEvent } from '@app/shared/utils';
 
 import { EmptyAssetsQuery, AssetDescriptor, AssetsQuery } from '@app/models';
 
-import { FixedAssetsFilterEventType } from './fixed-assets-filter.component';
+import { AssetsFilterEventType } from './assets-filter.component';
 
-import { FixedAssetsTableEventType } from './fixed-assets-table.component';
+import { AssetsTableEventType } from './assets-table.component';
 
 import {
   ExportReportModalEventType
 } from '@app/views/_reports-controls/export-report-modal/export-report-modal.component';
 
 
-export enum FixedAssetsExplorerEventType {
-  SEARCH_CLICKED            = 'FixedAssetsExplorerComponent.Event.SearchClicked',
-  CLEAR_CLICKED             = 'FixedAssetsExplorerComponent.Event.ClearClicked',
-  EXECUTE_OPERATION_CLICKED = 'FixedAssetsExplorerComponent.Event.ExecuteOperationClicked',
-  EXPORT_CLICKED            = 'FixedAssetsExplorerComponent.Event.ExportClicked',
-  SELECT_CLICKED            = 'FixedAssetsExplorerComponent.Event.SelectClicked',
+export enum AssetsExplorerEventType {
+  SEARCH_CLICKED            = 'AssetsExplorerComponent.Event.SearchClicked',
+  CLEAR_CLICKED             = 'AssetsExplorerComponent.Event.ClearClicked',
+  EXECUTE_OPERATION_CLICKED = 'AssetsExplorerComponent.Event.ExecuteOperationClicked',
+  EXPORT_CLICKED            = 'AssetsExplorerComponent.Event.ExportClicked',
+  SELECT_CLICKED            = 'AssetsExplorerComponent.Event.SelectClicked',
 }
 
 @Component({
-  selector: 'emp-pyc-fixed-assets-explorer',
-  templateUrl: './fixed-assets-explorer.component.html',
+  selector: 'emp-pyc-assets-explorer',
+  templateUrl: './assets-explorer.component.html',
 })
-export class FixedAssetsExplorerComponent implements OnChanges {
+export class AssetsExplorerComponent implements OnChanges {
 
   @Input() query: AssetsQuery = Object.assign({}, EmptyAssetsQuery);
 
@@ -48,7 +48,7 @@ export class FixedAssetsExplorerComponent implements OnChanges {
 
   @Input() queryExecuted = false;
 
-  @Output() fixedAssetsExplorerEvent = new EventEmitter<EventInfo>();
+  @Output() assetsExplorerEvent = new EventEmitter<EventInfo>();
 
   cardTitle = 'Explorador de activos fijos';
 
@@ -67,16 +67,16 @@ export class FixedAssetsExplorerComponent implements OnChanges {
   }
 
 
-  onFixedAssetsFilterEvent(event: EventInfo) {
-    switch (event.type as FixedAssetsFilterEventType) {
-      case FixedAssetsFilterEventType.SEARCH_CLICKED:
+  onAssetsFilterEvent(event: EventInfo) {
+    switch (event.type as AssetsFilterEventType) {
+      case AssetsFilterEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        sendEvent(this.fixedAssetsExplorerEvent, FixedAssetsExplorerEventType.SEARCH_CLICKED,
+        sendEvent(this.assetsExplorerEvent, AssetsExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
-      case FixedAssetsFilterEventType.CLEAR_CLICKED:
+      case AssetsFilterEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        sendEvent(this.fixedAssetsExplorerEvent, FixedAssetsExplorerEventType.CLEAR_CLICKED,
+        sendEvent(this.assetsExplorerEvent, AssetsExplorerEventType.CLEAR_CLICKED,
           event.payload);
         return;
       default:
@@ -86,19 +86,19 @@ export class FixedAssetsExplorerComponent implements OnChanges {
   }
 
 
-  onFixedAssetsTableEvent(event: EventInfo) {
-    switch (event.type as FixedAssetsTableEventType) {
-      case FixedAssetsTableEventType.SELECT_CLICKED:
+  onAssetsTableEvent(event: EventInfo) {
+    switch (event.type as AssetsTableEventType) {
+      case AssetsTableEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, 'event.payload.item');
-        sendEvent(this.fixedAssetsExplorerEvent, FixedAssetsExplorerEventType.SELECT_CLICKED,
+        sendEvent(this.assetsExplorerEvent, AssetsExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
-      case FixedAssetsTableEventType.EXECUTE_OPERATION_CLICKED:
+      case AssetsTableEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
-        sendEvent(this.fixedAssetsExplorerEvent, FixedAssetsExplorerEventType.EXECUTE_OPERATION_CLICKED,
+        sendEvent(this.assetsExplorerEvent, AssetsExplorerEventType.EXECUTE_OPERATION_CLICKED,
           event.payload);
         return;
-      case FixedAssetsTableEventType.EXPORT_DATA_CLICKED:
+      case AssetsTableEventType.EXPORT_DATA_CLICKED:
         this.setDisplayExportModal(true);
         return;
       default:
@@ -114,7 +114,7 @@ export class FixedAssetsExplorerComponent implements OnChanges {
         this.setDisplayExportModal(false);
         return;
       case ExportReportModalEventType.EXPORT_BUTTON_CLICKED:
-        sendEvent(this.fixedAssetsExplorerEvent, FixedAssetsExplorerEventType.EXPORT_CLICKED,
+        sendEvent(this.assetsExplorerEvent, AssetsExplorerEventType.EXPORT_CLICKED,
           { query: this.query });
         return;
       default:

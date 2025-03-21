@@ -26,12 +26,12 @@ import { EmptyAssetsQuery, AssetsQuery, EntityStatus, EntityStatusList,
          RequestsList } from '@app/models';
 
 
-export enum FixedAssetsFilterEventType {
-  SEARCH_CLICKED = 'FixedAssetsFilterComponent.Event.SearchClicked',
-  CLEAR_CLICKED  = 'FixedAssetsFilterComponent.Event.ClearClicked',
+export enum AssetsFilterEventType {
+  SEARCH_CLICKED = 'AssetsFilterComponent.Event.SearchClicked',
+  CLEAR_CLICKED  = 'AssetsFilterComponent.Event.ClearClicked',
 }
 
-interface FixedAssetsFilterFormModel extends FormGroup<{
+interface AssetsFilterFormModel extends FormGroup<{
   assignedToUID: FormControl<string>;
   assignedToOrgUnitUID: FormControl<string>;
   status: FormControl<EntityStatus>;
@@ -45,11 +45,11 @@ interface FixedAssetsFilterFormModel extends FormGroup<{
 
 
 @Component({
-  selector: 'emp-pyc-fixed-assets-filter',
-  templateUrl: './fixed-assets-filter.component.html',
+  selector: 'emp-pyc-assets-filter',
+  templateUrl: './assets-filter.component.html',
   animations: [empExpandCollapse],
 })
-export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
+export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() query: AssetsQuery = Object.assign({}, EmptyAssetsQuery);
 
@@ -57,9 +57,9 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   @Output() showFiltersChange = new EventEmitter<boolean>();
 
-  @Output() fixedAssetsFilterEvent = new EventEmitter<EventInfo>();
+  @Output() assetsFilterEvent = new EventEmitter<EventInfo>();
 
-  form: FixedAssetsFilterFormModel;
+  form: AssetsFilterFormModel;
 
   formHelper = FormHelper;
 
@@ -149,7 +149,7 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   onSearchClicked() {
     if (this.form.valid) {
-      sendEvent(this.fixedAssetsFilterEvent, FixedAssetsFilterEventType.SEARCH_CLICKED,
+      sendEvent(this.assetsFilterEvent, AssetsFilterEventType.SEARCH_CLICKED,
         { query: this.getFormData() });
     }
   }
@@ -157,7 +157,7 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
   onClearFilters() {
     this.clearFilters();
-    sendEvent(this.fixedAssetsFilterEvent, FixedAssetsFilterEventType.CLEAR_CLICKED,
+    sendEvent(this.assetsFilterEvent, AssetsFilterEventType.CLEAR_CLICKED,
       { query: this.getFormData() });
   }
 
@@ -167,7 +167,7 @@ export class FixedAssetsFilterComponent implements OnChanges, OnInit, OnDestroy 
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
-        { requestsList: RequestsList.fixed_assets }),
+        { requestsList: RequestsList.assets }),
       this.assetsData.getAssetTypes(),
       this.assetsData.getAssetRootLocations(),
     ])

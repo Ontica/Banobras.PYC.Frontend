@@ -13,29 +13,29 @@ import { sendEvent } from '@app/shared/utils';
 
 import { EmptyAssetHolder, AssetHolder, isEntityStatusInWarning } from '@app/models';
 
-import { FixedAssetEditorEventType } from '../fixed-asset/fixed-asset-editor.component';
+import { AssetEditorEventType } from '../asset/asset-editor.component';
 
 import {
   DocumentsEditionEventType
 } from '@app/views/documents/documents-edition/documents-edition.component';
 
 
-export enum FixedAssetTabbedViewEventType {
-  CLOSE_BUTTON_CLICKED = 'FixedAssetTabbedViewComponent.Event.CloseButtonClicked',
-  DATA_UPDATED         = 'FixedAssetTabbedViewComponent.Event.DataUpdated',
-  DATA_DELETED         = 'FixedAssetTabbedViewComponent.Event.DataDeleted',
-  REFRESH_DATA         = 'FixedAssetTabbedViewComponent.Event.RefreshData',
+export enum AssetTabbedViewEventType {
+  CLOSE_BUTTON_CLICKED = 'AssetTabbedViewComponent.Event.CloseButtonClicked',
+  DATA_UPDATED         = 'AssetTabbedViewComponent.Event.DataUpdated',
+  DATA_DELETED         = 'AssetTabbedViewComponent.Event.DataDeleted',
+  REFRESH_DATA         = 'AssetTabbedViewComponent.Event.RefreshData',
 }
 
 @Component({
-  selector: 'emp-pyc-fixed-asset-tabbed-view',
-  templateUrl: './fixed-asset-tabbed-view.component.html',
+  selector: 'emp-pyc-asset-tabbed-view',
+  templateUrl: './asset-tabbed-view.component.html',
 })
-export class FixedAssetTabbedViewComponent implements OnChanges {
+export class AssetTabbedViewComponent implements OnChanges {
 
   @Input() data: AssetHolder = EmptyAssetHolder;
 
-  @Output() fixedAssetTabbedViewEvent = new EventEmitter<EventInfo>();
+  @Output() assetTabbedViewEvent = new EventEmitter<EventInfo>();
 
   title = '';
 
@@ -50,21 +50,21 @@ export class FixedAssetTabbedViewComponent implements OnChanges {
 
 
   onCloseButtonClicked() {
-    sendEvent(this.fixedAssetTabbedViewEvent, FixedAssetTabbedViewEventType.CLOSE_BUTTON_CLICKED);
+    sendEvent(this.assetTabbedViewEvent, AssetTabbedViewEventType.CLOSE_BUTTON_CLICKED);
   }
 
 
-  onFixedAssetEditorEvent(event: EventInfo) {
-    switch (event.type as FixedAssetEditorEventType) {
-      case FixedAssetEditorEventType.UPDATED:
-        Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
-        sendEvent(this.fixedAssetTabbedViewEvent,
-          FixedAssetTabbedViewEventType.DATA_UPDATED, event.payload);
+  onAssetEditorEvent(event: EventInfo) {
+    switch (event.type as AssetEditorEventType) {
+      case AssetEditorEventType.UPDATED:
+        Assertion.assertValue(event.payload.assetUID, 'event.payload.assetUID');
+        sendEvent(this.assetTabbedViewEvent,
+          AssetTabbedViewEventType.DATA_UPDATED, event.payload);
         return;
-      case FixedAssetEditorEventType.DELETED:
-        Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
-        sendEvent(this.fixedAssetTabbedViewEvent,
-          FixedAssetTabbedViewEventType.DATA_DELETED, event.payload);
+      case AssetEditorEventType.DELETED:
+        Assertion.assertValue(event.payload.assetUID, 'event.payload.assetUID');
+        sendEvent(this.assetTabbedViewEvent,
+          AssetTabbedViewEventType.DATA_DELETED, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -76,8 +76,8 @@ export class FixedAssetTabbedViewComponent implements OnChanges {
   onDocumentsEditionEvent(event: EventInfo) {
     switch (event.type as DocumentsEditionEventType) {
       case DocumentsEditionEventType.DOCUMENTS_UPDATED:
-        const payload = { fixedAssetUID: this.data.asset.uid };
-        sendEvent(this.fixedAssetTabbedViewEvent, FixedAssetTabbedViewEventType.REFRESH_DATA, payload);
+        const payload = { assetUID: this.data.asset.uid };
+        sendEvent(this.assetTabbedViewEvent, AssetTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

@@ -27,20 +27,20 @@
 
       </emp-ng-spinner>
 
-      <emp-pyc-fixed-assets-filter class="fx-item-none"
+      <emp-pyc-assets-filter class="fx-item-none"
         [query]="query"
         [(showFilters)]="showFilters"
-        (fixedAssetsFilterEvent)="onFixedAssetsFilterEvent($event)">
+        (assetsFilterEvent)="onAssetsFilterEvent($event)">
 
-      </emp-pyc-fixed-assets-filter>
+      </emp-pyc-assets-filter>
 
-      <emp-pyc-fixed-assets-table class="fx-item"
+      <emp-pyc-assets-table class="fx-item"
         [dataList]="dataList"
         [selectedUID]="selectedUID"
         [queryExecuted]="queryExecuted"
-        (fixedAssetsTableEvent)="onFixedAssetsTableEvent($event)">
+        (assetsTableEvent)="onAssetsTableEvent($event)">
 
-      </emp-pyc-fixed-assets-table>
+      </emp-pyc-assets-table>
 
     </div>
 

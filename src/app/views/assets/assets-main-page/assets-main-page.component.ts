@@ -16,16 +16,16 @@ import { AssetsDataService } from '@app/data-services';
 import { EmptyAssetHolder, EmptyAssetsQuery, AssetDescriptor, AssetHolder,
          AssetsQuery } from '@app/models';
 
-import { FixedAssetsExplorerEventType } from '../fixed-assets-explorer/fixed-assets-explorer.component';
+import { AssetsExplorerEventType } from '../assets-explorer/assets-explorer.component';
 
-import { FixedAssetTabbedViewEventType } from '../fixed-asset-tabbed-view/fixed-asset-tabbed-view.component';
+import { AssetTabbedViewEventType } from '../asset-tabbed-view/asset-tabbed-view.component';
 
 
 @Component({
-  selector: 'emp-pyc-fixed-assets-main-page',
-  templateUrl: './fixed-assets-main-page.component.html',
+  selector: 'emp-pyc-assets-main-page',
+  templateUrl: './assets-main-page.component.html',
 })
-export class FixedAssetsMainPageComponent {
+export class AssetsMainPageComponent {
 
   query: AssetsQuery = Object.assign({}, EmptyAssetsQuery);
 
@@ -48,26 +48,26 @@ export class FixedAssetsMainPageComponent {
               private messageBox: MessageBoxService) { }
 
 
-  onFixedAssetsExplorerEvent(event: EventInfo) {
-    switch (event.type as FixedAssetsExplorerEventType) {
-      case FixedAssetsExplorerEventType.SEARCH_CLICKED:
+  onAssetsExplorerEvent(event: EventInfo) {
+    switch (event.type as AssetsExplorerEventType) {
+      case AssetsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as AssetsQuery);
         this.searchAssets(this.query);
         return;
-      case FixedAssetsExplorerEventType.CLEAR_CLICKED:
+      case AssetsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as AssetsQuery);
         return;
-      case FixedAssetsExplorerEventType.EXPORT_CLICKED:
+      case AssetsExplorerEventType.EXPORT_CLICKED:
         this.exportAssets(this.query);
         return;
-      case FixedAssetsExplorerEventType.SELECT_CLICKED:
+      case AssetsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
         this.getAsset(event.payload.item.uid);
         return;
-      case FixedAssetsExplorerEventType.EXECUTE_OPERATION_CLICKED:
+      case AssetsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         this.messageBox.showInDevelopment('Ejecutar operación', event.payload);
         return;
@@ -78,14 +78,14 @@ export class FixedAssetsMainPageComponent {
   }
 
 
-  onFixedAssetTabbedViewEvent(event: EventInfo) {
-    switch (event.type as FixedAssetTabbedViewEventType) {
-      case FixedAssetTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+  ondAssetTabbedViewEvent(event: EventInfo) {
+    switch (event.type as AssetTabbedViewEventType) {
+      case AssetTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedData(EmptyAssetHolder);
         return;
-      case FixedAssetTabbedViewEventType.REFRESH_DATA:
-        Assertion.assertValue(event.payload.fixedAssetUID, 'event.payload.fixedAssetUID');
-        this.refreshSelectedData(event.payload.fixedAssetUID);
+      case AssetTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.assetUID, 'event.payload.assetUID');
+        this.refreshSelectedData(event.payload.assetUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

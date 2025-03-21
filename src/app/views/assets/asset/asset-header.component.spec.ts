@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FixedAssetsMainPageComponent } from './fixed-assets-main-page.component';
+import { AssetHeaderComponent } from './asset-header.component';
 
-describe('FixedAssetsMainPageComponent', () => {
-  let component: FixedAssetsMainPageComponent;
-  let fixture: ComponentFixture<FixedAssetsMainPageComponent>;
+describe('AssetHeaderComponent', () => {
+  let component: AssetHeaderComponent;
+  let fixture: ComponentFixture<AssetHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FixedAssetsMainPageComponent]
+      declarations: [AssetHeaderComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FixedAssetsMainPageComponent);
+    fixture = TestBed.createComponent(AssetHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
