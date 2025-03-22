@@ -16,7 +16,7 @@ import { Empty, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
+import { AssetsStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -104,7 +104,6 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
 
 
   constructor(private uiLayer: PresentationLayer,
-              private transactionsData: AssetsTransactionsDataService,
               private assetsData: AssetsDataService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
@@ -195,7 +194,7 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.assets }),
-      this.transactionsData.getAssetTransactionsTypes(),
+      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSET_TRANSACTIONS_TYPES),
       this.assetsData.getAssetRootLocations(),
     ])
     .subscribe(([a, b, c]) => {

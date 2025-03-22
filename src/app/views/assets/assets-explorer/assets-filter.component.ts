@@ -16,7 +16,7 @@ import { Empty, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
+import { AssetsStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { AssetsDataService, SearcherAPIS } from '@app/data-services';
 
@@ -168,7 +168,7 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.assets }),
-      this.assetsData.getAssetTypes(),
+      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSET_TYPES),
       this.assetsData.getAssetRootLocations(),
     ])
     .subscribe(([a, b, c]) => {
