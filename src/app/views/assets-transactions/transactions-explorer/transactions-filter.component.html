@@ -11,7 +11,7 @@
         <emp-ng-select-typeahead
           formControlName="assignedToUID"
           [config]="{ clearable: true }"
-          [searcherAPI]="keepersAPI"
+          [searcherAPI]="assigneesAPI"
           [initialValue]="selectedAssignedTo"
           placeholder="Todos"
           (changes)="onAssignedToChanges($event)">

@@ -92,7 +92,7 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
 
   partyTypesList: Identifiable<AssetTransactionPartyType>[] = AssetTransactionPartyTypesList;
 
-  keepersAPI = SearcherAPIS.assetsTransactionsAssignees;
+  assigneesAPI = SearcherAPIS.assetsTransactionsAssignees;
 
   partiesAPI = SearcherAPIS.assetTransactionsParties;
 

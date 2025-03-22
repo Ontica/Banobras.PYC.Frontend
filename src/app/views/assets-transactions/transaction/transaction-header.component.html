@@ -49,7 +49,7 @@
 
         <emp-ng-select-typeahead
           formControlName="assignedToUID"
-          [searcherAPI]="keepersAPI"
+          [searcherAPI]="assigneesAPI"
           [initialValue]="isSaved && !editionMode && !!transaction.assignedTo ? transaction.assignedTo : null"
           [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Buscar...'">
         </emp-ng-select-typeahead>
@@ -81,7 +81,7 @@
 
         <emp-ng-select-typeahead
           formControlName="managerUID"
-          [searcherAPI]="keepersAPI"
+          [searcherAPI]="assigneesAPI"
           [initialValue]="isSaved && !editionMode && !!transaction.manager ? transaction.manager : null"
           [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Buscar...'">
         </emp-ng-select-typeahead>

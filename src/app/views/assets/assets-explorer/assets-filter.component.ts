@@ -81,7 +81,7 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   placesList: Identifiable[] = [];
 
-  keepersAPI = SearcherAPIS.assetsAssignees;
+  assigneesAPI = SearcherAPIS.assetsAssignees;
 
   selectedAssignedTo: Identifiable = null;
 

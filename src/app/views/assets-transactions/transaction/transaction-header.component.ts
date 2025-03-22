@@ -81,7 +81,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges {
 
   placesList: Identifiable[] = [];
 
-  keepersAPI = SearcherAPIS.assetsTransactionsAssignees;
+  assigneesAPI = SearcherAPIS.assetsTransactionsAssignees;
 
 
   constructor(private messageBox: MessageBoxService) {
