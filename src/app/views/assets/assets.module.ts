@@ -23,6 +23,7 @@ import { AssetTabbedViewComponent } from './asset-tabbed-view/asset-tabbed-view.
 import { AssetEditorComponent } from './asset/asset-editor.component';
 import { AssetHeaderComponent } from './asset/asset-header.component';
 import { AssetTransactionsTableComponent } from './asset-transactions/asset-transactions-table.component';
+import { LocationSelectorComponent } from './location-selector/location-selector.component';
 
 
 @NgModule({
@@ -46,10 +47,12 @@ import { AssetTransactionsTableComponent } from './asset-transactions/asset-tran
     AssetEditorComponent,
     AssetHeaderComponent,
     AssetTransactionsTableComponent,
+    LocationSelectorComponent,
   ],
   exports: [
     AssetsMainPageComponent,
     AssetsTableComponent,
+    LocationSelectorComponent,
   ],
 })
 export class AssetsModule { }

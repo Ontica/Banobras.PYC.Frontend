@@ -105,7 +105,17 @@ export interface AssetTransactionDescriptor {
 
 
 export interface AssetTransactionFields {
-
+  transactionTypeUID: string;
+  requestedTime: DateString;
+  applicationTime: DateString;
+  managerUID: string;
+  managerOrgUnitUID: string;
+  assignedToUID: string;
+  assignedToOrgUnitUID: string;
+  locationUID: string;
+  identificators: string[];
+  tags: string[];
+  description: string;
 }
 
 
@@ -123,10 +133,15 @@ export interface AssetTransaction {
   transactionType: Identifiable;
   transactionNo: string;
   description: string;
+  identificators: string[];
+  tags: string[];
   assignedToOrgUnit: Identifiable;
   assignedTo: Identifiable;
   manager: Identifiable;
   managerOrgUnit: Identifiable;
+  building: Identifiable;
+  floor: Identifiable;
+  place: Identifiable;
   locationName: string;
   operationSource: Identifiable;
   requestedTime: DateString;
@@ -180,8 +195,13 @@ export const EmptyAssetTransaction: AssetTransaction = {
   transactionType: Empty,
   transactionNo: '',
   description: '',
+  identificators: [],
+  tags: [],
   manager: Empty,
   managerOrgUnit: Empty,
+  building: Empty,
+  floor: Empty,
+  place: Empty,
   locationName: '',
   assignedToOrgUnit: Empty,
   assignedTo: Empty,

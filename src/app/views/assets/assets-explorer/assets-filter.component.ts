@@ -12,18 +12,18 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { combineLatest } from 'rxjs';
 
-import { Empty, EventInfo, Identifiable, isEmpty } from '@app/core';
+import { EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { AssetsStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { AssetsDataService, SearcherAPIS } from '@app/data-services';
+import { SearcherAPIS } from '@app/data-services';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { EmptyAssetsQuery, AssetsQuery, EntityStatus, EntityStatusList,
-         RequestsList } from '@app/models';
+import { EmptyAssetsQuery, AssetsQuery, EntityStatus, EntityStatusList, RequestsList, LocationSelection,
+         EmptyLocationSelection, buildLocationSelection } from '@app/models';
 
 
 export enum AssetsFilterEventType {
@@ -38,9 +38,7 @@ interface AssetsFilterFormModel extends FormGroup<{
   keywords: FormControl<string>;
   assetTypeUID: FormControl<string>;
   assetNo: FormControl<string>;
-  buildingUID: FormControl<string>;
-  floorUID: FormControl<string>;
-  placeUID: FormControl<string>;
+  location: FormControl<LocationSelection>;
 }> { }
 
 
@@ -65,31 +63,22 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoading = false;
 
-  isLoadingFloors = false;
-
-  isLoadingPlaces = false;
-
   statusList: Identifiable<EntityStatus>[] = EntityStatusList;
 
   orgUnitsList: Identifiable[] = [];
 
   assetTypesList: Identifiable[] = [];
 
-  buildingsList: Identifiable[] = [];
-
-  floorsList: Identifiable[] = [];
-
-  placesList: Identifiable[] = [];
-
   assigneesAPI = SearcherAPIS.assetsAssignees;
 
   selectedAssignedTo: Identifiable = null;
 
+  selectedLocation: LocationSelection = EmptyLocationSelection;
+
   helper: SubscriptionHelper;
 
 
-  constructor(private uiLayer: PresentationLayer,
-              private assetsData: AssetsDataService) {
+  constructor(private uiLayer: PresentationLayer) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
@@ -117,27 +106,8 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  onBuildingChanges(building: Identifiable) {
-    this.form.controls.floorUID.reset();
-
-    if (isEmpty(building)) {
-      this.floorsList = [];
-    } else {
-      this.getFloors(building.uid);
-    }
-
-    this.onFloorChanges(Empty);
-  }
-
-
-  onFloorChanges(floor: Identifiable) {
-    this.form.controls.placeUID.reset();
-
-    if (isEmpty(floor)) {
-      this.placesList = [];
-    } else {
-      this.getPlaces(floor.uid);
-    }
+  onLocationChanges(location: LocationSelection) {
+    this.selectedLocation = !location ? EmptyLocationSelection : location;
   }
 
 
@@ -168,35 +138,13 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.assets }),
-      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSET_TYPES),
-      this.assetsData.getAssetRootLocations(),
+      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSET_TYPES)
     ])
-    .subscribe(([a, b, c]) => {
+    .subscribe(([a, b]) => {
       this.orgUnitsList = a;
       this.assetTypesList = b;
-      this.buildingsList = c;
       this.isLoading = false;
     });
-  }
-
-
-  private getFloors(floorUID: string) {
-    this.isLoadingFloors = true;
-
-    this.assetsData.getAssetLocationsList(floorUID)
-      .firstValue()
-      .then(x => this.floorsList = x)
-      .finally(() => this.isLoadingFloors = false);
-  }
-
-
-  private getPlaces(placeUID: string) {
-    this.isLoadingPlaces = true;
-
-    this.assetsData.getAssetLocationsList(placeUID)
-      .firstValue()
-      .then(x => this.placesList = x)
-      .finally(() => this.isLoadingPlaces = false);
   }
 
 
@@ -210,14 +158,16 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
       keywords: [null],
       assetTypeUID: [null],
       assetNo: [null],
-      buildingUID: [null],
-      floorUID: [null],
-      placeUID: [null],
+      location: [EmptyLocationSelection],
     });
   }
 
 
   private setFormData() {
+    const locationData = buildLocationSelection(
+      this.selectedLocation.building, this.selectedLocation.floor, this.selectedLocation.place
+    );
+
     this.form.reset({
       assignedToUID: this.query.assignedToUID,
       assignedToOrgUnitUID: this.query.assignedToOrgUnitUID,
@@ -225,9 +175,7 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
       keywords: this.query.keywords,
       assetTypeUID: this.query.assetTypeUID,
       assetNo: this.query.assetNo,
-      buildingUID: this.query.buildingUID,
-      floorUID: this.query.floorUID,
-      placeUID: this.query.placeUID,
+      location: locationData,
     });
   }
 
@@ -240,9 +188,9 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
       keywords: this.form.value.keywords ?? null,
       assetTypeUID: this.form.value.assetTypeUID ?? null,
       assetNo: this.form.value.assetNo ?? null,
-      buildingUID: this.form.value.buildingUID ?? null,
-      floorUID: this.form.value.floorUID ?? null,
-      placeUID: this.form.value.placeUID ?? null,
+      buildingUID: this.form.value.location?.building?.uid ?? null,
+      floorUID: this.form.value.location?.floor?.uid ?? null,
+      placeUID: this.form.value.location?.place?.uid ?? null,
     };
 
     return query;
@@ -252,8 +200,7 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
   private clearFilters() {
     this.form.reset();
     this.selectedAssignedTo = null;
-    this.floorsList = [];
-    this.placesList = [];
+    this.selectedLocation = EmptyLocationSelection;
   }
 
 }

@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Empty, Identifiable } from '@app/core';
+import { DateString, Empty, Identifiable, isEmpty } from '@app/core';
 
 import { BaseActions, EmptyBaseActions, EntityStatus, ExplorerOperation } from './_explorer-data';
 
@@ -100,6 +100,33 @@ export enum AssetsOperationType {
   requestMintenance    = 'requestMintenance',
   requestCustodyChange = 'requestCustodyChange ',
   delete               = 'delete',
+}
+
+
+export interface LocationSelection {
+  building: Identifiable;
+  floor: Identifiable;
+  place: Identifiable;
+}
+
+
+export const EmptyLocationSelection: LocationSelection = {
+  building: null,
+  floor: null,
+  place: null,
+};
+
+
+export function buildLocationSelection(building: Identifiable,
+                                       floor: Identifiable,
+                                       place: Identifiable): LocationSelection {
+  const data: LocationSelection = {
+    building: isEmpty(building) ? null : building,
+    floor: isEmpty(floor) ? null : floor,
+    place: isEmpty(place) ? null : place,
+  };
+
+  return data;
 }
 
 

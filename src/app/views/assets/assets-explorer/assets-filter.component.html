@@ -124,56 +124,11 @@
 
         </div>
 
-        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+        <emp-pyc-location-selector
+          formControlName="location"
+          (changes)="onLocationChanges($event)">
 
-          <div class="fx-item-half sm-fx-item">
-
-            <label>Edificio:</label>
-
-            <emp-ng-select
-              formControlName="buildingUID"
-              [config]="{clearable: true}"
-              [items]="buildingsList"
-              [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.buildingUID)"
-              (changes)="onBuildingChanges($event)"
-              placeholder="Todos">
-            </emp-ng-select>
-
-          </div>
-
-          <div class="fx-item-quarter sm-fx-item">
-
-            <label>Piso:</label>
-
-            <emp-ng-select
-              formControlName="floorUID"
-              [config]="{clearable: true, notFoundText: 'Seleccione el edificio'}"
-              [items]="floorsList"
-              [loading]="isLoadingFloors"
-              [showError]="formHelper.isControlInvalid(form.controls.floorUID)"
-              (changes)="onFloorChanges($event)"
-              placeholder="Todos">
-            </emp-ng-select>
-
-          </div>
-
-          <div class="fx-item-quarter sm-fx-item">
-
-            <label>Lugar:</label>
-
-            <emp-ng-select
-              formControlName="placeUID"
-              [config]="{clearable: true, notFoundText: 'Seleccione el piso'}"
-              [items]="placesList"
-              [loading]="isLoadingPlaces"
-              [showError]="formHelper.isControlInvalid(form.controls.placeUID)"
-              placeholder="Todos">
-            </emp-ng-select>
-
-          </div>
-
-        </div>
+        </emp-pyc-location-selector>
 
         <mat-divider class="horizontal-slim">
 

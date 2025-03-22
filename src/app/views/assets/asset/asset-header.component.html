@@ -2,9 +2,9 @@
 
   <div class="fx-column-container fx-gap-half">
 
-    <div class="fx-row-container">
+    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
 
-      <div class="fx-item-half">
+      <div class="fx-item-half sm-fx-item">
 
         <label>Área responsable:</label>
 
@@ -19,7 +19,7 @@
 
       </div>
 
-      <div class="fx-item-size" style="--size: calc(50% - 221px)">
+      <div class="fx-item-size sm-fx-item" style="--size: calc(50% - 221px)">
 
         <label>Tipo de activo fijo:</label>
 
@@ -32,7 +32,7 @@
 
       </div>
 
-      <div class="fx-item-none">
+      <div class="fx-item-none sm-fx-item">
         <label>Fecha inicio / Fecha fin:</label>
         <emp-ng-date-range-picker
           formControlName="datePeriod"
@@ -43,9 +43,9 @@
 
     </div>
 
-    <div class="fx-row-container">
+    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
 
-      <div class="fx-item-half">
+      <div class="fx-item-half sm-fx-item">
 
         <label>Persona responsable:</label>
 
@@ -59,7 +59,7 @@
 
       </div>
 
-      <div class="fx-item-half">
+      <div class="fx-item-half sm-fx-item">
 
         <label>Nombre:</label>
 
@@ -71,9 +71,16 @@
 
     </div>
 
+    <emp-pyc-location-selector
+      formControlName="location"
+      [errors]="form.controls.location.errors"
+      [showError]="formHelper.isControlInvalid(form.controls.location)">
+
+    </emp-pyc-location-selector>
+
     <div class="fx-row-container">
 
-      <div class="fx-item-quarter">
+      <div class="fx-item-quarter sm-fx-item-half">
 
         <label>Marca:</label>
 
@@ -100,52 +107,6 @@
         <input type="text" class="text-box"
           formControlName="year"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.year)">
-
-      </div>
-
-    </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-half">
-
-        <label>Edificio:</label>
-
-        <emp-ng-select
-          formControlName="buildingUID"
-          [items]="buildingsList"
-          [loading]="isLoading"
-          [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
-          [showError]="formHelper.isControlInvalid(form.controls.buildingUID)">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-quarter">
-
-        <label>Piso:</label>
-
-        <emp-ng-select
-          formControlName="floorUID"
-          [items]="floorsList"
-          [loading]="isLoading"
-          [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
-          [showError]="formHelper.isControlInvalid(form.controls.floorUID)">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-quarter">
-
-        <label>Lugar:</label>
-
-        <emp-ng-select
-          formControlName="placeUID"
-          [items]="placesList"
-          [loading]="isLoading"
-          [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
-          [showError]="formHelper.isControlInvalid(form.controls.placeUID)">
-        </emp-ng-select>
 
       </div>
 

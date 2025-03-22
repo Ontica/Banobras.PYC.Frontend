@@ -5,20 +5,28 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
+         SimpleChanges } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Assertion, DateString, Empty, EventInfo, Identifiable, isEmpty } from '@app/core';
+import { combineLatest } from 'rxjs';
 
-import { MessageBoxService } from '@app/shared/services';
+import { Assertion, DateString, EventInfo, Identifiable, isEmpty, Validate } from '@app/core';
+
+import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
+
+import { AssetsStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
+import { MessageBoxService } from '@app/shared/services';
+
 import { SearcherAPIS } from '@app/data-services';
 
-import { AssetTransaction, AssetTransactionFields, EmptyAssetTransaction, TransactionActions,
-         EmptyTransactionActions } from '@app/models';
+import { AssetTransaction, AssetTransactionFields, buildLocationSelection, EmptyAssetTransaction,
+         EmptyLocationSelection, EmptyTransactionActions, LocationSelection, RequestsList,
+         TransactionActions } from '@app/models';
 
 
 export enum TransactionHeaderEventType {
@@ -37,9 +45,7 @@ interface TransactionFormModel extends FormGroup<{
   managerOrgUnitUID: FormControl<string>;
   assignedToUID: FormControl<string>;
   assignedToOrgUnitUID: FormControl<string>;
-  buildingUID: FormControl<string>;
-  floorUID: FormControl<string>;
-  placeUID: FormControl<string>;
+  location: FormControl<LocationSelection>;
   identificators: FormControl<string[]>;
   tags: FormControl<string[]>;
   description: FormControl<string>;
@@ -49,7 +55,7 @@ interface TransactionFormModel extends FormGroup<{
   selector: 'emp-pyc-transaction-header',
   templateUrl: './transaction-header.component.html',
 })
-export class AssetTransactionHeaderComponent implements OnInit, OnChanges {
+export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() isSaved = false;
 
@@ -67,24 +73,18 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges {
 
   isLoading = false;
 
-  isLoadingFloors = false;
-
-  isLoadingPlaces = false;
-
-  organizationalUnitsList: Identifiable[] = [];
+  orgUnitsList: Identifiable[] = [];
 
   transactionTypesList: Identifiable[] = [];
 
-  buildingsList: Identifiable[] = [];
-
-  floorsList: Identifiable[] = [];
-
-  placesList: Identifiable[] = [];
-
   assigneesAPI = SearcherAPIS.assetsTransactionsAssignees;
 
+  helper: SubscriptionHelper;
 
-  constructor(private messageBox: MessageBoxService) {
+
+  constructor(private uiLayer: PresentationLayer,
+              private messageBox: MessageBoxService) {
+    this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
     this.enableEditor(true);
   }
@@ -103,33 +103,14 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges {
   }
 
 
+  ngOnDestroy() {
+    this.helper.destroy();
+  }
+
+
   get hasActions(): boolean {
-    return Object.values(this.actions).some(x => !!x);
-  }
-
-
-
-  onBuildingChanges(building: Identifiable) {
-    this.form.controls.floorUID.reset();
-
-    if (isEmpty(building)) {
-      this.floorsList = [];
-    } else {
-      // this.getFloors(building.uid);
-    }
-
-    this.onFloorChanges(Empty);
-  }
-
-
-  onFloorChanges(floor: Identifiable) {
-    this.form.controls.placeUID.reset();
-
-    if (isEmpty(floor)) {
-      this.placesList = [];
-    } else {
-      // this.getPlaces(floor.uid);
-    }
+    return this.actions.canDelete || this.actions.canUpdate ||
+           this.actions.canAuthorize || this.actions.canClone;
   }
 
 
@@ -141,7 +122,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges {
         eventType = TransactionHeaderEventType.UPDATE;
       }
 
-      sendEvent(this.transactionHeaderEvent, eventType, { transactionFields: this.getFormData() });
+      sendEvent(this.transactionHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
   }
 
@@ -175,18 +156,27 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges {
 
 
   private loadDataLists() {
+    this.isLoading = true;
 
+    combineLatest([
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
+        { requestsList: RequestsList.assets }),
+      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSET_TRANSACTIONS_TYPES)
+    ])
+    .subscribe(([a, b]) => {
+      this.orgUnitsList = a;
+      this.transactionTypesList = b;
+      this.validateDataLists();
+      this.isLoading = false;
+    });
   }
 
 
   private validateDataLists() {
-    if (this.transaction.assignedToOrgUnit) {
-      this.organizationalUnitsList =
-        ArrayLibrary.insertIfNotExist(this.organizationalUnitsList ?? [], this.transaction.assignedToOrgUnit, 'uid');
-    }
     this.transactionTypesList =
       ArrayLibrary.insertIfNotExist(this.transactionTypesList ?? [], this.transaction.transactionType, 'uid');
   }
+
 
 
   private initForm() {
@@ -200,9 +190,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges {
       managerOrgUnitUID: ['', Validators.required],
       assignedToUID: ['', Validators.required],
       assignedToOrgUnitUID: ['', Validators.required],
-      buildingUID: ['', Validators.required],
-      floorUID: ['', Validators.required],
-      placeUID: ['', Validators.required],
+      location: [EmptyLocationSelection, Validate.objectFieldsRequired('building', 'floor', 'place')],
       identificators: [null],
       tags: [null],
       description: ['', Validators.required],
@@ -212,6 +200,11 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges {
 
   private setFormData() {
     setTimeout(() => {
+      const locationData = buildLocationSelection(
+        this.transaction.building, this.transaction.floor, this.transaction.place
+      );
+
+
       this.form.reset({
         transactionTypeUID: isEmpty(this.transaction.transactionType) ? null : this.transaction.transactionType.uid,
         requestedTime: this.transaction.requestedTime ?? null,
@@ -220,9 +213,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges {
         managerOrgUnitUID: isEmpty(this.transaction.managerOrgUnit) ? null : this.transaction.managerOrgUnit.uid,
         assignedToUID: isEmpty(this.transaction.assignedTo) ? null : this.transaction.assignedTo.uid,
         assignedToOrgUnitUID: isEmpty(this.transaction.assignedToOrgUnit) ? null : this.transaction.assignedToOrgUnit.uid,
-        buildingUID: isEmpty(this.transaction.building) ? null : this.transaction.building.uid,
-        floorUID: isEmpty(this.transaction.floor) ? null : this.transaction.floor.uid,
-        placeUID: isEmpty(this.transaction.place) ? null : this.transaction.place.uid,
+        location: locationData,
         identificators: this.transaction.identificators ?? null,
         tags: this.transaction.tags ?? null,
         description: this.transaction.description ?? null,
@@ -242,7 +233,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges {
       assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
       managerUID: this.form.value.managerUID ?? null,
       managerOrgUnitUID: this.form.value.managerOrgUnitUID ?? null,
-      locationUID: this.form.value.placeUID ?? null,
+      locationUID: this.form.value.location.place.uid ?? null,
       identificators: this.form.value.identificators ?? null,
       tags: this.form.value.tags ?? null,
       description: this.form.value.description ?? null,

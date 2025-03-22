@@ -1,0 +1,65 @@
+<div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+  <div class="fx-item-half sm-fx-item">
+
+    <label>Edificio:</label>
+
+    <emp-ng-select
+      [(ngModel)]="selectedBuilding"
+      [config]="{
+        bindByValue: false,
+        clearable: !required
+      }"
+      [items]="buildingsList"
+      [loading]="isLoadingBuildings"
+      [disabled]="disabled"
+      [showError]="showError && errors?.buildingError"
+      [placeholder]="buildingPlaceholder"
+      (changes)="onBuildingChanges($event)">
+    </emp-ng-select>
+
+  </div>
+
+  <div class="fx-item-quarter sm-fx-item">
+
+    <label>Piso:</label>
+
+    <emp-ng-select
+      [(ngModel)]="selectedFloor"
+      [config]="{
+        bindByValue: false,
+        clearable: !required,
+        notFoundText: selectedBuilding?.uid ? 'No se encontraron registros':  'Seleccione edificio'
+      }"
+      [items]="floorsList"
+      [loading]="isLoadingFloors"
+      [disabled]="disabled"
+      [showError]="showError && errors?.floorError"
+      [placeholder]="floorPlaceholder"
+      (changes)="onFloorChanges($event)">
+    </emp-ng-select>
+
+  </div>
+
+  <div class="fx-item-quarter sm-fx-item">
+
+    <label>Lugar:</label>
+
+    <emp-ng-select
+      [(ngModel)]="selectedPlace"
+      [config]="{
+        bindByValue: false,
+        clearable: !required,
+        notFoundText: selectedFloor?.uid ? 'No se encontraron registros':  'Seleccione piso'
+      }"
+      [items]="placesList"
+      [loading]="isLoadingPlaces"
+      [disabled]="disabled"
+      [showError]="showError && errors?.placeError"
+      [placeholder]="placePlaceholder"
+      (changes)="onLocationDataChanged()">
+    </emp-ng-select>
+
+  </div>
+
+</div>

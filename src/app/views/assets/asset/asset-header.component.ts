@@ -15,8 +15,8 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { Asset, AssetFields, DateRange, EmptyAsset, EmptyDateRange, BaseActions,
-         EmptyBaseActions } from '@app/models';
+import { Asset, AssetFields, DateRange, EmptyAsset, EmptyDateRange, BaseActions, EmptyBaseActions,
+         LocationSelection, EmptyLocationSelection, buildLocationSelection } from '@app/models';
 
 
 export enum AssetHeaderEventType {
@@ -34,9 +34,7 @@ interface AssetFormModel extends FormGroup<{
   brand: FormControl<string>;
   model: FormControl<string>;
   year: FormControl<number>;
-  buildingUID: FormControl<string>;
-  floorUID: FormControl<string>;
-  placeUID: FormControl<string>;
+  location: FormControl<LocationSelection>;
   description: FormControl<string>;
 }> { }
 
@@ -67,12 +65,6 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
   assetTypesList: Identifiable[] = [];
 
   assignedTosList: Identifiable[] = [];
-
-  buildingsList: Identifiable[] = [];
-
-  floorsList: Identifiable[] = [];
-
-  placesList: Identifiable[] = [];
 
 
   constructor(private messageBox: MessageBoxService) {
@@ -148,12 +140,6 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
       this.assetTypesList =
         ArrayLibrary.insertIfNotExist(this.assetTypesList ?? [], this.asset.assetType, 'uid');
     }
-    this.buildingsList =
-      ArrayLibrary.insertIfNotExist(this.buildingsList ?? [], this.asset.building, 'uid');
-    this.floorsList =
-      ArrayLibrary.insertIfNotExist(this.floorsList ?? [], this.asset.floor, 'uid');
-    this.placesList =
-      ArrayLibrary.insertIfNotExist(this.placesList ?? [], this.asset.place, 'uid');
   }
 
 
@@ -169,9 +155,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
       brand: [''],
       model: [''],
       year: [null],
-      buildingUID: [''],
-      floorUID: [''],
-      placeUID: [''],
+      location: [EmptyLocationSelection],
       description: [''],
     });
   }
@@ -179,6 +163,8 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
 
   private setFormData() {
     setTimeout(() => {
+      const locationData = buildLocationSelection(this.asset.building, this.asset.floor, this.asset.place);
+
       this.form.reset({
         assetTypeUID: isEmpty(this.asset.assetType) ? null : this.asset.assetType.uid,
         name: this.asset.name ?? '',
@@ -188,9 +174,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
         brand: this.asset.brand ?? '',
         model: this.asset.model ?? '',
         year: this.asset.year > 0 ? this.asset.year : null,
-        buildingUID: isEmpty(this.asset.building) ? null : this.asset.building.uid,
-        floorUID: isEmpty(this.asset.floor) ? null : this.asset.floor.uid,
-        placeUID: isEmpty(this.asset.place) ? null : this.asset.place.uid,
+        location: locationData,
         description: this.asset.description ?? '',
       });
     });
@@ -209,9 +193,9 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
       year: this.form.value.year > 0 ? this.form.value.year : null,
       assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
       assignedToUID: this.form.value.assignedToUID ?? null,
-      buildingUID: this.form.value.buildingUID ?? null,
-      floorUID: this.form.value.floorUID ?? null,
-      placeUID: this.form.value.placeUID ?? null,
+      buildingUID: this.form.value.location?.building?.uid ?? null,
+      floorUID: this.form.value.location?.floor?.uid ?? null,
+      placeUID: this.form.value.location?.place?.uid ?? null,
       startDate: this.form.value.datePeriod.fromDate ?? null,
       endDate: this.form.value.datePeriod.toDate ?? null,
     };
