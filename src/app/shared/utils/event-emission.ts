@@ -10,11 +10,18 @@ import { EventEmitter } from '@angular/core';
 import { EventInfo } from '@app/core';
 
 
-export function sendEvent(eventEmitter: EventEmitter<EventInfo>, eventType: any, payload?: any) {
+export function sendEvent<T>(eventEmitter: EventEmitter<EventInfo>, eventType: any, payload?: T) {
   const event: EventInfo = {
     type: eventType,
     payload
   };
 
   eventEmitter.emit(event);
+}
+
+
+export function sendEventIf<T>(condition: boolean, eventEmitter: EventEmitter<EventInfo>, eventType: any, payload?: T) {
+  if (condition) {
+    sendEvent(eventEmitter, eventType, payload);
+  }
 }
