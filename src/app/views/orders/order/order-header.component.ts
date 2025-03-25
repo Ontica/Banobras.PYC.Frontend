@@ -188,12 +188,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   onSubmitButtonClicked() {
     if (FormHelper.isFormReadyAndInvalidate(this.form)) {
-      let eventType = OrderHeaderEventType.CREATE;
-
-      if (this.isSaved) {
-        eventType = OrderHeaderEventType.UPDATE;
-      }
-
+      const eventType = this.isSaved ? OrderHeaderEventType.UPDATE : OrderHeaderEventType.CREATE;
       sendEvent(this.orderHeaderEvent, eventType, { dataFields: this.validateGetOrderFields() });
     }
   }

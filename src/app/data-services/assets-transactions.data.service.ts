@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { FileReport, AssetTransactionHolder, AssetTransactionDescriptor,
-         AssetTransactionsQuery } from '@app/models';
+         AssetTransactionsQuery, AssetTransactionFields } from '@app/models';
 
 
 @Injectable()
@@ -60,6 +60,43 @@ export class AssetsTransactionsDataService {
     const path = `v2/assets/transactions/${transactionUID}/print`;
 
     return this.http.get<FileReport>(path);
+  }
+
+
+  createAssetTransaction(dataFields: AssetTransactionFields): EmpObservable<AssetTransactionHolder> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/assets/transactions`;
+
+    return this.http.post<AssetTransactionHolder>(path, dataFields);
+  }
+
+
+  updateAssetTransaction(transactionUID: string, dataFields: AssetTransactionFields): EmpObservable<AssetTransactionHolder> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/assets/transactions/${transactionUID}`;
+
+    return this.http.put<AssetTransactionHolder>(path, dataFields);
+  }
+
+
+  deleteAssetTransaction(transactionUID: string): EmpObservable<void> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+
+    const path = `v2/assets/transactions/${transactionUID}`;
+
+    return this.http.delete<void>(path);
+  }
+
+
+  closeAssetTransaction(transactionUID: string): EmpObservable<AssetTransactionHolder> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+
+    const path = `v2/assets/transactions/${transactionUID}/close`;
+
+    return this.http.post<AssetTransactionHolder>(path);
   }
 
 }

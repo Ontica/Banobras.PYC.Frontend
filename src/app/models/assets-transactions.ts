@@ -13,8 +13,6 @@ import { Document } from './documents';
 
 import { AssetDescriptor } from './assets';
 
-import { EmptyTransactionActions, TransactionActions } from './budget-transactions';
-
 
 export enum AssetTransactionsStatus {
   Pending         = 'Pendiente',
@@ -124,7 +122,7 @@ export interface AssetTransactionHolder {
   entries: AssetDescriptor[];
   documents: Document[];
   history: History[];
-  actions: TransactionActions;
+  actions: AssetTransactionActions;
 }
 
 
@@ -148,6 +146,15 @@ export interface AssetTransaction {
   applicationTime: DateString;
   recordingTime: DateString;
   status: Identifiable;
+}
+
+
+export interface AssetTransactionActions {
+  canUpdate: boolean;
+  canDelete: boolean;
+  canClose: boolean;
+  canClone: boolean;
+  canEditDocuments: boolean;
 }
 
 
@@ -213,12 +220,21 @@ export const EmptyAssetTransaction: AssetTransaction = {
 }
 
 
+export const EmptyAssetTransactionActions: AssetTransactionActions = {
+  canUpdate: false,
+  canDelete: false,
+  canClose: false,
+  canClone: false,
+  canEditDocuments: false,
+}
+
+
 export const EmptyAssetTransactionHolder: AssetTransactionHolder = {
   transaction: EmptyAssetTransaction,
   entries: [],
   documents: [],
   history: [],
-  actions: EmptyTransactionActions,
+  actions: EmptyAssetTransactionActions,
 };
 
 

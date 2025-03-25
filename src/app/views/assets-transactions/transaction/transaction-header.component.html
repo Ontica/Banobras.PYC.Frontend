@@ -49,8 +49,10 @@
 
         <emp-ng-select-typeahead
           formControlName="assignedToUID"
+          [config]="{ showTooltip: true}"
           [searcherAPI]="assigneesAPI"
-          [initialValue]="isSaved && !editionMode && !!transaction.assignedTo ? transaction.assignedTo : null"
+          [initialValue]="isSaved ? transaction.assignedTo : null"
+          [showError]="formHelper.isControlInvalid(form.controls.assignedToUID)"
           [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Buscar...'">
         </emp-ng-select-typeahead>
 
@@ -81,8 +83,10 @@
 
         <emp-ng-select-typeahead
           formControlName="managerUID"
-          [searcherAPI]="assigneesAPI"
-          [initialValue]="isSaved && !editionMode && !!transaction.manager ? transaction.manager : null"
+          [config]="{ showTooltip: true}"
+          [searcherAPI]="managersAPI"
+          [initialValue]="isSaved ? transaction.manager : null"
+          [showError]="formHelper.isControlInvalid(form.controls.managerUID)"
           [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Buscar...'">
         </emp-ng-select-typeahead>
 
@@ -192,10 +196,10 @@
 
         <ng-container *ngIf="!editionMode">
 
-          <button *ngIf="actions.canAuthorize"
+          <button *ngIf="actions.canClose"
             type="button" class="btn"
-            (click)="onAuthorizeButtonClicked()">
-            Autorizar
+            (click)="onCloseButtonClicked()">
+            Cerrar
           </button>
 
           <button *ngIf="actions.canClone"

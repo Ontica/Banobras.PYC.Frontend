@@ -7,12 +7,16 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { EventInfo, isEmpty } from '@app/core';
+import { Assertion, EventInfo, isEmpty } from '@app/core';
+
+import { sendEvent } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { AssetTransaction, EmptyAssetTransaction, TransactionActions,
-         EmptyTransactionActions } from '@app/models';
+import { AssetsTransactionsDataService } from '@app/data-services';
+
+import { AssetTransaction, AssetTransactionFields, AssetTransactionHolder, EmptyAssetTransaction,
+         EmptyAssetTransactionActions, AssetTransactionActions } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
 
@@ -30,14 +34,15 @@ export class AssetTransactionEditorComponent {
 
   @Input() transaction: AssetTransaction = EmptyAssetTransaction;
 
-  @Input() actions: TransactionActions = EmptyTransactionActions;
+  @Input() actions: AssetTransactionActions = EmptyAssetTransactionActions;
 
   @Output() transactionEditorEvent = new EventEmitter<EventInfo>();
 
   submitted = false;
 
 
-  constructor(private messageBox: MessageBoxService) { }
+  constructor(private transactionsData: AssetsTransactionsDataService,
+              private messageBox: MessageBoxService) { }
 
 
   get isSaved(): boolean {
@@ -51,14 +56,73 @@ export class AssetTransactionEditorComponent {
     }
 
     switch (event.type as TransactionHeaderEventType) {
-      case TransactionHeaderEventType.AUTHORIZE:
-        this.messageBox.showInDevelopment('Autorizar transacción');
-        return
-
+      case TransactionHeaderEventType.UPDATE:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.updateTransaction(this.transaction.uid, event.payload.dataFields as AssetTransactionFields);
+        return;
+      case TransactionHeaderEventType.DELETE:
+        this.deleteTransaction(this.transaction.uid);
+        return;
+      case TransactionHeaderEventType.CLOSE:
+        this.closeTransaction(this.transaction.uid);
+        return;
+      case TransactionHeaderEventType.CLONE:
+        this.cloneTransaction(this.transaction.uid);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private updateTransaction(transactionUID: string, dataFields: AssetTransactionFields) {
+    this.submitted = true;
+
+    this.transactionsData.updateAssetTransaction(transactionUID, dataFields)
+      .firstValue()
+      .then(x => this.resolveTransactionUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private deleteTransaction(transactionUID: string) {
+    this.submitted = true;
+
+    this.transactionsData.deleteAssetTransaction(transactionUID)
+      .firstValue()
+      .then(() => this.resolveTransactionDeleted(transactionUID))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private closeTransaction(transactionUID: string) {
+    this.submitted = true;
+
+    this.transactionsData.closeAssetTransaction(transactionUID)
+      .firstValue()
+      .then(x => this.resolveTransactionUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private cloneTransaction(transactionUID: string) {
+    this.submitted = true;
+
+    setTimeout(() => {
+      this.messageBox.showInDevelopment('Clonar transacción', transactionUID);
+      this.submitted = false
+    }, 500);
+  }
+
+
+  private resolveTransactionUpdated(data: AssetTransactionHolder) {
+    sendEvent(this.transactionEditorEvent, TransactionEditorEventType.UPDATED, { data });
+  }
+
+
+  private resolveTransactionDeleted(transactionUID: string) {
+    sendEvent(this.transactionEditorEvent, TransactionEditorEventType.DELETED, { transactionUID });
   }
 
 }

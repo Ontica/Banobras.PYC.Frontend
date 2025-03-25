@@ -16,7 +16,7 @@ import { AssetsDataService, AssetsTransactionsDataService } from '@app/data-serv
 
 export enum SelectorType {
   ASSET_TYPES              = 'PYC.Assets.Selector.AssetTypes.List',
-  ASSET_TRANSACTIONS_TYPES = 'PYC.Assets.Selector.AssetTypes.List',
+  ASSET_TRANSACTIONS_TYPES = 'PYC.Assets.Selector.AssetTransactionsTypes.List',
 }
 
 

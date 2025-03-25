@@ -25,3 +25,9 @@
   </emp-pyc-transaction-tabbed-view>
 
 </div>
+
+
+<emp-pyc-transaction-creator *ngIf="displayCreator"
+  (transactionCreatorEvent)="onTransactionCreatorEvent($event)">
+
+</emp-pyc-transaction-creator>

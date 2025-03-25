@@ -25,6 +25,7 @@ import { AssetTransactionsListItemComponent } from './transactions-explorer/tran
 
 import { AssetTransactionTabbedViewComponent } from './transaction-tabbed-view/transaction-tabbed-view.component';
 import { AssetTransactionPrintViewComponent } from './transaction-tabbed-view/transaction-print-view.component';
+import { AssetTransactionCreatorComponent } from './transaction/transaction-creator.component';
 import { AssetTransactionEditorComponent } from './transaction/transaction-editor.component';
 import { AssetTransactionHeaderComponent } from './transaction/transaction-header.component';
 
@@ -52,6 +53,7 @@ import { AssetTransactionHeaderComponent } from './transaction/transaction-heade
 
     AssetTransactionTabbedViewComponent,
     AssetTransactionPrintViewComponent,
+    AssetTransactionCreatorComponent,
     AssetTransactionEditorComponent,
     AssetTransactionHeaderComponent,
   ],

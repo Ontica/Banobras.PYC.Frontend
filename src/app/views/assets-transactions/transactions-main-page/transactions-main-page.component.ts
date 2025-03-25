@@ -42,6 +42,8 @@ export class AssetTransactionsMainPageComponent  {
 
   displayTabbedView = false;
 
+  displayCreator = false;
+
   isLoading = false;
 
   isLoadingSelection = false;
@@ -53,8 +55,28 @@ export class AssetTransactionsMainPageComponent  {
               private messageBox: MessageBoxService) { }
 
 
+  onTransactionCreatorEvent(event: EventInfo) {
+    switch (event.type as TransactionCreatorEventType) {
+      case TransactionCreatorEventType.CLOSE_MODAL_CLICKED:
+        this.displayCreator = false;
+        return;
+      case TransactionCreatorEventType.CREATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.displayCreator = false;
+        this.insertItemToList(event.payload.data as AssetTransactionHolder);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   onTransactionsExplorerEvent(event: EventInfo) {
     switch (event.type as TransactionsExplorerEventType) {
+      case TransactionsExplorerEventType.CREATE_CLICKED:
+        this.displayCreator = true;
+        return;
       case TransactionsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as AssetTransactionsQuery);

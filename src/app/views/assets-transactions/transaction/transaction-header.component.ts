@@ -18,23 +18,23 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { AssetsStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/services';
 
 import { SearcherAPIS } from '@app/data-services';
 
 import { AssetTransaction, AssetTransactionFields, buildLocationSelection, EmptyAssetTransaction,
-         EmptyLocationSelection, EmptyTransactionActions, LocationSelection, RequestsList,
-         TransactionActions } from '@app/models';
+         EmptyLocationSelection, LocationSelection, RequestsList, AssetTransactionActions,
+         EmptyAssetTransactionActions } from '@app/models';
 
 
 export enum TransactionHeaderEventType {
   CREATE    = 'AssetTransactionHeaderComponent.Event.CreateTransaction',
   UPDATE    = 'AssetTransactionHeaderComponent.Event.UpdateTransaction',
-  AUTHORIZE = 'AssetTransactionHeaderComponent.Event.AuthorizeTransaction',
-  DELETE    = 'AssetTransactionHeaderComponent.Event.DeleteTransaction',
+  CLOSE     = 'AssetTransactionHeaderComponent.Event.CloseTransaction',
   CLONE     = 'AssetTransactionHeaderComponent.Event.CloneTransaction',
+  DELETE    = 'AssetTransactionHeaderComponent.Event.DeleteTransaction',
 }
 
 interface TransactionFormModel extends FormGroup<{
@@ -61,7 +61,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
 
   @Input() transaction: AssetTransaction = EmptyAssetTransaction;
 
-  @Input() actions: TransactionActions = EmptyTransactionActions;
+  @Input() actions: AssetTransactionActions = EmptyAssetTransactionActions;
 
   @Output() transactionHeaderEvent = new EventEmitter<EventInfo>();
 
@@ -79,6 +79,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
 
   assigneesAPI = SearcherAPIS.assetsTransactionsAssignees;
 
+  managersAPI = SearcherAPIS.assetsTransactionsManagers;
+
   helper: SubscriptionHelper;
 
 
@@ -92,6 +94,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
 
   ngOnInit() {
     this.loadDataLists();
+    this.validateFieldsRequired();
   }
 
 
@@ -110,35 +113,30 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
 
   get hasActions(): boolean {
     return this.actions.canDelete || this.actions.canUpdate ||
-           this.actions.canAuthorize || this.actions.canClone;
+           this.actions.canClose || this.actions.canClone;
   }
 
 
   onSubmitButtonClicked() {
     if (this.formHelper.isFormReadyAndInvalidate(this.form)) {
-      let eventType = TransactionHeaderEventType.CREATE;
-
-      if (this.isSaved) {
-        eventType = TransactionHeaderEventType.UPDATE;
-      }
-
+      const eventType = this.isSaved ? TransactionHeaderEventType.UPDATE : TransactionHeaderEventType.CREATE;
       sendEvent(this.transactionHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
   }
 
 
-  onAuthorizeButtonClicked() {
-    this.showConfirmMessage(TransactionHeaderEventType.AUTHORIZE);
-  }
-
-
-  onDeleteButtonClicked() {
-    this.showConfirmMessage(TransactionHeaderEventType.DELETE);
+  onCloseButtonClicked() {
+    this.showConfirmMessage(TransactionHeaderEventType.CLOSE);
   }
 
 
   onCloneButtonClicked() {
     this.showConfirmMessage(TransactionHeaderEventType.CLONE);
+  }
+
+
+  onDeleteButtonClicked() {
+    this.showConfirmMessage(TransactionHeaderEventType.DELETE);
   }
 
 
@@ -149,9 +147,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
       this.setFormData();
     }
 
-    const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
-
-    setTimeout(() => this.formHelper.setDisableForm(this.form, disable));
+    this.validateFormDisabled();
+    this.validateFieldsRequired();
   }
 
 
@@ -173,10 +170,11 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
 
 
   private validateDataLists() {
-    this.transactionTypesList =
-      ArrayLibrary.insertIfNotExist(this.transactionTypesList ?? [], this.transaction.transactionType, 'uid');
+    if(this.isSaved) {
+      this.transactionTypesList =
+        ArrayLibrary.insertIfNotExist(this.transactionTypesList ?? [], this.transaction.transactionType, 'uid');
+    }
   }
-
 
 
   private initForm() {
@@ -203,7 +201,6 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
       const locationData = buildLocationSelection(
         this.transaction.building, this.transaction.floor, this.transaction.place
       );
-
 
       this.form.reset({
         transactionTypeUID: isEmpty(this.transaction.transactionType) ? null : this.transaction.transactionType.uid,
@@ -234,8 +231,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
       managerUID: this.form.value.managerUID ?? null,
       managerOrgUnitUID: this.form.value.managerOrgUnitUID ?? null,
       locationUID: this.form.value.location.place.uid ?? null,
-      identificators: this.form.value.identificators ?? null,
-      tags: this.form.value.tags ?? null,
+      identificators: this.form.value.identificators ?? [],
+      tags: this.form.value.tags ?? [],
       description: this.form.value.description ?? null,
     };
 
@@ -243,14 +240,31 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
   }
 
 
+  private validateFieldsRequired() {
+    setTimeout(() => {
+      FormHelper.markControlsAsUntouched(this.form.controls.assignedToUID);
+      FormHelper.markControlsAsUntouched(this.form.controls.managerUID);
+    });
+  }
+
+
+  private validateFormDisabled() {
+    setTimeout(() => {
+      const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
+      this.formHelper.setDisableForm(this.form, disable);
+    });
+  }
+
+
   private showConfirmMessage(eventType: TransactionHeaderEventType) {
+    const transactionUID = this.transaction.uid;
     const confirmType = this.getConfirmType(eventType);
     const title = this.getConfirmTitle(eventType);
     const message = this.getConfirmMessage(eventType);
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => this.validateAndSendEvent(eventType, x));
+      .then(x => sendEventIf(x, this.transactionHeaderEvent, eventType, { transactionUID }));
   }
 
 
@@ -258,7 +272,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
     switch (eventType) {
       case TransactionHeaderEventType.DELETE:
         return 'DeleteCancel';
-      case TransactionHeaderEventType.AUTHORIZE:
+      case TransactionHeaderEventType.CLOSE:
+      case TransactionHeaderEventType.CLONE:
       default:
         return 'AcceptCancel';
     }
@@ -267,8 +282,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
 
   private getConfirmTitle(eventType: TransactionHeaderEventType): string {
     switch (eventType) {
-      case TransactionHeaderEventType.AUTHORIZE: return 'Autorizar transacción';
       case TransactionHeaderEventType.DELETE: return 'Eliminar transacción';
+      case TransactionHeaderEventType.CLOSE: return 'Cerrar transacción';
       case TransactionHeaderEventType.CLONE: return 'Clonar transacción';
       default: return '';
     }
@@ -276,34 +291,19 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
 
 
   private getConfirmMessage(eventType: TransactionHeaderEventType): string {
+    const description = `la transacción
+      <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
+      con responsable <strong>${this.transaction.assignedTo.name} (${this.transaction.assignedToOrgUnit.name})</strong>
+      y localización en <strong>${this.transaction.locationName}</strong>`;
+
     switch (eventType) {
-      case TransactionHeaderEventType.AUTHORIZE:
-        return `Esta operación autotizará la transacción
-                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.assignedTo?.name} (${this.transaction.assignedToOrgUnit?.name})</strong>.
-
-                <br><br>¿Autorizo la transacción?`;
       case TransactionHeaderEventType.DELETE:
-        return `Esta operación eliminará la transacción
-                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.assignedTo?.name} (${this.transaction.assignedToOrgUnit?.name})</strong>.
-
-                <br><br>¿Elimino la transacción?`;
+        return `Esta operación eliminará ${description}.<br><br>¿Elimino la transacción?`;
+      case TransactionHeaderEventType.CLOSE:
+        return `Esta operación cerrará ${description}.<br><br>¿Cierro la transacción?`;
       case TransactionHeaderEventType.CLONE:
-        return `Esta operación clonará la transacción
-                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.assignedTo?.name} (${this.transaction.assignedToOrgUnit?.name})</strong>.
-
-                <br><br>¿Clono la transacción?`;
-
+        return `Esta operación clonará ${description}.<br><br>¿Clono la transacción?`;
       default: return '';
-    }
-  }
-
-
-  private validateAndSendEvent(eventType: TransactionHeaderEventType, send: boolean) {
-    if (send) {
-      sendEvent(this.transactionHeaderEvent, eventType, { transactionUID: this.transaction.uid });
     }
   }
 
