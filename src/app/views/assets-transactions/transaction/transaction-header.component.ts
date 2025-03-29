@@ -30,11 +30,12 @@ import { AssetTransaction, AssetTransactionFields, buildLocationSelection, Empty
 
 
 export enum TransactionHeaderEventType {
-  CREATE    = 'AssetTransactionHeaderComponent.Event.CreateTransaction',
-  UPDATE    = 'AssetTransactionHeaderComponent.Event.UpdateTransaction',
-  CLOSE     = 'AssetTransactionHeaderComponent.Event.CloseTransaction',
-  CLONE     = 'AssetTransactionHeaderComponent.Event.CloneTransaction',
-  DELETE    = 'AssetTransactionHeaderComponent.Event.DeleteTransaction',
+  CREATE         = 'AssetTransactionHeaderComponent.Event.CreateTransaction',
+  UPDATE         = 'AssetTransactionHeaderComponent.Event.UpdateTransaction',
+  DELETE         = 'AssetTransactionHeaderComponent.Event.DeleteTransaction',
+  CLOSE          = 'AssetTransactionHeaderComponent.Event.CloseTransaction',
+  CHANGE_CUSTODY = 'AssetTransactionHeaderComponent.Event.ChangeCustody',
+  INVENTORY      = 'AssetTransactionHeaderComponent.Event.Inventory',
 }
 
 interface TransactionFormModel extends FormGroup<{
@@ -130,8 +131,13 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
   }
 
 
-  onCloneButtonClicked() {
-    this.showConfirmMessage(TransactionHeaderEventType.CLONE);
+  onChangeCustodyButtonClicked() {
+    this.showConfirmMessage(TransactionHeaderEventType.CHANGE_CUSTODY);
+  }
+
+
+  onInventoryButtonClicked() {
+    this.showConfirmMessage(TransactionHeaderEventType.INVENTORY);
   }
 
 
@@ -273,7 +279,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
       case TransactionHeaderEventType.DELETE:
         return 'DeleteCancel';
       case TransactionHeaderEventType.CLOSE:
-      case TransactionHeaderEventType.CLONE:
+      case TransactionHeaderEventType.CHANGE_CUSTODY:
+      case TransactionHeaderEventType.INVENTORY:
       default:
         return 'AcceptCancel';
     }
@@ -284,7 +291,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
     switch (eventType) {
       case TransactionHeaderEventType.DELETE: return 'Eliminar transacción';
       case TransactionHeaderEventType.CLOSE: return 'Cerrar transacción';
-      case TransactionHeaderEventType.CLONE: return 'Clonar transacción';
+      case TransactionHeaderEventType.CHANGE_CUSTODY: return 'Cambio de resguardo';
+      case TransactionHeaderEventType.INVENTORY: return 'Inventario';
       default: return '';
     }
   }
@@ -301,8 +309,10 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
         return `Esta operación eliminará ${description}.<br><br>¿Elimino la transacción?`;
       case TransactionHeaderEventType.CLOSE:
         return `Esta operación cerrará ${description}.<br><br>¿Cierro la transacción?`;
-      case TransactionHeaderEventType.CLONE:
-        return `Esta operación clonará ${description}.<br><br>¿Clono la transacción?`;
+      case TransactionHeaderEventType.CHANGE_CUSTODY:
+        return `Esta operación generará la transacción para realizar el cambio del resguardo.<br><br>¿Genero la transacción?`;
+      case TransactionHeaderEventType.INVENTORY:
+        return `Esta operación generará la transacción para realizar el inventario.<br><br>¿Genero la transacción?`;
       default: return '';
     }
   }

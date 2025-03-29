@@ -72,7 +72,8 @@ export class AssetsTransactionsDataService {
   }
 
 
-  updateAssetTransaction(transactionUID: string, dataFields: AssetTransactionFields): EmpObservable<AssetTransactionHolder> {
+  updateAssetTransaction(transactionUID: string,
+                         dataFields: AssetTransactionFields): EmpObservable<AssetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
@@ -95,6 +96,17 @@ export class AssetsTransactionsDataService {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/assets/transactions/${transactionUID}/close`;
+
+    return this.http.post<AssetTransactionHolder>(path);
+  }
+
+
+  cloneAssetTransaction(transactionUID: string,
+                        transactionTypeUID: string): EmpObservable<AssetTransactionHolder> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(transactionTypeUID, 'transactionTypeUID');
+
+    const path = `v2/assets/transactions/${transactionUID}/clone-for/${transactionTypeUID}`;
 
     return this.http.post<AssetTransactionHolder>(path);
   }

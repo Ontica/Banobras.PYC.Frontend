@@ -11,12 +11,10 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { AssetsTransactionsDataService } from '@app/data-services';
 
 import { AssetTransaction, AssetTransactionFields, AssetTransactionHolder, EmptyAssetTransaction,
-         EmptyAssetTransactionActions, AssetTransactionActions } from '@app/models';
+         EmptyAssetTransactionActions, AssetTransactionActions, AssetTransactionTypes } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
 
@@ -41,8 +39,7 @@ export class AssetTransactionEditorComponent {
   submitted = false;
 
 
-  constructor(private transactionsData: AssetsTransactionsDataService,
-              private messageBox: MessageBoxService) { }
+  constructor(private transactionsData: AssetsTransactionsDataService) { }
 
 
   get isSaved(): boolean {
@@ -66,8 +63,11 @@ export class AssetTransactionEditorComponent {
       case TransactionHeaderEventType.CLOSE:
         this.closeTransaction(this.transaction.uid);
         return;
-      case TransactionHeaderEventType.CLONE:
-        this.cloneTransaction(this.transaction.uid);
+      case TransactionHeaderEventType.CHANGE_CUSTODY:
+        this.cloneTransaction(this.transaction.uid, AssetTransactionTypes.AssetsCustody);
+        return;
+      case TransactionHeaderEventType.INVENTORY:
+        this.cloneTransaction(this.transaction.uid, AssetTransactionTypes.AssetsInventory);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -106,13 +106,13 @@ export class AssetTransactionEditorComponent {
   }
 
 
-  private cloneTransaction(transactionUID: string) {
+  private cloneTransaction(transactionUID: string, transactionTypeUID: string) {
     this.submitted = true;
 
-    setTimeout(() => {
-      this.messageBox.showInDevelopment('Clonar transacción', transactionUID);
-      this.submitted = false
-    }, 500);
+    this.transactionsData.cloneAssetTransaction(transactionUID, transactionTypeUID)
+      .firstValue()
+      .then(x => this.resolveTransactionUpdated(x))
+      .finally(() => this.submitted = false);
   }
 
 

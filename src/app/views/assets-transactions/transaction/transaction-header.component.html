@@ -202,11 +202,21 @@
             Cerrar
           </button>
 
-          <button *ngIf="actions.canClone"
-            type="button" class="btn"
-            (click)="onCloneButtonClicked()">
-            Clonar
-          </button>
+          <ng-container *ngIf="actions.canClone">
+
+            <button
+              type="button" class="btn"
+              (click)="onChangeCustodyButtonClicked()">
+              Cambio de resguardo
+            </button>
+
+            <button
+              type="button" class="btn"
+              (click)="onInventoryButtonClicked()">
+              Inventario
+            </button>
+
+          </ng-container>
 
         </ng-container>
 
