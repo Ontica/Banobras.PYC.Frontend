@@ -1,0 +1,100 @@
+<div class="fx-column-container-fill">
+
+  <div class="fx-item">
+
+    <cdk-virtual-scroll-viewport tvsItemSize="32">
+
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="assetNo">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> No. inventario </th>
+          <td mat-cell *matCellDef="let row">
+            <a class="item-link" (click)="onSelectButtonClicked(row)">
+              {{ !!row.asset.assetNo ? row.asset.assetNo : 'No determinado' }}
+            </a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Activo fijo </th>
+          <td mat-cell *matCellDef="let row">{{ row.asset.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Observaciones </th>
+          <td mat-cell *matCellDef="let row" [class.padding-icon]="isRowInEdition(row.uid)" [style.width.%]="25">
+
+            <ng-container *ngIf="!isRowInEdition(row.uid)">{{!row.description ? 'N/D' : row.description}}</ng-container>
+            <ng-container *ngIf="isRowInEdition(row.uid)">
+
+              <textarea class="text-area" empNgTextareaAutoresize rows="1"
+                [(ngModel)]="rowInEdition.description"
+                [class.invalid-control]="!isEntryInEditionValid"
+                [style.margin]="0">
+              </textarea>
+
+            </ng-container>
+
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let row" class="column-action">
+
+            <div class="fx-row-container" *ngIf="!isRowInEdition(row.uid)">
+
+              <button mat-icon-button
+                title="Editar"
+                (click)="onEditEntryClicked($event, row)">
+                <mat-icon> edit </mat-icon>
+              </button>
+
+              <button mat-icon-button
+                title="Eliminar"
+                [style.marginRight]="0"
+                (click)="onDeleteEntryClicked($event, row)">
+                <mat-icon> delete </mat-icon>
+              </button>
+
+            </div>
+
+            <div class="fx-row-container" *ngIf="isRowInEdition(row.uid)">
+
+              <button mat-icon-button
+                title="Cancelar"
+                (click)="onCancelEditionClicked($event)">
+                <mat-icon> close </mat-icon>
+              </button>
+
+              <button mat-icon-button
+                title="Guardar"
+                [color]="isEntryInEditionValid ? 'primary' : null"
+                [style.marginRight]="0"
+                [disabled]="!isEntryInEditionValid"
+                (click)="onUpdateEntryClicked($event)">
+                <mat-icon [color]="isEntryInEditionValid ? 'primary' : null"> done </mat-icon>
+              </button>
+            </div>
+
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="notFoundMessage">
+          <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+            Esta transacción no tiene movimientos.
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
+          [hidden]="dataSource.data.length > 0"></tr>
+
+      </table>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

@@ -11,7 +11,7 @@ import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
 import { Document } from './documents';
 
-import { AssetDescriptor } from './assets';
+import { Asset, EmptyAsset } from './assets';
 
 
 export enum AssetTransactionsStatus {
@@ -119,7 +119,7 @@ export interface AssetTransactionFields {
 
 export interface AssetTransactionHolder {
   transaction: AssetTransaction,
-  entries: AssetDescriptor[];
+  entries: AssetTransactionEntry[];
   documents: Document[];
   history: History[];
   actions: AssetTransactionActions;
@@ -155,6 +155,24 @@ export interface AssetTransactionActions {
   canClose: boolean;
   canClone: boolean;
   canEditDocuments: boolean;
+}
+
+
+export interface AssetTransactionEntryFields {
+  uid: string;
+  transactionUID: string;
+  assetUID: string;
+  entryTypeUID: string;
+  description: string;
+}
+
+
+export interface AssetTransactionEntry {
+  uid: string;
+  entryType: Identifiable;
+  transaction: Identifiable;
+  asset: Asset;
+  description: string;
 }
 
 
@@ -224,6 +242,15 @@ export const EmptyAssetTransaction: AssetTransaction = {
   applicationTime: '',
   recordingTime: '',
   status: Empty,
+}
+
+
+export const EmptyAssetTransactionEntry: AssetTransactionEntry = {
+  uid: '',
+  entryType: Empty,
+  transaction: Empty,
+  asset: EmptyAsset,
+  description: '',
 }
 
 

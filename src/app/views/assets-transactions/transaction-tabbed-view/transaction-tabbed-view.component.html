@@ -20,6 +20,14 @@
 
       <ng-template matTabContent>
 
+        <emp-pyc-transaction-entries-edition
+          [transaction]="data.transaction"
+          [entries]="data.entries"
+          [canEdit]="data.actions.canUpdate"
+          (transactionEntriesEditionEvent)="onTransactionEntriesEditionEvent($event)">
+
+        </emp-pyc-transaction-entries-edition>
+
       </ng-template>
 
     </mat-tab>

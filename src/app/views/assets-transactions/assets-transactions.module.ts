@@ -29,6 +29,9 @@ import { AssetTransactionCreatorComponent } from './transaction/transaction-crea
 import { AssetTransactionEditorComponent } from './transaction/transaction-editor.component';
 import { AssetTransactionHeaderComponent } from './transaction/transaction-header.component';
 
+import { AssetTransactionEntriesEditionComponent } from './transaction-entries/transaction-entries-edition.component';
+import { AssetTransactionEntriesTableComponent } from './transaction-entries/transaction-entries-table.component';
+
 
 @NgModule({
   imports: [
@@ -56,6 +59,9 @@ import { AssetTransactionHeaderComponent } from './transaction/transaction-heade
     AssetTransactionCreatorComponent,
     AssetTransactionEditorComponent,
     AssetTransactionHeaderComponent,
+
+    AssetTransactionEntriesEditionComponent,
+    AssetTransactionEntriesTableComponent,
   ],
   exports: [
     AssetTransactionsMainPageComponent,

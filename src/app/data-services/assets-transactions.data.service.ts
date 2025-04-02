@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FileReport, AssetTransactionHolder, AssetTransactionDescriptor,
-         AssetTransactionsQuery, AssetTransactionFields } from '@app/models';
+import { FileReport, AssetTransactionDescriptor, AssetTransactionEntry, AssetTransactionEntryFields,
+         AssetTransactionFields, AssetTransactionHolder, AssetTransactionsQuery } from '@app/models';
 
 
 @Injectable()
@@ -109,6 +109,41 @@ export class AssetsTransactionsDataService {
     const path = `v2/assets/transactions/${transactionUID}/clone-for/${transactionTypeUID}`;
 
     return this.http.post<AssetTransactionHolder>(path);
+  }
+
+
+  createAssetTransactionEntry(transactionUID: string,
+                              dataFields: AssetTransactionEntryFields): EmpObservable<AssetTransactionEntry> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/assets/transactions/${transactionUID}/entries`;
+
+    return this.http.post<AssetTransactionEntry>(path, dataFields);
+  }
+
+
+  updateAssetTransactionEntry(transactionUID: string,
+                              entryUID: string,
+                              dataFields: AssetTransactionEntryFields): EmpObservable<AssetTransactionEntry> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(entryUID, 'entryUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/assets/transactions/${transactionUID}/entries/${entryUID}`;
+
+    return this.http.put<AssetTransactionEntry>(path, dataFields);
+  }
+
+
+  deleteAssetTransactionEntry(transactionUID: string,
+                              entryUID: string): EmpObservable<void> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(entryUID, 'entryUID');
+
+    const path = `v2/assets/transactions/${transactionUID}/entries/${entryUID}`;
+
+    return this.http.delete<void>(path);
   }
 
 }
