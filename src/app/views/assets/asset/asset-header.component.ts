@@ -92,7 +92,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
 
 
   onSubmitButtonClicked() {
-    if (this.formHelper.isFormReadyAndInvalidate(this.form)) {
+    if (FormHelper.isFormReadyAndInvalidate(this.form)) {
       let eventType = AssetHeaderEventType.CREATE;
 
       if (this.isSaved) {
@@ -116,9 +116,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
       this.setFormData();
     }
 
-    const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
-
-    setTimeout(() => this.formHelper.setDisableForm(this.form, disable));
+    this.validateFormDisabled();
   }
 
 
@@ -177,6 +175,14 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
         location: locationData,
         description: this.asset.description ?? '',
       });
+    });
+  }
+
+
+  private validateFormDisabled() {
+    setTimeout(() => {
+      const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
+      FormHelper.setDisableForm(this.form, disable);
     });
   }
 

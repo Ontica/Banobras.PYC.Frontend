@@ -40,17 +40,11 @@ export class AssetsTableComponent implements OnChanges {
 
   @Input() selectedUID = '';
 
-  @Input() displayControls = true;
-
-  @Input() displayAssignedTo = true;
-
   @Input() queryExecuted = false;
 
   @Output() assetsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['assetNo', 'name', 'locationName']; // 'assetTypeName',
-
-  displayedColumns = [...this.displayedColumnsDefault];
+  displayedColumns = ['check', 'assetNo', 'name', 'locationName', 'assignedTo', 'assignedToOrgUnit'];
 
   dataSource: TableVirtualScrollDataSource<AssetDescriptor>;
 
@@ -86,7 +80,7 @@ export class AssetsTableComponent implements OnChanges {
   }
 
 
-  onRowClicked(item: AssetDescriptor) {
+  onSelectButtonClicked(item: AssetDescriptor) {
     sendEvent(this.assetsTableEvent, AssetsTableEventType.SELECT_CLICKED, { item });
   }
 
@@ -98,18 +92,6 @@ export class AssetsTableComponent implements OnChanges {
 
   private setDataSource() {
     this.dataSource = new TableVirtualScrollDataSource(this.dataList);
-    this.resetColumns();
-  }
-
-
-  private resetColumns() {
-    let columns: string[] = [];
-
-    if (this.displayControls) columns.push('check');
-    columns = [...columns, ...this.displayedColumnsDefault];
-    if (this.displayAssignedTo) columns = [...columns, ...['assignedTo', 'assignedToOrgUnit']];
-
-    this.displayedColumns = columns;
   }
 
 

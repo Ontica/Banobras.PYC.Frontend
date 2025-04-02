@@ -77,6 +77,8 @@ export interface Asset {
   assetNo: string;
   name: string;
   description: string;
+  identificators: string[];
+  tags: string[];
   brand: string;
   model: string;
   year: number;
@@ -136,6 +138,8 @@ export const EmptyAsset: Asset = {
   assetNo: '',
   name: '',
   description: '',
+  identificators: [],
+  tags: [],
   brand: '',
   model: '',
   year: null,
