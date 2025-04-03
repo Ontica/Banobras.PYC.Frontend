@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { BudgetData, BudgetEntry, BudgetQueryType, EmptyBudgetData } from '@app/models';
+import { BudgetData, BudgetEntryDescriptor, BudgetQueryType, EmptyBudgetData } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -34,7 +34,7 @@ export class BudgetExplorerComponent implements OnChanges {
 
   @Input() data: BudgetData = Object.assign({}, EmptyBudgetData);
 
-  @Input() entrySelected: BudgetEntry = null;
+  @Input() entrySelected: BudgetEntryDescriptor = null;
 
   @Input() isLoading = false;
 

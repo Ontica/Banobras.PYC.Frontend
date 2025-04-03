@@ -73,12 +73,12 @@ export class BudgetTransactionEditorComponent {
   }
 
 
-  private updateTransaction(transactionFields: BudgetTransactionFields) {
+  private updateTransaction(dataFields: BudgetTransactionFields) {
     this.submitted = true;
 
-    this.transactionsData.updateTransaction(this.transaction.uid, transactionFields)
+    this.transactionsData.updateTransaction(this.transaction.uid, dataFields)
       .firstValue()
-      .then(x => sendEvent(this.transactionEditorEvent, TransactionEditorEventType.UPDATED, { data: x }))
+      .then(x => this.resolveTransactionUpdated(x))
       .finally(() => this.submitted = false);
   }
 

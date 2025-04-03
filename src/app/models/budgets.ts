@@ -76,11 +76,11 @@ export interface BudgetSegmentQuery {
 export interface BudgetData extends DataTable {
   query: BudgetQuery;
   columns: DataTableColumn[];
-  entries: BudgetEntry[];
+  entries: BudgetEntryDescriptor[];
 }
 
 
-export interface BudgetEntry extends DataTableEntry {
+export interface BudgetEntryDescriptor extends DataTableEntry {
   uid: string;
 }
 

@@ -13,7 +13,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { BudgetsDataService } from '@app/data-services';
 
-import { BudgetData, BudgetEntry, BudgetQuery, BudgetQueryType, EmptyBudgetData,
+import { BudgetData, BudgetEntryDescriptor, BudgetQuery, BudgetQueryType, EmptyBudgetData,
          EmptyBudgetQuery } from '@app/models';
 
 import { BudgetExplorerEventType } from '../budget-explorer/budget-explorer.component';
@@ -31,7 +31,7 @@ export class BudgetMainPageComponent {
 
   data: BudgetData = Object.assign({}, EmptyBudgetData);
 
-  entrySelected: BudgetEntry = null;
+  entrySelected: BudgetEntryDescriptor = null;
 
   displayTabbedView = false;
 

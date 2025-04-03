@@ -53,7 +53,6 @@ export class BudgetTransactionsMainPageComponent {
               private messageBox: MessageBoxService) { }
 
 
-
   onTransactionCreatorEvent(event: EventInfo) {
     switch (event.type as TransactionCreatorEventType) {
       case TransactionCreatorEventType.CLOSE_MODAL_CLICKED:
@@ -116,7 +115,7 @@ export class BudgetTransactionsMainPageComponent {
         return;
       case TransactionTabbedViewEventType.REFRESH_DATA:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
-        this.getTransaction(event.payload.transactionUID);
+        this.refreshSelectedData(event.payload.transactionUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -135,13 +134,22 @@ export class BudgetTransactionsMainPageComponent {
   }
 
 
-  private getTransaction(transactionUID: string) {
+  private getTransaction(transactionUID: string, refresh: boolean = false) {
     this.isLoadingSelection = true;
 
     this.budgetTransactionsData.getTransaction(transactionUID)
       .firstValue()
-      .then(x => this.setSelectedData(x))
+      .then(x => this.resolveGetTransaction(x, refresh))
       .finally(() => this.isLoadingSelection = false);
+  }
+
+
+  private resolveGetTransaction(data: BudgetTransactionHolder, refresh: boolean = false) {
+    this.setSelectedData(data);
+
+    if (refresh) {
+      this.insertItemToList(data);
+    }
   }
 
 
@@ -162,6 +170,11 @@ export class BudgetTransactionsMainPageComponent {
   private setSelectedData(data: BudgetTransactionHolder) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.transaction);
+  }
+
+
+  private refreshSelectedData(transactionUID: string) {
+    this.getTransaction(transactionUID, true);
   }
 
 
