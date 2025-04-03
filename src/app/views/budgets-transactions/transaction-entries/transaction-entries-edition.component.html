@@ -1,13 +1,34 @@
-<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+<div class="fx-column-container-fill fx-gap-half" [empNgSpinnerHost]="spinner">
 
   <emp-ng-spinner #spinner [visible]="submitted">
 
   </emp-ng-spinner>
 
+  <div class="fx-row-container fx-end fx-items-center" *ngIf="canEdit">
+
+    <button
+      class="btn-action"
+      (click)="onCreateEntryButtonClicked()">
+      Agregar movimiento
+    </button>
+
+  </div>
+
   <emp-bdg-transaction-entries-table class="fx-item"
     [entries]="entries"
+    [canSelect]="canEdit"
+    [canDelete]="canEdit"
     (transactionEntriesTableEvent)="onTransactionEntriesTableEvent($event)">
 
   </emp-bdg-transaction-entries-table>
 
 </div>
+
+
+<emp-bdg-transaction-entry-editor  ransaction-entry-editor *ngIf="displayEntryEditor"
+  [transaction]="transaction"
+  [canUpdate]="canEdit"
+  [entry]="selectedEntry"
+  (transactionEntryEditorEvent)="onTransactionEntryEditorEvent($event)">
+
+</emp-bdg-transaction-entry-editor>

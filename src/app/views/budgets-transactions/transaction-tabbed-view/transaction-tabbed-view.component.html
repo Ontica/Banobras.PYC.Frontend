@@ -19,7 +19,9 @@
     <mat-tab label="Movimientos">
 
       <emp-bdg-transaction-entries-edition
+        [transaction]="data.transaction"
         [entries]="data.entries"
+        [canEdit]="data.actions.canUpdate"
         (transactionEntriesEditionEvent)="onTransactionEntriesEditionEvent($event)">
 
       </emp-bdg-transaction-entries-edition>

@@ -80,7 +80,7 @@ export class BudgetTransactionTabbedViewComponent implements OnChanges {
       case TransactionEntriesEditionEventType.UPDATED:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
         sendEvent(this.transactionTabbedViewEvent,
-          TransactionTabbedViewEventType.DATA_UPDATED, event.payload);
+          TransactionTabbedViewEventType.REFRESH_DATA, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

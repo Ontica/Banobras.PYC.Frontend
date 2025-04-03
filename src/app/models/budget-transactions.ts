@@ -184,6 +184,44 @@ export interface BudgetTransactionEntryDescriptor {
 }
 
 
+export enum BudgetEntryTypes {
+  Debit  = 'Debit',
+  Credit = 'Credit',
+}
+
+
+export interface BudgetTransactionEntry {
+  uid: string;
+  budgetType: Identifiable;
+  transactionType: Identifiable;
+  transactionNo: string;
+  budget: Identifiable;
+  baseParty: Identifiable;
+  operationSource: Identifiable;
+  description: string;
+  requestedDate: string;
+  applicationDate: string;
+  status: Identifiable;
+}
+
+
+export interface BudgetTransactionEntryFields {
+  balanceColumnUID: string;
+  budgetAccountUID: string;
+  year: number;
+  month: string;
+  currencyUID: string;
+  deposit: number;
+  withdrawal: number;
+  partyUID: string;
+  projectUID: string;
+  productUID: string;
+  productUnitUID: string;
+  productQty: number;
+  description: string;
+}
+
+
 export interface TransactionActions {
   canUpdate: boolean;
   canDelete: boolean;
@@ -270,6 +308,33 @@ export const EmptyBudgetTransactionHolder: BudgetTransactionHolder = {
   history: [],
   actions: EmptyTransactionActions,
 };
+
+
+export const EmptyBudgetTransactionEntry: BudgetTransactionEntry = {
+  uid: '',
+  budgetType: Empty,
+  transactionType: Empty,
+  transactionNo: '',
+  budget: Empty,
+  baseParty: Empty,
+  operationSource: Empty,
+  description: '',
+  requestedDate: '',
+  applicationDate: '',
+  status: Empty,
+};
+
+
+export const BudgetEntryTypesList: Identifiable<BudgetEntryTypes>[] = [
+  {
+    uid: BudgetEntryTypes.Debit,
+    name: 'Ampliación',
+  },
+  {
+    uid: BudgetEntryTypes.Credit,
+    name: 'Reducción',
+  },
+];
 
 
 export function mapBudgetTransactionDescriptorFromTransaction(data: BudgetTransaction): BudgetTransactionDescriptor {

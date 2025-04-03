@@ -103,7 +103,7 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
         </strong></td></tr>
 
         <tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
-          ${entry.budgetAccountCode}: ${entry.budgetAccountName}
+          ${!entry.budgetAccountCode ? '' : entry.budgetAccountCode + ': '} ${entry.budgetAccountName}
         </strong></td></tr>
       </table>
 

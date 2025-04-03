@@ -10,7 +10,8 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { BudgetTransactionHolder, BudgetTransactionDescriptor, BudgetTransactionFields,
-         BudgetTransactionsQuery, BudgetTypeForEdition } from '@app/models';
+         BudgetTransactionsQuery, BudgetTransactionEntryFields, BudgetTransactionEntry,
+         BudgetTypeForEdition } from '@app/models';
 
 
 @Injectable()
@@ -105,6 +106,50 @@ export class BudgetTransactionsDataService {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/budgeting/transactions/${transactionUID}`;
+
+    return this.http.delete<void>(path);
+  }
+
+
+  getTransactionEntry(transactionUID: string, entryUID: string): EmpObservable<BudgetTransactionEntry> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(entryUID, 'entryUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/entries/${entryUID}`;
+
+    return this.http.get<BudgetTransactionEntry>(path);
+  }
+
+
+  createTransactionEntry(transactionUID: string,
+                         dataFields: BudgetTransactionEntryFields): EmpObservable<BudgetTransactionEntry> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/entries`;
+
+    return this.http.post<BudgetTransactionEntry>(path, dataFields);
+  }
+
+
+  updateTransactionEntry(transactionUID: string,
+                         entryUID: string,
+                         dataFields: BudgetTransactionEntryFields): EmpObservable<BudgetTransactionEntry> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(entryUID, 'entryUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/entries/${entryUID}`;
+
+    return this.http.put<BudgetTransactionEntry>(path, dataFields);
+  }
+
+
+  removeTransactionEntry(transactionUID: string, entryUID: string): EmpObservable<void> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(entryUID, 'entryUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/entries/${entryUID}`;
 
     return this.http.delete<void>(path);
   }
