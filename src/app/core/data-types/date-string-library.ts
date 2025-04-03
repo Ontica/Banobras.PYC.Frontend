@@ -5,11 +5,15 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
+import * as moment from 'moment';
+
 import { DateFormat, LocalizationLibrary, DEFAULT_LANGUAGE, Language } from '../localization';
+
+import { SPANISH_MONTHS } from '../localization/locales/locale-spanish';
 
 import { Assertion } from '../general/assertion';
 
-import * as moment from 'moment';
+import { FlexibleIdentifiable } from './core-types';
 
 
 export type DateString = Date | string;
@@ -17,6 +21,21 @@ export type DateString = Date | string;
 export const MINUTES_IN_HOUR = 60;
 
 export const MINUTES_IN_DAY = 1440;
+
+export const MONTHS_LIST: FlexibleIdentifiable[] = [
+  { id: 1, name: SPANISH_MONTHS[0]},
+  { id: 2, name: SPANISH_MONTHS[1] },
+  { id: 3, name: SPANISH_MONTHS[2] },
+  { id: 4, name: SPANISH_MONTHS[3] },
+  { id: 5, name: SPANISH_MONTHS[4] },
+  { id: 6, name: SPANISH_MONTHS[5] },
+  { id: 7, name: SPANISH_MONTHS[6] },
+  { id: 8, name: SPANISH_MONTHS[7] },
+  { id: 9, name: SPANISH_MONTHS[8] },
+  { id: 10, name: SPANISH_MONTHS[9] },
+  { id: 11, name: SPANISH_MONTHS[10] },
+  { id: 12, name: SPANISH_MONTHS[11] },
+];
 
 export class DateStringLibrary {
 
