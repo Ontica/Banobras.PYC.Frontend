@@ -125,7 +125,6 @@ export interface BudgetTransactionDescriptor {
   operationSourceName: string;
   applicationDate: DateString;
   total: number;
-  description: string;
   statusName: string;
 }
 
@@ -136,11 +135,9 @@ export interface BudgetTransactionDescriptor {
     transactionTypeUID: string;
     operationSourceUID: string;
     applicationDate: DateString;
-    description: string;
     justification: string;
     baseEntityTypeUID: string;
     baseEntityUID: string;
-    requestedByUID?: string;
   }
 
 
@@ -155,18 +152,19 @@ export interface BudgetTransactionHolder {
 
 export interface BudgetTransaction {
   uid: string;
+  transactionType: Identifiable;
   transactionNo: string;
-  baseParty: Identifiable;
   budgetType: Identifiable;
   budget: Identifiable;
-  transactionType: Identifiable;
+  baseParty: Identifiable;
   operationSource: Identifiable;
-  applicationDate: DateString;
-  description: string;
+  baseEntityType: Identifiable;
+  baseEntity: Identifiable;
   justification: string;
+  requestedDate: DateString;
+  applicationDate: DateString;
   total: number;
   status: Identifiable;
-  requestedDate: DateString;
 }
 
 
@@ -276,15 +274,16 @@ export const EmptyBudgetTransactionsQuery: BudgetTransactionsQuery = {
 
 export const EmptyBudgetTransaction: BudgetTransaction = {
   uid: '',
-  budgetType: Empty,
   transactionType: Empty,
   transactionNo: '',
+  budgetType: Empty,
   budget: Empty,
   baseParty: Empty,
   operationSource: Empty,
-  applicationDate: '',
-  description: '',
+  baseEntityType: Empty,
+  baseEntity: Empty,
   justification: '',
+  applicationDate: '',
   requestedDate: '',
   total: null,
   status: Empty,
@@ -348,7 +347,6 @@ export function mapBudgetTransactionDescriptorFromTransaction(data: BudgetTransa
     requestedDate: data.requestedDate,
     operationSourceName: data.operationSource.name,
     applicationDate: data.applicationDate,
-    description: data.description,
     total: data.total,
     statusName: data.status.name,
   };

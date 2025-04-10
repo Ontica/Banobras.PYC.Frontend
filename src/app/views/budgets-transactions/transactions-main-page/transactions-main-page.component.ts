@@ -140,6 +140,7 @@ export class BudgetTransactionsMainPageComponent {
     this.budgetTransactionsData.getTransaction(transactionUID)
       .firstValue()
       .then(x => this.resolveGetTransaction(x, refresh))
+      .catch(e => this.setSelectedData(EmptyBudgetTransactionHolder))
       .finally(() => this.isLoadingSelection = false);
   }
 

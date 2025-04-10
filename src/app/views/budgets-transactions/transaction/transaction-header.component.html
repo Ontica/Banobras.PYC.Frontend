@@ -97,7 +97,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-quarter">
+      <div class="fx-item-half">
 
         <label>Tipo de documento relacionado:</label>
 
@@ -113,11 +113,11 @@
 
       </div>
 
-      <div class="fx-item">
+      <div class="fx-item-half">
 
         <label>Documento relacionado:</label>
 
-        <emp-ng-select-typeahead
+        <emp-ng-select-typeahead #baseEntitySearcher
           formControlName="baseEntityUID"
           [placeholder]="baseEntityPlaceholder"
           [config]="{ searchByQuery: true, showTooltip: true, clearable: true }"
@@ -127,9 +127,8 @@
               keywords: ''
           }"
           [searcherAPI]="baseEntitiesAPI"
-          [initialValue]="isSaved && !editionMode ? baseEntity : null"
-          [showError]="formHelper.isControlInvalid(form.controls.baseEntityUID)"
-          (changes)="onBaseEntityChanges()">
+          [initialValue]="isSaved && !editionMode ? transaction.baseEntity : null"
+          [showError]="formHelper.isControlInvalid(form.controls.baseEntityUID)">
 
           <ng-template #tLabelTemplate let-item="item">
             {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | Cuenta: {{!item?.name ? 'N/D' : item?.name}}
@@ -152,18 +151,6 @@
 
         </emp-ng-select-typeahead>
 
-      </div>
-
-    </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-one">
-        <label>Descripción:</label>
-        <textarea class="text-area" empNgTextareaAutoresize rows="1"
-          formControlName="description"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
-        </textarea>
       </div>
 
     </div>

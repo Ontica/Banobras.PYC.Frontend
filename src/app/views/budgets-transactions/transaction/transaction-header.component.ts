@@ -5,8 +5,8 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
-         SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges,
+         ViewChild } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -16,7 +16,9 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { BudgetingStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { FormHelper, sendEvent } from '@app/shared/utils';
+
+import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
 
 import { MessageBoxService } from '@app/shared/services';
 
@@ -42,7 +44,6 @@ interface TransactionFormModel extends FormGroup<{
   transactionTypeUID: FormControl<string>;
   operationSourceUID: FormControl<string>;
   applicationDate: FormControl<DateString>;
-  description: FormControl<string>;
   justification: FormControl<string>;
   baseEntityTypeUID: FormControl<string>;
   baseEntityUID: FormControl<string>;
@@ -53,6 +54,8 @@ interface TransactionFormModel extends FormGroup<{
   templateUrl: './transaction-header.component.html',
 })
 export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDestroy {
+
+  @ViewChild('baseEntitySearcher') baseEntitySearcher: SelectBoxTypeaheadComponent;
 
   @Input() isSaved = false;
 
@@ -89,8 +92,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   eventType = TransactionHeaderEventType;
 
   baseEntitiesAPI = SearcherAPIS.relatedDocumentsForEdition;
-
-  baseEntity = null;
 
 
   constructor(private uiLayer: PresentationLayer,
@@ -200,8 +201,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
     this.setOperationSourcesList([]);
     this.setBaseEntityTypesList([]);
 
-    this.validateBaseEntityDisabled();
-    // reset BaseEntity searcher
+    this.validateBaseEntityFields();
   }
 
 
@@ -217,8 +217,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
     this.setOperationSourcesList([]);
     this.setBaseEntityTypesList([]);
 
-    this.validateBaseEntityDisabled();
-    // reset BaseEntity searcher
+    this.validateBaseEntityFields();
   }
 
 
@@ -232,27 +231,19 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
     this.setOperationSourcesList(type.operationSources);
     this.setBaseEntityTypesList(type.relatedDocumentTypes);
 
-    this.validateBaseEntityDisabled();
-    // reset BaseEntity searcher
+    this.validateBaseEntityFields();
   }
 
 
   onOrgUnitsChanges(orgUnit: Identifiable) {
-    this.validateBaseEntityDisabled();
+    this.validateBaseEntityFields();
   }
 
 
   onBaseEntityTypeChanges() {
     this.form.controls.baseEntityUID.reset();
 
-    this.validateDescriptionRequired();
-    this.validateBaseEntityDisabled();
-    // reset BaseEntity searcher
-  }
-
-
-  onBaseEntityChanges() {
-    this.validateDescriptionRequired();
+    this.validateBaseEntityFields();
   }
 
 
@@ -306,9 +297,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
   private validateInitData() {
     if (this.isSaved) {
-      // TODO: de donde se obtendran los objetos completos? del transaction?
-      //       puede darse el caso de que ya no lleguen algunos datos con el tiempo,
-      //       datos que ya no aplican pero que ya estan guardados y deben mostrarse
       const budgetType = this.budgetTypesList.find(x => x.uid === this.transaction.budgetType.uid);
 
       if (!isEmpty(budgetType) && budgetType?.budgets?.length > 0) {
@@ -322,40 +310,22 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
           this.transaction.budget.uid ?? '', this.transaction.transactionType.uid ?? ''
         );
       }
-
-      this.validateDataInLists();
     }
   }
 
 
-  private validateDataInLists() {
-    // TODO: validar inicializacion de datos
-    // this.budgetTypesList = ArrayLibrary.insertIfNotExist(this.budgetTypesList ?? [],
-    //   this.transaction.budgetType, 'uid');
-    // this.budgetsList = ArrayLibrary.insertIfNotExist(this.budgetsList ?? [],
-    //   this.transaction.budget, 'uid');
-    // this.transactionTypesList = ArrayLibrary.insertIfNotExist(this.transactionTypesList ?? [],
-    //   this.transaction.transactionType, 'uid');
-    this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [],
-      this.transaction.baseParty, 'uid');
-    this.operationSourcesList = ArrayLibrary.insertIfNotExist(this.operationSourcesList ?? [],
-      this.transaction.operationSource, 'uid');
-  }
-
-
-  private validateBaseEntityDisabled() {
+  private validateBaseEntityFields(initData: boolean = false) {
     const entityTypeNotReady = !this.form.value.transactionTypeUID || this.baseEntityTypesList.length === 0;
     const entityNotReady = entityTypeNotReady || !this.form.value.baseEntityTypeUID || !this.form.value.basePartyUID;
     FormHelper.setDisableControl(this.form.controls.baseEntityTypeUID, entityTypeNotReady);
     FormHelper.setDisableControl(this.form.controls.baseEntityUID, entityNotReady);
+    this.resetOrderSearcher(initData);
   }
 
 
-  private validateDescriptionRequired() {
-    if (!this.form.value.baseEntityUID) {
-      FormHelper.setControlValidators(this.form.controls.description, Validators.required);
-    } else {
-      FormHelper.clearControlValidators(this.form.controls.description);
+  private resetOrderSearcher(initData: boolean) {
+    if (!!this.baseEntitySearcher && !initData) {
+      this.baseEntitySearcher.resetSearcherData();
     }
   }
 
@@ -395,7 +365,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       transactionTypeUID: ['', Validators.required],
       operationSourceUID: ['', Validators.required],
       applicationDate: ['' as DateString, Validators.required],
-      description: ['', Validators.required],
       justification: [''],
       baseEntityTypeUID: [''],
       baseEntityUID: [''],
@@ -412,14 +381,13 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
         transactionTypeUID: isEmpty(this.transaction.transactionType) ? null : this.transaction.transactionType.uid,
         operationSourceUID: isEmpty(this.transaction.operationSource) ? null : this.transaction.operationSource.uid,
         applicationDate: this.transaction.applicationDate ?? '',
-        description: this.transaction.description ?? '',
         justification: this.transaction.justification ?? '',
-        // baseEntityTypeUID: isEmpty(this.transaction.baseEntityType) ? null : this.transaction.baseEntityType.uid,
-        // baseEntityUID: isEmpty(this.transaction.baseEntity) ? null : this.transaction.baseEntity.uid,
+        baseEntityTypeUID: isEmpty(this.transaction.baseEntityType) ? null : this.transaction.baseEntityType.uid,
+        baseEntityUID: isEmpty(this.transaction.baseEntity) ? null : this.transaction.baseEntity.uid,
       });
 
       this.validateInitData();
-      this.validateBaseEntityDisabled();
+      this.validateBaseEntityFields(true);
     });
   }
 
@@ -433,7 +401,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       transactionTypeUID: this.form.value.transactionTypeUID ?? null,
       operationSourceUID: this.form.value.operationSourceUID ?? null,
       applicationDate: this.form.value.applicationDate ?? null,
-      description: this.form.value.description ?? null,
       justification: this.form.value.justification ?? null,
       baseEntityTypeUID: this.form.value.baseEntityTypeUID ?? null,
       baseEntityUID: this.form.value.baseEntityUID ?? null,
@@ -450,7 +417,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       this.formHelper.setDisableForm(this.form, disable);
 
       if (!disable) {
-        this.validateBaseEntityDisabled();
+        this.validateBaseEntityFields(true);
       }
     });
   }
