@@ -5,28 +5,20 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
-         SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { combineLatest } from 'rxjs';
 
 import { Assertion, EventInfo, FlexibleIdentifiable, Identifiable, isEmpty } from '@app/core';
 
 import { MONTHS_LIST } from '@app/core/data-types/date-string-library';
 
-import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
+import { ArrayLibrary, empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
+import { BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services';
 
-import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
-
-import { ProductsDataService, SearcherAPIS } from '@app/data-services';
-
-import { BudgetAccountsForProductQuery, BudgetTransaction, BudgetTransactionEntry,
-         BudgetTransactionEntryFields, EmptyBudgetTransaction, ProductSearch, RequestsList,
-         EmptyBudgetTransactionEntry, BudgetEntryTypesList, BudgetEntryTypes } from '@app/models';
+import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryFields, EmptyBudgetTransaction,
+         ProductSearch, EmptyBudgetTransactionEntry, ThreeStateValue } from '@app/models';
 
 
 export enum TransactionEntryEditorEventType {
@@ -35,26 +27,25 @@ export enum TransactionEntryEditorEventType {
   UPDATE_ENTRY         = 'BudgetTransactionEntryEditorComponent.Event.UpdateEntry',
 }
 
-interface TransactionEntryFormModel extends FormGroup<{
-  balanceColumnUID: FormControl<string>;
-  partyUID: FormControl<string>;
-  productUID : FormControl<string>;
-  productUnitUID: FormControl<string>;
+interface TransactionEntryFormModel extends FormGroup<{  balanceColumnUID: FormControl<string>;
+  projectUID: FormControl<string>;
   budgetAccountUID: FormControl<string>;
   year: FormControl<number>;
   month: FormControl<string>;
-  currencyUID: FormControl<string>;
-  amount: FormControl<number>; // Deposit || Withdrawal
+  amount: FormControl<number>;
+  productUID : FormControl<string>;
+  productUnitUID: FormControl<string>;
   productQty: FormControl<number>;
-  projectUID: FormControl<string>;
   description: FormControl<string>;
+  justification: FormControl<string>;
 }> { }
 
 @Component({
   selector: 'emp-bdg-transaction-entry-editor',
   templateUrl: './transaction-entry-editor.component.html',
+  animations: [empExpandCollapse],
 })
-export class BudgetTransactionEntryEditorComponent implements OnChanges, OnInit, OnDestroy {
+export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   @Input() transaction: BudgetTransaction = EmptyBudgetTransaction;
 
@@ -63,8 +54,6 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges, OnInit,
   @Input() canUpdate = false;
 
   @Output() transactionEntryEditorEvent = new EventEmitter<EventInfo>();
-
-  helper: SubscriptionHelper;
 
   form: TransactionEntryFormModel;
 
@@ -80,40 +69,38 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges, OnInit,
 
   productsAPI = SearcherAPIS.products;
 
-  budgetEntryTypesList: Identifiable[] = BudgetEntryTypesList;
-
-  orgUnitsList: Identifiable[] = [];
+  balanceColumnsList: Identifiable[] = [];
 
   monthsList: FlexibleIdentifiable[] = MONTHS_LIST;
 
-  currenciesList: Identifiable[] = [];
-
   productUnitsList: Identifiable[] = [];
 
-  budgetAccountsList: Identifiable[] = [];
+  accountsList: Identifiable[] = [];
+
+  displayCheckProductRequired: boolean = false;
+
+  checkProductRequired: boolean = false;
+
+  selectedProduct: Identifiable = null;
+
+  isFormDataReady = false;
 
 
-  constructor(private uiLayer: PresentationLayer,
-              private productsData: ProductsDataService) {
-    this.helper = uiLayer.createSubscriptionHelper();
+  constructor(private transactionsData: BudgetTransactionsDataService) {
     this.initForm();
   }
 
 
-  ngOnInit() {
-    this.loadDataLists();
-  }
-
-
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.transaction) {
+      this.searchTransactionAccounts(this.transaction.uid, this.entry.budgetAccount);
+      this.setProductFields();
+      this.setBalanceColumnsList();
+    }
+
     if (this.isSaved && changes.entry) {
       this.enableEditor();
     }
-  }
-
-
-  ngOnDestroy() {
-    this.helper.destroy();
   }
 
 
@@ -133,28 +120,11 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges, OnInit,
   }
 
 
-  get budgetAccountPlaceholder(): string {
-    if (this.form.controls.partyUID.invalid) {
-      return 'Seleccione area';
-    }
-
-    return this.selectionPlaceholder;
-  }
-
-
-  onPartyChanges(orgUnit: Identifiable) {
-    this.form.controls.budgetAccountUID.reset();
-    this.budgetAccountsList = [];
-    this.validateSearchBudgetAccounts();
-  }
-
-
   onProductChanges(product: ProductSearch) {
-    this.form.controls.productUnitUID.reset(isEmpty(product.baseUnit) ? null : product.baseUnit.uid);
-    this.form.controls.budgetAccountUID.reset(null);
-    this.productUnitsList = isEmpty(product.baseUnit) ? [] : [product.baseUnit];
-    this.budgetAccountsList = [];
-    this.validateSearchBudgetAccounts();
+    this.selectedProduct = isEmpty(product) ? null : product;
+    const baseUnit = product?.baseUnit;
+    this.form.controls.productUnitUID.reset(isEmpty(baseUnit) ? null : baseUnit.uid);
+    this.productUnitsList = isEmpty(baseUnit) ? [] : [baseUnit];
   }
 
 
@@ -190,52 +160,21 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges, OnInit,
   }
 
 
-  private loadDataLists() {
-    this.isLoading = true;
-
-    combineLatest([
-      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
-        { requestsList: RequestsList.budgeting }),
-      this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
-    ])
-    .subscribe(([a, b]) => {
-      this.orgUnitsList = a;
-      this.currenciesList = b;
-      this.isLoading = a.length === 0;
-    });
-  }
-
-
-  private validateSearchBudgetAccounts(budgetAccountsDefault?: Identifiable) {
-    const budgetUID = this.transaction.budget.uid;
-    const orgUnitUID = this.form.value.partyUID;
-    const productUID = this.form.value.productUID;
-
-    if (!!budgetUID && !!orgUnitUID && !!productUID) {
-      const query: BudgetAccountsForProductQuery = { budgetUID, orgUnitUID, productUID };
-      this.searchBudgetAccounts(productUID, query, budgetAccountsDefault);
-    } else {
-      this.setBudgetAccountsList([], budgetAccountsDefault);
-    }
-  }
-
-
-  private searchBudgetAccounts(productUID: string,
-                               query: BudgetAccountsForProductQuery,
-                               budgetAccountsDefault?: Identifiable) {
+  private searchTransactionAccounts(transactionUID: string,
+                                    accountDefault?: Identifiable) {
     this.isLoadingBudgetAccounts = true;
 
-    this.productsData.searchBudgetAccountsForProduct(productUID, query)
+    this.transactionsData.searchTransactionAccounts(transactionUID)
     .firstValue()
-      .then(x => this.setBudgetAccountsList(x, budgetAccountsDefault))
+      .then(x => this.setAccountsList(x, accountDefault))
       .finally(() => this.isLoadingBudgetAccounts = false);
   }
 
 
-  private setBudgetAccountsList(dataList: Identifiable[], budgetAccountsDefault?: Identifiable) {
-    this.budgetAccountsList = isEmpty(budgetAccountsDefault) ?
+  private setAccountsList(dataList: Identifiable[], accountsDefault?: Identifiable) {
+    this.accountsList = isEmpty(accountsDefault) ?
       dataList :
-      ArrayLibrary.insertIfNotExist(dataList, budgetAccountsDefault, 'uid');
+      ArrayLibrary.insertIfNotExist(dataList, accountsDefault, 'uid');
   }
 
 
@@ -244,41 +183,68 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges, OnInit,
 
     this.form = fb.group({
       balanceColumnUID: ['', Validators.required],
-      partyUID: ['', Validators.required],
-      productUID: ['', Validators.required],
-      productUnitUID: ['', Validators.required],
+      projectUID: [''],
       budgetAccountUID: ['', Validators.required],
       year: [null as number, Validators.required],
       month: ['', Validators.required],
-      currencyUID: ['', Validators.required],
       amount: [null as number, Validators.required],
-      productQty: [null as number, Validators.required],
-      projectUID: ['', Validators.required],
-      description: ['', Validators.required],
+      productUID: [''],
+      productUnitUID: [''],
+      productQty: [null],
+      description: [''],
+      justification: [''],
     });
   }
 
 
   private setFormData() {
-    // setTimeout(() => {
-    //   this.form.reset({
-    //     balanceColumnUID: this.entry.balanceColumnUID,
-    //     budgetAccountUID: this.entry.budgetAccountUID,
-    //     year: this.entry.year,
-    //     month: this.entry.month,
-    //     currencyUID: this.entry.currencyUID,
-    //     amount: this.entry.amount,
-    //     productUID: this.entry.productUID,
-    //     productUnitUID: this.entry.productUnitUID,
-    //     productQty: this.entry.productQty,
-    //     projectUID: this.entry.projectUID,
-    //     partyUID: this.entry.partyUID,
-    //     description: this.entry.description,
-    //   });
+    this.isFormDataReady = false;
 
-    //   this.productUnitsList = [this.entry.productUnit];
-    //   this.validateSearchBudgetAccounts(this.entry.budgetAccount);
-    // });
+    setTimeout(() => {
+      this.form.reset({
+        balanceColumnUID: this.entry.balanceColumn.uid,
+        projectUID: this.entry.project.uid,
+        budgetAccountUID: this.entry.budgetAccount.uid,
+        year: this.entry.year,
+        month: this.entry.month.uid,
+        amount: this.entry.amount > 0 ? this.entry.amount : null,
+        productUID: this.entry.product.uid,
+        productUnitUID: this.entry.productUnit.uid,
+        productQty: this.entry.productQty > 0 ? this.entry.productQty : null,
+        description: this.entry.description,
+        justification: this.entry.justification,
+      });
+
+      this.isFormDataReady = true;
+      this.setProductFields();
+      this.setBalanceColumnsList();
+    });
+  }
+
+
+  private setProductFields() {
+    this.displayCheckProductRequired =
+      this.transaction.transactionType.entriesRules.selectProduct === ThreeStateValue.True;
+
+    if (this.isSaved && this.isFormDataReady) {
+      const hasProductData = !isEmpty(this.entry.product) || !isEmpty(this.entry.productUnit) ||
+        !!this.entry.description || this.entry.productQty > 0;
+
+      this.selectedProduct = isEmpty(this.entry.product) ? null : this.entry.product;
+      this.productUnitsList = [this.entry.productUnit];
+      this.checkProductRequired = this.displayCheckProductRequired && hasProductData;
+    } else {
+      this.checkProductRequired = false;
+      this.isFormDataReady = !this.isSaved;
+    }
+  }
+
+
+  private setBalanceColumnsList() {
+    const balanceColumns = this.transaction?.transactionType?.entriesRules?.balanceColumns ?? [];
+    this.balanceColumnsList = isEmpty(this.entry.balanceColumn) ?
+      balanceColumns :
+      ArrayLibrary.insertIfNotExist(balanceColumns, this.entry.balanceColumn, 'uid');
   }
 
 
@@ -287,24 +253,18 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges, OnInit,
 
     const formModel = this.form.getRawValue();
 
-    const budgetEntryType = formModel.balanceColumnUID ?? '';
-    const isDebit = budgetEntryType === BudgetEntryTypes.Debit;
-    const isCredit = budgetEntryType === BudgetEntryTypes.Credit;
-
     const data: BudgetTransactionEntryFields = {
-      balanceColumnUID: budgetEntryType,
+      balanceColumnUID: formModel.balanceColumnUID ?? '',
       budgetAccountUID: formModel.budgetAccountUID ?? '',
-      currencyUID: formModel.currencyUID ?? '',
       year: formModel.year ?? null,
       month: formModel.month ?? '',
-      deposit: isDebit ? formModel.amount : null,
-      withdrawal: isCredit ? formModel.amount : null,
-      partyUID: formModel.partyUID ?? '',
+      amount: formModel.amount ?? null,
       projectUID: formModel.projectUID ?? '',
-      productUID: formModel.productUID ?? '',
-      productUnitUID: formModel.productUnitUID ?? '',
-      productQty: formModel.productQty ?? null,
-      description: formModel.description ?? '',
+      productUID: this.checkProductRequired ? formModel.productUID ?? '' : null,
+      productUnitUID: this.checkProductRequired ? formModel.productUnitUID ?? '' : null,
+      productQty: this.checkProductRequired ? formModel.productQty ?? null : null,
+      description: this.checkProductRequired ? formModel.description ?? '' : null,
+      justification: formModel.justification ?? '',
     };
 
     return data;

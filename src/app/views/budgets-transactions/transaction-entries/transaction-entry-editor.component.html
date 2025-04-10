@@ -17,49 +17,21 @@
               <label>Movimiento:</label>
               <emp-ng-select
                 formControlName="balanceColumnUID"
-                [items]="budgetEntryTypesList"
+                [items]="balanceColumnsList"
                 [showError]="formHelper.isControlInvalid(form.controls.balanceColumnUID)">
               </emp-ng-select>
             </div>
 
             <div class="fx-item-half">
-              <label>Área:</label>
-              <emp-ng-select
-                formControlName="partyUID"
-                [config]="{virtualScroll: true, showTooltip: true}"
-                [items]="orgUnitsList"
-                [loading]="isLoading"
-                [showError]="formHelper.isControlInvalid(form.controls.partyUID)"
-                (changes)="onPartyChanges($event)">
-              </emp-ng-select>
-            </div>
-
-          </div>
-
-          <div class="fx-row-container">
-
-            <div class="fx-item-half">
-              <label>Producto:</label>
+              <label>Proyecto:</label>
               <emp-ng-select-typeahead
-                formControlName="productUID"
-                [config]="{showTooltip: true}"
-                [searcherAPI]="productsAPI"
-                [showError]="formHelper.isControlInvalid(form.controls.productUID)"
-                (changes)="onProductChanges($event)">
-                <!-- [initialValue]="isSaved ? item.product : null" -->
-              </emp-ng-select-typeahead>
-            </div>
+                formControlName="projectUID"
+                [config]="{clearable: true}"
+                [searcherAPI]="projectsAPI"
+                [initialValue]="isSaved && !isFormDataReady ? entry.project : null"
+                [showError]="formHelper.isControlInvalid(form.controls.projectUID)">
 
-            <div class="fx-item-half">
-              <label>Unidad:</label>
-              <emp-ng-select
-                formControlName="productUnitUID"
-                [config]="{notFoundText: form.controls.productUID.invalid ?
-                          'No se encontraron registros' : 'El producto no tiene unidades'}"
-                [items]="productUnitsList"
-                [placeholder]="form.controls.productUID.invalid ? 'Seleccione el producto' : selectionPlaceholder"
-                [showError]="formHelper.isControlInvalid(form.controls.productUnitUID)">
-              </emp-ng-select>
+              </emp-ng-select-typeahead>
             </div>
 
           </div>
@@ -67,13 +39,13 @@
           <div class="fx-row-container">
 
             <div class="fx-item-one">
-              <label>Cuenta presupuestal:</label>
+              <label>Partida presupuestal:</label>
               <emp-ng-select
                 formControlName="budgetAccountUID"
-                [config]="{showTooltip: true}"
-                [items]="budgetAccountsList"
+                [config]="{showTooltip: true, virtualScroll: true}"
+                [items]="accountsList"
                 [loading]="isLoadingBudgetAccounts"
-                [placeholder]="form.controls.productUID.invalid ? 'Seleccione el producto' : budgetAccountPlaceholder"
+                [placeholder]="selectionPlaceholder"
                 [showError]="formHelper.isControlInvalid(form.controls.budgetAccountUID)">
 
               </emp-ng-select>
@@ -85,67 +57,106 @@
 
             <div class="fx-item-quarter">
               <label>Año:</label>
-              <emp-ng-input-numeric
+              <emp-ng-select
                 formControlName="year"
-                format="year"
-                [maxDecimals]="0"
-                [minDecimals]="0"
+                [config]="{bindByValue: false}"
+                [bindLabel]="null"
+                [items]="transaction?.transactionType?.entriesRules?.years ?? []"
                 [showError]="formHelper.isControlInvalid(form.controls.year)">
-              </emp-ng-input-numeric>
+              </emp-ng-select>
             </div>
 
             <div class="fx-item-quarter">
               <label>Mes:</label>
               <emp-ng-select
                 formControlName="month"
-                bindValue="id"
                 [items]="monthsList"
                 [showError]="formHelper.isControlInvalid(form.controls.month)">
               </emp-ng-select>
             </div>
 
-            <div class="fx-item-half">
-              <label>Proyecto:</label>
-              <emp-ng-select-typeahead
-                formControlName="projectUID"
-                [config]="{clearable: true}"
-                [searcherAPI]="projectsAPI"
-                [showError]="formHelper.isControlInvalid(form.controls.projectUID)">
-                <!-- [initialValue]="isSaved ? entry.project : null" -->
-
-              </emp-ng-select-typeahead>
-            </div>
-
-          </div>
-
-          <div class="fx-row-container">
-
-            <div class="fx-item-half">
-              <label>Moneda:</label>
-              <emp-ng-select
-                formControlName="currencyUID"
-                [items]="currenciesList"
-                [loading]="isLoading"
-                [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
-              </emp-ng-select>
-            </div>
-
             <div class="fx-item-quarter">
-              <label>Monto de la operación:</label>
+              <label>Importe:</label>
               <emp-ng-input-numeric
                 formControlName="amount"
                 [showError]="formHelper.isControlInvalid(form.controls.amount)">
               </emp-ng-input-numeric>
             </div>
 
-            <div class="fx-item-quarter">
-              <label>Cantidad:</label>
-              <emp-ng-input-numeric
-                formControlName="productQty"
-                [minDecimals]="0"
-                [maxDecimals]="2"
-                [showError]="formHelper.isControlInvalid(form.controls.productQty)">
-              </emp-ng-input-numeric>
+            <div class="fx-item-quarter" *ngIf="displayCheckProductRequired"
+              [style.margin-top.px]="12">
+
+              <mat-checkbox empNgStopPropagation
+                [(ngModel)]="checkProductRequired"
+                [ngModelOptions]="{standalone: true}"
+                [disabled]="!canUpdate">
+                Requiere datos de producto
+              </mat-checkbox>
+
+            </div>
+
+          </div>
+
+          <div *ngIf="checkProductRequired" [@empExpandCollapse]>
+
+            <div class="fx-column-container fx-gap-half">
+
+              <div class="section-title"> Información del producto</div>
+
+              <div class="fx-row-container">
+
+                <div class="fx-item-half">
+                  <label>Producto:</label>
+                  <emp-ng-select-typeahead
+                    formControlName="productUID"
+                    [config]="{showTooltip: true, clearable: true}"
+                    [searcherAPI]="productsAPI"
+                    [initialValue]="!!isFormDataReady ? selectedProduct : null"
+                    [showError]="formHelper.isControlInvalid(form.controls.productUID)"
+                    (changes)="onProductChanges($event)">
+                  </emp-ng-select-typeahead>
+                </div>
+
+                <div class="fx-item-quarter">
+                  <label>Unidad:</label>
+                  <emp-ng-select
+                    formControlName="productUnitUID"
+                    [config]="{notFoundText: form.controls.productUID.invalid ?
+                              'No se encontraron registros' : 'El producto no tiene unidades'}"
+                    [items]="productUnitsList"
+                    [placeholder]="form.controls.productUID.invalid ? 'Seleccione el producto' : selectionPlaceholder"
+                    [showError]="formHelper.isControlInvalid(form.controls.productUnitUID)">
+                  </emp-ng-select>
+                </div>
+
+                <div class="fx-item-quarter">
+                  <label>Cantidad:</label>
+                  <emp-ng-input-numeric
+                    formControlName="productQty"
+                    [minDecimals]="0"
+                    [maxDecimals]="2"
+                    [showError]="formHelper.isControlInvalid(form.controls.productQty)">
+                  </emp-ng-input-numeric>
+                </div>
+
+              </div>
+
+              <div class="fx-row-container">
+
+                <div class="fx-item-one">
+                  <label>Descripción:</label>
+                  <textarea class="text-area" empNgTextareaAutoresize rows="1"
+                    formControlName="description"
+                    [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+                  </textarea>
+                </div>
+
+              </div>
+
+              <mat-divider class="horizontal-md">
+
+              </mat-divider>
+
             </div>
 
           </div>
@@ -153,10 +164,10 @@
           <div class="fx-row-container">
 
             <div class="fx-item-one">
-              <label>Descripción:</label>
+              <label>Justificación:</label>
               <textarea class="text-area" empNgTextareaAutoresize rows="1"
-                formControlName="description"
-                [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+                formControlName="justification"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.justification)">
               </textarea>
             </div>
 

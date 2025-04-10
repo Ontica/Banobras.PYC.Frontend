@@ -11,7 +11,7 @@ import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { BudgetTransactionHolder, BudgetTransactionDescriptor, BudgetTransactionFields,
          BudgetTransactionsQuery, BudgetTransactionEntryFields, BudgetTransactionEntry,
-         BudgetTypeForEdition } from '@app/models';
+         BudgetTypeForEdition, BudgetAccount } from '@app/models';
 
 
 @Injectable()
@@ -62,6 +62,15 @@ export class BudgetTransactionsDataService {
     const path = `v2/budgeting/transactions/${transactionUID}`;
 
     return this.http.get<BudgetTransactionHolder>(path);
+  }
+
+
+  searchTransactionAccounts(transactionUID: string): EmpObservable<BudgetAccount[]> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/accounts`;
+
+    return this.http.get<BudgetAccount[]>(path);
   }
 
 

@@ -26,7 +26,7 @@ import { BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services'
 
 import { BudgetForEdition, BudgetTransaction, BudgetTransactionFields, BudgetTypeForEdition,
          EmptyBudgetTransaction, EmptyTransactionActions, TransactionActions,
-         TransactionTypeForEdition } from '@app/models';
+         BudgetTransactionType } from '@app/models';
 
 
 export enum TransactionHeaderEventType {
@@ -81,7 +81,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
   budgetsList: BudgetForEdition[] = [];
 
-  transactionTypesList: TransactionTypeForEdition[] = [];
+  transactionTypesList: BudgetTransactionType[] = [];
 
   orgUnitsList: Identifiable[] = [];
 
@@ -221,7 +221,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   }
 
 
-  onTransactionTypeChanges(type: TransactionTypeForEdition) {
+  onTransactionTypeChanges(type: BudgetTransactionType) {
     this.form.controls.basePartyUID.reset();
     this.form.controls.operationSourceUID.reset();
     this.form.controls.baseEntityTypeUID.reset();
@@ -335,7 +335,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   }
 
 
-  private setTransactionTypesList(transactions: TransactionTypeForEdition[]) {
+  private setTransactionTypesList(transactions: BudgetTransactionType[]) {
     this.transactionTypesList = transactions ?? [];
   }
 

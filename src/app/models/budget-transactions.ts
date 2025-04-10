@@ -27,15 +27,30 @@ export interface BudgetTypeForEdition {
 export interface BudgetForEdition extends Budget {
   operationSources: Identifiable[];
   segmentTypes: BudgetSegmentType[];
-  transactionTypes: TransactionTypeForEdition[];
+  transactionTypes: BudgetTransactionType[];
 }
 
 
-export interface TransactionTypeForEdition {
+export interface BudgetTransactionType {
   uid: string;
   name: string;
   operationSources: Identifiable[];
   relatedDocumentTypes: Identifiable[];
+  entriesRules: BudgetTransactionEntriesRules;
+}
+
+
+export interface BudgetTransactionEntriesRules {
+  balanceColumns: Identifiable[];
+  selectProduct: ThreeStateValue;
+  years: number[];
+}
+
+
+export enum ThreeStateValue {
+  True    = 'True',
+  False   = 'False',
+  Unknown = 'Unknown',
 }
 
 
@@ -152,7 +167,7 @@ export interface BudgetTransactionHolder {
 
 export interface BudgetTransaction {
   uid: string;
-  transactionType: Identifiable;
+  transactionType: BudgetTransactionType;
   transactionNo: string;
   budgetType: Identifiable;
   budget: Identifiable;
@@ -190,15 +205,23 @@ export enum BudgetEntryTypes {
 
 export interface BudgetTransactionEntry {
   uid: string;
-  budgetType: Identifiable;
-  transactionType: Identifiable;
-  transactionNo: string;
-  budget: Identifiable;
-  baseParty: Identifiable;
-  operationSource: Identifiable;
+  transactionUID: string;
+  balanceColumn: Identifiable;
+  budgetAccount: Identifiable;
+  product: Identifiable;
+  productUnit: Identifiable;
+  productQty: number;
+  project: Identifiable;
+  party: Identifiable;
+  year: number;
+  month: Identifiable;
+  day: number;
+  currency: Identifiable;
+  originalAmount: number;
+  amount: number;
+  exchangeRate: number;
   description: string;
-  requestedDate: string;
-  applicationDate: string;
+  justification: string;
   status: Identifiable;
 }
 
@@ -208,15 +231,13 @@ export interface BudgetTransactionEntryFields {
   budgetAccountUID: string;
   year: number;
   month: string;
-  currencyUID: string;
-  deposit: number;
-  withdrawal: number;
-  partyUID: string;
+  amount: number;
   projectUID: string;
   productUID: string;
   productUnitUID: string;
   productQty: number;
   description: string;
+  justification: string;
 }
 
 
@@ -272,9 +293,23 @@ export const EmptyBudgetTransactionsQuery: BudgetTransactionsQuery = {
 };
 
 
+
+export const EmptyBudgetTransactionType: BudgetTransactionType = {
+  uid: '',
+  name: '',
+  operationSources: [],
+  relatedDocumentTypes: [],
+  entriesRules: {
+    balanceColumns: [],
+    selectProduct: ThreeStateValue.Unknown,
+    years: [],
+  },
+}
+
+
 export const EmptyBudgetTransaction: BudgetTransaction = {
   uid: '',
-  transactionType: Empty,
+  transactionType: EmptyBudgetTransactionType,
   transactionNo: '',
   budgetType: Empty,
   budget: Empty,
@@ -311,29 +346,25 @@ export const EmptyBudgetTransactionHolder: BudgetTransactionHolder = {
 
 export const EmptyBudgetTransactionEntry: BudgetTransactionEntry = {
   uid: '',
-  budgetType: Empty,
-  transactionType: Empty,
-  transactionNo: '',
-  budget: Empty,
-  baseParty: Empty,
-  operationSource: Empty,
+  transactionUID: '',
+  balanceColumn: Empty,
+  budgetAccount: Empty,
+  product: Empty,
+  productUnit: Empty,
+  productQty: null,
+  project: Empty,
+  party: Empty,
+  year: null,
+  month: Empty,
+  day: null,
+  currency: Empty,
+  originalAmount: null,
+  amount: null,
+  exchangeRate: null,
   description: '',
-  requestedDate: '',
-  applicationDate: '',
+  justification: '',
   status: Empty,
 };
-
-
-export const BudgetEntryTypesList: Identifiable<BudgetEntryTypes>[] = [
-  {
-    uid: BudgetEntryTypes.Debit,
-    name: 'Ampliación',
-  },
-  {
-    uid: BudgetEntryTypes.Credit,
-    name: 'Reducción',
-  },
-];
 
 
 export function mapBudgetTransactionDescriptorFromTransaction(data: BudgetTransaction): BudgetTransactionDescriptor {

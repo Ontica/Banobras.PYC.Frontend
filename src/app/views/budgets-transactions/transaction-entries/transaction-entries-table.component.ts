@@ -13,7 +13,7 @@ import { EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionEntryDescriptor } from '@app/models';
 
@@ -96,6 +96,9 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
 
   private getConfirmMessage(entry: BudgetTransactionEntryDescriptor): string {
+    const amount = entry.withdrawal > 0 ? entry.withdrawal : entry.deposit;
+    const amountString = FormatLibrary.numberWithCommas(amount, '1.2-2');
+
     return `
       <table class='confirm-data'>
         <tr><td class='nowrap'>Movimiento: </td><td><strong>
@@ -104,6 +107,10 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
         <tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
           ${!entry.budgetAccountCode ? '' : entry.budgetAccountCode + ': '} ${entry.budgetAccountName}
+        </strong></td></tr>
+
+        <tr><td class='nowrap'>Importe: </td><td><strong>
+          ${amountString}
         </strong></td></tr>
       </table>
 

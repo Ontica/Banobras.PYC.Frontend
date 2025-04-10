@@ -46,6 +46,18 @@ export interface BudgetSegmentItem {
 }
 
 
+export interface BudgetAccount {
+  uid: string;
+  baseSegmentUID: string;
+  code: string;
+  name: string;
+  type: Identifiable;
+  organizationalUnit: Identifiable;
+  isAssigned: boolean;
+  status: Identifiable;
+}
+
+
 export interface BudgetAccountsForProductQuery {
   budgetUID: string;
   orgUnitUID: string;
