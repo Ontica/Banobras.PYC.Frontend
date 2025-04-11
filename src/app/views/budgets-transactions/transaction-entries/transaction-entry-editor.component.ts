@@ -15,7 +15,7 @@ import { MONTHS_LIST } from '@app/core/data-types/date-string-library';
 
 import { ArrayLibrary, empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services';
+import { SearcherAPIS } from '@app/data-services';
 
 import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryFields, EmptyBudgetTransaction,
          ProductSearch, EmptyBudgetTransactionEntry, ThreeStateValue } from '@app/models';
@@ -63,7 +63,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   isLoading = false;
 
-  isLoadingBudgetAccounts = false;
+  accountsAPI = SearcherAPIS.budgetTransactionAccounts;
 
   projectsAPI = SearcherAPIS.projects;
 
@@ -75,8 +75,6 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   productUnitsList: Identifiable[] = [];
 
-  accountsList: Identifiable[] = [];
-
   displayCheckProductRequired: boolean = false;
 
   checkProductRequired: boolean = false;
@@ -86,14 +84,13 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   isFormDataReady = false;
 
 
-  constructor(private transactionsData: BudgetTransactionsDataService) {
+  constructor() {
     this.initForm();
   }
 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.transaction) {
-      this.searchTransactionAccounts(this.transaction.uid, this.entry.budgetAccount);
       this.setProductFields();
       this.setBalanceColumnsList();
     }
@@ -115,8 +112,16 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
-  get selectionPlaceholder(): string {
-    return this.isSaved && !this.canUpdate ? 'No proporcionado' : 'Seleccionar';
+  get productUnitPlaceholder(): string {
+    if (this.isSaved && !this.canUpdate) {
+      return 'No proporcionado';
+    }
+
+    if (isEmpty(this.selectedProduct)){
+      return 'Seleccione el producto';
+    }
+
+    return 'Seleccionar';
   }
 
 
@@ -157,24 +162,6 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
     }
 
     FormHelper.setDisableForm(this.form, !this.canUpdate);
-  }
-
-
-  private searchTransactionAccounts(transactionUID: string,
-                                    accountDefault?: Identifiable) {
-    this.isLoadingBudgetAccounts = true;
-
-    this.transactionsData.searchTransactionAccounts(transactionUID)
-    .firstValue()
-      .then(x => this.setAccountsList(x, accountDefault))
-      .finally(() => this.isLoadingBudgetAccounts = false);
-  }
-
-
-  private setAccountsList(dataList: Identifiable[], accountsDefault?: Identifiable) {
-    this.accountsList = isEmpty(accountsDefault) ?
-      dataList :
-      ArrayLibrary.insertIfNotExist(dataList, accountsDefault, 'uid');
   }
 
 
@@ -223,17 +210,19 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
 
   private setProductFields() {
-    this.displayCheckProductRequired =
+    const productRequired =
       this.transaction.transactionType.entriesRules.selectProduct === ThreeStateValue.True;
 
     if (this.isSaved && this.isFormDataReady) {
       const hasProductData = !isEmpty(this.entry.product) || !isEmpty(this.entry.productUnit) ||
         !!this.entry.description || this.entry.productQty > 0;
 
+      this.displayCheckProductRequired = productRequired || hasProductData;
       this.selectedProduct = isEmpty(this.entry.product) ? null : this.entry.product;
       this.productUnitsList = [this.entry.productUnit];
       this.checkProductRequired = this.displayCheckProductRequired && hasProductData;
     } else {
+      this.displayCheckProductRequired = productRequired;
       this.checkProductRequired = false;
       this.isFormDataReady = !this.isSaved;
     }

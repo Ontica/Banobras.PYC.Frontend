@@ -40,15 +40,15 @@
 
             <div class="fx-item-one">
               <label>Partida presupuestal:</label>
-              <emp-ng-select
+              <emp-ng-select-typeahead
                 formControlName="budgetAccountUID"
-                [config]="{showTooltip: true, virtualScroll: true}"
-                [items]="accountsList"
-                [loading]="isLoadingBudgetAccounts"
-                [placeholder]="selectionPlaceholder"
+                [config]="{searchByQuery: true, clearable: true, minTermLength: 2}"
+                [initQuery]="{transactionUID: transaction.uid, keywords: ''}"
+                [searcherAPI]="accountsAPI"
+                [initialValue]="isSaved && !isFormDataReady ? entry.budgetAccount : null"
                 [showError]="formHelper.isControlInvalid(form.controls.budgetAccountUID)">
 
-              </emp-ng-select>
+              </emp-ng-select-typeahead>
             </div>
 
           </div>
@@ -124,7 +124,7 @@
                     [config]="{notFoundText: form.controls.productUID.invalid ?
                               'No se encontraron registros' : 'El producto no tiene unidades'}"
                     [items]="productUnitsList"
-                    [placeholder]="form.controls.productUID.invalid ? 'Seleccione el producto' : selectionPlaceholder"
+                    [placeholder]="productUnitPlaceholder"
                     [showError]="formHelper.isControlInvalid(form.controls.productUnitUID)">
                   </emp-ng-select>
                 </div>

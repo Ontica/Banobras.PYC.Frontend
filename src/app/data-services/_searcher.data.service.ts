@@ -18,6 +18,7 @@ export enum SearcherAPIS {
   assetsTransactionsManagers  = 'v2/assets/transactions/managers/',
   assetTransactionsParties    = 'v2/assets/transactions/parties/',
   budgetTransactionsParties   = 'v2/budgeting/transactions/parties/',
+  budgetTransactionAccounts   = 'v2/budgeting/transactions/accounts/search/',
   relatedDocumentsForEdition  = 'v2/budgeting/related-documents/for-transaction-edition/search',
   payableEntities             = 'v2/payments-management/payable-entities/search',
   productBudgetSegments       = 'v8/product-management/budget-segments/available',
