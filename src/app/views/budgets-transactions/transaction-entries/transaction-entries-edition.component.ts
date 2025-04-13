@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
@@ -32,7 +32,7 @@ export enum TransactionEntriesEditionEventType {
   selector: 'emp-bdg-transaction-entries-edition',
   templateUrl: './transaction-entries-edition.component.html',
 })
-export class BudgetTransactionEntriesEditionComponent {
+export class BudgetTransactionEntriesEditionComponent implements OnChanges {
 
   @Input() transaction: BudgetTransaction = EmptyBudgetTransaction;
 
@@ -48,9 +48,17 @@ export class BudgetTransactionEntriesEditionComponent {
 
   selectedEntry = EmptyBudgetTransactionEntry;
 
+  filter = '';
+
 
   constructor(private transactionsData: BudgetTransactionsDataService,
               private messageBox: MessageBoxService) { }
+
+
+  ngOnChanges(){
+    this.filter = '';
+    this.setSelectedEntry(EmptyBudgetTransactionEntry);
+  }
 
 
   onCreateEntryButtonClicked() {

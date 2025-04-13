@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 
 import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
-import { sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionHolder, EmptyBudgetTransactionHolder } from '@app/models';
 
@@ -106,6 +106,8 @@ export class BudgetTransactionTabbedViewComponent implements OnChanges {
     const requestedDate = !this.data.transaction.requestedDate ? 'N/D' :
       DateStringLibrary.format(this.data.transaction.requestedDate);
 
+    const entries = FormatLibrary.numberWithCommas(this.data.entries.length) + ' movimientos';
+
     const status = this.data.transaction.status.name === 'Eliminada' ?
       `<span class="tag tag-error tag-small">${this.data.transaction.status.name}</span>` :
       `<span class="tag tag-small">${this.data.transaction.status.name}</span>`;
@@ -113,8 +115,8 @@ export class BudgetTransactionTabbedViewComponent implements OnChanges {
     this.title = `${this.data.transaction.transactionNo}: ${this.data.transaction.transactionType.name} ${status}`;
 
     this.hint = `<strong>${this.data.transaction.baseParty.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${this.data.transaction.budgetType.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${this.data.transaction.budget.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${this.data.transaction.budget.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${entries} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${requestedDate}`;
   }
 

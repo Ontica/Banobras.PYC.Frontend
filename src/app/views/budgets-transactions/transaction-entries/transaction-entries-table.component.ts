@@ -31,6 +31,8 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
   @Input() entries: BudgetTransactionEntryDescriptor[] = [];
 
+  @Input() filter = '';
+
   @Input() canDelete = false;
 
   @Input() canSelect = true;
@@ -54,6 +56,10 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.entries) {
       this.setDataTable();
+    }
+
+    if (changes.filter) {
+      this.applyFilter(this.filter);
     }
   }
 
@@ -81,17 +87,20 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
 
   private setDataTable() {
-    this.dataSource = new MatTableDataSource(this.entries);
     this.resetColumns();
+    this.dataSource = new MatTableDataSource(this.entries);
   }
 
 
   private resetColumns() {
-    this.displayedColumns = [...this.displayedColumnsDefault];
+    this.displayedColumns = this.canDelete ?
+      [...this.displayedColumnsDefault, 'actionDelete'] :
+      [...this.displayedColumnsDefault];
+  }
 
-    if (this.canDelete) {
-      this.displayedColumns.push('actionDelete');
-    }
+
+  private applyFilter(value: string) {
+    this.dataSource.filter = value.trim().toLowerCase();
   }
 
 
