@@ -9,13 +9,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
+import { MessageBoxService } from '@app/shared/services';
+
 import { sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryDescriptor,
-         BudgetTransactionEntryFields, EmptyBudgetTransaction,
-         EmptyBudgetTransactionEntry } from '@app/models';
+import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryDescriptor, BudgetEntryFields,
+         EmptyBudgetTransaction, EmptyBudgetTransactionEntry, BudgetTransactionEntryType,
+         BudgetEntryByYearFields } from '@app/models';
 
 import { TransactionEntriesTableEventType } from './transaction-entries-table.component';
 
@@ -47,7 +49,8 @@ export class BudgetTransactionEntriesEditionComponent {
   selectedEntry = EmptyBudgetTransactionEntry;
 
 
-  constructor(private transactionsData: BudgetTransactionsDataService) { }
+  constructor(private transactionsData: BudgetTransactionsDataService,
+              private messageBox: MessageBoxService) { }
 
 
   onCreateEntryButtonClicked() {
@@ -64,17 +67,37 @@ export class BudgetTransactionEntriesEditionComponent {
       case TransactionEntryEditorEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedEntry(EmptyBudgetTransactionEntry);
         return;
-      case TransactionEntryEditorEventType.ADD_ENTRY:
+      case TransactionEntryEditorEventType.CREATE_ENTRY:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
+        Assertion.assertValue(event.payload.entryType, 'event.payload.entryType');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.createTransactionEntry(event.payload.transactionUID, event.payload.dataFields);
+
+        if (event.payload.entryType === BudgetTransactionEntryType.Monthly) {
+          this.createTransactionEntry(event.payload.transactionUID,
+            event.payload.dataFields as BudgetEntryFields);
+        }
+
+        if (event.payload.entryType === BudgetTransactionEntryType.Annually) {
+          this.createTransactionEntriesByYear(event.payload.transactionUID,
+            event.payload.dataFields as BudgetEntryByYearFields)
+        }
+
         return;
       case TransactionEntryEditorEventType.UPDATE_ENTRY:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
         Assertion.assertValue(event.payload.entryUID, 'event.payload.entryUID');
+        Assertion.assertValue(event.payload.entryType, 'event.payload.entryType');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.updateTransactionEntry(event.payload.transactionUID, event.payload.entryUID,
-          event.payload.dataFields);
+
+        if (event.payload.entryType === BudgetTransactionEntryType.Monthly) {
+          this.updateTransactionEntry(event.payload.transactionUID, event.payload.entryUID,
+            event.payload.dataFields as BudgetEntryFields);
+        }
+
+        if (event.payload.entryType === BudgetTransactionEntryType.Annually) {
+          this.messageBox.showInDevelopment('Actualizar movimiento - modalidad anual', event.payload);
+        }
+
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -114,7 +137,7 @@ export class BudgetTransactionEntriesEditionComponent {
   }
 
 
-  private createTransactionEntry(transactionUID: string, dataFields: BudgetTransactionEntryFields) {
+  private createTransactionEntry(transactionUID: string, dataFields: BudgetEntryFields) {
     this.submitted = true;
 
     this.transactionsData.createTransactionEntry(transactionUID, dataFields)
@@ -124,7 +147,7 @@ export class BudgetTransactionEntriesEditionComponent {
   }
 
 
-  private updateTransactionEntry(transactionUID: string, entryUID: string, dataFields: BudgetTransactionEntryFields) {
+  private updateTransactionEntry(transactionUID: string, entryUID: string, dataFields: BudgetEntryFields) {
     this.submitted = true;
 
     this.transactionsData.updateTransactionEntry(transactionUID, entryUID, dataFields)
@@ -138,6 +161,16 @@ export class BudgetTransactionEntriesEditionComponent {
     this.submitted = true;
 
     this.transactionsData.removeTransactionEntry(transactionUID, entryUID)
+      .firstValue()
+      .then(x => this.resolveTransactionUpdated())
+      .finally(() => this.submitted = false);
+  }
+
+
+  private createTransactionEntriesByYear(transactionUID: string, dataFields: BudgetEntryByYearFields) {
+    this.submitted = true;
+
+    this.transactionsData.createTransactionEntriesByYear(transactionUID, dataFields)
       .firstValue()
       .then(x => this.resolveTransactionUpdated())
       .finally(() => this.submitted = false);

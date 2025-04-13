@@ -205,6 +205,7 @@ export enum BudgetEntryTypes {
 
 export interface BudgetTransactionEntry {
   uid: string;
+  entryType: BudgetTransactionEntryType;
   transactionUID: string;
   balanceColumn: Identifiable;
   budgetAccount: Identifiable;
@@ -226,7 +227,37 @@ export interface BudgetTransactionEntry {
 }
 
 
-export interface BudgetTransactionEntryFields {
+export interface BudgetEntryByYear {
+  uid: string;
+  entryType: BudgetTransactionEntryType;
+  transactionUID: string;
+  balanceColumn: Identifiable;
+  budgetAccount: Identifiable;
+  product: Identifiable;
+  description: string;
+  productUnit: Identifiable;
+  project: Identifiable;
+  year: number;
+  currency: Identifiable;
+  amounts: BudgetMonthEntry[];
+}
+
+
+export interface BudgetMonthEntry {
+  budgetEntryUID: string;
+  month: number;
+  productQty: number;
+  amount: number;
+}
+
+
+export enum BudgetTransactionEntryType {
+  Monthly  = 'Monthly',
+  Annually = 'Annually',
+}
+
+
+export interface BudgetEntryFields {
   balanceColumnUID: string;
   budgetAccountUID: string;
   year: number;
@@ -238,6 +269,27 @@ export interface BudgetTransactionEntryFields {
   productQty: number;
   description: string;
   justification: string;
+}
+
+
+export interface BudgetEntryByYearFields {
+  balanceColumnUID: string;
+  budgetAccountUID: string;
+  year: number
+  projectUID: string;
+  productUID: string;
+  productUnitUID: string;
+  description: string;
+  amounts: BudgetMonthEntryFields[];
+}
+
+
+export interface BudgetMonthEntryFields {
+  budgetEntryUID: string;
+  month: number;
+  amount: number;
+  productQty: number;
+  label?: string;
 }
 
 
@@ -346,6 +398,7 @@ export const EmptyBudgetTransactionHolder: BudgetTransactionHolder = {
 
 export const EmptyBudgetTransactionEntry: BudgetTransactionEntry = {
   uid: '',
+  entryType: null,
   transactionUID: '',
   balanceColumn: Empty,
   budgetAccount: Empty,

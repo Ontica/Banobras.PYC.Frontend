@@ -1,4 +1,4 @@
-<emp-ng-modal-window [config]="{width:'900px'}">
+<emp-ng-modal-window [config]="{width: isMonthlyType ? '1024px' : '95%'}">
 
   <emp-ng-card
     [title]="title"
@@ -8,6 +8,24 @@
     <div class="card-body-padding">
 
       <form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+      <div class="fx-row-container sm-fx-column-container" [style.marginBottom.rem]="0.75">
+
+          <div class="fx-item-one">
+            <label>Modalidad:</label>
+            <mat-radio-group [disabled]="isSaved"
+              [(ngModel)]="selectedEntryType" [ngModelOptions]="{standalone: true}"
+              (change)="onEntryTypeChanges()">
+
+              <mat-radio-button [value]="EntryType.Monthly">Mensual</mat-radio-button>
+              <mat-radio-button [value]="EntryType.Annually">Anual</mat-radio-button>
+
+            </mat-radio-group>
+          </div>
+
+        </div>
+
+        <div class="section-title"> Información general del movimiento </div>
 
         <div class="fx-column-container fx-gap-half">
 
@@ -38,11 +56,11 @@
 
           <div class="fx-row-container">
 
-            <div class="fx-item-one">
+            <div [ngClass]="isMonthlyType ? 'fx-item-one' : 'fx-item-half'">
               <label>Partida presupuestal:</label>
               <emp-ng-select-typeahead
                 formControlName="budgetAccountUID"
-                [config]="{searchByQuery: true, clearable: true, minTermLength: 2}"
+                [config]="{searchByQuery: true, clearable: true, minTermLength: 2, showTooltip: true}"
                 [initQuery]="{transactionUID: transaction.uid, keywords: ''}"
                 [searcherAPI]="accountsAPI"
                 [initialValue]="isSaved && !isFormDataReady ? entry.budgetAccount : null"
@@ -51,9 +69,37 @@
               </emp-ng-select-typeahead>
             </div>
 
+            <ng-container *ngIf="!isMonthlyType">
+
+              <div class="fx-item-quarter">
+                <label>Año:</label>
+                <emp-ng-select
+                  formControlName="year"
+                  [config]="{bindByValue: false}"
+                  [bindLabel]="null"
+                  [items]="transaction?.transactionType?.entriesRules?.years ?? []"
+                  [showError]="formHelper.isControlInvalid(form.controls.year)">
+                </emp-ng-select>
+              </div>
+
+              <div class="fx-item-quarter" *ngIf="displayCheckProductRequired"
+                [style.margin-top.px]="12">
+
+                <mat-checkbox
+                  [(ngModel)]="checkProductRequired"
+                  [ngModelOptions]="{standalone: true}"
+                  [disabled]="!canUpdate"
+                  (change)="onCheckProductRequiredChanges()">
+                  Requiere datos de producto
+                </mat-checkbox>
+
+              </div>
+
+            </ng-container>
+
           </div>
 
-          <div class="fx-row-container">
+          <div class="fx-row-container" *ngIf="isMonthlyType">
 
             <div class="fx-item-quarter">
               <label>Año:</label>
@@ -86,10 +132,11 @@
             <div class="fx-item-quarter" *ngIf="displayCheckProductRequired"
               [style.margin-top.px]="12">
 
-              <mat-checkbox empNgStopPropagation
+              <mat-checkbox
                 [(ngModel)]="checkProductRequired"
                 [ngModelOptions]="{standalone: true}"
-                [disabled]="!canUpdate">
+                [disabled]="!canUpdate"
+                (change)="onCheckProductRequiredChanges()">
                 Requiere datos de producto
               </mat-checkbox>
 
@@ -129,7 +176,7 @@
                   </emp-ng-select>
                 </div>
 
-                <div class="fx-item-quarter">
+                <div class="fx-item-quarter" *ngIf="isMonthlyType">
                   <label>Cantidad:</label>
                   <emp-ng-input-numeric
                     formControlName="productQty"
@@ -161,7 +208,7 @@
 
           </div>
 
-          <div class="fx-row-container">
+          <div class="fx-row-container" *ngIf="isMonthlyType">
 
             <div class="fx-item-one">
               <label>Justificación:</label>
@@ -172,6 +219,67 @@
             </div>
 
           </div>
+
+
+          <ng-container *ngIf="!isMonthlyType">
+
+            <div class="section-title"> Información de importes por mes </div>
+
+            <div class="fx-row-container">
+
+              <table mat-table [dataSource]="dataSource">
+
+                <ng-container *ngFor="let column of displayedColumns; let i = index" [matColumnDef]="column">
+
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{i === 0 ? '' : monthsFields[i - 1]?.label ?? ''}}
+                  </th>
+
+                  <td mat-cell *matCellDef="let row;"
+                    [class.padding-input]="i > 0"
+                    [style.width]="i > 0 ? 'calc((100% - 75px) / ' + (displayedColumns.length - 1) + ')' : 'auto'">
+
+                    <ng-container *ngIf="i === 0 && row === 'amount'">
+                      <span [ngClass]="{'warning-text': isFormInvalidated && !isMonthsFieldsValid}">Importe</span>
+                    </ng-container>
+
+                    <ng-container *ngIf="i === 0 && row === 'productQty'">Cantidad</ng-container>
+
+                    <ng-container *ngIf="i > 0 && row === 'amount'">
+
+                      <emp-ng-input-numeric
+                        [(ngModel)]="monthsFields[i - 1].amount"
+                        [ngModelOptions]="{standalone: true}"
+                        [noMargin]="true">
+
+                      </emp-ng-input-numeric>
+
+                    </ng-container>
+
+                    <ng-container *ngIf="i > 0 && row === 'productQty'">
+
+                      <emp-ng-input-numeric
+                        [(ngModel)]="monthsFields[i - 1].productQty"
+                        [ngModelOptions]="{standalone: true}"
+                        [noMargin]="true">
+
+                      </emp-ng-input-numeric>
+
+                    </ng-container>
+
+                  </td>
+
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+
+            </div>
+
+          </ng-container>
+
 
           <ng-container *ngIf="!isSaved || (isSaved && canUpdate)">
 
@@ -184,8 +292,8 @@
               <div class="fx-item fx-end fx-items-center">
 
                   <button
-                    [class.btn]="!formHelper.isFormReady(form)"
-                    [class.btn-action]="formHelper.isFormReady(form)"
+                    [class.btn]="!formHelper.isFormReady(form) || !isMonthsFieldsValid"
+                    [class.btn-action]="formHelper.isFormReady(form) && isMonthsFieldsValid"
                     (click)="onSubmitButtonClicked()">
                     {{!isSaved ? 'Agregar' : 'Guardar'}}
                   </button>

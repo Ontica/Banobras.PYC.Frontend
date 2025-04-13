@@ -9,21 +9,24 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { MatTableDataSource } from '@angular/material/table';
+
 import { Assertion, EventInfo, FlexibleIdentifiable, Identifiable, isEmpty } from '@app/core';
 
 import { MONTHS_LIST } from '@app/core/data-types/date-string-library';
 
-import { ArrayLibrary, empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, empExpandCollapse, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryFields, EmptyBudgetTransaction,
-         ProductSearch, EmptyBudgetTransactionEntry, ThreeStateValue } from '@app/models';
+import { BudgetTransaction, BudgetTransactionEntry, BudgetEntryFields, EmptyBudgetTransaction,
+         ProductSearch, EmptyBudgetTransactionEntry, ThreeStateValue, BudgetMonthEntryFields,
+         BudgetEntryByYearFields, BudgetTransactionEntryType } from '@app/models';
 
 
 export enum TransactionEntryEditorEventType {
   CLOSE_BUTTON_CLICKED = 'BudgetTransactionEntryEditorComponent.Event.CloseButtonClicked',
-  ADD_ENTRY            = 'BudgetTransactionEntryEditorComponent.Event.AddEntry',
+  CREATE_ENTRY         = 'BudgetTransactionEntryEditorComponent.Event.CreateEntry',
   UPDATE_ENTRY         = 'BudgetTransactionEntryEditorComponent.Event.UpdateEntry',
 }
 
@@ -63,6 +66,12 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   isLoading = false;
 
+  isFormInvalidated = false;
+
+  EntryType = BudgetTransactionEntryType;
+
+  selectedEntryType = BudgetTransactionEntryType.Monthly;
+
   accountsAPI = SearcherAPIS.budgetTransactionAccounts;
 
   projectsAPI = SearcherAPIS.projects;
@@ -82,6 +91,12 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   selectedProduct: Identifiable = null;
 
   isFormDataReady = false;
+
+  displayedColumns = [];
+
+  monthsFields: BudgetMonthEntryFields[] = [];
+
+  dataSource: MatTableDataSource<string>;
 
 
   constructor() {
@@ -125,6 +140,26 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
+  get isMonthlyType(): boolean {
+    return this.selectedEntryType === BudgetTransactionEntryType.Monthly;
+  }
+
+
+  get isMonthsFieldsValid(): boolean {
+    return this.isMonthlyType ? true : this.monthsFields.some(x => x.amount > 0);
+  }
+
+
+  onEntryTypeChanges() {
+    this.validateFieldsRequired();
+  }
+
+
+  onCheckProductRequiredChanges() {
+    this.buildDataTable();
+  }
+
+
   onProductChanges(product: ProductSearch) {
     this.selectedProduct = isEmpty(product) ? null : product;
     const baseUnit = product?.baseUnit;
@@ -139,14 +174,17 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
 
   onSubmitButtonClicked() {
-    if (FormHelper.isFormReadyAndInvalidate(this.form)) {
+    this.isFormInvalidated = true;
+
+    if (FormHelper.isFormReadyAndInvalidate(this.form) && this.isMonthsFieldsValid) {
       const eventType = this.isSaved ? TransactionEntryEditorEventType.UPDATE_ENTRY :
-        TransactionEntryEditorEventType.ADD_ENTRY;
+        TransactionEntryEditorEventType.CREATE_ENTRY;
 
       const payload = {
         transactionUID: this.transaction.uid,
         entryUID: this.isSaved ? this.entry.uid : null,
-        dataFields: this.getFormData()
+        entryType: this.selectedEntryType,
+        dataFields: this.isMonthlyType ? this.getBudgetEntryFields() : this.getBudgetEntryByYearFields(),
       };
 
       sendEvent(this.transactionEntryEditorEvent, eventType, payload);
@@ -170,17 +208,57 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
     this.form = fb.group({
       balanceColumnUID: ['', Validators.required],
-      projectUID: [''],
       budgetAccountUID: ['', Validators.required],
       year: [null as number, Validators.required],
       month: ['', Validators.required],
       amount: [null as number, Validators.required],
+      projectUID: [''],
       productUID: [''],
       productUnitUID: [''],
       productQty: [null],
       description: [''],
       justification: [''],
     });
+
+    this.buildMonthsFields();
+    this.buildDataTable();
+  }
+
+
+  private validateFieldsRequired() {
+    if (this.isMonthlyType) {
+      this.formHelper.setControlValidators(this.form.controls.month, [Validators.required]);
+      this.formHelper.setControlValidators(this.form.controls.amount, [Validators.required]);
+    } else {
+      this.formHelper.clearControlValidators(this.form.controls.month);
+      this.formHelper.clearControlValidators(this.form.controls.amount);
+    }
+  }
+
+
+  private buildMonthsFields() {
+    this.monthsFields = this.monthsList.map(x => this.getBudgetMonthEntryFields(x));
+  }
+
+
+  private buildDataTable() {
+    this.displayedColumns = ['label', ...this.monthsFields.map(x => x.month.toString())];
+    const rows = this.checkProductRequired ? ['amount', 'productQty'] : ['amount'];
+    this.dataSource = new MatTableDataSource(rows);
+  }
+
+
+  private getBudgetMonthEntryFields(month: FlexibleIdentifiable): BudgetMonthEntryFields {
+    // TODO: set values when isSaved
+    const data: BudgetMonthEntryFields = {
+      budgetEntryUID: this.entry.uid ?? null,
+      label: month.name,
+      month: FormatLibrary.stringToNumber(month.uid),
+      amount: null,
+      productQty: null,
+    };
+
+    return data;
   }
 
 
@@ -237,12 +315,12 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
-  private getFormData(): BudgetTransactionEntryFields {
+  private getBudgetEntryFields(): BudgetEntryFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const formModel = this.form.getRawValue();
 
-    const data: BudgetTransactionEntryFields = {
+    const data: BudgetEntryFields = {
       balanceColumnUID: formModel.balanceColumnUID ?? '',
       budgetAccountUID: formModel.budgetAccountUID ?? '',
       year: formModel.year ?? null,
@@ -254,6 +332,40 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       productQty: this.checkProductRequired ? formModel.productQty ?? null : null,
       description: this.checkProductRequired ? formModel.description ?? '' : null,
       justification: formModel.justification ?? '',
+    };
+
+    return data;
+  }
+
+
+  private getBudgetEntryByYearFields(): BudgetEntryByYearFields {
+    Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
+
+    const formModel = this.form.getRawValue();
+
+    const amounts = this.monthsFields.map(x => this.getValidBudgetMonthEntryField(x));
+
+    const data: BudgetEntryByYearFields = {
+      balanceColumnUID: formModel.balanceColumnUID ?? '',
+      budgetAccountUID: formModel.budgetAccountUID ?? '',
+      year: formModel.year ?? null,
+      projectUID: formModel.projectUID ?? '',
+      productUID: this.checkProductRequired ? formModel.productUID ?? '' : null,
+      productUnitUID: this.checkProductRequired ? formModel.productUnitUID ?? '' : null,
+      description: this.checkProductRequired ? formModel.description ?? '' : null,
+      amounts,
+    };
+
+    return data;
+  }
+
+
+  private getValidBudgetMonthEntryField(entry: BudgetMonthEntryFields): BudgetMonthEntryFields {
+    const data: BudgetMonthEntryFields = {
+      budgetEntryUID: entry.budgetEntryUID,
+      month: entry.month,
+      amount: entry.amount,
+      productQty: this.checkProductRequired ? entry.productQty : null,
     };
 
     return data;

@@ -33,7 +33,7 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
   @Input() canDelete = false;
 
-  @Input() canSelect = false;
+  @Input() canSelect = true;
 
   @Output() transactionEntriesTableEvent = new EventEmitter<EventInfo>();
 

@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { BudgetTransactionHolder, BudgetTransactionDescriptor, BudgetTransactionFields,
-         BudgetTransactionsQuery, BudgetTransactionEntryFields, BudgetTransactionEntry,
+import { BudgetEntryByYear, BudgetEntryByYearFields, BudgetEntryFields, BudgetTransactionDescriptor,
+         BudgetTransactionEntry, BudgetTransactionFields, BudgetTransactionHolder, BudgetTransactionsQuery,
          BudgetTypeForEdition } from '@app/models';
 
 
@@ -122,7 +122,7 @@ export class BudgetTransactionsDataService {
 
 
   createTransactionEntry(transactionUID: string,
-                         dataFields: BudgetTransactionEntryFields): EmpObservable<BudgetTransactionEntry> {
+                         dataFields: BudgetEntryFields): EmpObservable<BudgetTransactionEntry> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
@@ -134,7 +134,7 @@ export class BudgetTransactionsDataService {
 
   updateTransactionEntry(transactionUID: string,
                          entryUID: string,
-                         dataFields: BudgetTransactionEntryFields): EmpObservable<BudgetTransactionEntry> {
+                         dataFields: BudgetEntryFields): EmpObservable<BudgetTransactionEntry> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(entryUID, 'entryUID');
     Assertion.assertValue(dataFields, 'dataFields');
@@ -152,6 +152,17 @@ export class BudgetTransactionsDataService {
     const path = `v2/budgeting/transactions/${transactionUID}/entries/${entryUID}`;
 
     return this.http.delete<void>(path);
+  }
+
+
+  createTransactionEntriesByYear(transactionUID: string,
+                                 dataFields: BudgetEntryByYearFields): EmpObservable<BudgetEntryByYear> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/entries/create-annually`;
+
+    return this.http.post<BudgetEntryByYear>(path, dataFields);
   }
 
 }

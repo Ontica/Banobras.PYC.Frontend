@@ -254,6 +254,10 @@ table.mat-mdc-table {
       padding-bottom: 4px;
     }
 
+    &.padding-input {
+      padding: 2px;
+    }
+
     a.item-link {
       color: $primary-color;
       text-decoration: underline;
