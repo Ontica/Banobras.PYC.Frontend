@@ -19,9 +19,5 @@ import { CashFlowWorkspaceRoutingModule } from './cash-flow-workspace-routing.mo
     CashFlowWorkspaceRoutingModule,
   ],
 
-  declarations: [
-
-  ],
-
 })
 export class CashFlowWorkspaceModule { }

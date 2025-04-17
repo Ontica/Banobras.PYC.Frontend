@@ -16,6 +16,11 @@ import { DefaultComponent } from '@app/shared/components';
 
 const routes: Routes = [
   {
+    data: { permission: ROUTES.flujo_de_efectivo_planeacion.permission },
+    path: ROUTES.flujo_de_efectivo_planeacion.path,
+    component: DefaultComponent,
+  },
+  {
     data: { permission: ROUTES.flujo_de_efectivo_codificacion.permission },
     path: ROUTES.flujo_de_efectivo_codificacion.path,
     component: DefaultComponent,
@@ -32,7 +37,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.flujo_de_efectivo_codificacion.path,
+    redirectTo: ROUTES.flujo_de_efectivo_planeacion.path,
     pathMatch: 'full',
   },
 ];

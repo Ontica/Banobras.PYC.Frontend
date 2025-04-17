@@ -59,15 +59,15 @@ const routes: Routes = [
     loadChildren: () => import('./workspaces/inventory/inventory-workspace.module')
       .then((m) => m.InventoryWorkspaceModule)
   },
-  // {
-  //   data: { permission: ROUTES.flujo_de_efectivo.permission },
-  //   path: ROUTES.flujo_de_efectivo.path,
-  //   component: MainLayoutComponent,
-  //   canActivate: [ParentRouteGuard],
-  //   canActivateChild: [ChildRouteGuard],
-  //   loadChildren: () => import('./workspaces/cash-flow/cash-flow-workspace.module')
-  //     .then((m) => m.CashFlowWorkspaceModule)
-  // },
+  {
+    data: { permission: ROUTES.flujo_de_efectivo.permission },
+    path: ROUTES.flujo_de_efectivo.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/cash-flow/cash-flow-workspace.module')
+      .then((m) => m.CashFlowWorkspaceModule)
+  },
   {
     data: { permission: ROUTES.administracion.permission },
     path: ROUTES.administracion.path,

@@ -217,26 +217,32 @@ export const InventoryViews: View[] = [
 
 
 export const CashFlowViews: View[] = [
-  // {
-  //   name: 'CashFlow.Coding',
-  //   title: 'Codificación',
-  //   url: ROUTES.flujo_de_efectivo_codificacion.fullpath,
-  //   permission: ROUTES.flujo_de_efectivo_codificacion.permission,
-  // },
-  // {
-  //   name: 'CashFlow.Rules',
-  //   title: 'Reglas',
-  //   menuTitle: 'Reglas',
-  //   url: ROUTES.flujo_de_efectivo_reglas.fullpath,
-  //   permission: ROUTES.flujo_de_efectivo_reglas.permission,
-  // },
-  // {
-  //   name: 'CashFlow.Reports',
-  //   title: 'Reportes',
-  //   menuTitle: 'Reportes',
-  //   url: ROUTES.flujo_de_efectivo_reportes.fullpath,
-  //   permission: ROUTES.flujo_de_efectivo_reportes.permission,
-  // },
+  {
+    name: 'CashFlow.Planning',
+    title: 'Planeación',
+    url: ROUTES.flujo_de_efectivo_planeacion.fullpath,
+    permission: ROUTES.flujo_de_efectivo_planeacion.permission,
+  },
+  {
+    name: 'CashFlow.Coding',
+    title: 'Codificación',
+    url: ROUTES.flujo_de_efectivo_codificacion.fullpath,
+    permission: ROUTES.flujo_de_efectivo_codificacion.permission,
+  },
+  {
+    name: 'CashFlow.Rules',
+    title: 'Reglas',
+    menuTitle: 'Reglas',
+    url: ROUTES.flujo_de_efectivo_reglas.fullpath,
+    permission: ROUTES.flujo_de_efectivo_reglas.permission,
+  },
+  {
+    name: 'CashFlow.Reports',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.flujo_de_efectivo_reportes.fullpath,
+    permission: ROUTES.flujo_de_efectivo_reportes.permission,
+  },
 ];
 
 

@@ -75,14 +75,14 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
     url: ROUTES.inventarios.fullpath,
     permission: ROUTES.inventarios.permission,
   },
-  // {
-  //   name: 'CashFlow',
-  //   views: CashFlowViews,
-  //   hint: 'Flujo de efectivo',
-  //   defaultTitle: 'Flujo de efectivo',
-  //   url: ROUTES.flujo_de_efectivo.fullpath,
-  //   permission: ROUTES.flujo_de_efectivo.permission,
-  // },
+  {
+    name: 'CashFlow',
+    views: CashFlowViews,
+    hint: 'Flujo de efectivo',
+    defaultTitle: 'Flujo de efectivo',
+    url: ROUTES.flujo_de_efectivo.fullpath,
+    permission: ROUTES.flujo_de_efectivo.permission,
+  },
   {
     name: 'SystemManagement',
     views: SystemManagementViews,
