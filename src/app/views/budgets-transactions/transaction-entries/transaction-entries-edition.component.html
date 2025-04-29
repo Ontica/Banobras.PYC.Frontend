@@ -21,11 +21,29 @@
 
     </div>
 
-    <button *ngIf="canEdit"
-      class="btn-action"
-      (click)="onCreateEntryButtonClicked()">
-      Agregar movimiento
-    </button>
+    <div class="fx-item">
+
+    </div>
+
+    <ng-container *ngIf="canEdit">
+
+      <button
+        class="btn"
+        (click)="onAutomaticGenerationButtonClicked()">
+        Generación automática
+      </button>
+
+      <mat-divider vertical="true" class="vertical-inline">
+
+      </mat-divider>
+
+      <button
+        class="btn-action"
+        (click)="onCreateEntryButtonClicked()">
+        Agregar movimiento
+      </button>
+
+    </ng-container>
 
   </div>
 

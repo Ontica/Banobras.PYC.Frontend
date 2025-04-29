@@ -61,6 +61,11 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
+  onAutomaticGenerationButtonClicked() {
+    this.messageBox.showInDevelopment('Generación automática');
+  }
+
+
   onCreateEntryButtonClicked() {
     this.setSelectedEntry(EmptyBudgetTransactionEntry, true);
   }
