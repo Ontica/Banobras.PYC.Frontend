@@ -83,6 +83,11 @@ export const TotalItemTypeList: DataTableItemType[] = [
 export const ClickeableItemTypeList: DataTableItemType[] = [...EntryItemTypeList];
 
 
+export const EntryStatusDisabledList: string[] = [
+  'Eliminado', 'Suspendido', 'Descontinuado'
+];
+
+
 export const CheckBoxDataTableColumn: DataTableColumn = {
   field: 'selection',
   title: '',

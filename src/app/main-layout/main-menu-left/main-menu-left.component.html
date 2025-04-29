@@ -23,18 +23,19 @@
 
       <ul>
 
-        <li *ngFor="let view of layout.views" routerLinkActive='selected'>
+        <ng-container *ngFor="let view of layout.views">
 
-          <ng-container *ngIf="!view.disabled && !view.hidden">
+          <li *empNgHasPermission="view.permission"
+            routerLinkActive='selected'>
 
-            <a *empNgHasPermission="view.permission" class="menu-view"
+            <a class="menu-view" *ngIf="!view.disabled && !view.hidden"
               [routerLink]='view.url'>
               {{ view.title | uppercase }}
             </a>
 
-          </ng-container>
+          </li>
 
-        </li>
+        </ng-container>
 
       </ul>
 

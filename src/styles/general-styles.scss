@@ -255,7 +255,8 @@ input:focus {
 }
 
 input::placeholder {
-  color: $control-disabled-color;
+  color: $placeholder-color;
+  font-size: $placeholder-size
 }
 
 .input-search-container {

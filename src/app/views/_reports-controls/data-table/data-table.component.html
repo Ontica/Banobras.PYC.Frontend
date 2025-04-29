@@ -69,7 +69,7 @@
                 </a>
               </ng-container>
               <ng-container *ngSwitchCase="dataTableColumnType.text_tag">
-                <span class="tag">
+                <span class="tag" [class.tag-disabled]="entryStatusDisabledList.includes(row[column.field])">
                   {{row[column.field]}}
                 </span>
               </ng-container>

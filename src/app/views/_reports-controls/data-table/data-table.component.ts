@@ -20,7 +20,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { EmptyDataTable, DataTableColumn, DataTable, DataTableEntry, DataTableColumnType, SummaryItemTypeList,
          GroupItemTypeList, TotalItemTypeList, EntryItemTypeList, ClickeableItemTypeList,
-         CheckBoxDataTableColumn, DeleteButtonDataTableColumn } from '@app/models';
+         CheckBoxDataTableColumn, DeleteButtonDataTableColumn, EntryStatusDisabledList } from '@app/models';
 
 import { DataTableControlsEventType } from './data-table-controls.component';
 
@@ -94,6 +94,8 @@ export class DataTableComponent implements OnChanges {
   totalItemTypeList = TotalItemTypeList;
 
   entryItemTypeList = EntryItemTypeList;
+
+  entryStatusDisabledList = EntryStatusDisabledList;
 
 
   ngOnChanges(changes: SimpleChanges) {
