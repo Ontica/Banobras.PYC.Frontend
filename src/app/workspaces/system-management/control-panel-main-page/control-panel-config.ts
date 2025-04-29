@@ -9,7 +9,8 @@ import { PERMISSIONS } from '@app/main-layout';
 
 
 type ControlPanelOptionType = 'ChangePassword' |
-                              'OperationsLog';
+                              'OperationsLog' |
+                              'BudgetPlanningPeriods';
 
 
 export interface ControlPanelOption {
@@ -28,6 +29,13 @@ export const ControlPanelOptionList: ControlPanelOption[] = [
     actionTitle: 'Cambiar',
     type: 'ChangePassword',
     permission: PERMISSIONS.FEATURE_CAMBIAR_PASSWORD,
+  },
+  {
+    title: 'Períodos de planeación presupuestal',
+    description: 'Controla los períodos de carga del presupuesto planeado del gasto corriente y del programa financiero.',
+    actionTitle: 'Administrar',
+    type: 'BudgetPlanningPeriods',
+    permission: PERMISSIONS.FEATURE_PERIODOS_DE_PLANEACION_PRESUPUESTAL,
   },
   {
     title: 'Bitácoras de operación',
