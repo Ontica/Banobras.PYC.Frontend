@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { combineLatest } from 'rxjs';
 
-import { EventInfo, Identifiable, isEmpty } from '@app/core';
+import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -24,9 +24,9 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 import { SearcherAPIS } from '@app/data-services';
 
 import { Budget, BudgetTransactionPartyType, BudgetTransactionPartyTypesList, BudgetTransactionQueryDateType,
-         BudgetTransactionQueryDateTypesList, BudgetTransactionsQuery, BudgetTransactionsStatus,
-         BudgetTransactionStatusList, BudgetType, DateRange, EmptyBudgetTransactionsQuery, EmptyDateRange,
-         RequestsList } from '@app/models';
+         BudgetTransactionQueryDateTypesList, BudgetTransactionsQuery, BudgetTransactionsStages,
+         BudgetTransactionsStatus, BudgetTransactionStatusList, BudgetType, DateRange,
+         EmptyBudgetTransactionsQuery, EmptyDateRange, RequestsList } from '@app/models';
 
 
 export enum TransactionsFilterEventType {
@@ -57,6 +57,8 @@ interface TransactionsFilterFormModel extends FormGroup<{
   animations: [empExpandCollapse],
 })
 export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnDestroy {
+
+  @Input() stage: BudgetTransactionsStages = null;
 
   @Input() query: BudgetTransactionsQuery = Object.assign({}, EmptyBudgetTransactionsQuery);
 
@@ -219,9 +221,12 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
 
 
   private getFormData(): BudgetTransactionsQuery {
+    Assertion.assert(!!this.stage, 'Programming error: budget-transactions stage is required.');
+
     const query: BudgetTransactionsQuery = {
-      transactionTypeUID: this.form.value.transactionTypeUID ?? null,
+      stage: this.stage,
       status: this.form.value.status ?? null,
+      transactionTypeUID: this.form.value.transactionTypeUID ?? null,
       keywords: this.form.value.keywords ?? null,
       budgetTypeUID: this.form.value.budgetTypeUID ?? null,
       baseBudgetUID: this.form.value.baseBudgetUID ?? null,

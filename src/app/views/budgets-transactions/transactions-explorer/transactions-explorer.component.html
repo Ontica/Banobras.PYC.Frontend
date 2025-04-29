@@ -16,11 +16,33 @@
 
     <div class="card-header-options">
 
-      <button *empNgHasPermission="PERMISSION_TO_CREATE"
-        class="btn-action"
-        (click)="onCreateTransactionClicked()">
-        Agregar transacción
-      </button>
+      <div class="fx-row-container fx-space-between fx-items-center fx-gap-half">
+
+        <emp-ng-select
+          [(ngModel)]="stage"
+          [items]="stagesList"
+          [required]="true"
+          [showError]="!stage"
+          [style.width.px]="160"
+          [style.min-width.px]="160"
+          (changes)="onStageChanged()">
+        </emp-ng-select>
+
+        <ng-container *empNgHasPermission="PERMISSION_TO_CREATE">
+
+          <mat-divider vertical="true" class="vertical-slim">
+
+          </mat-divider>
+
+          <button
+            class="btn-action"
+            (click)="onCreateTransactionClicked()">
+            Agregar transacción
+          </button>
+
+        </ng-container>
+
+      </div>
 
     </div>
 
@@ -36,6 +58,7 @@
 
       <emp-bdg-transactions-filter
         class="fx-item-none"
+        [stage]="stage"
         [query]="query"
         [(showFilters)]="showFilters"
         (transactionsFilterEvent)="onTransactionsFilterEvent($event)">

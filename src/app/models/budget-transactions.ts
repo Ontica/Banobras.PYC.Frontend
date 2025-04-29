@@ -110,9 +110,23 @@ export const BudgetTransactionPartyTypesList: Identifiable<BudgetTransactionPart
 ];
 
 
+export enum BudgetTransactionsStages {
+  MyInbox     = 'BudgetTransactions.MyInbox',
+  ControlDesk = 'BudgetTransactions.ControlDesk',
+}
+
+
+
+export const BudgetTransactionsStagesList: Identifiable<BudgetTransactionsStages>[] = [
+  { uid: BudgetTransactionsStages.MyInbox,     name: 'Mis transacciones' },
+  { uid: BudgetTransactionsStages.ControlDesk, name: 'Mesa de control' },
+];
+
+
 export interface BudgetTransactionsQuery {
-  basePartyUID: string;
+  stage: BudgetTransactionsStages,
   status: BudgetTransactionsStatus;
+  basePartyUID: string;
   keywords: string;
   budgetTypeUID: string;
   baseBudgetUID: string;
@@ -328,8 +342,9 @@ export const BudgetTransactionsOperationsList: ExplorerOperation[] = [
 
 
 export const EmptyBudgetTransactionsQuery: BudgetTransactionsQuery = {
-  transactionTypeUID: '',
+  stage: null,
   status: null,
+  transactionTypeUID: '',
   keywords: '',
   budgetTypeUID: '',
   baseBudgetUID: '',
