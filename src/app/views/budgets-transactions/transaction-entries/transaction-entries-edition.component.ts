@@ -19,6 +19,8 @@ import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryDescri
          EmptyBudgetTransaction, EmptyBudgetTransactionEntry, BudgetTransactionEntryType,
          BudgetEntryByYearFields } from '@app/models';
 
+import { TransactionEntriesControlsEventType } from './transaction-entries-controls.component';
+
 import { TransactionEntriesTableEventType } from './transaction-entries-table.component';
 
 import { TransactionEntryEditorEventType } from './transaction-entry-editor.component';
@@ -50,6 +52,8 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
 
   filter = '';
 
+  groupedEntries = false;
+
 
   constructor(private transactionsData: BudgetTransactionsDataService,
               private messageBox: MessageBoxService) { }
@@ -57,17 +61,30 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
 
   ngOnChanges(){
     this.filter = '';
+    this.groupedEntries = false;
     this.setSelectedEntry(EmptyBudgetTransactionEntry);
   }
 
 
-  onAutomaticGenerationButtonClicked() {
-    this.messageBox.showInDevelopment('Generación automática');
-  }
-
-
-  onCreateEntryButtonClicked() {
-    this.setSelectedEntry(EmptyBudgetTransactionEntry, true);
+  onTransactionEntriesControlsEvent(event: EventInfo) {
+    switch (event.type as TransactionEntriesControlsEventType) {
+      case TransactionEntriesControlsEventType.FILTER_CHANGED:
+        this.filter = event.payload.filter as string;
+        return;
+      case TransactionEntriesControlsEventType.GROUPED_ENTRIES_CHANGED:
+        this.groupedEntries = event.payload.groupedEntries as boolean;
+        this.messageBox.showInDevelopment('Movimientos agrupados');
+        return;
+      case TransactionEntriesControlsEventType.AUTOMATIC_GENERATION_BUTTON_CLICKED:
+        this.messageBox.showInDevelopment('Generación automática');
+        return;
+      case TransactionEntriesControlsEventType.CREATE_ENTRY_BUTTON_CLICKED:
+        this.setSelectedEntry(EmptyBudgetTransactionEntry, true);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 

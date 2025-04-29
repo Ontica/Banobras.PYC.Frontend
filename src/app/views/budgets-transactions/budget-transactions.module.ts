@@ -29,6 +29,7 @@ import { BudgetTransactionCreatorComponent } from './transaction/transaction-cre
 import { BudgetTransactionEditorComponent } from './transaction/transaction-editor.component';
 import { BudgetTransactionHeaderComponent } from './transaction/transaction-header.component';
 import { BudgetTransactionEntriesEditionComponent } from './transaction-entries/transaction-entries-edition.component';
+import { TransactionEntriesControlsComponent } from './transaction-entries/transaction-entries-controls.component';
 import { BudgetTransactionEntriesTableComponent } from './transaction-entries/transaction-entries-table.component';
 import { BudgetTransactionEntryEditorComponent } from './transaction-entries/transaction-entry-editor.component';
 
@@ -60,6 +61,7 @@ import { BudgetTransactionEntryEditorComponent } from './transaction-entries/tra
     BudgetTransactionEditorComponent,
     BudgetTransactionHeaderComponent,
     BudgetTransactionEntriesEditionComponent,
+    TransactionEntriesControlsComponent,
     BudgetTransactionEntriesTableComponent,
     BudgetTransactionEntryEditorComponent,
   ],

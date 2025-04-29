@@ -4,51 +4,17 @@
 
   </emp-ng-spinner>
 
-  <div class="fx-row-container fx-space-between fx-items-center">
+  <emp-bdg-transaction-entries-controls
+    [filter]="filter"
+    [groupedEntries]="groupedEntries"
+    [canEdit]="canEdit"
+    (transactionEntriesControlsEvent)="onTransactionEntriesControlsEvent($event)">
 
-    <div class="fx-item-quarter sm-fx-item-half">
-
-      <div class="input-icon-container">
-
-        <input #filterInput type="text" class="text-box" name="filterInput" autocomplete="off"
-          [(ngModel)]="filter"
-          placeholder="Buscar en resultado..."
-          (keyup.escape)="filter = ''">
-
-        <mat-icon class="input-icon">search</mat-icon>
-
-      </div>
-
-    </div>
-
-    <div class="fx-item">
-
-    </div>
-
-    <ng-container *ngIf="canEdit">
-
-      <button
-        class="btn"
-        (click)="onAutomaticGenerationButtonClicked()">
-        Generación automática
-      </button>
-
-      <mat-divider vertical="true" class="vertical-inline">
-
-      </mat-divider>
-
-      <button
-        class="btn-action"
-        (click)="onCreateEntryButtonClicked()">
-        Agregar movimiento
-      </button>
-
-    </ng-container>
-
-  </div>
+  </emp-bdg-transaction-entries-controls>
 
   <emp-bdg-transaction-entries-table class="fx-item"
     [entries]="entries"
+    [groupedEntries]="groupedEntries"
     [filter]="filter"
     [canDelete]="canEdit"
     (transactionEntriesTableEvent)="onTransactionEntriesTableEvent($event)">

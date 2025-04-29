@@ -31,6 +31,8 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
   @Input() entries: BudgetTransactionEntryDescriptor[] = [];
 
+  @Input() groupedEntries = false;
+
   @Input() filter = '';
 
   @Input() canDelete = false;
@@ -48,9 +50,7 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
   dataSource: MatTableDataSource<BudgetTransactionEntryDescriptor>;
 
 
-  constructor(private messageBox: MessageBoxService) {
-
-  }
+  constructor(private messageBox: MessageBoxService) { }
 
 
   ngOnChanges(changes: SimpleChanges) {

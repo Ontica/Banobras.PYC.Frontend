@@ -1,0 +1,49 @@
+  <div class="fx-row-container fx-space-between fx-items-center">
+
+    <div class="fx-item-quarter sm-fx-item-half">
+
+      <div class="input-icon-container">
+
+        <input #filterInput type="text" class="text-box" name="filterInput" autocomplete="off"
+          [(ngModel)]="filter"
+          placeholder="Buscar en resultado..."
+          (keyup.enter)="onFilterChanged()"
+          (keyup.escape)="onClearFilter()">
+
+        <mat-icon class="input-icon" (click)="onFilterChanged()">search</mat-icon>
+
+      </div>
+
+    </div>
+
+    <div class="fx-item">
+
+      <mat-checkbox empNgStopPropagation
+        [(ngModel)]="groupedEntries"
+        (change)="onGroupedEntriesChanged()">
+        Movimientos agrupados
+      </mat-checkbox>
+
+    </div>
+
+    <ng-container *ngIf="canEdit">
+
+      <button
+        class="btn"
+        (click)="onAutomaticGenerationButtonClicked()">
+        Generación automática
+      </button>
+
+      <mat-divider vertical="true" class="vertical-inline">
+
+      </mat-divider>
+
+      <button
+        class="btn-action"
+        (click)="onCreateEntryButtonClicked()">
+        Agregar movimiento
+      </button>
+
+    </ng-container>
+
+  </div>
