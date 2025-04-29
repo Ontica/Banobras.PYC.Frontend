@@ -84,6 +84,15 @@ export class BudgetTransactionsDataService {
   }
 
 
+  sendToAuthorizationTransaction(transactionUID: string): EmpObservable<BudgetTransactionHolder> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/send-to-authorization`;
+
+    return this.http.post<BudgetTransactionHolder>(path);
+  }
+
+
   authorizeTransaction(transactionUID: string): EmpObservable<BudgetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 

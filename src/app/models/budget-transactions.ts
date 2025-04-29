@@ -296,6 +296,7 @@ export interface BudgetMonthEntryFields {
 export interface TransactionActions {
   canUpdate: boolean;
   canDelete: boolean;
+  canSendToAuthorization: boolean;
   canAuthorize: boolean;
   canReject: boolean;
   canClone: boolean;
@@ -380,6 +381,7 @@ export const EmptyBudgetTransaction: BudgetTransaction = {
 export const EmptyTransactionActions: TransactionActions = {
   canUpdate: false,
   canDelete: false,
+  canSendToAuthorization: false,
   canAuthorize: false,
   canReject: false,
   canClone: false,

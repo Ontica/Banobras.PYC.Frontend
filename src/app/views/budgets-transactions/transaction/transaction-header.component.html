@@ -206,6 +206,12 @@
 
         <ng-container *ngIf="!editionMode">
 
+          <button *ngIf="actions.canSendToAuthorization"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventType.SEND_TO_AUTHORIZE)">
+            Enviar a autorización
+          </button>
+
           <button *ngIf="actions.canAuthorize"
             type="button" class="btn"
             (click)="onEventButtonClicked(eventType.AUTHORIZE)">

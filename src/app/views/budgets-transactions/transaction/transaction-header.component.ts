@@ -16,7 +16,7 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { BudgetingStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { FormHelper, sendEvent } from '@app/shared/utils';
+import { FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
 
@@ -30,11 +30,12 @@ import { BudgetForEdition, BudgetTransaction, BudgetTransactionFields, BudgetTyp
 
 
 export enum TransactionHeaderEventType {
-  CREATE    = 'BudgetTransactionHeaderComponent.Event.CreateTransaction',
-  UPDATE    = 'BudgetTransactionHeaderComponent.Event.UpdateTransaction',
-  DELETE    = 'BudgetTransactionHeaderComponent.Event.DeleteTransaction',
-  AUTHORIZE = 'BudgetTransactionHeaderComponent.Event.AuthorizeTransaction',
-  REJECT    = 'BudgetTransactionHeaderComponent.Event.RejectTransaction',
+  CREATE            = 'BudgetTransactionHeaderComponent.Event.CreateTransaction',
+  UPDATE            = 'BudgetTransactionHeaderComponent.Event.UpdateTransaction',
+  DELETE            = 'BudgetTransactionHeaderComponent.Event.DeleteTransaction',
+  SEND_TO_AUTHORIZE = 'BudgetTransactionHeaderComponent.Event.SendToAuthorizationTransaction',
+  AUTHORIZE         = 'BudgetTransactionHeaderComponent.Event.AuthorizeTransaction',
+  REJECT            = 'BudgetTransactionHeaderComponent.Event.RejectTransaction',
 }
 
 interface TransactionFormModel extends FormGroup<{
@@ -424,13 +425,14 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
 
   private showConfirmMessage(eventType: TransactionHeaderEventType) {
+    const transactionUID = this.transaction.uid;
     const confirmType = this.getConfirmType(eventType);
     const title = this.getConfirmTitle(eventType);
     const message = this.getConfirmMessage(eventType);
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => this.validateAndSendEvent(eventType, x));
+      .then(x => sendEventIf(x, this.transactionHeaderEvent, eventType, { transactionUID }));
   }
 
 
@@ -439,6 +441,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       case TransactionHeaderEventType.DELETE:
       case TransactionHeaderEventType.REJECT:
         return 'DeleteCancel';
+      case TransactionHeaderEventType.SEND_TO_AUTHORIZE:
       case TransactionHeaderEventType.AUTHORIZE:
       default:
         return 'AcceptCancel';
@@ -450,6 +453,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
     switch (eventType) {
       case TransactionHeaderEventType.DELETE: return 'Eliminar transacción';
       case TransactionHeaderEventType.REJECT: return 'Rechazar transacción';
+      case TransactionHeaderEventType.SEND_TO_AUTHORIZE: return 'Enviar a autorización';
       case TransactionHeaderEventType.AUTHORIZE: return 'Autorizar transacción';
       default: return '';
     }
@@ -470,6 +474,12 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
                 de <strong>${this.transaction.baseParty.name}</strong>.
 
                 <br><br>¿Rechazo la transacción?`;
+      case TransactionHeaderEventType.SEND_TO_AUTHORIZE:
+        return `Esta operación enviará a autorización la transacción
+                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
+                de <strong>${this.transaction.baseParty.name}</strong>.
+
+                <br><br>¿Envío a autorización la transacción?`;
       case TransactionHeaderEventType.AUTHORIZE:
         return `Esta operación autorizará la transacción
                 <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
@@ -477,13 +487,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
                 <br><br>¿Autorizo la transacción?`;
       default: return '';
-    }
-  }
-
-
-  private validateAndSendEvent(eventType: TransactionHeaderEventType, send: boolean) {
-    if (send) {
-      sendEvent(this.transactionHeaderEvent, eventType, { transactionUID: this.transaction.uid });
     }
   }
 

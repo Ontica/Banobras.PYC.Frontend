@@ -57,6 +57,9 @@ export class BudgetTransactionEditorComponent {
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.updateTransaction(event.payload.dataFields as BudgetTransactionFields);
         return;
+      case TransactionHeaderEventType.SEND_TO_AUTHORIZE:
+        this.sendToAuthorizationTransaction(this.transaction.uid);
+        return;
       case TransactionHeaderEventType.AUTHORIZE:
         this.authorizeTransaction(this.transaction.uid);
         return;
@@ -77,6 +80,16 @@ export class BudgetTransactionEditorComponent {
     this.submitted = true;
 
     this.transactionsData.updateTransaction(this.transaction.uid, dataFields)
+      .firstValue()
+      .then(x => this.resolveTransactionUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private sendToAuthorizationTransaction(transactionUID: string) {
+    this.submitted = true;
+
+    this.transactionsData.sendToAuthorizationTransaction(transactionUID)
       .firstValue()
       .then(x => this.resolveTransactionUpdated(x))
       .finally(() => this.submitted = false);
