@@ -67,6 +67,7 @@ export interface PartiesQuery {
 
 export interface PartyDescriptor {
   uid: string;
+  code: string;
   typeUID: string;
   typeName: string;
   name: string;
@@ -95,6 +96,7 @@ export interface PartyHolder {
 export interface Party {
   uid: string;
   type: Identifiable;
+  code: string;
   name: string;
   commonName: string;
   status: Identifiable<EntityStatus>;
@@ -116,9 +118,14 @@ export const EmptyPartiesQuery: PartiesQuery = {
 
 export const DefaultPartiesColumns: DataTableColumn[] = [
   {
+    field: 'code',
+    title: 'Clave',
+    type: DataTableColumnType.text_link,
+  },
+  {
     field: 'name',
     title: 'Nombre',
-    type: DataTableColumnType.text_link,
+    type: DataTableColumnType.text,
   },
   {
     field: 'commonName',
@@ -148,6 +155,7 @@ export const EmptyPartiesDataTable: PartiesDataTable = {
 export const EmptyParty: Party = {
   uid: '',
   type: Empty,
+  code: '',
   name: '',
   commonName: '',
   status: Empty,
@@ -186,6 +194,7 @@ export function mapPartyDescriptorFromParty(party: Party): PartyDescriptor {
   return {
     uid: party.uid,
     typeUID: party.type.uid,
+    code: party.code,
     typeName: party.type.name,
     name: party.name,
     commonName: party.commonName,
