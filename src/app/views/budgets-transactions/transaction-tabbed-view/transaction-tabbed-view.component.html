@@ -28,6 +28,19 @@
 
     </mat-tab>
 
+    <mat-tab label="Cédula">
+
+      <ng-template matTabContent>
+
+        <emp-bdg-transaction-print-view
+          [transactionUID]="data.transaction.uid">
+
+        </emp-bdg-transaction-print-view>
+
+      </ng-template>
+
+    </mat-tab>
+
     <mat-tab label="Documentos">
 
       <emp-ng-documents-edition

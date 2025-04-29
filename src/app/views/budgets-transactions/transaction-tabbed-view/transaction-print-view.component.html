@@ -1,0 +1,22 @@
+<div class="preview-container" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="isLoading">
+
+  </emp-ng-spinner>
+
+  <div class="object-preview-container" *ngIf="!hasError">
+
+    <object *ngIf="fileUrl"
+      class="object-preview mat-elevation-z1"
+      [data]="fileUrl | empSafeUrl"
+      (error)="onFileError()">
+
+    </object>
+
+  </div>
+
+  <div class="text-not-found" *ngIf="hasError">
+    Error al cargar el archivo.
+  </div>
+
+</div>
