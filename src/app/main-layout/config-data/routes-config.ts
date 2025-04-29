@@ -226,13 +226,6 @@ export const ROUTES = {
     fullpath: '/presupuesto/explorador',
   },
 
-  presupuesto_planeacion_anual: {
-    permission: PERMISSIONS.ROUTE_PRESUPUESTO_PLANEACION_ANUAL,
-    parent: 'presupuesto',
-    path: 'planeacion-anual',
-    fullpath: '/presupuesto/planeacion-anual',
-  },
-
   presupuesto_configuracion: {
     permission: PERMISSIONS.ROUTE_PRESUPUESTO_CONFIGURACION,
     parent: 'presupuesto',
@@ -288,6 +281,13 @@ export const ROUTES = {
     parent: 'flujo-de-efectivo',
     path: 'planeacion',
     fullpath: '/flujo-de-efectivo/planeacion',
+  },
+
+  flujo_de_efectivo_explorer: {
+    permission: PERMISSIONS.ROUTE_FLUJO_DE_EXPLORER,
+    parent: 'flujo-de-efectivo',
+    path: 'explorer',
+    fullpath: '/flujo-de-efectivo/explorer',
   },
 
   flujo_de_efectivo_codificacion: {

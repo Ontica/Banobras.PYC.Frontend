@@ -78,8 +78,8 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
   {
     name: 'CashFlow',
     views: CashFlowViews,
-    hint: 'Flujo de efectivo',
-    defaultTitle: 'Flujo de efectivo',
+    hint: 'Programa financiero',
+    defaultTitle: 'Programa financiero',
     url: ROUTES.flujo_de_efectivo.fullpath,
     permission: ROUTES.flujo_de_efectivo.permission,
   },

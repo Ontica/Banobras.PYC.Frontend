@@ -161,13 +161,6 @@ export const BudgetViews: View[] = [
     permission: ROUTES.presupuesto_explorador.permission,
   },
   {
-    name: 'Budget.AnnualPlanning',
-    title: 'Planeación anual',
-    menuTitle: 'Planeación anual',
-    url: ROUTES.presupuesto_planeacion_anual.fullpath,
-    permission: ROUTES.presupuesto_planeacion_anual.permission,
-  },
-  {
     name: 'Budget.Configuration',
     title: 'Configuración',
     menuTitle: 'Configuración',
@@ -222,6 +215,12 @@ export const CashFlowViews: View[] = [
     title: 'Planeación',
     url: ROUTES.flujo_de_efectivo_planeacion.fullpath,
     permission: ROUTES.flujo_de_efectivo_planeacion.permission,
+  },
+  {
+    name: 'CashFlow.Explorer',
+    title: 'Flujo de efectivo',
+    url: ROUTES.flujo_de_efectivo_explorer.fullpath,
+    permission: ROUTES.flujo_de_efectivo_explorer.permission,
   },
   {
     name: 'CashFlow.Coding',

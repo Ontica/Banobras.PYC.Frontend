@@ -45,11 +45,6 @@ const routes: Routes = [
     component: BudgetMainPageComponent,
   },
   {
-    data: { permission: ROUTES.presupuesto_planeacion_anual.permission },
-    path: ROUTES.presupuesto_planeacion_anual.path,
-    component: DefaultComponent,
-  },
-  {
     data: { permission: ROUTES.presupuesto_configuracion.permission },
     path: ROUTES.presupuesto_configuracion.path,
     component: DefaultComponent,
