@@ -17,8 +17,8 @@
               [(ngModel)]="selectedEntryType" [ngModelOptions]="{standalone: true}"
               (change)="onEntryTypeChanges()">
 
-              <mat-radio-button [value]="EntryType.Monthly">Mensual</mat-radio-button>
               <mat-radio-button [value]="EntryType.Annually">Anual</mat-radio-button>
+              <mat-radio-button [value]="EntryType.Monthly">Mensual</mat-radio-button>
 
             </mat-radio-group>
           </div>
@@ -34,6 +34,7 @@
             <div class="fx-item-half">
               <label>Movimiento:</label>
               <emp-ng-select
+                [config]="{autoSelect: !isSaved}"
                 formControlName="balanceColumnUID"
                 [items]="balanceColumnsList"
                 [showError]="formHelper.isControlInvalid(form.controls.balanceColumnUID)">
@@ -75,7 +76,7 @@
                 <label>Año:</label>
                 <emp-ng-select
                   formControlName="year"
-                  [config]="{bindByValue: false}"
+                  [config]="{bindByValue: false, autoSelect: !isSaved}"
                   [bindLabel]="null"
                   [items]="transaction?.transactionType?.entriesRules?.years ?? []"
                   [showError]="formHelper.isControlInvalid(form.controls.year)">
@@ -105,7 +106,7 @@
               <label>Año:</label>
               <emp-ng-select
                 formControlName="year"
-                [config]="{bindByValue: false}"
+                [config]="{bindByValue: false, autoSelect: !isSaved}"
                 [bindLabel]="null"
                 [items]="transaction?.transactionType?.entriesRules?.years ?? []"
                 [showError]="formHelper.isControlInvalid(form.controls.year)">
@@ -116,6 +117,7 @@
               <label>Mes:</label>
               <emp-ng-select
                 formControlName="month"
+                [config]="{autoSelect: !isSaved}"
                 [items]="monthsList"
                 [showError]="formHelper.isControlInvalid(form.controls.month)">
               </emp-ng-select>
@@ -168,7 +170,8 @@
                   <label>Unidad:</label>
                   <emp-ng-select
                     formControlName="productUnitUID"
-                    [config]="{notFoundText: form.controls.productUID.invalid ?
+                    [config]="{autoSelect: !isSaved,
+                               notFoundText: form.controls.productUID.invalid ?
                               'No se encontraron registros' : 'El producto no tiene unidades'}"
                     [items]="productUnitsList"
                     [placeholder]="productUnitPlaceholder"
