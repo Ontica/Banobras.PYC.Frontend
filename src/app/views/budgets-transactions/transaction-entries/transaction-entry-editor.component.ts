@@ -360,6 +360,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       productUID: this.checkProductRequired ? formModel.productUID ?? '' : null,
       productUnitUID: this.checkProductRequired ? formModel.productUnitUID ?? '' : null,
       description: this.checkProductRequired ? formModel.description ?? '' : null,
+      justification: formModel.justification ?? '',
       amounts,
     };
 

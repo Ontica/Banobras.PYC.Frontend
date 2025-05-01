@@ -294,6 +294,7 @@ export interface BudgetEntryByYearFields {
   productUID: string;
   productUnitUID: string;
   description: string;
+  justification: string;
   amounts: BudgetMonthEntryFields[];
 }
 
