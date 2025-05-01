@@ -266,8 +266,8 @@ export interface BudgetMonthEntry {
 
 
 export enum BudgetTransactionEntryType {
-  Monthly  = 'Monthly',
   Annually = 'Annually',
+  Monthly  = 'Monthly',
 }
 
 

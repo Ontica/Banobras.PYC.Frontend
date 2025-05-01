@@ -70,7 +70,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   EntryType = BudgetTransactionEntryType;
 
-  selectedEntryType = BudgetTransactionEntryType.Monthly;
+  selectedEntryType = BudgetTransactionEntryType.Annually;
 
   accountsAPI = SearcherAPIS.budgetTransactionAccounts;
 
@@ -196,32 +196,17 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
     this.editionMode = this.canUpdate;
 
     if (this.isSaved) {
+      this.selectedEntryType = BudgetTransactionEntryType.Monthly;
       this.setFormData();
     }
 
-    FormHelper.setDisableForm(this.form, !this.canUpdate);
+    this.validateFieldsRequired();
+    this.validateFieldsDisabled();
   }
 
 
-  private initForm() {
-    const fb = new FormBuilder();
-
-    this.form = fb.group({
-      balanceColumnUID: ['', Validators.required],
-      budgetAccountUID: ['', Validators.required],
-      year: [null as number, Validators.required],
-      month: ['', Validators.required],
-      amount: [null as number, Validators.required],
-      projectUID: [''],
-      productUID: [''],
-      productUnitUID: [''],
-      productQty: [null],
-      description: [''],
-      justification: [''],
-    });
-
-    this.buildMonthsFields();
-    this.buildDataTable();
+  private validateFieldsDisabled() {
+    FormHelper.setDisableForm(this.form, !this.canUpdate);
   }
 
 
@@ -233,6 +218,28 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       this.formHelper.clearControlValidators(this.form.controls.month);
       this.formHelper.clearControlValidators(this.form.controls.amount);
     }
+  }
+
+
+  private initForm() {
+    const fb = new FormBuilder();
+
+    this.form = fb.group({
+      balanceColumnUID: ['', Validators.required],
+      budgetAccountUID: ['', Validators.required],
+      year: [null as number, Validators.required],
+      month: [''],
+      amount: [null as number],
+      projectUID: [''],
+      productUID: [''],
+      productUnitUID: [''],
+      productQty: [null],
+      description: [''],
+      justification: [''],
+    });
+
+    this.buildMonthsFields();
+    this.buildDataTable();
   }
 
 
