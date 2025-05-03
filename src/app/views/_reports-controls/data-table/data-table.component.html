@@ -9,7 +9,7 @@
     <div *ngIf="executed" class="fx-item-none">
 
       <emp-ng-data-table-controls
-        [filter]="filter"
+        [filter]="internalFilter"
         [showExportButton]="showExportButton"
         [controlsAligned]="controlsAligned"
         (dataTableControlsEvent)="onDataTableControlsEvent($event)">
@@ -31,7 +31,10 @@
 
           <th mat-header-cell *matHeaderCellDef class="nowrap"
             [ngClass]="{'text-align-right': column.type === dataTableColumnType.decimal,
-                        'column-checkbox': column.type === dataTableColumnType.check_box}">
+                        'column-checkbox': column.type === dataTableColumnType.check_box,
+                        'sticky-start': showColumnsSticky && i === 0,
+                        'sticky-padding': showColumnsSticky && i === 1,
+                        'sticky-end': showColumnsSticky && i === columns.length - 1}">
 
             <ng-container [ngSwitch]="column.type">
               <ng-container *ngSwitchCase="dataTableColumnType.check_box">
@@ -54,7 +57,10 @@
                         'item-strikethrough': column.isColumnStrikethrough && row[column.fieldConditionStrikethrough],
                         'info-text': column.type === dataTableColumnType.text_highlight,
                         'column-checkbox': column.type === dataTableColumnType.check_box,
-                        'column-action': column.type === dataTableColumnType.delete_button}">
+                        'column-action': column.type === dataTableColumnType.delete_button,
+                        'sticky-start': showColumnsSticky && i === 0,
+                        'sticky-padding': showColumnsSticky && i === 1,
+                        'sticky-end': showColumnsSticky && i === columns.length - 1}">
 
             <ng-container [ngSwitch]="column.type">
               <ng-container *ngSwitchCase="dataTableColumnType.decimal">
@@ -65,6 +71,11 @@
               </ng-container>
               <ng-container *ngSwitchCase="dataTableColumnType.text_link">
                 <a class="item-link" (click)="onItemLinkClicked(row)">
+                  {{row[column.field]}}
+                </a>
+              </ng-container>
+              <ng-container *ngSwitchCase="dataTableColumnType.text_link_wrap">
+                <a class="item-link wrap" (click)="onItemLinkClicked(row)">
                   {{row[column.field]}}
                 </a>
               </ng-container>
@@ -94,7 +105,7 @@
               </ng-container>
 
               <ng-container *ngSwitchCase="dataTableColumnType.delete_button">
-                <button mat-icon-button
+                <button mat-icon-button *ngIf="!row.itemType || entryItemTypeList.includes(row.itemType)"
                   empNgStopPropagation
                   [title]="deleteButtonText"
                   (click)="onDeleteButtonClicked(row)">
@@ -130,7 +141,7 @@
       </div>
 
       <div *ngIf="executed && !hasItems" class="text-not-found">
-        No se encontraron registros con el filtro proporcionado.
+        {{itemsNotFoundText}}
       </div>
 
     </cdk-virtual-scroll-viewport>

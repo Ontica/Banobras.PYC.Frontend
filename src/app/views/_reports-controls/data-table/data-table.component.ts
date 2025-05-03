@@ -71,7 +71,13 @@ export class DataTableComponent implements OnChanges {
 
   @Input() countOnlyEntries = false;
 
+  @Input() externalFilter = '';
+
+  @Input() showColumnsSticky = false;
+
   @Input() notQueryExecutedText = 'No se ha invocado la consulta.';
+
+  @Input() itemsNotFoundText = 'No se encontraron registros con el filtro proporcionado.';
 
   @Output() dataTableEvent = new EventEmitter<EventInfo>();
 
@@ -81,7 +87,7 @@ export class DataTableComponent implements OnChanges {
 
   dataSource: TableVirtualScrollDataSource<DataTableEntry>;
 
-  filter = '';
+  internalFilter = '';
 
   selection = new SelectionModel<DataTableEntry>(true, []);
 
@@ -100,14 +106,18 @@ export class DataTableComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.dataTable) {
-      this.filter = '';
+      this.internalFilter = '';
       this.clearSelection();
       this.initDataSource();
-      this.scrollToTop();
+      this.scrollToOrigin();
     }
 
     if (changes.showCheckboxSelection) {
       this.suscribeToSelectionChanges();
+    }
+
+    if (changes.externalFilter) {
+      this.applyFilter(this.externalFilter);
     }
   }
 
@@ -149,8 +159,10 @@ export class DataTableComponent implements OnChanges {
     switch (event.type as DataTableControlsEventType) {
 
       case DataTableControlsEventType.FILTER_CHANGED:
-        this.filter = event.payload.filter as string;
-        this.applyFilter(this.filter);
+        this.internalFilter = event.payload.filter as string;
+        this.applyFilter(this.internalFilter);
+        this.emitCountFilteredEntries();
+
         return;
 
       case DataTableControlsEventType.EXPORT_BUTTON_CLICKED:
@@ -214,17 +226,17 @@ export class DataTableComponent implements OnChanges {
   }
 
 
-  private scrollToTop() {
+  private scrollToOrigin() {
     if (this.virtualScroll) {
       this.virtualScroll.scrollToIndex(-1);
+      this.virtualScroll.elementRef.nativeElement.scrollLeft = 0;
     }
   }
 
 
   private applyFilter(value: string) {
     this.dataSource.filter = value.trim().toLowerCase();
-    this.scrollToTop();
-    this.emitCountFilteredEntries();
+    this.scrollToOrigin();
   }
 
 

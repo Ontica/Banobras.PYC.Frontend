@@ -20,6 +20,52 @@ table.mat-mdc-table th.column-checkbox {
 
 }
 
+table.mat-mdc-table {
+
+  th {
+
+    &.sticky-start {
+      box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.1);
+      left: 0;
+      position: sticky !important;
+      z-index: 101 !important;
+    }
+
+    &.sticky-padding {
+      padding-left: 8px;
+    }
+
+    &.sticky-end {
+      box-shadow: -4px 0 6px -2px rgba(0, 0, 0, 0.1);
+      right: 0;
+      position: sticky !important;
+    }
+
+  }
+
+  td {
+
+    &.sticky-start {
+      box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.1);
+      left: 0;
+      position: sticky !important;
+      min-width: 200px;
+    }
+
+    &.sticky-padding {
+      padding-left: 8px;
+    }
+
+    &.sticky-end {
+      box-shadow: -4px 0 6px -2px rgba(0, 0, 0, 0.1);
+      right: 0;
+      position: sticky !important;
+    }
+
+  }
+
+}
+
 
 table.mat-mdc-table tr.mat-mdc-row {
   background-color: $white;
@@ -148,6 +194,7 @@ table.mat-mdc-table.emp-designer tr.mat-mdc-row.fixed-cells-type {
 // row selection
 
 table.mat-mdc-table.emp-designer tr.mat-mdc-row.designer-row-selected {
+
   td {
     border-top: 1px solid $designer-bar-selected-border-color;
     border-bottom: 1px solid $designer-bar-selected-border-color !important;
