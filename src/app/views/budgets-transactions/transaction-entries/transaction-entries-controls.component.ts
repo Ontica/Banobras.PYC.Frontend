@@ -26,7 +26,7 @@ export class TransactionEntriesControlsComponent {
 
   @Input() filter = '';
 
-  @Input() groupedEntries = false;
+  @Input() displayGroupedEntries = false;
 
   @Input() canEdit = false;
 
@@ -47,7 +47,7 @@ export class TransactionEntriesControlsComponent {
 
   onGroupedEntriesChanged() {
     sendEvent(this.transactionEntriesControlsEvent, TransactionEntriesControlsEventType.GROUPED_ENTRIES_CHANGED,
-      { groupedEntries: this.groupedEntries });
+      { displayGroupedEntries: this.displayGroupedEntries });
   }
 
 

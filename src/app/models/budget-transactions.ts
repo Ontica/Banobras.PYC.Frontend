@@ -7,6 +7,8 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
+import { DataTable } from './_data-table';
+
 import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
 import { Budget, BudgetSegmentType } from './budgets';
@@ -173,6 +175,7 @@ export interface BudgetTransactionDescriptor {
 export interface BudgetTransactionHolder {
   transaction: BudgetTransaction,
   entries: BudgetTransactionEntryDescriptor[];
+  groupedEntries: BudgetTransactionGroupedEntryData;
   documents: Document[];
   history: History[];
   actions: TransactionActions;
@@ -208,6 +211,11 @@ export interface BudgetTransactionEntryDescriptor {
   balanceColumn: string;
   deposit: number;
   withdrawal: number;
+}
+
+
+export interface BudgetTransactionGroupedEntryData extends DataTable {
+
 }
 
 
@@ -394,6 +402,13 @@ export const EmptyBudgetTransaction: BudgetTransaction = {
 }
 
 
+export const EmptyBudgetTransactionGroupedEntryData: BudgetTransactionGroupedEntryData = {
+  query: {},
+  columns: [],
+  entries: [],
+}
+
+
 export const EmptyTransactionActions: TransactionActions = {
   canUpdate: false,
   canDelete: false,
@@ -408,6 +423,7 @@ export const EmptyTransactionActions: TransactionActions = {
 export const EmptyBudgetTransactionHolder: BudgetTransactionHolder = {
   transaction: EmptyBudgetTransaction,
   entries: [],
+  groupedEntries: EmptyBudgetTransactionGroupedEntryData,
   documents: [],
   history: [],
   actions: EmptyTransactionActions,

@@ -6,13 +6,14 @@
 
   <emp-bdg-transaction-entries-controls
     [filter]="filter"
-    [groupedEntries]="groupedEntries"
+    [displayGroupedEntries]="displayGroupedEntries"
     [canEdit]="canEdit"
     (transactionEntriesControlsEvent)="onTransactionEntriesControlsEvent($event)">
 
   </emp-bdg-transaction-entries-controls>
 
   <emp-bdg-transaction-entries-table class="fx-item"
+    [displayGroupedEntries]="displayGroupedEntries"
     [entries]="entries"
     [groupedEntries]="groupedEntries"
     [filter]="filter"

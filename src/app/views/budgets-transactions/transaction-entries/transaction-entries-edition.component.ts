@@ -17,7 +17,8 @@ import { BudgetTransactionsDataService } from '@app/data-services';
 
 import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryDescriptor, BudgetEntryFields,
          EmptyBudgetTransaction, EmptyBudgetTransactionEntry, BudgetTransactionEntryType,
-         BudgetEntryByYearFields } from '@app/models';
+         BudgetEntryByYearFields, BudgetTransactionGroupedEntryData,
+         EmptyBudgetTransactionGroupedEntryData } from '@app/models';
 
 import { TransactionEntriesControlsEventType } from './transaction-entries-controls.component';
 
@@ -40,6 +41,8 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
 
   @Input() entries: BudgetTransactionEntryDescriptor[] = [];
 
+  @Input() groupedEntries: BudgetTransactionGroupedEntryData = Object.assign({}, EmptyBudgetTransactionGroupedEntryData);
+
   @Input() canEdit = false;
 
   @Output() transactionEntriesEditionEvent = new EventEmitter<EventInfo>();
@@ -52,7 +55,7 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
 
   filter = '';
 
-  groupedEntries = false;
+  displayGroupedEntries = false;
 
 
   constructor(private transactionsData: BudgetTransactionsDataService,
@@ -61,7 +64,6 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
 
   ngOnChanges(){
     this.filter = '';
-    this.groupedEntries = false;
     this.setSelectedEntry(EmptyBudgetTransactionEntry);
   }
 
@@ -72,8 +74,7 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
         this.filter = event.payload.filter as string;
         return;
       case TransactionEntriesControlsEventType.GROUPED_ENTRIES_CHANGED:
-        this.groupedEntries = event.payload.groupedEntries as boolean;
-        this.messageBox.showInDevelopment('Movimientos agrupados');
+        this.displayGroupedEntries = event.payload.displayGroupedEntries as boolean;
         return;
       case TransactionEntriesControlsEventType.AUTOMATIC_GENERATION_BUTTON_CLICKED:
         this.messageBox.showInDevelopment('Generación automática');
@@ -125,7 +126,7 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
         }
 
         if (event.payload.entryType === BudgetTransactionEntryType.Annually) {
-          this.messageBox.showInDevelopment('Actualizar movimiento - modalidad anual', event.payload);
+          this.messageBox.showInDevelopment('Actualizar movimientos agrupados', event.payload);
         }
 
         return;
@@ -149,6 +150,10 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
       case TransactionEntriesTableEventType.REMOVE_ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
         this.removeTransactionEntry(this.transaction.uid, event.payload.entry.uid);
+        return;
+      case TransactionEntriesTableEventType.SELECT_GROUPED_ENTRY_CLICKED:
+        Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
+        this.messageBox.showInDevelopment('Actualizar movimientos agrupados', event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
