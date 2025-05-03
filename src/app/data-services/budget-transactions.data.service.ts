@@ -9,9 +9,10 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { BudgetEntryByYear, BudgetEntryByYearFields, BudgetEntryFields, BudgetTransactionDescriptor,
-         BudgetTransactionEntry, BudgetTransactionFields, BudgetTransactionHolder, BudgetTransactionsQuery,
-         BudgetTypeForEdition, FileReport } from '@app/models';
+import { BudgetAccount, BudgetEntryByYear, BudgetEntryByYearFields, BudgetEntryFields,
+         BudgetTransactionDescriptor, BudgetTransactionEntry, BudgetTransactionFields,
+         BudgetTransactionHolder, BudgetTransactionsQuery, BudgetTypeForEdition,
+         FileReport } from '@app/models';
 
 
 @Injectable()
@@ -181,6 +182,17 @@ export class BudgetTransactionsDataService {
     const path = `v2/budgeting/transactions/${transactionUID}/entries/create-annually`;
 
     return this.http.post<BudgetEntryByYear>(path, dataFields);
+  }
+
+
+  requestBudgetAccount(transactionUID: string,
+                       segmentUID: string): EmpObservable<BudgetAccount> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(segmentUID, 'segmentUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/request-account/${segmentUID}`;
+
+    return this.http.post<BudgetAccount>(path);
   }
 
 }

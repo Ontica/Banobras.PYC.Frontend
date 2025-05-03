@@ -59,13 +59,14 @@
 
             <div [ngClass]="isMonthlyType ? 'fx-item-one' : 'fx-item-half'">
               <label>Partida presupuestal:</label>
-              <emp-ng-select-typeahead
+              <emp-ng-select-typeahead #budgetAccountSearcher
                 formControlName="budgetAccountUID"
                 [config]="{searchByQuery: true, clearable: true, minTermLength: 2, showTooltip: true}"
                 [initQuery]="{transactionUID: transaction.uid, keywords: ''}"
                 [searcherAPI]="accountsAPI"
                 [initialValue]="isSaved && !isFormDataReady ? entry.budgetAccount : null"
-                [showError]="formHelper.isControlInvalid(form.controls.budgetAccountUID)">
+                [showError]="formHelper.isControlInvalid(form.controls.budgetAccountUID)"
+                (changes)="onBudgetAccountChanges($event)">
 
               </emp-ng-select-typeahead>
             </div>

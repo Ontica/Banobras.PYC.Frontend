@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -17,11 +17,15 @@ import { MONTHS_LIST } from '@app/core/data-types/date-string-library';
 
 import { ArrayLibrary, empExpandCollapse, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { SearcherAPIS } from '@app/data-services';
+import { MessageBoxService } from '@app/shared/services';
+
+import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
+
+import { BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services';
 
 import { BudgetTransaction, BudgetTransactionEntry, BudgetEntryFields, EmptyBudgetTransaction,
          ProductSearch, EmptyBudgetTransactionEntry, ThreeStateValue, BudgetMonthEntryFields,
-         BudgetEntryByYearFields, BudgetTransactionEntryType } from '@app/models';
+         BudgetEntryByYearFields, BudgetTransactionEntryType, BudgetAccount } from '@app/models';
 
 
 export enum TransactionEntryEditorEventType {
@@ -49,6 +53,8 @@ interface TransactionEntryFormModel extends FormGroup<{  balanceColumnUID: FormC
   animations: [empExpandCollapse],
 })
 export class BudgetTransactionEntryEditorComponent implements OnChanges {
+
+  @ViewChild('budgetAccountSearcher') budgetAccountSearcher: SelectBoxTypeaheadComponent;
 
   @Input() transaction: BudgetTransaction = EmptyBudgetTransaction;
 
@@ -99,7 +105,8 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   dataSource: MatTableDataSource<string>;
 
 
-  constructor() {
+  constructor(private transactionsData: BudgetTransactionsDataService,
+              private messageBox: MessageBoxService) {
     this.initForm();
   }
 
@@ -152,6 +159,13 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   onEntryTypeChanges() {
     this.validateFieldsRequired();
+  }
+
+
+  onBudgetAccountChanges(budgetAccount: BudgetAccount) {
+    if (isEmpty(budgetAccount) && !!budgetAccount?.baseSegmentUID) {
+      this.showConfirmRequestBudgetAccount(budgetAccount);
+    }
   }
 
 
@@ -319,6 +333,36 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
     this.balanceColumnsList = isEmpty(this.entry.balanceColumn) ?
       balanceColumns :
       ArrayLibrary.insertIfNotExist(balanceColumns, this.entry.balanceColumn, 'uid');
+  }
+
+
+  private showConfirmRequestBudgetAccount(budgetAccount: BudgetAccount) {
+    const message = `La partida presupuestal <strong>${budgetAccount.name}</strong>
+      requiere autorización para ser utilizada.
+      <br><br>¿Solicito la autorización?`;
+
+    this.messageBox.confirm(message, 'Solicitar autorización')
+      .firstValue()
+      .then(x => {
+        if (x) {
+          this.requestBudgetAccount(budgetAccount.baseSegmentUID);
+        } else {
+          this.budgetAccountSearcher.clearValue();
+        }
+      });
+  }
+
+
+  private requestBudgetAccount(segmentUID: string) {
+    this.isLoading = true;
+
+    this.transactionsData.requestBudgetAccount(this.transaction.uid, segmentUID)
+      .firstValue()
+      .then(x => {
+        this.form.controls.budgetAccountUID.reset(x.uid);
+        this.budgetAccountSearcher.resetListWithOption(x);
+      })
+      .finally(() => this.isLoading = false);
   }
 
 

@@ -326,7 +326,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
   private resetOrderSearcher(initData: boolean) {
     if (!!this.baseEntitySearcher && !initData) {
-      this.baseEntitySearcher.resetSearcherData();
+      this.baseEntitySearcher.resetListAndClearValue();
     }
   }
 
