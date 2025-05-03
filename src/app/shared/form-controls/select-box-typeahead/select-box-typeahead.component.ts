@@ -114,20 +114,20 @@ export class SelectBoxTypeaheadComponent implements ControlValueAccessor, OnInit
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.initialValue && !this.searcherList$) {
-      this.subscribeSearcherList();
+      this.initSubscribeSearcherList();
     }
   }
 
 
   ngOnInit() {
     this.initFormControl();
-    this.subscribeSearcherList();
+    this.initSubscribeSearcherList();
   }
 
 
   writeValue(value: any) {
     this.formControl.setValue(value ? value : null, { emitEvent: false });
-    this.subscribeSearcherList();
+    this.initSubscribeSearcherList();
   }
 
 
@@ -164,19 +164,24 @@ export class SelectBoxTypeaheadComponent implements ControlValueAccessor, OnInit
   }
 
 
-  resetSearcherData() {
-    this.subscribeSearcherList();
+  clearValue() {
     this.formControl.reset(null);
   }
 
 
-  clearSearcherData(withInitialValue: boolean = false) {
-    this.subscribeSearcherList(withInitialValue);
+  resetList(withInitialValue: boolean = false) {
+    this.subscribeSearcherList(withInitialValue, this.initialValue);
   }
 
 
-  resetValue() {
+  resetListAndClearValue() {
+    this.subscribeSearcherList(true, this.initialValue);
     this.formControl.reset(null);
+  }
+
+
+  resetListWithOption(option: any) {
+    this.subscribeSearcherList(true, option);
   }
 
 
@@ -190,9 +195,14 @@ export class SelectBoxTypeaheadComponent implements ControlValueAccessor, OnInit
   }
 
 
-  private subscribeSearcherList(withInitialValue: boolean = true) {
-    const setInitialValue = withInitialValue && !isEmpty(this.initialValue);
-    let initialList$: Observable<any[]> = of(setInitialValue ? [this.initialValue] : []);
+  private initSubscribeSearcherList() {
+    this.subscribeSearcherList(true, this.initialValue);
+  }
+
+
+  private subscribeSearcherList(withInitialValue: boolean = true, initialValue: any = null) {
+    const setInitialValue = withInitialValue && !isEmpty(initialValue);
+    let initialList$: Observable<any[]> = of(setInitialValue ? [initialValue] : []);
 
     this.searcherList$ = concat(
       initialList$,
