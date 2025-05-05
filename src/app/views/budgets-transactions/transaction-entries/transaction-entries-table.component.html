@@ -4,18 +4,14 @@
 
     <ng-container matColumnDef="budgetAccount">
       <th mat-header-cell *matHeaderCellDef class="nowrap"> Cuenta presupuestal</th>
-      <td mat-cell *matCellDef="let row" [style.min-width.px]="200">
-        <a class="item-link wrap" (click)="onSelectEntryClicked(row)">
-          {{ row.budgetAccountName }}
-        </a>
+      <td mat-cell *matCellDef="let row" [style.min-width.px]="200" class="italic-text wrap">
+        {{ row.budgetAccountName }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="year">
       <th mat-header-cell *matHeaderCellDef class="nowrap"> Año </th>
-      <td mat-cell *matCellDef="let row">
-        {{ row.year }}
-      </td>
+      <td mat-cell *matCellDef="let row">{{ row.year }}</td>
     </ng-container>
 
     <ng-container matColumnDef="monthName">
@@ -69,7 +65,9 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectEntryClicked(row)"
+      [class.selectable-row]="!totalItemTypeList.includes(row.itemType)"
+      [class.item-type-total]="totalItemTypeList.includes(row.itemType)"></tr>
     <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
       [hidden]="dataSource.data.length > 0"></tr>
 

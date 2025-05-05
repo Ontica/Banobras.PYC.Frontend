@@ -211,6 +211,7 @@ export interface BudgetTransactionEntryDescriptor {
   balanceColumn: string;
   deposit: number;
   withdrawal: number;
+  itemType: 'Entry' | 'Total';
 }
 
 

@@ -15,7 +15,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
-import { BudgetTransactionEntryDescriptor } from '@app/models';
+import { BudgetTransactionEntryDescriptor, TotalItemTypeList } from '@app/models';
 
 
 export enum TransactionEntriesTableEventType {
@@ -44,6 +44,8 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
   dataSource: MatTableDataSource<BudgetTransactionEntryDescriptor>;
 
+  totalItemTypeList = TotalItemTypeList;
+
 
   constructor(private messageBox: MessageBoxService) { }
 
@@ -60,7 +62,7 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
 
   onSelectEntryClicked(entry: BudgetTransactionEntryDescriptor) {
-    if (window.getSelection().toString().length <= 0) {
+    if (window.getSelection().toString().length <= 0 && !TotalItemTypeList.includes(entry.itemType)) {
       sendEvent(this.transactionEntriesTableEvent, TransactionEntriesTableEventType.SELECT_ENTRY_CLICKED,
         { entry });
     }
