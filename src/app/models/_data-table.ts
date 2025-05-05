@@ -45,9 +45,10 @@ export const EmptyDataTable: DataTable = {
 
 export enum DataTableColumnType {
   text           = 'text',
+  text_highlight = 'text-highlight',
+  text_italic    = 'text-italic',
   text_link      = 'text-link',
   text_link_wrap = 'text-link-wrap',
-  text_highlight = 'text-highlight',
   text_nowrap    = 'text-nowrap',
   decimal        = 'decimal',
   date           = 'date',

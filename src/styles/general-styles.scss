@@ -405,6 +405,10 @@ textarea:focus {
   text-decoration: underline;
 }
 
+.strikethrough-text {
+  text-decoration: line-through;
+}
+
 .highlight-text {
   color: $primary-color;
   text-decoration: underline;

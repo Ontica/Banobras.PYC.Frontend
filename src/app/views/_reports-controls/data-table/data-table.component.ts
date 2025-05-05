@@ -73,7 +73,9 @@ export class DataTableComponent implements OnChanges {
 
   @Input() externalFilter = '';
 
-  @Input() showColumnsSticky = false;
+  @Input() showColumnStickyStart = false;
+
+  @Input() showColumnStickyEnd = false;
 
   @Input() notQueryExecutedText = 'No se ha invocado la consulta.';
 
