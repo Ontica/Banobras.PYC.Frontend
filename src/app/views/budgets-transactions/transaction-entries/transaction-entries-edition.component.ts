@@ -20,6 +20,8 @@ import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryDescri
          BudgetEntryByYearFields, BudgetTransactionGroupedEntryData,
          EmptyBudgetTransactionGroupedEntryData } from '@app/models';
 
+import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
+
 import { TransactionEntriesControlsEventType } from './transaction-entries-controls.component';
 
 import { TransactionEntriesTableEventType } from './transaction-entries-table.component';
@@ -55,7 +57,7 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
 
   filter = '';
 
-  displayGroupedEntries = false;
+  displayAllEntries = false;
 
 
   constructor(private transactionsData: BudgetTransactionsDataService,
@@ -73,8 +75,8 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
       case TransactionEntriesControlsEventType.FILTER_CHANGED:
         this.filter = event.payload.filter as string;
         return;
-      case TransactionEntriesControlsEventType.GROUPED_ENTRIES_CHANGED:
-        this.displayGroupedEntries = event.payload.displayGroupedEntries as boolean;
+      case TransactionEntriesControlsEventType.CHECK_ALL_ENTRIES_CHANGED:
+        this.displayAllEntries = event.payload.displayAllEntries as boolean;
         return;
       case TransactionEntriesControlsEventType.AUTOMATIC_GENERATION_BUTTON_CLICKED:
         this.messageBox.showInDevelopment('Generación automática');
@@ -151,10 +153,31 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
         this.removeTransactionEntry(this.transaction.uid, event.payload.entry.uid);
         return;
-      case TransactionEntriesTableEventType.SELECT_GROUPED_ENTRY_CLICKED:
-        Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
-        this.messageBox.showInDevelopment('Actualizar movimientos agrupados', event.payload);
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
         return;
+    }
+  }
+
+
+  onTransactionEntriesGroupedTableEvent(event: EventInfo) {
+    if (this.submitted) {
+      return;
+    }
+
+    switch (event.type as DataTableEventType) {
+      case DataTableEventType.ENTRY_CLICKED: {
+        Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
+        const entry = event.payload.entry as BudgetTransactionEntryDescriptor;
+        this.messageBox.showInDevelopment('Actualizar movimientos agrupados', entry);
+        return;
+      }
+      case DataTableEventType.DELETE_ENTRY_CLICKED: {
+        Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
+        const entry = event.payload.entry as BudgetTransactionEntryDescriptor;
+        this.messageBox.showInDevelopment('Eliminar movimientos agrupados', entry);
+        return;
+      }
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

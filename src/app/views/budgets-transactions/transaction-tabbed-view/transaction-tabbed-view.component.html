@@ -18,14 +18,18 @@
 
     <mat-tab label="Movimientos">
 
-      <emp-bdg-transaction-entries-edition
-        [transaction]="data.transaction"
-        [entries]="data.entries"
-        [groupedEntries]="data.groupedEntries"
-        [canEdit]="data.actions.canUpdate"
-        (transactionEntriesEditionEvent)="onTransactionEntriesEditionEvent($event)">
+      <ng-template matTabContent>
 
-      </emp-bdg-transaction-entries-edition>
+        <emp-bdg-transaction-entries-edition
+          [transaction]="data.transaction"
+          [entries]="data.entries"
+          [groupedEntries]="data.groupedEntries"
+          [canEdit]="data.actions.canUpdate"
+          (transactionEntriesEditionEvent)="onTransactionEntriesEditionEvent($event)">
+
+        </emp-bdg-transaction-entries-edition>
+
+      </ng-template>
 
     </mat-tab>
 

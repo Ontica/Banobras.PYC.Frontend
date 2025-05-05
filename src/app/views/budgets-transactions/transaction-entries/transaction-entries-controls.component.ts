@@ -13,7 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 export enum TransactionEntriesControlsEventType {
   FILTER_CHANGED                      = 'TransactionEntriesControlsComponent.Event.FilterChanged',
-  GROUPED_ENTRIES_CHANGED             = 'TransactionEntriesControlsComponent.Event.GroupedEntriesChanged',
+  CHECK_ALL_ENTRIES_CHANGED           = 'TransactionEntriesControlsComponent.Event.CheckAllEntriesChanged',
   AUTOMATIC_GENERATION_BUTTON_CLICKED = 'TransactionEntriesControlsComponent.Event.AutomaticGenerationButtonClicked',
   CREATE_ENTRY_BUTTON_CLICKED         = 'TransactionEntriesControlsComponent.Event.CreateEntryButtonClicked',
 }
@@ -26,7 +26,7 @@ export class TransactionEntriesControlsComponent {
 
   @Input() filter = '';
 
-  @Input() displayGroupedEntries = false;
+  @Input() displayAllEntries = false;
 
   @Input() canEdit = false;
 
@@ -45,9 +45,9 @@ export class TransactionEntriesControlsComponent {
   }
 
 
-  onGroupedEntriesChanged() {
-    sendEvent(this.transactionEntriesControlsEvent, TransactionEntriesControlsEventType.GROUPED_ENTRIES_CHANGED,
-      { displayGroupedEntries: this.displayGroupedEntries });
+  onAllEntriesChanged() {
+    sendEvent(this.transactionEntriesControlsEvent, TransactionEntriesControlsEventType.CHECK_ALL_ENTRIES_CHANGED,
+      { displayAllEntries: this.displayAllEntries });
   }
 
 

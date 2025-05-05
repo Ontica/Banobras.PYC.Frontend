@@ -6,21 +6,34 @@
 
   <emp-bdg-transaction-entries-controls
     [filter]="filter"
-    [displayGroupedEntries]="displayGroupedEntries"
+    [displayAllEntries]="displayAllEntries"
     [canEdit]="canEdit"
     (transactionEntriesControlsEvent)="onTransactionEntriesControlsEvent($event)">
 
   </emp-bdg-transaction-entries-controls>
 
-  <emp-bdg-transaction-entries-table class="fx-item"
-    [displayGroupedEntries]="displayGroupedEntries"
+  <emp-bdg-transaction-entries-table *ngIf="displayAllEntries"
+    class="fx-item"
     [entries]="entries"
-    [groupedEntries]="groupedEntries"
     [filter]="filter"
     [canDelete]="canEdit"
     (transactionEntriesTableEvent)="onTransactionEntriesTableEvent($event)">
 
   </emp-bdg-transaction-entries-table>
+
+  <emp-ng-data-table *ngIf="!displayAllEntries"
+    class="fx-item"
+    [showControls]="false"
+    [showColumnStickyStart]="true"
+    [showColumnStickyEnd]="canEdit"
+    [clickableEntry]="true"
+    [dataTable]="groupedEntries"
+    [externalFilter]="filter"
+    [showDeleteButton]="canEdit"
+    itemsNotFoundText="Esta transacción no tiene movimientos."
+    (dataTableEvent)="onTransactionEntriesGroupedTableEvent($event)">
+
+  </emp-ng-data-table>
 
 </div>
 
