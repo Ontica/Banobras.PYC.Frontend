@@ -23,9 +23,10 @@ import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
 
 import { BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services';
 
-import { BudgetTransaction, BudgetTransactionEntry, BudgetEntryFields, EmptyBudgetTransaction,
-         ProductSearch, EmptyBudgetTransactionEntry, ThreeStateValue, BudgetMonthEntryFields,
-         BudgetEntryByYearFields, BudgetTransactionEntryType, BudgetAccount } from '@app/models';
+import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryFields, EmptyBudgetTransaction,
+         ProductSearch, ProductRule, BudgetMonthEntryFields, BudgetTransactionEntryByYearFields,
+         BudgetTransactionEntryType, BudgetAccount, BudgetTransactionEntryBase,
+         EmptyBudgetTransactionEntryBase, BudgetTransactionEntryByYear, BudgetMonthEntry } from '@app/models';
 
 
 export enum TransactionEntryEditorEventType {
@@ -58,7 +59,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   @Input() transaction: BudgetTransaction = EmptyBudgetTransaction;
 
-  @Input() entry: BudgetTransactionEntry = EmptyBudgetTransactionEntry;
+  @Input() entry: BudgetTransactionEntryBase = EmptyBudgetTransactionEntryBase;
 
   @Input() canUpdate = false;
 
@@ -195,10 +196,10 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
         TransactionEntryEditorEventType.CREATE_ENTRY;
 
       const payload = {
+        entryType: this.selectedEntryType,
         transactionUID: this.transaction.uid,
         entryUID: this.isSaved ? this.entry.uid : null,
-        entryType: this.selectedEntryType,
-        dataFields: this.isMonthlyType ? this.getBudgetEntryFields() : this.getBudgetEntryByYearFields(),
+        dataFields: this.isMonthlyType ? this.getBudgetTransactionEntryFields() : this.getBudgetTransactionEntryByYearFields(),
       };
 
       sendEvent(this.transactionEntryEditorEvent, eventType, payload);
@@ -210,7 +211,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
     this.editionMode = this.canUpdate;
 
     if (this.isSaved) {
-      this.selectedEntryType = BudgetTransactionEntryType.Monthly;
+      this.setSelectedEntryTypeByEntry();
       this.setFormData();
     }
 
@@ -258,7 +259,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
 
   private buildMonthsFields() {
-    this.monthsFields = this.monthsList.map(x => this.getBudgetMonthEntryFields(x));
+    this.monthsFields = this.monthsList.map(x => this.getInitBudgetMonthEntryFields(x));
   }
 
 
@@ -269,8 +270,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
-  private getBudgetMonthEntryFields(month: FlexibleIdentifiable): BudgetMonthEntryFields {
-    // TODO: set values when isSaved
+  private getInitBudgetMonthEntryFields(month: FlexibleIdentifiable): BudgetMonthEntryFields {
     const data: BudgetMonthEntryFields = {
       budgetEntryUID: this.entry.uid ?? null,
       label: month.name,
@@ -283,23 +283,21 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
+  private setSelectedEntryTypeByEntry() {
+    this.selectedEntryType = this.entry.entryType === BudgetTransactionEntryType.Annually ?
+      BudgetTransactionEntryType.Annually : BudgetTransactionEntryType.Monthly;
+  }
+
+
   private setFormData() {
     this.isFormDataReady = false;
 
     setTimeout(() => {
-      this.form.reset({
-        balanceColumnUID: this.entry.balanceColumn.uid,
-        projectUID: this.entry.project.uid,
-        budgetAccountUID: this.entry.budgetAccount.uid,
-        year: this.entry.year,
-        month: this.entry.month.uid,
-        amount: this.entry.amount > 0 ? this.entry.amount : null,
-        productUID: this.entry.product.uid,
-        productUnitUID: this.entry.productUnit.uid,
-        productQty: this.entry.productQty > 0 ? this.entry.productQty : null,
-        description: this.entry.description,
-        justification: this.entry.justification,
-      });
+      if (this.isMonthlyType) {
+        this.setFormDataFromBudgetTransactionEntry();
+      } else {
+        this.setFormDataFromBudgetTransactionEntryByYear();
+      }
 
       this.isFormDataReady = true;
       this.setProductFields();
@@ -308,20 +306,69 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
+  private setFormDataFromBudgetTransactionEntry() {
+    const entry = this.entry as BudgetTransactionEntry;
+
+    this.form.reset({
+      balanceColumnUID: entry.balanceColumn.uid,
+      projectUID: entry.project.uid,
+      budgetAccountUID: entry.budgetAccount.uid,
+      year: entry.year,
+      month: entry.month.uid,
+      amount: entry.amount > 0 ? entry.amount : null,
+      productUID: entry.product.uid,
+      productUnitUID: entry.productUnit.uid,
+      productQty: entry.productQty > 0 ? entry.productQty : null,
+      description: entry.description,
+      justification: entry.justification,
+    });
+  }
+
+
+  private setFormDataFromBudgetTransactionEntryByYear() {
+    const entry = this.entry as BudgetTransactionEntryByYear;
+
+    this.form.reset({
+      balanceColumnUID: entry.balanceColumn.uid,
+      projectUID: entry.project.uid,
+      budgetAccountUID: entry.budgetAccount.uid,
+      year: entry.year,
+      productUID: entry.product.uid,
+      productUnitUID: entry.productUnit.uid,
+      description: entry.description,
+      justification: entry.justification,
+    });
+
+    this.setMonthsFields(entry.amounts);
+  }
+
+
+  private setMonthsFields(amounts: BudgetMonthEntry[]) {
+    this.monthsFields.forEach(x => {
+      const data = amounts.find(a => a.month === x.month);
+      if (data) {
+        x.budgetEntryUID = data.budgetEntryUID;
+        x.amount = data.amount;
+        x.productQty = data.productQty;
+      }
+    })
+  }
+
+
   private setProductFields() {
-    const productRequired =
-      this.transaction.transactionType.entriesRules.selectProduct === ThreeStateValue.True;
+    const displayCheckProduct = [ProductRule.Requerido, ProductRule.Opcional].includes(
+      this.transaction.transactionType.entriesRules.selectProduct);
 
     if (this.isSaved && this.isFormDataReady) {
       const hasProductData = !isEmpty(this.entry.product) || !isEmpty(this.entry.productUnit) ||
-        !!this.entry.description || this.entry.productQty > 0;
+        !!this.entry.description;
 
-      this.displayCheckProductRequired = productRequired || hasProductData;
+      this.displayCheckProductRequired = displayCheckProduct || hasProductData;
       this.selectedProduct = isEmpty(this.entry.product) ? null : this.entry.product;
       this.productUnitsList = [this.entry.productUnit];
       this.checkProductRequired = this.displayCheckProductRequired && hasProductData;
     } else {
-      this.displayCheckProductRequired = productRequired;
+      this.displayCheckProductRequired = displayCheckProduct;
       this.checkProductRequired = false;
       this.isFormDataReady = !this.isSaved;
     }
@@ -366,12 +413,12 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
-  private getBudgetEntryFields(): BudgetEntryFields {
+  private getBudgetTransactionEntryFields(): BudgetTransactionEntryFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const formModel = this.form.getRawValue();
 
-    const data: BudgetEntryFields = {
+    const data: BudgetTransactionEntryFields = {
       balanceColumnUID: formModel.balanceColumnUID ?? '',
       budgetAccountUID: formModel.budgetAccountUID ?? '',
       year: formModel.year ?? null,
@@ -389,14 +436,14 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
-  private getBudgetEntryByYearFields(): BudgetEntryByYearFields {
+  private getBudgetTransactionEntryByYearFields(): BudgetTransactionEntryByYearFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const formModel = this.form.getRawValue();
 
     const amounts = this.monthsFields.map(x => this.getValidBudgetMonthEntryField(x));
 
-    const data: BudgetEntryByYearFields = {
+    const data: BudgetTransactionEntryByYearFields = {
       balanceColumnUID: formModel.balanceColumnUID ?? '',
       budgetAccountUID: formModel.budgetAccountUID ?? '',
       year: formModel.year ?? null,
@@ -417,7 +464,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       budgetEntryUID: entry.budgetEntryUID,
       month: entry.month,
       amount: entry.amount,
-      productQty: this.checkProductRequired ? entry.productQty : null,
+      productQty: this.checkProductRequired ? entry.productQty : 0,
     };
 
     return data;

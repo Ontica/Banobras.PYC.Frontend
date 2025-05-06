@@ -9,9 +9,9 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { BudgetAccount, BudgetEntryByYear, BudgetEntryByYearFields, BudgetEntryFields,
-         BudgetTransactionDescriptor, BudgetTransactionEntry, BudgetTransactionFields,
-         BudgetTransactionHolder, BudgetTransactionsQuery, BudgetTypeForEdition,
+import { BudgetAccount, BudgetTransactionEntryByYear, BudgetTransactionEntryByYearFields,
+         BudgetTransactionEntryFields, BudgetTransactionDescriptor, BudgetTransactionEntry,
+         BudgetTransactionFields, BudgetTransactionHolder, BudgetTransactionsQuery, BudgetTypeForEdition,
          FileReport } from '@app/models';
 
 
@@ -84,7 +84,8 @@ export class BudgetTransactionsDataService {
   }
 
 
-  updateTransaction(transactionUID: string, dataFields: BudgetTransactionFields): EmpObservable<BudgetTransactionHolder> {
+  updateTransaction(transactionUID: string,
+                    dataFields: BudgetTransactionFields): EmpObservable<BudgetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
@@ -130,7 +131,8 @@ export class BudgetTransactionsDataService {
   }
 
 
-  getTransactionEntry(transactionUID: string, entryUID: string): EmpObservable<BudgetTransactionEntry> {
+  getTransactionEntry(transactionUID: string,
+                      entryUID: string): EmpObservable<BudgetTransactionEntry> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(entryUID, 'entryUID');
 
@@ -141,7 +143,7 @@ export class BudgetTransactionsDataService {
 
 
   createTransactionEntry(transactionUID: string,
-                         dataFields: BudgetEntryFields): EmpObservable<BudgetTransactionEntry> {
+                         dataFields: BudgetTransactionEntryFields): EmpObservable<BudgetTransactionEntry> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
@@ -153,7 +155,7 @@ export class BudgetTransactionsDataService {
 
   updateTransactionEntry(transactionUID: string,
                          entryUID: string,
-                         dataFields: BudgetEntryFields): EmpObservable<BudgetTransactionEntry> {
+                         dataFields: BudgetTransactionEntryFields): EmpObservable<BudgetTransactionEntry> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(entryUID, 'entryUID');
     Assertion.assertValue(dataFields, 'dataFields');
@@ -164,7 +166,8 @@ export class BudgetTransactionsDataService {
   }
 
 
-  removeTransactionEntry(transactionUID: string, entryUID: string): EmpObservable<void> {
+  removeTransactionEntry(transactionUID: string,
+                         entryUID: string): EmpObservable<void> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(entryUID, 'entryUID');
 
@@ -174,14 +177,49 @@ export class BudgetTransactionsDataService {
   }
 
 
+  getTransactionEntriesByYear(transactionUID: string,
+                              entryByYearUID: string): EmpObservable<BudgetTransactionEntry> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(entryByYearUID, 'entryByYearUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/entries/${entryByYearUID}/get-annually`;
+
+    return this.http.get<BudgetTransactionEntry>(path);
+  }
+
+
   createTransactionEntriesByYear(transactionUID: string,
-                                 dataFields: BudgetEntryByYearFields): EmpObservable<BudgetEntryByYear> {
+                                 dataFields: BudgetTransactionEntryByYearFields): EmpObservable<BudgetTransactionEntryByYear> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v2/budgeting/transactions/${transactionUID}/entries/create-annually`;
 
-    return this.http.post<BudgetEntryByYear>(path, dataFields);
+    return this.http.post<BudgetTransactionEntryByYear>(path, dataFields);
+  }
+
+
+  updateTransactionEntriesByYear(transactionUID: string,
+                                 entryByYearUID: string,
+                                 dataFields: BudgetTransactionEntryByYearFields): EmpObservable<BudgetTransactionEntryByYear> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(entryByYearUID, 'entryByYearUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/entries/${entryByYearUID}/update-annually`;
+
+    return this.http.put<BudgetTransactionEntryByYear>(path, dataFields);
+  }
+
+
+  removeTransactionEntriesByYear(transactionUID: string,
+                                 entryByYearUID: string): EmpObservable<void> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(entryByYearUID, 'entryByYearUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/entries/${entryByYearUID}/remove-annually`;
+
+    return this.http.delete<void>(path);
   }
 
 

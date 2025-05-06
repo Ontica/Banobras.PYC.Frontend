@@ -70,16 +70,8 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
 
   onRemoveEntryClicked(entry: BudgetTransactionEntryDescriptor) {
-    const message = this.getConfirmMessage(entry);
-
-    this.messageBox.confirm(message, 'Eliminar movimiento', 'DeleteCancel')
-      .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.transactionEntriesTableEvent, TransactionEntriesTableEventType.REMOVE_ENTRY_CLICKED,
-            { entry });
-        }
-      });
+    sendEvent(this.transactionEntriesTableEvent, TransactionEntriesTableEventType.REMOVE_ENTRY_CLICKED,
+      { entry });
   }
 
 
@@ -98,29 +90,6 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
   private applyFilter(value: string) {
     this.dataSource.filter = value.trim().toLowerCase();
-  }
-
-
-  private getConfirmMessage(entry: BudgetTransactionEntryDescriptor): string {
-    const amount = entry.withdrawal > 0 ? entry.withdrawal : entry.deposit;
-    const amountString = FormatLibrary.numberWithCommas(amount, '1.2-2');
-
-    return `
-      <table class='confirm-data'>
-        <tr><td class='nowrap'>Movimiento: </td><td><strong>
-          ${entry.balanceColumn}
-        </strong></td></tr>
-
-        <tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
-          ${!entry.budgetAccountCode ? '' : entry.budgetAccountCode + ': '} ${entry.budgetAccountName}
-        </strong></td></tr>
-
-        <tr><td class='nowrap'>Importe: </td><td><strong>
-          ${amountString}
-        </strong></td></tr>
-      </table>
-
-     <br>¿Elimino el movimiento?`;
   }
 
 }

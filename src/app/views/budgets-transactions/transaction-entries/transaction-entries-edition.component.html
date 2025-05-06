@@ -8,7 +8,7 @@
     [filter]="filter"
     [displayAllEntries]="displayAllEntries"
     [canEdit]="canEdit"
-    (transactionEntriesControlsEvent)="onTransactionEntriesControlsEvent($event)">
+    (transactionEntriesControlsEvent)="onEntriesControlsEvent($event)">
 
   </emp-bdg-transaction-entries-controls>
 
@@ -17,7 +17,7 @@
     [entries]="entries"
     [filter]="filter"
     [canDelete]="canEdit"
-    (transactionEntriesTableEvent)="onTransactionEntriesTableEvent($event)">
+    (transactionEntriesTableEvent)="onEntriesTableEvent($event)">
 
   </emp-bdg-transaction-entries-table>
 
@@ -31,17 +31,17 @@
     [externalFilter]="filter"
     [showDeleteButton]="canEdit"
     itemsNotFoundText="Esta transacción no tiene movimientos."
-    (dataTableEvent)="onTransactionEntriesGroupedTableEvent($event)">
+    (dataTableEvent)="onEntriesGroupedTableEvent($event)">
 
   </emp-ng-data-table>
 
 </div>
 
 
-<emp-bdg-transaction-entry-editor  ransaction-entry-editor *ngIf="displayEntryEditor"
+<emp-bdg-transaction-entry-editor *ngIf="displayEntryEditor"
   [transaction]="transaction"
   [canUpdate]="canEdit"
   [entry]="selectedEntry"
-  (transactionEntryEditorEvent)="onTransactionEntryEditorEvent($event)">
+  (transactionEntryEditorEvent)="onEntryEditorEvent($event)">
 
 </emp-bdg-transaction-entry-editor>

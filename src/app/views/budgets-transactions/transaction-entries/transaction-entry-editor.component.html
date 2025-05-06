@@ -235,7 +235,7 @@
 
                 <ng-container *ngFor="let column of displayedColumns; let i = index" [matColumnDef]="column">
 
-                  <th mat-header-cell *matHeaderCellDef>
+                  <th mat-header-cell *matHeaderCellDef class="text-align-right">
                     {{i === 0 ? '' : monthsFields[i - 1]?.label ?? ''}}
                   </th>
 
@@ -254,7 +254,8 @@
                       <emp-ng-input-numeric
                         [(ngModel)]="monthsFields[i - 1].amount"
                         [ngModelOptions]="{standalone: true}"
-                        [noMargin]="true">
+                        [noMargin]="true"
+                        [disabled]="!this.canUpdate">
 
                       </emp-ng-input-numeric>
 

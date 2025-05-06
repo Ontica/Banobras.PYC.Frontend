@@ -44,15 +44,15 @@ export interface BudgetTransactionType {
 
 export interface BudgetTransactionEntriesRules {
   balanceColumns: Identifiable[];
-  selectProduct: ThreeStateValue;
+  selectProduct: ProductRule;
   years: number[];
 }
 
 
-export enum ThreeStateValue {
-  True    = 'True',
-  False   = 'False',
-  Unknown = 'Unknown',
+export enum ProductRule {
+  Requerido   = 'True',
+  NoRequerido = 'False',
+  Opcional    = 'Unknown',
 }
 
 
@@ -200,9 +200,16 @@ export interface BudgetTransaction {
 }
 
 
-export interface BudgetTransactionEntryDescriptor {
+export interface BudgetTransactionEntryBaseDescriptor {
   uid: string;
-  budgetAccountCode: string;
+  balanceColumn: string;
+  budgetAccountName: string;
+  itemType: 'Entry' | 'Total';
+}
+
+
+export interface BudgetTransactionEntryDescriptor extends BudgetTransactionEntryBaseDescriptor {
+  uid: string;
   budgetAccountName: string;
   year: number;
   month: number;
@@ -215,18 +222,36 @@ export interface BudgetTransactionEntryDescriptor {
 }
 
 
+export interface BudgetTransactionEntryByYearDescriptor extends BudgetTransactionEntryBaseDescriptor {
+  uid: string;
+  balanceColumn: string;
+  budgetAccount: string;
+  total: number;
+  itemType: 'Entry' | 'Total';
+}
+
+
 export interface BudgetTransactionGroupedEntryData extends DataTable {
-
+  entries: BudgetTransactionEntryByYearDescriptor[];
 }
 
 
-export enum BudgetEntryTypes {
-  Debit  = 'Debit',
-  Credit = 'Credit',
+export interface BudgetTransactionEntryBase {
+  uid: string;
+  entryType: BudgetTransactionEntryType;
+  transactionUID: string;
+  balanceColumn: Identifiable;
+  budgetAccount: Identifiable;
+  product: Identifiable;
+  productUnit: Identifiable;
+  description: string;
+  project: Identifiable;
+  year: number;
+  currency: Identifiable;
 }
 
 
-export interface BudgetTransactionEntry {
+export interface BudgetTransactionEntry extends BudgetTransactionEntryBase {
   uid: string;
   entryType: BudgetTransactionEntryType;
   transactionUID: string;
@@ -250,17 +275,18 @@ export interface BudgetTransactionEntry {
 }
 
 
-export interface BudgetEntryByYear {
+export interface BudgetTransactionEntryByYear extends BudgetTransactionEntryBase {
   uid: string;
   entryType: BudgetTransactionEntryType;
   transactionUID: string;
   balanceColumn: Identifiable;
   budgetAccount: Identifiable;
-  product: Identifiable;
-  description: string;
-  productUnit: Identifiable;
   project: Identifiable;
+  product: Identifiable;
+  productUnit: Identifiable;
   year: number;
+  description: string;
+  justification: string;
   currency: Identifiable;
   amounts: BudgetMonthEntry[];
 }
@@ -280,7 +306,7 @@ export enum BudgetTransactionEntryType {
 }
 
 
-export interface BudgetEntryFields {
+export interface BudgetTransactionEntryFields {
   balanceColumnUID: string;
   budgetAccountUID: string;
   year: number;
@@ -295,7 +321,7 @@ export interface BudgetEntryFields {
 }
 
 
-export interface BudgetEntryByYearFields {
+export interface BudgetTransactionEntryByYearFields {
   balanceColumnUID: string;
   budgetAccountUID: string;
   year: number
@@ -379,7 +405,7 @@ export const EmptyBudgetTransactionType: BudgetTransactionType = {
   relatedDocumentTypes: [],
   entriesRules: {
     balanceColumns: [],
-    selectProduct: ThreeStateValue.Unknown,
+    selectProduct: ProductRule.NoRequerido,
     years: [],
   },
 }
@@ -428,6 +454,38 @@ export const EmptyBudgetTransactionHolder: BudgetTransactionHolder = {
   documents: [],
   history: [],
   actions: EmptyTransactionActions,
+};
+
+
+export const EmptyBudgetTransactionEntryBase: BudgetTransactionEntryBase = {
+  uid: '',
+  entryType: null,
+  transactionUID: '',
+  balanceColumn: Empty,
+  budgetAccount: Empty,
+  product: Empty,
+  productUnit: Empty,
+  project: Empty,
+  year: null,
+  currency: Empty,
+  description: '',
+};
+
+
+export const EmptyBudgetTransactionEntryByYear: BudgetTransactionEntryByYear = {
+  uid: '',
+  entryType: null,
+  transactionUID: '',
+  balanceColumn: Empty,
+  budgetAccount: Empty,
+  project: Empty,
+  product: Empty,
+  productUnit: Empty,
+  year: null,
+  currency: Empty,
+  description: '',
+  justification: '',
+  amounts: [],
 };
 
 

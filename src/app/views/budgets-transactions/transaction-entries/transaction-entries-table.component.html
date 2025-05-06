@@ -47,7 +47,7 @@
       <th mat-header-cell *matHeaderCellDef> </th>
       <td mat-cell *matCellDef="let row" class="column-action">
 
-        <button mat-icon-button empNgStopPropagation
+        <button mat-icon-button empNgStopPropagation *ngIf="!totalItemTypeList.includes(row.itemType)"
           title="Eliminar movimiento"
           (click)="onRemoveEntryClicked(row)">
           <mat-icon>

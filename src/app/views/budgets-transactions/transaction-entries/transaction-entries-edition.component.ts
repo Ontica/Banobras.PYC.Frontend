@@ -7,18 +7,21 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { Assertion, EventInfo, isEmpty } from '@app/core';
+import { Assertion, EmpObservable, EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEvent } from '@app/shared/utils';
+
+import { SkipIf } from '@app/shared/decorators';
 
 import { BudgetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryDescriptor, BudgetEntryFields,
+import { BudgetTransaction, BudgetTransactionEntryDescriptor, BudgetTransactionEntryFields,
          EmptyBudgetTransaction, EmptyBudgetTransactionEntry, BudgetTransactionEntryType,
-         BudgetEntryByYearFields, BudgetTransactionGroupedEntryData,
-         EmptyBudgetTransactionGroupedEntryData } from '@app/models';
+         BudgetTransactionEntryByYearFields, BudgetTransactionGroupedEntryData,
+         EmptyBudgetTransactionGroupedEntryData, BudgetTransactionEntryBase, EmptyBudgetTransactionEntryBase,
+         BudgetTransactionEntryBaseDescriptor, BudgetTransactionEntryByYearDescriptor } from '@app/models';
 
 import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
 
@@ -53,7 +56,7 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
 
   displayEntryEditor = false;
 
-  selectedEntry = EmptyBudgetTransactionEntry;
+  selectedEntry: BudgetTransactionEntryBase = EmptyBudgetTransactionEntryBase;
 
   filter = '';
 
@@ -70,7 +73,7 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  onTransactionEntriesControlsEvent(event: EventInfo) {
+  onEntriesControlsEvent(event: EventInfo) {
     switch (event.type as TransactionEntriesControlsEventType) {
       case TransactionEntriesControlsEventType.FILTER_CHANGED:
         this.filter = event.payload.filter as string;
@@ -90,8 +93,8 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
     }
   }
 
-
-  onTransactionEntryEditorEvent(event: EventInfo) {
+  @SkipIf('submitted')
+  onEntryEditorEvent(event: EventInfo) {
     if (this.submitted) {
       return;
     }
@@ -101,36 +104,15 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
         this.setSelectedEntry(EmptyBudgetTransactionEntry);
         return;
       case TransactionEntryEditorEventType.CREATE_ENTRY:
-        Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
         Assertion.assertValue(event.payload.entryType, 'event.payload.entryType');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-
-        if (event.payload.entryType === BudgetTransactionEntryType.Monthly) {
-          this.createTransactionEntry(event.payload.transactionUID,
-            event.payload.dataFields as BudgetEntryFields);
-        }
-
-        if (event.payload.entryType === BudgetTransactionEntryType.Annually) {
-          this.createTransactionEntriesByYear(event.payload.transactionUID,
-            event.payload.dataFields as BudgetEntryByYearFields)
-        }
-
+        this.handleCreateEntry(event.payload.entryType, this.transaction.uid, event.payload.dataFields);
         return;
       case TransactionEntryEditorEventType.UPDATE_ENTRY:
-        Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
-        Assertion.assertValue(event.payload.entryUID, 'event.payload.entryUID');
         Assertion.assertValue(event.payload.entryType, 'event.payload.entryType');
+        Assertion.assertValue(event.payload.entryUID, 'event.payload.entryUID');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-
-        if (event.payload.entryType === BudgetTransactionEntryType.Monthly) {
-          this.updateTransactionEntry(event.payload.transactionUID, event.payload.entryUID,
-            event.payload.dataFields as BudgetEntryFields);
-        }
-
-        if (event.payload.entryType === BudgetTransactionEntryType.Annually) {
-          this.messageBox.showInDevelopment('Actualizar movimientos agrupados', event.payload);
-        }
-
+        this.handleUpdateEntry(event.payload.entryType, this.transaction.uid, event.payload.entryUID, event.payload.dataFields);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -139,19 +121,17 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  onTransactionEntriesTableEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
+  @SkipIf('submitted')
+  onEntriesTableEvent(event: EventInfo) {
     switch (event.type as TransactionEntriesTableEventType) {
       case TransactionEntriesTableEventType.SELECT_ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
-        this.getTransactionEntry(this.transaction.uid, event.payload.entry.uid);
+        this.handleGetEntry(BudgetTransactionEntryType.Monthly, this.transaction.uid, event.payload.entry.uid);
         return;
       case TransactionEntriesTableEventType.REMOVE_ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
-        this.removeTransactionEntry(this.transaction.uid, event.payload.entry.uid);
+        this.confirmRemoveEntry(BudgetTransactionEntryType.Monthly,
+          event.payload.entry as BudgetTransactionEntryBaseDescriptor);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -160,24 +140,18 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  onTransactionEntriesGroupedTableEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
+  @SkipIf('submitted')
+  onEntriesGroupedTableEvent(event: EventInfo) {
     switch (event.type as DataTableEventType) {
-      case DataTableEventType.ENTRY_CLICKED: {
+      case DataTableEventType.ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
-        const entry = event.payload.entry as BudgetTransactionEntryDescriptor;
-        this.messageBox.showInDevelopment('Actualizar movimientos agrupados', entry);
+        this.handleGetEntry(BudgetTransactionEntryType.Annually, this.transaction.uid, event.payload.entry.uid);
         return;
-      }
-      case DataTableEventType.DELETE_ENTRY_CLICKED: {
+      case DataTableEventType.DELETE_ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
-        const entry = event.payload.entry as BudgetTransactionEntryDescriptor;
-        this.messageBox.showInDevelopment('Eliminar movimientos agrupados', entry);
+        this.confirmRemoveEntry(BudgetTransactionEntryType.Annually,
+          event.payload.entry as BudgetTransactionEntryBaseDescriptor);
         return;
-      }
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -185,66 +159,157 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  private getTransactionEntry(transactionUID: string, entryUID: string) {
-    this.submitted = true;
+  private handleGetEntry(type: BudgetTransactionEntryType, transactionUID: string, entryUID: string) {
+    let observable = null;
+    switch (type) {
+      case BudgetTransactionEntryType.Monthly:
+        observable = this.transactionsData.getTransactionEntry(transactionUID, entryUID)
+        break;
+      case BudgetTransactionEntryType.Annually:
+        observable = this.transactionsData.getTransactionEntriesByYear(transactionUID, entryUID)
+        break;
+      default:
+        return;
+    }
+    this.executeGetEntry(observable);
+  }
 
-    this.transactionsData.getTransactionEntry(transactionUID, entryUID)
+
+  private handleCreateEntry(type: BudgetTransactionEntryType, transactionUID: string, dataFields) {
+    let observable = null;
+    switch (type) {
+      case BudgetTransactionEntryType.Monthly:
+        observable = this.transactionsData.createTransactionEntry(transactionUID, dataFields as BudgetTransactionEntryFields);
+        break;
+      case BudgetTransactionEntryType.Annually:
+        observable = this.transactionsData.createTransactionEntriesByYear(transactionUID, dataFields as BudgetTransactionEntryByYearFields);
+        break;
+      default:
+        return;
+    }
+    this.executeEditEntry(observable);
+  }
+
+
+  private handleUpdateEntry(type: BudgetTransactionEntryType, transactionUID: string, entryUID: string, dataFields) {
+    let observable = null;
+    switch (type) {
+      case BudgetTransactionEntryType.Monthly:
+        observable = this.transactionsData.updateTransactionEntry(transactionUID, entryUID, dataFields as BudgetTransactionEntryFields);
+        break;
+      case BudgetTransactionEntryType.Annually:
+        observable = this.transactionsData.updateTransactionEntriesByYear(transactionUID, entryUID, dataFields as BudgetTransactionEntryByYearFields);
+        break;
+      default:
+        return;
+    }
+    this.executeEditEntry(observable);
+  }
+
+
+  private handleRemoveEntry(type: BudgetTransactionEntryType, transactionUID: string, entryUID: string) {
+    let observable = null;
+    switch (type) {
+      case BudgetTransactionEntryType.Monthly:
+        observable = this.transactionsData.removeTransactionEntry(transactionUID, entryUID);
+        break;
+      case BudgetTransactionEntryType.Annually:
+        observable = this.transactionsData.removeTransactionEntriesByYear(transactionUID, entryUID);
+        break;
+      default:
+        return;
+    }
+    this.executeEditEntry(observable);
+  }
+
+
+  private executeGetEntry(observable: EmpObservable<BudgetTransactionEntryBase>) {
+    this.submitted = true;
+    observable
       .firstValue()
       .then(x => this.setSelectedEntry(x))
       .finally(() => this.submitted = false);
   }
 
 
-  private createTransactionEntry(transactionUID: string, dataFields: BudgetEntryFields) {
+  private executeEditEntry(observable: EmpObservable<BudgetTransactionEntryBase | void>) {
     this.submitted = true;
-
-    this.transactionsData.createTransactionEntry(transactionUID, dataFields)
+    observable
       .firstValue()
-      .then(x => this.resolveTransactionUpdated())
+      .then(x => this.resolveEntriesUpdated())
       .finally(() => this.submitted = false);
   }
 
 
-  private updateTransactionEntry(transactionUID: string, entryUID: string, dataFields: BudgetEntryFields) {
-    this.submitted = true;
-
-    this.transactionsData.updateTransactionEntry(transactionUID, entryUID, dataFields)
-      .firstValue()
-      .then(x => this.resolveTransactionUpdated())
-      .finally(() => this.submitted = false);
+  private setSelectedEntry(entry: BudgetTransactionEntryBase, display?: boolean) {
+    this.selectedEntry = entry;
+    this.displayEntryEditor = display ?? !isEmpty(entry);
   }
 
 
-  private removeTransactionEntry(transactionUID: string, entryUID: string) {
-    this.submitted = true;
-
-    this.transactionsData.removeTransactionEntry(transactionUID, entryUID)
-      .firstValue()
-      .then(x => this.resolveTransactionUpdated())
-      .finally(() => this.submitted = false);
-  }
-
-
-  private createTransactionEntriesByYear(transactionUID: string, dataFields: BudgetEntryByYearFields) {
-    this.submitted = true;
-
-    this.transactionsData.createTransactionEntriesByYear(transactionUID, dataFields)
-      .firstValue()
-      .then(x => this.resolveTransactionUpdated())
-      .finally(() => this.submitted = false);
-  }
-
-
-  private resolveTransactionUpdated() {
+  private resolveEntriesUpdated() {
     const payload = { transactionUID: this.transaction.uid };
     sendEvent(this.transactionEntriesEditionEvent, TransactionEntriesEditionEventType.UPDATED, payload);
     this.setSelectedEntry(EmptyBudgetTransactionEntry);
   }
 
 
-  private setSelectedEntry(entry: BudgetTransactionEntry, display?: boolean) {
-    this.selectedEntry = entry;
-    this.displayEntryEditor = display ?? !isEmpty(entry);
+  private getConfirmRemoveEntryTitle(type: BudgetTransactionEntryType): string {
+    switch (type) {
+      case BudgetTransactionEntryType.Monthly: return 'Eliminar movimiento mensual';
+      case BudgetTransactionEntryType.Annually: return 'Eliminar movimiento anual';
+      default: return 'Eliminar movimiento';
+    }
+  }
+
+
+  private confirmRemoveEntry(type: BudgetTransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor) {
+    const title = this.getConfirmRemoveEntryTitle(type);
+    const message = this.getConfirmRemoveEntryMessage(type, entry);
+
+    this.messageBox.confirm(message, title, 'DeleteCancel')
+      .firstValue()
+      .then(x => x ? this.handleRemoveEntry(type, this.transaction.uid, entry.uid) : null);
+  }
+
+
+  private getConfirmRemoveEntryMessage(type: BudgetTransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor): string {
+    const total = this.getEntryTotal(type, entry);
+    const budgetAccount = this.getEntryBudgetAccount(type, entry);
+
+    return `
+      <table class='confirm-data'>
+        <tr><td class='nowrap'>Movimiento: </td><td><strong>${entry.balanceColumn}</strong></td></tr>
+        <tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>${budgetAccount}</strong></td></tr>
+        <tr><td class='nowrap'>Importe: </td><td><strong>${total}</strong></td></tr>
+      </table>
+      <br>¿Elimino el movimiento?`;
+  }
+
+
+  private getEntryBudgetAccount(type: BudgetTransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor): string {
+    switch (type) {
+      case BudgetTransactionEntryType.Monthly: return (entry as BudgetTransactionEntryDescriptor).budgetAccountName;
+      case BudgetTransactionEntryType.Annually: return (entry as BudgetTransactionEntryByYearDescriptor).budgetAccount;
+      default: return '';
+    }
+  }
+
+
+  private getEntryTotal(type: BudgetTransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor): string {
+    let total = null;
+    switch (type) {
+      case BudgetTransactionEntryType.Monthly:
+        total = (entry as BudgetTransactionEntryDescriptor).withdrawal > 0 ?
+          (entry as BudgetTransactionEntryDescriptor).withdrawal :
+          (entry as BudgetTransactionEntryDescriptor).deposit;
+        break;
+      case BudgetTransactionEntryType.Annually:
+        total = (entry as BudgetTransactionEntryByYearDescriptor).total;
+        break;
+      default: total = 0;
+    }
+    return FormatLibrary.numberWithCommas(total, '1.2-2');
   }
 
 }
