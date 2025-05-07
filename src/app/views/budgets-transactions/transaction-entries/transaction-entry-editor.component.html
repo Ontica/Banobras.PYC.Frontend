@@ -297,8 +297,8 @@
               <div class="fx-item fx-end fx-items-center">
 
                   <button
-                    [class.btn]="!formHelper.isFormReady(form) || !isMonthsFieldsValid"
-                    [class.btn-action]="formHelper.isFormReady(form) && isMonthsFieldsValid"
+                    [class.btn]="!idFormReady"
+                    [class.btn-action]="idFormReady"
                     (click)="onSubmitButtonClicked()">
                     {{!isSaved ? 'Agregar' : 'Guardar'}}
                   </button>

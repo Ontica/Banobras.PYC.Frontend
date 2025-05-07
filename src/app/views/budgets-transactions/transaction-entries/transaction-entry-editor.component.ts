@@ -183,15 +183,24 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
+  get idFormReady(): boolean {
+    if (!this.isSaved || this.isMonthlyType) {
+      return FormHelper.isFormReady(this.form) && this.isMonthsFieldsValid;
+    }
+
+    return this.form.valid && this.isMonthsFieldsValid;
+  }
+
+
   onCloseButtonClicked() {
     sendEvent(this.transactionEntryEditorEvent, TransactionEntryEditorEventType.CLOSE_BUTTON_CLICKED);
   }
 
 
   onSubmitButtonClicked() {
-    this.isFormInvalidated = true;
+    this.invalidateForm();
 
-    if (FormHelper.isFormReadyAndInvalidate(this.form) && this.isMonthsFieldsValid) {
+    if (this.idFormReady && this.isMonthsFieldsValid) {
       const eventType = this.isSaved ? TransactionEntryEditorEventType.UPDATE_ENTRY :
         TransactionEntryEditorEventType.CREATE_ENTRY;
 
@@ -413,6 +422,12 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
+  private invalidateForm() {
+    this.isFormInvalidated = true;
+    FormHelper.markFormControlsAsTouched(this.form);
+  }
+
+
   private getBudgetTransactionEntryFields(): BudgetTransactionEntryFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
@@ -441,7 +456,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
     const formModel = this.form.getRawValue();
 
-    const amounts = this.monthsFields.map(x => this.getValidBudgetMonthEntryField(x));
+    const amounts = this.monthsFields.filter(x => x.amount > 0).map(x => this.getValidBudgetMonthEntryField(x));
 
     const data: BudgetTransactionEntryByYearFields = {
       balanceColumnUID: formModel.balanceColumnUID ?? '',
