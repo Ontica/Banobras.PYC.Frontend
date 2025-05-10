@@ -1,4 +1,4 @@
-<emp-ng-modal-window [config]="{width: isMonthlyType ? '1024px' : '95%'}">
+<emp-ng-modal-window [config]="{width: isMonthlyType ? '1024px' : '90%'}">
 
   <emp-ng-card
     [title]="title"
@@ -231,55 +231,62 @@
 
             <div class="fx-row-container" [style.margin-right.px]="8">
 
-              <table mat-table [dataSource]="dataSource">
+              <div class="fill-table-container" [style.width.%]="100" [style.height]="checkProductRequired ? '121px' : '88px'">
 
-                <ng-container *ngFor="let column of displayedColumns; let i = index" [matColumnDef]="column">
+                <table mat-table [dataSource]="dataSource">
 
-                  <th mat-header-cell *matHeaderCellDef class="text-align-right">
-                    {{i === 0 ? '' : monthsFields[i - 1]?.label ?? ''}}
-                  </th>
+                  <ng-container *ngFor="let column of displayedColumns; let i = index" [matColumnDef]="column">
 
-                  <td mat-cell *matCellDef="let row;"
-                    [class.padding-input]="i > 0"
-                    [style.width]="i > 0 ? 'calc((100% - 75px) / ' + (displayedColumns.length - 1) + ')' : 'auto'">
+                    <th mat-header-cell *matHeaderCellDef class="text-align-right"
+                      [class.sticky-start]="i === 0">
+                      {{i === 0 ? '' : monthsFields[i - 1]?.label ?? ''}}
+                    </th>
 
-                    <ng-container *ngIf="i === 0 && row === 'amount'">
-                      <span [ngClass]="{'warning-text': isFormInvalidated && !isMonthsFieldsValid}">Importe</span>
-                    </ng-container>
+                    <td mat-cell *matCellDef="let row;"
+                      [ngClass]="{'sticky-start': i === 0, 'column-input': i > 0}"
+                      [style.width]="i > 0 ? 'calc((100% - 75px) / ' + (displayedColumns.length - 1) + ')' : 'auto'">
 
-                    <ng-container *ngIf="i === 0 && row === 'productQty'">Cantidad</ng-container>
+                      <ng-container *ngIf="i === 0 && row === 'amount'">
+                        <span [ngClass]="{'warning-text': isFormInvalidated && !isMonthsFieldsValid}">Importe</span>
+                      </ng-container>
 
-                    <ng-container *ngIf="i > 0 && row === 'amount'">
+                      <ng-container *ngIf="i === 0 && row === 'productQty'">
+                        <span [ngClass]="{'warning-text': isFormInvalidated && !isMonthsFieldsValid}">Cantidad</span>
+                      </ng-container>
 
-                      <emp-ng-input-numeric
-                        [(ngModel)]="monthsFields[i - 1].amount"
-                        [ngModelOptions]="{standalone: true}"
-                        [noMargin]="true"
-                        [disabled]="!this.canUpdate">
+                      <ng-container *ngIf="i > 0 && row === 'amount'">
 
-                      </emp-ng-input-numeric>
+                        <emp-ng-input-numeric
+                          [(ngModel)]="monthsFields[i - 1].amount"
+                          [ngModelOptions]="{standalone: true}"
+                          [noMargin]="true"
+                          [disabled]="!this.canUpdate">
 
-                    </ng-container>
+                        </emp-ng-input-numeric>
 
-                    <ng-container *ngIf="i > 0 && row === 'productQty'">
+                      </ng-container>
 
-                      <emp-ng-input-numeric
-                        [(ngModel)]="monthsFields[i - 1].productQty"
-                        [ngModelOptions]="{standalone: true}"
-                        [noMargin]="true">
+                      <ng-container *ngIf="i > 0 && row === 'productQty'">
 
-                      </emp-ng-input-numeric>
+                        <emp-ng-input-numeric
+                          [(ngModel)]="monthsFields[i - 1].productQty"
+                          [ngModelOptions]="{standalone: true}"
+                          [noMargin]="true">
 
-                    </ng-container>
+                        </emp-ng-input-numeric>
 
-                  </td>
+                      </ng-container>
 
-                </ng-container>
+                    </td>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                  </ng-container>
 
-              </table>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+
+              </div>
 
             </div>
 
@@ -288,7 +295,7 @@
 
           <ng-container *ngIf="!isSaved || (isSaved && canUpdate)">
 
-            <mat-divider class="horizontal">
+            <mat-divider class="horizontal-md">
 
             </mat-divider>
 

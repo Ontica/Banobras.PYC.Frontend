@@ -32,7 +32,7 @@
           <th mat-header-cell *matHeaderCellDef class="nowrap"
             [ngClass]="{'text-align-right': column.type === dataTableColumnType.decimal,
                         'column-checkbox': column.type === dataTableColumnType.check_box,
-                        'sticky-start': showColumnStickyStart && i === 0 && hasItems,
+                        'sticky-start sticky-start-width': showColumnStickyStart && i === 0 && hasItems,
                         'sticky-padding': showColumnStickyStart && i === 1 && hasItems,
                         'sticky-end': showColumnStickyEnd && i === columns.length - 1 && hasItems}">
 

@@ -244,6 +244,22 @@ table.mat-mdc-table {
       vertical-align: middle;
     }
 
+    &.column-input {
+      padding: 0 !important;
+      border-right: 1px solid $designer-border-color;
+      min-width: 96px;
+
+      input {
+        border: none;
+        color: $control-color;
+        font: $control-font;
+        font-size: $font-size-grid;
+        font-weight: normal;
+        width: 100%;
+        height: 32px;
+      }
+    }
+
     &.column-no-padding {
       padding-top: 2px;
       padding-bottom: 2px;
