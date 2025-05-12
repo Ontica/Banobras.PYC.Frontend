@@ -73,7 +73,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   isLoading = false;
 
-  isFormInvalidated = false;
+  isMonthsInvalidated = false;
 
   EntryType = BudgetTransactionEntryType;
 
@@ -114,8 +114,9 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.transaction) {
-      this.setProductFields();
+      this.setProductControlFields();
       this.setBalanceColumnsList();
+      this.buildDataTable();
     }
 
     if (this.isSaved && changes.entry) {
@@ -154,12 +155,29 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
 
   get isMonthsFieldsValid(): boolean {
-    return this.isMonthlyType ? true : this.monthsFields.some(x => x.amount > 0);
+    if (this.isMonthlyType) {
+      return true;
+    }
+
+    const months = this.monthsFields.filter(x => !!x.amount);
+
+    return this.checkProductRequired ?
+      months.length > 0 && months.every(x => x.amount > 0 && x.productQty > 0) :
+      months.length > 0 && months.every(x => x.amount > 0);
+  }
+
+
+  get idFormReady(): boolean {
+    if (!this.isSaved || this.isMonthlyType) {
+      return FormHelper.isFormReady(this.form) && this.isMonthsFieldsValid;
+    }
+
+    return this.form.valid && this.isMonthsFieldsValid;
   }
 
 
   onEntryTypeChanges() {
-    this.validateFieldsRequired();
+    this.validateMonthyTypeFieldsRequired();
   }
 
 
@@ -171,6 +189,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
 
   onCheckProductRequiredChanges() {
+    this.validateProductRequired();
     this.buildDataTable();
   }
 
@@ -183,12 +202,8 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
-  get idFormReady(): boolean {
-    if (!this.isSaved || this.isMonthlyType) {
-      return FormHelper.isFormReady(this.form) && this.isMonthsFieldsValid;
-    }
-
-    return this.form.valid && this.isMonthsFieldsValid;
+  onMonthChanges() {
+    this.invalidateMonthsFields();
   }
 
 
@@ -216,6 +231,36 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
+  private showConfirmRequestBudgetAccount(budgetAccount: BudgetAccount) {
+    const message = `La partida presupuestal <strong>${budgetAccount.name}</strong>
+      requiere autorización para ser utilizada.
+      <br><br>¿Solicito la autorización?`;
+
+    this.messageBox.confirm(message, 'Solicitar autorización')
+      .firstValue()
+      .then(x => {
+        if (x) {
+          this.requestBudgetAccount(budgetAccount.baseSegmentUID);
+        } else {
+          this.budgetAccountSearcher.clearValue();
+        }
+      });
+  }
+
+
+  private requestBudgetAccount(segmentUID: string) {
+    this.isLoading = true;
+
+    this.transactionsData.requestBudgetAccount(this.transaction.uid, segmentUID)
+      .firstValue()
+      .then(x => {
+        this.form.controls.budgetAccountUID.reset(x.uid);
+        this.budgetAccountSearcher.resetListWithOption(x);
+      })
+      .finally(() => this.isLoading = false);
+  }
+
+
   private enableEditor() {
     this.editionMode = this.canUpdate;
 
@@ -225,23 +270,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
     }
 
     this.validateFieldsRequired();
-    this.validateFieldsDisabled();
-  }
-
-
-  private validateFieldsDisabled() {
-    FormHelper.setDisableForm(this.form, !this.canUpdate);
-  }
-
-
-  private validateFieldsRequired() {
-    if (this.isMonthlyType) {
-      this.formHelper.setControlValidators(this.form.controls.month, [Validators.required]);
-      this.formHelper.setControlValidators(this.form.controls.amount, [Validators.required]);
-    } else {
-      this.formHelper.clearControlValidators(this.form.controls.month);
-      this.formHelper.clearControlValidators(this.form.controls.amount);
-    }
+    this.validateFormDisabled();
   }
 
 
@@ -262,13 +291,12 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       justification: [''],
     });
 
-    this.buildMonthsFields();
-    this.buildDataTable();
+    this.initMonthsFields();
   }
 
 
-  private buildMonthsFields() {
-    this.monthsFields = this.monthsList.map(x => this.getInitBudgetMonthEntryFields(x));
+  private initMonthsFields() {
+    this.monthsFields = this.monthsList.map(x => this.getInitBudgetMonthEntryField(x));
   }
 
 
@@ -279,16 +307,14 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
-  private getInitBudgetMonthEntryFields(month: FlexibleIdentifiable): BudgetMonthEntryFields {
-    const data: BudgetMonthEntryFields = {
-      budgetEntryUID: this.entry.uid ?? null,
-      label: month.name,
-      month: FormatLibrary.stringToNumber(month.uid),
-      amount: null,
-      productQty: null,
-    };
+  private validateFormDisabled() {
+    FormHelper.setDisableForm(this.form, !this.canUpdate);
+  }
 
-    return data;
+
+  private validateFieldsRequired() {
+    this.validateMonthyTypeFieldsRequired();
+    this.validateProductRequired();
   }
 
 
@@ -309,8 +335,9 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       }
 
       this.isFormDataReady = true;
-      this.setProductFields();
       this.setBalanceColumnsList();
+      this.setProductControlFields();
+      this.buildDataTable();
     });
   }
 
@@ -364,7 +391,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
-  private setProductFields() {
+  private setProductControlFields() {
     const displayCheckProduct = [ProductRule.Requerido, ProductRule.Opcional].includes(
       this.transaction.transactionType.entriesRules.selectProduct);
 
@@ -392,39 +419,34 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
-  private showConfirmRequestBudgetAccount(budgetAccount: BudgetAccount) {
-    const message = `La partida presupuestal <strong>${budgetAccount.name}</strong>
-      requiere autorización para ser utilizada.
-      <br><br>¿Solicito la autorización?`;
-
-    this.messageBox.confirm(message, 'Solicitar autorización')
-      .firstValue()
-      .then(x => {
-        if (x) {
-          this.requestBudgetAccount(budgetAccount.baseSegmentUID);
-        } else {
-          this.budgetAccountSearcher.clearValue();
-        }
-      });
+  private validateMonthyTypeFieldsRequired() {
+    if (this.isMonthlyType) {
+      this.formHelper.setControlValidators(this.form.controls.month, [Validators.required]);
+      this.formHelper.setControlValidators(this.form.controls.amount, [Validators.required]);
+    } else {
+      this.formHelper.clearControlValidators(this.form.controls.month);
+      this.formHelper.clearControlValidators(this.form.controls.amount);
+    }
   }
 
 
-  private requestBudgetAccount(segmentUID: string) {
-    this.isLoading = true;
-
-    this.transactionsData.requestBudgetAccount(this.transaction.uid, segmentUID)
-      .firstValue()
-      .then(x => {
-        this.form.controls.budgetAccountUID.reset(x.uid);
-        this.budgetAccountSearcher.resetListWithOption(x);
-      })
-      .finally(() => this.isLoading = false);
+  private validateProductRequired() {
+    if (this.checkProductRequired) {
+      FormHelper.setControlValidators(this.form.controls.productUID, Validators.required);
+    } else {
+      FormHelper.clearControlValidators(this.form.controls.productUID);
+    }
   }
 
 
   private invalidateForm() {
-    this.isFormInvalidated = true;
+    this.invalidateMonthsFields();
     FormHelper.markFormControlsAsTouched(this.form);
+  }
+
+
+  private invalidateMonthsFields() {
+    this.isMonthsInvalidated = true;
   }
 
 
@@ -468,6 +490,19 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       description: this.checkProductRequired ? formModel.description ?? '' : null,
       justification: formModel.justification ?? '',
       amounts,
+    };
+
+    return data;
+  }
+
+
+  private getInitBudgetMonthEntryField(month: FlexibleIdentifiable): BudgetMonthEntryFields {
+    const data: BudgetMonthEntryFields = {
+      budgetEntryUID: this.entry.uid ?? null,
+      label: month.name,
+      month: FormatLibrary.stringToNumber(month.uid),
+      amount: null,
+      productQty: null,
     };
 
     return data;
