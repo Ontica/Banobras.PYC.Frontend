@@ -13,7 +13,7 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
-import { DocumentsModule } from '../documents/documents.module';
+import { EntityRecordsModule } from '../entity-records/entity-records.module';
 
 import { AssetsMainPageComponent } from './assets-main-page/assets-main-page.component';
 import { AssetsExplorerComponent } from './assets-explorer/assets-explorer.component';
@@ -35,7 +35,7 @@ import { LocationSelectorComponent } from './location-selector/location-selector
     AngularMaterialModule,
     SharedModule,
 
-    DocumentsModule,
+    EntityRecordsModule,
     ReportsControlsModule,
   ],
   declarations: [

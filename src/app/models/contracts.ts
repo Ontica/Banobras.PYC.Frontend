@@ -9,15 +9,15 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { EntityStatus, ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
-import { Document } from './documents';
-
-import { History } from './history';
-
 import { EmptyBudgetType } from './budgets';
 
 import { BudgetTransactionDescriptor } from './budget-transactions';
 
 import { ContractOrderDescriptor } from './contract-orders';
+
+import { Document } from './documents';
+
+import { HistoryEntry } from './history';
 
 
 export interface ContractsQuery {
@@ -95,7 +95,7 @@ export interface ContractData {
   budgetTransactions: BudgetTransactionDescriptor[];
   orders: ContractOrderDescriptor[];
   documents: Document[];
-  history: History[];
+  history: HistoryEntry[];
   actions: ContractActions;
 }
 

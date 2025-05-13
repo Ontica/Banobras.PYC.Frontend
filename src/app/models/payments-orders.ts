@@ -13,7 +13,7 @@ import { Bill } from './bills';
 
 import { Document } from './documents';
 
-import { History } from './history';
+import { HistoryEntry } from './history';
 
 
 export enum PaymentsOrdersStatus {
@@ -107,7 +107,7 @@ export interface PaymentOrderFields {
   log: PaymentInstructionLog[];
   bills: Bill[];
   documents: Document[];
-  history: History[];
+  history: HistoryEntry[];
   actions: PaymentOrderActions;
 }
 

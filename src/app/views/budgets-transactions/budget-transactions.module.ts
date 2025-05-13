@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { DocumentsModule } from '../documents/documents.module';
+import { EntityRecordsModule } from '../entity-records/entity-records.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
 import { BudgetTransactionsMainPageComponent } from './transactions-main-page/transactions-main-page.component';
@@ -43,7 +43,7 @@ import { BudgetTransactionEntryEditorComponent } from './transaction-entries/tra
     AngularMaterialModule,
     SharedModule,
 
-    DocumentsModule,
+    EntityRecordsModule,
     ReportsControlsModule,
   ],
   declarations: [

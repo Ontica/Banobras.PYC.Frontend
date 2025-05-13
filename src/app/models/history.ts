@@ -5,6 +5,13 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-export interface History {
+import { DateString } from '@app/core';
+
+
+export interface HistoryEntry {
   uid: string;
+  operation: string;
+  partyName: string;
+  description: string;
+  time: DateString;
 }

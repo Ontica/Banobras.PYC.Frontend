@@ -15,7 +15,7 @@ import { AssetTransactionHolder, EmptyAssetTransactionHolder } from '@app/models
 
 import { TransactionEditorEventType } from '../transaction/transaction-editor.component';
 
-import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 import { TransactionEntriesEditionEventType } from '../transaction-entries/transaction-entries-edition.component';
 

@@ -20,7 +20,7 @@ import { OrderItemsEditionEventType } from '../order-items/order-items-edition.c
 
 import { BudgetManagementEventType } from '@app/views/budgeting/budget-management/budget-management.component';
 
-import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 
 export enum OrderTabbedViewEventType {

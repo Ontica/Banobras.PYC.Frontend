@@ -9,11 +9,11 @@ import { DateString, Empty, Identifiable, isEmpty } from '@app/core';
 
 import { BaseActions, EmptyBaseActions, EntityStatus, ExplorerOperation } from './_explorer-data';
 
+import { AssetTransactionDescriptor } from './assets-transactions';
+
 import { Document } from './documents';
 
-import { History } from './history';
-
-import { AssetTransactionDescriptor } from './assets-transactions';
+import { HistoryEntry } from './history';
 
 
 export interface AssetsQuery {
@@ -66,7 +66,7 @@ export interface AssetHolder {
   asset: Asset;
   transactions: AssetTransactionDescriptor[];
   documents: Document[];
-  history: History[];
+  history: HistoryEntry[];
   actions: BaseActions;
 }
 

@@ -13,8 +13,8 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
-import { DocumentsModule } from '../documents/documents.module';
 import { AssetsModule } from '../assets/assets.module';
+import { EntityRecordsModule } from '../entity-records/entity-records.module';
 
 import { AssetTransactionsMainPageComponent } from './transactions-main-page/transactions-main-page.component';
 import { AssetTransactionsExplorerComponent } from './transactions-explorer/transactions-explorer.component';
@@ -42,9 +42,9 @@ import { AssetTransactionEntriesTableComponent } from './transaction-entries/tra
     AngularMaterialModule,
     SharedModule,
 
-    ReportsControlsModule,
-    DocumentsModule,
     AssetsModule,
+    EntityRecordsModule,
+    ReportsControlsModule,
   ],
   declarations: [
     AssetTransactionsMainPageComponent,

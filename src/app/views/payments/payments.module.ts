@@ -13,7 +13,7 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
-import { DocumentsModule } from '../documents/documents.module';
+import { EntityRecordsModule } from '../entity-records/entity-records.module';
 
 import { PaymentsOrdersMainPageComponent } from './payments-orders/payments-orders-main-page/payments-orders-main-page.component';
 import { PaymentsOrdersExplorerComponent } from './payments-orders/payments-orders-explorer/payments-orders-explorer.component';
@@ -51,7 +51,7 @@ import { PayableItemsTableComponent } from './payables/payable-items/payable-ite
     SharedModule,
 
     ReportsControlsModule,
-    DocumentsModule,
+    EntityRecordsModule,
   ],
   declarations: [
     PaymentsOrdersMainPageComponent,

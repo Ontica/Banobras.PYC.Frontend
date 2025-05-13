@@ -17,6 +17,7 @@ import { ReportsControlsModule } from '../_reports-controls/reports-controls.mod
 import { DocumentsEditionComponent } from './documents-edition/documents-edition.component';
 import { DocumentsTableComponent } from './documents-edition/documents-table.component';
 import { DocumentUploaderComponent } from './documents-edition/document-uploader.component';
+import { HistoryTableComponent } from './history-table/history-table.component';
 
 
 @NgModule({
@@ -34,9 +35,11 @@ import { DocumentUploaderComponent } from './documents-edition/document-uploader
     DocumentsEditionComponent,
     DocumentsTableComponent,
     DocumentUploaderComponent,
+    HistoryTableComponent,
   ],
   exports: [
     DocumentsEditionComponent,
+    HistoryTableComponent,
   ],
 })
-export class DocumentsModule { }
+export class EntityRecordsModule { }

@@ -9,9 +9,7 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { PositioningRule } from './edition-command';
 
-import { EmptyWorkflowActions } from './workflows';
-
-import { WorkflowActions } from './workflows';
+import { EmptyWorkflowActions, WorkflowActions } from './workflows';
 
 
 export enum StepStatus {

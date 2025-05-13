@@ -9,17 +9,17 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { PERMISSIONS } from '@app/main-layout';
 
-import { Document } from './documents';
-
-import { History } from './history';
-
 import { EntityStatus, ExplorerOperation, ExplorerOperationType, ExplorerTypeConfig } from './_explorer-data';
 
-import { Priority } from './steps';
+import { BudgetTransactionDescriptor } from './budget-transactions';
+
+import { Document } from './documents';
+
+import { HistoryEntry } from './history';
 
 import { RequestsList } from './requests';
 
-import { BudgetTransactionDescriptor } from './budget-transactions';
+import { Priority } from './steps';
 
 
 export enum ObjectTypes {
@@ -142,7 +142,7 @@ export interface OrderHolder {
   items: OrderItem[];
   budgetTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
-  history: History[];
+  history: HistoryEntry[];
   actions: OrderActions;
 }
 

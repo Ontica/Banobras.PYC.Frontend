@@ -5,10 +5,10 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
+import { Contract, ContractItem } from './contracts';
+
 import { PayableOrder, PayableOrderDescriptor, PayableOrderFields, PayableOrderItem,
          PayableOrderItemFields } from './payable-orders';
-
-import { Contract, ContractItem } from './contracts';
 
 
 export interface ContractOrderDescriptor extends PayableOrderDescriptor {

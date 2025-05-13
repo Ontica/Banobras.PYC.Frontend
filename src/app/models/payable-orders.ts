@@ -11,7 +11,7 @@ import { BudgetTransactionDescriptor } from './budget-transactions';
 
 import { Document } from './documents';
 
-import { History } from './history';
+import { HistoryEntry } from './history';
 
 import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem,
          OrderItemFields } from './orders';
@@ -35,7 +35,7 @@ export interface PayableOrderHolder extends OrderHolder {
   order: PayableOrder;
   items: PayableOrderItem[];
   documents: Document[];
-  history: History[];
+  history: HistoryEntry[];
   budgetTransactions: BudgetTransactionDescriptor[];
   actions: PayableOrderActions;
 }

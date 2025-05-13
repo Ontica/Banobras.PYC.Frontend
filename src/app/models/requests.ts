@@ -15,7 +15,7 @@ import { EmptyWorkflowActions, WorkflowActions, WorkflowInstance } from './workf
 
 import { Document } from './documents';
 
-import { History } from './history';
+import { HistoryEntry } from './history';
 
 import { Step } from './steps';
 
@@ -91,7 +91,7 @@ export interface RequestData {
   request: Request;
   steps: Step[];
   documents: Document[];
-  history: History[];
+  history: HistoryEntry[];
   workflowInstances: WorkflowInstance[];
 }
 

@@ -12,9 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { BudgetingModule } from '../budgeting/budgeting.module';
-import { DocumentsModule } from '../documents/documents.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
+import { BudgetingModule } from '../budgeting/budgeting.module';
+import { EntityRecordsModule } from '../entity-records/entity-records.module';
 
 import { ContractsMainPageComponent } from './contracts-main-page/contracts-main-page.component';
 import { ContractsExplorerComponent } from './contracts-explorer/contracts-explorer.component';
@@ -42,7 +42,7 @@ import { ContractOrdersTableComponent } from './contract-orders/contract-orders-
     SharedModule,
 
     BudgetingModule,
-    DocumentsModule,
+    EntityRecordsModule,
     ReportsControlsModule,
   ],
   declarations: [

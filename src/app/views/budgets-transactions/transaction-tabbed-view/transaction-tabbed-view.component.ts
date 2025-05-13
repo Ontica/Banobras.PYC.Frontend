@@ -19,7 +19,7 @@ import {
   TransactionEntriesEditionEventType
 } from '../transaction-entries/transaction-entries-edition.component';
 
-import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 
 export enum TransactionTabbedViewEventType {

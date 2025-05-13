@@ -13,7 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { BillData, EmptyBillData } from '@app/models';
 
-import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 import { BillEditorEventType } from '../bill/bill-editor.component';
 

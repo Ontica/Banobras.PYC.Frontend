@@ -15,9 +15,7 @@ import { EmptyAssetHolder, AssetHolder, isEntityStatusInWarning } from '@app/mod
 
 import { AssetEditorEventType } from '../asset/asset-editor.component';
 
-import {
-  DocumentsEditionEventType
-} from '@app/views/documents/documents-edition/documents-edition.component';
+import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 
 export enum AssetTabbedViewEventType {

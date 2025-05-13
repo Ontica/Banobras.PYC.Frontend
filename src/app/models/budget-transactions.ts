@@ -15,7 +15,7 @@ import { Budget, BudgetSegmentType } from './budgets';
 
 import { Document } from './documents';
 
-import { History } from './history';
+import { HistoryEntry } from './history';
 
 
 export interface BudgetTypeForEdition {
@@ -177,7 +177,7 @@ export interface BudgetTransactionHolder {
   entries: BudgetTransactionEntryDescriptor[];
   groupedEntries: BudgetTransactionGroupedEntryData;
   documents: Document[];
-  history: History[];
+  history: HistoryEntry[];
   actions: TransactionActions;
 }
 

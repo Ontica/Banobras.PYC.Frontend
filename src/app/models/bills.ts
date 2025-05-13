@@ -13,7 +13,7 @@ import { BaseActions, EmptyBaseActions } from './_explorer-data';
 
 import { Document } from './documents';
 
-import { History } from './history';
+import { HistoryEntry } from './history';
 
 
 export enum BillsStatus {
@@ -96,7 +96,7 @@ export interface BillData {
   bill: Bill;
   concepts: BillConcept[];
   documents: Document[];
-  history: History[];
+  history: HistoryEntry[];
   actions: BaseActions;
 }
 

@@ -15,9 +15,7 @@ import { EmptyPaymentOrderHolder, PaymentOrderHolder } from '@app/models';
 
 import { PaymentOrderEditorEventType } from '../payment-order/payment-order-editor.component';
 
-import {
-  DocumentsEditionEventType
-} from '@app/views/documents/documents-edition/documents-edition.component';
+import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 
 export enum PaymentOrderTabbedViewEventType {

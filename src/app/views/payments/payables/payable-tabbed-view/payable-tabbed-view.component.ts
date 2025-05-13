@@ -17,7 +17,7 @@ import { PayableEditorEventType } from '../payable/payable-editor.component';
 
 import { PayableItemsEditionEventType } from '../payable-items/payable-items-edition.component';
 
-import { DocumentsEditionEventType } from '@app/views/documents/documents-edition/documents-edition.component';
+import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 
 export enum PayableTabbedViewEventType {

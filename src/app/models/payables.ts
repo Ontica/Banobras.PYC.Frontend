@@ -13,9 +13,9 @@ import { Bill } from './bills';
 
 import { Document } from './documents';
 
-import { EmptyPaymentMethod, PaymentAccount, PaymentMethod } from './payments-orders';
+import { HistoryEntry } from './history';
 
-import { History } from './history';
+import { EmptyPaymentMethod, PaymentAccount, PaymentMethod } from './payments-orders';
 
 
 export interface PayablesQuery {
@@ -89,7 +89,7 @@ export interface PayableData {
   items: PayableItem[];
   bills: Bill[];
   documents: Document[];
-  history: History[];
+  history: HistoryEntry[];
   actions: PayableActions;
 }
 

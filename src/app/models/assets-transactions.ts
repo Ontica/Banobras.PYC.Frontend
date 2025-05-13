@@ -9,9 +9,11 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
+import { Asset, EmptyAsset } from './assets';
+
 import { Document } from './documents';
 
-import { Asset, EmptyAsset } from './assets';
+import { HistoryEntry } from './history';
 
 
 export enum AssetTransactionsStatus {
@@ -121,7 +123,7 @@ export interface AssetTransactionHolder {
   transaction: AssetTransaction,
   entries: AssetTransactionEntry[];
   documents: Document[];
-  history: History[];
+  history: HistoryEntry[];
   actions: AssetTransactionActions;
 }
 
