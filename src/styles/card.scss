@@ -25,6 +25,10 @@
   min-height: 76px;
   padding: 16px;
 
+  &.no-hint {
+    min-height: 55px;
+  }
+
   .card-title {
     flex: 1 1 auto;
     color: $accent-color;
@@ -63,6 +67,25 @@
   }
 }
 
+.card-header-raised {
+  border-bottom: 3px solid $accent-color-light;
+
+  @include raised-header;
+}
+
+.card-header-flat {
+  border-bottom: 3px solid $accent-color-light;
+}
+
+.card-highlight {
+  border-bottom: 2px solid $primary-color;
+
+  .card-title{
+    color: $primary-color;
+    font-size: 12pt;
+  }
+}
+
 .card-body {
   font-size: 10pt;
   font-weight: 400;
@@ -82,14 +105,11 @@
   padding: 16px !important;
 }
 
-.card-header-raised {
-  border-bottom: 3px solid $accent-color-light;
-
-  @include raised-header;
-}
-
-.card-header-flat {
-  border-bottom: 3px solid $accent-color-light;
+.card-body-confirmation {
+  margin-top: 0;
+  padding: 16px !important;
+  line-height: 24px;
+  color: $secondary-color-dark;
 }
 
 .card-shadow {
