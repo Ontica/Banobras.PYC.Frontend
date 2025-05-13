@@ -69,7 +69,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   private getNormalizedErrorResponse(sourceErr: any,
                                      request: HttpRequest<any>): HttpErrorResponse {
     const exception = new HttpException(
-      sourceErr.error.data.errorMessage, // `[${sourceErr.error.data.errorCode}] ${sourceErr.error.data.errorMessage}`,
+      `[${sourceErr.error.data.errorCode}] ${sourceErr.error.data.errorMessage}`,
       sourceErr,
       { request, response: sourceErr.error }
     );
