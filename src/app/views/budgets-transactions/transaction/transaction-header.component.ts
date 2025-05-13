@@ -16,17 +16,18 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { BudgetingStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
+import { FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
-
-import { MessageBoxService } from '@app/shared/services';
 
 import { BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services';
 
 import { BudgetForEdition, BudgetTransaction, BudgetTransactionFields, BudgetTypeForEdition,
-         EmptyBudgetTransaction, EmptyTransactionActions, TransactionActions,
-         BudgetTransactionType } from '@app/models';
+         EmptyBudgetTransaction, EmptyTransactionActions, TransactionActions, BudgetTransactionType,
+         BudgetTransactionRejectFields } from '@app/models';
+
+import { TransactionConfirmSubmitModalEventType,
+         TransactionSubmitType } from './transaction-confirm-submit-modal.component';
 
 
 export enum TransactionHeaderEventType {
@@ -90,14 +91,13 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
   baseEntityTypesList: Identifiable[] = [];
 
-  eventType = TransactionHeaderEventType;
+  confirmModalMode: TransactionSubmitType = null;
 
   baseEntitiesAPI = SearcherAPIS.relatedDocumentsForEdition;
 
 
   constructor(private uiLayer: PresentationLayer,
-              private budgetTransactionsData: BudgetTransactionsDataService,
-              private messageBox: MessageBoxService) {
+              private budgetTransactionsData: BudgetTransactionsDataService,) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
     this.enableEditor(true);
@@ -122,7 +122,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
 
   get hasActions(): boolean {
-    return this.actions.canAuthorize || this.actions.canReject ||
+    return this.actions.canSendToAuthorization || this.actions.canAuthorize || this.actions.canReject ||
            this.actions.canDelete || this.actions.canUpdate;
   }
 
@@ -248,16 +248,33 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   }
 
 
+  onEventButtonClicked(mode: TransactionSubmitType) {
+    this.confirmModalMode = mode;
+  }
+
+
+  onTransactionConfirmSubmitModalEvent(event: EventInfo) {
+    switch (event.type as TransactionConfirmSubmitModalEventType) {
+      case TransactionConfirmSubmitModalEventType.CLOSE_BUTTON_CLICKED:
+        this.confirmModalMode = null;
+        return;
+      case TransactionConfirmSubmitModalEventType.SUBMIT_BUTTON_CLICKED:
+        const dataFields: BudgetTransactionRejectFields = { message: event.payload.notes ?? null };
+        this.validateActionConfirmedToEmit(dataFields);
+        this.confirmModalMode = null;
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   onSubmitButtonClicked() {
     if (this.formHelper.isFormReadyAndInvalidate(this.form)) {
       const eventType = this.isSaved ? TransactionHeaderEventType.UPDATE : TransactionHeaderEventType.CREATE;
       sendEvent(this.transactionHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
-  }
-
-
-  onEventButtonClicked(eventType: TransactionHeaderEventType) {
-    this.showConfirmMessage(eventType);
   }
 
 
@@ -411,7 +428,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   }
 
 
-
   private validateFormDisabled() {
     setTimeout(() => {
       const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
@@ -424,69 +440,23 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   }
 
 
-  private showConfirmMessage(eventType: TransactionHeaderEventType) {
-    const transactionUID = this.transaction.uid;
-    const confirmType = this.getConfirmType(eventType);
-    const title = this.getConfirmTitle(eventType);
-    const message = this.getConfirmMessage(eventType);
-
-    this.messageBox.confirm(message, title, confirmType)
-      .firstValue()
-      .then(x => sendEventIf(x, this.transactionHeaderEvent, eventType, { transactionUID }));
-  }
-
-
-  private getConfirmType(eventType: TransactionHeaderEventType): 'AcceptCancel' | 'DeleteCancel' {
-    switch (eventType) {
-      case TransactionHeaderEventType.DELETE:
-      case TransactionHeaderEventType.REJECT:
-        return 'DeleteCancel';
-      case TransactionHeaderEventType.SEND_TO_AUTHORIZE:
-      case TransactionHeaderEventType.AUTHORIZE:
+  private validateActionConfirmedToEmit(dataFields: BudgetTransactionRejectFields) {
+    switch (this.confirmModalMode) {
+      case 'Delete':
+        sendEvent(this.transactionHeaderEvent, TransactionHeaderEventType.DELETE, { dataFields });
+        return;
+      case 'SendToAuthorization':
+        sendEvent(this.transactionHeaderEvent, TransactionHeaderEventType.SEND_TO_AUTHORIZE, { dataFields });
+        return;
+      case 'Authorize':
+        sendEvent(this.transactionHeaderEvent, TransactionHeaderEventType.AUTHORIZE, { dataFields });
+        return;
+      case 'Reject':
+        sendEvent(this.transactionHeaderEvent, TransactionHeaderEventType.REJECT, { dataFields });
+        return;
       default:
-        return 'AcceptCancel';
-    }
-  }
-
-
-  private getConfirmTitle(eventType: TransactionHeaderEventType): string {
-    switch (eventType) {
-      case TransactionHeaderEventType.DELETE: return 'Eliminar transacción';
-      case TransactionHeaderEventType.REJECT: return 'Rechazar transacción';
-      case TransactionHeaderEventType.SEND_TO_AUTHORIZE: return 'Enviar a autorización';
-      case TransactionHeaderEventType.AUTHORIZE: return 'Autorizar transacción';
-      default: return '';
-    }
-  }
-
-
-  private getConfirmMessage(eventType: TransactionHeaderEventType): string {
-    switch (eventType) {
-      case TransactionHeaderEventType.DELETE:
-        return `Esta operación eliminará la transacción
-                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.baseParty.name}</strong>.
-
-                <br><br>¿Elimino la transacción?`;
-      case TransactionHeaderEventType.REJECT:
-        return `Esta operación rechazará la transacción
-                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.baseParty.name}</strong>.
-
-                <br><br>¿Rechazo la transacción?`;
-      case TransactionHeaderEventType.SEND_TO_AUTHORIZE:
-        return `Esta operación enviará a autorización la transacción
-                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.baseParty.name}</strong>.
-
-                <br><br>¿Envío a autorización la transacción?`;
-      case TransactionHeaderEventType.AUTHORIZE:
-        return `Esta operación autorizará la transacción
-                <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
-                de <strong>${this.transaction.baseParty.name}</strong>.
-
-                <br><br>¿Autorizo la transacción?`;
-      default: return '';
+        console.log(`Unhandled user interface action ${this.confirmModalMode}`);
+        return;
     }
   }
 

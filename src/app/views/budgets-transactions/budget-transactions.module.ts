@@ -27,9 +27,10 @@ import { BudgetTransactionTabbedViewComponent } from './transaction-tabbed-view/
 import { BudgetTransactionPrintViewComponent } from './transaction-tabbed-view/transaction-print-view.component';
 import { BudgetTransactionCreatorComponent } from './transaction/transaction-creator.component';
 import { BudgetTransactionEditorComponent } from './transaction/transaction-editor.component';
+import { BudgetTransactionConfirmSubmitModalComponent } from './transaction/transaction-confirm-submit-modal.component';
 import { BudgetTransactionHeaderComponent } from './transaction/transaction-header.component';
 import { BudgetTransactionEntriesEditionComponent } from './transaction-entries/transaction-entries-edition.component';
-import { TransactionEntriesControlsComponent } from './transaction-entries/transaction-entries-controls.component';
+import { BudgetTransactionEntriesControlsComponent } from './transaction-entries/transaction-entries-controls.component';
 import { BudgetTransactionEntriesTableComponent } from './transaction-entries/transaction-entries-table.component';
 import { BudgetTransactionEntryEditorComponent } from './transaction-entries/transaction-entry-editor.component';
 
@@ -59,9 +60,10 @@ import { BudgetTransactionEntryEditorComponent } from './transaction-entries/tra
     BudgetTransactionPrintViewComponent,
     BudgetTransactionCreatorComponent,
     BudgetTransactionEditorComponent,
+    BudgetTransactionConfirmSubmitModalComponent,
     BudgetTransactionHeaderComponent,
     BudgetTransactionEntriesEditionComponent,
-    TransactionEntriesControlsComponent,
+    BudgetTransactionEntriesControlsComponent,
     BudgetTransactionEntriesTableComponent,
     BudgetTransactionEntryEditorComponent,
   ],

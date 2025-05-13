@@ -14,7 +14,7 @@ import { sendEvent } from '@app/shared/utils';
 import { BudgetTransactionsDataService } from '@app/data-services';
 
 import { BudgetTransaction, TransactionActions, BudgetTransactionHolder, EmptyBudgetTransaction,
-         EmptyTransactionActions, BudgetTransactionFields } from '@app/models';
+         EmptyTransactionActions, BudgetTransactionFields, BudgetTransactionRejectFields } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
 
@@ -64,7 +64,9 @@ export class BudgetTransactionEditorComponent {
         this.authorizeTransaction(this.transaction.uid);
         return;
       case TransactionHeaderEventType.REJECT:
-        this.rejectTransaction(this.transaction.uid);
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.rejectTransaction(this.transaction.uid,
+          event.payload.dataFields as BudgetTransactionRejectFields);
         return;
       case TransactionHeaderEventType.DELETE:
         this.deleteTransaction(this.transaction.uid);
@@ -106,10 +108,10 @@ export class BudgetTransactionEditorComponent {
   }
 
 
-  private rejectTransaction(transactionUID: string) {
+  private rejectTransaction(transactionUID: string, dataFields: BudgetTransactionRejectFields) {
     this.submitted = true;
 
-    this.transactionsData.rejectTransaction(transactionUID)
+    this.transactionsData.rejectTransaction(transactionUID, dataFields)
       .firstValue()
       .then(x => this.resolveTransactionUpdated(x))
       .finally(() => this.submitted = false);

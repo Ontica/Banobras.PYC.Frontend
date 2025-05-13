@@ -161,15 +161,20 @@ export interface BudgetTransactionDescriptor {
 
 
  export interface BudgetTransactionFields {
-    basePartyUID: string;
-    baseBudgetUID: string;
-    transactionTypeUID: string;
-    operationSourceUID: string;
-    applicationDate: DateString;
-    justification: string;
-    baseEntityTypeUID: string;
-    baseEntityUID: string;
-  }
+  basePartyUID: string;
+  baseBudgetUID: string;
+  transactionTypeUID: string;
+  operationSourceUID: string;
+  applicationDate: DateString;
+  justification: string;
+  baseEntityTypeUID: string;
+  baseEntityUID: string;
+}
+
+
+export interface BudgetTransactionRejectFields {
+  message: string;
+}
 
 
 export interface BudgetTransactionHolder {

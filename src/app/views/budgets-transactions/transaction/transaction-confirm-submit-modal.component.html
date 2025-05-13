@@ -1,0 +1,51 @@
+<emp-ng-modal-window
+  [config]="{width:'500px'}">
+
+  <emp-ng-card
+    [title]="titleText"
+    [showHint]="false"
+    [headerHighlight]="true"
+    [disableClose]="true">
+
+    <div class="card-body-confirmation">
+
+      Esta operación {{actionText}} la transacción
+      <strong> {{transaction.transactionNo}}: {{transaction.transactionType.name}} </strong>
+      de <strong> {{transaction.baseParty.name}}</strong>
+
+      <ng-container *ngIf="notesRequired">
+
+        con motivo: <br><br>
+
+        <input type="text" class="text-box" *ngIf="notesRequired"
+          [(ngModel)]="notes"
+          placeholder="Motivo de rechazo"
+          [class.invalid-control]="!notes">
+
+      </ng-container>
+
+      <br><br>
+
+      ¿{{questionText}} la transacción?
+
+      <mat-divider [style.margin]="'20px -16px 8px -16px'"></mat-divider>
+
+      <div class="fx-row-container fx-end fx-items-center fx-gap-half">
+
+        <button
+          [disabled]="!isReady"
+          [class.btn]="!isReady"
+          [class.btn-warning]="showWarningColor && isReady"
+          [class.btn-action]="!showWarningColor && isReady"
+          (click)="onSubmitButtonClicked()">{{submitText}}</button>
+
+        <button class="btn"
+        (click)="onCloseButtonClicked()">Cancelar</button>
+
+      </div>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

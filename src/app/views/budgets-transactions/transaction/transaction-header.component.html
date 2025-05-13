@@ -202,7 +202,7 @@
 
           <button *ngIf="actions.canDelete"
             type="button" class="btn-warning"
-            (click)="onEventButtonClicked(eventType.DELETE)">
+            (click)="onEventButtonClicked('Delete')">
             Eliminar
           </button>
 
@@ -212,19 +212,19 @@
 
           <button *ngIf="actions.canSendToAuthorization"
             type="button" class="btn"
-            (click)="onEventButtonClicked(eventType.SEND_TO_AUTHORIZE)">
+            (click)="onEventButtonClicked('SendToAuthorization')">
             Enviar a autorización
           </button>
 
           <button *ngIf="actions.canAuthorize"
-            type="button" class="btn"
-            (click)="onEventButtonClicked(eventType.AUTHORIZE)">
+            type="button" class="btn-action"
+            (click)="onEventButtonClicked('Authorize')">
             Autorizar
           </button>
 
           <button *ngIf="actions.canReject"
             type="button" class="btn"
-            (click)="onEventButtonClicked(eventType.REJECT)">
+            (click)="onEventButtonClicked('Reject')">
             Rechazar
           </button>
 
@@ -264,3 +264,11 @@
   </div>
 
 </form>
+
+
+<emp-bdg-transaction-confirm-submit-modal *ngIf="!!confirmModalMode"
+  [transaction]="transaction"
+  [mode]="confirmModalMode"
+  (transactionConfirmSubmitModalEvent)="onTransactionConfirmSubmitModalEvent($event)">
+
+</emp-bdg-transaction-confirm-submit-modal>

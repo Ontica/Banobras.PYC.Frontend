@@ -12,17 +12,17 @@ import { EventInfo } from '@app/core';
 import { sendEvent } from '@app/shared/utils';
 
 export enum TransactionEntriesControlsEventType {
-  FILTER_CHANGED                      = 'TransactionEntriesControlsComponent.Event.FilterChanged',
-  CHECK_ALL_ENTRIES_CHANGED           = 'TransactionEntriesControlsComponent.Event.CheckAllEntriesChanged',
-  AUTOMATIC_GENERATION_BUTTON_CLICKED = 'TransactionEntriesControlsComponent.Event.AutomaticGenerationButtonClicked',
-  CREATE_ENTRY_BUTTON_CLICKED         = 'TransactionEntriesControlsComponent.Event.CreateEntryButtonClicked',
+  FILTER_CHANGED                      = 'BudgetTransactionEntriesControlsComponent.Event.FilterChanged',
+  CHECK_ALL_ENTRIES_CHANGED           = 'BudgetTransactionEntriesControlsComponent.Event.CheckAllEntriesChanged',
+  AUTOMATIC_GENERATION_BUTTON_CLICKED = 'BudgetTransactionEntriesControlsComponent.Event.AutomaticGenerationButtonClicked',
+  CREATE_ENTRY_BUTTON_CLICKED         = 'BudgetTransactionEntriesControlsComponent.Event.CreateEntryButtonClicked',
 }
 
 @Component({
   selector: 'emp-bdg-transaction-entries-controls',
   templateUrl: './transaction-entries-controls.component.html',
 })
-export class TransactionEntriesControlsComponent {
+export class BudgetTransactionEntriesControlsComponent {
 
   @Input() filter = '';
 
