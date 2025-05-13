@@ -71,9 +71,10 @@
 
     <mat-tab label="Historial">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-history-table
+        [history]="data.history">
+
+      </emp-ng-history-table>
 
     </mat-tab>
 
