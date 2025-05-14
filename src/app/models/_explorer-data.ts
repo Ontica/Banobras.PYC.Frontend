@@ -9,6 +9,8 @@ import { Identifiable } from '@app/core';
 
 import { PERMISSIONS } from '@app/main-layout';
 
+import { FileReport } from './reporting';
+
 
 export interface ExplorerTypeConfig<T> {
   type: T;
@@ -51,9 +53,10 @@ export function isEntityStatusInWarning(statusName: string): boolean {
 
 
 export enum ExplorerOperationType {
-  excel  = 'excel',
-  print  = 'print',
-  delete = 'delete',
+  excel        = 'export',
+  excelEntries = 'export-entries',
+  pdf          = 'print',
+  delete       = 'delete',
 }
 
 export interface ExplorerOperation extends Identifiable {
@@ -67,8 +70,22 @@ export interface ExplorerOperation extends Identifiable {
 
 
 export interface ExplorerOperationCommand {
-  operation: string;
   items: string[];
+}
+
+
+export interface ExplorerOperationResult {
+  message: string;
+  file: FileReport;
+}
+
+
+export interface ExplorerBulkOperationData {
+  operation: ExplorerOperationType,
+  command: ExplorerOperationCommand;
+  title: string;
+  message: string;
+  fileUrl: string;
 }
 
 
@@ -77,6 +94,15 @@ export interface BaseActions {
   canDelete: boolean;
   canEditDocuments: boolean;
 }
+
+
+export const EmptyExplorerBulkOperationData: ExplorerBulkOperationData = {
+  operation: null,
+  command: null,
+  title: '',
+  message: '',
+  fileUrl: '',
+};
 
 
 export const EmptyBaseActions: BaseActions = {

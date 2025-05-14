@@ -361,23 +361,8 @@ export interface TransactionActions {
 
 export const BudgetTransactionsOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excel,
-    name: 'Exportar'
-  },
-  {
-    uid: ExplorerOperationType.print,
-    name: 'Imprimir',
-    showConfirm: true,
-    confirmOperationMessage: 'imprimirá',
-    confirmQuestionMessage: 'Imprimo'
-  },
-  {
-    uid: ExplorerOperationType.delete,
-    name: 'Eliminar',
-    showConfirm: true,
-    isConfirmWarning: true,
-    confirmOperationMessage: 'eliminará',
-    confirmQuestionMessage: 'Elimino'
+    uid: ExplorerOperationType.excelEntries,
+    name: 'Exportar movimientos'
   },
 ];
 

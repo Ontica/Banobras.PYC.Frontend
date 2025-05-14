@@ -60,7 +60,10 @@ export class BudgetTransactionsListComponent implements OnChanges {
   onListControlsEvent(event: EventInfo) {
     switch (event.type as ListControlsEventType) {
       case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
-        sendEvent(this.transactionsListEvent, TransactionsListEventType.EXECUTE_OPERATION_CLICKED, event.payload);
+        Assertion.assertValue(event.payload.operation, 'event.payload.operation');
+        Assertion.assertValue(event.payload.command, 'event.payload.command');
+        sendEvent(this.transactionsListEvent, TransactionsListEventType.EXECUTE_OPERATION_CLICKED,
+          event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

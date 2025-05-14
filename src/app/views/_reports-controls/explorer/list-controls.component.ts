@@ -15,7 +15,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { ExplorerOperation, ExplorerOperationCommand } from '@app/models';
+import { ExplorerOperation, ExplorerOperationCommand, ExplorerOperationType } from '@app/models';
 
 
 export enum ListControlsEventType {
@@ -137,12 +137,9 @@ export class ListControlsComponent {
 
 
   private emitExecuteOperation() {
-    const command: ExplorerOperationCommand = {
-      operation: this.operationSelected.uid,
-      items: this.selection.selected.map(r => r.uid),
-    };
-
-    sendEvent(this.listControlsEvent, ListControlsEventType.EXECUTE_OPERATION_CLICKED, command);
+    const operation: ExplorerOperationType = this.operationSelected.uid as ExplorerOperationType;
+    const command: ExplorerOperationCommand = { items: this.selection.selected.map(r => r.uid) };
+    sendEvent(this.listControlsEvent, ListControlsEventType.EXECUTE_OPERATION_CLICKED, { operation, command });
   }
 
 }

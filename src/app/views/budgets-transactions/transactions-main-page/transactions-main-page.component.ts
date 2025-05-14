@@ -9,15 +9,18 @@ import { Component } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { ArrayLibrary } from '@app/shared/utils';
 
 import { BudgetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransactionHolder, BudgetTransactionDescriptor, BudgetTransactionsQuery,
-         EmptyBudgetTransactionHolder, EmptyBudgetTransactionsQuery,
+import { BudgetTransactionDescriptor, BudgetTransactionHolder, BudgetTransactionsQuery,
+         EmptyBudgetTransactionHolder, EmptyBudgetTransactionsQuery, EmptyExplorerBulkOperationData,
+         ExplorerBulkOperationData, ExplorerOperationCommand, ExplorerOperationResult, ExplorerOperationType,
          mapBudgetTransactionDescriptorFromTransaction } from '@app/models';
+
+import {
+  ExportReportModalEventType
+} from '@app/views/_reports-controls/export-report-modal/export-report-modal.component';
 
 import { TransactionsExplorerEventType } from '../transactions-explorer/transactions-explorer.component';
 
@@ -48,9 +51,12 @@ export class BudgetTransactionsMainPageComponent {
 
   queryExecuted = false;
 
+  displayExportModal = false;
 
-  constructor(private budgetTransactionsData: BudgetTransactionsDataService,
-              private messageBox: MessageBoxService) { }
+  selectedExportData: ExplorerBulkOperationData = Object.assign({}, EmptyExplorerBulkOperationData);
+
+
+  constructor(private budgetTransactionsData: BudgetTransactionsDataService) { }
 
 
   onTransactionCreatorEvent(event: EventInfo) {
@@ -86,12 +92,30 @@ export class BudgetTransactionsMainPageComponent {
         return;
       case TransactionsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
-        this.messageBox.showInDevelopment('Ejecutar operación', event.payload);
+        Assertion.assertValue(event.payload.command, 'event.payload.command');
+        Assertion.assertValue(event.payload.command.items, 'event.payload.command.items');
+        this.validateBulkOperationTransactions(event.payload.operation as ExplorerOperationType,
+                                               event.payload.command as ExplorerOperationCommand);
         return;
       case TransactionsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.transaction, ' event.payload.transaction');
         Assertion.assertValue(event.payload.transaction.uid, 'event.payload.transaction.uid');
         this.getTransaction(event.payload.transaction.uid);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onExportReportModalEvent(event: EventInfo) {
+    switch (event.type as ExportReportModalEventType) {
+      case ExportReportModalEventType.CLOSE_MODAL_CLICKED:
+        this.setDisplayExportModal(false);
+        return;
+      case ExportReportModalEventType.EXPORT_BUTTON_CLICKED:
+        this.bulkOperationTransactions(this.selectedExportData.operation, this.selectedExportData.command);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -131,6 +155,16 @@ export class BudgetTransactionsMainPageComponent {
       .firstValue()
       .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
+  }
+
+
+  private bulkOperationTransactions(operation: ExplorerOperationType, command: ExplorerOperationCommand) {
+    this.isLoadingSelection = true;
+
+    this.budgetTransactionsData.bulkOperationTransactions(operation, command)
+      .firstValue()
+      .then(x => this.resolveBulkOperationTransactionsResponse(operation, x))
+      .finally(() => this.isLoadingSelection = false);
   }
 
 
@@ -191,6 +225,71 @@ export class BudgetTransactionsMainPageComponent {
     const dataListNew = this.dataList.filter(x => x.uid !== transactionUID);
     this.setDataList(dataListNew);
     this.setSelectedData(EmptyBudgetTransactionHolder);
+  }
+
+
+  private validateBulkOperationTransactions(operation: ExplorerOperationType, command: ExplorerOperationCommand) {
+    switch (operation) {
+      case ExplorerOperationType.excelEntries:
+        this.showExportTransactionsEntries(operation, command);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${operation}`);
+        return;
+    }
+  }
+
+
+  private showExportTransactionsEntries(operation: ExplorerOperationType, command: ExplorerOperationCommand) {
+    let title = '';
+    let message = '';
+
+    switch (operation) {
+      case ExplorerOperationType.excelEntries:
+        title = 'Exportar los movimientos de las transacciones';
+        message = `Esta operación exportará los movimientos de las ` +
+          `<strong> ${command.items.length} transacciones</strong> seleccionadas.` +
+          `<br><br>¿Exporto los movimientos de las transacciones?`;
+        break;
+      default:
+        console.log(`Unhandled export transactions operation type ${operation}`);
+        return;
+    }
+
+    this.setDisplayExportModal(true, operation, command, title, message);
+  }
+
+
+  private setDisplayExportModal(display: boolean,
+                                operation?: ExplorerOperationType, command?: ExplorerOperationCommand,
+                                title?: string, message?: string) {
+    this.displayExportModal = display;
+    this.selectedExportData = {
+      operation: operation ?? null,
+      command: command ?? null,
+      title: title ?? null,
+      message: message ?? null,
+      fileUrl: '',
+     };
+  }
+
+
+  private resolveBulkOperationTransactionsResponse(operation: ExplorerOperationType,
+                                                   result: ExplorerOperationResult) {
+    switch (operation) {
+      case ExplorerOperationType.excelEntries:
+        this.resolveExportTransactionsEntries(result);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${operation}`);
+        return;
+    }
+  }
+
+
+  private resolveExportTransactionsEntries(result: ExplorerOperationResult) {
+    this.selectedExportData.fileUrl = result.file.url;
+    this.selectedExportData.message = result.message;
   }
 
 }

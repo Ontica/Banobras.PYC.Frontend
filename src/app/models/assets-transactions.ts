@@ -187,7 +187,7 @@ export enum AssetTransactionTypes {
 
 export const AssetTransactionsOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.print,
+    uid: ExplorerOperationType.pdf,
     name: 'Imprimir',
     showConfirm: true,
     confirmOperationMessage: 'imprimirá',

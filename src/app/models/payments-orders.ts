@@ -158,7 +158,7 @@ export const PaymentsOrdersOperationsList: ExplorerOperation[] = [
     name: 'Exportar'
   },
   {
-    uid: ExplorerOperationType.print,
+    uid: ExplorerOperationType.pdf,
     name: 'Imprimir',
     showConfirm: true,
     confirmOperationMessage: 'imprimirá',

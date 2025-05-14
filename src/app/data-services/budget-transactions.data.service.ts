@@ -12,7 +12,8 @@ import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 import { BudgetAccount, BudgetTransactionEntryByYear, BudgetTransactionEntryByYearFields,
          BudgetTransactionEntryFields, BudgetTransactionDescriptor, BudgetTransactionEntry,
          BudgetTransactionFields, BudgetTransactionHolder, BudgetTransactionsQuery,
-         BudgetTransactionRejectFields, BudgetTypeForEdition, FileReport } from '@app/models';
+         BudgetTransactionRejectFields, BudgetTypeForEdition, FileReport, ExplorerOperationType,
+         ExplorerOperationCommand, ExplorerOperationResult } from '@app/models';
 
 
 @Injectable()
@@ -54,6 +55,17 @@ export class BudgetTransactionsDataService {
     const path = 'v2/budgeting/transactions/search';
 
     return this.http.post<BudgetTransactionDescriptor[]>(path, query);
+  }
+
+
+  bulkOperationTransactions(operationType: ExplorerOperationType,
+                            command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
+    Assertion.assertValue(operationType, 'operationType');
+    Assertion.assertValue(command, 'command');
+
+    const path = `v2/budgeting/transactions/bulk-operation/${operationType}`;
+
+    return this.http.post<ExplorerOperationResult>(path, command);
   }
 
 
