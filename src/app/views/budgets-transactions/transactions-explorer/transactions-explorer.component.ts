@@ -57,7 +57,7 @@ export class BudgetTransactionsExplorerComponent implements OnChanges {
 
   stage: BudgetTransactionsStages = BudgetTransactionsStages.MyInbox;
 
-  PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
+  PERMISSION_TO_CREATE = PERMISSIONS.FEATURE_EDICION_TRANSACCIONES_PRESUPUESTALES;
 
 
   ngOnChanges(changes: SimpleChanges) {
