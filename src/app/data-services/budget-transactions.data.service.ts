@@ -136,6 +136,15 @@ export class BudgetTransactionsDataService {
   }
 
 
+  closeTransaction(transactionUID: string): EmpObservable<BudgetTransactionHolder> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/close`;
+
+    return this.http.post<BudgetTransactionHolder>(path);
+  }
+
+
   deleteTransaction(transactionUID: string): EmpObservable<void> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 

@@ -68,6 +68,9 @@ export class BudgetTransactionEditorComponent {
         this.rejectTransaction(this.transaction.uid,
           event.payload.dataFields as BudgetTransactionRejectFields);
         return;
+      case TransactionHeaderEventType.CLOSE:
+        this.closeTransaction(this.transaction.uid);
+        return;
       case TransactionHeaderEventType.DELETE:
         this.deleteTransaction(this.transaction.uid);
         return;
@@ -112,6 +115,16 @@ export class BudgetTransactionEditorComponent {
     this.submitted = true;
 
     this.transactionsData.rejectTransaction(transactionUID, dataFields)
+      .firstValue()
+      .then(x => this.resolveTransactionUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private closeTransaction(transactionUID: string) {
+    this.submitted = true;
+
+    this.transactionsData.closeTransaction(transactionUID)
       .firstValue()
       .then(x => this.resolveTransactionUpdated(x))
       .finally(() => this.submitted = false);

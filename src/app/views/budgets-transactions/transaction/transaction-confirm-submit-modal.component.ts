@@ -14,7 +14,7 @@ import { sendEvent } from '@app/shared/utils';
 import { BudgetTransaction, EmptyBudgetTransaction } from '@app/models';
 
 
-export type TransactionSubmitType = 'Delete' | 'SendToAuthorization' | 'Authorize' | 'Reject';
+export type TransactionSubmitType = 'Delete' | 'SendToAuthorization' | 'Authorize' | 'Reject' | 'Close';
 
 
 export enum TransactionConfirmSubmitModalEventType {
@@ -53,6 +53,7 @@ export class BudgetTransactionConfirmSubmitModalComponent {
       case 'SendToAuthorization': return 'Enviar a autorización';
       case 'Authorize': return 'Autorizar transacción';
       case 'Reject': return 'Rechazar transacción';
+      case 'Close': return 'Cerrar transacción';
       default: return 'Realizar operación'
     }
   }
@@ -64,6 +65,7 @@ export class BudgetTransactionConfirmSubmitModalComponent {
       case 'SendToAuthorization': return 'enviará a autorización';
       case 'Authorize': return 'autorizará';
       case 'Reject': return 'rechazará';
+      case 'Close': return 'cerrará';
       default: return 'realizará';
     }
   }
@@ -75,6 +77,7 @@ export class BudgetTransactionConfirmSubmitModalComponent {
       case 'SendToAuthorization': return 'Envío a autorización';
       case 'Authorize': return 'Autorizo';
       case 'Reject': return 'Rechazo';
+      case 'Close': return 'Cierro';
       default: return 'Realizo';
     }
   }
@@ -86,6 +89,7 @@ export class BudgetTransactionConfirmSubmitModalComponent {
       case 'SendToAuthorization': return 'Enviar';
       case 'Authorize': return 'Autorizar';
       case 'Reject': return 'Rechazar';
+      case 'Close': return 'Cerrar';
       default: return 'Aceptar';
     }
   }

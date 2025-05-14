@@ -222,6 +222,12 @@
             Autorizar
           </button>
 
+          <button *ngIf="actions.canClose"
+            type="button" class="btn-action"
+            (click)="onEventButtonClicked('Close')">
+            Cerrar
+          </button>
+
           <button *ngIf="actions.canReject"
             type="button" class="btn"
             (click)="onEventButtonClicked('Reject')">
