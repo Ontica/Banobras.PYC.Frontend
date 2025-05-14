@@ -46,7 +46,6 @@ interface TransactionFormModel extends FormGroup<{
   budgetUID: FormControl<string>;
   transactionTypeUID: FormControl<string>;
   operationSourceUID: FormControl<string>;
-  applicationDate: FormControl<DateString>;
   justification: FormControl<string>;
   baseEntityTypeUID: FormControl<string>;
   baseEntityUID: FormControl<string>;
@@ -383,7 +382,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       budgetUID: ['', Validators.required],
       transactionTypeUID: ['', Validators.required],
       operationSourceUID: ['', Validators.required],
-      applicationDate: ['' as DateString, Validators.required],
       justification: [''],
       baseEntityTypeUID: [''],
       baseEntityUID: [''],
@@ -399,7 +397,6 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
         budgetUID: isEmpty(this.transaction.budget) ? null : this.transaction.budget.uid,
         transactionTypeUID: isEmpty(this.transaction.transactionType) ? null : this.transaction.transactionType.uid,
         operationSourceUID: isEmpty(this.transaction.operationSource) ? null : this.transaction.operationSource.uid,
-        applicationDate: this.transaction.applicationDate ?? '',
         justification: this.transaction.justification ?? '',
         baseEntityTypeUID: isEmpty(this.transaction.baseEntityType) ? null : this.transaction.baseEntityType.uid,
         baseEntityUID: isEmpty(this.transaction.baseEntity) ? null : this.transaction.baseEntity.uid,
@@ -419,10 +416,10 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       baseBudgetUID: this.form.value.budgetUID ?? null,
       transactionTypeUID: this.form.value.transactionTypeUID ?? null,
       operationSourceUID: this.form.value.operationSourceUID ?? null,
-      applicationDate: this.form.value.applicationDate ?? null,
       justification: this.form.value.justification ?? null,
       baseEntityTypeUID: this.form.value.baseEntityTypeUID ?? null,
       baseEntityUID: this.form.value.baseEntityUID ?? null,
+      applicationDate: null,
     };
 
     return data;
