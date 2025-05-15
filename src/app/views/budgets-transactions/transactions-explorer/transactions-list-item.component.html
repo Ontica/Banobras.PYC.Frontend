@@ -1,13 +1,13 @@
-<div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
+<div class="fx-row-container fx-gap-size gap-size-entry sm-fx-gap">
 
-  <div class="fx-item-size check-column-size sm-fx-item-none" *ngIf="displayControls">
+  <div class="fx-item-size column-size-check sm-fx-item-none" *ngIf="displayControls">
     <mat-checkbox empNgStopPropagation
       [checked]="selected"
       (change)="onCheckClicked()">
     </mat-checkbox>
   </div>
 
-  <div class="fx-item-size first-column-size sm-fx-item-none">
+  <div class="fx-item">
     <div class="list-item-text-highlight nowrap"
       (click)="onSelectClicked()">
       <a class="bold-text">{{transaction.transactionNo}}</a>
@@ -16,28 +16,29 @@
     <div>{{transaction.basePartyName}}</div>
   </div>
 
-  <div class="fx-item-size second-column-size sm-fx-item-none">
+  <div class="fx-item-size column-size-sm sm-fx-item-none">
     <div class="list-item-text-highlight">{{transaction.budgetTypeName}}</div>
     <div class="bold-text">{{transaction.budgetName}}</div>
     <div>{{transaction.total | empDecimal}}</div>
   </div>
 
-
-  <div class="fx-item">
+  <div class="fx-item-size column-size-md sm-fx-item-none">
     <div class="list-item-text-highlight">{{transaction.operationSourceName}}</div>
-    <div>
-      {{!transaction.requestedDate ? '-' : (transaction.requestedDate | empDateTimeFormat)}}
+    <div class="bold-text">
+      {{!transaction.recordingDate ? '-' : (transaction.recordingDate | empDateTimeFormat)}}
     </div>
+    <div>{{!transaction.recordedBy ? '-' : transaction.recordedBy}}</div>
   </div>
 
-  <div class="fx-item-size status-column-size sm-fx-item-none">
-    <span class="tag"
+  <div class="fx-item-size column-size-md sm-fx-item-none">
+    <span class="tag" [style.font-size.px]="10"
       [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(transaction.statusName)}">
       {{transaction.statusName}}
     </span>
-    <div [style.padding-top.rem]="0.4">
-      {{!transaction.applicationDate ? '-' : (transaction.applicationDate | empDateTimeFormat)}}
+    <div class="bold-text" [style.padding-top.rem]="0.25">
+      {{!transaction.authorizationDate ? '-' : (transaction.authorizationDate | empDateTimeFormat)}}
     </div>
+    <div>{{!transaction.authorizedBy ? '-' : transaction.authorizedBy}}</div>
   </div>
 
 </div>

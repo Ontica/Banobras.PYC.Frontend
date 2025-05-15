@@ -5,22 +5,18 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-.entry-gap-size {
+.gap-size-entry {
   --gap-size: 32px
 }
 
-.check-column-size {
+.column-size-check {
   --size: 20px;
 }
 
-.first-column-size {
-  --size: 25%;
+.column-size-md {
+  --size: 22%;
 }
 
-.second-column-size {
-  --size: 20%;
-}
-
-.status-column-size {
-  --size: 100px;
+.column-size-sm {
+  --size: 15%;
 }

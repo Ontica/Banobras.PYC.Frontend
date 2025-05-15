@@ -152,9 +152,11 @@ export interface BudgetTransactionDescriptor {
   budgetTypeName: string;
   budgetName: string;
   transactionTypeName: string;
-  requestedDate: DateString;
   operationSourceName: string;
-  applicationDate: DateString;
+  recordedBy: string;
+  authorizedBy: string;
+  recordingDate: DateString;
+  authorizationDate : DateString;
   total: number;
   statusName: string;
 }
@@ -198,8 +200,14 @@ export interface BudgetTransaction {
   baseEntityType: Identifiable;
   baseEntity: Identifiable;
   justification: string;
+  requestedBy: Identifiable;
+  authorizedBy: Identifiable;
+  appliedBy: Identifiable;
+  recordedBy: Identifiable;
   requestedDate: DateString;
+  authorizationDate: DateString;
   applicationDate: DateString;
+  recordingDate: DateString;
   total: number;
   status: Identifiable;
 }
@@ -413,8 +421,14 @@ export const EmptyBudgetTransaction: BudgetTransaction = {
   baseEntityType: Empty,
   baseEntity: Empty,
   justification: '',
-  applicationDate: '',
+  requestedBy: Empty,
+  authorizedBy: Empty,
+  appliedBy: Empty,
+  recordedBy: Empty,
   requestedDate: '',
+  authorizationDate: '',
+  applicationDate: '',
+  recordingDate: '',
   total: null,
   status: Empty,
 }
@@ -513,9 +527,11 @@ export function mapBudgetTransactionDescriptorFromTransaction(data: BudgetTransa
     budgetTypeName: data.budgetType.name,
     budgetName: data.budget.name,
     transactionTypeName: data.transactionType.name,
-    requestedDate: data.requestedDate,
     operationSourceName: data.operationSource.name,
-    applicationDate: data.applicationDate,
+    recordedBy: data.recordedBy.name,
+    authorizedBy: data.authorizedBy.name,
+    recordingDate: data.recordingDate,
+    authorizationDate: data.authorizationDate,
     total: data.total,
     statusName: data.status.name,
   };

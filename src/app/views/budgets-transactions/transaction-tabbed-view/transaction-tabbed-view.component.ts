@@ -103,8 +103,8 @@ export class BudgetTransactionTabbedViewComponent implements OnChanges {
 
 
   private setTitle() {
-    const applicationDate = !this.data.transaction.applicationDate ? 'N/D' :
-      DateStringLibrary.format(this.data.transaction.applicationDate);
+    const authorizationDate = !this.data.transaction.authorizationDate ? 'N/D' :
+      DateStringLibrary.format(this.data.transaction.authorizationDate);
 
     const status = this.data.transaction.status.name === 'Eliminada' ?
       `<span class="tag tag-error tag-small">${this.data.transaction.status.name}</span>` :
@@ -114,7 +114,7 @@ export class BudgetTransactionTabbedViewComponent implements OnChanges {
 
     this.hint = `<strong>${this.data.transaction.baseParty.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${this.data.transaction.budget.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${applicationDate}`;
+      `${authorizationDate}`;
   }
 
 }
