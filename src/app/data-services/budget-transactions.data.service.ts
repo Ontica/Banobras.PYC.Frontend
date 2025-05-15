@@ -69,6 +69,13 @@ export class BudgetTransactionsDataService {
   }
 
 
+  generatePlanningTransactions(): EmpObservable<ExplorerOperationResult> {
+    const path = `v2/budgeting/transactions/planning/generate`;
+
+    return this.http.post<ExplorerOperationResult>(path);
+  }
+
+
   getTransaction(transactionUID: string): EmpObservable<BudgetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 

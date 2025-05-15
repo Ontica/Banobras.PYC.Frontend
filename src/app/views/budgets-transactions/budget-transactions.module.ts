@@ -33,6 +33,7 @@ import { BudgetTransactionEntriesEditionComponent } from './transaction-entries/
 import { BudgetTransactionEntriesControlsComponent } from './transaction-entries/transaction-entries-controls.component';
 import { BudgetTransactionEntriesTableComponent } from './transaction-entries/transaction-entries-table.component';
 import { BudgetTransactionEntryEditorComponent } from './transaction-entries/transaction-entry-editor.component';
+import { BudgetTransactionsPlanningGeneratorComponent } from './transactions-planning/transactions-planning-generator.component';
 
 
 @NgModule({
@@ -66,10 +67,12 @@ import { BudgetTransactionEntryEditorComponent } from './transaction-entries/tra
     BudgetTransactionEntriesControlsComponent,
     BudgetTransactionEntriesTableComponent,
     BudgetTransactionEntryEditorComponent,
+    BudgetTransactionsPlanningGeneratorComponent,
   ],
   exports: [
     BudgetTransactionsMainPageComponent,
     BudgetTransactionsListComponent,
+    BudgetTransactionsPlanningGeneratorComponent,
   ]
 })
 export class BudgetTransactionsModule { }

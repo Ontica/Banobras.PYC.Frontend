@@ -22,6 +22,8 @@ export class ControlPanelMainPageComponent {
 
   displayOperationsLogModal = false;
 
+  displayTransactionsPlanningGeneratorModal = false;
+
   controlPanelOptionList = ControlPanelOptionList;
 
 
@@ -30,19 +32,18 @@ export class ControlPanelMainPageComponent {
 
   onClickControlPanelOption(option: ControlPanelOption) {
     switch (option.type) {
-
       case 'ChangePassword':
         this.displayChangePasswordModal = true;
         return;
-
       case 'OperationsLog':
         this.displayOperationsLogModal = true;
         return;
-
+      case 'BudgetPlanningPeriods':
+        this.displayTransactionsPlanningGeneratorModal = true;
+        return;
       default:
         this.messageBox.showInDevelopment(option.title, option)
         return;
-
     }
 
   }
