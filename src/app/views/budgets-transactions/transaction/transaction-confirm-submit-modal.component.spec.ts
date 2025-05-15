@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransactionConfirmSubmitModalComponent } from './transaction-confirm-submit-modal.component';
+import { BudgetTransactionConfirmSubmitModalComponent } from './transaction-confirm-submit-modal.component';
 
-describe('TransactionConfirmSubmitModalComponent', () => {
-  let component: TransactionConfirmSubmitModalComponent;
-  let fixture: ComponentFixture<TransactionConfirmSubmitModalComponent>;
+describe('BudgetTransactionConfirmSubmitModalComponent', () => {
+  let component: BudgetTransactionConfirmSubmitModalComponent;
+  let fixture: ComponentFixture<BudgetTransactionConfirmSubmitModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TransactionConfirmSubmitModalComponent]
+      imports: [BudgetTransactionConfirmSubmitModalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TransactionConfirmSubmitModalComponent);
+    fixture = TestBed.createComponent(BudgetTransactionConfirmSubmitModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

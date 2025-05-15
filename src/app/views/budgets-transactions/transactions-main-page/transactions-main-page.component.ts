@@ -56,7 +56,7 @@ export class BudgetTransactionsMainPageComponent {
   selectedExportData: ExplorerBulkOperationData = Object.assign({}, EmptyExplorerBulkOperationData);
 
 
-  constructor(private budgetTransactionsData: BudgetTransactionsDataService) { }
+  constructor(private transactionsData: BudgetTransactionsDataService) { }
 
 
   onTransactionCreatorEvent(event: EventInfo) {
@@ -151,7 +151,7 @@ export class BudgetTransactionsMainPageComponent {
   private searchTransactions(query: BudgetTransactionsQuery) {
     this.isLoading = true;
 
-    this.budgetTransactionsData.searchTransactions(query)
+    this.transactionsData.searchTransactions(query)
       .firstValue()
       .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
@@ -161,7 +161,7 @@ export class BudgetTransactionsMainPageComponent {
   private bulkOperationTransactions(operation: ExplorerOperationType, command: ExplorerOperationCommand) {
     this.isLoadingSelection = true;
 
-    this.budgetTransactionsData.bulkOperationTransactions(operation, command)
+    this.transactionsData.bulkOperationTransactions(operation, command)
       .firstValue()
       .then(x => this.resolveBulkOperationTransactionsResponse(operation, x))
       .finally(() => this.isLoadingSelection = false);
@@ -171,7 +171,7 @@ export class BudgetTransactionsMainPageComponent {
   private getTransaction(transactionUID: string, refresh: boolean = false) {
     this.isLoadingSelection = true;
 
-    this.budgetTransactionsData.getTransaction(transactionUID)
+    this.transactionsData.getTransaction(transactionUID)
       .firstValue()
       .then(x => this.resolveGetTransaction(x, refresh))
       .catch(e => this.setSelectedData(EmptyBudgetTransactionHolder))

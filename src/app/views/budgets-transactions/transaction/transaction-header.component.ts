@@ -97,7 +97,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
 
   constructor(private uiLayer: PresentationLayer,
-              private budgetTransactionsData: BudgetTransactionsDataService,) {
+              private transactionsData: BudgetTransactionsDataService,) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
     this.enableEditor(true);
@@ -304,7 +304,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   private getOrgUnitsByQuery(budgetUID: string, transactionTypeUID: string) {
     this.isLoadingOrgUnits = true;
 
-    this.budgetTransactionsData.getOrganizationalUnitsForTransactionEdition(budgetUID, transactionTypeUID)
+    this.transactionsData.getOrganizationalUnitsForTransactionEdition(budgetUID, transactionTypeUID)
       .firstValue()
       .then(x => {
         this.setOrgUnitsList(x);
