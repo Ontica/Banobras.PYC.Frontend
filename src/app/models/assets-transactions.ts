@@ -15,61 +15,13 @@ import { Document } from './documents';
 
 import { HistoryEntry } from './history';
 
-
-export enum AssetTransactionsStatus {
-  Pending         = 'Pendiente',
-  OnAuthorization = 'En autorización',
-  Completed       = 'Completada',
-  Deleted         = 'Eliminada',
-}
-
-
-export const AssetTransactionStatusList: Identifiable<AssetTransactionsStatus>[] = [
-  { uid: AssetTransactionsStatus.Pending,         name: 'Pendiente' },
-  { uid: AssetTransactionsStatus.OnAuthorization, name: 'En autorización' },
-  { uid: AssetTransactionsStatus.Completed,       name: 'Completada' },
-  { uid: AssetTransactionsStatus.Deleted,         name: 'Eliminada' },
-];
-
-
-export enum AssetTransactionQueryDateType {
-  Requested    = 'Requested',
-  Registered   = 'Registered',
-  Authorizated = 'Authorizated',
-  Completed    = 'Completed',
-  None         = 'None',
-}
-
-
-export const AssetTransactionQueryDateTypesList: Identifiable<AssetTransactionQueryDateType>[] = [
-  { uid: AssetTransactionQueryDateType.Requested,    name: 'Fecha de solicitud' },
-  { uid: AssetTransactionQueryDateType.Registered,   name: 'Fecha de registro' },
-  { uid: AssetTransactionQueryDateType.Authorizated, name: 'Fecha de autorización' },
-  { uid: AssetTransactionQueryDateType.Completed,    name: 'Fecha de completación' },
-];
-
-
-export enum AssetTransactionPartyType {
-  RequestedBy  = 'RequestedBy',
-  RegisteredBy = 'RegisteredBy',
-  AuthorizedBy = 'AuthorizedBy',
-  CompletedBy  = 'CompletedBy',
-  None         = 'None',
-}
-
-
-export const AssetTransactionPartyTypesList: Identifiable<AssetTransactionPartyType>[] = [
-  { uid: AssetTransactionPartyType.RequestedBy,  name: 'Solicitado por' },
-  { uid: AssetTransactionPartyType.RegisteredBy, name: 'Registrado por' },
-  { uid: AssetTransactionPartyType.AuthorizedBy, name: 'Autorizado por' },
-  { uid: AssetTransactionPartyType.CompletedBy,  name: 'Completado por' },
-];
+import { TransactionDateType, TransactionPartyType, TransactionStatus } from './transactions';
 
 
 export interface AssetTransactionsQuery {
   assignedToUID: string;
   assignedToOrgUnitUID: string;
-  status: AssetTransactionsStatus;
+  status: TransactionStatus;
   keywords: string;
   transactionTypeUID: string;
   buildingUID: string;
@@ -78,10 +30,10 @@ export interface AssetTransactionsQuery {
   transactionsNo: string[];
   entriesKeywords: string;
   tags: string[];
-  dateType: AssetTransactionQueryDateType;
+  dateType: TransactionDateType;
   fromDate: DateString;
   toDate: DateString;
-  partyType: AssetTransactionPartyType;
+  partyType: TransactionPartyType;
   partyUID: string;
 }
 
@@ -216,10 +168,10 @@ export const EmptyAssetTransactionsQuery: AssetTransactionsQuery = {
   transactionsNo: [],
   entriesKeywords: '',
   tags: [],
-  dateType: AssetTransactionQueryDateType.Registered,
+  dateType: TransactionDateType.Registered,
   fromDate: '',
   toDate: '',
-  partyType: AssetTransactionPartyType.RegisteredBy,
+  partyType: TransactionPartyType.RegisteredBy,
   partyUID: '',
 };
 

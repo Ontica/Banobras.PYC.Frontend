@@ -22,10 +22,10 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { AssetTransactionPartyType, AssetTransactionPartyTypesList, AssetTransactionQueryDateType,
-         AssetTransactionQueryDateTypesList, AssetTransactionsQuery, AssetTransactionsStatus,
-         AssetTransactionStatusList, buildLocationSelection, DateRange, EmptyAssetTransactionsQuery,
-         EmptyDateRange, EmptyLocationSelection, LocationSelection, RequestsList } from '@app/models';
+import { AssetTransactionsQuery, buildLocationSelection, DateRange, EmptyAssetTransactionsQuery,
+         EmptyDateRange, EmptyLocationSelection, LocationSelection, RequestsList, TransactionDateType,
+         TransactionDateTypesList, TransactionPartyType, TransactionPartyTypesList, TransactionStatus,
+         TransactionStatusList } from '@app/models';
 
 
 export enum AssetTransactionsFilterEventType {
@@ -36,16 +36,16 @@ export enum AssetTransactionsFilterEventType {
 interface AssetTransactionsFilterFormModel extends FormGroup<{
   assignedToUID: FormControl<string>;
   assignedToOrgUnitUID: FormControl<string>;
-  status: FormControl<AssetTransactionsStatus>;
+  status: FormControl<TransactionStatus>;
   keywords: FormControl<string>;
   transactionTypeUID: FormControl<string>;
   location: FormControl<LocationSelection>;
   transactionsNo: FormControl<string[]>;
   entriesKeywords: FormControl<string>;
   tags: FormControl<string[]>;
-  dateType: FormControl<AssetTransactionQueryDateType>;
+  dateType: FormControl<TransactionDateType>;
   datePeriod: FormControl<DateRange>;
-  partyType: FormControl<AssetTransactionPartyType>;
+  partyType: FormControl<TransactionPartyType>;
   partyUID: FormControl<string>;
 }> { }
 
@@ -74,11 +74,11 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
 
   transactionTypesList: Identifiable[] = [];
 
-  statusList: Identifiable<AssetTransactionsStatus>[] = AssetTransactionStatusList;
+  statusList: Identifiable<TransactionStatus>[] = TransactionStatusList;
 
-  dateTypesList: Identifiable<AssetTransactionQueryDateType>[] = AssetTransactionQueryDateTypesList;
+  dateTypesList: Identifiable<TransactionDateType>[] = TransactionDateTypesList;
 
-  partyTypesList: Identifiable<AssetTransactionPartyType>[] = AssetTransactionPartyTypesList;
+  partyTypesList: Identifiable<TransactionPartyType>[] = TransactionPartyTypesList;
 
   assigneesAPI = SearcherAPIS.assetsTransactionsAssignees;
 
@@ -126,7 +126,7 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
   }
 
 
-  onPartyTypeChanges(partyType: Identifiable<AssetTransactionPartyType>) {
+  onPartyTypeChanges(partyType: Identifiable<TransactionPartyType>) {
     this.form.controls.partyUID.reset();
     this.selectedParty = null;
   }
@@ -187,9 +187,9 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
       transactionsNo: [null],
       entriesKeywords: [null],
       tags: [null],
-      dateType: [AssetTransactionQueryDateType.Requested],
+      dateType: [TransactionDateType.Requested],
       datePeriod: [EmptyDateRange],
-      partyType: [AssetTransactionPartyType.RequestedBy],
+      partyType: [TransactionPartyType.RequestedBy],
       partyUID: [null],
     });
   }
@@ -210,9 +210,9 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
       transactionsNo: this.query.transactionsNo,
       entriesKeywords: this.query.entriesKeywords,
       tags: this.query.tags,
-      dateType: this.query.dateType ?? AssetTransactionQueryDateType.Requested,
+      dateType: this.query.dateType ?? TransactionDateType.Requested,
       datePeriod: { fromDate: this.query.fromDate ?? null, toDate: this.query.toDate ?? null },
-      partyType: this.query.partyType ?? AssetTransactionPartyType.RequestedBy,
+      partyType: this.query.partyType ?? TransactionPartyType.RequestedBy,
       partyUID: this.query.partyUID,
     });
   }

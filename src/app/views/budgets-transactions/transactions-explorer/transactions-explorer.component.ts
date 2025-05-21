@@ -13,8 +13,8 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BudgetTransactionDescriptor, BudgetTransactionsQuery, BudgetTransactionsStages,
-         BudgetTransactionsStagesList, EmptyBudgetTransactionsQuery } from '@app/models';
+import { BudgetTransactionDescriptor, BudgetTransactionsQuery, EmptyBudgetTransactionsQuery,
+         TransactionStages, TransactionStagesList } from '@app/models';
 
 import { TransactionsFilterEventType } from './transactions-filter.component';
 
@@ -53,9 +53,9 @@ export class BudgetTransactionsExplorerComponent implements OnChanges {
 
   showFilters = false;
 
-  stagesList: Identifiable<BudgetTransactionsStages>[] = BudgetTransactionsStagesList;
+  stagesList: Identifiable<TransactionStages>[] = TransactionStagesList;
 
-  stage: BudgetTransactionsStages = BudgetTransactionsStages.MyInbox;
+  stage: TransactionStages = TransactionStages.MyInbox;
 
   PERMISSION_TO_CREATE = PERMISSIONS.FEATURE_EDICION_TRANSACCIONES_PRESUPUESTALES;
 

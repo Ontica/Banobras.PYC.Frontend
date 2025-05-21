@@ -70,4 +70,6 @@ export * from './steps';
 
 export * from './suppliers';
 
+export * from './transactions';
+
 export * from './workflows';

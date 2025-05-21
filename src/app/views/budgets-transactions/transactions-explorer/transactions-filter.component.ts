@@ -23,10 +23,10 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { Budget, BudgetTransactionPartyType, BudgetTransactionPartyTypesList, BudgetTransactionQueryDateType,
-         BudgetTransactionQueryDateTypesList, BudgetTransactionsQuery, BudgetTransactionsStages,
-         BudgetTransactionsStatus, BudgetTransactionStatusList, BudgetType, DateRange,
-         EmptyBudgetTransactionsQuery, EmptyDateRange, RequestsList } from '@app/models';
+import { Budget, BudgetTransactionsQuery, BudgetType, DateRange, EmptyBudgetTransactionsQuery, EmptyDateRange,
+         RequestsList, TransactionDateType, TransactionDateTypesList, TransactionPartyType,
+         TransactionPartyTypesList, TransactionStages, TransactionStatus,
+         TransactionStatusList } from '@app/models';
 
 
 export enum TransactionsFilterEventType {
@@ -36,7 +36,7 @@ export enum TransactionsFilterEventType {
 
 interface TransactionsFilterFormModel extends FormGroup<{
   operationSourceUID: FormControl<string>;
-  status: FormControl<BudgetTransactionsStatus>;
+  status: FormControl<TransactionStatus>;
   keywords: FormControl<string>;
   budgetTypeUID: FormControl<string>;
   baseBudgetUID: FormControl<string>;
@@ -44,10 +44,10 @@ interface TransactionsFilterFormModel extends FormGroup<{
   transactionsNo: FormControl<string[]>;
   entriesKeywords: FormControl<string>;
   tags: FormControl<string[]>;
-  dateType: FormControl<BudgetTransactionQueryDateType>;
+  dateType: FormControl<TransactionDateType>;
   datePeriod: FormControl<DateRange>;
   basePartyUID: FormControl<string>;
-  partyType: FormControl<BudgetTransactionPartyType>;
+  partyType: FormControl<TransactionPartyType>;
   partyUID: FormControl<string>;
 }> { }
 
@@ -58,7 +58,7 @@ interface TransactionsFilterFormModel extends FormGroup<{
 })
 export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
-  @Input() stage: BudgetTransactionsStages = null;
+  @Input() stage: TransactionStages = null;
 
   @Input() query: BudgetTransactionsQuery = Object.assign({}, EmptyBudgetTransactionsQuery);
 
@@ -76,7 +76,7 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
 
   operationSourcesList: Identifiable[] = [];
 
-  statusList: Identifiable<BudgetTransactionsStatus>[] = BudgetTransactionStatusList;
+  statusList: Identifiable<TransactionStatus>[] = TransactionStatusList;
 
   budgetTypesList: BudgetType[] = [];
 
@@ -84,11 +84,11 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
 
   transactionTypesList: Identifiable[] = [];
 
-  dateTypesList: Identifiable<BudgetTransactionQueryDateType>[] = BudgetTransactionQueryDateTypesList;
+  dateTypesList: Identifiable<TransactionDateType>[] = TransactionDateTypesList;
 
   orgUnitsList: Identifiable[] = [];
 
-  partyTypesList: Identifiable<BudgetTransactionPartyType>[] = BudgetTransactionPartyTypesList;
+  partyTypesList: Identifiable<TransactionPartyType>[] = TransactionPartyTypesList;
 
   partiesAPI = SearcherAPIS.budgetTransactionsParties;
 
@@ -128,7 +128,7 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
   }
 
 
-  onPartyTypeChanges(partyType: Identifiable<BudgetTransactionPartyType>) {
+  onPartyTypeChanges(partyType: Identifiable<TransactionPartyType>) {
     this.form.controls.partyUID.reset();
     this.selectedParty = null;
   }
@@ -191,10 +191,10 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
       entriesKeywords: [null],
       transactionsNo: [null],
       tags: [null],
-      dateType: [BudgetTransactionQueryDateType.Requested],
+      dateType: [TransactionDateType.Requested],
       datePeriod: [EmptyDateRange],
       basePartyUID: [null],
-      partyType: [BudgetTransactionPartyType.RequestedBy],
+      partyType: [TransactionPartyType.RequestedBy],
       partyUID: [null],
     });
   }
@@ -211,10 +211,10 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
       entriesKeywords: this.query.entriesKeywords,
       transactionsNo: this.query.transactionsNo,
       tags: this.query.tags,
-      dateType: this.query.dateType ?? BudgetTransactionQueryDateType.Requested,
+      dateType: this.query.dateType ?? TransactionDateType.Requested,
       datePeriod: { fromDate: this.query.fromDate ?? null, toDate: this.query.toDate ?? null },
       basePartyUID: this.query.basePartyUID,
-      partyType: this.query.partyType ?? BudgetTransactionPartyType.RequestedBy,
+      partyType: this.query.partyType ?? TransactionPartyType.RequestedBy,
       partyUID: this.query.partyUID,
     });
   }

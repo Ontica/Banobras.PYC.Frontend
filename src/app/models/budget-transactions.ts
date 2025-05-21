@@ -17,6 +17,9 @@ import { Document } from './documents';
 
 import { HistoryEntry } from './history';
 
+import { TransactionDateType, TransactionPartyType, TransactionStages,
+         TransactionStatus } from './transactions';
+
 
 export interface BudgetTypeForEdition {
   uid: string;
@@ -56,78 +59,9 @@ export enum ProductRule {
 }
 
 
-export enum BudgetTransactionsStatus {
-  Pending         = 'Pending',
-  OnAuthorization = 'OnAuthorization',
-  Authorized      = 'Authorized',
-  Closed          = 'Closed',
-  Rejected        = 'Rejected',
-  Canceled        = 'Canceled',
-  Deleted         = 'Deleted',
-}
-
-
-export const BudgetTransactionStatusList: Identifiable<BudgetTransactionsStatus>[] = [
-  { uid: BudgetTransactionsStatus.Pending,         name: 'Pendiente' },
-  { uid: BudgetTransactionsStatus.OnAuthorization, name: 'En autorización' },
-  { uid: BudgetTransactionsStatus.Authorized,      name: 'Autorizada' },
-  { uid: BudgetTransactionsStatus.Closed,          name: 'Cerrada' },
-  { uid: BudgetTransactionsStatus.Rejected,        name: 'Rechazada' },
-  { uid: BudgetTransactionsStatus.Canceled,        name: 'Cancelada' },
-  { uid: BudgetTransactionsStatus.Deleted,         name: 'Eliminada' },
-];
-
-
-export enum BudgetTransactionQueryDateType {
-  Requested    = 'Requested',
-  Registered   = 'Registered',
-  Authorizated = 'Authorizated',
-  Completed    = 'Completed',
-  None         = 'None',
-}
-
-
-export const BudgetTransactionQueryDateTypesList: Identifiable<BudgetTransactionQueryDateType>[] = [
-  { uid: BudgetTransactionQueryDateType.Requested,    name: 'Fecha de solicitud' },
-  { uid: BudgetTransactionQueryDateType.Registered,   name: 'Fecha de registro' },
-  { uid: BudgetTransactionQueryDateType.Authorizated, name: 'Fecha de autorización' },
-  { uid: BudgetTransactionQueryDateType.Completed,    name: 'Fecha de completación' },
-];
-
-
-export enum BudgetTransactionPartyType {
-  RequestedBy  = 'RequestedBy',
-  RegisteredBy = 'RegisteredBy',
-  AuthorizedBy = 'AuthorizedBy',
-  CompletedBy  = 'CompletedBy',
-  None         = 'None',
-}
-
-
-export const BudgetTransactionPartyTypesList: Identifiable<BudgetTransactionPartyType>[] = [
-  { uid: BudgetTransactionPartyType.RequestedBy,  name: 'Solicitado por' },
-  { uid: BudgetTransactionPartyType.RegisteredBy, name: 'Registrado por' },
-  { uid: BudgetTransactionPartyType.AuthorizedBy, name: 'Autorizado por' },
-  { uid: BudgetTransactionPartyType.CompletedBy,  name: 'Completado por' },
-];
-
-
-export enum BudgetTransactionsStages {
-  MyInbox     = 'BudgetTransactions.MyInbox',
-  ControlDesk = 'BudgetTransactions.ControlDesk',
-}
-
-
-
-export const BudgetTransactionsStagesList: Identifiable<BudgetTransactionsStages>[] = [
-  { uid: BudgetTransactionsStages.MyInbox,     name: 'Mis transacciones' },
-  { uid: BudgetTransactionsStages.ControlDesk, name: 'Mesa de control' },
-];
-
-
 export interface BudgetTransactionsQuery {
-  stage: BudgetTransactionsStages,
-  status: BudgetTransactionsStatus;
+  stage: TransactionStages,
+  status: TransactionStatus;
   basePartyUID: string;
   keywords: string;
   budgetTypeUID: string;
@@ -137,10 +71,10 @@ export interface BudgetTransactionsQuery {
   entriesKeywords: string;
   transactionsNo: string[];
   tags: string[];
-  dateType: BudgetTransactionQueryDateType;
+  dateType: TransactionDateType;
   fromDate: DateString;
   toDate: DateString;
-  partyType: BudgetTransactionPartyType;
+  partyType: TransactionPartyType;
   partyUID: string;
 }
 
@@ -387,10 +321,10 @@ export const EmptyBudgetTransactionsQuery: BudgetTransactionsQuery = {
   transactionsNo: [],
   entriesKeywords: '',
   tags: [],
-  dateType: BudgetTransactionQueryDateType.Requested,
+  dateType: TransactionDateType.Requested,
   fromDate: '',
   toDate: '',
-  partyType: BudgetTransactionPartyType.RequestedBy,
+  partyType: TransactionPartyType.RequestedBy,
   partyUID: '',
   basePartyUID: '',
 };
