@@ -21,6 +21,8 @@ import { BudgetsDataService } from './budgets.data.service';
 
 import { BudgetTransactionsDataService } from './budget-transactions.data.service';
 
+import { CashFlowProjectionsDataService } from './cash-flow-projections.data.service';
+
 import { CataloguesDataService } from './catalogues.data.service';
 
 import { ContractsDataService } from './contracts.data.service';
@@ -54,6 +56,7 @@ import { SuppliersDataService } from './suppliers.data.service';
     BillsDataService,
     BudgetsDataService,
     BudgetTransactionsDataService,
+    CashFlowProjectionsDataService,
     CataloguesDataService,
     ContractsDataService,
     DocumentsDataService,

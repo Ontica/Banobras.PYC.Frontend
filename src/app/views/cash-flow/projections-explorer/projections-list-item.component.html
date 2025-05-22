@@ -1,0 +1,44 @@
+<div class="fx-row-container fx-gap-size gap-size-entry sm-fx-gap">
+
+  <div class="fx-item-size column-size-check sm-fx-item-none" *ngIf="displayControls">
+    <mat-checkbox empNgStopPropagation
+      [checked]="selected"
+      (change)="onCheckClicked()">
+    </mat-checkbox>
+  </div>
+
+  <div class="fx-item">
+    <div class="list-item-text-highlight nowrap"
+      (click)="onSelectClicked()">
+      <a class="bold-text">{{item.projectionNo}}</a>
+    </div>
+    <div class="bold-text">{{item.planName}}</div>
+    <div>{{item.basePartyName}}</div>
+  </div>
+
+  <div class="fx-item-size column-size-md sm-fx-item-none">
+    <div class="list-item-text-highlight">{{item.categoryName}}</div>
+    <div class="bold-text">{{item.classificationName}}</div>
+    <div>{{item.total | empDecimal}}</div>
+  </div>
+
+  <div class="fx-item-size column-size-sm sm-fx-item-none">
+    <div class="list-item-text-highlight">{{item.operationSourceName}}</div>
+    <div class="bold-text">
+      {{!item.recordingTime ? '-' : (item.recordingTime | empDateTimeFormat)}}
+    </div>
+    <div>{{!item.recordedByName ? '-' : item.recordedByName}}</div>
+  </div>
+
+  <div class="fx-item-size column-size-sm sm-fx-item-none">
+    <span class="tag" [style.font-size.px]="10"
+      [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(item.statusName)}">
+      {{item.statusName}}
+    </span>
+    <div class="bold-text" [style.padding-top.rem]="0.25">
+      {{!item.authorizationTime ? '-' : (item.authorizationTime | empDateTimeFormat)}}
+    </div>
+    <div>{{!item.authorizedByName ? '-' : item.authorizedByName}}</div>
+  </div>
+
+</div>

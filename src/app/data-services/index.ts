@@ -19,6 +19,8 @@ export * from './budget-transactions.data.service';
 
 export * from './budgets.data.service';
 
+export * from './cash-flow-projections.data.service';
+
 export * from './catalogues.data.service';
 
 export * from './contracts.data.service';

@@ -1,0 +1,46 @@
+<div class="list-header">
+
+  <div class="list-header-container">
+
+    <div class="fx-row-container fx-gap-size gap-size-entry fx-items-center sm-fx-gap">
+
+      <div class="fx-item-size column-size-check sm-fx-item-none" *ngIf="displayControls">
+        <div *ngIf="dataList.length > 0">
+
+          <emp-ng-check-box-all
+            [(selection)]="selection"
+            [values]="dataList">
+          </emp-ng-check-box-all>
+
+        </div>
+      </div>
+
+      <div class="fx-item">
+        <span class="nowrap">No. proyección</span><br>
+        <span class="nowrap">Flujo de efectivo</span><br>
+        Área
+      </div>
+
+      <div class="fx-item-size column-size-md sm-fx-item-none">
+        Categoría<br>
+        Clasificación<br>
+        Total
+      </div>
+
+      <div class="fx-item-size column-size-sm sm-fx-item-none">
+        Fuente<br>
+        <span class="nowrap">Fecha de elaboración</span><br>
+        Elaboró
+      </div>
+
+      <div class="fx-item-size column-size-sm sm-fx-item-none">
+        Estado<br>
+        <span class="nowrap">Fecha de autorización</span><br>
+        Autorizó
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

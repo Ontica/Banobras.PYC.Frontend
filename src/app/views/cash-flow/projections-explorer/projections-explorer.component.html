@@ -1,0 +1,80 @@
+<div class="card card-border">
+
+  <div class="card-header card-header-flat">
+
+    <div class="card-title">
+      {{ cardTitle }}
+
+      <div class="card-hint" empNgProgressText
+        loadingText="Cargando"
+        [finalText]="cardHint"
+        [isLoading]="isLoading">
+      </div>
+
+
+    </div>
+
+    <div class="card-header-options">
+
+      <div class="fx-row-container fx-space-between fx-items-center fx-gap-half">
+
+        <emp-ng-select
+          [(ngModel)]="stage"
+          [items]="stagesList"
+          [required]="true"
+          [showError]="!stage"
+          [style.width.px]="150"
+          [style.min-width.px]="150"
+          (changes)="onStageChanged()">
+        </emp-ng-select>
+
+        <ng-container *empNgHasPermission="PERMISSION_TO_CREATE">
+
+          <mat-divider vertical="true" class="vertical-slim">
+
+          </mat-divider>
+
+          <button
+            class="btn-action"
+            (click)="onCreateProjectionClicked()">
+            Agregar proyección
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card-body" [empNgSpinnerHost]="spinner">
+
+    <div class="fx-column-container-fill">
+
+      <emp-ng-spinner #spinner [visible]="isLoading">
+
+      </emp-ng-spinner>
+
+      <emp-cf-projections-filter
+        class="fx-item-none"
+        [stage]="stage"
+        [query]="query"
+        [(showFilters)]="showFilters"
+        (projectionsFilterEvent)="onProjectionsFilterEvent($event)">
+
+      </emp-cf-projections-filter>
+
+      <emp-cf-projections-list class="fx-item"
+        [dataList]="dataList"
+        [selectedUID]="selectedUID"
+        [queryExecuted]="queryExecuted"
+        (projectionsListEvent)="onProjectionsListEvent($event)">
+
+      </emp-cf-projections-list>
+
+    </div>
+
+  </div>
+
+</div>

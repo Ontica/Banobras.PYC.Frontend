@@ -1,0 +1,54 @@
+<div class="fx-column-container-fill">
+
+  <emp-ng-list-controls *ngIf="displayControls && dataList.length > 0 && selection.selected.length > 0"
+    class="fx-item-none"
+    [config]="{itemsName: 'proyecciones', itemsPronouns: 'las', selectionMessage: 'seleccionadas'}"
+    [selection]="selection"
+    [operationsList]="operationsList"
+    (listControlsEvent)="onListControlsEvent($event)">
+
+  </emp-ng-list-controls>
+
+
+  <emp-cf-projections-list-header
+    class="fx-item-none"
+    [dataList]="dataList"
+    [selection]="selection"
+    [displayControls]="displayControls">
+
+  </emp-cf-projections-list-header>
+
+
+  <div #listContainer class="fx-item">
+
+    <cdk-virtual-scroll-viewport itemSize="67">
+
+        <div *cdkVirtualFor="let item of dataList"
+          class="list-item"
+          [class.list-item-selected]="item.uid === selectedUID">
+
+          <div class="list-item-container">
+
+            <emp-cf-projections-list-item
+              [item]="item"
+              [selected]="selection.isSelected(item)"
+              [displayControls]="displayControls"
+              (projectionsListItemEvent)="onProjectionsListItemEvent($event)">
+
+            </emp-cf-projections-list-item>
+
+          </div>
+
+        </div>
+
+        <div *ngIf="dataList.length === 0" class="text-not-found">
+          {{ queryExecuted ?
+             'No se encontraron proyecciones' + (displayControls ? 'con el filtro proporcionado.' : '.') :
+             'No se ha invocado la búsqueda de proyecciones.' }}
+        </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

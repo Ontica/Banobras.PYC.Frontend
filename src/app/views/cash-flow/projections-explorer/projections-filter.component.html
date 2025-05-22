@@ -1,0 +1,309 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section form-container">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+      <div class="fx-item-half sm-fx-item">
+
+        <label>Área:</label>
+
+        <emp-ng-select
+          formControlName="basePartyUID"
+          [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)"
+          placeholder="Todas">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-sixth sm-fx-item">
+
+        <label>Estado:</label>
+
+        <emp-ng-select
+          formControlName="status"
+          [config]="{clearable: true}"
+          [items]="statusList"
+          [showError]="formHelper.isControlInvalid(form.controls.status)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item fx-items-end sm-fx-item">
+
+        <div class="input-search-container">
+
+          <input type="text" class="text-box" name="keywords"
+            formControlName="keywords"
+            placeholder="Buscar..."
+            (keyup.enter)="onSearchClicked()"
+            (keyup.escape)="form.controls.keywords.reset()">
+
+        </div>
+
+      </div>
+
+
+      <div #filterOptionsSection class="fx-item-none fx-items-start" [style.paddingTop.px]="13">
+
+        <button title="Buscar"
+          [class.btn-icon-action]="this.form.valid"
+          [class.btn-icon]="!this.form.valid"
+          (click)="onSearchClicked()">
+
+          <mat-icon>search</mat-icon>
+
+        </button>
+
+        <mat-divider vertical="true" class="vertical-slim">
+
+        </mat-divider>
+
+        <button class="btn-base btn-filter-options"
+          (click)="onShowFiltersClicked()" >
+          {{showFilters ? 'Ocultar' :'Mostrar'}} <mat-icon>filter_list</mat-icon>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+      <div class="fx-item-quarter sm-fx-item">
+
+        <label>Flujo de efectivo:</label>
+
+        <emp-ng-select
+          formControlName="planUID"
+          [config]="{clearable: true, showTooltip: true}"
+          [items]="plansList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.planUID)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter sm-fx-item">
+
+        <label>Categoría:</label>
+
+        <emp-ng-select
+          formControlName="categoryUID"
+          [config]="{clearable: true, showTooltip: true}"
+          [items]="categoriesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.categoryUID)"
+          placeholder="Todas">
+        </emp-ng-select>
+
+      </div>
+
+      <div  class="fx-item-quarter sm-fx-item">
+
+        <label>Clasificación:</label>
+
+        <emp-ng-select
+          formControlName="classificationUID"
+          [config]="{clearable: true, showTooltip: true}"
+          [items]="classificationsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.classificationUID)"
+          placeholder="Todas">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half sm-fx-item">
+
+        <label>Fuente:</label>
+
+        <emp-ng-select
+          formControlName="sourceUID"
+          [config]="{clearable: true, showTooltip: true}"
+          [items]="operationSourcesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.sourceUID)"
+          placeholder="Todas">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="showFilters" [@empExpandCollapse]>
+
+      <div class="fx-column-container fx-gap-half">
+
+        <mat-divider class="horizontal-md">
+
+        </mat-divider>
+
+
+        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+          <div class="fx-item-half sm-fx-item">
+
+            <label>Cuenta:</label>
+
+            <emp-ng-select-typeahead
+              formControlName="baseAccountUID"
+              placeholder="Todas"
+              [config]="{ clearable: true, showTooltip: true }"
+              [searcherAPI]="accountsAPI"
+              [initialValue]="selectedAccount"
+              (changes)="onAccountChanges($event)">
+
+            </emp-ng-select-typeahead>
+
+          </div>
+
+          <div class="fx-item-half sm-fx-item">
+
+            <label>Proyecto:</label>
+
+            <emp-ng-select-typeahead
+              formControlName="baseProjectUID"
+              placeholder="Todos"
+              [config]="{ clearable: true, showTooltip: true }"
+              [searcherAPI]="projectsAPI"
+              [initialValue]="selectedProject"
+              (changes)="onProjectChanges($event)">
+
+            </emp-ng-select-typeahead>
+
+          </div>
+
+        </div>
+
+
+        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+          <div class="fx-item-quarter sm-fx-item">
+
+            <label>No. proyecciones:</label>
+            <emp-ng-input-tags
+              formControlName="projectionsNo"
+              [showError]="formHelper.isControlInvalid(form.controls.projectionsNo)">
+
+            </emp-ng-input-tags>
+
+          </div>
+
+          <div class="fx-item-quarter sm-fx-item">
+
+            <label>Filtro por movimientos:</label>
+            <input type="text" class="text-box"
+              formControlName="entriesKeywords"
+              [class.invalid-control]="formHelper.isControlInvalid(form.controls.entriesKeywords)">
+
+          </div>
+
+          <div class="fx-item-half fx-row-container fx-items-end">
+
+            <div class="fx-item-none">
+
+              <label>Periodo:</label>
+
+              <emp-ng-date-range-picker
+                formControlName="datePeriod"
+                [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
+
+              </emp-ng-date-range-picker>
+
+            </div>
+
+            <div class="fx-item">
+
+              <emp-ng-select
+                formControlName="dateType"
+                [items]="dateTypesList"
+                [showError]="formHelper.isControlInvalid(form.controls.dateType)">
+              </emp-ng-select>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half fx-items-end">
+
+          <div class="fx-item-quarter sm-fx-item">
+
+            <label>Etiquetas:</label>
+            <emp-ng-input-tags
+              formControlName="tags"
+              [showError]="formHelper.isControlInvalid(form.controls.tags)">
+
+            </emp-ng-input-tags>
+
+          </div>
+
+          <div class="fx-item-size sm-fx-item" style="--size: 138px;">
+
+            <emp-ng-select
+              formControlName="partyType"
+              [items]="partyTypesList"
+              [loading]="isLoading"
+              [showError]="formHelper.isControlInvalid(form.controls.partyType)"
+              (changes)="onPartyTypeChanges($event)">
+
+            </emp-ng-select>
+
+          </div>
+
+          <div class="fx-item-size sm-fx-item" style="--size: calc(75% - 138px);">
+
+            <label>Persona o cuenta de acceso:</label>
+
+            <emp-ng-select-typeahead
+              formControlName="partyUID"
+              [config]="{ clearable: true, searchByQuery: true }"
+              [searcherAPI]="partiesAPI"
+              [initQuery]="{ partyType: form.value.partyType, keywords: '' }"
+              [initialValue]="selectedParty"
+              [showError]="formHelper.isControlInvalid(form.controls.partyUID)"
+              (changes)="onPartyChanges($event)"
+              placeholder="Todas">
+
+            </emp-ng-select-typeahead>
+
+          </div>
+
+        </div>
+
+        <mat-divider class="horizontal-slim">
+
+        </mat-divider>
+
+        <div class="fx-row-container fx-end fx-items-end">
+
+          <mat-divider vertical="true" class="vertical-inline">
+
+          </mat-divider>
+
+          <div class="fx-item-none">
+
+            <button class="btn-base btn-filter-options"
+              (click)="onClearFilters()">
+              Limpiar <mat-icon>filter_list</mat-icon>
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</form>
