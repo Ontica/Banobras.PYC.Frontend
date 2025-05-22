@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 
 import { CashFlowWorkspaceRoutingModule } from './cash-flow-workspace-routing.module';
 
+import { CashFlowModule } from '@app/views/cash-flow/cash-flow.module';
+
 
 @NgModule({
 
@@ -17,6 +19,8 @@ import { CashFlowWorkspaceRoutingModule } from './cash-flow-workspace-routing.mo
     CommonModule,
 
     CashFlowWorkspaceRoutingModule,
+
+    CashFlowModule,
   ],
 
 })

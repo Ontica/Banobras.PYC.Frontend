@@ -13,12 +13,16 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components';
 
+import {
+  CashFlowProjectionsMainPageComponent
+} from '@app/views/cash-flow/projections-main-page/projections-main-page.component';
+
 
 const routes: Routes = [
   {
     data: { permission: ROUTES.flujo_de_efectivo_planeacion.permission },
     path: ROUTES.flujo_de_efectivo_planeacion.path,
-    component: DefaultComponent,
+    component: CashFlowProjectionsMainPageComponent,
   },
   {
     data: { permission: ROUTES.flujo_de_efectivo_explorer.permission },
