@@ -35,6 +35,11 @@ const routes: Routes = [
     component: DefaultComponent,
   },
   {
+    data: { permission: ROUTES.flujo_de_efectivo_proyectos.permission },
+    path: ROUTES.flujo_de_efectivo_proyectos.path,
+    component: DefaultComponent,
+  },
+  {
     data: { permission: ROUTES.flujo_de_efectivo_reglas.permission },
     path: ROUTES.flujo_de_efectivo_reglas.path,
     component: DefaultComponent,

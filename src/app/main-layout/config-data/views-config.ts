@@ -229,6 +229,12 @@ export const CashFlowViews: View[] = [
     permission: ROUTES.flujo_de_efectivo_codificacion.permission,
   },
   {
+    name: 'CashFlow.Projects',
+    title: 'Proyectos',
+    url: ROUTES.flujo_de_efectivo_proyectos.fullpath,
+    permission: ROUTES.flujo_de_efectivo_proyectos.permission,
+  },
+  {
     name: 'CashFlow.Rules',
     title: 'Reglas',
     menuTitle: 'Reglas',
