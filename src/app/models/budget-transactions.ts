@@ -119,7 +119,7 @@ export interface BudgetTransactionHolder {
   groupedEntries: BudgetTransactionGroupedEntryData;
   documents: Document[];
   history: HistoryEntry[];
-  actions: TransactionActions;
+  actions: BudgetTransactionActions;
 }
 
 
@@ -290,7 +290,7 @@ export interface BudgetMonthEntryFields {
 }
 
 
-export interface TransactionActions {
+export interface BudgetTransactionActions {
   canUpdate: boolean;
   canDelete: boolean;
   canSendToAuthorization: boolean;
@@ -375,7 +375,7 @@ export const EmptyBudgetTransactionGroupedEntryData: BudgetTransactionGroupedEnt
 }
 
 
-export const EmptyTransactionActions: TransactionActions = {
+export const EmptyBudgetTransactionActions: BudgetTransactionActions = {
   canUpdate: false,
   canDelete: false,
   canSendToAuthorization: false,
@@ -393,7 +393,7 @@ export const EmptyBudgetTransactionHolder: BudgetTransactionHolder = {
   groupedEntries: EmptyBudgetTransactionGroupedEntryData,
   documents: [],
   history: [],
-  actions: EmptyTransactionActions,
+  actions: EmptyBudgetTransactionActions,
 };
 
 

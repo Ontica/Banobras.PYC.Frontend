@@ -23,8 +23,8 @@ import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
 import { BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services';
 
 import { BudgetForEdition, BudgetTransaction, BudgetTransactionFields, BudgetTypeForEdition,
-         EmptyBudgetTransaction, EmptyTransactionActions, TransactionActions, BudgetTransactionType,
-         BudgetTransactionRejectFields } from '@app/models';
+         EmptyBudgetTransaction, EmptyBudgetTransactionActions, BudgetTransactionActions,
+         BudgetTransactionType, BudgetTransactionRejectFields } from '@app/models';
 
 import { TransactionConfirmSubmitModalEventType,
          TransactionSubmitType } from './transaction-confirm-submit-modal.component';
@@ -63,7 +63,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
   @Input() transaction: BudgetTransaction = EmptyBudgetTransaction;
 
-  @Input() actions: TransactionActions = EmptyTransactionActions;
+  @Input() actions: BudgetTransactionActions = EmptyBudgetTransactionActions;
 
   @Output() transactionHeaderEvent = new EventEmitter<EventInfo>();
 

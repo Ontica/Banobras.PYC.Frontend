@@ -13,8 +13,8 @@ import { sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransaction, TransactionActions, BudgetTransactionHolder, EmptyBudgetTransaction,
-         EmptyTransactionActions, BudgetTransactionFields, BudgetTransactionRejectFields } from '@app/models';
+import { BudgetTransaction, BudgetTransactionActions, BudgetTransactionHolder, EmptyBudgetTransaction,
+         EmptyBudgetTransactionActions, BudgetTransactionFields, BudgetTransactionRejectFields } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
 
@@ -32,7 +32,7 @@ export class BudgetTransactionEditorComponent {
 
   @Input() transaction: BudgetTransaction = EmptyBudgetTransaction;
 
-  @Input() actions: TransactionActions = EmptyTransactionActions;
+  @Input() actions: BudgetTransactionActions = EmptyBudgetTransactionActions;
 
   @Output() transactionEditorEvent = new EventEmitter<EventInfo>();
 
