@@ -16,4 +16,17 @@
 
   </emp-cf-projections-explorer>
 
+  <emp-cf-projection-tabbed-view *ngIf="displayTabbedView"
+    class="secondary priority std-stacked"
+    [data]="selectedData"
+    (projectionTabbedViewEvent)="onProjectionTabbedViewEvent($event)">
+
+  </emp-cf-projection-tabbed-view>
+
 </div>
+
+
+<emp-cf-projection-creator *ngIf="displayCreator"
+  (projectionCreatorEvent)="onProjectionCreatorEvent($event)">
+
+</emp-cf-projection-creator>

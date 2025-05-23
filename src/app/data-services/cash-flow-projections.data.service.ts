@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { CashFlowProjectionDescriptor, CashFlowProjectionHolder, CashFlowProjectionsQuery } from '@app/models';
+import { CashFlowProjectionDescriptor, CashFlowProjectionHolder, CashFlowProjectionsQuery,
+         FileReport } from '@app/models';
 
 
 @Injectable()
@@ -53,6 +54,24 @@ export class CashFlowProjectionsDataService {
     const path = 'v1/cash-flow/projections/search';
 
     return this.http.post<CashFlowProjectionDescriptor[]>(path, query);
+  }
+
+
+  getProjection(projectionUID: string): EmpObservable<CashFlowProjectionHolder> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+
+    const path = `v1/cash-flow/projections/${projectionUID}`;
+
+    return this.http.get<CashFlowProjectionHolder>(path);
+  }
+
+
+  getProjectionForPrint(projectionUID: string): EmpObservable<FileReport> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/print`;
+
+    return this.http.get<FileReport>(path);
   }
 
 }

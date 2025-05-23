@@ -9,6 +9,8 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { BaseActions, ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
+import { Document } from './documents';
+
 import { HistoryEntry } from './history';
 
 import { TransactionDateType, TransactionPartyType, TransactionStages,
@@ -68,6 +70,25 @@ export interface CashFlowProjectionDescriptor {
 }
 
 
+export interface CashFlowProjectionFields {
+  basePartyUID: string;
+  planUID: string;
+  categoryUID: string;
+  classificationUID: string;
+  operationSourceUID: string;
+  baseProjectUID: string;
+  baseAccountUID: string;
+  description: string;
+  justification: string;
+  tags: string[];
+}
+
+
+export interface CashFlowProjectionRejectFields {
+  message: string;
+}
+
+
 export interface CashFlowProjection {
   uid: string;
   projectionNo: string;
@@ -119,19 +140,19 @@ export interface CashFlowProjectionHolder {
 
 export function mapCashFlowProjectionDescriptorFromProjection(data: CashFlowProjection): CashFlowProjectionDescriptor {
   return {
-      uid: data.uid,
-      basePartyName: data.baseParty.name,
-      planName: data.plan.name,
-      categoryName: data.category.name,
-      classificationName: data.classification.name,
-      projectionNo: data.projectionNo,
-      operationSourceName: data.operationSource.name,
-      recordedByName: data.recordedBy.name,
-      recordingTime: data.recordingTime,
-      authorizedByName: data.authorizedBy.name,
-      authorizationTime: data.authorizationTime,
-      statusName: data.status.name,
-      total: data.total,
+    uid: data.uid,
+    basePartyName: data.baseParty.name,
+    planName: data.plan.name,
+    categoryName: data.category.name,
+    classificationName: data.classification.name,
+    projectionNo: data.projectionNo,
+    operationSourceName: data.operationSource.name,
+    recordedByName: data.recordedBy.name,
+    recordingTime: data.recordingTime,
+    authorizedByName: data.authorizedBy.name,
+    authorizationTime: data.authorizationTime,
+    statusName: data.status.name,
+    total: data.total,
   };
 }
 

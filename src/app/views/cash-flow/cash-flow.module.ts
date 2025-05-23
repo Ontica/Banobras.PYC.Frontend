@@ -21,6 +21,11 @@ import { CashFlowProjectionsFilterComponent } from './projections-explorer/proje
 import { CashFlowProjectionsListComponent } from './projections-explorer/projections-list.component';
 import { CashFlowProjectionsListHeaderComponent } from './projections-explorer/projections-list-header.component';
 import { CashFlowProjectionsListItemComponent } from './projections-explorer/projections-list-item.component';
+import { CashFlowProjectionTabbedViewComponent } from './projection-tabbed-view/projection-tabbed-view.component';
+import { CashFlowProjectionPrintViewComponent } from './projection-tabbed-view/projection-print-view.component';
+import { CashFlowProjectionCreatorComponent } from './projection/projection-creator.component';
+import { CashFlowProjectionEditorComponent } from './projection/projection-editor.component';
+import { CashFlowProjectionHeaderComponent } from './projection/projection-header.component';
 
 
 @NgModule({
@@ -42,6 +47,11 @@ import { CashFlowProjectionsListItemComponent } from './projections-explorer/pro
     CashFlowProjectionsListComponent,
     CashFlowProjectionsListHeaderComponent,
     CashFlowProjectionsListItemComponent,
+    CashFlowProjectionTabbedViewComponent,
+    CashFlowProjectionPrintViewComponent,
+    CashFlowProjectionCreatorComponent,
+    CashFlowProjectionEditorComponent,
+    CashFlowProjectionHeaderComponent,
   ],
   exports: [
     CashFlowProjectionsMainPageComponent,

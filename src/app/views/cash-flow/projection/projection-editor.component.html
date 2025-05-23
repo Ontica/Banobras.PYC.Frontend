@@ -1,0 +1,17 @@
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="section-title"> Información general de la proyección</div>
+
+  <emp-cf-projection-header
+    [isSaved]="isSaved"
+    [projection]="projection"
+    [actions]="actions"
+    (projectionHeaderEvent)="onProjectionHeaderEvent($event)">
+
+  </emp-cf-projection-header>
+
+</div>

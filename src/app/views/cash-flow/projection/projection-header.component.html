@@ -1,0 +1,272 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Área:</label>
+
+        <emp-ng-select
+          formControlName="basePartyUID"
+          [config]="{virtualScroll: true, showTooltip: true, autoSelect: !isSaved}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [placeholder]="selectionPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Flujo de efectivo:</label>
+
+        <emp-ng-select
+          formControlName="planUID"
+          [config]="{autoSelect: !isSaved}"
+          [items]="plansList"
+          [loading]="isLoading"
+          [placeholder]="selectionPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.planUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Categoría:</label>
+
+        <emp-ng-select
+          formControlName="categoryUID"
+          [config]="{autoSelect: !isSaved}"
+          [items]="categoriesList"
+          [loading]="isLoading"
+          [placeholder]="selectionPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.categoryUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Clasificación:</label>
+
+        <emp-ng-select
+          formControlName="classificationUID"
+          [config]="{autoSelect: !isSaved}"
+          [items]="classificationsList"
+          [loading]="isLoading"
+          [placeholder]="selectionPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.classificationUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Cuenta:</label>
+
+        <emp-ng-select-typeahead #baseAccountSearcher
+          formControlName="baseAccountUID"
+          [config]="{ clearable: true, showTooltip: true }"
+          [searcherAPI]="accountsAPI"
+          [initialValue]="isSaved && !editionMode ? projection.baseAccount : null"
+          [placeholder]="searcherPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.baseAccountUID)">
+
+        </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Proyecto:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="baseProjectUID"
+          [config]="{ clearable: true, showTooltip: true }"
+          [searcherAPI]="projectsAPI"
+          [initialValue]="isSaved && !editionMode ? projection.baseProject : null"
+          [placeholder]="searcherPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.baseProjectUID)">
+
+        </emp-ng-select-typeahead>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Fuente:</label>
+
+        <emp-ng-select
+          formControlName="operationSourceUID"
+          [config]="{autoSelect: !isSaved}"
+          [items]="operationSourcesList"
+          [loading]="isLoading"
+          [placeholder]="selectionPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.operationSourceUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Palabras de búsqueda adicionales:</label>
+        <emp-ng-input-tags
+          formControlName="tags"
+          [showError]="formHelper.isControlInvalid(form.controls.tags)">
+
+        </emp-ng-input-tags>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Justificación:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="justification"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.justification)">
+        </textarea>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canDelete"
+            type="button" class="btn-warning"
+            (click)="onEventButtonClicked('Delete')">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+          <button *ngIf="actions.canSendToAuthorization"
+            type="button" class="btn"
+            (click)="onEventButtonClicked('SendToAuthorization')">
+            Enviar a autorización
+          </button>
+
+          <button *ngIf="actions.canAuthorize"
+            type="button" class="btn-action"
+            (click)="onEventButtonClicked('Authorize')">
+            Autorizar
+          </button>
+
+          <button *ngIf="actions.canClose"
+            type="button" class="btn-action"
+            (click)="onEventButtonClicked('Close')">
+            Cerrar
+          </button>
+
+          <button *ngIf="actions.canReject"
+            type="button" class="btn"
+            (click)="onEventButtonClicked('Reject')">
+            Rechazar
+          </button>
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canUpdate"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>
+
+
+<emp-ng-confirm-submit-modal *ngIf="!!confirmModalMode"
+  [entityUID]="projection.uid"
+  [entityNo]="projection.projectionNo"
+  [entityType]="projection.plan.name"
+  [party]="projection.baseParty.name"
+  [mode]="confirmModalMode"
+  (confirmSubmitModalEvent)="onConfirmSubmitModalEvent($event)">
+
+</emp-ng-confirm-submit-modal>

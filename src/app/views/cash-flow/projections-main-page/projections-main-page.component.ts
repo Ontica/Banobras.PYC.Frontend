@@ -19,7 +19,11 @@ import { CashFlowProjectionDescriptor, CashFlowProjectionHolder, CashFlowProject
          EmptyCashFlowProjectionHolder, EmptyCashFlowProjectionsQuery,
          mapCashFlowProjectionDescriptorFromProjection } from '@app/models';
 
+import { ProjectionCreatorEventType } from '../projection/projection-creator.component';
+
 import { ProjectionsExplorerEventType } from '../projections-explorer/projections-explorer.component';
+
+import { ProjectionTabbedViewEventType } from '../projection-tabbed-view/projection-tabbed-view.component';
 
 
 @Component({
@@ -49,11 +53,27 @@ export class CashFlowProjectionsMainPageComponent {
               private messageBox: MessageBoxService) { }
 
 
+  onProjectionCreatorEvent(event: EventInfo) {
+    switch (event.type as ProjectionCreatorEventType) {
+      case ProjectionCreatorEventType.CLOSE_MODAL_CLICKED:
+        this.displayCreator = false;
+        return;
+      case ProjectionCreatorEventType.CREATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.displayCreator = false;
+        this.insertItemToList(event.payload.data as CashFlowProjectionHolder);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   onProjectionsExplorerEvent(event: EventInfo) {
     switch (event.type as ProjectionsExplorerEventType) {
       case ProjectionsExplorerEventType.CREATE_CLICKED:
         this.displayCreator = true;
-        this.messageBox.showInDevelopment('Agregar proyección', event.payload);
         return;
       case ProjectionsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
@@ -73,7 +93,31 @@ export class CashFlowProjectionsMainPageComponent {
       case ProjectionsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.messageBox.showInDevelopment('Detalle de proyección', event.payload);
+        this.getProjection(event.payload.item.uid);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onProjectionTabbedViewEvent(event: EventInfo) {
+    switch (event.type as ProjectionTabbedViewEventType) {
+      case ProjectionTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyCashFlowProjectionHolder);
+        return;
+      case ProjectionTabbedViewEventType.DATA_UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.insertItemToList(event.payload.data as CashFlowProjectionHolder);
+        return;
+      case ProjectionTabbedViewEventType.DATA_DELETED:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        this.removeItemFromList(event.payload.dataUID);
+        return;
+      case ProjectionTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        this.refreshSelectedData(event.payload.dataUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -89,6 +133,17 @@ export class CashFlowProjectionsMainPageComponent {
       .firstValue()
       .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
+  }
+
+
+  private getProjection(dataUID: string, refresh: boolean = false) {
+    this.isLoadingSelection = true;
+
+    this.projectionsData.getProjection(dataUID)
+      .firstValue()
+      .then(x => this.resolveGetProjection(x, refresh))
+      .catch(e => this.setSelectedData(EmptyCashFlowProjectionHolder))
+      .finally(() => this.isLoadingSelection = false);
   }
 
 
@@ -121,8 +176,8 @@ export class CashFlowProjectionsMainPageComponent {
   }
 
 
-  private refreshSelectedData(projectionUID: string) {
-
+  private refreshSelectedData(dataUID: string) {
+    this.getProjection(dataUID, true);
   }
 
 
@@ -134,8 +189,8 @@ export class CashFlowProjectionsMainPageComponent {
   }
 
 
-  private removeItemFromList(projectionUID: string) {
-    const dataListNew = this.dataList.filter(x => x.uid !== projectionUID);
+  private removeItemFromList(dataUID: string) {
+    const dataListNew = this.dataList.filter(x => x.uid !== dataUID);
     this.setDataList(dataListNew);
     this.setSelectedData(EmptyCashFlowProjectionHolder);
   }
