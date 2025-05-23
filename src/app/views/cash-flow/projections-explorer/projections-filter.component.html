@@ -149,22 +149,6 @@
 
           <div class="fx-item-half sm-fx-item">
 
-            <label>Cuenta:</label>
-
-            <emp-ng-select-typeahead
-              formControlName="baseAccountUID"
-              placeholder="Todas"
-              [config]="{ clearable: true, showTooltip: true }"
-              [searcherAPI]="accountsAPI"
-              [initialValue]="selectedAccount"
-              (changes)="onAccountChanges($event)">
-
-            </emp-ng-select-typeahead>
-
-          </div>
-
-          <div class="fx-item-half sm-fx-item">
-
             <label>Proyecto:</label>
 
             <emp-ng-select-typeahead
@@ -174,6 +158,21 @@
               [searcherAPI]="projectsAPI"
               [initialValue]="selectedProject"
               (changes)="onProjectChanges($event)">
+
+            </emp-ng-select-typeahead>
+
+          </div>
+
+          <div class="fx-item-half sm-fx-item">
+            <label>Cuenta:</label>
+
+            <emp-ng-select-typeahead
+              formControlName="baseAccountUID"
+              placeholder="Todas"
+              [config]="{ clearable: true, showTooltip: true }"
+              [searcherAPI]="accountsAPI"
+              [initialValue]="selectedAccount"
+              (changes)="onAccountChanges($event)">
 
             </emp-ng-select-typeahead>
 

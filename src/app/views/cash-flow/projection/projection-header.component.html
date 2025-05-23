@@ -74,22 +74,6 @@
 
       <div class="fx-item-half">
 
-        <label>Cuenta:</label>
-
-        <emp-ng-select-typeahead #baseAccountSearcher
-          formControlName="baseAccountUID"
-          [config]="{ clearable: true, showTooltip: true }"
-          [searcherAPI]="accountsAPI"
-          [initialValue]="isSaved && !editionMode ? projection.baseAccount : null"
-          [placeholder]="searcherPlaceholder"
-          [showError]="formHelper.isControlInvalid(form.controls.baseAccountUID)">
-
-        </emp-ng-select-typeahead>
-
-      </div>
-
-      <div class="fx-item-half">
-
         <label>Proyecto:</label>
 
         <emp-ng-select-typeahead
@@ -99,6 +83,22 @@
           [initialValue]="isSaved && !editionMode ? projection.baseProject : null"
           [placeholder]="searcherPlaceholder"
           [showError]="formHelper.isControlInvalid(form.controls.baseProjectUID)">
+
+        </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Cuenta:</label>
+
+        <emp-ng-select-typeahead #baseAccountSearcher
+          formControlName="baseAccountUID"
+          [config]="{ clearable: true, showTooltip: true }"
+          [searcherAPI]="accountsAPI"
+          [initialValue]="isSaved && !editionMode ? projection.baseAccount : null"
+          [placeholder]="searcherPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.baseAccountUID)">
 
         </emp-ng-select-typeahead>
 

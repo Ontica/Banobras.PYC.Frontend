@@ -47,7 +47,7 @@ export class CashFlowProjectionsExplorerComponent implements OnChanges {
 
   @Output() projectionsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Proyección de flujo de efectivo';
+  cardTitle = 'Proyecciones de flujo de efectivo';
 
   cardHint = 'Seleccionar los filtros';
 
