@@ -211,10 +211,10 @@ export const InventoryViews: View[] = [
 
 export const CashFlowViews: View[] = [
   {
-    name: 'CashFlow.Planning',
-    title: 'Planeación',
-    url: ROUTES.flujo_de_efectivo_planeacion.fullpath,
-    permission: ROUTES.flujo_de_efectivo_planeacion.permission,
+    name: 'CashFlow.Projections',
+    title: 'Proyección',
+    url: ROUTES.flujo_de_efectivo_proyecciones.fullpath,
+    permission: ROUTES.flujo_de_efectivo_proyecciones.permission,
   },
   {
     name: 'CashFlow.Explorer',

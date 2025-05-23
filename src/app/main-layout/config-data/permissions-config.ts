@@ -77,7 +77,7 @@ export enum PERMISSIONS {
   //
   MODULE_FLUJO_DE_EFECTIVO = 'module-flujo-de-efectivo',
 
-  ROUTE_FLUJO_DE_EFECTIVO_PLANEACION = 'route-flujo-de-efectivo-planeacion',
+  ROUTE_FLUJO_DE_EFECTIVO_PROYECCIONES = 'route-flujo-de-efectivo-proyecciones',
   ROUTE_FLUJO_DE_EXPLORER = 'route-flujo-de-efectivo-explorer',
   ROUTE_FLUJO_DE_EFECTIVO_CODIFICACION = 'route-flujo-de-efectivo-codificacion',
   ROUTE_FLUJO_DE_EFECTIVO_REGLAS = 'route-flujo-de-efectivo-reglas',

@@ -276,11 +276,11 @@ export const ROUTES = {
 
   // #region cashflow-routing module
 
-  flujo_de_efectivo_planeacion: {
-    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_PLANEACION,
+  flujo_de_efectivo_proyecciones: {
+    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_PROYECCIONES,
     parent: 'flujo-de-efectivo',
-    path: 'planeacion',
-    fullpath: '/flujo-de-efectivo/planeacion',
+    path: 'proyecciones',
+    fullpath: '/flujo-de-efectivo/proyecciones',
   },
 
   flujo_de_efectivo_explorer: {

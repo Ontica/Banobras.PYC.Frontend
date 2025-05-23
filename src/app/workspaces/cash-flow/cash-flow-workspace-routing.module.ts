@@ -20,8 +20,8 @@ import {
 
 const routes: Routes = [
   {
-    data: { permission: ROUTES.flujo_de_efectivo_planeacion.permission },
-    path: ROUTES.flujo_de_efectivo_planeacion.path,
+    data: { permission: ROUTES.flujo_de_efectivo_proyecciones.permission },
+    path: ROUTES.flujo_de_efectivo_proyecciones.path,
     component: CashFlowProjectionsMainPageComponent,
   },
   {
@@ -46,7 +46,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.flujo_de_efectivo_planeacion.path,
+    redirectTo: ROUTES.flujo_de_efectivo_proyecciones.path,
     pathMatch: 'full',
   },
 ];
