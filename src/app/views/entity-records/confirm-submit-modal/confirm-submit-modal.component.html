@@ -9,9 +9,9 @@
 
     <div class="card-body-confirmation">
 
-      Esta operación {{actionText}} la transacción
-      <strong> {{transaction.transactionNo}}: {{transaction.transactionType.name}} </strong>
-      de <strong> {{transaction.baseParty.name}}</strong>
+      Esta operación {{actionText}} {{entityPronoun}} {{entityText}}
+      <strong> {{entityNo}}: {{entityType}} </strong>
+      de <strong> {{party}}</strong>
 
       <ng-container *ngIf="notesRequired">
 
@@ -26,7 +26,7 @@
 
       <br><br>
 
-      ¿{{questionText}} la transacción?
+      ¿{{questionText}} {{entityPronoun}} {{entityText}}?
 
       <mat-divider [style.margin]="'20px -16px 8px -16px'"></mat-divider>
 

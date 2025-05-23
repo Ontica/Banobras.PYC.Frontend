@@ -26,8 +26,8 @@ import { BudgetForEdition, BudgetTransaction, BudgetTransactionFields, BudgetTyp
          EmptyBudgetTransaction, EmptyBudgetTransactionActions, BudgetTransactionActions,
          BudgetTransactionType, BudgetTransactionRejectFields } from '@app/models';
 
-import { TransactionConfirmSubmitModalEventType,
-         TransactionSubmitType } from './transaction-confirm-submit-modal.component';
+import { ConfirmSubmitModalEventType,
+         ConfirmSubmitType } from '@app/views/entity-records/confirm-submit-modal/confirm-submit-modal.component';
 
 
 export enum TransactionHeaderEventType {
@@ -91,7 +91,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
   baseEntityTypesList: Identifiable[] = [];
 
-  confirmModalMode: TransactionSubmitType = null;
+  confirmModalMode: ConfirmSubmitType = null;
 
   baseEntitiesAPI = SearcherAPIS.relatedDocumentsForEdition;
 
@@ -248,17 +248,17 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   }
 
 
-  onEventButtonClicked(mode: TransactionSubmitType) {
+  onEventButtonClicked(mode: ConfirmSubmitType) {
     this.confirmModalMode = mode;
   }
 
 
-  onTransactionConfirmSubmitModalEvent(event: EventInfo) {
-    switch (event.type as TransactionConfirmSubmitModalEventType) {
-      case TransactionConfirmSubmitModalEventType.CLOSE_BUTTON_CLICKED:
+  onConfirmSubmitModalEvent(event: EventInfo) {
+    switch (event.type as ConfirmSubmitModalEventType) {
+      case ConfirmSubmitModalEventType.CLOSE_BUTTON_CLICKED:
         this.confirmModalMode = null;
         return;
-      case TransactionConfirmSubmitModalEventType.SUBMIT_BUTTON_CLICKED:
+      case ConfirmSubmitModalEventType.SUBMIT_BUTTON_CLICKED:
         const dataFields: BudgetTransactionRejectFields = { message: event.payload.notes ?? null };
         this.validateActionConfirmedToEmit(dataFields);
         this.confirmModalMode = null;

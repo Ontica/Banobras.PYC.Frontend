@@ -14,6 +14,7 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
+import { ConfirmSubmitModalComponent } from './confirm-submit-modal/confirm-submit-modal.component';
 import { DocumentsEditionComponent } from './documents-edition/documents-edition.component';
 import { DocumentsTableComponent } from './documents-edition/documents-table.component';
 import { DocumentUploaderComponent } from './documents-edition/document-uploader.component';
@@ -32,12 +33,14 @@ import { HistoryTableComponent } from './history-table/history-table.component';
     ReportsControlsModule,
   ],
   declarations: [
+    ConfirmSubmitModalComponent,
     DocumentsEditionComponent,
     DocumentsTableComponent,
     DocumentUploaderComponent,
     HistoryTableComponent,
   ],
   exports: [
+    ConfirmSubmitModalComponent,
     DocumentsEditionComponent,
     HistoryTableComponent,
   ],

@@ -261,9 +261,12 @@
 </form>
 
 
-<emp-bdg-transaction-confirm-submit-modal *ngIf="!!confirmModalMode"
-  [transaction]="transaction"
+<emp-ng-confirm-submit-modal *ngIf="!!confirmModalMode"
+  [entityUID]="transaction.uid"
+  [entityNo]="transaction.transactionNo"
+  [entityType]="transaction.transactionType.name"
+  [party]="transaction.baseParty.name"
   [mode]="confirmModalMode"
-  (transactionConfirmSubmitModalEvent)="onTransactionConfirmSubmitModalEvent($event)">
+  (confirmSubmitModalEvent)="onConfirmSubmitModalEvent($event)">
 
-</emp-bdg-transaction-confirm-submit-modal>
+</emp-ng-confirm-submit-modal>

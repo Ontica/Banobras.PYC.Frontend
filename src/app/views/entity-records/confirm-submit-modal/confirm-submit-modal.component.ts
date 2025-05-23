@@ -11,28 +11,36 @@ import { EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BudgetTransaction, EmptyBudgetTransaction } from '@app/models';
+
+export type ConfirmSubmitType = 'Delete' | 'SendToAuthorization' | 'Authorize' | 'Reject' | 'Close';
 
 
-export type TransactionSubmitType = 'Delete' | 'SendToAuthorization' | 'Authorize' | 'Reject' | 'Close';
-
-
-export enum TransactionConfirmSubmitModalEventType {
-  CLOSE_BUTTON_CLICKED  = 'BudgetTransactionConfirmSubmitModalComponent.Event.CloseButtonClicked',
-  SUBMIT_BUTTON_CLICKED = 'BudgetTransactionConfirmSubmitModalComponent.Event.SubmitButtonClicked',
+export enum ConfirmSubmitModalEventType {
+  CLOSE_BUTTON_CLICKED  = 'ConfirmSubmitModalComponent.Event.CloseButtonClicked',
+  SUBMIT_BUTTON_CLICKED = 'ConfirmSubmitModalComponent.Event.SubmitButtonClicked',
 }
 
 @Component({
-  selector: 'emp-bdg-transaction-confirm-submit-modal',
-  templateUrl: './transaction-confirm-submit-modal.component.html',
+  selector: 'emp-ng-confirm-submit-modal',
+  templateUrl: './confirm-submit-modal.component.html',
 })
-export class BudgetTransactionConfirmSubmitModalComponent {
+export class ConfirmSubmitModalComponent {
 
-  @Input() transaction: BudgetTransaction = EmptyBudgetTransaction;
+  @Input() entityPronoun = 'la';
 
-  @Input() mode: TransactionSubmitType = null;
+  @Input() entityText = 'transacción';
 
-  @Output() transactionConfirmSubmitModalEvent = new EventEmitter<EventInfo>();
+  @Input() entityUID = '';
+
+  @Input() entityNo = '';
+
+  @Input() entityType = '';
+
+  @Input() party = '';
+
+  @Input() mode: ConfirmSubmitType = null;
+
+  @Output() confirmSubmitModalEvent = new EventEmitter<EventInfo>();
 
   notes = '';
 
@@ -49,11 +57,11 @@ export class BudgetTransactionConfirmSubmitModalComponent {
 
   get titleText(): string {
     switch (this.mode) {
-      case 'Delete': return 'Eliminar transacción';
+      case 'Delete': return `Eliminar ${this.entityText}`;
       case 'SendToAuthorization': return 'Enviar a autorización';
-      case 'Authorize': return 'Autorizar transacción';
-      case 'Reject': return 'Rechazar transacción';
-      case 'Close': return 'Cerrar transacción';
+      case 'Authorize': return `Autorizar ${this.entityText}`;
+      case 'Reject': return `Rechazar ${this.entityText}`;
+      case 'Close': return `Cerrar ${this.entityText}`;
       default: return 'Realizar operación'
     }
   }
@@ -101,13 +109,13 @@ export class BudgetTransactionConfirmSubmitModalComponent {
 
 
   onCloseButtonClicked() {
-    sendEvent(this.transactionConfirmSubmitModalEvent, TransactionConfirmSubmitModalEventType.CLOSE_BUTTON_CLICKED);
+    sendEvent(this.confirmSubmitModalEvent, ConfirmSubmitModalEventType.CLOSE_BUTTON_CLICKED);
   }
 
 
   onSubmitButtonClicked() {
-    sendEvent(this.transactionConfirmSubmitModalEvent, TransactionConfirmSubmitModalEventType.SUBMIT_BUTTON_CLICKED,
-      { notes: this.notes }
+    sendEvent(this.confirmSubmitModalEvent, ConfirmSubmitModalEventType.SUBMIT_BUTTON_CLICKED,
+      { entityUID: this.entityUID, notes: this.notes }
     );
   }
 
