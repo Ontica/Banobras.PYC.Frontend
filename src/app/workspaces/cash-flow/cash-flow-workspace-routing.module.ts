@@ -17,6 +17,10 @@ import {
   CashFlowProjectionsMainPageComponent
 } from '@app/views/cash-flow/projections-main-page/projections-main-page.component';
 
+import {
+  FinancialProjectsMainPageComponent
+} from '@app/views/financial-projects/projects-main-page/projects-main-page.component';
+
 
 const routes: Routes = [
   {
@@ -37,7 +41,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.flujo_de_efectivo_proyectos.permission },
     path: ROUTES.flujo_de_efectivo_proyectos.path,
-    component: DefaultComponent,
+    component: FinancialProjectsMainPageComponent,
   },
   {
     data: { permission: ROUTES.flujo_de_efectivo_reglas.permission },
