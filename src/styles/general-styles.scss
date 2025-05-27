@@ -773,7 +773,7 @@ ul.default-list {
 
 .card-info-selected {
   background-color: $grid-selected-background-color;
-  border-left: 3px solid darken($grid-selected-background-color, 50%);
+  border-left: $grid-selected-border-width solid $grid-selected-border-color;
 }
 
 .card-info-title {

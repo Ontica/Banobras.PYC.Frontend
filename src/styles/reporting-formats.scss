@@ -64,6 +64,19 @@ table.mat-mdc-table tr.mat-mdc-row {
   td.mat-mdc-cell.column-checkbox {
     padding-top: 4px;
     padding-bottom: 4px;
+    width: calc($checkbox-size + $grid-entry-padding-horizontal);
+  }
+
+  td.mat-mdc-cell.column-sm {
+    width: 15%;
+  }
+
+  td.mat-mdc-cell.column-md {
+    width: 20%;
+  }
+
+  td.mat-mdc-cell.column-lg {
+    width: 30%;
   }
 
   &.item-type-summary td.mat-mdc-cell,
@@ -319,8 +332,8 @@ table.mat-mdc-table.emp-designer tr.mat-mdc-row.fixed-cells-type td.mat-mdc-cell
 table.mat-mdc-table tr.mat-mdc-row.row-selected {
 
   td:first-of-type {
-    padding-left: calc($grid-entry-padding-vertical-first - 3px); // 7px; //calc(1rem - 3px=;
-    border-left: 3px solid darken($grid-selected-background-color, 50%);
+    padding-left: calc($grid-entry-padding-vertical-first - $grid-selected-border-width);
+    border-left: $grid-selected-border-width solid $grid-selected-border-color;
 
     &.column-checkbox {
       width: calc($checkbox-size + $grid-entry-padding-horizontal + $grid-entry-padding-vertical);

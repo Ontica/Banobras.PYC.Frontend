@@ -194,6 +194,8 @@ $grid-odd-background-color: #f4f4f4 !default;
 $grid-hover-background-color: #fafafa;
 $grid-selected-background-color: #f7fcfb;
 $grid-selected-hover-background-color: #f3fcfb;
+$grid-selected-border-width: 3px;
+$grid-selected-border-color: darken($grid-selected-background-color, 50%);
 $grid-header-height: 40px;
 $grid-row-height: 32px;
 $grid-entry-padding-vertical: 8px;
