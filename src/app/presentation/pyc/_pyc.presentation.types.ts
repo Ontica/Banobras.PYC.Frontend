@@ -20,6 +20,9 @@ export { SelectorType as CashFlowStateSelector } from './cash-flow.presentation.
 import { SelectorType as CataloguesStateSelector } from './catalogues.presentation.handler';
 export { SelectorType as CataloguesStateSelector } from './catalogues.presentation.handler';
 
+import { SelectorType as FinancialProjectsStateSelector } from './financial-projects.presentation.handler';
+export { SelectorType as FinancialProjectsStateSelector } from './financial-projects.presentation.handler';
+
 import { SelectorType as PaymentsStateSelector } from './payments.presentation.handler';
 export { SelectorType as PaymentsStateSelector } from './payments.presentation.handler';
 
@@ -33,6 +36,7 @@ export type PYCSelectors = AssetsStateSelector |
                            BudgetingStateSelector |
                            CashFlowStateSelector |
                            CataloguesStateSelector |
+                           FinancialProjectsStateSelector |
                            PaymentsStateSelector |
                            ProductsStateSelector |
                            RequestsStateSelector;

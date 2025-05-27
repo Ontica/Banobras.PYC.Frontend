@@ -19,6 +19,7 @@ import { AssetsPresentationHandler } from './pyc/assets.presentation.handler';
 import { BudgetingPresentationHandler } from './pyc/budgeting.presentation.handler';
 import { CashFlowPresentationHandler } from './pyc/cash-flow.presentation.handler';
 import { CataloguesPresentationHandler } from './pyc/catalogues.presentation.handler';
+import { FinancialProjectsPresentationHandler } from './pyc/financial-projects.presentation.handler';
 import { PaymentsPresentationHandler } from './pyc/payments.presentation.handler';
 import { ProductsPresentationHandler } from './pyc/products.presentation.handler';
 import { RequestsPresentationHandler } from './pyc/requests.presentation.handler';
@@ -34,6 +35,7 @@ import { RequestsPresentationHandler } from './pyc/requests.presentation.handler
     BudgetingPresentationHandler,
     CashFlowPresentationHandler,
     CataloguesPresentationHandler,
+    FinancialProjectsPresentationHandler,
     PaymentsPresentationHandler,
     ProductsPresentationHandler,
     RequestsPresentationHandler,
@@ -45,6 +47,7 @@ import { RequestsPresentationHandler } from './pyc/requests.presentation.handler
     { provide: STATE_HANDLERS, useExisting: BudgetingPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: CashFlowPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: CataloguesPresentationHandler, multi: true },
+    { provide: STATE_HANDLERS, useExisting: FinancialProjectsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: PaymentsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: ProductsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: RequestsPresentationHandler, multi: true },

@@ -1,0 +1,56 @@
+<div class="card card-border">
+
+  <div class="card-header card-header-flat">
+
+    <div class="card-title">
+      Explorador de proyectos
+
+      <div class="card-hint" empNgProgressText
+        loadingText="Cargando"
+        [finalText]="cardHint"
+        [isLoading]="isLoading">
+      </div>
+
+    </div>
+
+    <div class="card-header-options">
+
+        <button *empNgHasPermission="PERMISSION_TO_CREATE"
+          class="btn-action"
+          (click)="onCreateProjectionClicked()">
+          Agregar proyecto
+        </button>
+
+    </div>
+
+  </div>
+
+  <div class="card-body" [empNgSpinnerHost]="spinner">
+
+    <div class="fx-column-container-fill">
+
+      <emp-ng-spinner #spinner [visible]="isLoading">
+
+      </emp-ng-spinner>
+
+      <emp-cf-projects-filter
+        class="fx-item-none"
+        [query]="query"
+        [(showFilters)]="showFilters"
+        (projectsFilterEvent)="onProjectsFilterEvent($event)">
+
+      </emp-cf-projects-filter>
+
+      <emp-cf-projects-table class="fx-item"
+        [dataList]="dataList"
+        [selectedUID]="selectedUID"
+        [queryExecuted]="queryExecuted"
+        (projectsTableEvent)="onProjectsTableEvent($event)">
+
+      </emp-cf-projects-table>
+
+    </div>
+
+  </div>
+
+</div>

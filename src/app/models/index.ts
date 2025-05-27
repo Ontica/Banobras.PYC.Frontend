@@ -48,6 +48,8 @@ export * from './documents';
 
 export * from './edition-command';
 
+export * from './financial-projects';
+
 export * from './history';
 
 export * from './imported-data';
