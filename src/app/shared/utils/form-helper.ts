@@ -86,4 +86,18 @@ export class FormHelper {
       control.markAsUntouched();
   }
 
+
+  static getSimplePlaceholder(editionMode: boolean): string {
+    return !editionMode ? 'No determinado' : 'Seleccionar';
+  }
+
+
+  static getConditionalPlaceholder(editionMode: boolean, condition: boolean, fieldName: string): string {
+    if (!editionMode) {
+      return 'No determinado';
+    }
+
+    return condition ? 'Seleccionar' : `Seleccione ${fieldName}`;
+  }
+
 }
