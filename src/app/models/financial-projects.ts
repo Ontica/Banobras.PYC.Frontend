@@ -103,6 +103,19 @@ export interface FinancialProject {
 }
 
 
+export interface FinancialProjectAccountDescriptor {
+  uid: string;
+  projectName: string;
+  standardAccountName: string;
+  organizationalUnitName: string;
+  accountNo: string;
+  description: string;
+  startDate: DateString;
+  endDate: DateString;
+  statusName: string;
+}
+
+
 export interface FinancialProjectActions extends BaseActions {
 
 }
@@ -110,6 +123,7 @@ export interface FinancialProjectActions extends BaseActions {
 
 export interface FinancialProjectHolder {
   project: FinancialProject,
+  accounts: FinancialProjectAccountDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
   actions: FinancialProjectActions;
@@ -170,6 +184,7 @@ export const EmptyFinancialProjectActions: FinancialProjectActions = {
 
 export const EmptyFinancialProjectHolder: FinancialProjectHolder = {
   project: EmptyFinancialProject,
+  accounts: [],
   documents: [],
   history: [],
   actions: EmptyFinancialProjectActions,

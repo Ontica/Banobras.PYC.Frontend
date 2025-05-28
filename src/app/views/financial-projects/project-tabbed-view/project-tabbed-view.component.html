@@ -18,9 +18,12 @@
 
     <mat-tab label="Cuentas">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-cf-project-accounts-edition
+        [accounts]="data.accounts"
+        [canEdit]="data.actions.canUpdate"
+        (projectAccountsEditionEvent)="onProjectAccountsEditionEvent($event)">
+
+      </emp-cf-project-accounts-edition>
 
     </mat-tab>
 

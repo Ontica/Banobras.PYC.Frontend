@@ -23,6 +23,8 @@ import { FinancialProjectHeaderComponent } from './project/project-header.compon
 import { FinancialProjectCreatorComponent } from './project/project-creator.component';
 import { FinancialProjectEditorComponent } from './project/project-editor.component';
 import { FinancialProjectTabbedViewComponent } from './project-tabbed-view/project-tabbed-view.component';
+import { FinancialProjectAccountsEditionComponent } from './project-accounts/project-accounts-edition.component';
+import { FinancialProjectAccountsTableComponent } from './project-accounts/project-accounts-table.component';
 
 
 @NgModule({
@@ -46,6 +48,8 @@ import { FinancialProjectTabbedViewComponent } from './project-tabbed-view/proje
     FinancialProjectCreatorComponent,
     FinancialProjectEditorComponent,
     FinancialProjectTabbedViewComponent,
+    FinancialProjectAccountsEditionComponent,
+    FinancialProjectAccountsTableComponent,
   ],
   exports: [
     FinancialProjectsMainPageComponent,
