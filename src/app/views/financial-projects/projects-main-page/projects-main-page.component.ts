@@ -19,6 +19,8 @@ import { EmptyFinancialProjectHolder, EmptyFinancialProjectsQuery, FinancialProj
          FinancialProjectHolder, FinancialProjectsQuery,
          mapFinancialProjectDescriptorFromProject } from '@app/models';
 
+import { ProjectCreatorEventType } from '../project/project-creator.component';
+
 import { ProjectsExplorerEventType } from '../projects-explorer/projects-explorer.component';
 
 
@@ -49,11 +51,27 @@ export class FinancialProjectsMainPageComponent {
               private messageBox: MessageBoxService) { }
 
 
+  onProjectCreatorEvent(event: EventInfo) {
+    switch (event.type as ProjectCreatorEventType) {
+      case ProjectCreatorEventType.CLOSE_MODAL_CLICKED:
+        this.displayCreator = false;
+        return;
+      case ProjectCreatorEventType.CREATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.displayCreator = false;
+        this.insertItemToList(event.payload.data as FinancialProjectHolder);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   onProjectsExplorerEvent(event: EventInfo) {
     switch (event.type as ProjectsExplorerEventType) {
       case ProjectsExplorerEventType.CREATE_CLICKED:
         this.displayCreator = true;
-        this.messageBox.showInDevelopment('Agregar proyecto');
         return;
       case ProjectsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');

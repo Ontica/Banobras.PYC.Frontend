@@ -57,8 +57,6 @@ interface ProjectionFormModel extends FormGroup<{
 })
 export class CashFlowProjectionHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
-  @ViewChild('baseEntitySearcher') baseEntitySearcher: SelectBoxTypeaheadComponent;
-
   @Input() isSaved = false;
 
   @Input() projection: CashFlowProjection = EmptyCashFlowProjection;

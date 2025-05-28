@@ -1,0 +1,221 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+
+        <label>Área:</label>
+
+        <emp-ng-select
+          formControlName="baseOrgUnitUID"
+          [config]="{virtualScroll: true, showTooltip: true, autoSelect: !isSaved}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+          [showError]="formHelper.isControlInvalid(form.controls.baseOrgUnitUID)"
+          (changes)="onOrgUnitChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Responsable:</label>
+
+        <emp-ng-select
+          formControlName="assigneeUID"
+          [config]="{autoSelect: !isSaved}"
+          [items]="assigneesList"
+          [loading]="isLoading || isLoadingAssignees"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.baseOrgUnitUID.valid, 'área')"
+          [showError]="formHelper.isControlInvalid(form.controls.assigneeUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Categoría:</label>
+
+        <emp-ng-select
+          formControlName="categoryUID"
+          [config]="{autoSelect: !isSaved}"
+          [items]="categoriesList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.baseOrgUnitUID.valid, 'área')"
+          [showError]="formHelper.isControlInvalid(form.controls.categoryUID)"
+          (changes)="onCategoryChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Programa:</label>
+
+        <emp-ng-select
+          formControlName="programUID"
+          [config]="{autoSelect: !isSaved}"
+          [items]="programsList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.categoryUID.valid, 'categoría')"
+          [showError]="formHelper.isControlInvalid(form.controls.programUID)"
+          (changes)="onProgramChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Subprograma:</label>
+
+        <emp-ng-select
+          formControlName="subprogramUID"
+          [config]="{autoSelect: !isSaved}"
+          [items]="subprogramsList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.programUID.valid, 'programa')"
+          [showError]="formHelper.isControlInvalid(form.controls.subprogramUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+
+        <label>Nombre:</label>
+
+        <input type="text" class="text-box"
+          formControlName="name"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+
+      </div>
+
+    </div>
+
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Justificación:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="justification"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.justification)">
+        </textarea>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canDelete"
+            type="button" class="btn-warning"
+            (click)="onEventButtonClicked('Delete')">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode && (actions.canDelete || actions.canUpdate)"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canUpdate"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>
+
+
+<emp-ng-confirm-submit-modal *ngIf="!!confirmModalMode"
+  entityPronoun="el"
+  entityText="proyecto"
+  [entityUID]="project.uid"
+  [entityNo]="project.projectNo"
+  [entityType]="project.name"
+  [party]="project.baseOrgUnit.name"
+  [mode]="confirmModalMode"
+  (confirmSubmitModalEvent)="onConfirmSubmitModalEvent($event)">
+
+</emp-ng-confirm-submit-modal>

@@ -17,3 +17,9 @@
   </emp-cf-projects-explorer>
 
 </div>
+
+
+<emp-cf-project-creator *ngIf="displayCreator"
+  (projectCreatorEvent)="onProjectCreatorEvent($event)">
+
+</emp-cf-project-creator>

@@ -9,6 +9,8 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { BaseActions, EntityStatus, ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
+import { Document } from './documents';
+
 import { HistoryEntry } from './history';
 
 
@@ -45,6 +47,44 @@ export interface FinancialProjectDescriptor {
 }
 
 
+export interface FinancialProjectFields {
+  name: string;
+  baseOrgUnitUID: string;
+  categoryUID: string;
+  programUID: string;
+  subprogramUID: string;
+  assigneeUID: string;
+  description: string;
+  justification: string;
+}
+
+
+export interface FinancialProjectOrgUnitsForEdition {
+  uid: string;
+  name: string;
+  categories: ProjectCategoryForEdition[];
+}
+
+
+export interface ProjectCategoryForEdition {
+  uid: string;
+  name: string;
+  programs: ProjectProgramForEdition[];
+}
+
+
+export interface ProjectProgramForEdition {
+  uid: string;
+  name: string;
+  subprograms: Identifiable[];
+}
+
+
+export interface FinancialProjectRejectFields {
+  message: string;
+}
+
+
 export interface FinancialProject {
   uid: string;
   projectNo: string;
@@ -55,6 +95,8 @@ export interface FinancialProject {
   baseOrgUnit: Identifiable;
   assignee: Identifiable;
   parentProject: Identifiable;
+  description: string;
+  justification: string;
   startDate: DateString;
   endDate: DateString;
   status: Identifiable<EntityStatus>;
@@ -111,6 +153,8 @@ export const EmptyFinancialProject: FinancialProject = {
   baseOrgUnit: Empty,
   parentProject: Empty,
   assignee: Empty,
+  description: '',
+  justification: '',
   startDate: '',
   endDate: '',
   status: Empty,

@@ -9,7 +9,9 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FinancialProjectDescriptor, FinancialProjectsQuery } from '@app/models';
+import { FinancialProjectDescriptor, FinancialProjectFields, FinancialProjectHolder,
+         FinancialProjectOrgUnitsForEdition,
+         FinancialProjectsQuery } from '@app/models';
 
 
 @Injectable()
@@ -40,12 +42,37 @@ export class FinancialProjectsDataService {
   }
 
 
+  getOrganizationalUnitsForEdition(): EmpObservable<FinancialProjectOrgUnitsForEdition[]> {
+    const path = 'v1/financial-projects/organizational-units-for-edition';
+
+    return this.http.get<FinancialProjectOrgUnitsForEdition[]>(path);
+  }
+
+
+  getAssigneesByOrgUnit(orgUnitUID: string): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(orgUnitUID, 'orgUnitUID');
+
+    const path = `v1/financial-projects/organizational-units/${orgUnitUID}/assignees`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   searchProjects(query: FinancialProjectsQuery): EmpObservable<FinancialProjectDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v1/financial-projects/search';
 
     return this.http.post<FinancialProjectDescriptor[]>(path, query);
+  }
+
+
+  createProject(dataFields: FinancialProjectFields): EmpObservable<FinancialProjectHolder> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/financial-projects`;
+
+    return this.http.post<FinancialProjectHolder>(path, dataFields);
   }
 
 }

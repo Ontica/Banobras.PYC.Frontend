@@ -15,9 +15,10 @@ import { FinancialProjectsDataService } from '@app/data-services';
 
 
 export enum SelectorType {
-  CATEGORIES  = 'PYC.FinancialProjects.Selector.Categories.List',
-  PROGRAMS    = 'PYC.FinancialProjects.Selector.Programs.List',
-  SUBPROGRAMS = 'PYC.FinancialProjects.Selector.Subprograms.List',
+  CATEGORIES          = 'PYC.FinancialProjects.Selector.Categories.List',
+  PROGRAMS            = 'PYC.FinancialProjects.Selector.Programs.List',
+  SUBPROGRAMS         = 'PYC.FinancialProjects.Selector.Subprograms.List',
+  ORG_UNITS_BY_EDITION = 'PYC.FinancialProjects.Selector.OrgUnitsByEdition.List',
 }
 
 
@@ -25,6 +26,7 @@ const initialState: StateValues = [
   { key: SelectorType.CATEGORIES,  value: [] },
   { key: SelectorType.PROGRAMS,    value: [] },
   { key: SelectorType.SUBPROGRAMS, value: [] },
+  { key: SelectorType.ORG_UNITS_BY_EDITION, value: [] },
 ];
 
 
@@ -57,6 +59,12 @@ export class FinancialProjectsPresentationHandler extends AbstractPresentationHa
 
       case SelectorType.SUBPROGRAMS: {
         const provider = () => this.projectsData.getSubprograms();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.ORG_UNITS_BY_EDITION: {
+        const provider = () => this.projectsData.getOrganizationalUnitsForEdition();
 
         return super.selectFirst<U>(selectorType, provider);
       }
