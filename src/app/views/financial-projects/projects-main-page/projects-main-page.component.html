@@ -16,6 +16,13 @@
 
   </emp-cf-projects-explorer>
 
+  <emp-cf-project-tabbed-view *ngIf="displayTabbedView"
+    class="secondary priority std-stacked"
+    [data]="selectedData"
+    (projectTabbedViewEvent)="onProjectTabbedViewEvent($event)">
+
+  </emp-cf-project-tabbed-view>
+
 </div>
 
 

@@ -67,6 +67,15 @@ export class FinancialProjectsDataService {
   }
 
 
+  getProject(projectUID: string): EmpObservable<FinancialProjectHolder> {
+    Assertion.assertValue(projectUID, 'projectUID');
+
+    const path = `v1/financial-projects/${projectUID}`;
+
+    return this.http.get<FinancialProjectHolder>(path);
+  }
+
+
   createProject(dataFields: FinancialProjectFields): EmpObservable<FinancialProjectHolder> {
     Assertion.assertValue(dataFields, 'dataFields');
 

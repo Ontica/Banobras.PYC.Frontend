@@ -1,0 +1,48 @@
+<emp-ng-card
+  [title]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Proyecto">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Cuentas">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Documentos">
+
+      <emp-ng-documents-edition
+        entityType="financial-projects"
+        [entityUID]="data.project.uid"
+        [documents]="data.documents"
+        [canEdit]="data.actions.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+
+      </emp-ng-documents-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Historial">
+
+      <emp-ng-history-table
+        [history]="data.history">
+
+      </emp-ng-history-table>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

@@ -23,6 +23,8 @@ import { ProjectCreatorEventType } from '../project/project-creator.component';
 
 import { ProjectsExplorerEventType } from '../projects-explorer/projects-explorer.component';
 
+import { ProjectTabbedViewEventType } from '../project-tabbed-view/project-tabbed-view.component';
+
 
 @Component({
   selector: 'emp-cf-project-main-page',
@@ -91,7 +93,31 @@ export class FinancialProjectsMainPageComponent {
       case ProjectsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.messageBox.showInDevelopment('Seleccionar proyecto', event.payload);
+        this.getProject(event.payload.item.uid);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onProjectTabbedViewEvent(event: EventInfo) {
+    switch (event.type as ProjectTabbedViewEventType) {
+      case ProjectTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyFinancialProjectHolder);
+        return;
+      case ProjectTabbedViewEventType.DATA_UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.insertItemToList(event.payload.data as FinancialProjectHolder);
+        return;
+      case ProjectTabbedViewEventType.DATA_DELETED:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        this.removeItemFromList(event.payload.dataUID);
+        return;
+      case ProjectTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        this.refreshSelectedData(event.payload.dataUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -107,6 +133,17 @@ export class FinancialProjectsMainPageComponent {
       .firstValue()
       .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
+  }
+
+
+  private getProject(dataUID: string, refresh: boolean = false) {
+    this.isLoadingSelection = true;
+
+    this.projectsData.getProject(dataUID)
+      .firstValue()
+      .then(x => this.resolveGetProject(x, refresh))
+      .catch(e => this.setSelectedData(EmptyFinancialProjectHolder))
+      .finally(() => this.isLoadingSelection = false);
   }
 
 
@@ -140,7 +177,7 @@ export class FinancialProjectsMainPageComponent {
 
 
   private refreshSelectedData(dataUID: string) {
-
+    this.getProject(dataUID, true);
   }
 
 

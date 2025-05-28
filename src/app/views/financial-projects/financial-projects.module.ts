@@ -21,6 +21,7 @@ import { FinancialProjectsFilterComponent } from './projects-explorer/projects-f
 import { FinancialProjectsTableComponent } from './projects-explorer/projects-table.component';
 import { FinancialProjectHeaderComponent } from './project/project-header.component';
 import { FinancialProjectCreatorComponent } from './project/project-creator.component';
+import { FinancialProjectTabbedViewComponent } from './project-tabbed-view/project-tabbed-view.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { FinancialProjectCreatorComponent } from './project/project-creator.comp
     FinancialProjectsTableComponent,
     FinancialProjectHeaderComponent,
     FinancialProjectCreatorComponent,
+    FinancialProjectTabbedViewComponent,
   ],
   exports: [
     FinancialProjectsMainPageComponent,
