@@ -7,9 +7,12 @@
 
     <mat-tab label="Proyecto">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-cf-project-editor
+        [project]="data.project"
+        [actions]="data.actions"
+        (projectEditorEvent)="onProjectEditorEvent($event)">
+
+      </emp-cf-project-editor>
 
     </mat-tab>
 

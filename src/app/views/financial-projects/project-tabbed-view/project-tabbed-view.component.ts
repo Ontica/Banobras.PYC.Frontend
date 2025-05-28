@@ -7,11 +7,13 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { DateStringLibrary, EventInfo } from '@app/core';
+import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
 import { FinancialProjectHolder, EmptyFinancialProjectHolder } from '@app/models';
+
+import { ProjectEditorEventType } from '../project/project-editor.component';
 
 import {
   DocumentsEditionEventType
@@ -49,6 +51,25 @@ export class FinancialProjectTabbedViewComponent implements OnChanges {
 
   onCloseButtonClicked() {
     sendEvent(this.projectTabbedViewEvent, ProjectTabbedViewEventType.CLOSE_BUTTON_CLICKED);
+  }
+
+
+  onProjectEditorEvent(event: EventInfo) {
+    switch (event.type as ProjectEditorEventType) {
+      case ProjectEditorEventType.UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        sendEvent(this.projectTabbedViewEvent,
+          ProjectTabbedViewEventType.DATA_UPDATED, event.payload);
+        return;
+      case ProjectEditorEventType.DELETED:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        sendEvent(this.projectTabbedViewEvent,
+          ProjectTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 

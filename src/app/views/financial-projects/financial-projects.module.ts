@@ -21,6 +21,7 @@ import { FinancialProjectsFilterComponent } from './projects-explorer/projects-f
 import { FinancialProjectsTableComponent } from './projects-explorer/projects-table.component';
 import { FinancialProjectHeaderComponent } from './project/project-header.component';
 import { FinancialProjectCreatorComponent } from './project/project-creator.component';
+import { FinancialProjectEditorComponent } from './project/project-editor.component';
 import { FinancialProjectTabbedViewComponent } from './project-tabbed-view/project-tabbed-view.component';
 
 
@@ -43,6 +44,7 @@ import { FinancialProjectTabbedViewComponent } from './project-tabbed-view/proje
     FinancialProjectsTableComponent,
     FinancialProjectHeaderComponent,
     FinancialProjectCreatorComponent,
+    FinancialProjectEditorComponent,
     FinancialProjectTabbedViewComponent,
   ],
   exports: [

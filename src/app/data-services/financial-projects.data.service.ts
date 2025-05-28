@@ -84,4 +84,24 @@ export class FinancialProjectsDataService {
     return this.http.post<FinancialProjectHolder>(path, dataFields);
   }
 
+
+  updateProject(projectUID: string,
+                dataFields: FinancialProjectFields): EmpObservable<FinancialProjectHolder> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/financial-projects/${projectUID}`;
+
+    return this.http.put<FinancialProjectHolder>(path, dataFields);
+  }
+
+
+  deleteProject(projectUID: string): EmpObservable<void> {
+    Assertion.assertValue(projectUID, 'projectUID');
+
+    const path = `v1/financial-projects/${projectUID}`;
+
+    return this.http.delete<void>(path);
+  }
+
 }
