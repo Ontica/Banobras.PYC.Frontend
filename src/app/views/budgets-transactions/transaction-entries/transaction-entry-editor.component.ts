@@ -25,7 +25,7 @@ import { BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services'
 
 import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryFields, EmptyBudgetTransaction,
          ProductSearch, ProductRule, BudgetMonthEntryFields, BudgetTransactionEntryByYearFields,
-         BudgetTransactionEntryType, BudgetAccount, BudgetTransactionEntryBase,
+         TransactionEntryType, BudgetAccount, BudgetTransactionEntryBase,
          EmptyBudgetTransactionEntryBase, BudgetTransactionEntryByYear, BudgetMonthEntry } from '@app/models';
 
 
@@ -75,9 +75,9 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   isMonthsInvalidated = false;
 
-  EntryType = BudgetTransactionEntryType;
+  EntryType = TransactionEntryType;
 
-  selectedEntryType = BudgetTransactionEntryType.Annually;
+  selectedEntryType = TransactionEntryType.Annually;
 
   accountsAPI = SearcherAPIS.budgetTransactionAccounts;
 
@@ -150,7 +150,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
 
   get isMonthlyType(): boolean {
-    return this.selectedEntryType === BudgetTransactionEntryType.Monthly;
+    return this.selectedEntryType === TransactionEntryType.Monthly;
   }
 
 
@@ -319,8 +319,8 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
 
   private setSelectedEntryTypeByEntry() {
-    this.selectedEntryType = this.entry.entryType === BudgetTransactionEntryType.Annually ?
-      BudgetTransactionEntryType.Annually : BudgetTransactionEntryType.Monthly;
+    this.selectedEntryType = this.entry.entryType === TransactionEntryType.Annually ?
+      TransactionEntryType.Annually : TransactionEntryType.Monthly;
   }
 
 

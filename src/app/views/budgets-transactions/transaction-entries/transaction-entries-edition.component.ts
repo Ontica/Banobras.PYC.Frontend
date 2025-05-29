@@ -18,7 +18,7 @@ import { SkipIf } from '@app/shared/decorators';
 import { BudgetTransactionsDataService } from '@app/data-services';
 
 import { BudgetTransaction, BudgetTransactionEntryDescriptor, BudgetTransactionEntryFields,
-         EmptyBudgetTransaction, EmptyBudgetTransactionEntry, BudgetTransactionEntryType,
+         EmptyBudgetTransaction, EmptyBudgetTransactionEntry, TransactionEntryType,
          BudgetTransactionEntryByYearFields, BudgetTransactionGroupedEntryData,
          EmptyBudgetTransactionGroupedEntryData, BudgetTransactionEntryBase, EmptyBudgetTransactionEntryBase,
          BudgetTransactionEntryBaseDescriptor, BudgetTransactionEntryByYearDescriptor } from '@app/models';
@@ -95,10 +95,6 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
 
   @SkipIf('submitted')
   onEntryEditorEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as TransactionEntryEditorEventType) {
       case TransactionEntryEditorEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedEntry(EmptyBudgetTransactionEntry);
@@ -126,11 +122,11 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
     switch (event.type as TransactionEntriesTableEventType) {
       case TransactionEntriesTableEventType.SELECT_ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
-        this.handleGetEntry(BudgetTransactionEntryType.Monthly, this.transaction.uid, event.payload.entry.uid);
+        this.handleGetEntry(TransactionEntryType.Monthly, this.transaction.uid, event.payload.entry.uid);
         return;
       case TransactionEntriesTableEventType.REMOVE_ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
-        this.confirmRemoveEntry(BudgetTransactionEntryType.Monthly,
+        this.confirmRemoveEntry(TransactionEntryType.Monthly,
           event.payload.entry as BudgetTransactionEntryBaseDescriptor);
         return;
       default:
@@ -145,11 +141,11 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
     switch (event.type as DataTableEventType) {
       case DataTableEventType.ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
-        this.handleGetEntry(BudgetTransactionEntryType.Annually, this.transaction.uid, event.payload.entry.uid);
+        this.handleGetEntry(TransactionEntryType.Annually, this.transaction.uid, event.payload.entry.uid);
         return;
       case DataTableEventType.DELETE_ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
-        this.confirmRemoveEntry(BudgetTransactionEntryType.Annually,
+        this.confirmRemoveEntry(TransactionEntryType.Annually,
           event.payload.entry as BudgetTransactionEntryBaseDescriptor);
         return;
       default:
@@ -159,13 +155,13 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  private handleGetEntry(type: BudgetTransactionEntryType, transactionUID: string, entryUID: string) {
+  private handleGetEntry(type: TransactionEntryType, transactionUID: string, entryUID: string) {
     let observable = null;
     switch (type) {
-      case BudgetTransactionEntryType.Monthly:
+      case TransactionEntryType.Monthly:
         observable = this.transactionsData.getTransactionEntry(transactionUID, entryUID)
         break;
-      case BudgetTransactionEntryType.Annually:
+      case TransactionEntryType.Annually:
         observable = this.transactionsData.getTransactionEntriesByYear(transactionUID, entryUID)
         break;
       default:
@@ -175,13 +171,13 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  private handleCreateEntry(type: BudgetTransactionEntryType, transactionUID: string, dataFields) {
+  private handleCreateEntry(type: TransactionEntryType, transactionUID: string, dataFields) {
     let observable = null;
     switch (type) {
-      case BudgetTransactionEntryType.Monthly:
+      case TransactionEntryType.Monthly:
         observable = this.transactionsData.createTransactionEntry(transactionUID, dataFields as BudgetTransactionEntryFields);
         break;
-      case BudgetTransactionEntryType.Annually:
+      case TransactionEntryType.Annually:
         observable = this.transactionsData.createTransactionEntriesByYear(transactionUID, dataFields as BudgetTransactionEntryByYearFields);
         break;
       default:
@@ -191,13 +187,13 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  private handleUpdateEntry(type: BudgetTransactionEntryType, transactionUID: string, entryUID: string, dataFields) {
+  private handleUpdateEntry(type: TransactionEntryType, transactionUID: string, entryUID: string, dataFields) {
     let observable = null;
     switch (type) {
-      case BudgetTransactionEntryType.Monthly:
+      case TransactionEntryType.Monthly:
         observable = this.transactionsData.updateTransactionEntry(transactionUID, entryUID, dataFields as BudgetTransactionEntryFields);
         break;
-      case BudgetTransactionEntryType.Annually:
+      case TransactionEntryType.Annually:
         observable = this.transactionsData.updateTransactionEntriesByYear(transactionUID, entryUID, dataFields as BudgetTransactionEntryByYearFields);
         break;
       default:
@@ -207,13 +203,13 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  private handleRemoveEntry(type: BudgetTransactionEntryType, transactionUID: string, entryUID: string) {
+  private handleRemoveEntry(type: TransactionEntryType, transactionUID: string, entryUID: string) {
     let observable = null;
     switch (type) {
-      case BudgetTransactionEntryType.Monthly:
+      case TransactionEntryType.Monthly:
         observable = this.transactionsData.removeTransactionEntry(transactionUID, entryUID);
         break;
-      case BudgetTransactionEntryType.Annually:
+      case TransactionEntryType.Annually:
         observable = this.transactionsData.removeTransactionEntriesByYear(transactionUID, entryUID);
         break;
       default:
@@ -254,16 +250,16 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  private getConfirmRemoveEntryTitle(type: BudgetTransactionEntryType): string {
+  private getConfirmRemoveEntryTitle(type: TransactionEntryType): string {
     switch (type) {
-      case BudgetTransactionEntryType.Monthly: return 'Eliminar movimiento mensual';
-      case BudgetTransactionEntryType.Annually: return 'Eliminar movimiento anual';
+      case TransactionEntryType.Monthly: return 'Eliminar movimiento mensual';
+      case TransactionEntryType.Annually: return 'Eliminar movimiento anual';
       default: return 'Eliminar movimiento';
     }
   }
 
 
-  private confirmRemoveEntry(type: BudgetTransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor) {
+  private confirmRemoveEntry(type: TransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor) {
     const title = this.getConfirmRemoveEntryTitle(type);
     const message = this.getConfirmRemoveEntryMessage(type, entry);
 
@@ -273,7 +269,7 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  private getConfirmRemoveEntryMessage(type: BudgetTransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor): string {
+  private getConfirmRemoveEntryMessage(type: TransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor): string {
     const total = this.getEntryTotal(type, entry);
     const budgetAccount = this.getEntryBudgetAccount(type, entry);
 
@@ -287,24 +283,24 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  private getEntryBudgetAccount(type: BudgetTransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor): string {
+  private getEntryBudgetAccount(type: TransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor): string {
     switch (type) {
-      case BudgetTransactionEntryType.Monthly: return (entry as BudgetTransactionEntryDescriptor).budgetAccountName;
-      case BudgetTransactionEntryType.Annually: return (entry as BudgetTransactionEntryByYearDescriptor).budgetAccount;
+      case TransactionEntryType.Monthly: return (entry as BudgetTransactionEntryDescriptor).budgetAccountName;
+      case TransactionEntryType.Annually: return (entry as BudgetTransactionEntryByYearDescriptor).budgetAccount;
       default: return '';
     }
   }
 
 
-  private getEntryTotal(type: BudgetTransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor): string {
+  private getEntryTotal(type: TransactionEntryType, entry: BudgetTransactionEntryBaseDescriptor): string {
     let total = null;
     switch (type) {
-      case BudgetTransactionEntryType.Monthly:
+      case TransactionEntryType.Monthly:
         total = (entry as BudgetTransactionEntryDescriptor).withdrawal > 0 ?
           (entry as BudgetTransactionEntryDescriptor).withdrawal :
           (entry as BudgetTransactionEntryDescriptor).deposit;
         break;
-      case BudgetTransactionEntryType.Annually:
+      case TransactionEntryType.Annually:
         total = (entry as BudgetTransactionEntryByYearDescriptor).total;
         break;
       default: total = 0;

@@ -51,7 +51,6 @@ export class FinancialProjectCreatorComponent {
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.createProject(event.payload.dataFields as FinancialProjectFields);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

@@ -17,8 +17,8 @@ import { Document } from './documents';
 
 import { HistoryEntry } from './history';
 
-import { TransactionDateType, TransactionPartyType, TransactionStages,
-         TransactionStatus } from './transactions';
+import { TransactionDateType, TransactionEntryItemType, TransactionEntryType, TransactionPartyType,
+         TransactionStages, TransactionStatus } from './transactions';
 
 
 export interface BudgetTypeForEdition {
@@ -151,7 +151,7 @@ export interface BudgetTransactionEntryBaseDescriptor {
   uid: string;
   balanceColumn: string;
   budgetAccountName: string;
-  itemType: 'Entry' | 'Total';
+  itemType: TransactionEntryItemType;
 }
 
 
@@ -165,7 +165,7 @@ export interface BudgetTransactionEntryDescriptor extends BudgetTransactionEntry
   balanceColumn: string;
   deposit: number;
   withdrawal: number;
-  itemType: 'Entry' | 'Total';
+  itemType: TransactionEntryItemType;
 }
 
 
@@ -174,7 +174,7 @@ export interface BudgetTransactionEntryByYearDescriptor extends BudgetTransactio
   balanceColumn: string;
   budgetAccount: string;
   total: number;
-  itemType: 'Entry' | 'Total';
+  itemType: TransactionEntryItemType;
 }
 
 
@@ -185,7 +185,7 @@ export interface BudgetTransactionGroupedEntryData extends DataTable {
 
 export interface BudgetTransactionEntryBase {
   uid: string;
-  entryType: BudgetTransactionEntryType;
+  entryType: TransactionEntryType;
   transactionUID: string;
   balanceColumn: Identifiable;
   budgetAccount: Identifiable;
@@ -200,7 +200,7 @@ export interface BudgetTransactionEntryBase {
 
 export interface BudgetTransactionEntry extends BudgetTransactionEntryBase {
   uid: string;
-  entryType: BudgetTransactionEntryType;
+  entryType: TransactionEntryType;
   transactionUID: string;
   balanceColumn: Identifiable;
   budgetAccount: Identifiable;
@@ -224,7 +224,7 @@ export interface BudgetTransactionEntry extends BudgetTransactionEntryBase {
 
 export interface BudgetTransactionEntryByYear extends BudgetTransactionEntryBase {
   uid: string;
-  entryType: BudgetTransactionEntryType;
+  entryType: TransactionEntryType;
   transactionUID: string;
   balanceColumn: Identifiable;
   budgetAccount: Identifiable;
@@ -244,12 +244,6 @@ export interface BudgetMonthEntry {
   month: number;
   productQty: number;
   amount: number;
-}
-
-
-export enum BudgetTransactionEntryType {
-  Annually = 'Annually',
-  Monthly  = 'Monthly',
 }
 
 

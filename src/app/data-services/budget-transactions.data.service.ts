@@ -22,7 +22,7 @@ export class BudgetTransactionsDataService {
 
   constructor(private http: HttpService) { }
 
-
+  //#region CATALOGUES
   getBudgetTypesForTransactionEdition(): EmpObservable<BudgetTypeForEdition[]> {
     const path = `v2/budgeting/budget-types/for-transaction-edition`;
 
@@ -47,8 +47,10 @@ export class BudgetTransactionsDataService {
 
     return this.http.get<Identifiable[]>(path);
   }
+  //#endregion CATALOGUES
 
 
+  //#region TRANSACTIONS LIST
   searchTransactions(query: BudgetTransactionsQuery): EmpObservable<BudgetTransactionDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
@@ -74,8 +76,10 @@ export class BudgetTransactionsDataService {
 
     return this.http.post<ExplorerOperationResult>(path);
   }
+  //#endregion TRANSACTIONS
 
 
+  //#region TRANSACTION (CRUD + OPERATIONS)
   getTransaction(transactionUID: string): EmpObservable<BudgetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
@@ -159,8 +163,10 @@ export class BudgetTransactionsDataService {
 
     return this.http.delete<void>(path);
   }
+  //#endregion TRANSACTION
 
 
+  //#region TRANSACTION ENTRY (CRUD MONTHLY & ANNUALLY)
   getTransactionEntry(transactionUID: string,
                       entryUID: string): EmpObservable<BudgetTransactionEntry> {
     Assertion.assertValue(transactionUID, 'transactionUID');
@@ -262,5 +268,6 @@ export class BudgetTransactionsDataService {
 
     return this.http.post<BudgetAccount>(path);
   }
+  //#endregion TRANSACTION ENTRY
 
 }

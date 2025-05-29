@@ -11,9 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/services';
-
-import { FormatLibrary, sendEvent } from '@app/shared/utils';
+import { sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionEntryDescriptor, TotalItemTypeList } from '@app/models';
 
@@ -45,9 +43,6 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
   dataSource: MatTableDataSource<BudgetTransactionEntryDescriptor>;
 
   totalItemTypeList = TotalItemTypeList;
-
-
-  constructor(private messageBox: MessageBoxService) { }
 
 
   ngOnChanges(changes: SimpleChanges) {

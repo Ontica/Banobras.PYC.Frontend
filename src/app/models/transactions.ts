@@ -43,6 +43,15 @@ export enum TransactionPartyType {
 }
 
 
+export enum TransactionEntryType {
+  Annually = 'Annually',
+  Monthly  = 'Monthly',
+}
+
+
+export type TransactionEntryItemType = 'Entry' | 'Total';
+
+
 export const TransactionStagesList: Identifiable<TransactionStages>[] = [
   { uid: TransactionStages.MyInbox,     name: 'Mis transacciones' },
   { uid: TransactionStages.ControlDesk, name: 'Mesa de control' },
