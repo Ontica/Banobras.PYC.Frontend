@@ -46,10 +46,13 @@ export class BudgetExplorerComponent implements OnChanges {
 
   cardHint = 'Seleccionar los filtros';
 
+  showFilters = false;
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.data) {
       this.setText();
+      this.showFilters = false;
     }
   }
 

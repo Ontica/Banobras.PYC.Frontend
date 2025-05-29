@@ -41,6 +41,10 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
   @Input() queryType: BudgetQueryType = BudgetQueryType.planning;
 
+  @Input() showFilters = false;
+
+  @Output() showFiltersChange = new EventEmitter<boolean>();
+
   @Output() budgetFilterEvent = new EventEmitter<EventInfo>();
 
   form: BudgetFilterFormModel;
@@ -48,8 +52,6 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
   formHelper = FormHelper;
 
   isLoading = false;
-
-  showFilters = false;
 
   budgetTypesList: BudgetType[] = [];
 
@@ -91,6 +93,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
   onShowFiltersClicked() {
     this.showFilters = !this.showFilters;
+    this.showFiltersChange.emit(this.showFilters);
   }
 
 
