@@ -26,6 +26,10 @@ import { CashFlowProjectionPrintViewComponent } from './projection-tabbed-view/p
 import { CashFlowProjectionCreatorComponent } from './projection/projection-creator.component';
 import { CashFlowProjectionEditorComponent } from './projection/projection-editor.component';
 import { CashFlowProjectionHeaderComponent } from './projection/projection-header.component';
+import { CashFlowProjectionEntriesEditionComponent } from './projection-entries/projection-entries-edition.component';
+import { CashFlowProjectionEntriesControlsComponent } from './projection-entries/projection-entries-controls.component';
+import { CashFlowProjectionEntriesTableComponent } from './projection-entries/projection-entries-table.component';
+import { CashFlowProjectionEntryEditorComponent } from './projection-entries/projection-entry-editor.component';
 
 
 @NgModule({
@@ -52,6 +56,10 @@ import { CashFlowProjectionHeaderComponent } from './projection/projection-heade
     CashFlowProjectionCreatorComponent,
     CashFlowProjectionEditorComponent,
     CashFlowProjectionHeaderComponent,
+    CashFlowProjectionEntriesEditionComponent,
+    CashFlowProjectionEntriesControlsComponent,
+    CashFlowProjectionEntriesTableComponent,
+    CashFlowProjectionEntryEditorComponent,
   ],
   exports: [
     CashFlowProjectionsMainPageComponent,

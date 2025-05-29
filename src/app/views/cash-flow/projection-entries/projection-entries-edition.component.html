@@ -1,0 +1,47 @@
+<div class="fx-column-container-fill fx-gap-half" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <emp-cf-projection-entries-controls
+    [filter]="filter"
+    [displayAllEntries]="displayAllEntries"
+    [canEdit]="canEdit"
+    (projectionEntriesControlsEvent)="onEntriesControlsEvent($event)">
+
+  </emp-cf-projection-entries-controls>
+
+  <emp-cf-projection-entries-table *ngIf="displayAllEntries"
+    class="fx-item"
+    [entries]="entries"
+    [filter]="filter"
+    [canDelete]="canEdit"
+    (projectionEntriesTableEvent)="onEntriesTableEvent($event)">
+
+  </emp-cf-projection-entries-table>
+
+  <emp-ng-data-table *ngIf="!displayAllEntries"
+    class="fx-item"
+    [showControls]="false"
+    [showColumnStickyStart]="true"
+    [showColumnStickyEnd]="canEdit"
+    [clickableEntry]="true"
+    [dataTable]="groupedEntries"
+    [externalFilter]="filter"
+    [showDeleteButton]="canEdit"
+    itemsNotFoundText="Esta proyección no tiene conceptos."
+    (dataTableEvent)="onEntriesGroupedTableEvent($event)">
+
+  </emp-ng-data-table>
+
+</div>
+
+
+<emp-cf-projection-entry-editor *ngIf="displayEntryEditor"
+  [projection]="projection"
+  [canUpdate]="canEdit"
+  [entry]="selectedEntry"
+  (projectionEntryEditorEvent)="onEntryEditorEvent($event)">
+
+</emp-cf-projection-entry-editor>

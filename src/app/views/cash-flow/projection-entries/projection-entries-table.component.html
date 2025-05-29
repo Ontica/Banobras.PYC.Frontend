@@ -1,0 +1,76 @@
+<div class="fill-table-container" [style.width.%]="100">
+
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="account">
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Cuenta </th>
+      <td mat-cell *matCellDef="let row" [style.min-width.px]="200" class="italic-text wrap">
+        {{ row.accountName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="year">
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Año </th>
+      <td mat-cell *matCellDef="let row">{{ row.year }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="monthName">
+      <th mat-header-cell *matHeaderCellDef> Mes </th>
+      <td mat-cell *matCellDef="let row">{{ row.monthName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="day">
+      <th mat-header-cell *matHeaderCellDef> Día </th>
+      <td mat-cell *matCellDef="let row">{{ row.day }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="balanceColumn">
+      <th mat-header-cell *matHeaderCellDef> Concepto </th>
+      <td mat-cell *matCellDef="let row" class="nowrap">{{ row.balanceColumn }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="deposit">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right nowrap"> Ampliaciones </th>
+      <td mat-cell *matCellDef="let row" class="text-align-right nowrap">
+        {{ row.deposit !== 0 ? (row.deposit | empDecimal) : '-'}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="withdrawal">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Reducciones </th>
+      <td mat-cell *matCellDef="let row" class="text-align-right">
+        {{ row.withdrawal !== 0 ? (row.withdrawal | empDecimal) : '-'}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actionDelete">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let row" class="column-action">
+
+        <button mat-icon-button empNgStopPropagation *ngIf="!totalItemTypeList.includes(row.itemType)"
+          title="Eliminar concepto"
+          (click)="onRemoveEntryClicked(row)">
+          <mat-icon>
+            delete
+          </mat-icon>
+        </button>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="notFoundMessage">
+      <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+        Esta proyección no tiene conceptos.
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectEntryClicked(row)"
+      [class.selectable-row]="!totalItemTypeList.includes(row.itemType)"
+      [class.item-type-total]="totalItemTypeList.includes(row.itemType)"></tr>
+    <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
+      [hidden]="dataSource.data.length > 0"></tr>
+
+  </table>
+
+</div>

@@ -16,6 +16,10 @@ import { CashFlowProjectionHolder, EmptyCashFlowProjectionHolder } from '@app/mo
 import { ProjectionEditorEventType } from '../projection/projection-editor.component';
 
 import {
+  ProjectionEntriesEditionEventType
+} from '../projection-entries/projection-entries-edition.component';
+
+import {
   DocumentsEditionEventType
 } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
@@ -65,6 +69,20 @@ export class CashFlowProjectionTabbedViewComponent implements OnChanges {
         Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
         sendEvent(this.projectionTabbedViewEvent,
           ProjectionTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onProjectionEntriesEditionEvent(event: EventInfo) {
+    switch (event.type as ProjectionEntriesEditionEventType) {
+      case ProjectionEntriesEditionEventType.UPDATED:
+        Assertion.assertValue(event.payload.projectionUID, 'event.payload.projectionUID');
+        sendEvent(this.projectionTabbedViewEvent,
+          ProjectionTabbedViewEventType.REFRESH_DATA, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

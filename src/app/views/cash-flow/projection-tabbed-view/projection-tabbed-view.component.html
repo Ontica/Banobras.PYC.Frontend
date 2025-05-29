@@ -18,9 +18,18 @@
 
     <mat-tab label="Conceptos">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <ng-template matTabContent>
+
+        <emp-cf-projection-entries-edition
+          [projection]="data.projection"
+          [entries]="data.entries"
+          [canEdit]="data.actions.canUpdate"
+          (projectionEntriesEditionEvent)="onProjectionEntriesEditionEvent($event)">
+          <!-- [groupedEntries]="data.groupedEntries" -->
+
+        </emp-cf-projection-entries-edition>
+
+      </ng-template>
 
     </mat-tab>
 

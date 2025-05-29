@@ -119,4 +119,97 @@ export class CashFlowProjectionsDataService {
   //#endregion
 
 
+  //#region PROJECTION ENTRY (CRUD MONTHLY & ANNUALLY)
+  getProjectionEntry(projectionUID: string,
+                     entryUID: string): EmpObservable<CashFlowProjectionEntry> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+    Assertion.assertValue(entryUID, 'entryUID');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/entries/${entryUID}`;
+
+    return this.http.get<CashFlowProjectionEntry>(path);
+  }
+
+
+  createProjectionEntry(projectionUID: string,
+                        dataFields: CashFlowProjectionEntryFields): EmpObservable<CashFlowProjectionEntry> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/entries`;
+
+    return this.http.post<CashFlowProjectionEntry>(path, dataFields);
+  }
+
+
+  updateProjectionEntry(projectionUID: string,
+                        entryUID: string,
+                        dataFields: CashFlowProjectionEntryFields): EmpObservable<CashFlowProjectionEntry> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+    Assertion.assertValue(entryUID, 'entryUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/entries/${entryUID}`;
+
+    return this.http.put<CashFlowProjectionEntry>(path, dataFields);
+  }
+
+
+  removeProjectionEntry(projectionUID: string,
+                        entryUID: string): EmpObservable<void> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+    Assertion.assertValue(entryUID, 'entryUID');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/entries/${entryUID}`;
+
+    return this.http.delete<void>(path);
+  }
+
+
+  getProjectionEntriesByYear(projectionUID: string,
+                             entryByYearUID: string): EmpObservable<CashFlowProjectionEntry> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+    Assertion.assertValue(entryByYearUID, 'entryByYearUID');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/entries/${entryByYearUID}/get-annually`;
+
+    return this.http.get<CashFlowProjectionEntry>(path);
+  }
+
+
+  createProjectionEntriesByYear(projectionUID: string,
+                                dataFields: CashFlowProjectionEntryByYearFields): EmpObservable<CashFlowProjectionEntryByYear> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/entries/create-annually`;
+
+    return this.http.post<CashFlowProjectionEntryByYear>(path, dataFields);
+  }
+
+
+  updateProjectionEntriesByYear(projectionUID: string,
+                                entryByYearUID: string,
+                                dataFields: CashFlowProjectionEntryByYearFields): EmpObservable<CashFlowProjectionEntryByYear> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+    Assertion.assertValue(entryByYearUID, 'entryByYearUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/entries/${entryByYearUID}/update-annually`;
+
+    return this.http.put<CashFlowProjectionEntryByYear>(path, dataFields);
+  }
+
+
+  removeProjectionEntriesByYear(projectionUID: string,
+                                entryByYearUID: string): EmpObservable<void> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+    Assertion.assertValue(entryByYearUID, 'entryByYearUID');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/entries/${entryByYearUID}/remove-annually`;
+
+    return this.http.delete<void>(path);
+  }
+  //#endregion
+
 }
