@@ -42,6 +42,11 @@ export class FinancialProjectAccountsEditionComponent {
   constructor(private messageBox: MessageBoxService) { }
 
 
+  onAddProjectAccountButtonClicked() {
+    this.messageBox.showInDevelopment('Agregar cuenta');
+  }
+
+
   @SkipIf('submitted')
   onProjectAccountsTableEvent(event: EventInfo) {
     switch (event.type as ProjectAccountsTableEventType) {
@@ -51,7 +56,7 @@ export class FinancialProjectAccountsEditionComponent {
         return;
       case ProjectAccountsTableEventType.REMOVE_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        this.confirmRemoveAccount(event.payload.account as FinancialProjectAccountDescriptor);
+        this.confirmRemoveProjectAccount(event.payload.account as FinancialProjectAccountDescriptor);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -60,13 +65,13 @@ export class FinancialProjectAccountsEditionComponent {
   }
 
 
-  private confirmRemoveAccount(account: FinancialProjectAccountDescriptor) {
+  private confirmRemoveProjectAccount(account: FinancialProjectAccountDescriptor) {
     const title = 'Eliminar cuenta';
     const message = this.getConfirmRemoveAccountMessage(account);
 
     this.messageBox.confirm(message, title, 'DeleteCancel')
       .firstValue()
-      .then(x => x ? this.removeAccount(account) : null);
+      .then(x => x ? this.removeProjectAccount(account) : null);
   }
 
 
@@ -81,7 +86,7 @@ export class FinancialProjectAccountsEditionComponent {
   }
 
 
-  private removeAccount(account: FinancialProjectAccountDescriptor) {
+  private removeProjectAccount(account: FinancialProjectAccountDescriptor) {
     this.messageBox.showInDevelopment('Eliminar cuenta', account);
   }
 
