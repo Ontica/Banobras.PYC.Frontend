@@ -92,6 +92,11 @@ export class FormHelper {
   }
 
 
+  static getSearcherPlaceholder(editionMode: boolean): string {
+    return !editionMode ? 'No determinado' : 'Buscar...';
+  }
+
+
   static getConditionalPlaceholder(editionMode: boolean, condition: boolean, fieldName: string): string {
     if (!editionMode) {
       return 'No determinado';

@@ -125,6 +125,20 @@
 
         </ng-container>
 
+        <ng-container matColumnDef="notFoundMessage">
+          <td mat-footer-cell *matFooterCellDef
+            [attr.colspan]="displayedColumns.length"
+            [class.footer-not-data]="displayedColumns.length === 0">
+            <ng-container *ngIf="!executed">
+              {{notQueryExecutedText}}
+            </ng-container>
+
+            <ng-container *ngIf="executed && !hasItems">
+              {{itemsNotFoundText}}
+            </ng-container>
+          </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class]="row[formatFieldName] ?? ''"
           [ngClass]="{'item-type-summary': summaryItemTypeList.includes(row.itemType),
@@ -134,16 +148,10 @@
                       'selectable-row':    isClickableEntry(row)}"
           (click)="onRowClicked(row)">
         </tr>
+        <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
+          [hidden]="dataSource.data.length > 0"></tr>
 
       </table>
-
-      <div *ngIf="!executed" class="text-not-found">
-        {{notQueryExecutedText}}
-      </div>
-
-      <div *ngIf="executed && !hasItems" class="text-not-found">
-        {{itemsNotFoundText}}
-      </div>
 
     </cdk-virtual-scroll-viewport>
 
