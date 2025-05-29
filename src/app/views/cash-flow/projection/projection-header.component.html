@@ -9,12 +9,13 @@
         <label>Área:</label>
 
         <emp-ng-select
-          formControlName="basePartyUID"
+          formControlName="partyUID"
           [config]="{virtualScroll: true, showTooltip: true, autoSelect: !isSaved}"
           [items]="orgUnitsList"
           [loading]="isLoading"
-          [placeholder]="selectionPlaceholder"
-          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)">
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+          [showError]="formHelper.isControlInvalid(form.controls.partyUID)"
+          (changes)="onOrgUnitChanges($event)">
         </emp-ng-select>
 
       </div>
@@ -25,10 +26,10 @@
 
         <emp-ng-select
           formControlName="planUID"
-          [config]="{autoSelect: !isSaved}"
+          [config]="{showTooltip: true, autoSelect: !isSaved}"
           [items]="plansList"
           [loading]="isLoading"
-          [placeholder]="selectionPlaceholder"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.partyUID.valid, 'área')"
           [showError]="formHelper.isControlInvalid(form.controls.planUID)">
         </emp-ng-select>
 
@@ -40,85 +41,51 @@
 
       <div class="fx-item-half">
 
-        <label>Categoría:</label>
+        <label>Tipo de proyección:</label>
 
         <emp-ng-select
-          formControlName="categoryUID"
-          [config]="{autoSelect: !isSaved}"
-          [items]="categoriesList"
+          formControlName="projectionTypeUID"
+          [config]="{showTooltip: true, autoSelect: !isSaved}"
+          [items]="projectionTypesList"
           [loading]="isLoading"
-          [placeholder]="selectionPlaceholder"
-          [showError]="formHelper.isControlInvalid(form.controls.categoryUID)">
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.partyUID.valid, 'área')"
+          [showError]="formHelper.isControlInvalid(form.controls.projectionTypeUID)"
+          (changes)="onProjectionTypeChanges($event)">
         </emp-ng-select>
 
       </div>
-
-      <div class="fx-item-half">
-
-        <label>Clasificación:</label>
-
-        <emp-ng-select
-          formControlName="classificationUID"
-          [config]="{autoSelect: !isSaved}"
-          [items]="classificationsList"
-          [loading]="isLoading"
-          [placeholder]="selectionPlaceholder"
-          [showError]="formHelper.isControlInvalid(form.controls.classificationUID)">
-        </emp-ng-select>
-
-      </div>
-
-    </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-half">
-
-        <label>Proyecto:</label>
-
-        <emp-ng-select-typeahead
-          formControlName="baseProjectUID"
-          [config]="{ clearable: true, showTooltip: true }"
-          [searcherAPI]="projectsAPI"
-          [initialValue]="isSaved && !editionMode ? projection.baseProject : null"
-          [placeholder]="searcherPlaceholder"
-          [showError]="formHelper.isControlInvalid(form.controls.baseProjectUID)">
-
-        </emp-ng-select-typeahead>
-
-      </div>
-
-      <div class="fx-item-half">
-
-        <label>Cuenta:</label>
-
-        <emp-ng-select-typeahead #baseAccountSearcher
-          formControlName="baseAccountUID"
-          [config]="{ clearable: true, showTooltip: true }"
-          [searcherAPI]="accountsAPI"
-          [initialValue]="isSaved && !editionMode ? projection.baseAccount : null"
-          [placeholder]="searcherPlaceholder"
-          [showError]="formHelper.isControlInvalid(form.controls.baseAccountUID)">
-
-        </emp-ng-select-typeahead>
-
-      </div>
-
-    </div>
-
-    <div class="fx-row-container">
 
       <div class="fx-item-half">
 
         <label>Fuente:</label>
 
         <emp-ng-select
-          formControlName="operationSourceUID"
-          [config]="{autoSelect: !isSaved}"
-          [items]="operationSourcesList"
+          formControlName="sourceUID"
+          [config]="{showTooltip: true, autoSelect: !isSaved}"
+          [items]="sourcesList"
           [loading]="isLoading"
-          [placeholder]="selectionPlaceholder"
-          [showError]="formHelper.isControlInvalid(form.controls.operationSourceUID)">
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, !!form.value.projectionTypeUID, 'tipo de proyección')"
+          [showError]="formHelper.isControlInvalid(form.controls.sourceUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Tipo de proyecto:</label>
+
+        <emp-ng-select
+          formControlName="projectTypeUID"
+          [config]="{showTooltip: true, autoSelect: !isSaved}"
+          [items]="projectTypesList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.projectionTypeUID.valid, 'tipo de proyección')"
+          [showError]="formHelper.isControlInvalid(form.controls.projectTypeUID)"
+          (changes)="onProjectTypeChanges($event)">
         </emp-ng-select>
 
       </div>
@@ -131,6 +98,41 @@
           [showError]="formHelper.isControlInvalid(form.controls.tags)">
 
         </emp-ng-input-tags>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Proyecto:</label>
+
+        <emp-ng-select
+          formControlName="projectUID"
+          [config]="{showTooltip: true, autoSelect: !isSaved}"
+          [items]="projectsList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, !!form.value.projectTypeUID, 'tipo de proyecto')"
+          [showError]="formHelper.isControlInvalid(form.controls.projectUID)"
+          (changes)="onProjectChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Cuenta:</label>
+
+        <emp-ng-select
+          formControlName="accountUID"
+          [config]="{showTooltip: true, autoSelect: !isSaved}"
+          [items]="accountsList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, !!form.value.projectUID, 'proyecto')"
+          [showError]="formHelper.isControlInvalid(form.controls.accountUID)">
+        </emp-ng-select>
 
       </div>
 
@@ -262,10 +264,12 @@
 
 
 <emp-ng-confirm-submit-modal *ngIf="!!confirmModalMode"
+  entityPronoun="la"
+  entityText="proyección"
   [entityUID]="projection.uid"
   [entityNo]="projection.projectionNo"
   [entityType]="projection.plan.name"
-  [party]="projection.baseParty.name"
+  [party]="projection.party.name"
   [mode]="confirmModalMode"
   (confirmSubmitModalEvent)="onConfirmSubmitModalEvent($event)">
 

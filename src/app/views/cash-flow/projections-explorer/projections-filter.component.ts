@@ -34,22 +34,22 @@ export enum ProjectionsFilterEventType {
 }
 
 interface ProjectionsFilterFormModel extends FormGroup<{
-  basePartyUID: FormControl<string>;
+  partyUID: FormControl<string>;
   status: FormControl<TransactionStatus>;
   keywords: FormControl<string>;
   planUID: FormControl<string>;
-  categoryUID: FormControl<string>;
-  classificationUID: FormControl<string>;
+  projectionTypeUID: FormControl<string>;
+  projectTypeUID: FormControl<string>;
   sourceUID: FormControl<string>;
-  baseAccountUID: FormControl<string>;
-  baseProjectUID: FormControl<string>;
+  projectUID: FormControl<string>;
+  accountUID: FormControl<string>;
   projectionsNo: FormControl<string[]>;
   entriesKeywords: FormControl<string>;
   tags: FormControl<string[]>;
   dateType: FormControl<TransactionDateType>;
   datePeriod: FormControl<DateRange>;
-  partyType: FormControl<TransactionPartyType>;
-  partyUID: FormControl<string>;
+  searchPartyRole: FormControl<TransactionPartyType>;
+  searchPartyUID: FormControl<string>;
 }> { }
 
 @Component({
@@ -79,17 +79,17 @@ export class CashFlowProjectionsFilterComponent implements OnChanges, OnInit, On
 
   orgUnitsList: Identifiable[] = [];
 
-  categoriesList: Identifiable[] = [];
+  projectionTypesList: Identifiable[] = [];
 
   plansList: Identifiable[] = [];
 
-  classificationsList: Identifiable[] = [];
+  projectTypesList: Identifiable[] = [];
 
   operationSourcesList: Identifiable[] = [];
 
   dateTypesList: Identifiable<TransactionDateType>[] = TransactionDateTypesList;
 
-  partyTypesList: Identifiable<TransactionPartyType>[] = TransactionPartyTypesList;
+  searchPartyRolesList: Identifiable<TransactionPartyType>[] = TransactionPartyTypesList;
 
   accountsAPI = SearcherAPIS.cashFlowAccounts;
 
@@ -129,8 +129,8 @@ export class CashFlowProjectionsFilterComponent implements OnChanges, OnInit, On
   }
 
 
-  onPartyTypeChanges(partyType: Identifiable<TransactionPartyType>) {
-    this.form.controls.partyUID.reset();
+  onPartyTypeChanges(searchPartyRole: Identifiable<TransactionPartyType>) {
+    this.form.controls.searchPartyUID.reset();
     this.selectedParty = null;
   }
 
@@ -145,8 +145,8 @@ export class CashFlowProjectionsFilterComponent implements OnChanges, OnInit, On
   }
 
 
-  onPartyChanges(party: Identifiable) {
-    this.selectedParty = isEmpty(party) ? null : party;
+  onPartyChanges(searchParty: Identifiable) {
+    this.selectedParty = isEmpty(searchParty) ? null : searchParty;
   }
 
 
@@ -184,8 +184,8 @@ export class CashFlowProjectionsFilterComponent implements OnChanges, OnInit, On
     .subscribe(([a, b, c, d, e]) => {
       this.orgUnitsList = a;
       this.plansList = b;
-      this.categoriesList = c;
-      this.classificationsList = d;
+      this.projectionTypesList = c;
+      this.projectTypesList = d;
       this.operationSourcesList = e;
 
       this.isLoading = false;
@@ -197,44 +197,44 @@ export class CashFlowProjectionsFilterComponent implements OnChanges, OnInit, On
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      basePartyUID: [null],
+      partyUID: [null],
       status: [null],
       keywords: [null],
       planUID: [null],
-      categoryUID: [null],
-      classificationUID: [null],
+      projectionTypeUID: [null],
+      projectTypeUID: [null],
       sourceUID: [null],
-      baseAccountUID: [null],
-      baseProjectUID: [null],
+      projectUID: [null],
+      accountUID: [null],
       entriesKeywords: [null],
       projectionsNo: [null],
       tags: [null],
       dateType: [TransactionDateType.Requested],
       datePeriod: [EmptyDateRange],
-      partyType: [TransactionPartyType.RequestedBy],
-      partyUID: [null],
+      searchPartyRole: [TransactionPartyType.RequestedBy],
+      searchPartyUID: [null],
     });
   }
 
 
   private setFormData() {
     this.form.reset({
-      basePartyUID: this.query.basePartyUID,
+      partyUID: this.query.partyUID,
       status: this.query.status,
       keywords: this.query.keywords,
       planUID: this.query.planUID,
-      categoryUID: this.query.categoryUID,
-      classificationUID: this.query.classificationUID,
+      projectionTypeUID: this.query.projectionTypeUID,
+      projectTypeUID: this.query.projectTypeUID,
       sourceUID: this.query.sourceUID,
-      baseAccountUID: this.query.baseAccountUID,
-      baseProjectUID: this.query.baseProjectUID,
+      projectUID: this.query.projectUID,
+      accountUID: this.query.accountUID,
       entriesKeywords: this.query.entriesKeywords,
       projectionsNo: this.query.projectionsNo,
       tags: this.query.tags,
       dateType: this.query.dateType ?? TransactionDateType.Requested,
       datePeriod: { fromDate: this.query.fromDate ?? null, toDate: this.query.toDate ?? null },
-      partyType: this.query.partyType ?? TransactionPartyType.RequestedBy,
-      partyUID: this.query.partyUID,
+      searchPartyRole: this.query.searchPartyRole ?? TransactionPartyType.RequestedBy,
+      searchPartyUID: this.query.searchPartyUID,
     });
   }
 
@@ -247,20 +247,20 @@ export class CashFlowProjectionsFilterComponent implements OnChanges, OnInit, On
       status: this.form.value.status ?? null,
       keywords: this.form.value.keywords ?? null,
       planUID: this.form.value.planUID ?? null,
-      categoryUID: this.form.value.categoryUID ?? null,
-      classificationUID: this.form.value.classificationUID ?? null,
+      projectionTypeUID: this.form.value.projectionTypeUID ?? null,
+      projectTypeUID: this.form.value.projectTypeUID ?? null,
       sourceUID: this.form.value.sourceUID ?? null,
-      basePartyUID: this.form.value.basePartyUID ?? null,
-      baseAccountUID: this.form.value.baseAccountUID ?? null,
-      baseProjectUID: this.form.value.baseProjectUID ?? null,
+      partyUID: this.form.value.partyUID ?? null,
+      projectUID: this.form.value.projectUID ?? null,
+      accountUID: this.form.value.accountUID ?? null,
       entriesKeywords: this.form.value.entriesKeywords ?? null,
       projectionsNo: this.form.value.projectionsNo ?? null,
       tags: this.form.value.tags ?? null,
       dateType: this.form.value.dateType ?? null,
       fromDate: this.form.value.datePeriod?.fromDate ?? '',
       toDate: this.form.value.datePeriod?.toDate ?? '',
-      partyType: this.form.value.partyType ?? null,
-      partyUID: this.form.value.partyUID ?? null,
+      searchPartyRole: this.form.value.searchPartyRole ?? null,
+      searchPartyUID: this.form.value.searchPartyUID ?? null,
     };
 
     return query;

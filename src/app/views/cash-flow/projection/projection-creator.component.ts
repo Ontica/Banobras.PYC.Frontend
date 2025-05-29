@@ -13,9 +13,9 @@ import { sendEvent } from '@app/shared/utils';
 
 import { SkipIf } from '@app/shared/decorators';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { CashFlowProjectionsDataService } from '@app/data-services';
+
+import { CashFlowProjectionFields } from '@app/models';
 
 import { ProjectionHeaderEventType } from './projection-header.component';
 
@@ -36,26 +36,35 @@ export class CashFlowProjectionCreatorComponent {
   submitted = false;
 
 
-  constructor(private projectionsData: CashFlowProjectionsDataService,
-              private mesaggeBox: MessageBoxService) { }
+  constructor(private projectionsData: CashFlowProjectionsDataService) { }
 
 
   onCloseModalClicked() {
     sendEvent(this.projectionCreatorEvent, ProjectionCreatorEventType.CLOSE_MODAL_CLICKED);
   }
 
+
   @SkipIf('submitted')
   onProjectionHeaderEvent(event: EventInfo) {
     switch (event.type as ProjectionHeaderEventType) {
       case ProjectionHeaderEventType.CREATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.mesaggeBox.showInDevelopment('Agregar proyección', event.payload);
+        this.createProjection(event.payload.dataFields as CashFlowProjectionFields);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private createProjection(dataFields: CashFlowProjectionFields) {
+    this.submitted = true;
+
+    this.projectionsData.createProjection(dataFields)
+      .firstValue()
+      .then(x => sendEvent(this.projectionCreatorEvent, ProjectionCreatorEventType.CREATED, { data: x }))
+      .finally(() => this.submitted = false);
   }
 
 }

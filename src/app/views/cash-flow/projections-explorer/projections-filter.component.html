@@ -9,11 +9,11 @@
         <label>Área:</label>
 
         <emp-ng-select
-          formControlName="basePartyUID"
+          formControlName="partyUID"
           [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
           [items]="orgUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)"
+          [showError]="formHelper.isControlInvalid(form.controls.partyUID)"
           placeholder="Todas">
         </emp-ng-select>
 
@@ -91,14 +91,14 @@
 
       <div class="fx-item-quarter sm-fx-item">
 
-        <label>Categoría:</label>
+        <label>Tipo de proyección:</label>
 
         <emp-ng-select
-          formControlName="categoryUID"
+          formControlName="projectionTypeUID"
           [config]="{clearable: true, showTooltip: true}"
-          [items]="categoriesList"
+          [items]="projectionTypesList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.categoryUID)"
+          [showError]="formHelper.isControlInvalid(form.controls.projectionTypeUID)"
           placeholder="Todas">
         </emp-ng-select>
 
@@ -106,14 +106,14 @@
 
       <div  class="fx-item-quarter sm-fx-item">
 
-        <label>Clasificación:</label>
+        <label>Tipo de proyecto:</label>
 
         <emp-ng-select
-          formControlName="classificationUID"
+          formControlName="projectTypeUID"
           [config]="{clearable: true, showTooltip: true}"
-          [items]="classificationsList"
+          [items]="projectTypesList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.classificationUID)"
+          [showError]="formHelper.isControlInvalid(form.controls.projectTypeUID)"
           placeholder="Todas">
         </emp-ng-select>
 
@@ -152,7 +152,7 @@
             <label>Proyecto:</label>
 
             <emp-ng-select-typeahead
-              formControlName="baseProjectUID"
+              formControlName="projectUID"
               placeholder="Todos"
               [config]="{ clearable: true, showTooltip: true }"
               [searcherAPI]="projectsAPI"
@@ -167,7 +167,7 @@
             <label>Cuenta:</label>
 
             <emp-ng-select-typeahead
-              formControlName="baseAccountUID"
+              formControlName="accountUID"
               placeholder="Todas"
               [config]="{ clearable: true, showTooltip: true }"
               [searcherAPI]="accountsAPI"
@@ -248,10 +248,10 @@
           <div class="fx-item-size sm-fx-item" style="--size: 138px;">
 
             <emp-ng-select
-              formControlName="partyType"
-              [items]="partyTypesList"
+              formControlName="searchPartyRole"
+              [items]="searchPartyRolesList"
               [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.partyType)"
+              [showError]="formHelper.isControlInvalid(form.controls.searchPartyRole)"
               (changes)="onPartyTypeChanges($event)">
 
             </emp-ng-select>
@@ -263,12 +263,12 @@
             <label>Persona o cuenta de acceso:</label>
 
             <emp-ng-select-typeahead
-              formControlName="partyUID"
+              formControlName="searchPartyUID"
               [config]="{ clearable: true, searchByQuery: true }"
               [searcherAPI]="partiesAPI"
-              [initQuery]="{ partyType: form.value.partyType, keywords: '' }"
+              [initQuery]="{ partyType: form.value.searchPartyRole, keywords: '' }"
               [initialValue]="selectedParty"
-              [showError]="formHelper.isControlInvalid(form.controls.partyUID)"
+              [showError]="formHelper.isControlInvalid(form.controls.searchPartyUID)"
               (changes)="onPartyChanges($event)"
               placeholder="Todas">
 

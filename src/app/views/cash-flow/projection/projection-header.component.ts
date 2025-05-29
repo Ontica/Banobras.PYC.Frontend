@@ -5,8 +5,8 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges,
-         ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
+         SimpleChanges } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -16,13 +16,12 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
+import { CashFlowProjectionsDataService } from '@app/data-services';
 
-import { CashFlowProjectionsDataService, SearcherAPIS } from '@app/data-services';
-
-import { CashFlowProjection, CashFlowProjectionActions, CashFlowProjectionFields,
-         CashFlowProjectionRejectFields, EmptyCashFlowProjection,
-         EmptyCashFlowProjectionActions} from '@app/models';
+import { CashFlowProjectForEdition, CashFlowProjection, CashFlowProjectionActions, CashFlowProjectionFields,
+         CashFlowProjectionOrgUnitsForEdition, CashFlowProjectionRejectFields,
+         CashFlowProjectionTypeForEdition, CashFlowProjectTypeForEdition, EmptyCashFlowProjection,
+         EmptyCashFlowProjectionActions } from '@app/models';
 
 import { ConfirmSubmitModalEventType,
          ConfirmSubmitType } from '@app/views/entity-records/confirm-submit-modal/confirm-submit-modal.component';
@@ -39,13 +38,13 @@ export enum ProjectionHeaderEventType {
 }
 
 interface ProjectionFormModel extends FormGroup<{
-  basePartyUID: FormControl<string>;
+  partyUID: FormControl<string>;
   planUID: FormControl<string>;
-  categoryUID: FormControl<string>;
-  classificationUID: FormControl<string>;
-  operationSourceUID: FormControl<string>;
-  baseProjectUID: FormControl<string>;
-  baseAccountUID: FormControl<string>;
+  projectionTypeUID: FormControl<string>;
+  projectTypeUID: FormControl<string>;
+  sourceUID: FormControl<string>;
+  projectUID: FormControl<string>;
+  accountUID: FormControl<string>;
   description: FormControl<string>;
   justification: FormControl<string>;
   tags: FormControl<string[]>;
@@ -75,19 +74,19 @@ export class CashFlowProjectionHeaderComponent implements OnInit, OnChanges, OnD
 
   isLoading = false;
 
-  orgUnitsList: Identifiable[] = [];
+  orgUnitsList: CashFlowProjectionOrgUnitsForEdition[] = [];
 
-  categoriesList: Identifiable[] = [];
+  projectionTypesList: Identifiable[] = [];
 
   plansList: Identifiable[] = [];
 
-  classificationsList: Identifiable[] = [];
+  projectTypesList: Identifiable[] = [];
 
-  operationSourcesList: Identifiable[] = [];
+  sourcesList: Identifiable[] = [];
 
-  accountsAPI = SearcherAPIS.cashFlowAccounts;
+  accountsList: Identifiable[] = [];
 
-  projectsAPI = SearcherAPIS.cashFlowProjects;
+  projectsList: Identifiable[] = [];
 
   confirmModalMode: ConfirmSubmitType = null;
 
@@ -123,21 +122,48 @@ export class CashFlowProjectionHeaderComponent implements OnInit, OnChanges, OnD
   }
 
 
-  get selectionPlaceholder(): string {
-    if (!this.editionMode) {
-      return 'No determinado';
-    }
+  onOrgUnitChanges(orgUnit: CashFlowProjectionOrgUnitsForEdition) {
+    this.form.controls.planUID.reset();
+    this.form.controls.projectionTypeUID.reset();
+    this.form.controls.projectTypeUID.reset();
+    this.form.controls.sourceUID.reset();
+    this.form.controls.projectUID.reset();
+    this.form.controls.accountUID.reset();
 
-    return 'Seleccionar';
+    this.plansList = orgUnit?.plans ?? [];
+    this.projectionTypesList = orgUnit?.projectionTypes ?? [];
+    this.projectTypesList = [];
+    this.sourcesList = [];
+    this.projectsList = [];
+    this.accountsList = [];
   }
 
 
-  get searcherPlaceholder(): string {
-    if (!this.editionMode) {
-      return 'No determinado';
-    }
+  onProjectionTypeChanges(projectionType: CashFlowProjectionTypeForEdition) {
+    this.form.controls.projectTypeUID.reset();
+    this.form.controls.sourceUID.reset();
+    this.form.controls.projectUID.reset();
+    this.form.controls.accountUID.reset();
 
-    return 'Buscar...';
+    this.projectTypesList = projectionType.projectTypes;
+    this.sourcesList = projectionType.sources;
+    this.projectsList = [];
+    this.accountsList = [];
+  }
+
+
+  onProjectTypeChanges(projectType: CashFlowProjectTypeForEdition) {
+    this.form.controls.projectUID.reset();
+    this.form.controls.accountUID.reset();
+
+    this.projectsList = projectType.projects;
+    this.accountsList = [];
+  }
+
+
+  onProjectChanges(project: CashFlowProjectForEdition) {
+    this.form.controls.accountUID.reset();
+    this.accountsList = project.accounts;
   }
 
 
@@ -183,18 +209,46 @@ export class CashFlowProjectionHeaderComponent implements OnInit, OnChanges, OnD
 
 
   private loadDataLists() {
+    this.isLoading = true;
 
+    this.projectionsData.getStructuredDataForEdition()
+    .subscribe(x => {
+      this.setOrgUnitsList(x);
+      this.isLoading = x.length === 0;
+    });
   }
 
 
-  private validateInitData() {
-    if (this.isSaved) {
-      this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.projection.baseParty, 'uid');
-      this.categoriesList = ArrayLibrary.insertIfNotExist(this.categoriesList ?? [], this.projection.category, 'uid');
-      this.plansList = ArrayLibrary.insertIfNotExist(this.plansList ?? [], this.projection.plan, 'uid');
-      this.classificationsList = ArrayLibrary.insertIfNotExist(this.classificationsList ?? [], this.projection.classification, 'uid');
-      this.operationSourcesList = ArrayLibrary.insertIfNotExist(this.operationSourcesList ?? [], this.projection.operationSource, 'uid');
+  private setOrgUnitsList(data: CashFlowProjectionOrgUnitsForEdition[]) {
+    this.orgUnitsList = data;
+    this.validateInitDataList();
+  }
+
+
+  private validateInitDataList() {
+    if (!this.isSaved) {
+      return;
     }
+
+    const orgUnit = this.orgUnitsList.find(x => x.uid === this.projection.party.uid);
+    const projectionType = orgUnit?.projectionTypes?.find(x => x.uid === this.projection.projectionType.uid);
+    const projectType = projectionType?.projectTypes?.find(x => x.uid === this.projection.projectType.uid);
+    const project = projectType?.projects?.find(x => x.uid === this.projection.project.uid);
+
+    this.plansList = orgUnit?.plans ?? [];
+    this.projectionTypesList = orgUnit?.projectionTypes ?? [];
+    this.sourcesList = projectionType?.sources ?? [];
+    this.projectTypesList = projectionType?.projectTypes ?? [];
+    this.projectsList = projectType?.projects ?? [];
+    this.accountsList = project?.accounts ?? [];
+
+    this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.projection.party as any, 'uid');
+    this.plansList = ArrayLibrary.insertIfNotExist(this.plansList ?? [], this.projection.plan, 'uid');
+    this.projectionTypesList = ArrayLibrary.insertIfNotExist(this.projectionTypesList ?? [], this.projection.projectionType, 'uid');
+    this.sourcesList = ArrayLibrary.insertIfNotExist(this.sourcesList ?? [], this.projection.source, 'uid');
+    this.projectTypesList = ArrayLibrary.insertIfNotExist(this.projectTypesList ?? [], this.projection.projectType, 'uid');
+    this.projectsList = ArrayLibrary.insertIfNotExist(this.projectsList ?? [], this.projection.project, 'uid');
+    this.accountsList = ArrayLibrary.insertIfNotExist(this.accountsList ?? [], this.projection.account, 'uid');
   }
 
 
@@ -202,13 +256,13 @@ export class CashFlowProjectionHeaderComponent implements OnInit, OnChanges, OnD
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      basePartyUID: ['', Validators.required],
+      partyUID: ['', Validators.required],
       planUID: ['', Validators.required],
-      categoryUID: ['', Validators.required],
-      classificationUID: ['', Validators.required],
-      operationSourceUID: [''],
-      baseProjectUID: [''],
-      baseAccountUID: [''],
+      projectionTypeUID: ['', Validators.required],
+      projectTypeUID: ['', Validators.required],
+      sourceUID: ['', Validators.required],
+      projectUID: ['', Validators.required],
+      accountUID: ['', Validators.required],
       description: [''],
       justification: [''],
       tags: [null],
@@ -219,19 +273,19 @@ export class CashFlowProjectionHeaderComponent implements OnInit, OnChanges, OnD
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        basePartyUID: isEmpty(this.projection.baseParty) ? null : this.projection.baseParty.uid,
+        partyUID: isEmpty(this.projection.party) ? null : this.projection.party.uid,
         planUID: isEmpty(this.projection.plan) ? null : this.projection.plan.uid,
-        categoryUID: isEmpty(this.projection.category) ? null : this.projection.category.uid,
-        classificationUID: isEmpty(this.projection.classification) ? null : this.projection.classification.uid,
-        operationSourceUID: isEmpty(this.projection.operationSource) ? null : this.projection.operationSource.uid,
-        baseProjectUID: isEmpty(this.projection.baseProject) ? null : this.projection.baseProject.uid,
-        baseAccountUID: isEmpty(this.projection.baseAccount) ? null : this.projection.baseAccount.uid,
+        projectionTypeUID: isEmpty(this.projection.projectionType) ? null : this.projection.projectionType.uid,
+        projectTypeUID: isEmpty(this.projection.projectType) ? null : this.projection.projectType.uid,
+        sourceUID: isEmpty(this.projection.source) ? null : this.projection.source.uid,
+        projectUID: isEmpty(this.projection.project) ? null : this.projection.project.uid,
+        accountUID: isEmpty(this.projection.account) ? null : this.projection.account.uid,
         description: this.projection.description ?? null,
         justification: this.projection.justification ?? null,
         tags: this.projection.tags ?? [],
       });
 
-      this.validateInitData();
+      this.validateInitDataList();
     });
   }
 
@@ -240,13 +294,13 @@ export class CashFlowProjectionHeaderComponent implements OnInit, OnChanges, OnD
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const data: CashFlowProjectionFields = {
-      basePartyUID: this.form.value.basePartyUID ?? null,
+      partyUID: this.form.value.partyUID ?? null,
       planUID: this.form.value.planUID ?? null,
-      categoryUID: this.form.value.categoryUID ?? null,
-      classificationUID: this.form.value.classificationUID ?? null,
-      operationSourceUID: this.form.value.operationSourceUID ?? null,
-      baseProjectUID: this.form.value.baseProjectUID ?? null,
-      baseAccountUID: this.form.value.baseAccountUID ?? null,
+      projectionTypeUID: this.form.value.projectionTypeUID ?? null,
+      projectTypeUID: this.form.value.projectTypeUID ?? null,
+      sourceUID: this.form.value.sourceUID ?? null,
+      projectUID: this.form.value.projectUID ?? null,
+      accountUID: this.form.value.accountUID ?? null,
       description: this.form.value.description ?? null,
       justification: this.form.value.justification ?? null,
       tags: this.form.value.tags ?? null,

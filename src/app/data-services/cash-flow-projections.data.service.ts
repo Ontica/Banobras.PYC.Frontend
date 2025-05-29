@@ -9,7 +9,9 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { CashFlowProjectionDescriptor, CashFlowProjectionHolder, CashFlowProjectionsQuery,
+import { CashFlowProjectionDescriptor, CashFlowProjectionEntry, CashFlowProjectionEntryByYear,
+         CashFlowProjectionEntryByYearFields, CashFlowProjectionEntryFields, CashFlowProjectionFields,
+         CashFlowProjectionHolder, CashFlowProjectionOrgUnitsForEdition, CashFlowProjectionsQuery,
          FileReport } from '@app/models';
 
 
@@ -20,6 +22,7 @@ export class CashFlowProjectionsDataService {
   constructor(private http: HttpService) { }
 
 
+  //#region CATALOGUES
   getPlans(): EmpObservable<Identifiable[]> {
     const path = 'v1/cash-flow/projections/plans';
 
@@ -48,6 +51,15 @@ export class CashFlowProjectionsDataService {
   }
 
 
+  getStructuredDataForEdition(): EmpObservable<CashFlowProjectionOrgUnitsForEdition[]> {
+    const path = 'v1/cash-flow/projections/structured-data-for-edition';
+
+    return this.http.get<CashFlowProjectionOrgUnitsForEdition[]>(path);
+  }
+  //#endregion
+
+
+  //#region PROJECTIONS LIST
   searchProjections(query: CashFlowProjectionsQuery): EmpObservable<CashFlowProjectionDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
@@ -55,8 +67,10 @@ export class CashFlowProjectionsDataService {
 
     return this.http.post<CashFlowProjectionDescriptor[]>(path, query);
   }
+  //#endregion
 
 
+  //#region PROJECTION (CRUD + OPERATIONS)
   getProjection(projectionUID: string): EmpObservable<CashFlowProjectionHolder> {
     Assertion.assertValue(projectionUID, 'projectionUID');
 
@@ -73,5 +87,36 @@ export class CashFlowProjectionsDataService {
 
     return this.http.get<FileReport>(path);
   }
+
+
+  createProjection(dataFields: CashFlowProjectionFields): EmpObservable<CashFlowProjectionHolder> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/cash-flow/projections`;
+
+    return this.http.post<CashFlowProjectionHolder>(path, dataFields);
+  }
+
+
+  updateProjection(projectionUID: string,
+                   dataFields: CashFlowProjectionFields): EmpObservable<CashFlowProjectionHolder> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/cash-flow/projections/${projectionUID}`;
+
+    return this.http.put<CashFlowProjectionHolder>(path, dataFields);
+  }
+
+
+  deleteProjection(projectionUID: string): EmpObservable<void> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+
+    const path = `v1/cash-flow/projections/${projectionUID}`;
+
+    return this.http.delete<void>(path);
+  }
+  //#endregion
+
 
 }

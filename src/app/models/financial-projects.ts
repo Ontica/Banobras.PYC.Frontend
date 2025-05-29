@@ -102,6 +102,11 @@ export interface FinancialProject {
   status: Identifiable<EntityStatus>;
 }
 
+export interface FinancialAccount {
+  uid: string;
+  name: string;
+}
+
 
 export interface FinancialProjectAccountDescriptor {
   uid: string;

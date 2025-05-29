@@ -17,8 +17,8 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { CashFlowProjectionsDataService } from '@app/data-services';
 
-import { CashFlowProjection, CashFlowProjectionActions, CashFlowProjectionHolder, EmptyCashFlowProjection,
-         EmptyCashFlowProjectionActions } from '@app/models';
+import { CashFlowProjection, CashFlowProjectionActions, CashFlowProjectionFields, CashFlowProjectionHolder,
+         EmptyCashFlowProjection, EmptyCashFlowProjectionActions } from '@app/models';
 
 import { ProjectionHeaderEventType } from './projection-header.component';
 
@@ -57,7 +57,10 @@ export class CashFlowProjectionEditorComponent {
     switch (event.type as ProjectionHeaderEventType) {
       case ProjectionHeaderEventType.UPDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.mesaggeBox.showInDevelopment('Actualizar proyección', event.payload);
+        this.updateProjection(this.projection.uid, event.payload.dataFields as CashFlowProjectionFields);
+        return;
+      case ProjectionHeaderEventType.DELETE:
+        this.deleteProjection(this.projection.uid);
         return;
       case ProjectionHeaderEventType.SEND_TO_AUTHORIZE:
         this.mesaggeBox.showInDevelopment('Enviar a autorizar proyección', event.payload);
@@ -72,13 +75,30 @@ export class CashFlowProjectionEditorComponent {
       case ProjectionHeaderEventType.CLOSE:
         this.mesaggeBox.showInDevelopment('Cerrar proyección', event.payload);
         return;
-      case ProjectionHeaderEventType.DELETE:
-        this.mesaggeBox.showInDevelopment('Eliminar proyección', event.payload);
-        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private updateProjection(projectionUID: string, dataFields: CashFlowProjectionFields) {
+    this.submitted = true;
+
+    this.projectionsData.updateProjection(projectionUID, dataFields)
+      .firstValue()
+      .then(x => this.resolveProjectionUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private deleteProjection(projectionUID: string) {
+    this.submitted = true;
+
+    this.projectionsData.deleteProjection(projectionUID)
+      .firstValue()
+      .then(() => this.resolveProjectionDeleted(projectionUID))
+      .finally(() => this.submitted = false);
   }
 
 

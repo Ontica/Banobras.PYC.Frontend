@@ -12,18 +12,18 @@
       (click)="onSelectClicked()">
       <a class="bold-text">{{item.projectionNo}}</a>
     </div>
-    <div class="bold-text">{{item.planName}}</div>
-    <div>{{item.basePartyName}}</div>
+    <div class="bold-text">{{item.planName ?? 'N/D'}}</div>
+    <div>{{item.partyName ?? 'N/D'}}</div>
   </div>
 
   <div class="fx-item-size column-size-md sm-fx-item-none">
-    <div class="list-item-text-highlight">{{item.categoryName}}</div>
-    <div class="bold-text">{{item.classificationName}}</div>
+    <div class="list-item-text-highlight">{{item.projectionTypeName ?? 'N/D'}}</div>
+    <div class="bold-text">{{item.projectTypeName ?? 'N/D'}}</div>
     <div>{{item.total | empDecimal}}</div>
   </div>
 
   <div class="fx-item-size column-size-sm sm-fx-item-none">
-    <div class="list-item-text-highlight">{{item.operationSourceName}}</div>
+    <div class="list-item-text-highlight">{{item.sourceName ?? 'N/D'}}</div>
     <div class="bold-text">
       {{!item.recordingTime ? '-' : (item.recordingTime | empDateTimeFormat)}}
     </div>

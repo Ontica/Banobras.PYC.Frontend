@@ -96,8 +96,8 @@ export class CashFlowProjectionTabbedViewComponent implements OnChanges {
 
     this.title = `${this.data.projection.projectionNo}: ${this.data.projection.plan.name} ${status}`;
 
-    this.hint = `<strong>${this.data.projection.baseParty.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${this.data.projection.category.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+    this.hint = `<strong>${this.data.projection.party?.name ?? 'N/D'} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${this.data.projection.projectionType?.name ?? 'N/D'}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${authorizationTime}`;
   }
 
