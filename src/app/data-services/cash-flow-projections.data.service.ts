@@ -9,10 +9,10 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { CashFlowProjectionDescriptor, CashFlowProjectionEntry, CashFlowProjectionEntryByYear,
-         CashFlowProjectionEntryByYearFields, CashFlowProjectionEntryFields, CashFlowProjectionFields,
-         CashFlowProjectionHolder, CashFlowProjectionOrgUnitsForEdition, CashFlowProjectionsQuery,
-         FileReport } from '@app/models';
+import { CashFlowProjectAccount, CashFlowProjectionDescriptor, CashFlowProjectionEntry,
+         CashFlowProjectionEntryByYear, CashFlowProjectionEntryByYearFields, CashFlowProjectionEntryFields,
+         CashFlowProjectionFields, CashFlowProjectionHolder, CashFlowProjectionOrgUnitsForEdition,
+         CashFlowProjectionsQuery, FileReport } from '@app/models';
 
 
 @Injectable()
@@ -55,6 +55,15 @@ export class CashFlowProjectionsDataService {
     const path = 'v1/cash-flow/projections/structured-data-for-edition';
 
     return this.http.get<CashFlowProjectionOrgUnitsForEdition[]>(path);
+  }
+
+
+  getCashFlowProjectionAccounts(projectionUID: string): EmpObservable<CashFlowProjectAccount[]> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/accounts`;
+
+    return this.http.get<CashFlowProjectAccount[]>(path);
   }
   //#endregion
 

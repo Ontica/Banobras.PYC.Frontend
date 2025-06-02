@@ -29,37 +29,34 @@
 
         <div class="fx-column-container fx-gap-half">
 
-          <div class="fx-row-container">
+          <ng-container *ngIf="isMonthlyType">
 
-            <div class="fx-item-one">
-              <label>Movimiento:</label>
-              <emp-ng-select
-                [config]="{autoSelect: !isSaved}"
-                formControlName="balanceColumnUID"
-                [items]="balanceColumnsList"
-                [showError]="formHelper.isControlInvalid(form.controls.balanceColumnUID)">
-              </emp-ng-select>
+            <div class="fx-row-container">
+
+              <div class="fx-item-one">
+                <label>Movimiento:</label>
+                <emp-ng-select
+                  [config]="{autoSelect: !isSaved}"
+                  formControlName="projectionColumnUID"
+                  [items]="projectionColumnsList"
+                  [showError]="formHelper.isControlInvalid(form.controls.projectionColumnUID)">
+                </emp-ng-select>
+              </div>
+
             </div>
 
-          </div>
+            <div class="fx-row-container">
 
-          <div class="fx-row-container">
-
-            <div [ngClass]="isMonthlyType ? 'fx-item-one' : 'fx-item-half'">
-              <label>Concepto:</label>
-              <emp-ng-select-typeahead #accountSearcher
-                formControlName="accountUID"
-                [config]="{searchByQuery: true, clearable: true, minTermLength: 2, showTooltip: true}"
-                [initQuery]="{projectionUID: projection.uid, keywords: ''}"
-                [searcherAPI]="accountsAPI"
-                [initialValue]="isSaved && !isFormDataReady ? entry.account : null"
-                [showError]="formHelper.isControlInvalid(form.controls.accountUID)"
-                (changes)="onAccountChanges($event)">
-
-              </emp-ng-select-typeahead>
-            </div>
-
-            <ng-container *ngIf="!isMonthlyType">
+              <div class="fx-item-half" *ngIf="isMonthlyType">
+                <label>Concepto:</label>
+                <emp-ng-select
+                  [config]="{autoSelect: !isSaved, showTooltip: true}"
+                  formControlName="cashFlowAccountUID"
+                  [items]="accountsList"
+                  [showError]="formHelper.isControlInvalid(form.controls.cashFlowAccountUID)"
+                  (changes)="onAccountChanges($event)">
+                </emp-ng-select>
+              </div>
 
               <div class="fx-item-quarter">
                 <label>Año:</label>
@@ -67,10 +64,49 @@
                   formControlName="year"
                   [config]="{bindByValue: false, autoSelect: !isSaved}"
                   [bindLabel]="null"
-                  [items]="[]"
+                  [items]="yearsList"
                   [showError]="formHelper.isControlInvalid(form.controls.year)">
-                  <!-- [items]="projection?.classification?.entriesRules?.years ?? []" -->
                 </emp-ng-select>
+              </div>
+
+              <div class="fx-item-quarter">
+                <label>Mes:</label>
+                <emp-ng-select
+                  formControlName="month"
+                  [config]="{autoSelect: !isSaved}"
+                  [items]="monthsList"
+                  [showError]="formHelper.isControlInvalid(form.controls.month)">
+                </emp-ng-select>
+              </div>
+
+            </div>
+
+            <div class="fx-row-container">
+
+              <div class="fx-item-quarter">
+                <label>Moneda:</label>
+                <emp-ng-select
+                  formControlName="currencyUID"
+                  [config]="{autoSelect: !isSaved}"
+                  [items]="currenciesList"
+                  [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+                </emp-ng-select>
+              </div>
+
+              <div class="fx-item-quarter">
+                <label>Tipo de cambio:</label>
+                <emp-ng-input-numeric
+                  formControlName="exchangeRate"
+                  [showError]="formHelper.isControlInvalid(form.controls.exchangeRate)">
+                </emp-ng-input-numeric>
+              </div>
+
+              <div class="fx-item-quarter">
+                <label>Importe:</label>
+                <emp-ng-input-numeric
+                  formControlName="amount"
+                  [showError]="formHelper.isControlInvalid(form.controls.amount)">
+                </emp-ng-input-numeric>
               </div>
 
               <div class="fx-item-quarter" *ngIf="displayCheckProductRequired"
@@ -86,56 +122,86 @@
 
               </div>
 
-            </ng-container>
-
-          </div>
-
-          <div class="fx-row-container" *ngIf="isMonthlyType">
-
-            <div class="fx-item-quarter">
-              <label>Año:</label>
-              <emp-ng-select
-                formControlName="year"
-                [config]="{bindByValue: false, autoSelect: !isSaved}"
-                [bindLabel]="null"
-                [items]="[]"
-                [showError]="formHelper.isControlInvalid(form.controls.year)">
-                <!-- [items]="projection?.classification?.entriesRules?.years ?? []" -->
-              </emp-ng-select>
             </div>
 
-            <div class="fx-item-quarter">
-              <label>Mes:</label>
-              <emp-ng-select
-                formControlName="month"
-                [config]="{autoSelect: !isSaved}"
-                [items]="monthsList"
-                [showError]="formHelper.isControlInvalid(form.controls.month)">
-              </emp-ng-select>
-            </div>
+          </ng-container>
 
-            <div class="fx-item-quarter">
-              <label>Importe:</label>
-              <emp-ng-input-numeric
-                formControlName="amount"
-                [showError]="formHelper.isControlInvalid(form.controls.amount)">
-              </emp-ng-input-numeric>
-            </div>
 
-            <div class="fx-item-quarter" *ngIf="displayCheckProductRequired"
-              [style.margin-top.px]="12">
+          <ng-container *ngIf="!isMonthlyType">
 
-              <mat-checkbox
-                [(ngModel)]="checkProductRequired"
-                [ngModelOptions]="{standalone: true}"
-                [disabled]="!canUpdate"
-                (change)="onCheckProductRequiredChanges()">
-                Requiere datos de producto
-              </mat-checkbox>
+            <div class="fx-row-container">
+
+              <div class="fx-item-half">
+                <label>Movimiento:</label>
+                <emp-ng-select
+                  [config]="{autoSelect: !isSaved}"
+                  formControlName="projectionColumnUID"
+                  [items]="projectionColumnsList"
+                  [showError]="formHelper.isControlInvalid(form.controls.projectionColumnUID)">
+                </emp-ng-select>
+              </div>
+
+              <div class="fx-item-half">
+                <label>Concepto:</label>
+                <emp-ng-select
+                  [config]="{autoSelect: !isSaved, showTooltip: true}"
+                  formControlName="cashFlowAccountUID"
+                  [items]="accountsList"
+                  [showError]="formHelper.isControlInvalid(form.controls.cashFlowAccountUID)"
+                  (changes)="onAccountChanges($event)">
+                </emp-ng-select>
+              </div>
 
             </div>
 
-          </div>
+            <div class="fx-row-container">
+
+              <div class="fx-item-quarter">
+                <label>Año:</label>
+                <emp-ng-select
+                  formControlName="year"
+                  [config]="{bindByValue: false, autoSelect: !isSaved}"
+                  [bindLabel]="null"
+                  [items]="yearsList"
+                  [showError]="formHelper.isControlInvalid(form.controls.year)">
+                </emp-ng-select>
+              </div>
+
+              <div class="fx-item-quarter">
+                <label>Moneda:</label>
+                <emp-ng-select
+                  formControlName="currencyUID"
+                  [config]="{autoSelect: !isSaved}"
+                  [items]="currenciesList"
+                  [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+                </emp-ng-select>
+              </div>
+
+              <div class="fx-item-quarter">
+                <label>Tipo de cambio:</label>
+                <emp-ng-input-numeric
+                  formControlName="exchangeRate"
+                  [showError]="formHelper.isControlInvalid(form.controls.exchangeRate)">
+                </emp-ng-input-numeric>
+              </div>
+
+              <div class="fx-item-quarter" *ngIf="displayCheckProductRequired"
+                [style.margin-top.px]="12">
+
+                <mat-checkbox
+                  [(ngModel)]="checkProductRequired"
+                  [ngModelOptions]="{standalone: true}"
+                  [disabled]="!canUpdate"
+                  (change)="onCheckProductRequiredChanges()">
+                  Requiere datos de producto
+                </mat-checkbox>
+
+              </div>
+
+            </div>
+
+          </ng-container>
+
 
           <div *ngIf="checkProductRequired" [@empExpandCollapse]>
 

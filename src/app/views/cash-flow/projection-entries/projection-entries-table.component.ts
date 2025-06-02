@@ -35,8 +35,8 @@ export class CashFlowProjectionEntriesTableComponent implements OnChanges {
 
   @Output() projectionEntriesTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['account', 'year', 'monthName', 'day', 'balanceColumn',
-    'deposit', 'withdrawal'];
+  displayedColumnsDefault: string[] = ['cashFlowAccount', 'year', 'monthName', 'projectionColumn',
+    'inflowAmount', 'outflowAmount'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 

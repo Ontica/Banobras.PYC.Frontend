@@ -82,7 +82,7 @@ export class CashFlowProjectionTabbedViewComponent implements OnChanges {
       case ProjectionEntriesEditionEventType.UPDATED:
         Assertion.assertValue(event.payload.projectionUID, 'event.payload.projectionUID');
         sendEvent(this.projectionTabbedViewEvent,
-          ProjectionTabbedViewEventType.REFRESH_DATA, event.payload);
+          ProjectionTabbedViewEventType.REFRESH_DATA, { dataUID: event.payload.projectionUID });
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

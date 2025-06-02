@@ -270,14 +270,16 @@ export class CashFlowProjectionEntriesEditionComponent implements OnChanges {
 
 
   private getConfirmRemoveEntryMessage(type: TransactionEntryType, entry: CashFlowProjectionEntryBaseDescriptor): string {
-    const total = this.getEntryTotal(type, entry);
     const account = this.getEntryAccount(type, entry);
+    const inflowAmount = FormatLibrary.numberWithCommas(entry.inflowAmount, '1.2-2');
+    const outflowAmount = FormatLibrary.numberWithCommas(entry.outflowAmount, '1.2-2');
 
     return `
       <table class='confirm-data'>
-        <tr><td class='nowrap'>Concepto: </td><td><strong>${entry.balanceColumn}</strong></td></tr>
+        <tr><td class='nowrap'>Concepto: </td><td><strong>${entry.projectionColumn}</strong></td></tr>
         <tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>${account}</strong></td></tr>
-        <tr><td class='nowrap'>Importe: </td><td><strong>${total}</strong></td></tr>
+        <tr><td class='nowrap'>Ingreso: </td><td><strong>${inflowAmount}</strong></td></tr>
+        <tr><td class='nowrap'>Egreso: </td><td><strong>${outflowAmount}</strong></td></tr>
       </table>
       <br>¿Elimino el concepto?`;
   }
@@ -285,27 +287,10 @@ export class CashFlowProjectionEntriesEditionComponent implements OnChanges {
 
   private getEntryAccount(type: TransactionEntryType, entry: CashFlowProjectionEntryBaseDescriptor): string {
     switch (type) {
-      case TransactionEntryType.Monthly: return (entry as CashFlowProjectionEntryDescriptor).accountName;
-      case TransactionEntryType.Annually: return (entry as CashFlowProjectionEntryByYearDescriptor).account;
+      case TransactionEntryType.Monthly: return (entry as CashFlowProjectionEntryDescriptor).cashFlowAccountName;
+      case TransactionEntryType.Annually: return (entry as CashFlowProjectionEntryByYearDescriptor).cashFlowAccount;
       default: return '';
     }
-  }
-
-
-  private getEntryTotal(type: TransactionEntryType, entry: CashFlowProjectionEntryBaseDescriptor): string {
-    let total = null;
-    switch (type) {
-      case TransactionEntryType.Monthly:
-        total = (entry as CashFlowProjectionEntryDescriptor).withdrawal > 0 ?
-          (entry as CashFlowProjectionEntryDescriptor).withdrawal :
-          (entry as CashFlowProjectionEntryDescriptor).deposit;
-        break;
-      case TransactionEntryType.Annually:
-        total = (entry as CashFlowProjectionEntryByYearDescriptor).total;
-        break;
-      default: total = 0;
-    }
-    return FormatLibrary.numberWithCommas(total, '1.2-2');
   }
 
 }

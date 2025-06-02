@@ -123,11 +123,18 @@ export interface CashFlowProjectForEdition {
 }
 
 
+export interface CashFlowProjectAccount {
+  uid: string;
+  name: string;
+  currencies: Identifiable[];
+}
+
+
 export interface CashFlowProjection {
   uid: string;
   projectionNo: string;
   party: Identifiable;
-  plan: Identifiable;
+  plan: CashFlowProjectionPlan;
   projectionType: Identifiable;
   projectType: Identifiable;
   project: Identifiable;
@@ -150,8 +157,14 @@ export interface CashFlowProjection {
 }
 
 
-export interface CashFlowProjectionEntry {
+export interface CashFlowProjectionPlan {
   uid: string;
+  name: string;
+  baseCurrency: Identifiable;
+  categories: Identifiable[];
+  projectionsColumns: Identifiable[];
+  years: number[];
+  editionAllowed: boolean;
 }
 
 
@@ -172,35 +185,27 @@ export interface CashFlowProjectionHolder {
   actions: CashFlowProjectionActions;
 }
 
-// TODO: RFX THIS CODE
+
 export interface CashFlowProjectionEntryBaseDescriptor {
   uid: string;
-  balanceColumn: string;
-  accountName: string;
+  projectionColumn: string;
   itemType: TransactionEntryItemType;
+  inflowAmount: number;
+  outflowAmount: number;
 }
 
 
 export interface CashFlowProjectionEntryDescriptor extends CashFlowProjectionEntryBaseDescriptor {
-  uid: string;
-  accountName: string;
+  cashFlowAccountCode: string;
+  cashFlowAccountName: string;
   year: number;
   month: number;
   monthName: string;
-  day: number;
-  balanceColumn: string;
-  deposit: number;
-  withdrawal: number;
-  itemType: TransactionEntryItemType;
 }
 
 
 export interface CashFlowProjectionEntryByYearDescriptor extends CashFlowProjectionEntryBaseDescriptor {
-  uid: string;
-  balanceColumn: string;
-  account: string;
-  total: number;
-  itemType: TransactionEntryItemType;
+  cashFlowAccount: string;
 }
 
 
@@ -212,55 +217,29 @@ export interface CashFlowProjectionGroupedEntryData extends DataTable {
 export interface CashFlowProjectionEntryBase {
   uid: string;
   entryType: TransactionEntryType;
-  transactionUID: string;
-  balanceColumn: Identifiable;
-  account: Identifiable;
+  projectionUID: string;
+  projectionColumn: Identifiable;
+  cashFlowAccount: Identifiable;
   product: Identifiable;
   productUnit: Identifiable;
   description: string;
-  project: Identifiable;
+  justification: string;
   year: number;
   currency: Identifiable;
+  exchangeRate: number;
 }
 
 
 export interface CashFlowProjectionEntry extends CashFlowProjectionEntryBase {
-  uid: string;
-  entryType: TransactionEntryType;
-  transactionUID: string;
-  balanceColumn: Identifiable;
-  account: Identifiable;
-  product: Identifiable;
-  productUnit: Identifiable;
   productQty: number;
-  project: Identifiable;
-  party: Identifiable;
-  year: number;
   month: Identifiable;
-  day: number;
-  currency: Identifiable;
   originalAmount: number;
   amount: number;
-  exchangeRate: number;
-  description: string;
-  justification: string;
   status: Identifiable;
 }
 
 
 export interface CashFlowProjectionEntryByYear extends CashFlowProjectionEntryBase {
-  uid: string;
-  entryType: TransactionEntryType;
-  transactionUID: string;
-  balanceColumn: Identifiable;
-  account: Identifiable;
-  project: Identifiable;
-  product: Identifiable;
-  productUnit: Identifiable;
-  year: number;
-  description: string;
-  justification: string;
-  currency: Identifiable;
   amounts: MonthEntry[];
 }
 
@@ -274,12 +253,13 @@ export interface MonthEntry {
 
 
 export interface CashFlowProjectionEntryFields {
-  balanceColumnUID: string;
-  accountUID: string;
+  projectionColumnUID: string;
+  cashFlowAccountUID: string;
   year: number;
-  month: string;
+  month: number;
+  currencyUID: string;
+  exchangeRate: number;
   amount: number;
-  // projectUID: string;
   productUID: string;
   productUnitUID: string;
   productQty: number;
@@ -289,10 +269,11 @@ export interface CashFlowProjectionEntryFields {
 
 
 export interface CashFlowProjectionEntryByYearFields {
-  balanceColumnUID: string;
-  accountUID: string;
+  projectionColumnUID: string;
+  cashFlowAccountUID: string;
   year: number
-  // projectUID: string;
+  currencyUID: string;
+  exchangeRate: number;
   productUID: string;
   productUnitUID: string;
   description: string;
@@ -353,10 +334,21 @@ export const EmptyCashFlowProjectionsQuery: CashFlowProjectionsQuery = {
 };
 
 
+export const EmptyCashFlowProjectionPlan: CashFlowProjectionPlan = {
+  uid: '',
+  name: '',
+  baseCurrency: Empty,
+  categories: [],
+  projectionsColumns: [],
+  years: [],
+  editionAllowed: false,
+}
+
+
 export const EmptyCashFlowProjection: CashFlowProjection = {
   uid: '',
   projectionNo: '',
-  plan: Empty,
+  plan: EmptyCashFlowProjectionPlan,
   projectionType: Empty,
   projectType: Empty,
   source: Empty,
@@ -411,29 +403,30 @@ export const EmptyCashFlowProjectionHolder: CashFlowProjectionHolder = {
 export const EmptyCashFlowProjectionEntryBase: CashFlowProjectionEntryBase = {
   uid: '',
   entryType: null,
-  transactionUID: '',
-  balanceColumn: Empty,
-  account: Empty,
+  projectionUID: '',
+  projectionColumn: Empty,
+  cashFlowAccount: Empty,
   product: Empty,
   productUnit: Empty,
-  project: Empty,
   year: null,
   currency: Empty,
+  exchangeRate: null,
   description: '',
+  justification: '',
 };
 
 
 export const EmptyCashFlowProjectionEntryByYear: CashFlowProjectionEntryByYear = {
   uid: '',
   entryType: null,
-  transactionUID: '',
-  balanceColumn: Empty,
-  account: Empty,
-  project: Empty,
+  projectionUID: '',
+  projectionColumn: Empty,
+  cashFlowAccount: Empty,
   product: Empty,
   productUnit: Empty,
   year: null,
   currency: Empty,
+  exchangeRate: null,
   description: '',
   justification: '',
   amounts: [],
@@ -443,21 +436,18 @@ export const EmptyCashFlowProjectionEntryByYear: CashFlowProjectionEntryByYear =
 export const EmptyCashFlowProjectionEntry: CashFlowProjectionEntry = {
   uid: '',
   entryType: null,
-  transactionUID: '',
-  balanceColumn: Empty,
-  account: Empty,
+  projectionUID: '',
+  projectionColumn: Empty,
+  cashFlowAccount: Empty,
   product: Empty,
   productUnit: Empty,
   productQty: null,
-  project: Empty,
-  party: Empty,
   year: null,
   month: Empty,
-  day: null,
   currency: Empty,
+  exchangeRate: null,
   originalAmount: null,
   amount: null,
-  exchangeRate: null,
   description: '',
   justification: '',
   status: Empty,

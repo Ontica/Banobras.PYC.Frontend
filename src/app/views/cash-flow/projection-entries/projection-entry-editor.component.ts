@@ -17,16 +17,14 @@ import { MONTHS_LIST } from '@app/core/data-types/date-string-library';
 
 import { ArrayLibrary, empExpandCollapse, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
 
 import { CashFlowProjectionsDataService, SearcherAPIS } from '@app/data-services';
 
 import { CashFlowProjection, CashFlowProjectionEntry, CashFlowProjectionEntryFields, EmptyCashFlowProjection,
-         ProductSearch, MonthEntryFields, CashFlowProjectionEntryByYearFields,
-         TransactionEntryType, FinancialAccount, CashFlowProjectionEntryBase,
-         EmptyCashFlowProjectionEntryBase, CashFlowProjectionEntryByYear, MonthEntry } from '@app/models';
+         ProductSearch, MonthEntryFields, CashFlowProjectionEntryByYearFields, TransactionEntryType,
+         CashFlowProjectionEntryBase, EmptyCashFlowProjectionEntryBase, CashFlowProjectionEntryByYear,
+         MonthEntry, CashFlowProjectAccount } from '@app/models';
 
 
 export enum ProjectionEntryEditorEventType {
@@ -35,10 +33,13 @@ export enum ProjectionEntryEditorEventType {
   UPDATE_ENTRY         = 'CashFlowProjectionEntryEditorComponent.Event.UpdateEntry',
 }
 
-interface ProjectionEntryFormModel extends FormGroup<{  balanceColumnUID: FormControl<string>;
-  accountUID: FormControl<string>;
+interface ProjectionEntryFormModel extends FormGroup<{
+  projectionColumnUID: FormControl<string>;
+  cashFlowAccountUID: FormControl<string>;
   year: FormControl<number>;
   month: FormControl<string>;
+  currencyUID: FormControl<string>;
+  exchangeRate: FormControl<number>;
   amount: FormControl<number>;
   productUID : FormControl<string>;
   productUnitUID: FormControl<string>;
@@ -78,15 +79,19 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
 
   selectedEntryType = TransactionEntryType.Annually;
 
-  accountsAPI = SearcherAPIS.cashFlowAccounts;
-
   productsAPI = SearcherAPIS.products;
 
-  balanceColumnsList: Identifiable[] = [];
+  projectionColumnsList: Identifiable[] = [];
 
   monthsList: FlexibleIdentifiable[] = MONTHS_LIST;
 
   productUnitsList: Identifiable[] = [];
+
+  accountsList: CashFlowProjectAccount[] = [];
+
+  currenciesList: Identifiable[] = [];
+
+  yearsList: number[] = [];
 
   displayCheckProductRequired: boolean = false;
 
@@ -103,16 +108,16 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
   dataSource: MatTableDataSource<string>;
 
 
-  constructor(private projectionsData: CashFlowProjectionsDataService,
-              private messageBox: MessageBoxService) {
+  constructor(private projectionsData: CashFlowProjectionsDataService) {
     this.initForm();
   }
 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.projection) {
+      this.loadCashFlowAccounts();
       this.setProductControlFields();
-      this.setBalanceColumnsList();
+      this.setDataListsByPlan();
       this.buildDataTable();
     }
 
@@ -178,10 +183,8 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
   }
 
 
-  onAccountChanges(account: FinancialAccount) {
-    // if (isEmpty(account) && !!account?.baseSegmentUID) {
-    //   this.showConfirmRequestFinancialAccount(account);
-    // }
+  onAccountChanges(account: CashFlowProjectAccount) {
+    this.currenciesList = account.currencies ?? [];
   }
 
 
@@ -228,33 +231,39 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
   }
 
 
-  private showConfirmRequestFinancialAccount(account: FinancialAccount) {
-    const message = `La partida presupuestal <strong>${account.name}</strong>
-      requiere autorización para ser utilizada.
-      <br><br>¿Solicito la autorización?`;
+  private setDataListsByPlan() {
+    const plan = this.projection?.plan;
 
-    this.messageBox.confirm(message, 'Solicitar autorización')
-      .firstValue()
-      .then(x => {
-        if (x) {
-          // this.requestAccount(account.baseSegmentUID);
-        } else {
-          this.accountSearcher.clearValue();
-        }
-      });
+    this.yearsList = !this.entry.year || plan.years.some(x => x === this.entry.year) ?
+      plan.years :
+      [...plan.years, this.entry.year];
+
+    this.projectionColumnsList = isEmpty(this.entry.projectionColumn) ?
+      plan.projectionsColumns :
+      ArrayLibrary.insertIfNotExist(plan.projectionsColumns, this.entry.projectionColumn, 'uid');
   }
 
 
-  private requestAccount(segmentUID: string) {
-    // this.isLoading = true;
+  private loadCashFlowAccounts() {
+    this.isLoading = true;
 
-    // this.projectionsData.requestAccount(this.projection.uid, segmentUID)
-    //   .firstValue()
-    //   .then(x => {
-    //     this.form.controls.accountUID.reset(x.uid);
-    //     this.accountSearcher.resetListWithOption(x);
-    //   })
-    //   .finally(() => this.isLoading = false);
+    this.projectionsData.getCashFlowProjectionAccounts(this.projection.uid)
+      .firstValue()
+      .then(x => this.setAccountsList(x))
+      .finally(() => this.isLoading = false);
+  }
+
+
+  private setAccountsList(accounts: CashFlowProjectAccount[]) {
+    if (!this.isSaved) {
+      this.accountsList = accounts;
+      this.currenciesList = [];
+      return;
+    }
+
+    this.accountsList = ArrayLibrary.insertIfNotExist(accounts, this.entry.cashFlowAccount as any, 'uid');
+    const account = this.accountsList.find(x => x.uid === this.entry.cashFlowAccount.uid);
+    this.currenciesList = account?.currencies ?? [];
   }
 
 
@@ -275,10 +284,12 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      balanceColumnUID: ['', Validators.required],
-      accountUID: ['', Validators.required],
+      projectionColumnUID: ['', Validators.required],
+      cashFlowAccountUID: ['', Validators.required],
       year: [null as number, Validators.required],
       month: [''],
+      currencyUID: [''],
+      exchangeRate: [null as number],
       amount: [null as number],
       productUID: [''],
       productUnitUID: [''],
@@ -331,7 +342,7 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
       }
 
       this.isFormDataReady = true;
-      this.setBalanceColumnsList();
+      this.setDataListsByPlan();
       this.setProductControlFields();
       this.buildDataTable();
     });
@@ -342,10 +353,12 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
     const entry = this.entry as CashFlowProjectionEntry;
 
     this.form.reset({
-      balanceColumnUID: entry.balanceColumn.uid,
-      accountUID: entry.account.uid,
+      projectionColumnUID: entry.projectionColumn.uid,
+      cashFlowAccountUID: entry.cashFlowAccount.uid,
       year: entry.year,
       month: entry.month.uid,
+      currencyUID: entry.currency.uid,
+      exchangeRate: entry.exchangeRate > 0 ? entry.exchangeRate : null,
       amount: entry.amount > 0 ? entry.amount : null,
       productUID: entry.product.uid,
       productUnitUID: entry.productUnit.uid,
@@ -360,9 +373,11 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
     const entry = this.entry as CashFlowProjectionEntryByYear;
 
     this.form.reset({
-      balanceColumnUID: entry.balanceColumn.uid,
-      accountUID: entry.account.uid,
+      projectionColumnUID: entry.projectionColumn.uid,
+      cashFlowAccountUID: entry.cashFlowAccount.uid,
       year: entry.year,
+      currencyUID: entry.currency.uid,
+      exchangeRate: entry.exchangeRate > 0 ? entry.exchangeRate : null,
       productUID: entry.product.uid,
       productUnitUID: entry.productUnit.uid,
       description: entry.description,
@@ -387,8 +402,6 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
 
   private setProductControlFields() {
     const displayCheckProduct = false;
-    // [ProductRule.Requerido, ProductRule.Opcional].includes(
-    //   this.projection.classification.entriesRules.selectProduct);
 
     if (this.isSaved && this.isFormDataReady) {
       const hasProductData = !isEmpty(this.entry.product) || !isEmpty(this.entry.productUnit) ||
@@ -403,14 +416,6 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
       this.checkProductRequired = false;
       this.isFormDataReady = !this.isSaved;
     }
-  }
-
-
-  private setBalanceColumnsList() {
-    const balanceColumns = []; //this.projection?.classification?.entriesRules?.balanceColumns ?? [];
-    this.balanceColumnsList = isEmpty(this.entry.balanceColumn) ?
-      balanceColumns :
-      ArrayLibrary.insertIfNotExist(balanceColumns, this.entry.balanceColumn, 'uid');
   }
 
 
@@ -451,10 +456,12 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
     const formModel = this.form.getRawValue();
 
     const data: CashFlowProjectionEntryFields = {
-      balanceColumnUID: formModel.balanceColumnUID ?? '',
-      accountUID: formModel.accountUID ?? '',
+      projectionColumnUID: formModel.projectionColumnUID ?? '',
+      cashFlowAccountUID: formModel.cashFlowAccountUID ?? '',
       year: formModel.year ?? null,
-      month: formModel.month ?? '',
+      month: +formModel.month,
+      currencyUID: formModel.currencyUID ?? '',
+      exchangeRate: formModel.exchangeRate ?? null,
       amount: formModel.amount ?? null,
       productUID: this.checkProductRequired ? formModel.productUID ?? '' : null,
       productUnitUID: this.checkProductRequired ? formModel.productUnitUID ?? '' : null,
@@ -475,9 +482,11 @@ export class CashFlowProjectionEntryEditorComponent implements OnChanges {
     const amounts = this.monthsFields.filter(x => x.amount > 0).map(x => this.getValidMonthEntryField(x));
 
     const data: CashFlowProjectionEntryByYearFields = {
-      balanceColumnUID: formModel.balanceColumnUID ?? '',
-      accountUID: formModel.accountUID ?? '',
+      projectionColumnUID: formModel.projectionColumnUID ?? '',
+      cashFlowAccountUID: formModel.cashFlowAccountUID ?? '',
       year: formModel.year ?? null,
+      currencyUID: formModel.currencyUID ?? '',
+      exchangeRate: formModel.exchangeRate ?? null,
       productUID: this.checkProductRequired ? formModel.productUID ?? '' : null,
       productUnitUID: this.checkProductRequired ? formModel.productUnitUID ?? '' : null,
       description: this.checkProductRequired ? formModel.description ?? '' : null,

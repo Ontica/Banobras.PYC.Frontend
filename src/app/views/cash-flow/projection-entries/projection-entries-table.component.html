@@ -2,15 +2,16 @@
 
   <table mat-table [dataSource]="dataSource">
 
-    <ng-container matColumnDef="account">
-      <th mat-header-cell *matHeaderCellDef class="nowrap"> Cuenta </th>
+    <ng-container matColumnDef="cashFlowAccount">
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Concepto financiero </th>
       <td mat-cell *matCellDef="let row" [style.min-width.px]="200" class="italic-text wrap">
-        {{ row.accountName }}
+        <ng-container *ngIf="!!row.cashFlowAccountCode">({{ row.cashFlowAccountCode }}) </ng-container>
+         {{ row.cashFlowAccountName }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="year">
-      <th mat-header-cell *matHeaderCellDef class="nowrap"> Año </th>
+      <th mat-header-cell *matHeaderCellDef> Año </th>
       <td mat-cell *matCellDef="let row">{{ row.year }}</td>
     </ng-container>
 
@@ -19,27 +20,22 @@
       <td mat-cell *matCellDef="let row">{{ row.monthName }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="day">
-      <th mat-header-cell *matHeaderCellDef> Día </th>
-      <td mat-cell *matCellDef="let row">{{ row.day }}</td>
+    <ng-container matColumnDef="projectionColumn">
+      <th mat-header-cell *matHeaderCellDef> Movimiento </th>
+      <td mat-cell *matCellDef="let row" class="nowrap">{{ row.projectionColumn }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="balanceColumn">
-      <th mat-header-cell *matHeaderCellDef> Concepto </th>
-      <td mat-cell *matCellDef="let row" class="nowrap">{{ row.balanceColumn }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="deposit">
-      <th mat-header-cell *matHeaderCellDef class="text-align-right nowrap"> Ampliaciones </th>
-      <td mat-cell *matCellDef="let row" class="text-align-right nowrap">
-        {{ row.deposit !== 0 ? (row.deposit | empDecimal) : '-'}}
+    <ng-container matColumnDef="inflowAmount">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Ingresos </th>
+      <td mat-cell *matCellDef="let row" class="text-align-right">
+        {{ row.inflowAmount !== 0 ? (row.inflowAmount | empDecimal) : '-'}}
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="withdrawal">
-      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Reducciones </th>
+    <ng-container matColumnDef="outflowAmount">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Egresos </th>
       <td mat-cell *matCellDef="let row" class="text-align-right">
-        {{ row.withdrawal !== 0 ? (row.withdrawal | empDecimal) : '-'}}
+        {{ row.outflowAmount !== 0 ? (row.outflowAmount | empDecimal) : '-'}}
       </td>
     </ng-container>
 
