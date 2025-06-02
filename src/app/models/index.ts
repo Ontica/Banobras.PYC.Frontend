@@ -54,6 +54,8 @@ export * from './history';
 
 export * from './imported-data';
 
+export * from './object-types';
+
 export * from './orders';
 
 export * from './parties';

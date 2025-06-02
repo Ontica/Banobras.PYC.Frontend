@@ -14,7 +14,7 @@ import { sendEvent } from '@app/shared/utils';
 import { AssetsTransactionsDataService } from '@app/data-services';
 
 import { AssetTransaction, AssetTransactionFields, AssetTransactionHolder, EmptyAssetTransaction,
-         EmptyAssetTransactionActions, AssetTransactionActions, AssetTransactionTypes } from '@app/models';
+         EmptyAssetTransactionActions, AssetTransactionActions, ObjectTypes } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
 
@@ -64,10 +64,10 @@ export class AssetTransactionEditorComponent {
         this.closeTransaction(this.transaction.uid);
         return;
       case TransactionHeaderEventType.CHANGE_CUSTODY:
-        this.cloneTransaction(this.transaction.uid, AssetTransactionTypes.AssetsCustody);
+        this.cloneTransaction(this.transaction.uid, ObjectTypes.ASSETS_CUSTODY);
         return;
       case TransactionHeaderEventType.INVENTORY:
-        this.cloneTransaction(this.transaction.uid, AssetTransactionTypes.AssetsInventory);
+        this.cloneTransaction(this.transaction.uid, ObjectTypes.ASSETS_INVENTORY);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

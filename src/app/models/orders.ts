@@ -17,17 +17,11 @@ import { Document } from './documents';
 
 import { HistoryEntry } from './history';
 
-import { RequestsList } from './requests';
+import { ObjectTypes } from './object-types';
 
 import { Priority } from './steps';
 
-
-export enum ObjectTypes {
-  CONTRACT       = 'ObjectTypeInfo.Contract.Procurement',
-  CONTRACT_ORDER = 'ObjectTypeInfo.Order.PayableOrder.ContractOrder',
-  PURCHASE_ORDER = 'ObjectTypeInfo.Order.PayableOrder.PurchaseOrder',
-  EXPENSE        = 'ObjectTypeInfo.Order.PayableOrder.Expenses',
-}
+import { RequestsList } from './requests';
 
 
 export interface OrderExplorerTypeConfig<T> extends ExplorerTypeConfig<T> {

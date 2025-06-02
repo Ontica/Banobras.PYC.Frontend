@@ -130,13 +130,6 @@ export interface AssetTransactionEntry {
 }
 
 
-export enum AssetTransactionTypes {
-  AssetsCustody   = 'ObjectTypeInfo.AssetTransaction.FixedAssetsCustody',
-  AssetsInventory = 'ObjectTypeInfo.AssetTransaction.FixedAssetsInventory',
-}
-
-
-
 export const AssetTransactionsOperationsList: ExplorerOperation[] = [
   {
     uid: ExplorerOperationType.pdf,
