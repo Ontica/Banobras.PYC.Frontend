@@ -1,0 +1,64 @@
+<div class="section-title"> Información del crédito </div>
+
+<div class="fx-column-container fx-gap-half">
+
+  <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+    <div class="fx-item-quarter">
+
+      <label>No. crédito:</label>
+
+        <input type="text" class="text-box"
+          [(ngModel)]="selectedData.noCredito"
+          [class.invalid-control]="showError && errors?.noCreditoError"
+          [disabled]="disabled"
+          (change)="onSelectedDataChanged()">
+
+    </div>
+
+    <div class="fx-item">
+
+      <label>Tipo de crédito:</label>
+
+        <input type="text" class="text-box"
+          [(ngModel)]="selectedData.tipoCredito"
+          [class.invalid-control]="showError && errors?.tipoCreditoError"
+          [disabled]="disabled"
+          (change)="onSelectedDataChanged()">
+
+    </div>
+
+  </div>
+
+  <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+    <div class="fx-item-quarter">
+
+      <label>Etapa del crédito:</label>
+
+        <emp-ng-input-numeric
+          [(ngModel)]="selectedData.etapaCredito"
+          [showError]="showError && errors?.etapaCreditoError"
+          [disabled]="disabled"
+          [minDecimals]="0"
+          [maxDecimals]="0"
+          (change)="onSelectedDataChanged()">
+        </emp-ng-input-numeric>
+
+    </div>
+
+    <div class="fx-item">
+
+      <label>Acreditado:</label>
+
+        <input type="text" class="text-box"
+          [(ngModel)]="selectedData.acreditado"
+          [class.invalid-control]="showError && errors?.acreditadoError"
+          [disabled]="disabled"
+          (change)="onSelectedDataChanged()">
+
+    </div>
+
+  </div>
+
+ </div>

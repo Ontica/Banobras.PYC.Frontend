@@ -23,3 +23,12 @@
   </emp-cf-project-accounts-table>
 
 </div>
+
+
+<emp-cf-project-account-editor *ngIf="displayAccountEditor"
+  [projectUID]="projectUID"
+  [canUpdate]="canEdit"
+  [account]="selectedAccount"
+  (projectAccountEditorEvent)="onProjectAccountEditorEvent($event)">
+
+</emp-cf-project-account-editor>

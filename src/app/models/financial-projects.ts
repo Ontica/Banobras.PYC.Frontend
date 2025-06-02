@@ -110,14 +110,79 @@ export interface FinancialAccount {
 
 export interface FinancialProjectAccountDescriptor {
   uid: string;
+  accountNo: string;
   projectName: string;
+  financialAccountTypeName: string;
   standardAccountName: string;
   organizationalUnitName: string;
-  accountNo: string;
   description: string;
   startDate: DateString;
   endDate: DateString;
   statusName: string;
+}
+
+
+export interface FinancialProjectAccountFields {
+  organizationalUnitUID: string;
+  financialAccountTypeUID: string;
+  standardAccountUID: string;
+  accountNo: string;
+  tags: string[];
+  description: string;
+  attributes: AccountAttributes;
+  financialData: FinancialData;
+}
+
+
+export interface AccountAttributes {
+
+}
+
+
+export interface FinancialData {
+
+}
+
+
+export interface CreditAttributes extends AccountAttributes {
+  noCredito: string;
+  acreditado: string;
+  tipoCredito: string;
+  etapaCredito: number;
+}
+
+
+export interface CreditFinancialData extends FinancialData {
+  interes: number;
+  comision: number;
+  saldo: number;
+  plazoInversion: number;
+  periodoGracia: number;
+  plazoAmortizacion: number;
+  fechaAmortizacion: DateString;
+  tipoCambio: number;
+  tasa: number;
+  factorTasa: number;
+  tasaPiso: number;
+  tasaTecho: number;
+}
+
+
+export interface FinancialProjectAccount {
+  uid: string;
+  financialAccountType: Identifiable;
+  standardAccount: Identifiable;
+  organizationalUnit: Identifiable;
+  accountNo: string;
+  tags: string[];
+  description: string;
+  startDate: DateString;
+  endDate: DateString;
+  status: Identifiable;
+  attributes: AccountAttributes;
+  financialData: FinancialData;
+  parent: Identifiable;
+  project: Identifiable;
 }
 
 
@@ -152,6 +217,38 @@ export function mapFinancialProjectDescriptorFromProject(data: FinancialProject)
 }
 
 
+export function buildCreditAttributes(data: CreditAttributes): CreditAttributes {
+  const cleanData: CreditAttributes = {
+    noCredito: data.noCredito ?? '',
+    acreditado: data.acreditado ?? '',
+    tipoCredito: data.tipoCredito ?? '',
+    etapaCredito: data.etapaCredito ?? null,
+  };
+
+  return cleanData;
+}
+
+
+export function buildCreditFinancialData(data: CreditFinancialData): CreditFinancialData {
+  const cleanData: CreditFinancialData = {
+    interes: data.interes ?? null,
+    comision: data.comision ?? null,
+    saldo: data.saldo ?? null,
+    plazoInversion: data.plazoInversion ?? null,
+    periodoGracia: data.periodoGracia ?? null,
+    plazoAmortizacion: data.plazoAmortizacion ?? null,
+    fechaAmortizacion: data.fechaAmortizacion ?? null,
+    tipoCambio: data.tipoCambio ?? null,
+    tasa: data.tasa ?? null,
+    factorTasa: data.factorTasa ?? null,
+    tasaPiso: data.tasaPiso ?? null,
+    tasaTecho: data.tasaTecho ?? null,
+  };
+
+  return cleanData;
+}
+
+
 export const EmptyFinancialProjectsQuery: FinancialProjectsQuery = {
   keywords: null,
   status: null,
@@ -180,6 +277,24 @@ export const EmptyFinancialProject: FinancialProject = {
 }
 
 
+export const EmptyFinancialProjectAccount: FinancialProjectAccount = {
+  uid: '',
+  accountNo: '',
+  financialAccountType: Empty,
+  standardAccount: Empty,
+  organizationalUnit: Empty,
+  tags: [],
+  description: '',
+  startDate: '',
+  endDate: '',
+  status: Empty,
+  attributes: null,
+  financialData:  null,
+  parent: Empty,
+  project: Empty,
+}
+
+
 export const EmptyFinancialProjectActions: FinancialProjectActions = {
   canUpdate: false,
   canDelete: false,
@@ -193,4 +308,28 @@ export const EmptyFinancialProjectHolder: FinancialProjectHolder = {
   documents: [],
   history: [],
   actions: EmptyFinancialProjectActions,
+};
+
+
+export const EmptyCreditAttributes: CreditAttributes = {
+  noCredito: '',
+  acreditado: '',
+  tipoCredito: '',
+  etapaCredito: null,
+};
+
+
+export const EmptyCreditFinancialData: CreditFinancialData = {
+  interes: null,
+  comision: null,
+  saldo: null,
+  plazoInversion: null,
+  periodoGracia: null,
+  plazoAmortizacion: null,
+  fechaAmortizacion: '',
+  tipoCambio: null,
+  tasa: null,
+  factorTasa: null,
+  tasaPiso: null,
+  tasaTecho: null,
 };

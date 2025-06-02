@@ -33,8 +33,8 @@ export class FinancialProjectAccountsTableComponent implements OnChanges {
 
   @Output() projectAccountsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['accountNo', 'organizationalUnitName', 'description', 'startDate',
-    'endDate', 'statusName'];
+  displayedColumnsDefault: string[] = ['accountNo', 'organizationalUnitName', 'financialAccountTypeName',
+    'description', 'startDate', 'endDate', 'statusName'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 

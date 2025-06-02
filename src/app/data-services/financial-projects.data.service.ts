@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FinancialProjectDescriptor, FinancialProjectFields, FinancialProjectHolder,
-         FinancialProjectOrgUnitsForEdition,
+import { FinancialProjectAccount, FinancialProjectAccountFields, FinancialProjectDescriptor,
+         FinancialProjectFields, FinancialProjectHolder, FinancialProjectOrgUnitsForEdition,
          FinancialProjectsQuery } from '@app/models';
 
 
@@ -21,6 +21,7 @@ export class FinancialProjectsDataService {
   constructor(private http: HttpService) { }
 
 
+  //#region CATALOGUES
   getCategories(): EmpObservable<Identifiable[]> {
     const path = 'v1/financial-projects/categories';
 
@@ -58,6 +59,26 @@ export class FinancialProjectsDataService {
   }
 
 
+  getStandardAccounts(projectUID: string): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(projectUID, 'projectUID');
+
+    const path = `v1/financial-projects/${projectUID}/standard-accounts`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getFinancialAccountsTypes(projectUID: string): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(projectUID, 'projectUID');
+
+    const path = `v1/financial-projects/${projectUID}/financial-accounts-types`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+  //#endregion
+
+
+  //#region PROJECTS LIST
   searchProjects(query: FinancialProjectsQuery): EmpObservable<FinancialProjectDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
@@ -65,8 +86,10 @@ export class FinancialProjectsDataService {
 
     return this.http.post<FinancialProjectDescriptor[]>(path, query);
   }
+  //#endregion
 
 
+  //#region PROJECT (CRUD + OPERATIONS)
   getProject(projectUID: string): EmpObservable<FinancialProjectHolder> {
     Assertion.assertValue(projectUID, 'projectUID');
 
@@ -103,5 +126,54 @@ export class FinancialProjectsDataService {
 
     return this.http.delete<void>(path);
   }
+  //#endregion
+
+
+  //#region PROJECT ACCOUNT (CRUD)
+  getProjectAccount(projectUID: string,
+                    accountUID: string): EmpObservable<FinancialProjectAccount> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}`;
+
+    return this.http.get<FinancialProjectAccount>(path);
+  }
+
+
+  createProjectAccount(projectUID: string,
+                       dataFields: FinancialProjectAccountFields): EmpObservable<FinancialProjectAccount> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/financial-projects/${projectUID}/accounts`;
+
+    return this.http.post<FinancialProjectAccount>(path, dataFields);
+  }
+
+
+  updateProjectAccount(projectUID: string,
+                       accountUID: string,
+                       dataFields: FinancialProjectAccountFields): EmpObservable<FinancialProjectAccount> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(accountUID, 'accountUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}`;
+
+    return this.http.put<FinancialProjectAccount>(path, dataFields);
+  }
+
+
+  removeProjectAccount(projectUID: string,
+                       accountUID: string): EmpObservable<void> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}`;
+
+    return this.http.delete<void>(path);
+  }
+  //#endregion
 
 }

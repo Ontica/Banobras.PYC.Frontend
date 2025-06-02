@@ -19,6 +19,7 @@
     <mat-tab label="Cuentas">
 
       <emp-cf-project-accounts-edition
+        [projectUID]="data.project.uid"
         [accounts]="data.accounts"
         [canEdit]="data.actions.canUpdate"
         (projectAccountsEditionEvent)="onProjectAccountsEditionEvent($event)">
