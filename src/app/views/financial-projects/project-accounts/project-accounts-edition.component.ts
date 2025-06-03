@@ -24,6 +24,10 @@ import { ProjectAccountEditorEventType } from './project-account-editor.componen
 
 import { ProjectAccountsTableEventType } from './project-accounts-table.component';
 
+import {
+  ProjectAccountOperationsEditionEventType
+} from './account-operations/account-operations-edition.component';
+
 
 export enum ProjectAccountsEditionEventType {
   UPDATED = 'FinancialProjectAccountsEditionComponent.Event.Updated',
@@ -47,7 +51,11 @@ export class FinancialProjectAccountsEditionComponent {
 
   displayAccountEditor = false;
 
+  displayAccountOperations = false;
+
   selectedAccount: FinancialProjectAccount = EmptyFinancialProjectAccount;
+
+  selectedAccountOperationsUID = '';
 
 
   constructor(private projectsData: FinancialProjectsDataService,
@@ -96,6 +104,24 @@ export class FinancialProjectAccountsEditionComponent {
       case ProjectAccountsTableEventType.REMOVE_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
         this.confirmRemoveProjectAccount(event.payload.account as FinancialProjectAccountDescriptor);
+        return;
+      case ProjectAccountsTableEventType.EDIT_OPERATIONS_CLICKED:
+        Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
+        this.setSelectedAccountOperation(event.payload.account.uid)
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onProjectAccountOperationsEditionEvent(event: EventInfo) {
+    switch (event.type as ProjectAccountOperationsEditionEventType) {
+      case ProjectAccountOperationsEditionEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedAccountOperation(null);
+        return;
+      case ProjectAccountOperationsEditionEventType.UPDATED:
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -147,6 +173,12 @@ export class FinancialProjectAccountsEditionComponent {
   private setSelectedAccount(data: FinancialProjectAccount, display?: boolean) {
     this.selectedAccount = data;
     this.displayAccountEditor = display ?? !isEmpty(data);
+  }
+
+
+  private setSelectedAccountOperation(accountUID: string, display?: boolean) {
+    this.selectedAccountOperationsUID = accountUID;
+    this.displayAccountOperations = display ?? !!accountUID;
   }
 
 

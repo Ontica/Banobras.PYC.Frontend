@@ -9,9 +9,9 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FinancialProjectAccount, FinancialProjectAccountFields, FinancialProjectDescriptor,
-         FinancialProjectFields, FinancialProjectHolder, FinancialProjectOrgUnitsForEdition,
-         FinancialProjectsQuery } from '@app/models';
+import { FinancialAccountOperations, FinancialProjectAccount, FinancialProjectAccountFields,
+         FinancialProjectDescriptor, FinancialProjectFields, FinancialProjectHolder,
+         FinancialProjectOrgUnitsForEdition, FinancialProjectsQuery } from '@app/models';
 
 
 @Injectable()
@@ -173,6 +173,45 @@ export class FinancialProjectsDataService {
     const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}`;
 
     return this.http.delete<void>(path);
+  }
+  //#endregion
+
+
+  //#region PROJECT ACCOUNT OPERATIONS (CRD)
+  getAccountOperations(projectUID: string,
+                       accountUID: string): EmpObservable<FinancialAccountOperations> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}/operations`;
+
+    return this.http.get<FinancialAccountOperations>(path);
+  }
+
+
+  addAccountOperation(projectUID: string,
+                      accountUID: string,
+                      operationUID: string): EmpObservable<FinancialAccountOperations> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(accountUID, 'accountUID');
+    Assertion.assertValue(operationUID, 'operationUID');
+
+    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}/operations/${operationUID}`;
+
+    return this.http.post<FinancialAccountOperations>(path);
+  }
+
+
+  removeAccountOperation(projectUID: string,
+                         accountUID: string,
+                         operationUID: string): EmpObservable<FinancialAccountOperations> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(accountUID, 'accountUID');
+    Assertion.assertValue(operationUID, 'operationUID');
+
+    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}/operations/${operationUID}`;
+
+    return this.http.delete<FinancialAccountOperations>(path);
   }
   //#endregion
 

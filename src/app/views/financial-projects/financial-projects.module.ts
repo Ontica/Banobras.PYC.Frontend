@@ -28,6 +28,9 @@ import { FinancialProjectAccountsTableComponent } from './project-accounts/proje
 import { FinancialProjectAccountEditorComponent } from './project-accounts/project-account-editor.component';
 import { CreditAccountAttributesComponent } from './project-accounts/account-attributes/credit-account-attributes.component';
 import { CreditFinancialDataComponent } from './project-accounts/financial-data/credit-financial-data.component';
+import { FinancialProjectAccountOperationsEditionComponent } from './project-accounts/account-operations/account-operations-edition.component';
+import { FinancialProjectAccountOperationsTableComponent } from './project-accounts/account-operations/account-operations-table.component';
+import { FinancialProjectAccountOperationAssignerComponent } from './project-accounts/account-operations/account-operation-assigner.component';
 
 
 @NgModule({
@@ -56,6 +59,9 @@ import { CreditFinancialDataComponent } from './project-accounts/financial-data/
     FinancialProjectAccountEditorComponent,
     CreditAccountAttributesComponent,
     CreditFinancialDataComponent,
+    FinancialProjectAccountOperationsEditionComponent,
+    FinancialProjectAccountOperationsTableComponent,
+    FinancialProjectAccountOperationAssignerComponent,
   ],
   exports: [
     FinancialProjectsMainPageComponent,

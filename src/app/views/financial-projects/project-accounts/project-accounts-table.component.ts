@@ -17,8 +17,9 @@ import { FinancialProjectAccountDescriptor } from '@app/models';
 
 
 export enum ProjectAccountsTableEventType {
-  SELECT_CLICKED = 'FinancialProjectAccountsTableComponent.Event.SelectClicked',
-  REMOVE_CLICKED = 'FinancialProjectAccountsTableComponent.Event.RemoveClicked',
+  SELECT_CLICKED          = 'FinancialProjectAccountsTableComponent.Event.SelectClicked',
+  REMOVE_CLICKED          = 'FinancialProjectAccountsTableComponent.Event.RemoveClicked',
+  EDIT_OPERATIONS_CLICKED = 'FinancialProjectAccountsTableComponent.Event.EditOperationsClicked',
 }
 
 @Component({
@@ -29,12 +30,12 @@ export class FinancialProjectAccountsTableComponent implements OnChanges {
 
   @Input() accounts: FinancialProjectAccountDescriptor[] = [];
 
-  @Input() canDelete = false;
+  @Input() canEdit = false;
 
   @Output() projectAccountsTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumnsDefault: string[] = ['accountNo', 'organizationalUnitName', 'financialAccountTypeName',
-    'description', 'startDate', 'endDate', 'statusName'];
+    'description', 'statusName', 'actionOperations'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
@@ -59,6 +60,12 @@ export class FinancialProjectAccountsTableComponent implements OnChanges {
   }
 
 
+  onEditOperationsClicked(account: FinancialProjectAccountDescriptor) {
+    sendEvent(this.projectAccountsTableEvent, ProjectAccountsTableEventType.EDIT_OPERATIONS_CLICKED,
+      { account });
+  }
+
+
   onRemoveAccountClicked(account: FinancialProjectAccountDescriptor) {
     sendEvent(this.projectAccountsTableEvent, ProjectAccountsTableEventType.REMOVE_CLICKED,
       { account });
@@ -72,7 +79,7 @@ export class FinancialProjectAccountsTableComponent implements OnChanges {
 
 
   private resetColumns() {
-    this.displayedColumns = this.canDelete ?
+    this.displayedColumns = this.canEdit ?
       [...this.displayedColumnsDefault, 'actionDelete'] :
       [...this.displayedColumnsDefault];
   }

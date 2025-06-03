@@ -17,7 +17,7 @@
   <emp-cf-project-accounts-table
     class="fx-item"
     [accounts]="accounts"
-    [canDelete]="canEdit"
+    [canEdit]="canEdit"
     (projectAccountsTableEvent)="onProjectAccountsTableEvent($event)">
 
   </emp-cf-project-accounts-table>
@@ -32,3 +32,12 @@
   (projectAccountEditorEvent)="onProjectAccountEditorEvent($event)">
 
 </emp-cf-project-account-editor>
+
+
+<emp-cf-account-operations-edition *ngIf="displayAccountOperations"
+  [projectUID]="projectUID"
+  [accountUID]="selectedAccountOperationsUID"
+  [canEdit]="canEdit"
+  (projectAccountOperationsEditionEvent)="onProjectAccountOperationsEditionEvent($event)">
+
+</emp-cf-account-operations-edition>
