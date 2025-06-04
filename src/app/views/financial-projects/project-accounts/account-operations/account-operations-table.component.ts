@@ -65,7 +65,7 @@ export class FinancialProjectAccountOperationsTableComponent implements OnChange
   onRemoveClicked(operation: Identifiable) {
     const message = this.getConfirmDeleteMessage(operation);
 
-    this.messageBox.confirm(message, 'Eliminar operación', 'DeleteCancel')
+    this.messageBox.confirm(message, 'Eliminar concepto', 'DeleteCancel')
       .firstValue()
       .then(x =>
         sendEventIf(x, this.projectAccountOperationsTableEvent,
@@ -93,12 +93,12 @@ export class FinancialProjectAccountOperationsTableComponent implements OnChange
   private getConfirmDeleteMessage(operation: Identifiable): string {
     return `
       <table class="confirm-data">
-        <tr><td class="nowrap">Operación: </td><td><strong>
+        <tr><td class="nowrap">Concepto: </td><td><strong>
           ${operation.name}
         </strong></td></tr>
       </table>
 
-     <br>¿Elimino la operación?`;
+     <br>¿Elimino el conceptos?`;
   }
 
 }

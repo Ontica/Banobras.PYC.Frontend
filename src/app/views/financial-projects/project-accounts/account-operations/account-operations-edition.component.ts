@@ -39,7 +39,7 @@ export class FinancialProjectAccountOperationsEditionComponent implements OnChan
 
   @Output() projectAccountOperationsEditionEvent = new EventEmitter<EventInfo>();
 
-  title = 'Editar operaciones de la cuenta';
+  title = 'Editar conceptos de la cuenta';
 
   data: FinancialAccountOperations = EmptyFinancialAccountOperations;
 
@@ -138,8 +138,8 @@ export class FinancialProjectAccountOperationsEditionComponent implements OnChan
 
   private setTexts() {
     this.title = this.canEdit ?
-    `Editar operaciones de la cuenta - ${this.data.account.accountNo}` :
-    `Operaciones de la cuenta - ${this.data.account.accountNo}`;
+    `Editar conceptos de la cuenta - ${this.data.account.accountNo}` :
+    `Conceptos de la cuenta - ${this.data.account.accountNo}`;
   }
 
 }

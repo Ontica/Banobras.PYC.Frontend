@@ -3,7 +3,7 @@
   <table mat-table [dataSource]="dataSource" [style.max-height.vh]="40">
 
     <ng-container matColumnDef="operacion">
-      <th mat-header-cell *matHeaderCellDef> Operación </th>
+      <th mat-header-cell *matHeaderCellDef> Concepto </th>
       <td mat-cell *matCellDef="let row"> {{ row.name }} </td>
     </ng-container>
 
@@ -12,7 +12,7 @@
       <td mat-cell *matCellDef="let row" class="column-action">
 
         <button mat-icon-button empNgStopPropagation
-          title="Eliminar operación"
+          title="Eliminar concepto"
           (click)="onRemoveClicked(row)">
           <mat-icon>
             delete
@@ -24,7 +24,7 @@
 
     <ng-container matColumnDef="notFoundMessage">
       <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
-        No se encontraron registros.
+        No se encontraron conceptos.
       </td>
     </ng-container>
 
