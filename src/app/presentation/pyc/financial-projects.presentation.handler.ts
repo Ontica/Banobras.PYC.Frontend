@@ -15,18 +15,16 @@ import { FinancialProjectsDataService } from '@app/data-services';
 
 
 export enum SelectorType {
-  CATEGORIES          = 'PYC.FinancialProjects.Selector.Categories.List',
-  PROGRAMS            = 'PYC.FinancialProjects.Selector.Programs.List',
-  SUBPROGRAMS         = 'PYC.FinancialProjects.Selector.Subprograms.List',
-  ORG_UNITS_BY_EDITION = 'PYC.FinancialProjects.Selector.OrgUnitsByEdition.List',
+  PROJECT_TYPES = 'PYC.FinancialProjects.Selector.ProjectTypes.List',
+  PROGRAMS      = 'PYC.FinancialProjects.Selector.Programs.List',
+  SUBPROGRAMS   = 'PYC.FinancialProjects.Selector.Subprograms.List',
 }
 
 
 const initialState: StateValues = [
-  { key: SelectorType.CATEGORIES,  value: [] },
-  { key: SelectorType.PROGRAMS,    value: [] },
-  { key: SelectorType.SUBPROGRAMS, value: [] },
-  { key: SelectorType.ORG_UNITS_BY_EDITION, value: [] },
+  { key: SelectorType.PROJECT_TYPES, value: [] },
+  { key: SelectorType.PROGRAMS,      value: [] },
+  { key: SelectorType.SUBPROGRAMS,   value: [] },
 ];
 
 
@@ -45,8 +43,8 @@ export class FinancialProjectsPresentationHandler extends AbstractPresentationHa
 
     switch (selectorType) {
 
-      case SelectorType.CATEGORIES: {
-        const provider = () => this.projectsData.getCategories();
+      case SelectorType.PROJECT_TYPES: {
+        const provider = () => this.projectsData.getProjectTypes();
 
         return super.selectFirst<U>(selectorType, provider);
       }
@@ -59,12 +57,6 @@ export class FinancialProjectsPresentationHandler extends AbstractPresentationHa
 
       case SelectorType.SUBPROGRAMS: {
         const provider = () => this.projectsData.getSubprograms();
-
-        return super.selectFirst<U>(selectorType, provider);
-      }
-
-      case SelectorType.ORG_UNITS_BY_EDITION: {
-        const provider = () => this.projectsData.getOrganizationalUnitsForEdition();
 
         return super.selectFirst<U>(selectorType, provider);
       }

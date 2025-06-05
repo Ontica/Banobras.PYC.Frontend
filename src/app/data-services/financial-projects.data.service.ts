@@ -11,7 +11,7 @@ import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { FinancialAccountOperations, FinancialProjectAccount, FinancialProjectAccountFields,
          FinancialProjectDescriptor, FinancialProjectFields, FinancialProjectHolder,
-         FinancialProjectOrgUnitsForEdition, FinancialProjectsQuery } from '@app/models';
+         FinancialProjectsQuery, FinancialProjectStructureForEdit } from '@app/models';
 
 
 @Injectable()
@@ -22,7 +22,7 @@ export class FinancialProjectsDataService {
 
 
   //#region CATALOGUES
-  getCategories(): EmpObservable<Identifiable[]> {
+  getProjectTypes(): EmpObservable<Identifiable[]> {
     const path = 'v1/financial-projects/categories';
 
     return this.http.get<Identifiable[]>(path);
@@ -43,10 +43,12 @@ export class FinancialProjectsDataService {
   }
 
 
-  getOrganizationalUnitsForEdition(): EmpObservable<FinancialProjectOrgUnitsForEdition[]> {
-    const path = 'v1/financial-projects/organizational-units-for-edition';
+  getStructureForEditProjects(orgUnitUID: string): EmpObservable<FinancialProjectStructureForEdit> {
+    Assertion.assertValue(orgUnitUID, 'orgUnitUID');
 
-    return this.http.get<FinancialProjectOrgUnitsForEdition[]>(path);
+    const path = `v1/financial-projects/organizational-units/${orgUnitUID}/structured-data-for-edition`;
+
+    return this.http.get<FinancialProjectStructureForEdit>(path);
   }
 
 

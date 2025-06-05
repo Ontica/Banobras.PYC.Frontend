@@ -14,15 +14,15 @@ import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { FinancialProjectsStateSelector } from '@app/presentation/exported.presentation.types';
+import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { FinancialProjectsDataService } from '@app/data-services';
 
-import { FinancialProject, FinancialProjectActions, FinancialProjectFields, EmptyFinancialProject,
-         EmptyFinancialProjectActions, FinancialProjectRejectFields, FinancialProjectOrgUnitsForEdition,
-         ProjectCategoryForEdition, ProjectProgramForEdition } from '@app/models';
+import { EmptyFinancialProject, EmptyFinancialProjectActions, FinancialProject, FinancialProjectActions,
+         FinancialProjectFields, FinancialProjectProgramForEdition, FinancialProjectRejectFields,
+         FinancialProjectSubprogramForEdition, RequestsList } from '@app/models';
 
 import { ConfirmSubmitModalEventType,
          ConfirmSubmitType } from '@app/views/entity-records/confirm-submit-modal/confirm-submit-modal.component';
@@ -36,11 +36,11 @@ export enum ProjectHeaderEventType {
 
 interface ProjectFormModel extends FormGroup<{
   baseOrgUnitUID: FormControl<string>;
-  categoryUID: FormControl<string>;
   programUID: FormControl<string>;
   subprogramUID: FormControl<string>;
-  name: FormControl<string>;
+  projectTypeUID: FormControl<string>;
   assigneeUID: FormControl<string>;
+  name: FormControl<string>;
   description: FormControl<string>;
   justification: FormControl<string>;
 }> { }
@@ -69,15 +69,17 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
 
   isLoading = false;
 
+  isLoadingStructureForEdit = false;
+
   isLoadingAssignees = false;
 
-  orgUnitsList: FinancialProjectOrgUnitsForEdition[] = [];
+  orgUnitsList: Identifiable[] = [];
 
-  categoriesList: Identifiable[] = [];
-
-  programsList: Identifiable[] = [];
+  programsList: FinancialProjectProgramForEdition[] = [];
 
   subprogramsList: Identifiable[] = [];
+
+  projectTypesList: Identifiable[] = [];
 
   assigneesList: Identifiable[] = [];
 
@@ -114,35 +116,35 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
   }
 
 
-  onOrgUnitChanges(orgUnit: FinancialProjectOrgUnitsForEdition) {
-    this.form.controls.categoryUID.reset();
+  onOrgUnitChanges(orgUnit: Identifiable) {
     this.form.controls.programUID.reset();
     this.form.controls.subprogramUID.reset();
+    this.form.controls.projectTypeUID.reset();
     this.form.controls.assigneeUID.reset();
 
-    this.categoriesList = orgUnit?.categories ?? [];
     this.programsList = [];
     this.subprogramsList = [];
+    this.projectTypesList = [];
     this.assigneesList = [];
 
     if (!isEmpty(orgUnit)) {
+      this.getStructureForEditProjects(orgUnit.uid);
       this.getAssigneesByOrgUnit(orgUnit.uid);
     }
   }
 
 
-  onCategoryChanges(category: ProjectCategoryForEdition) {
-    this.form.controls.programUID.reset();
+  onProgramChanges(program: FinancialProjectProgramForEdition) {
     this.form.controls.subprogramUID.reset();
-
-    this.programsList = category.programs;
-    this.subprogramsList = [];
+    this.form.controls.projectTypeUID.reset();
+    this.subprogramsList = program.subprograms ?? [];
+    this.projectTypesList = [];
   }
 
 
-  onProgramChanges(program: ProjectProgramForEdition) {
-    this.form.controls.subprogramUID.reset();
-    this.subprogramsList = program.subprograms;
+  onSubprogramChanges(subprogram: FinancialProjectSubprogramForEdition) {
+    this.form.controls.projectTypeUID.reset();
+    this.projectTypesList = subprogram.projectTypes ?? [];
   }
 
 
@@ -190,11 +192,21 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
   private loadDataLists() {
     this.isLoading = true;
 
-    this.helper.select<FinancialProjectOrgUnitsForEdition[]>(FinancialProjectsStateSelector.ORG_UNITS_BY_EDITION)
+    this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow })
       .subscribe(x => {
         this.setOrganizationalUnitsList(x);
         this.isLoading = x.length === 0;
       });
+  }
+
+
+  private getStructureForEditProjects(orgUnitUID: string, initLoad: boolean = false) {
+    this.isLoadingStructureForEdit = true;
+
+    this.projectsData.getStructureForEditProjects(orgUnitUID)
+      .firstValue()
+      .then(x => this.setProgramsList(x.programs, initLoad))
+      .finally(() => this.isLoadingStructureForEdit = false);
   }
 
 
@@ -208,16 +220,27 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
   }
 
 
-  private setOrganizationalUnitsList(data: FinancialProjectOrgUnitsForEdition[]) {
+  private setOrganizationalUnitsList(data: Identifiable[]) {
     this.orgUnitsList = data;
-    this.validateInitDataList();
     this.validateInitAssignees();
+  }
+
+
+  private setProgramsList(data: FinancialProjectProgramForEdition[], initLoad: boolean) {
+    this.programsList = data;
+
+    if (initLoad) {
+      this.validateInitDataList();
+    }
   }
 
 
   private setAssigneesList(data: Identifiable[], initLoad: boolean){
     this.assigneesList = data;
-    this.validateInitAssignees();
+
+    if (initLoad) {
+      this.validateInitAssignees();
+    }
   }
 
 
@@ -226,18 +249,16 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
       return;
     }
 
-    const orgUnit = this.orgUnitsList.find(x => x.uid === this.project.baseOrgUnit.uid);
-    const category = orgUnit?.categories?.find(x => x.uid === this.project.category.uid);
-    const program = category?.programs?.find(x => x.uid === this.project.program.uid);
+    const program = this.programsList.find(x => x.uid === this.project.program.uid);
+    const subprogram = program?.subprograms?.find(x => x.uid === this.project.subprogram.uid);
 
-    this.categoriesList = orgUnit?.categories ?? [];
-    this.programsList = category?.programs ?? [];
     this.subprogramsList = program?.subprograms ?? [];
+    this.projectTypesList = subprogram?.projectTypes ?? [];
 
-    this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.project.baseOrgUnit as any, 'uid');
-    this.categoriesList = ArrayLibrary.insertIfNotExist(this.categoriesList ?? [], this.project.category, 'uid');
-    this.programsList = ArrayLibrary.insertIfNotExist(this.programsList ?? [], this.project.program, 'uid');
+    this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.project.baseOrgUnit, 'uid');
+    this.programsList = ArrayLibrary.insertIfNotExist(this.programsList ?? [], this.project.program as any, 'uid');
     this.subprogramsList = ArrayLibrary.insertIfNotExist(this.subprogramsList ?? [], this.project.subprogram, 'uid');
+    this.projectTypesList = ArrayLibrary.insertIfNotExist(this.projectTypesList ?? [], this.project.projectType, 'uid');
   }
 
 
@@ -256,12 +277,12 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      name: ['', Validators.required],
       baseOrgUnitUID: ['', Validators.required],
-      categoryUID: ['', Validators.required],
       programUID: ['', Validators.required],
       subprogramUID: ['', Validators.required],
+      projectTypeUID: ['', Validators.required],
       assigneeUID: ['', Validators.required],
+      name: ['', Validators.required],
       description: [''],
       justification: [''],
     });
@@ -271,25 +292,30 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        name: this.project.name ?? null,
         baseOrgUnitUID: isEmpty(this.project.baseOrgUnit) ? null : this.project.baseOrgUnit.uid,
-        categoryUID: isEmpty(this.project.category) ? null : this.project.category.uid,
         programUID: isEmpty(this.project.program) ? null : this.project.program.uid,
         subprogramUID: isEmpty(this.project.subprogram) ? null : this.project.subprogram.uid,
+        projectTypeUID: isEmpty(this.project.projectType) ? null : this.project.projectType.uid,
         assigneeUID: isEmpty(this.project.assignee) ? null : this.project.assignee.uid,
+        name: this.project.name ?? null,
         description: this.project.description,
         justification: this.project.justification,
       });
     });
 
     this.validateInitDataList();
-    this.validateLoadInitAssignees();
+    this.validateLoadInitData();
   }
 
 
-  private validateLoadInitAssignees() {
-    if (this.isSaved && !isEmpty(this.project.baseOrgUnit)) {
+  private validateLoadInitData() {
+    if (!this.isSaved) {
+      return;
+    }
+
+    if (!isEmpty(this.project.baseOrgUnit)) {
       this.getAssigneesByOrgUnit(this.project.baseOrgUnit.uid, true);
+      this.getStructureForEditProjects(this.project.baseOrgUnit.uid, true);
     }
   }
 
@@ -298,12 +324,12 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const data: FinancialProjectFields = {
-      name: this.form.value.name ?? null,
       baseOrgUnitUID: this.form.value.baseOrgUnitUID ?? null,
-      categoryUID: this.form.value.categoryUID ?? null,
       programUID: this.form.value.programUID ?? null,
       subprogramUID: this.form.value.subprogramUID ?? null,
+      projectTypeUID: this.form.value.projectTypeUID ?? null,
       assigneeUID: this.form.value.assigneeUID ?? null,
+      name: this.form.value.name ?? null,
       description: this.form.value.description ?? null,
       justification: this.form.value.justification ?? null,
     };
