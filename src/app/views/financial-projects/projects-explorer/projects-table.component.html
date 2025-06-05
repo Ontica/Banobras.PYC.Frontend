@@ -42,22 +42,10 @@
         </ng-container>
 
         <ng-container matColumnDef="manager">
-          <th mat-header-cell *matHeaderCellDef class="nowrap"> Administrador / Responsable </th>
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> Área / Tipo de proyecto </th>
           <td mat-cell *matCellDef="let row" class="column-md">
             <div class="text-highlight">{{ row.baseOrgUnitName }}</div>
-            {{ row.assigneeName }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef class="nowrap"> Categoría / Fechas </th>
-          <td mat-cell *matCellDef="let row" class="column-md">
-            <div class="text-highlight">{{ row.categoryName }}</div>
-            <div class="nowrap">
-              {{!row.startDate ? 'N/D' : (row.startDate | empDateTimeFormat)}}
-              -
-              {{!row.endDate ? 'N/D' : (row.endDate | empDateTimeFormat)}}
-            </div>
+            {{ row.projectTypeName }}
           </td>
         </ng-container>
 
@@ -66,6 +54,18 @@
           <td mat-cell *matCellDef="let row" class="column-md">
             <div class="text-highlight">{{ row.programName }}</div>
             {{ row.subprogramName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="assignee">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> Responsable / Fechas </th>
+          <td mat-cell *matCellDef="let row" class="column-md">
+            <div class="text-highlight">{{ row.assigneeName }}</div>
+            <div class="nowrap">
+              {{!row.startDate ? 'N/D' : (row.startDate | empDateTimeFormat)}}
+              -
+              {{!row.endDate ? 'N/D' : (row.endDate | empDateTimeFormat)}}
+            </div>
           </td>
         </ng-container>
 

@@ -26,7 +26,7 @@ export interface FinancialProjectsQuery {
   keywords: string;
   status: EntityStatus;
   baseOrgUnitUID: string;
-  categoryUID: string;
+  projectTypeUID: string;
   programUID: string;
   subprogramUID: string;
 }
@@ -37,7 +37,7 @@ export interface FinancialProjectDescriptor {
   projectNo: string;
   name: string;
   baseOrgUnitName: string;
-  categoryName: string;
+  projectTypeName: string;
   programName: string;
   subprogramName: string;
   assigneeName: string;
@@ -50,7 +50,7 @@ export interface FinancialProjectDescriptor {
 export interface FinancialProjectFields {
   name: string;
   baseOrgUnitUID: string;
-  categoryUID: string;
+  projectTypeUID: string;
   programUID: string;
   subprogramUID: string;
   assigneeUID: string;
@@ -59,24 +59,24 @@ export interface FinancialProjectFields {
 }
 
 
-export interface FinancialProjectOrgUnitsForEdition {
+export interface FinancialProjectStructureForEdit {
   uid: string;
   name: string;
-  categories: ProjectCategoryForEdition[];
+  programs: FinancialProjectProgramForEdition[];
 }
 
 
-export interface ProjectCategoryForEdition {
+export interface FinancialProjectProgramForEdition {
   uid: string;
   name: string;
-  programs: ProjectProgramForEdition[];
+  subprograms: FinancialProjectSubprogramForEdition[];
 }
 
 
-export interface ProjectProgramForEdition {
+export interface FinancialProjectSubprogramForEdition {
   uid: string;
   name: string;
-  subprograms: Identifiable[];
+  projectTypes: Identifiable[];
 }
 
 
@@ -89,7 +89,7 @@ export interface FinancialProject {
   uid: string;
   projectNo: string;
   name: string;
-  category: Identifiable;
+  projectType: Identifiable;
   program: Identifiable;
   subprogram: Identifiable;
   baseOrgUnit: Identifiable;
@@ -213,7 +213,7 @@ export function mapFinancialProjectDescriptorFromProject(data: FinancialProject)
     projectNo: data.projectNo,
     name: data.name,
     programName: data.program.name,
-    categoryName: data.category.name,
+    projectTypeName: data.projectType.name,
     subprogramName: data.subprogram.name,
     baseOrgUnitName: data.baseOrgUnit.name,
     assigneeName: data.assignee.name,
@@ -260,7 +260,7 @@ export const EmptyFinancialProjectsQuery: FinancialProjectsQuery = {
   keywords: null,
   status: null,
   baseOrgUnitUID: '',
-  categoryUID: '',
+  projectTypeUID: '',
   programUID: '',
   subprogramUID: '',
 };
@@ -270,7 +270,7 @@ export const EmptyFinancialProject: FinancialProject = {
   uid: '',
   projectNo: '',
   name: '',
-  category: Empty,
+  projectType: Empty,
   program: Empty,
   subprogram: Empty,
   baseOrgUnit: Empty,

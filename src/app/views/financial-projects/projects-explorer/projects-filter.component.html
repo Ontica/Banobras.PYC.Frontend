@@ -85,14 +85,14 @@
 
           <div class="fx-item-half sm-fx-item">
 
-            <label>Categoría:</label>
+            <label>Tipo de proyecto:</label>
 
             <emp-ng-select
-              formControlName="categoryUID"
+              formControlName="projectTypeUID"
               [config]="{clearable: true, showTooltip: true}"
-              [items]="categoriesList"
+              [items]="projectTypesList"
               [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.categoryUID)"
+              [showError]="formHelper.isControlInvalid(form.controls.projectTypeUID)"
               placeholder="Todos">
             </emp-ng-select>
 

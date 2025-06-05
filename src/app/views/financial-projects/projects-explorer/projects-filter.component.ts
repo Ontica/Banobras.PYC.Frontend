@@ -34,7 +34,7 @@ interface ProjectsFilterFormModel extends FormGroup<{
   keywords: FormControl<string>;
   status: FormControl<EntityStatus>;
   baseOrgUnitUID: FormControl<string>;
-  categoryUID: FormControl<string>;
+  projectTypeUID: FormControl<string>;
   programUID: FormControl<string>;
   subprogramUID: FormControl<string>;
 }> { }
@@ -64,7 +64,7 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
 
   orgUnitsList: Identifiable[] = [];
 
-  categoriesList: Identifiable[] = [];
+  projectTypesList: Identifiable[] = [];
 
   programsList: Identifiable[] = [];
 
@@ -122,13 +122,13 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
-      this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.CATEGORIES),
+      this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.PROJECT_TYPES),
       this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.PROGRAMS),
       this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.SUBPROGRAMS),
     ])
     .subscribe(([a, b, c, d]) => {
       this.orgUnitsList = a;
-      this.categoriesList = b;
+      this.projectTypesList = b;
       this.programsList = c;
       this.subprogramsList = d;
       this.isLoading = false;
@@ -143,7 +143,7 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
       keywords: [null],
       status: [null],
       baseOrgUnitUID: [null],
-      categoryUID: [null],
+      projectTypeUID: [null],
       programUID: [null],
       subprogramUID: [null],
     });
@@ -155,7 +155,7 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
       keywords: this.query.keywords,
       status: this.query.status,
       baseOrgUnitUID: this.query.baseOrgUnitUID,
-      categoryUID: this.query.categoryUID,
+      projectTypeUID: this.query.projectTypeUID,
       programUID: this.query.programUID,
       subprogramUID: this.query.subprogramUID,
     });
@@ -167,7 +167,7 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
       keywords: this.form.value.keywords ?? null,
       status: this.form.value.status ?? null,
       baseOrgUnitUID: this.form.value.baseOrgUnitUID ?? null,
-      categoryUID: this.form.value.categoryUID ?? null,
+      projectTypeUID: this.form.value.projectTypeUID ?? null,
       programUID: this.form.value.programUID ?? null,
       subprogramUID: this.form.value.subprogramUID ?? null,
     };

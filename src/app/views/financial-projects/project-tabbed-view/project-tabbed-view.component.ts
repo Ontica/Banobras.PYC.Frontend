@@ -113,7 +113,7 @@ export class FinancialProjectTabbedViewComponent implements OnChanges {
     this.title = `${this.data.project.projectNo}: ${this.data.project.name} ${status}`;
 
     this.hint = `<strong>${this.data.project.baseOrgUnit.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${this.data.project.category.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${this.data.project.projectType?.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${startDate}`;
   }
 
