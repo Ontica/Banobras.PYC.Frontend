@@ -16,14 +16,14 @@ import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { FinancialProjectsStateSelector } from '@app/presentation/exported.presentation.types';
+import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper, sendEvent } from '@app/shared/utils';
 
 import { FinancialProjectsDataService } from '@app/data-services';
 
 import { FinancialProjectAccount, EmptyFinancialProjectAccount, FinancialProjectAccountFields, ObjectTypes,
-         AccountAttributes, FinancialData } from '@app/models';
+         AccountAttributes, FinancialData, RequestsList } from '@app/models';
 
 
 export enum ProjectAccountEditorEventType {
@@ -176,7 +176,7 @@ export class FinancialProjectAccountEditorComponent implements OnChanges, OnInit
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.ORG_UNITS_BY_EDITION),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
       this.projectsData.getStandardAccounts(this.projectUID),
       this.projectsData.getFinancialAccountsTypes(this.projectUID),
     ])
