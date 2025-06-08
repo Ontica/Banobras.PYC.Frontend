@@ -14,6 +14,10 @@ import { ROUTES } from '@app/main-layout';
 import { DefaultComponent } from '@app/shared/components';
 
 import {
+  ChartOfAccountsMainPageComponent
+} from '@app/views/accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
+
+import {
   CashFlowProjectionsMainPageComponent
 } from '@app/views/cash-flow/projections-main-page/projections-main-page.component';
 
@@ -46,7 +50,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.flujo_de_efectivo_reglas.permission },
     path: ROUTES.flujo_de_efectivo_reglas.path,
-    component: DefaultComponent,
+    component: ChartOfAccountsMainPageComponent,
   },
   {
     data: { permission: ROUTES.flujo_de_efectivo_reportes.permission },

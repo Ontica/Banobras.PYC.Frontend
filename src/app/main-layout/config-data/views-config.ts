@@ -236,8 +236,8 @@ export const CashFlowViews: View[] = [
   },
   {
     name: 'CashFlow.Rules',
-    title: 'Conceptos',
-    menuTitle: 'Conceptos',
+    title: 'Cuentas',
+    menuTitle: 'Cuentas',
     url: ROUTES.flujo_de_efectivo_reglas.fullpath,
     permission: ROUTES.flujo_de_efectivo_reglas.permission,
   },
