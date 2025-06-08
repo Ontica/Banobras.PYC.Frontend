@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6ccf199ebada40bbb9c59e1eedc58573)](https://app.codacy.com/gh/Ontica/Banobras.PYC.Frontend/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 &nbsp; &nbsp;
-[![Maintainability](https://api.codeclimate.com/v1/badges/669f3b17215420194776/maintainability)](https://codeclimate.com/github/Ontica/Banobras.PYC.Frontend/maintainability)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Ontica_Banobras.PYC.Frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Ontica_Banobras.PYC.Frontend)
 
 La nueva versión del **Sistema PYC (Presupuesto y Control)** está siendo desarrollada por
 nuestra organización, a la medida de las necesidades del Banco Nacional de Obras y Servicios
