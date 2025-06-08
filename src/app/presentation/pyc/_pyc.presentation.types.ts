@@ -8,6 +8,9 @@
 
 /* Selectors */
 
+import { SelectorType as AccountsStateSelector } from './accounts.presentation.handler';
+export { SelectorType as AccountsStateSelector } from './accounts.presentation.handler';
+
 import { SelectorType as AssetsStateSelector } from './assets.presentation.handler';
 export { SelectorType as AssetsStateSelector } from './assets.presentation.handler';
 
@@ -32,7 +35,8 @@ export { SelectorType as ProductsStateSelector } from './products.presentation.h
 import { SelectorType as RequestsStateSelector } from './requests.presentation.handler';
 export { SelectorType as RequestsStateSelector } from './requests.presentation.handler';
 
-export type PYCSelectors = AssetsStateSelector |
+export type PYCSelectors = AccountsStateSelector |
+                           AssetsStateSelector |
                            BudgetingStateSelector |
                            CashFlowStateSelector |
                            CataloguesStateSelector |

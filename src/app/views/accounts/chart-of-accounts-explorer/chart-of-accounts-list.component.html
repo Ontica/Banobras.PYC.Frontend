@@ -1,0 +1,51 @@
+
+<div class="fx-column-container-fill">
+
+  <emp-ng-list-controls *ngIf="queryExecuted && data.accounts.length > 0"
+    class="fx-item-none"
+    [config]="{itemsName: 'cuentas', itemsPronouns: 'las', selectionMessage: 'seleccionadas', showExportButton: true}"
+    (listControlsEvent)="onListControlsEvent($event)">
+
+  </emp-ng-list-controls>
+
+
+  <emp-cf-chart-of-accounts-list-header
+    class="fx-item-none"
+    [maxLevel]="maxLevel">
+
+  </emp-cf-chart-of-accounts-list-header>
+
+
+  <div #listContainer class="fx-item">
+
+    <cdk-virtual-scroll-viewport itemSize="35">
+
+      <div *cdkVirtualFor="let item of data.accounts;"
+        class="list-item"
+        [class.list-item-selected]="item.uid === selectedUID"
+        [title]="item.fullName">
+
+        <div class="list-item-container">
+
+          <emp-cf-chart-of-accounts-list-item
+            [item]="item"
+            [maxLevel]="maxLevel"
+            (chartOfAccountsListItemEvent)="onChartOfAccountsListItemEvent($event)">
+
+          </emp-cf-chart-of-accounts-list-item>
+
+        </div>
+
+      </div>
+
+        <div *ngIf="data.accounts.length === 0" class="text-not-found">
+          {{ queryExecuted ?
+             'No se encontraron cuentas con el filtro proporcionado.' :
+             'No se ha invocado la búsqueda de cuentas.' }}
+        </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

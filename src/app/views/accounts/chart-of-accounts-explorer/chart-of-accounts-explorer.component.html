@@ -1,0 +1,61 @@
+<div class="card card-border">
+
+  <div class="card-header card-header-flat">
+
+    <div class="card-title">
+      {{ cardTitle }}
+
+      <div class="card-hint" empNgProgressText
+        loadingText="Cargando"
+        [finalText]="cardHint"
+        [isLoading]="isLoading">
+      </div>
+
+    </div>
+
+    <div class="card-header-options">
+
+      <div *empNgHasPermission="PERMISSION_TO_CREATE" class="fx-row-container fx-gap">
+
+        <button type="button"
+          class="btn-action"
+          (click)="onCreateButtonClicked()">
+          Agregar cuenta
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card-body" [empNgSpinnerHost]="spinner">
+
+    <div class="fx-column-container-fill">
+
+      <emp-ng-spinner #spinner [visible]="isLoading">
+
+      </emp-ng-spinner>
+
+      <emp-cf-chart-of-accounts-filter
+        class="fx-item-none"
+        [query]="query"
+        [(showFilters)]="showFilters"
+        (chartOfAccountsFilterEvent)="onChartOfAccountsFilterEvent($event)">
+
+      </emp-cf-chart-of-accounts-filter>
+
+
+      <emp-cf-chart-of-accounts-list class="fx-item"
+        [data]="data"
+        [selectedUID]="selectedUID"
+        [queryExecuted]="queryExecuted"
+        (chartOfAccountsListEvent)="onChartOfAccountsListEvent($event)">
+
+      </emp-cf-chart-of-accounts-list>
+
+    </div>
+
+  </div>
+
+</div>

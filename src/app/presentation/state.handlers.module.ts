@@ -15,6 +15,7 @@ import { AppStatusPresentationHandler } from './app-data/app-status.presentation
 
 import { AccessControlPresentationHandler } from './security-management/access-control.presentation.handler';
 
+import { AccountsPresentationHandler } from './pyc/accounts.presentation.handler';
 import { AssetsPresentationHandler } from './pyc/assets.presentation.handler';
 import { BudgetingPresentationHandler } from './pyc/budgeting.presentation.handler';
 import { CashFlowPresentationHandler } from './pyc/cash-flow.presentation.handler';
@@ -30,6 +31,7 @@ import { RequestsPresentationHandler } from './pyc/requests.presentation.handler
   providers: [
     MainLayoutPresentationHandler,
     AppStatusPresentationHandler,
+    AccountsPresentationHandler,
     AccessControlPresentationHandler,
     AssetsPresentationHandler,
     BudgetingPresentationHandler,
@@ -42,6 +44,7 @@ import { RequestsPresentationHandler } from './pyc/requests.presentation.handler
 
     { provide: STATE_HANDLERS, useExisting: MainLayoutPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AppStatusPresentationHandler, multi: true },
+    { provide: STATE_HANDLERS, useExisting: AccountsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AccessControlPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AssetsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: BudgetingPresentationHandler, multi: true },

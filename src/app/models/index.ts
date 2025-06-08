@@ -40,6 +40,8 @@ export * from './budgets';
 
 export * from './cash-flow-projections';
 
+export * from './chart-of-accounts';
+
 export * from './contract-orders';
 
 export * from './contracts';

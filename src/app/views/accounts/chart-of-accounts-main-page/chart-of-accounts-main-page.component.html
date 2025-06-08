@@ -1,0 +1,19 @@
+<div class="explorer">
+
+  <div class="primary priority">
+
+    <emp-cf-chart-of-accounts-explorer
+      class="primary"
+      [class.std-hide]="displayTabbedView"
+      [query]="query"
+      [data]="data"
+      [selectedUID]="selectedData.account.uid"
+      [isLoading]="isLoading"
+      [queryExecuted]="queryExecuted"
+      (chartOfAccountsExplorerEvent)="onChartOfAccountsExplorerEvent($event)">
+
+    </emp-cf-chart-of-accounts-explorer>
+
+  </div>
+
+</div>

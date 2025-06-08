@@ -25,6 +25,8 @@ import { CashFlowProjectionsDataService } from './cash-flow-projections.data.ser
 
 import { CataloguesDataService } from './catalogues.data.service';
 
+import { ChartOfAccountsDataService } from './chart-of-accounts.service';
+
 import { ContractsDataService } from './contracts.data.service';
 
 import { DocumentsDataService } from './documents.data.service';
@@ -60,6 +62,7 @@ import { SuppliersDataService } from './suppliers.data.service';
     BudgetTransactionsDataService,
     CashFlowProjectionsDataService,
     CataloguesDataService,
+    ChartOfAccountsDataService,
     ContractsDataService,
     DocumentsDataService,
     FinancialProjectsDataService,

@@ -1,0 +1,166 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section form-container">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Catálogo de cuentas:</label>
+
+        <emp-ng-select
+          formControlName="chartOfAccountsUID"
+          [config]="{showTooltip: true}"
+          [items]="chartsOfAccountsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.chartOfAccountsUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item fx-items-end">
+
+        <div class="input-search-container">
+
+          <input type="text" class="text-box" name="keywords"
+            formControlName="keywords"
+            placeholder="Buscar..."
+            (keyup.enter)="onSearchClicked()"
+            (keyup.escape)="form.controls.keywords.reset()">
+
+        </div>
+
+      </div>
+
+      <div class="fx-item-none fx-items-start" [style.paddingTop.px]="13">
+
+        <button title="Buscar"
+          [class.btn-icon-action]="form.valid"
+          [class.btn-icon]="!form.valid"
+          (click)="onSearchClicked()">
+
+          <mat-icon>search</mat-icon>
+
+        </button>
+
+        <mat-divider vertical="true" class="vertical-slim">
+
+        </mat-divider>
+
+        <button class="btn-base btn-filter-options"
+          (click)="onShowFiltersClicked()" >
+          {{showFilters ? 'Ocultar' :'Mostrar'}} <mat-icon>filter_list</mat-icon>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="showFilters" [@empExpandCollapse]>
+
+      <mat-divider class="horizontal-md">
+
+      </mat-divider>
+
+      <div class="fx-column-container fx-gap-half">
+
+        <div class="fx-row-container">
+
+          <div class="fx-item-half">
+
+            <label>Rol:</label>
+
+            <emp-ng-select
+              formControlName="roleType"
+              placeholder="Todos"
+              [config]="{clearable: true, bindByValue: false}"
+              [items]="roleTypesList"
+              [bindLabel]="null"
+              [showError]="formHelper.isControlInvalid(form.controls.roleType)">
+            </emp-ng-select>
+
+          </div>
+
+          <div class="fx-item">
+
+            <label>Naturaleza:</label>
+
+            <emp-ng-select
+              formControlName="debtorCreditorType"
+              placeholder="Todas"
+              [config]="{clearable: true, bindByValue: false}"
+              [items]="debtorCreditorTypesList"
+              [bindLabel]="null"
+              [showError]="formHelper.isControlInvalid(form.controls.debtorCreditorType)">
+            </emp-ng-select>
+
+          </div>
+
+        </div>
+
+        <div class="fx-row-container" [style.marginBottom.px]="8">
+
+          <div class="fx-item-quarter">
+
+            <label>De la cuenta:</label>
+
+            <input type="text" class="text-box"
+              formControlName="fromAccount"
+              [class.invalid-control]="formHelper.isControlInvalid(form.controls.fromAccount)">
+
+          </div>
+
+          <div class="fx-item-quarter">
+
+            <label>A la cuenta:</label>
+
+            <input type="text" class="text-box"
+              formControlName="toAccount"
+              [class.invalid-control]="formHelper.isControlInvalid(form.controls.toAccount)">
+
+          </div>
+
+          <div class="fx-item-half">
+
+            <label>Nivel:</label>
+
+            <emp-ng-select
+              formControlName="level"
+              placeholder="Todos"
+              [config]="{clearable: true}"
+              [items]="levelsList"
+              [showError]="formHelper.isControlInvalid(form.controls.level)">
+            </emp-ng-select>
+
+          </div>
+
+        </div>
+
+        <mat-divider class="horizontal-slim">
+
+        </mat-divider>
+
+        <div class="fx-row-container fx-end fx-items-end">
+
+          <mat-divider vertical="true" class="vertical-inline">
+
+          </mat-divider>
+
+          <div class="fx-item-none">
+
+            <button class="btn-base btn-filter-options"
+              (click)="onClearFilters()">
+              Limpiar <mat-icon>filter_list</mat-icon>
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

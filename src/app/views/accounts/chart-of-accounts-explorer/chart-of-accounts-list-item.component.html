@@ -1,0 +1,34 @@
+<div class="fx-row-container fx-gap-size entry-gap-size">
+
+  <div class="fx-item-size" [ngStyle]="{'--size': widthByMaxLevel + 'px'}">
+    <div class="list-item-name nowrap"
+         (click)="onSelectClicked()">
+      {{item.roleType === 'Sumaria' ? '&nbsp;' : '*'}}
+      <a>{{item.number}}</a>
+    </div>
+  </div>
+
+  <div class="fx-item list-item-column-border-shadow">
+    <div class="border-left"></div>
+    <div [style.marginLeft.px]="marginLeftByLevel"
+         [ngClass]="{'list-item-deleted': item.obsolete}">{{item.name}}</div>
+  </div>
+
+  <div class="fx-item-size column-size-sm">
+    <div class="nowrap">{{item.roleType}}</div>
+  </div>
+
+  <div class="fx-item-size column-size-md">
+    <div>{{item.typeName}}</div>
+  </div>
+
+  <div class="fx-item-size column-size-sm">
+    <div class="nowrap">{{item.debtorCreditorType}}</div>
+  </div>
+
+  <div class="fx-item-size column-size-sm">
+    <div>{{item.startDate | empDateTimeFormat}}</div>
+    <div *ngIf="item.obsolete">{{item.endDate | empDateTimeFormat}}</div>
+  </div>
+
+</div>
