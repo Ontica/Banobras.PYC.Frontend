@@ -17,8 +17,8 @@ import { sendEvent } from '@app/shared/utils';
 
 import { FinancialProjectsDataService } from '@app/data-services';
 
-import { FinancialProjectAccountDescriptor, FinancialProjectAccount, EmptyFinancialProjectAccount,
-         FinancialProjectAccountFields } from '@app/models';
+import { FinancialAccountDescriptor, FinancialAccount, EmptyFinancialAccount,
+         FinancialAccountFields } from '@app/models';
 
 import { ProjectAccountEditorEventType } from './project-account-editor.component';
 
@@ -41,7 +41,7 @@ export class FinancialProjectAccountsEditionComponent {
 
   @Input() projectUID = '';
 
-  @Input() accounts: FinancialProjectAccountDescriptor[] = [];
+  @Input() accounts: FinancialAccountDescriptor[] = [];
 
   @Input() canEdit = false;
 
@@ -53,7 +53,7 @@ export class FinancialProjectAccountsEditionComponent {
 
   displayAccountOperations = false;
 
-  selectedAccount: FinancialProjectAccount = EmptyFinancialProjectAccount;
+  selectedAccount: FinancialAccount = EmptyFinancialAccount;
 
   selectedAccountOperationsUID = '';
 
@@ -63,7 +63,7 @@ export class FinancialProjectAccountsEditionComponent {
 
 
   onAddProjectAccountButtonClicked() {
-    this.setSelectedAccount(EmptyFinancialProjectAccount, true);
+    this.setSelectedAccount(EmptyFinancialAccount, true);
   }
 
 
@@ -71,7 +71,7 @@ export class FinancialProjectAccountsEditionComponent {
   onProjectAccountEditorEvent(event: EventInfo) {
     switch (event.type as ProjectAccountEditorEventType) {
       case ProjectAccountEditorEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedAccount(EmptyFinancialProjectAccount);
+        this.setSelectedAccount(EmptyFinancialAccount);
         return;
       case ProjectAccountEditorEventType.CREATE_CLICKED:
         Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
@@ -103,7 +103,7 @@ export class FinancialProjectAccountsEditionComponent {
         return;
       case ProjectAccountsTableEventType.REMOVE_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        this.confirmRemoveProjectAccount(event.payload.account as FinancialProjectAccountDescriptor);
+        this.confirmRemoveProjectAccount(event.payload.account as FinancialAccountDescriptor);
         return;
       case ProjectAccountsTableEventType.EDIT_OPERATIONS_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
@@ -140,7 +140,7 @@ export class FinancialProjectAccountsEditionComponent {
   }
 
 
-  private createProjectAccount(projectUID: string, dataFields: FinancialProjectAccountFields) {
+  private createProjectAccount(projectUID: string, dataFields: FinancialAccountFields) {
     this.submitted = true;
 
     this.projectsData.createProjectAccount(projectUID, dataFields)
@@ -150,7 +150,7 @@ export class FinancialProjectAccountsEditionComponent {
   }
 
 
-  private updateProjectAccount(projectUID: string, accountUID: string, dataFields: FinancialProjectAccountFields) {
+  private updateProjectAccount(projectUID: string, accountUID: string, dataFields: FinancialAccountFields) {
     this.submitted = true;
 
     this.projectsData.updateProjectAccount(projectUID, accountUID, dataFields)
@@ -170,7 +170,7 @@ export class FinancialProjectAccountsEditionComponent {
   }
 
 
-  private setSelectedAccount(data: FinancialProjectAccount, display?: boolean) {
+  private setSelectedAccount(data: FinancialAccount, display?: boolean) {
     this.selectedAccount = data;
     this.displayAccountEditor = display ?? !isEmpty(data);
   }
@@ -182,7 +182,7 @@ export class FinancialProjectAccountsEditionComponent {
   }
 
 
-  private confirmRemoveProjectAccount(account: FinancialProjectAccountDescriptor) {
+  private confirmRemoveProjectAccount(account: FinancialAccountDescriptor) {
     const title = 'Eliminar cuenta';
     const message = this.getConfirmRemoveAccountMessage(account);
 
@@ -192,7 +192,7 @@ export class FinancialProjectAccountsEditionComponent {
   }
 
 
-  private getConfirmRemoveAccountMessage(account: FinancialProjectAccountDescriptor): string {
+  private getConfirmRemoveAccountMessage(account: FinancialAccountDescriptor): string {
     return `
       <table class='confirm-data'>
         <tr><td class='nowrap'>No. cuenta: </td><td><strong>${account.accountNo}</strong></td></tr>
@@ -207,7 +207,7 @@ export class FinancialProjectAccountsEditionComponent {
   private resolveAccountUpdated() {
     const payload = { dataUID: this.projectUID };
     sendEvent(this.projectAccountsEditionEvent, ProjectAccountsEditionEventType.UPDATED, payload);
-    this.setSelectedAccount(EmptyFinancialProjectAccount);
+    this.setSelectedAccount(EmptyFinancialAccount);
   }
 
 }

@@ -13,7 +13,7 @@ import { EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { FinancialProjectAccountDescriptor } from '@app/models';
+import { FinancialAccountDescriptor } from '@app/models';
 
 
 export enum ProjectAccountsTableEventType {
@@ -28,7 +28,7 @@ export enum ProjectAccountsTableEventType {
 })
 export class FinancialProjectAccountsTableComponent implements OnChanges {
 
-  @Input() accounts: FinancialProjectAccountDescriptor[] = [];
+  @Input() accounts: FinancialAccountDescriptor[] = [];
 
   @Input() canEdit = false;
 
@@ -39,7 +39,7 @@ export class FinancialProjectAccountsTableComponent implements OnChanges {
 
   displayedColumns = [...this.displayedColumnsDefault];
 
-  dataSource: MatTableDataSource<FinancialProjectAccountDescriptor>;
+  dataSource: MatTableDataSource<FinancialAccountDescriptor>;
 
 
   constructor() { }
@@ -52,7 +52,7 @@ export class FinancialProjectAccountsTableComponent implements OnChanges {
   }
 
 
-  onSelectAccountClicked(account: FinancialProjectAccountDescriptor) {
+  onSelectAccountClicked(account: FinancialAccountDescriptor) {
     if (window.getSelection().toString().length <= 0) {
       sendEvent(this.projectAccountsTableEvent, ProjectAccountsTableEventType.SELECT_CLICKED,
         { account });
@@ -60,13 +60,13 @@ export class FinancialProjectAccountsTableComponent implements OnChanges {
   }
 
 
-  onEditOperationsClicked(account: FinancialProjectAccountDescriptor) {
+  onEditOperationsClicked(account: FinancialAccountDescriptor) {
     sendEvent(this.projectAccountsTableEvent, ProjectAccountsTableEventType.EDIT_OPERATIONS_CLICKED,
       { account });
   }
 
 
-  onRemoveAccountClicked(account: FinancialProjectAccountDescriptor) {
+  onRemoveAccountClicked(account: FinancialAccountDescriptor) {
     sendEvent(this.projectAccountsTableEvent, ProjectAccountsTableEventType.REMOVE_CLICKED,
       { account });
   }

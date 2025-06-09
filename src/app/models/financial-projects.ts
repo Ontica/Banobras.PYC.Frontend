@@ -102,13 +102,8 @@ export interface FinancialProject {
   status: Identifiable<EntityStatus>;
 }
 
-export interface FinancialAccount {
-  uid: string;
-  name: string;
-}
 
-
-export interface FinancialProjectAccountDescriptor {
+export interface FinancialAccountDescriptor {
   uid: string;
   accountNo: string;
   projectName: string;
@@ -122,7 +117,7 @@ export interface FinancialProjectAccountDescriptor {
 }
 
 
-export interface FinancialProjectAccountFields {
+export interface FinancialAccountFields {
   organizationalUnitUID: string;
   financialAccountTypeUID: string;
   standardAccountUID: string;
@@ -168,7 +163,7 @@ export interface CreditFinancialData extends FinancialData {
 }
 
 
-export interface FinancialProjectAccount {
+export interface FinancialAccount {
   uid: string;
   financialAccountType: Identifiable;
   standardAccount: Identifiable;
@@ -193,7 +188,7 @@ export interface FinancialProjectActions extends BaseActions {
 
 export interface FinancialProjectHolder {
   project: FinancialProject,
-  accounts: FinancialProjectAccountDescriptor[];
+  accounts: FinancialAccountDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
   actions: FinancialProjectActions;
@@ -201,7 +196,7 @@ export interface FinancialProjectHolder {
 
 
 export interface FinancialAccountOperations {
-  account: FinancialProjectAccountDescriptor;
+  account: FinancialAccountDescriptor;
   availableOperations: Identifiable[];
   currentOperations: Identifiable[];
 }
@@ -284,7 +279,7 @@ export const EmptyFinancialProject: FinancialProject = {
 }
 
 
-export const EmptyFinancialProjectAccountDescriptor: FinancialProjectAccountDescriptor = {
+export const EmptyFinancialAccountDescriptor: FinancialAccountDescriptor = {
   uid: '',
   accountNo: '',
   financialAccountTypeName: '',
@@ -298,7 +293,7 @@ export const EmptyFinancialProjectAccountDescriptor: FinancialProjectAccountDesc
 }
 
 
-export const EmptyFinancialProjectAccount: FinancialProjectAccount = {
+export const EmptyFinancialAccount: FinancialAccount = {
   uid: '',
   accountNo: '',
   financialAccountType: Empty,
@@ -333,7 +328,7 @@ export const EmptyFinancialProjectHolder: FinancialProjectHolder = {
 
 
 export const EmptyFinancialAccountOperations: FinancialAccountOperations = {
-  account: EmptyFinancialProjectAccountDescriptor,
+  account: EmptyFinancialAccountDescriptor,
   availableOperations: [],
   currentOperations: [],
 };

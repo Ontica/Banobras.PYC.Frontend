@@ -22,7 +22,7 @@ import { FormHelper, sendEvent } from '@app/shared/utils';
 
 import { FinancialProjectsDataService } from '@app/data-services';
 
-import { FinancialProjectAccount, EmptyFinancialProjectAccount, FinancialProjectAccountFields, ObjectTypes,
+import { FinancialAccount, EmptyFinancialAccount, FinancialAccountFields, ObjectTypes,
          AccountAttributes, FinancialData, RequestsList } from '@app/models';
 
 
@@ -51,7 +51,7 @@ export class FinancialProjectAccountEditorComponent implements OnChanges, OnInit
 
   @Input() projectUID = '';
 
-  @Input() account: FinancialProjectAccount = EmptyFinancialProjectAccount;
+  @Input() account: FinancialAccount = EmptyFinancialAccount;
 
   @Input() canUpdate = false;
 
@@ -226,12 +226,12 @@ export class FinancialProjectAccountEditorComponent implements OnChanges, OnInit
   }
 
 
-  private getFormData(): FinancialProjectAccountFields {
+  private getFormData(): FinancialAccountFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const formModel = this.form.getRawValue();
 
-    const data: FinancialProjectAccountFields = {
+    const data: FinancialAccountFields = {
       financialAccountTypeUID: formModel.financialAccountTypeUID ?? '',
       standardAccountUID: formModel.standardAccountUID ?? '',
       organizationalUnitUID: formModel.organizationalUnitUID ?? '',

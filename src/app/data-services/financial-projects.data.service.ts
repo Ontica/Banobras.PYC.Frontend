@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FinancialAccountOperations, FinancialProjectAccount, FinancialProjectAccountFields,
+import { FinancialAccountOperations, FinancialAccount, FinancialAccountFields,
          FinancialProjectDescriptor, FinancialProjectFields, FinancialProjectHolder,
          FinancialProjectsQuery, FinancialProjectStructureForEdit } from '@app/models';
 
@@ -133,37 +133,37 @@ export class FinancialProjectsDataService {
 
   //#region PROJECT ACCOUNT (CRUD)
   getProjectAccount(projectUID: string,
-                    accountUID: string): EmpObservable<FinancialProjectAccount> {
+                    accountUID: string): EmpObservable<FinancialAccount> {
     Assertion.assertValue(projectUID, 'projectUID');
     Assertion.assertValue(accountUID, 'accountUID');
 
     const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}`;
 
-    return this.http.get<FinancialProjectAccount>(path);
+    return this.http.get<FinancialAccount>(path);
   }
 
 
   createProjectAccount(projectUID: string,
-                       dataFields: FinancialProjectAccountFields): EmpObservable<FinancialProjectAccount> {
+                       dataFields: FinancialAccountFields): EmpObservable<FinancialAccount> {
     Assertion.assertValue(projectUID, 'projectUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v1/financial-projects/${projectUID}/accounts`;
 
-    return this.http.post<FinancialProjectAccount>(path, dataFields);
+    return this.http.post<FinancialAccount>(path, dataFields);
   }
 
 
   updateProjectAccount(projectUID: string,
                        accountUID: string,
-                       dataFields: FinancialProjectAccountFields): EmpObservable<FinancialProjectAccount> {
+                       dataFields: FinancialAccountFields): EmpObservable<FinancialAccount> {
     Assertion.assertValue(projectUID, 'projectUID');
     Assertion.assertValue(accountUID, 'accountUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}`;
 
-    return this.http.put<FinancialProjectAccount>(path, dataFields);
+    return this.http.put<FinancialAccount>(path, dataFields);
   }
 
 
