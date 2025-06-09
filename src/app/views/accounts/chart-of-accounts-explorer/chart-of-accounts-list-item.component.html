@@ -31,4 +31,11 @@
     <div *ngIf="item.obsolete">{{item.endDate | empDateTimeFormat}}</div>
   </div>
 
+  <div class="fx-item-size column-size-sm">
+    <span class="tag" [style.font-size.px]="10"
+      [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(item.statusName)}">
+      {{item.statusName}}
+    </span>
+  </div>
+
 </div>

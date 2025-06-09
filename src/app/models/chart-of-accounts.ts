@@ -7,6 +7,8 @@
 
 import { Identifiable } from '@app/core';
 
+import { EntityStatus } from './_explorer-data';
+
 
 export enum AccountRoleType {
   Sumaria = 'Sumaria',
@@ -34,6 +36,7 @@ export const DebtorCreditorTypesList: DebtorCreditorType[] = [
 
 export interface ChartOfAccountsQuery {
   chartOfAccountsUID: string;
+  status: EntityStatus;
   keywords: string;
   roleType: AccountRoleType;
   debtorCreditorType: DebtorCreditorType;
@@ -63,6 +66,7 @@ export interface StandardAccountDescriptor {
   startDate: Date | string;
   endDate: Date | string;
   obsolete: boolean;
+  statusName: string;
 }
 
 
@@ -73,6 +77,7 @@ export interface StandardAccount {
 
 export const EmptyChartOfAccountsQuery: ChartOfAccountsQuery = {
   chartOfAccountsUID: '',
+  status: null,
   roleType: null,
   debtorCreditorType: null,
   fromAccount: '',

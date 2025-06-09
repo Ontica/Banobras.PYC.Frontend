@@ -19,7 +19,8 @@ import { AccountsStateSelector } from '@app/presentation/exported.presentation.t
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { AccountRoleType, AccountRoleTypesList, ChartOfAccountsQuery, DebtorCreditorType,
-         DebtorCreditorTypesList, EmptyChartOfAccountsQuery, getDefaultLevelsList } from '@app/models';
+         DebtorCreditorTypesList, EmptyChartOfAccountsQuery, EntityStatus, EntityStatusList,
+         getDefaultLevelsList } from '@app/models';
 
 
 export enum ChartOfAccountsFilterEventType {
@@ -30,6 +31,7 @@ export enum ChartOfAccountsFilterEventType {
 
 interface ChartOfAccountsFilterFormModel extends FormGroup<{
   chartOfAccountsUID: FormControl<string>;
+  status: FormControl<EntityStatus>;
   keywords: FormControl<string>;
   roleType: FormControl<AccountRoleType>;
   debtorCreditorType: FormControl<DebtorCreditorType>;
@@ -61,6 +63,8 @@ export class ChartOfAccountsFilterComponent implements OnChanges, OnInit, OnDest
   isLoading = false;
 
   chartsOfAccountsList: Identifiable[] = [];
+
+  statusList: Identifiable<EntityStatus>[] = EntityStatusList;
 
   roleTypesList: AccountRoleType[] = AccountRoleTypesList;
 
@@ -133,6 +137,7 @@ export class ChartOfAccountsFilterComponent implements OnChanges, OnInit, OnDest
 
     this.form = fb.group({
       chartOfAccountsUID: ['', Validators.required],
+      status: [null],
       keywords: [null],
       roleType: [null],
       debtorCreditorType: [null],
@@ -146,6 +151,7 @@ export class ChartOfAccountsFilterComponent implements OnChanges, OnInit, OnDest
   private setFormData() {
     this.form.reset({
       chartOfAccountsUID: this.query.chartOfAccountsUID,
+      status: this.query.status,
       keywords: this.query.keywords,
       roleType: this.query.roleType,
       debtorCreditorType: this.query.debtorCreditorType,
@@ -161,6 +167,7 @@ export class ChartOfAccountsFilterComponent implements OnChanges, OnInit, OnDest
 
     const query: ChartOfAccountsQuery = {
       chartOfAccountsUID: this.form.value.chartOfAccountsUID ?? null,
+      status: this.form.value.status ?? null,
       roleType: this.form.value.roleType ?? null,
       debtorCreditorType: this.form.value.debtorCreditorType ?? null,
       fromAccount: this.form.value.fromAccount ?? null,

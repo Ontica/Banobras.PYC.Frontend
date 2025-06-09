@@ -18,6 +18,20 @@
 
       </div>
 
+      <div class="fx-item-sixth">
+
+        <label>Estado:</label>
+
+        <emp-ng-select
+          formControlName="status"
+          [config]="{clearable: true}"
+          [items]="statusList"
+          [showError]="formHelper.isControlInvalid(form.controls.status)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
       <div class="fx-item fx-items-end">
 
         <div class="input-search-container">
