@@ -14,11 +14,15 @@ import { MessageBoxService } from '@app/shared/services';
 import { ChartOfAccountsDataService } from '@app/data-services';
 
 import { ChartOfAccounts, ChartOfAccountsQuery, EmptyChartOfAccounts, EmptyChartOfAccountsQuery,
-         EmptyStandardAccount, StandardAccount } from '@app/models';
+         EmptyStandardAccountHolder, StandardAccountHolder } from '@app/models';
 
 import {
   ChartOfAccountsExplorerEventType
 } from '../chart-of-accounts-explorer/chart-of-accounts-explorer.component';
+
+import {
+  StandardAccountTabbedViewEventType
+} from '../standard-account-tabbed-view/standard-account-tabbed-view.component';
 
 
 @Component({
@@ -31,7 +35,7 @@ export class ChartOfAccountsMainPageComponent {
 
   data: ChartOfAccounts = Object.assign({}, EmptyChartOfAccounts);
 
-  selectedData: StandardAccount = EmptyStandardAccount;
+  selectedData: StandardAccountHolder = EmptyStandardAccountHolder;
 
   displayTabbedView = false;
 
@@ -52,7 +56,7 @@ export class ChartOfAccountsMainPageComponent {
     switch (event.type as ChartOfAccountsExplorerEventType) {
       case ChartOfAccountsExplorerEventType.CREATE_CLICKED:
         this.displayCreator = true;
-        this.messageBox.showInDevelopment('Agregar cuenta');
+        this.messageBox.showInDevelopment('Agregar cuenta estándar');
         return;
       case ChartOfAccountsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
@@ -64,12 +68,24 @@ export class ChartOfAccountsMainPageComponent {
         this.setQueryAndClearExplorerData(event.payload.query as ChartOfAccountsQuery);
         return;
       case ChartOfAccountsExplorerEventType.EXPORT_CLICKED:
-        this.messageBox.showInDevelopment('Exportar cuentas', event.payload);
+        this.messageBox.showInDevelopment('Exportar cuentas estándar', event.payload);
         return;
       case ChartOfAccountsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.messageBox.showInDevelopment('Seleccionar cuenta', event.payload);
+        this.getStandardAccount(this.data.uid, event.payload.item.uid);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onStandardAccountTabbedViewEvent(event: EventInfo) {
+    switch (event.type as StandardAccountTabbedViewEventType) {
+      case StandardAccountTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyStandardAccountHolder);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -88,10 +104,21 @@ export class ChartOfAccountsMainPageComponent {
   }
 
 
+  private getStandardAccount(chartOfAccountsUID: string, stdAccountUID: string) {
+    this.isLoadingSelection = true;
+
+    this.chartOfAccountsData.getStandardAccount(chartOfAccountsUID, stdAccountUID)
+      .firstValue()
+      .then(x => this.setSelectedData(x))
+      .catch(e => this.setSelectedData(EmptyStandardAccountHolder))
+      .finally(() => this.isLoadingSelection = false);
+  }
+
+
   private setQueryAndClearExplorerData(query: ChartOfAccountsQuery) {
     this.query = Object.assign({}, query);
     this.setData(EmptyChartOfAccounts, false);
-    this.setSelectedData(EmptyStandardAccount);
+    this.setSelectedData(EmptyStandardAccountHolder);
   }
 
 
@@ -102,9 +129,9 @@ export class ChartOfAccountsMainPageComponent {
   }
 
 
-  private setSelectedData(data: StandardAccount) {
+  private setSelectedData(data: StandardAccountHolder) {
     this.selectedData = data;
-    this.displayTabbedView = !isEmpty(this.selectedData.account);
+    this.displayTabbedView = !isEmpty(this.selectedData.standardAccount);
   }
 
 }

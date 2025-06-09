@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { ChartOfAccounts, ChartOfAccountsQuery } from '@app/models';
+import { ChartOfAccounts, ChartOfAccountsQuery, StandardAccountHolder } from '@app/models';
 
 
 @Injectable()
@@ -33,6 +33,16 @@ export class ChartOfAccountsDataService {
     const path = `v3/charts-of-accounts/${query.chartOfAccountsUID}`;
 
     return this.http.post<ChartOfAccounts>(path, query);
+  }
+
+
+  getStandardAccount(chartOfAccountsUID: string, stdAccountUID: string): EmpObservable<StandardAccountHolder> {
+    Assertion.assertValue(chartOfAccountsUID, 'chartOfAccountsUID');
+    Assertion.assertValue(stdAccountUID, 'stdAccountUID');
+
+    const path = `v3/charts-of-accounts/${chartOfAccountsUID}/standard-accounts/${stdAccountUID}`;
+
+    return this.http.get<StandardAccountHolder>(path);
   }
 
 }

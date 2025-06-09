@@ -21,6 +21,9 @@ import { ChartOfAccountsFilterComponent } from './chart-of-accounts-explorer/cha
 import { ChartOfAccountsListComponent } from './chart-of-accounts-explorer/chart-of-accounts-list.component';
 import { ChartOfAccountsListHeaderComponent } from './chart-of-accounts-explorer/chart-of-accounts-list-header.component';
 import { ChartOfAccountsListItemComponent } from './chart-of-accounts-explorer/chart-of-accounts-list-item.component';
+import { StandardAccountTabbedViewComponent } from './standard-account-tabbed-view/standard-account-tabbed-view.component';
+import { StandardAccountViewComponent } from './standard-account-tabbed-view/standard-account-view.component';
+import { AccountsTableComponent } from './standard-account-tabbed-view/accounts-table.component';
 
 
 @NgModule({
@@ -42,6 +45,9 @@ import { ChartOfAccountsListItemComponent } from './chart-of-accounts-explorer/c
     ChartOfAccountsListComponent,
     ChartOfAccountsListHeaderComponent,
     ChartOfAccountsListItemComponent,
+    StandardAccountTabbedViewComponent,
+    StandardAccountViewComponent,
+    AccountsTableComponent,
   ],
   exports: [
     ChartOfAccountsMainPageComponent,

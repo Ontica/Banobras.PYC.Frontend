@@ -5,9 +5,11 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Identifiable } from '@app/core';
+import { DateString, Empty, Identifiable } from '@app/core';
 
 import { EntityStatus } from './_explorer-data';
+
+import { FinancialAccountDescriptor } from './financial-projects';
 
 
 export enum AccountRoleType {
@@ -63,15 +65,32 @@ export interface StandardAccountDescriptor {
   debtorCreditorType: DebtorCreditorType;
   level: number;
   isLastLevel: boolean;
-  startDate: Date | string;
-  endDate: Date | string;
+  startDate: DateString;
+  endDate: DateString;
   obsolete: boolean;
   statusName: string;
 }
 
 
+export interface StandardAccountHolder {
+  standardAccount: StandardAccount;
+  accounts: FinancialAccountDescriptor[];
+}
+
+
 export interface StandardAccount {
-  account: {uid: string}
+  uid: string;
+  number: string;
+  description: string;
+  fullName: string;
+  type: Identifiable;
+  roleType: Identifiable<string>;
+  debtorCreditorType: Identifiable<string>;
+  level: number;
+  isLastLevel: boolean;
+  status: Identifiable;
+  startDate: DateString;
+  endDate: DateString;
 }
 
 
@@ -95,8 +114,25 @@ export const EmptyChartOfAccounts: ChartOfAccounts = {
 
 
 export const EmptyStandardAccount: StandardAccount = {
-  account: {uid: ''}
+  uid: '',
+  number: '',
+  description: '',
+  fullName: '',
+  type: Empty,
+  roleType: Empty,
+  debtorCreditorType: Empty,
+  level: null,
+  isLastLevel: false,
+  status: Empty,
+  startDate: '',
+  endDate: '',
 };
+
+
+export const EmptyStandardAccountHolder: StandardAccountHolder = {
+  standardAccount: EmptyStandardAccount,
+  accounts: [],
+}
 
 
 export function getDefaultLevelsList(): Identifiable[] {
