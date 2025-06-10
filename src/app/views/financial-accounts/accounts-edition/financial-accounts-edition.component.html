@@ -1,0 +1,50 @@
+<div class="fx-column-container-fill fx-gap-half" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <emp-cf-financial-accounts-controls
+    [filter]="filter"
+    [canEdit]="canEditAccounts"
+    (financialAccountsControlsEvent)="onFinancialAccountsControlsEvent($event)">
+
+  </emp-cf-financial-accounts-controls>
+
+  <emp-cf-financial-accounts-table
+    class="fx-item"
+    [accounts]="accounts"
+    [filter]="filter"
+    [displayProject]="displayProject"
+    [canEditAccounts]="canEditAccounts"
+    [canEditOperations]="canEditOperations"
+    (financialAccountsTableEvent)="onFinancialAccountsTableEvent($event)">
+
+  </emp-cf-financial-accounts-table>
+
+</div>
+
+
+<emp-cf-financial-account-editor *ngIf="displayAccountEditor"
+  [projectUID]="createAccount ? projectUID : selectedAccount.project.uid"
+  [account]="selectedAccount"
+  [canUpdate]="canEditAccounts"
+  (financialAccountEditorEvent)="onFinancialAccountEditorEvent($event)">
+
+</emp-cf-financial-account-editor>
+
+
+<emp-cf-project-modal *ngIf="displayProjectEditor"
+  [projectUID]="selectedOperationData.projectUID"
+  (projectModalEvent)="onProjectModalEvent($event)">
+
+</emp-cf-project-modal>
+
+
+<emp-cf-operations-edition *ngIf="displayOperations"
+  [projectUID]="selectedOperationData.projectUID"
+  [accountUID]="selectedOperationData.accountUID"
+  [canEdit]="canEditOperations"
+  (operationsEditionEvent)="onOperationsEditionEvent($event)">
+
+</emp-cf-operations-edition>

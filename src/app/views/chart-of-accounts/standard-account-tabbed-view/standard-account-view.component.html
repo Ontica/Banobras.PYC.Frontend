@@ -1,0 +1,112 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container fx-space-between">
+
+      <div class="fx-item-third">
+        <label>Cuenta estándar:</label>
+        <input type="text" class="text-box"
+          formControlName="number">
+      </div>
+
+      <div class="fx-item-none fx-row-container">
+        <div class="fx-item-size" style="--size: 100px">
+          <label>Fecha de alta:</label>
+          <input type="text" class="text-box"
+            formControlName="startDate">
+        </div>
+
+        <div class="fx-item-size" style="--size: 100px">
+          <label>Fecha de baja:</label>
+          <input type="text" class="text-box"
+            formControlName="endDate">
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container sm-fx-column-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+
+        </textarea>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-third">
+        <label>Rol de la cuenta:</label>
+        <input type="text" class="text-box"
+          formControlName="roleType"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+      <div class="fx-item-third">
+        <label>Tipo de cuenta:</label>
+        <input type="text" class="text-box"
+          formControlName="type"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+      <div class="fx-item-third">
+        <label>Naturaleza:</label>
+        <input type="text" class="text-box"
+          formControlName="debtorCreditorType"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+    </div>
+
+
+    <ng-container *ngIf="actions.canActivate || actions.canSuspend">
+
+      <mat-divider class="horizontal">
+
+      </mat-divider>
+
+      <div class="fx-row-container">
+
+        <div class="fx-item fx-items-center">
+
+          <button *ngIf="actions.canActivate"
+            type="button" class="btn"
+            (click)="onEventButtonClicked('Activate')">
+            Activar
+          </button>
+
+          <button *ngIf="actions.canSuspend"
+            type="button" class="btn"
+            (click)="onEventButtonClicked('Suspend')">
+            Suspender
+          </button>
+
+        </div>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>
+
+
+<emp-ng-confirm-submit-modal *ngIf="!!confirmModalMode"
+  entityPronoun="la"
+  entityText="cuenta"
+  [entityUID]="standardAccount.uid"
+  [entityNo]="standardAccount.number"
+  [entityType]="standardAccount.type.name"
+  [party]="standardAccount.description"
+  [mode]="confirmModalMode"
+  (confirmSubmitModalEvent)="onConfirmSubmitModalEvent($event)">
+
+</emp-ng-confirm-submit-modal>

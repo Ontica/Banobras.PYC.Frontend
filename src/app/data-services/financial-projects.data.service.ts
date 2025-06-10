@@ -9,9 +9,9 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FinancialAccountOperations, FinancialAccount, FinancialAccountFields,
-         FinancialProjectDescriptor, FinancialProjectFields, FinancialProjectHolder,
-         FinancialProjectsQuery, FinancialProjectStructureForEdit } from '@app/models';
+import { FinancialAccountOperations, FinancialAccount, FinancialAccountFields, FinancialProjectDescriptor,
+         FinancialProjectFields, FinancialProjectHolder, FinancialProjectsQuery,
+         FinancialProjectStructureForEdit, FinancialProject } from '@app/models';
 
 
 @Injectable()
@@ -101,6 +101,15 @@ export class FinancialProjectsDataService {
   }
 
 
+  getProjectPlain(projectUID: string): EmpObservable<FinancialProject> {
+    Assertion.assertValue(projectUID, 'projectUID');
+
+    const path = `v1/financial-projects/${projectUID}/plain`;
+
+    return this.http.get<FinancialProject>(path);
+  }
+
+
   createProject(dataFields: FinancialProjectFields): EmpObservable<FinancialProjectHolder> {
     Assertion.assertValue(dataFields, 'dataFields');
 
@@ -179,41 +188,15 @@ export class FinancialProjectsDataService {
   //#endregion
 
 
-  //#region PROJECT ACCOUNT OPERATIONS (CRD)
-  getAccountOperations(projectUID: string,
-                       accountUID: string): EmpObservable<FinancialAccountOperations> {
+  //#region PROJECT ACCOUNT OPERATIONS
+  getProjectAccountOperations(projectUID: string,
+                              accountUID: string): EmpObservable<FinancialAccountOperations> {
     Assertion.assertValue(projectUID, 'projectUID');
     Assertion.assertValue(accountUID, 'accountUID');
 
     const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}/operations`;
 
     return this.http.get<FinancialAccountOperations>(path);
-  }
-
-
-  addAccountOperation(projectUID: string,
-                      accountUID: string,
-                      operationUID: string): EmpObservable<FinancialAccountOperations> {
-    Assertion.assertValue(projectUID, 'projectUID');
-    Assertion.assertValue(accountUID, 'accountUID');
-    Assertion.assertValue(operationUID, 'operationUID');
-
-    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}/operations/${operationUID}`;
-
-    return this.http.post<FinancialAccountOperations>(path);
-  }
-
-
-  removeAccountOperation(projectUID: string,
-                         accountUID: string,
-                         operationUID: string): EmpObservable<FinancialAccountOperations> {
-    Assertion.assertValue(projectUID, 'projectUID');
-    Assertion.assertValue(accountUID, 'accountUID');
-    Assertion.assertValue(operationUID, 'operationUID');
-
-    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}/operations/${operationUID}`;
-
-    return this.http.delete<FinancialAccountOperations>(path);
   }
   //#endregion
 

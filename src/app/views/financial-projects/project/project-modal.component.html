@@ -1,0 +1,24 @@
+<emp-ng-modal-window [config]="{width:'1024px'}">
+
+  <emp-ng-card
+    [title]="'Proyecto - ' + (project.projectNo ?? '...')"
+    hint='Información de la proyecto.'
+    (cardClose)="onCloseModalClicked()">
+
+      <div class="card-body-padding" [empNgSpinnerHost]="spinner">
+
+        <emp-ng-spinner #spinner [visible]="isLoading">
+
+        </emp-ng-spinner>
+
+        <emp-cf-project-header
+          [isSaved]="true"
+          [project]="project">
+
+        </emp-cf-project-header>
+
+      </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

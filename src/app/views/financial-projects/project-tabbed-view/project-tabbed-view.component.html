@@ -18,13 +18,18 @@
 
     <mat-tab label="Cuentas">
 
-      <emp-cf-project-accounts-edition
-        [projectUID]="data.project.uid"
-        [accounts]="data.accounts"
-        [canEdit]="data.actions.canUpdate"
-        (projectAccountsEditionEvent)="onProjectAccountsEditionEvent($event)">
+      <ng-template matTabContent>
 
-      </emp-cf-project-accounts-edition>
+        <emp-cf-financial-accounts-edition
+          queryType="financial-project"
+          [projectUID]="data.project.uid"
+          [accounts]="data.accounts"
+          [canUpdate]="data.actions.canUpdate"
+          (financialAccountsEditionEvent)="onFinancialAccountsEditionEvent($event)">
+
+        </emp-cf-financial-accounts-edition>
+
+      </ng-template>
 
     </mat-tab>
 

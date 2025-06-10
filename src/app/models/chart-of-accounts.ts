@@ -75,6 +75,7 @@ export interface StandardAccountDescriptor {
 export interface StandardAccountHolder {
   standardAccount: StandardAccount;
   accounts: FinancialAccountDescriptor[];
+  actions: StandardAccountActions;
 }
 
 
@@ -91,6 +92,13 @@ export interface StandardAccount {
   status: Identifiable;
   startDate: DateString;
   endDate: DateString;
+}
+
+
+export interface StandardAccountActions {
+  canActivate: boolean;
+  canSuspend: boolean;
+  canUpdate: boolean;
 }
 
 
@@ -129,9 +137,17 @@ export const EmptyStandardAccount: StandardAccount = {
 };
 
 
+export const EmptyStandardAccountActions: StandardAccountActions = {
+  canActivate: false,
+  canSuspend: false,
+  canUpdate: false,
+}
+
+
 export const EmptyStandardAccountHolder: StandardAccountHolder = {
   standardAccount: EmptyStandardAccount,
   accounts: [],
+  actions: EmptyStandardAccountActions,
 }
 
 

@@ -106,6 +106,8 @@ export interface FinancialProject {
 export interface FinancialAccountDescriptor {
   uid: string;
   accountNo: string;
+  projectUID: string;
+  projectNo: string;
   projectName: string;
   financialAccountTypeName: string;
   standardAccountName: string;
@@ -202,6 +204,20 @@ export interface FinancialAccountOperations {
 }
 
 
+export interface OperacionSelectData {
+  projectUID: string;
+  accountUID: string;
+  operationsUID: string;
+}
+
+
+export const EmptyOperacionSelectData: OperacionSelectData = {
+  projectUID: '',
+  accountUID: '',
+  operationsUID: '',
+}
+
+
 export function mapFinancialProjectDescriptorFromProject(data: FinancialProject): FinancialProjectDescriptor {
   return {
     uid: data.uid,
@@ -282,6 +298,9 @@ export const EmptyFinancialProject: FinancialProject = {
 export const EmptyFinancialAccountDescriptor: FinancialAccountDescriptor = {
   uid: '',
   accountNo: '',
+  projectUID: '',
+  projectNo: '',
+  projectName: '',
   financialAccountTypeName: '',
   standardAccountName: '',
   organizationalUnitName: '',
@@ -289,7 +308,6 @@ export const EmptyFinancialAccountDescriptor: FinancialAccountDescriptor = {
   startDate: '',
   endDate: '',
   statusName: '',
-  projectName: '',
 }
 
 

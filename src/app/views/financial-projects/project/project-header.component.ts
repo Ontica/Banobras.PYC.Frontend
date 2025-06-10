@@ -8,7 +8,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
          SimpleChanges } from '@angular/core';
 
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';;
 
 import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
@@ -26,6 +26,10 @@ import { EmptyFinancialProject, EmptyFinancialProjectActions, FinancialProject, 
 
 import { ConfirmSubmitModalEventType,
          ConfirmSubmitType } from '@app/views/entity-records/confirm-submit-modal/confirm-submit-modal.component';
+
+import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
+
+import { STANDALONE_IMPORTS } from './standalone-imports';
 
 
 export enum ProjectHeaderEventType {
@@ -48,6 +52,11 @@ interface ProjectFormModel extends FormGroup<{
 @Component({
   selector: 'emp-cf-project-header',
   templateUrl: './project-header.component.html',
+  standalone: true,
+  imports: [
+    ...STANDALONE_IMPORTS,
+    EntityRecordsModule,
+  ],
 })
 export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDestroy {
 

@@ -15,7 +15,7 @@ import { DefaultComponent } from '@app/shared/components';
 
 import {
   ChartOfAccountsMainPageComponent
-} from '@app/views/accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
+} from '@app/views/chart-of-accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
 
 import {
   CashFlowProjectionsMainPageComponent

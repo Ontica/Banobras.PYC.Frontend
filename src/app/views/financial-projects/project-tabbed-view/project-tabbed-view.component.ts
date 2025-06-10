@@ -15,11 +15,13 @@ import { FinancialProjectHolder, EmptyFinancialProjectHolder } from '@app/models
 
 import { ProjectEditorEventType } from '../project/project-editor.component';
 
-import { ProjectAccountsEditionEventType } from '../project-accounts/project-accounts-edition.component';
-
 import {
   DocumentsEditionEventType
 } from '@app/views/entity-records/documents-edition/documents-edition.component';
+
+import {
+  FinancialAccountsEditionEventType
+} from '@app/views/financial-accounts/accounts-edition/financial-accounts-edition.component';
 
 
 export enum ProjectTabbedViewEventType {
@@ -75,9 +77,9 @@ export class FinancialProjectTabbedViewComponent implements OnChanges {
   }
 
 
-  onProjectAccountsEditionEvent(event: EventInfo) {
-    switch (event.type as ProjectAccountsEditionEventType) {
-      case ProjectAccountsEditionEventType.UPDATED:
+  onFinancialAccountsEditionEvent(event: EventInfo) {
+    switch (event.type as FinancialAccountsEditionEventType) {
+      case FinancialAccountsEditionEventType.UPDATED:
         Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
         sendEvent(this.projectTabbedViewEvent,
           ProjectTabbedViewEventType.REFRESH_DATA, event.payload);

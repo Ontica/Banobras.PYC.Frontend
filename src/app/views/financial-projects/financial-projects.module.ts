@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
+import { FinancialAccountsModule } from '../financial-accounts/financial-accounts.module';
 import { EntityRecordsModule } from '../entity-records/entity-records.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
@@ -23,14 +24,6 @@ import { FinancialProjectHeaderComponent } from './project/project-header.compon
 import { FinancialProjectCreatorComponent } from './project/project-creator.component';
 import { FinancialProjectEditorComponent } from './project/project-editor.component';
 import { FinancialProjectTabbedViewComponent } from './project-tabbed-view/project-tabbed-view.component';
-import { FinancialProjectAccountsEditionComponent } from './project-accounts/project-accounts-edition.component';
-import { FinancialProjectAccountsTableComponent } from './project-accounts/project-accounts-table.component';
-import { FinancialProjectAccountEditorComponent } from './project-accounts/project-account-editor.component';
-import { CreditAccountAttributesComponent } from './project-accounts/account-attributes/credit-account-attributes.component';
-import { CreditFinancialDataComponent } from './project-accounts/financial-data/credit-financial-data.component';
-import { FinancialProjectAccountOperationsEditionComponent } from './project-accounts/account-operations/account-operations-edition.component';
-import { FinancialProjectAccountOperationsTableComponent } from './project-accounts/account-operations/account-operations-table.component';
-import { FinancialProjectAccountOperationAssignerComponent } from './project-accounts/account-operations/account-operation-assigner.component';
 
 
 @NgModule({
@@ -42,26 +35,20 @@ import { FinancialProjectAccountOperationAssignerComponent } from './project-acc
     AngularMaterialModule,
     SharedModule,
 
+    FinancialAccountsModule,
     EntityRecordsModule,
     ReportsControlsModule,
+
+    FinancialProjectHeaderComponent,
   ],
   declarations: [
     FinancialProjectsMainPageComponent,
     FinancialProjectsExplorerComponent,
     FinancialProjectsFilterComponent,
     FinancialProjectsTableComponent,
-    FinancialProjectHeaderComponent,
     FinancialProjectCreatorComponent,
     FinancialProjectEditorComponent,
     FinancialProjectTabbedViewComponent,
-    FinancialProjectAccountsEditionComponent,
-    FinancialProjectAccountsTableComponent,
-    FinancialProjectAccountEditorComponent,
-    CreditAccountAttributesComponent,
-    CreditFinancialDataComponent,
-    FinancialProjectAccountOperationsEditionComponent,
-    FinancialProjectAccountOperationsTableComponent,
-    FinancialProjectAccountOperationAssignerComponent,
   ],
   exports: [
     FinancialProjectsMainPageComponent,

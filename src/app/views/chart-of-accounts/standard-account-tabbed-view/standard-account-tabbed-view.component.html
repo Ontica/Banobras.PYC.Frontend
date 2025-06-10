@@ -1,0 +1,53 @@
+<emp-ng-card
+  [title]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Cuenta estándar">
+
+      <emp-cf-standard-account-view
+        [standardAccount]="data.standardAccount"
+        [actions]="data.actions"
+        (standardAccountViewEvent)="onStandardAccountViewEvent($event)">
+
+      </emp-cf-standard-account-view>
+
+    </mat-tab>
+
+    <mat-tab label="Cuentas">
+
+      <ng-template matTabContent>
+
+        <emp-cf-financial-accounts-edition
+          queryType="standard-accounts"
+          [accounts]="data.accounts"
+          [canUpdate]="data.actions.canUpdate"
+          (financialAccountsEditionEvent)="onFinancialAccountsEditionEvent($event)">
+
+        </emp-cf-financial-accounts-edition>
+
+      </ng-template>
+
+    </mat-tab>
+
+    <mat-tab label="Áreas">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Monedas">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

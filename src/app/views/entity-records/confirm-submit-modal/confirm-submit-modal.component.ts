@@ -12,7 +12,8 @@ import { EventInfo } from '@app/core';
 import { sendEvent } from '@app/shared/utils';
 
 
-export type ConfirmSubmitType = 'Delete' | 'SendToAuthorization' | 'Authorize' | 'Reject' | 'Close';
+export type ConfirmSubmitType = 'Delete' | 'SendToAuthorization' | 'Authorize' | 'Reject' | 'Close' |
+                                'Suspend' | 'Activate';
 
 
 export enum ConfirmSubmitModalEventType {
@@ -46,7 +47,7 @@ export class ConfirmSubmitModalComponent {
 
 
   get showWarningColor(): boolean {
-    return ['Delete', 'Reject'].includes(this.mode);
+    return ['Delete', 'Reject', 'Suspend'].includes(this.mode);
   }
 
 
@@ -62,6 +63,8 @@ export class ConfirmSubmitModalComponent {
       case 'Authorize': return `Autorizar ${this.entityText}`;
       case 'Reject': return `Rechazar ${this.entityText}`;
       case 'Close': return `Cerrar ${this.entityText}`;
+      case 'Suspend': return `Suspender ${this.entityText}`;
+      case 'Activate': return `Activar ${this.entityText}`;
       default: return 'Realizar operación'
     }
   }
@@ -74,6 +77,8 @@ export class ConfirmSubmitModalComponent {
       case 'Authorize': return 'autorizará';
       case 'Reject': return 'rechazará';
       case 'Close': return 'cerrará';
+      case 'Suspend': return 'suspenderá';
+      case 'Activate': return 'activará';
       default: return 'realizará';
     }
   }
@@ -86,6 +91,8 @@ export class ConfirmSubmitModalComponent {
       case 'Authorize': return 'Autorizo';
       case 'Reject': return 'Rechazo';
       case 'Close': return 'Cierro';
+      case 'Suspend': return 'Suspendo';
+      case 'Activate': return 'Activo';
       default: return 'Realizo';
     }
   }
@@ -98,6 +105,8 @@ export class ConfirmSubmitModalComponent {
       case 'Authorize': return 'Autorizar';
       case 'Reject': return 'Rechazar';
       case 'Close': return 'Cerrar';
+      case 'Suspend': return 'Suspender';
+      case 'Activate': return 'Activar';
       default: return 'Aceptar';
     }
   }
