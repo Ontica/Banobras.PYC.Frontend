@@ -219,6 +219,15 @@ export class CashFlowProjectionsDataService {
 
     return this.http.delete<void>(path);
   }
+
+
+  calculateProjectionEntries(projectionUID: string): EmpObservable<CashFlowProjectionEntry[]> {
+    Assertion.assertValue(projectionUID, 'projectionUID');
+
+    const path = `v1/cash-flow/projections/${projectionUID}/entries/calculate`;
+
+    return this.http.post<CashFlowProjectionEntry[]>(path);
+  }
   //#endregion
 
 }

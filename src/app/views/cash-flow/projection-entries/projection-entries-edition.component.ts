@@ -82,7 +82,7 @@ export class CashFlowProjectionEntriesEditionComponent implements OnChanges {
         this.displayAllEntries = event.payload.displayAllEntries as boolean;
         return;
       case ProjectionEntriesControlsEventType.AUTOMATIC_GENERATION_BUTTON_CLICKED:
-        this.messageBox.showInDevelopment('Generación automática');
+        this.confirmCalculateProjectionEntries();
         return;
       case ProjectionEntriesControlsEventType.CREATE_ENTRY_BUTTON_CLICKED:
         this.setSelectedEntry(EmptyCashFlowProjectionEntry, true);
@@ -237,6 +237,16 @@ export class CashFlowProjectionEntriesEditionComponent implements OnChanges {
   }
 
 
+  private calculateProjectionEntries(projectionUID: string) {
+    this.submitted = true;
+
+    this.projectionsData.calculateProjectionEntries(projectionUID)
+      .firstValue()
+      .then(x => this.resolveEntriesUpdated())
+      .finally(() => this.submitted = false);
+  }
+
+
   private setSelectedEntry(entry: CashFlowProjectionEntryBase, display?: boolean) {
     this.selectedEntry = entry;
     this.displayEntryEditor = display ?? !isEmpty(entry);
@@ -250,12 +260,15 @@ export class CashFlowProjectionEntriesEditionComponent implements OnChanges {
   }
 
 
-  private getConfirmRemoveEntryTitle(type: TransactionEntryType): string {
-    switch (type) {
-      case TransactionEntryType.Monthly: return 'Eliminar concepto mensual';
-      case TransactionEntryType.Annually: return 'Eliminar concepto anual';
-      default: return 'Eliminar concepto';
-    }
+  private confirmCalculateProjectionEntries() {
+    const title = 'Generación automática';
+    const name = `${this.projection.projectionNo}: ${this.projection.plan.name}`
+    const message = `Esta operación generará los conceptos de la proyección <strong>${name}</strong>.` +
+      `<br><br>¿Genero los conceptos?`;
+
+    this.messageBox.confirm(message, title)
+      .firstValue()
+      .then(x => x ? this.calculateProjectionEntries(this.projection.uid) : null);
   }
 
 
@@ -266,6 +279,15 @@ export class CashFlowProjectionEntriesEditionComponent implements OnChanges {
     this.messageBox.confirm(message, title, 'DeleteCancel')
       .firstValue()
       .then(x => x ? this.handleRemoveEntry(type, this.projection.uid, entry.uid) : null);
+  }
+
+
+  private getConfirmRemoveEntryTitle(type: TransactionEntryType): string {
+    switch (type) {
+      case TransactionEntryType.Monthly: return 'Eliminar concepto mensual';
+      case TransactionEntryType.Annually: return 'Eliminar concepto anual';
+      default: return 'Eliminar concepto';
+    }
   }
 
 
