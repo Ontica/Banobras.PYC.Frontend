@@ -4,7 +4,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-one">
+      <div class="fx-item-half">
 
         <label>Área:</label>
 
@@ -16,6 +16,21 @@
           [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
           [showError]="formHelper.isControlInvalid(form.controls.baseOrgUnitUID)"
           (changes)="onOrgUnitChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Responsable:</label>
+
+        <emp-ng-select
+          formControlName="assigneeUID"
+          [config]="{autoSelect: !isSaved}"
+          [items]="assigneesList"
+          [loading]="isLoading || isLoadingAssignees"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.baseOrgUnitUID.valid, 'área')"
+          [showError]="formHelper.isControlInvalid(form.controls.assigneeUID)">
         </emp-ng-select>
 
       </div>
@@ -77,25 +92,6 @@
 
       <div class="fx-item-half">
 
-        <label>Responsable:</label>
-
-        <emp-ng-select
-          formControlName="assigneeUID"
-          [config]="{autoSelect: !isSaved}"
-          [items]="assigneesList"
-          [loading]="isLoading || isLoadingAssignees"
-          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.baseOrgUnitUID.valid, 'área')"
-          [showError]="formHelper.isControlInvalid(form.controls.assigneeUID)">
-        </emp-ng-select>
-
-      </div>
-
-    </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-one">
-
         <label>Nombre:</label>
 
         <input type="text" class="text-box"
@@ -105,7 +101,6 @@
       </div>
 
     </div>
-
 
     <div class="fx-row-container">
 
@@ -130,6 +125,14 @@
       </div>
 
     </div>
+
+    <emp-cf-project-goals
+      formControlName="projectGoals"
+      [editionMode]="!isSaved || editionMode"
+      [errors]="form.controls.projectGoals.errors"
+      [showError]="formHelper.isControlInvalid(form.controls.projectGoals)">
+
+    </emp-cf-project-goals>
 
   </div>
 

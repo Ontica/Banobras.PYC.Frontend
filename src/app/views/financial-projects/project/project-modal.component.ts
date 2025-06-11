@@ -9,13 +9,13 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 
 import { EventInfo } from '@app/core';
 
+import { STANDALONE_IMPORTS } from '@app/shared/standalone-imports';
+
 import { sendEvent } from '@app/shared/utils';
 
 import { FinancialProjectsDataService } from '@app/data-services';
 
 import { EmptyFinancialProject, FinancialProject } from '@app/models';
-
-import { STANDALONE_IMPORTS } from './standalone-imports';
 
 import { FinancialProjectHeaderComponent } from './project-header.component';
 

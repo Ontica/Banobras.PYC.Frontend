@@ -54,6 +54,7 @@ export interface FinancialProjectFields {
   programUID: string;
   subprogramUID: string;
   assigneeUID: string;
+  projectGoals: FinancialProjectGoals;
   description: string;
   justification: string;
 }
@@ -87,12 +88,13 @@ export interface FinancialProjectRejectFields {
 
 export interface FinancialProject {
   uid: string;
+  projectType: Identifiable;
   projectNo: string;
   name: string;
-  projectType: Identifiable;
   program: Identifiable;
   subprogram: Identifiable;
   baseOrgUnit: Identifiable;
+  projectGoals: FinancialProjectGoals;
   assignee: Identifiable;
   parentProject: Identifiable;
   description: string;
@@ -128,6 +130,16 @@ export interface FinancialAccountFields {
   description: string;
   attributes: AccountAttributes;
   financialData: FinancialData;
+}
+
+
+export interface FinancialProjectGoals {
+  beneficiario: string;
+  localizacion: string;
+  poblacionBeneficiada: number;
+  empleosDirectos: number;
+  empleosIndirectos: number;
+  costo: number;
 }
 
 
@@ -235,6 +247,20 @@ export function mapFinancialProjectDescriptorFromProject(data: FinancialProject)
 }
 
 
+export function buildFinancialProjectGoals(data: FinancialProjectGoals): FinancialProjectGoals {
+  const cleanData: FinancialProjectGoals = {
+    beneficiario: data.beneficiario ?? '',
+    localizacion: data.localizacion ?? '',
+    poblacionBeneficiada: data.poblacionBeneficiada ?? null,
+    empleosDirectos: data.empleosDirectos ?? null,
+    empleosIndirectos: data.empleosIndirectos ?? null,
+    costo: data.costo ?? null,
+  };
+
+  return cleanData;
+}
+
+
 export function buildCreditAttributes(data: CreditAttributes): CreditAttributes {
   const cleanData: CreditAttributes = {
     noCredito: data.noCredito ?? '',
@@ -277,6 +303,16 @@ export const EmptyFinancialProjectsQuery: FinancialProjectsQuery = {
 };
 
 
+export const EmptyFinancialProjectGoals: FinancialProjectGoals = {
+  beneficiario: '',
+  localizacion: '',
+  poblacionBeneficiada: null,
+  empleosDirectos: null,
+  empleosIndirectos: null,
+  costo: null,
+}
+
+
 export const EmptyFinancialProject: FinancialProject = {
   uid: '',
   projectNo: '',
@@ -287,6 +323,7 @@ export const EmptyFinancialProject: FinancialProject = {
   baseOrgUnit: Empty,
   parentProject: Empty,
   assignee: Empty,
+  projectGoals: EmptyFinancialProjectGoals,
   description: '',
   justification: '',
   startDate: '',

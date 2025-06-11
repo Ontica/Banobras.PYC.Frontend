@@ -1,0 +1,95 @@
+<div class="section-title"> Objetivos e impacto del proyecto </div>
+
+<div class="fx-column-container fx-gap-half">
+
+  <div class="fx-row-container">
+
+    <div class="fx-item-half">
+
+      <label>Beneficiario:</label>
+
+      <input type="text" class="text-box"
+        [(ngModel)]="selectedData.beneficiario"
+        [class.invalid-control]="showError && errors?.beneficiario"
+        [disabled]="disabled"
+        (change)="onSelectedDataChanged()">
+
+    </div>
+
+    <div class="fx-item-half">
+
+      <label>Localización:</label>
+
+      <input type="text" class="text-box"
+        [(ngModel)]="selectedData.localizacion"
+        [class.invalid-control]="showError && errors?.localizacion"
+        [disabled]="disabled"
+        (change)="onSelectedDataChanged()">
+
+    </div>
+
+  </div>
+
+  <div class="fx-row-container">
+
+    <div class="fx-item-quarter">
+
+      <label>Población beneficiada:</label>
+
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.poblacionBeneficiada"
+        [showError]="showError && errors?.poblacionBeneficiada"
+        [disabled]="disabled"
+        [minDecimals]="0"
+        [maxDecimals]="0"
+        (change)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
+
+    </div>
+
+    <div class="fx-item-quarter">
+
+      <label>Empleos directos:</label>
+
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.empleosDirectos"
+        [showError]="showError && errors?.empleosDirectos"
+        [disabled]="disabled"
+        [minDecimals]="0"
+        [maxDecimals]="0"
+        (change)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
+
+    </div>
+
+    <div class="fx-item-quarter">
+
+      <label>Empleos indirectos:</label>
+
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.empleosIndirectos"
+        [showError]="showError && errors?.empleosIndirectos"
+        [disabled]="disabled"
+        [minDecimals]="0"
+        [maxDecimals]="0"
+        (change)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
+
+    </div>
+
+    <div class="fx-item-quarter">
+
+      <label>Costo:</label>
+
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.costo"
+        [showError]="showError && errors?.costo"
+        [disabled]="disabled"
+        (change)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
+
+    </div>
+
+  </div>
+
+ </div>

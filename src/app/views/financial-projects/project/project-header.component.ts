@@ -16,12 +16,14 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
+import { STANDALONE_IMPORTS } from '@app/shared/standalone-imports';
+
 import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { FinancialProjectsDataService } from '@app/data-services';
 
 import { EmptyFinancialProject, EmptyFinancialProjectActions, FinancialProject, FinancialProjectActions,
-         FinancialProjectFields, FinancialProjectProgramForEdition, FinancialProjectRejectFields,
+         FinancialProjectFields, FinancialProjectGoals, FinancialProjectProgramForEdition, FinancialProjectRejectFields,
          FinancialProjectSubprogramForEdition, RequestsList } from '@app/models';
 
 import { ConfirmSubmitModalEventType,
@@ -29,7 +31,7 @@ import { ConfirmSubmitModalEventType,
 
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 
-import { STANDALONE_IMPORTS } from './standalone-imports';
+import { FinancialProjectGoalsComponent } from './project-goals.component';
 
 
 export enum ProjectHeaderEventType {
@@ -47,6 +49,7 @@ interface ProjectFormModel extends FormGroup<{
   name: FormControl<string>;
   description: FormControl<string>;
   justification: FormControl<string>;
+  projectGoals: FormControl<FinancialProjectGoals>;
 }> { }
 
 @Component({
@@ -56,6 +59,7 @@ interface ProjectFormModel extends FormGroup<{
   imports: [
     ...STANDALONE_IMPORTS,
     EntityRecordsModule,
+    FinancialProjectGoalsComponent,
   ],
 })
 export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDestroy {
@@ -290,10 +294,11 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
       programUID: ['', Validators.required],
       subprogramUID: ['', Validators.required],
       projectTypeUID: ['', Validators.required],
-      assigneeUID: ['', Validators.required],
+      assigneeUID: [''],
       name: ['', Validators.required],
       description: [''],
       justification: [''],
+      projectGoals: [null],
     });
   }
 
@@ -309,6 +314,7 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
         name: this.project.name ?? null,
         description: this.project.description,
         justification: this.project.justification,
+        projectGoals: this.project.projectGoals ?? null,
       });
     });
 
@@ -341,6 +347,7 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
       name: this.form.value.name ?? null,
       description: this.form.value.description ?? null,
       justification: this.form.value.justification ?? null,
+      projectGoals: this.form.value.projectGoals ?? null,
     };
 
     return data;
