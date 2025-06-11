@@ -23,6 +23,7 @@
         <emp-cf-financial-accounts-edition
           queryType="financial-project"
           [projectUID]="data.project.uid"
+          [organizationalUnitUID]="data.project.baseOrgUnit.uid"
           [accounts]="data.accounts"
           [canUpdate]="data.actions.canUpdate"
           (financialAccountsEditionEvent)="onFinancialAccountsEditionEvent($event)">

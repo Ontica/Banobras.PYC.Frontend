@@ -44,6 +44,8 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
   @Input() projectUID = '';
 
+  @Input() organizationalUnitUID = '';
+
   @Input() accounts: FinancialAccountDescriptor[] = [];
 
   @Input() canUpdate = false;

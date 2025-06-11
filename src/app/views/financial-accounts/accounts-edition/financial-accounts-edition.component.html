@@ -27,6 +27,7 @@
 
 <emp-cf-financial-account-editor *ngIf="displayAccountEditor"
   [projectUID]="createAccount ? projectUID : selectedAccount.project.uid"
+  [organizationalUnitUID]="organizationalUnitUID"
   [account]="selectedAccount"
   [canUpdate]="canEditAccounts"
   (financialAccountEditorEvent)="onFinancialAccountEditorEvent($event)">

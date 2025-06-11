@@ -51,6 +51,8 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
 
   @Input() projectUID = '';
 
+  @Input() organizationalUnitUID = '';
+
   @Input() account: FinancialAccount = EmptyFinancialAccount;
 
   @Input() canUpdate = false;
@@ -87,8 +89,12 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
 
 
   ngOnChanges(changes: SimpleChanges) {
+    if (!this.isSaved) {
+      this.enableCreateMode();
+    }
+
     if (this.isSaved && changes.account) {
-      this.enableEditor();
+      this.enableUpdateMode();
     }
   }
 
@@ -100,7 +106,10 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
 
   get title(): string {
     if (!this.isSaved) return 'Agregar cuenta';
-    return `${this.canUpdate ? 'Editar' : 'Detalle de la '} cuenta - ${this.account.accountNo}`;
+
+    return `${this.canUpdate ?
+      'Editar cuenta' :
+      'Cuenta'} - ${this.account.accountNo}`;
   }
 
 
@@ -161,7 +170,7 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
   }
 
 
-  private enableEditor() {
+  private enableUpdateMode() {
     this.editionMode = this.canUpdate;
 
     if (this.isSaved) {
@@ -169,6 +178,12 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
     }
 
     this.validateFormDisabled();
+  }
+
+
+  private enableCreateMode() {
+    this.editionMode = true;
+    this.setDefaultFormData();
   }
 
 
@@ -205,12 +220,21 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
   }
 
 
+  private setDefaultFormData() {
+    setTimeout(() => {
+      this.form.reset({
+        organizationalUnitUID: !this.organizationalUnitUID ? '' : this.organizationalUnitUID,
+      });
+    });
+  }
+
+
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
+        organizationalUnitUID: isEmpty(this.account.organizationalUnit) ? null : this.account.organizationalUnit.uid,
         financialAccountTypeUID: isEmpty(this.account.financialAccountType) ? null : this.account.financialAccountType.uid,
         standardAccountUID: isEmpty(this.account.standardAccount) ? null : this.account.standardAccount.uid,
-        organizationalUnitUID: isEmpty(this.account.organizationalUnit) ? null : this.account.organizationalUnit.uid,
         accountNo: this.account.accountNo ?? '',
         tags: this.account.tags ?? [],
         description: this.account.description ?? null,
