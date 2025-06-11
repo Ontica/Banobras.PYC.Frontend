@@ -9,8 +9,8 @@ import { Identifiable } from '@app/core';
 
 
 export enum TransactionStages {
-  MyInbox     = 'Transactions.MyInbox',
-  ControlDesk = 'Transactions.ControlDesk',
+  MyInbox     = 'MyInbox',
+  ControlDesk = 'ControlDesk',
 }
 
 
