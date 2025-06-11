@@ -2,15 +2,22 @@
 
   <div class="fx-column-container fx-gap-half">
 
-    <div class="fx-row-container fx-space-between">
+    <div class="fx-row-container">
 
       <div class="fx-item-third">
-        <label>Cuenta estándar:</label>
+        <label>No. cuenta estándar:</label>
         <input type="text" class="text-box"
           formControlName="number">
       </div>
 
-      <div class="fx-item-none fx-row-container">
+      <div class="fx-item-third">
+        <label>Tipo de cuenta:</label>
+        <input type="text" class="text-box"
+          formControlName="type"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+      <div class="fx-item fx-row-container fx-end">
         <div class="fx-item-size" style="--size: 100px">
           <label>Fecha de alta:</label>
           <input type="text" class="text-box"
@@ -27,6 +34,31 @@
 
     </div>
 
+    <div class="fx-row-container">
+
+      <div class="fx-item-third">
+        <label>Rol de la cuenta:</label>
+        <input type="text" class="text-box"
+          formControlName="roleType"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+      <div class="fx-item-third">
+        <label>Naturaleza:</label>
+        <input type="text" class="text-box"
+          formControlName="debtorCreditorType"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+      <div class="fx-item-third">
+        <label>Cuenta relacionada:</label>
+        <input type="text" class="text-box"
+          formControlName="relatedAccount"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+    </div>
+
     <div class="fx-row-container sm-fx-column-container">
 
       <div class="fx-item-one">
@@ -39,32 +71,6 @@
       </div>
 
     </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-third">
-        <label>Rol de la cuenta:</label>
-        <input type="text" class="text-box"
-          formControlName="roleType"
-          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
-      </div>
-
-      <div class="fx-item-third">
-        <label>Tipo de cuenta:</label>
-        <input type="text" class="text-box"
-          formControlName="type"
-          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
-      </div>
-
-      <div class="fx-item-third">
-        <label>Naturaleza:</label>
-        <input type="text" class="text-box"
-          formControlName="debtorCreditorType"
-          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
-      </div>
-
-    </div>
-
 
     <ng-container *ngIf="actions.canActivate || actions.canSuspend">
 

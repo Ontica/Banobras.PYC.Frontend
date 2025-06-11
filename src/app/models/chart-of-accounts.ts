@@ -85,8 +85,9 @@ export interface StandardAccount {
   description: string;
   fullName: string;
   type: Identifiable;
-  roleType: Identifiable<string>;
-  debtorCreditorType: Identifiable<string>;
+  roleType: Identifiable;
+  debtorCreditorType: Identifiable;
+  relatedAccount: Identifiable;
   level: number;
   isLastLevel: boolean;
   status: Identifiable;
@@ -129,6 +130,7 @@ export const EmptyStandardAccount: StandardAccount = {
   type: Empty,
   roleType: Empty,
   debtorCreditorType: Empty,
+  relatedAccount: Empty,
   level: null,
   isLastLevel: false,
   status: Empty,

@@ -37,6 +37,7 @@ interface StandardAccountFormModel extends FormGroup<{
   roleType: FormControl<string>;
   type: FormControl<string>;
   debtorCreditorType: FormControl<string>;
+  relatedAccount: FormControl<string>;
 }> { }
 
 @Component({
@@ -105,6 +106,7 @@ export class StandardAccountViewComponent implements OnChanges {
       roleType: [null],
       type: [null],
       debtorCreditorType: [null],
+      relatedAccount: [null],
     });
   }
 
@@ -118,6 +120,7 @@ export class StandardAccountViewComponent implements OnChanges {
       roleType: this.standardAccount.roleType.name,
       type: this.standardAccount.type.name,
       debtorCreditorType: this.standardAccount.debtorCreditorType.name,
+      relatedAccount: this.standardAccount.relatedAccount?.name ?? null,
     });
 
     this.formHelper.setDisableForm(this.form, true);
