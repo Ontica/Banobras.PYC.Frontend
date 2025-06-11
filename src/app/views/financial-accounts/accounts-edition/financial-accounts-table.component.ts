@@ -100,14 +100,14 @@ export class FinancialAccountsTableComponent implements OnChanges {
 
 
   private resetColumns() {
-    const columns = ['accountNo'];
+    const columns = [];
 
     if (this.displayProject) {
-      columns.push('project');
+      columns.push('projectNo');
     }
 
-    columns.push('organizationalUnitName', 'financialAccountTypeName', 'description', 'statusName',
-      'actionOperations');
+    columns.push('accountNo', 'organizationalUnitName', 'financialAccountTypeName', 'description',
+      'statusName', 'actionOperations');
 
     if (this.canEditAccounts) {
       columns.push('actionDelete');
