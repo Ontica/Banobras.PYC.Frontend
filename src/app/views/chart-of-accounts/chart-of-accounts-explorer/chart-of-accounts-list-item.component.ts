@@ -28,9 +28,11 @@ export class ChartOfAccountsListItemComponent {
 
   @Input() item: StandardAccountDescriptor;
 
-  @Input() maxLevel = 7;
+  @Input() maxLevel = 6;
 
   @Output() chartOfAccountsListItemEvent = new EventEmitter<EventInfo>();
+
+  levelWidth = 20;
 
 
   onSelectClicked() {
@@ -40,7 +42,7 @@ export class ChartOfAccountsListItemComponent {
 
 
   get widthByMaxLevel() {
-    return (this.maxLevel >= 5 ? 22 * this.maxLevel : 110) + 8;
+    return (this.maxLevel >= 5 ? this.levelWidth * this.maxLevel : (this.levelWidth * 5)) + 8;
   }
 
 

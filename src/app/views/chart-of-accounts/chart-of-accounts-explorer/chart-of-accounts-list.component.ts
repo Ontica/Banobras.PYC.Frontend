@@ -44,7 +44,7 @@ export class ChartOfAccountsListComponent implements OnChanges {
 
   @Output() chartOfAccountsListEvent = new EventEmitter<EventInfo>();
 
-  maxLevel = 7;
+  maxLevel = 6;
 
 
   ngOnChanges(changes: SimpleChanges) {

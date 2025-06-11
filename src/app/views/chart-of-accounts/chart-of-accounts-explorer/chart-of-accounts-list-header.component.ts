@@ -14,11 +14,13 @@ import { Component, Input } from '@angular/core';
 })
 export class ChartOfAccountsListHeaderComponent {
 
-  @Input() maxLevel = 7;
+  @Input() maxLevel = 6;
+
+  levelWidth = 20;
 
 
   get widthByMaxLevel() {
-    return (this.maxLevel >= 5 ? 22 * this.maxLevel : 110) + 8;
+    return (this.maxLevel >= 5 ? this.levelWidth * this.maxLevel : (this.levelWidth * 5)) + 8;
   }
 
 }
