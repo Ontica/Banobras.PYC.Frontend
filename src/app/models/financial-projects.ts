@@ -125,7 +125,6 @@ export interface FinancialAccountFields {
   organizationalUnitUID: string;
   financialAccountTypeUID: string;
   standardAccountUID: string;
-  accountNo: string;
   tags: string[];
   description: string;
   attributes: AccountAttributes;

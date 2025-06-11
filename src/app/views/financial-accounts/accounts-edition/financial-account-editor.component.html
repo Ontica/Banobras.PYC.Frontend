@@ -13,7 +13,7 @@
 
           <div class="fx-row-container">
 
-            <div class="fx-item-one">
+            <div class="fx-item-half">
 
               <label>Área:</label>
 
@@ -27,10 +27,6 @@
               </emp-ng-select>
 
             </div>
-
-          </div>
-
-          <div class="fx-row-container">
 
             <div class="fx-item-half">
 
@@ -48,6 +44,10 @@
 
             </div>
 
+          </div>
+
+          <div class="fx-row-container">
+
             <div class="fx-item-half">
 
               <label>Cuenta estándar:</label>
@@ -60,20 +60,6 @@
                 [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
                 [showError]="formHelper.isControlInvalid(form.controls.standardAccountUID)">
               </emp-ng-select>
-
-            </div>
-
-          </div>
-
-          <div class="fx-row-container">
-
-            <div class="fx-item-one">
-
-              <label>Número del cuenta:</label>
-
-              <input type="text" class="text-box"
-                formControlName="accountNo"
-                [class.invalid-control]="formHelper.isControlInvalid(form.controls.accountNo)">
 
             </div>
 

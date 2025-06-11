@@ -36,7 +36,6 @@ interface FinancialAccountFormModel extends FormGroup<{
   financialAccountTypeUID: FormControl<string>;
   standardAccountUID: FormControl<string>;
   organizationalUnitUID: FormControl<string>;
-  accountNo: FormControl<string>;
   tags: FormControl<string[]>;
   description: FormControl<string>;
   attributes: FormControl<AccountAttributes>;
@@ -211,7 +210,6 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
       financialAccountTypeUID: ['', Validators.required],
       standardAccountUID: ['', Validators.required],
       organizationalUnitUID: ['', Validators.required],
-      accountNo: [''],
       tags: [null],
       description: [''],
       attributes: [null],
@@ -235,7 +233,6 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
         organizationalUnitUID: isEmpty(this.account.organizationalUnit) ? null : this.account.organizationalUnit.uid,
         financialAccountTypeUID: isEmpty(this.account.financialAccountType) ? null : this.account.financialAccountType.uid,
         standardAccountUID: isEmpty(this.account.standardAccount) ? null : this.account.standardAccount.uid,
-        accountNo: this.account.accountNo ?? '',
         tags: this.account.tags ?? [],
         description: this.account.description ?? null,
         attributes: this.account.attributes ?? null,
@@ -259,7 +256,6 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
       financialAccountTypeUID: formModel.financialAccountTypeUID ?? '',
       standardAccountUID: formModel.standardAccountUID ?? '',
       organizationalUnitUID: formModel.organizationalUnitUID ?? '',
-      accountNo: formModel.accountNo ?? '',
       tags: formModel.tags ?? [],
       description: formModel.description ?? '',
       attributes: formModel.attributes ?? null,
