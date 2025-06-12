@@ -156,7 +156,9 @@ export class Validate {
         let errors: ValidationErrors = {};
 
         fields.forEach(field => {
-          if (isEmpty(control.value[field])) {
+          const value = control.value[field];
+
+          if (!this.hasValue(value)) {
             errors[`${field}Error`] = true;
           }
         });
