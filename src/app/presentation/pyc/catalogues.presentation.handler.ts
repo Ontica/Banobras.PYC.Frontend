@@ -18,6 +18,7 @@ import { RequestsList } from '@app/models';
 
 export enum SelectorType {
   CURRENCIES           = 'PYC.Catalogues.Selector.Currencies.List',
+  INTEREST_RATE_TYPES  = 'PYC.Catalogues.Selector.InterestRateTypes.List',
   ORGANIZATIONAL_UNITS = 'PYC.Catalogues.Selector.OrganizationalUnits.List',
   PAYMENTS_METHODS     = 'PYC.Catalogues.Selector.PaymentsMethods.List',
   PERIODICITY_TYPES    = 'PYC.Catalogues.Selector.PeriodicityTypes.List',
@@ -26,6 +27,7 @@ export enum SelectorType {
 
 const initialState: StateValues = [
   { key: SelectorType.CURRENCIES, value: [] },
+  { key: SelectorType.INTEREST_RATE_TYPES, value: [] },
   { key: SelectorType.ORGANIZATIONAL_UNITS, value: new Cache<Identifiable[]>() },
   { key: SelectorType.PAYMENTS_METHODS, value: [] },
   { key: SelectorType.PERIODICITY_TYPES, value: [] },
@@ -49,6 +51,12 @@ export class CataloguesPresentationHandler extends AbstractPresentationHandler {
 
       case SelectorType.CURRENCIES: {
         const provider = () => this.data.getCurrencies();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.INTEREST_RATE_TYPES: {
+        const provider = () => this.data.getInterestRateTypes();
 
         return super.selectFirst<U>(selectorType, provider);
       }
