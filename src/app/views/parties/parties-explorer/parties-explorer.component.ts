@@ -53,7 +53,7 @@ export class PartiesExplorerComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.dataList) {
+    if (changes.data) {
       this.setText();
       this.showFilters = false;
     }

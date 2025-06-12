@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { PartiesQuery, PartyDescriptor, SupplierDescriptor } from '@app/models';
+import { OrgUnitDescriptor, PartiesQuery, SupplierDescriptor } from '@app/models';
 
 
 @Injectable()
@@ -19,12 +19,21 @@ export class PartiesDataService {
   constructor(private http: HttpService) { }
 
 
-  searchParties(query: PartiesQuery): EmpObservable<PartyDescriptor[]> {
+  searchSuppliers(query: PartiesQuery): EmpObservable<SupplierDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v8/procurement/suppliers/search';
 
     return this.http.post<SupplierDescriptor[]>(path, query);
+  }
+
+
+  searchOrgUnits(query: PartiesQuery): EmpObservable<OrgUnitDescriptor[]> {
+    Assertion.assertValue(query, 'query');
+
+    const path = 'v8/human-resources/organizational-structure/search';
+
+    return this.http.post<OrgUnitDescriptor[]>(path, query);
   }
 
 }

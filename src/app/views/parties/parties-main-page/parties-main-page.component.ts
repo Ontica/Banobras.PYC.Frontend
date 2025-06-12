@@ -7,7 +7,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Assertion, EventInfo } from '@app/core';
+import { Assertion, EmpObservable, EventInfo } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -19,9 +19,10 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { PartiesDataService } from '@app/data-services';
 
-import { DataTableColumn, DefaultPartiesColumns, DefaultSuppliersColumns, EmptyPartiesDataTable,
-         EmptyPartiesQuery, EmptyPartyExplorerTypeConfig, ExplorerTypeConfig, getPartyExplorerTypeConfig,
-         PartiesDataTable, PartiesQuery, PartyDescriptor, PartyObjectTypes } from '@app/models';
+import { DataTableColumn, DefaultOrgUnitsColumns, DefaultPartiesColumns, DefaultSuppliersColumns,
+         EmptyPartiesDataTable, EmptyPartiesQuery, EmptyPartyExplorerTypeConfig, ExplorerTypeConfig,
+         getPartyExplorerTypeConfig, PartiesDataTable, PartiesQuery, PartyDescriptor,
+         PartyObjectTypes } from '@app/models';
 
 import {
   PartiesExplorerEventType
@@ -96,28 +97,36 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
 
 
   private setExplorerConfigFromCurrentView(view: View) {
+    let type = null
+
     switch (view.name) {
       case 'Payments.Suppliers':
-        this.config = getPartyExplorerTypeConfig(PartyObjectTypes.SUPPLIER)
+        type = PartyObjectTypes.SUPPLIER;
         break;
       case 'SystemManagementViews.OrganizationalUnits':
-        this.config = getPartyExplorerTypeConfig(PartyObjectTypes.ORGANIZATIONAL_UNITS)
+        type = PartyObjectTypes.ORGANIZATIONAL_UNITS;
         break;
       default:
-        this.config = getPartyExplorerTypeConfig(null);
         break;
     }
 
+    this.setConfig(type);
     this.setDataColumns();
   }
 
 
   private validateSearchParties() {
+    let observable = null;
+
     switch (this.config.type) {
       case PartyObjectTypes.SUPPLIER:
-        this.searchParties(this.query);
+        observable = this.partiesData.searchSuppliers(this.query)
+        this.executeSearchParties(observable);
         return;
       case PartyObjectTypes.ORGANIZATIONAL_UNITS:
+        observable = this.partiesData.searchOrgUnits(this.query);
+        this.executeSearchParties(observable);
+        return;
       default:
         this.messageBox.showInDevelopment('Buscar ' + this.config.namePlural.toLowerCase());
         return;
@@ -125,10 +134,10 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private searchParties(query: PartiesQuery) {
+  private executeSearchParties(observable: EmpObservable<PartyDescriptor[]>) {
     this.isLoading = true;
 
-    this.partiesData.searchParties(query)
+    observable
       .firstValue()
       .then(x => this.setData(x, true))
       .finally(() => this.isLoading = false);
@@ -138,6 +147,11 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
   private setQueryAndClearExplorerData(query: PartiesQuery) {
     this.query = Object.assign({}, query);
     this.setData([], false);
+  }
+
+
+  private setConfig(type: PartyObjectTypes) {
+    this.config = getPartyExplorerTypeConfig(type);
   }
 
 
@@ -158,6 +172,7 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
       case PartyObjectTypes.SUPPLIER:
         return DefaultSuppliersColumns;
       case PartyObjectTypes.ORGANIZATIONAL_UNITS:
+        return DefaultOrgUnitsColumns;
       default:
         return DefaultPartiesColumns;
     }

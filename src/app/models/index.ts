@@ -60,6 +60,8 @@ export * from './object-types';
 
 export * from './orders';
 
+export * from './organizational-units';
+
 export * from './parties';
 
 export * from './payable-orders';
