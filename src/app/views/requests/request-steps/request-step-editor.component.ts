@@ -20,7 +20,7 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { CataloguesDataService, StepsDataService } from '@app/data-services';
+import { RequestsDataService, StepsDataService } from '@app/data-services';
 
 import { EmptyStep, PositioningRule, PositioningRuleList, Priority, PriorityList, RequestsList, Step,
          StepFields, StepStatus } from '@app/models';
@@ -93,7 +93,7 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
 
   constructor(private uiLayer: PresentationLayer,
               private stepsData: StepsDataService,
-              private cataloguesData: CataloguesDataService) {
+              private requestsData: RequestsDataService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
@@ -242,7 +242,7 @@ export class RequestStepEditorComponent implements OnChanges, OnInit, OnDestroy 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: this.requestsList }),
-      this.cataloguesData.getResponsibles(),
+      this.requestsData.getResponsibles(),
     ])
     .subscribe(([a, b]) => {
       this.orgUnitsList = a;

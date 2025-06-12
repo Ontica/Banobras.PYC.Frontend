@@ -22,7 +22,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { CataloguesDataService, SearcherAPIS } from '@app/data-services';
+import { PaymentOrdersDataService, SearcherAPIS } from '@app/data-services';
 
 import { EmptyPaymentOrder, EmptyPaymentOrderActions, PaymentAccount, PaymentMethod, PaymentOrder,
          PaymentOrderActions, PaymentOrderFields, RequestsList } from '@app/models';
@@ -90,7 +90,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
 
   constructor(private uiLayer: PresentationLayer,
-              private cataloguesData: CataloguesDataService,
+              private paymentOrdersData: PaymentOrdersDataService,
               private messageBox: MessageBoxService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
@@ -219,7 +219,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
   private getPaymentAccouts(partyUID: string) {
     this.isLoadingPaymentAccounts = true;
 
-    this.cataloguesData.getPartyPaymentAccouts(partyUID)
+    this.paymentOrdersData.getPartyPaymentAccouts(partyUID)
       .firstValue()
       .then(x => this.paymentAccountsList = x)
       .finally(() => this.isLoadingPaymentAccounts = false);

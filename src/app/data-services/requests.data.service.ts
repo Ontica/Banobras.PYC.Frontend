@@ -21,7 +21,7 @@ export class RequestsDataService {
 
 
   getRequestsTypes(requestsList: RequestsList,
-                  requesterOrgUnitUID?: string): EmpObservable<RequestType[]> {
+                   requesterOrgUnitUID?: string): EmpObservable<RequestType[]> {
     Assertion.assertValue(requestsList, 'requestsList');
 
     let path = `v4/requests/catalogues/requests-types/?requestsList=${requestsList}`;
@@ -36,6 +36,13 @@ export class RequestsDataService {
 
   getRequestsStatus(): EmpObservable<Identifiable[]> {
     const path = `v4/requests/catalogues/status-list`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getResponsibles(): EmpObservable<Identifiable[]> {
+    const path = `v4/requests/catalogues/responsible-list`;
 
     return this.http.get<Identifiable[]>(path);
   }

@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { PaymentOrderHolder, PaymentOrderDescriptor, PaymentOrderFields,
-         PaymentsOrdersQuery } from '@app/models';
+import { PaymentOrderHolder, PaymentOrderDescriptor, PaymentOrderFields, PaymentsOrdersQuery,
+         PaymentAccount } from '@app/models';
 
 
 @Injectable()
@@ -24,6 +24,15 @@ export class PaymentOrdersDataService {
     const path = 'v2/payments-management/payment-order-types';
 
     return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getPartyPaymentAccouts(partyUID: string): EmpObservable<PaymentAccount[]> {
+    Assertion.assertValue(partyUID, 'partyUID');
+
+    const path = `v8/financial/parties/${partyUID}/payment-accounts`;
+
+    return this.http.get<PaymentAccount[]>(path);
   }
 
 
