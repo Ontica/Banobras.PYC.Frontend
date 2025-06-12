@@ -5,9 +5,15 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, forwardRef } from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+import { Identifiable } from '@app/core';
+
+import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
+
+import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper } from '@app/shared/utils';
 
@@ -26,7 +32,7 @@ import { buildCreditFinancialData, CreditFinancialData, EmptyCreditFinancialData
     },
   ]
 })
-export class CreditFinancialDataComponent implements ControlValueAccessor {
+export class CreditFinancialDataComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
   @Input() showError = false;
 
@@ -49,6 +55,27 @@ export class CreditFinancialDataComponent implements ControlValueAccessor {
   selectedData: CreditFinancialData = EmptyCreditFinancialData;
 
   formHelper = FormHelper;
+
+  isLoading = false;
+
+  interestRateTypesList: Identifiable[] = [];
+
+  helper: SubscriptionHelper;
+
+
+  constructor(private uiLayer: PresentationLayer) {
+    this.helper = uiLayer.createSubscriptionHelper();
+  }
+
+
+  ngOnInit() {
+    this.loadDataLists();
+  }
+
+
+  ngOnDestroy() {
+    this.helper.destroy();
+  }
 
 
   registerOnChange(fn: any): void {
@@ -82,6 +109,17 @@ export class CreditFinancialDataComponent implements ControlValueAccessor {
 
   private setSelectedData(data: CreditFinancialData) {
     this.selectedData = Object.assign({}, EmptyCreditFinancialData, data);
+  }
+
+
+  private loadDataLists() {
+    this.isLoading = true;
+
+    this.helper.select<Identifiable[]>(CataloguesStateSelector.INTEREST_RATE_TYPES)
+      .subscribe(x => {
+        this.interestRateTypesList = x;
+        this.isLoading = x.length === 0;
+      });
   }
 
 }

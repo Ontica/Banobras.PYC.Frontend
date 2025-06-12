@@ -8,12 +8,12 @@
 
       <label>Saldo del crédito:</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.saldo"
-          [showError]="showError && errors?.saldoError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.currentBalance"
+        [showError]="showError && errors?.currentBalanceError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
 
     </div>
 
@@ -21,12 +21,12 @@
 
       <label>Interés (%):</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.interes"
-          [showError]="showError && errors?.interesError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.interestRate"
+        [showError]="showError && errors?.interestRateError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
 
     </div>
 
@@ -34,12 +34,12 @@
 
       <label>Comisión (%):</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.comision"
-          [showError]="showError && errors?.comisionError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.fees"
+        [showError]="showError && errors?.feesError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
 
     </div>
 
@@ -47,12 +47,12 @@
 
       <label>Tipo de cambio:</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.tipoCambio"
-          [showError]="showError && errors?.tipoCambioError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.exchangeRate"
+        [showError]="showError && errors?.exchangeRateError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
 
     </div>
 
@@ -64,12 +64,12 @@
 
       <label>Plazo de inversión (meses):</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.plazoInversion"
-          [showError]="showError && errors?.plazoInversionError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.investmentTerm"
+        [showError]="showError && errors?.investmentTermError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
 
     </div>
 
@@ -77,12 +77,12 @@
 
       <label>Período de gracia (meses):</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.periodoGracia"
-          [showError]="showError && errors?.periodoGraciaError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.gracePeriod"
+        [showError]="showError && errors?.gracePeriodError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
 
     </div>
 
@@ -90,12 +90,12 @@
 
       <label>Plazo de amortización (meses):</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.plazoAmortizacion"
-          [showError]="showError && errors?.plazoAmortizacionError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.repaymentTerm"
+        [showError]="showError && errors?.repaymentTermError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
 
     </div>
 
@@ -103,13 +103,13 @@
 
       <label>Fecha de amortizacion:</label>
 
-        <emp-ng-datepicker
-          [(ngModel)]="selectedData.fechaAmortizacion"
-          [showError]="showError && errors?.fechaAmortizacionError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
+      <emp-ng-datepicker
+        [(ngModel)]="selectedData.repaymentDate"
+        [showError]="showError && errors?.repaymentDateError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
 
-        </emp-ng-datepicker>
+      </emp-ng-datepicker>
 
     </div>
 
@@ -119,14 +119,18 @@
 
     <div class="fx-item-quarter">
 
-      <label>Tasa base (%):</label>
+      <label>Tasa base:</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.tasa"
-          [showError]="showError && errors?.tasaError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-select
+        [(ngModel)]="selectedData.interestRateTypeUID"
+        [items]="interestRateTypesList"
+        [config]="{clearable: true}"
+        [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+        [showError]="showError && errors?.tasaError"
+        [disabled]="disabled"
+        [loading]="isLoading"
+        (changes)="onSelectedDataChanged()">
+      </emp-ng-select>
 
     </div>
 
@@ -134,12 +138,12 @@
 
       <label>Factor de ajuste de tasa:</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.factorTasa"
-          [showError]="showError && errors?.factorTasaError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.interestRateFactor"
+        [showError]="showError && errors?.interestRateFactorError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
 
     </div>
 
@@ -147,12 +151,12 @@
 
       <label>Tasa mínima (piso) (%):</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.tasaPiso"
-          [showError]="showError && errors?.tasaPisoError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.interestRateFloor"
+        [showError]="showError && errors?.interestRateFloorError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
 
     </div>
 
@@ -160,12 +164,12 @@
 
       <label>Tasa máxima (techo) (%):</label>
 
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.tasaTecho"
-          [showError]="showError && errors?.tasaTechoError"
-          [disabled]="disabled"
-          (valueChange)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
+      <emp-ng-input-numeric
+        [(ngModel)]="selectedData.interestRateCeiling"
+        [showError]="showError && errors?.interestRateCeilingError"
+        [disabled]="disabled"
+        (valueChange)="onSelectedDataChanged()">
+      </emp-ng-input-numeric>
 
     </div>
 

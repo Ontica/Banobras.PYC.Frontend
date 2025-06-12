@@ -6,25 +6,59 @@
 
     <div class="fx-item-quarter">
 
-      <label>No. crédito SIC:</label>
+      <label>Tipo de crédito:</label>
 
-        <input type="text" class="text-box"
-          [(ngModel)]="selectedData.noCredito"
-          [class.invalid-control]="showError && errors?.noCreditoError"
-          [disabled]="disabled"
-          (change)="onSelectedDataChanged()">
+      <emp-ng-select
+        bindValue="id"
+        [(ngModel)]="selectedData.creditTypeId"
+        [items]="creditTypesList"
+        [config]="{clearable: true}"
+        [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+        [showError]="showError && errors?.creditTypeIdError"
+        [disabled]="disabled"
+        (changes)="onSelectedDataChanged()">
+      </emp-ng-select>
 
     </div>
 
-    <div class="fx-item">
+    <div class="fx-item-quarter">
 
-      <label>Tipo de crédito:</label>
+      <label>No. crédito SIC:</label>
 
-        <input type="text" class="text-box"
-          [(ngModel)]="selectedData.tipoCredito"
-          [class.invalid-control]="showError && errors?.tipoCreditoError"
-          [disabled]="disabled"
-          (change)="onSelectedDataChanged()">
+      <input type="text" class="text-box"
+        [(ngModel)]="selectedData.creditAccountingAccount"
+        [class.invalid-control]="showError && errors?.creditAccountingAccountError"
+        [disabled]="disabled"
+        (change)="onSelectedDataChanged()">
+
+    </div>
+
+    <div class="fx-item-quarter">
+
+      <label>No. crédito externo:</label>
+
+      <input type="text" class="text-box"
+        [(ngModel)]="selectedData.externalCreditNo"
+        [class.invalid-control]="showError && errors?.externalCreditNoError"
+        [disabled]="disabled"
+        (change)="onSelectedDataChanged()">
+
+    </div>
+
+    <div class="fx-item-quarter">
+
+      <label>Etapa del crédito:</label>
+
+      <emp-ng-select
+        bindValue="id"
+        [(ngModel)]="selectedData.creditStageId"
+        [items]="creditStagesList"
+        [config]="{clearable: true}"
+        [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+        [showError]="showError && errors?.creditStageIdError"
+        [disabled]="disabled"
+        (changes)="onSelectedDataChanged()">
+      </emp-ng-select>
 
     </div>
 
@@ -32,30 +66,15 @@
 
   <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
 
-    <div class="fx-item-quarter">
-
-      <label>Etapa del crédito:</label>
-
-        <emp-ng-input-numeric
-          [(ngModel)]="selectedData.etapaCredito"
-          [showError]="showError && errors?.etapaCreditoError"
-          [disabled]="disabled"
-          [minDecimals]="0"
-          [maxDecimals]="0"
-          (change)="onSelectedDataChanged()">
-        </emp-ng-input-numeric>
-
-    </div>
-
-    <div class="fx-item">
+    <div class="fx-item-one">
 
       <label>Acreditado:</label>
 
-        <input type="text" class="text-box"
-          [(ngModel)]="selectedData.acreditado"
-          [class.invalid-control]="showError && errors?.acreditadoError"
-          [disabled]="disabled"
-          (change)="onSelectedDataChanged()">
+      <input type="text" class="text-box"
+        [(ngModel)]="selectedData.borrower"
+        [class.invalid-control]="showError && errors?.borrowerError"
+        [disabled]="disabled"
+        (change)="onSelectedDataChanged()">
 
     </div>
 

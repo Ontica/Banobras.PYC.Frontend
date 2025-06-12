@@ -155,26 +155,27 @@ export interface FinancialData {
 
 
 export interface CreditAttributes extends AccountAttributes {
-  noCredito: string;
-  acreditado: string;
-  tipoCredito: string;
-  etapaCredito: number;
+  borrower: string;
+  creditAccountingAccount: string;
+  creditTypeId: number;
+  creditStageId: number;
+  externalCreditNo: string;
 }
 
 
 export interface CreditFinancialData extends FinancialData {
-  interes: number;
-  comision: number;
-  saldo: number;
-  plazoInversion: number;
-  periodoGracia: number;
-  plazoAmortizacion: number;
-  fechaAmortizacion: DateString;
-  tipoCambio: number;
-  tasa: number;
-  factorTasa: number;
-  tasaPiso: number;
-  tasaTecho: number;
+  fees: number;
+  currentBalance: number;
+  investmentTerm: number;
+  gracePeriod: number;
+  repaymentTerm: number;
+  repaymentDate: DateString;
+  exchangeRate: number;
+  interestRate: number;
+  interestRateTypeUID: string;
+  interestRateFactor: number;
+  interestRateFloor: number;
+  interestRateCeiling: number;
 }
 
 
@@ -265,10 +266,11 @@ export function buildFinancialProjectGoals(data: FinancialProjectGoals): Financi
 
 export function buildCreditAttributes(data: CreditAttributes): CreditAttributes {
   const cleanData: CreditAttributes = {
-    noCredito: data.noCredito ?? '',
-    acreditado: data.acreditado ?? '',
-    tipoCredito: data.tipoCredito ?? '',
-    etapaCredito: data.etapaCredito ?? null,
+    creditAccountingAccount: data.creditAccountingAccount ?? '',
+    borrower: data.borrower ?? '',
+    creditTypeId: data.creditTypeId ?? null,
+    creditStageId: data.creditStageId ?? null,
+    externalCreditNo: data.externalCreditNo ?? '',
   };
 
   return cleanData;
@@ -277,18 +279,18 @@ export function buildCreditAttributes(data: CreditAttributes): CreditAttributes 
 
 export function buildCreditFinancialData(data: CreditFinancialData): CreditFinancialData {
   const cleanData: CreditFinancialData = {
-    interes: data.interes ?? null,
-    comision: data.comision ?? null,
-    saldo: data.saldo ?? null,
-    plazoInversion: data.plazoInversion ?? null,
-    periodoGracia: data.periodoGracia ?? null,
-    plazoAmortizacion: data.plazoAmortizacion ?? null,
-    fechaAmortizacion: data.fechaAmortizacion ?? null,
-    tipoCambio: data.tipoCambio ?? null,
-    tasa: data.tasa ?? null,
-    factorTasa: data.factorTasa ?? null,
-    tasaPiso: data.tasaPiso ?? null,
-    tasaTecho: data.tasaTecho ?? null,
+    fees: data.fees ?? null,
+    currentBalance: data.currentBalance ?? null,
+    investmentTerm: data.investmentTerm ?? null,
+    gracePeriod: data.gracePeriod ?? null,
+    repaymentTerm: data.repaymentTerm ?? null,
+    repaymentDate: data.repaymentDate ?? null,
+    exchangeRate: data.exchangeRate ?? null,
+    interestRate: data.interestRate ?? null,
+    interestRateTypeUID: data.interestRateTypeUID ?? null,
+    interestRateFactor: data.interestRateFactor ?? null,
+    interestRateFloor: data.interestRateFloor ?? null,
+    interestRateCeiling: data.interestRateCeiling ?? null,
   };
 
   return cleanData;
@@ -394,24 +396,25 @@ export const EmptyFinancialAccountOperations: FinancialAccountOperations = {
 
 
 export const EmptyCreditAttributes: CreditAttributes = {
-  noCredito: '',
-  acreditado: '',
-  tipoCredito: '',
-  etapaCredito: null,
+  creditAccountingAccount: '',
+  borrower: '',
+  creditTypeId: null,
+  creditStageId: null,
+  externalCreditNo: '',
 };
 
 
 export const EmptyCreditFinancialData: CreditFinancialData = {
-  interes: null,
-  comision: null,
-  saldo: null,
-  plazoInversion: null,
-  periodoGracia: null,
-  plazoAmortizacion: null,
-  fechaAmortizacion: '',
-  tipoCambio: null,
-  tasa: null,
-  factorTasa: null,
-  tasaPiso: null,
-  tasaTecho: null,
+  fees: null,
+  currentBalance: null,
+  investmentTerm: null,
+  gracePeriod: null,
+  repaymentTerm: null,
+  repaymentDate: '',
+  exchangeRate: null,
+  interestRate: null,
+  interestRateTypeUID: null,
+  interestRateFactor: null,
+  interestRateFloor: null,
+  interestRateCeiling: null,
 };

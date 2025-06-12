@@ -50,6 +50,10 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor {
 
   formHelper = FormHelper;
 
+  creditTypesList = [];
+
+  creditStagesList = [];
+
 
   registerOnChange(fn: any): void {
     this.onChange = fn;

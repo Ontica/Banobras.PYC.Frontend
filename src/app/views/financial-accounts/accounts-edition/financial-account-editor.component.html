@@ -107,7 +107,8 @@
             formControlName="attributes"
             [editionMode]="!isSaved || editionMode"
             [errors]="form.controls.attributes.errors"
-            [showError]="formHelper.isControlInvalid(form.controls.attributes)">
+            [showError]="formHelper.isControlInvalid(form.controls.attributes)"
+            (changes)="onCreditAccountChanges($event)">
 
           </emp-cf-credit-account-attributes>
 

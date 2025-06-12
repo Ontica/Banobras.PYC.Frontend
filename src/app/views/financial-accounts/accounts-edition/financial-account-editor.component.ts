@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { combineLatest } from 'rxjs';
 
-import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
+import { Assertion, EventInfo, Identifiable, isEmpty, Validate } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -22,8 +22,8 @@ import { FormHelper, sendEvent } from '@app/shared/utils';
 
 import { FinancialProjectsDataService } from '@app/data-services';
 
-import { FinancialAccount, EmptyFinancialAccount, FinancialAccountFields, ObjectTypes,
-         AccountAttributes, FinancialData, RequestsList } from '@app/models';
+import { AccountAttributes, CreditAttributes, EmptyFinancialAccount, FinancialAccount, FinancialAccountFields,
+         FinancialData, ObjectTypes, RequestsList } from '@app/models';
 
 
 export enum FinancialAccountEditorEventType {
@@ -126,28 +126,17 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
 
 
   onFinancialAccountTypeChanges(type: Identifiable) {
-    // TODO: validar campos requeridos y corregir atibutos dinamicos....
-    // los manejo en control attributes o defino uno para cada tipo??
-    // si se cambia de tipo se pierden datos...
-    // , Validate.objectFieldsRequired('building', 'floor', 'place')
+    const hasCreditTypeId = !!this.form.getRawValue().attributes &&
+      !!this.form.getRawValue().attributes['creditTypeId'];
 
-    // if (this.isCreditAccount) {
-    //   this.form.controls.attributes.reset(EmptyCreditAttributes);
-    //   this.form.controls.financialData.reset(EmptyCreditFinancialData);
+    const creditTypeId = !hasCreditTypeId ? null : this.form.getRawValue().attributes['creditTypeId'];
 
-    //   FormHelper.setControlValidators(this.form.controls.attributes, [Validators.required,
-    //      Validate.objectFieldsRequired('noCredito', 'acreditado', 'tipoCredito', 'etapaCredito')]);
+    this.validateCreditAttributesFieldsRequired(!creditTypeId ? null : creditTypeId);
+  }
 
-    //   FormHelper.setControlValidators(this.form.controls.financialData, [Validators.required,
-    //     Validate.objectFieldsRequired('interes', 'comision', 'saldo', 'plazoInversion', 'periodoGracia',
-    //       'plazoAmortizacion', 'fechaAmortizacion', 'tipoCambio', 'tas', 'factorTasa', 'tasaPiso', 'tasaTecho')]);
-    // } else {
-    //   this.form.controls.attributes.reset(null);
-    //   this.form.controls.financialData.reset(null);
 
-    //   FormHelper.clearControlValidators(this.form.controls.attributes);
-    //   FormHelper.clearControlValidators(this.form.controls.financialData);
-    // }
+  onCreditAccountChanges(value: CreditAttributes) {
+    this.validateCreditAttributesFieldsRequired(!value.creditTypeId ? null : value.creditTypeId);
   }
 
 
@@ -246,11 +235,24 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
         financialData: this.account.financialData ?? null,
       });
     });
+
+    const creditTypeId = (this.account.attributes as CreditAttributes).creditTypeId;
+    this.validateCreditAttributesFieldsRequired(!creditTypeId ? null : creditTypeId);
   }
 
 
   private validateFormDisabled() {
     FormHelper.setDisableForm(this.form, !this.canUpdate);
+  }
+
+
+  private validateCreditAttributesFieldsRequired(creditTypeId: number) {
+    if ([].includes(creditTypeId)) {
+      FormHelper.setControlValidators(this.form.controls.attributes,
+        [Validate.objectFieldsRequired('creditAccountingAccount')]);
+    } else {
+      FormHelper.clearControlValidators(this.form.controls.attributes);
+    }
   }
 
 
