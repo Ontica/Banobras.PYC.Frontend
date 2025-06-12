@@ -10,7 +10,7 @@
 
       <input type="text" class="text-box"
         [(ngModel)]="selectedData.beneficiario"
-        [class.invalid-control]="showError && errors?.beneficiario"
+        [class.invalid-control]="showError && errors?.beneficiarioError"
         [disabled]="disabled"
         (change)="onSelectedDataChanged()">
 
@@ -22,7 +22,7 @@
 
       <input type="text" class="text-box"
         [(ngModel)]="selectedData.localizacion"
-        [class.invalid-control]="showError && errors?.localizacion"
+        [class.invalid-control]="showError && errors?.localizacionError"
         [disabled]="disabled"
         (change)="onSelectedDataChanged()">
 
@@ -38,11 +38,11 @@
 
       <emp-ng-input-numeric
         [(ngModel)]="selectedData.poblacionBeneficiada"
-        [showError]="showError && errors?.poblacionBeneficiada"
+        [showError]="showError && errors?.poblacionBeneficiadaError"
         [disabled]="disabled"
         [minDecimals]="0"
         [maxDecimals]="0"
-        (change)="onSelectedDataChanged()">
+        (valueChange)="onSelectedDataChanged()">
       </emp-ng-input-numeric>
 
     </div>
@@ -53,11 +53,11 @@
 
       <emp-ng-input-numeric
         [(ngModel)]="selectedData.empleosDirectos"
-        [showError]="showError && errors?.empleosDirectos"
+        [showError]="showError && errors?.empleosDirectosError"
         [disabled]="disabled"
         [minDecimals]="0"
         [maxDecimals]="0"
-        (change)="onSelectedDataChanged()">
+        (valueChange)="onSelectedDataChanged()">
       </emp-ng-input-numeric>
 
     </div>
@@ -68,11 +68,11 @@
 
       <emp-ng-input-numeric
         [(ngModel)]="selectedData.empleosIndirectos"
-        [showError]="showError && errors?.empleosIndirectos"
+        [showError]="showError && errors?.empleosIndirectosError"
         [disabled]="disabled"
         [minDecimals]="0"
         [maxDecimals]="0"
-        (change)="onSelectedDataChanged()">
+        (valueChange)="onSelectedDataChanged()">
       </emp-ng-input-numeric>
 
     </div>
@@ -83,9 +83,9 @@
 
       <emp-ng-input-numeric
         [(ngModel)]="selectedData.costo"
-        [showError]="showError && errors?.costo"
+        [showError]="showError && errors?.costoError"
         [disabled]="disabled"
-        (change)="onSelectedDataChanged()">
+        (valueChange)="onSelectedDataChanged()">
       </emp-ng-input-numeric>
 
     </div>
