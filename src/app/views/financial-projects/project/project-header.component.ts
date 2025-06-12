@@ -10,7 +10,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';;
 
-import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
+import { Assertion, EventInfo, Identifiable, isEmpty, Validate } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -22,8 +22,9 @@ import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { FinancialProjectsDataService } from '@app/data-services';
 
-import { EmptyFinancialProject, EmptyFinancialProjectActions, FinancialProject, FinancialProjectActions,
-         FinancialProjectFields, FinancialProjectGoals, FinancialProjectProgramForEdition, FinancialProjectRejectFields,
+import { EmptyFinancialProject, EmptyFinancialProjectActions, EmptyFinancialProjectGoals, FinancialProject,
+         FinancialProjectActions, FinancialProjectFields, FinancialProjectGoals,
+         FinancialProjectProgramForEdition, FinancialProjectRejectFields,
          FinancialProjectSubprogramForEdition, RequestsList } from '@app/models';
 
 import { ConfirmSubmitModalEventType,
@@ -298,7 +299,7 @@ export class FinancialProjectHeaderComponent implements OnInit, OnChanges, OnDes
       name: ['', Validators.required],
       description: [''],
       justification: [''],
-      projectGoals: [null],
+      projectGoals: [EmptyFinancialProjectGoals, Validate.objectFieldsRequired('beneficiario')],
     });
   }
 
