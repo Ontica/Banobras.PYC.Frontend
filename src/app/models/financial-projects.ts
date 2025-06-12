@@ -114,6 +114,7 @@ export interface FinancialAccountDescriptor {
   financialAccountTypeName: string;
   standardAccountName: string;
   organizationalUnitName: string;
+  currencyName: string;
   description: string;
   startDate: DateString;
   endDate: DateString;
@@ -125,6 +126,7 @@ export interface FinancialAccountFields {
   organizationalUnitUID: string;
   financialAccountTypeUID: string;
   standardAccountUID: string;
+  currencyUID: string;
   tags: string[];
   description: string;
   attributes: AccountAttributes;
@@ -181,6 +183,7 @@ export interface FinancialAccount {
   financialAccountType: Identifiable;
   standardAccount: Identifiable;
   organizationalUnit: Identifiable;
+  currency: Identifiable;
   accountNo: string;
   tags: string[];
   description: string;
@@ -340,6 +343,7 @@ export const EmptyFinancialAccountDescriptor: FinancialAccountDescriptor = {
   financialAccountTypeName: '',
   standardAccountName: '',
   organizationalUnitName: '',
+  currencyName: '',
   description: '',
   startDate: '',
   endDate: '',
@@ -353,6 +357,7 @@ export const EmptyFinancialAccount: FinancialAccount = {
   financialAccountType: Empty,
   standardAccount: Empty,
   organizationalUnit: Empty,
+  currency: Empty,
   tags: [],
   description: '',
   startDate: '',

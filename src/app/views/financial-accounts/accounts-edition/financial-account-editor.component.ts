@@ -36,6 +36,7 @@ interface FinancialAccountFormModel extends FormGroup<{
   financialAccountTypeUID: FormControl<string>;
   standardAccountUID: FormControl<string>;
   organizationalUnitUID: FormControl<string>;
+  currencyUID: FormControl<string>;
   tags: FormControl<string[]>;
   description: FormControl<string>;
   attributes: FormControl<AccountAttributes>;
@@ -73,6 +74,8 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
   accountTypesList: Identifiable[] = [];
 
   standardAccountsList: Identifiable[] = [];
+
+  currenciesList: Identifiable[] = [];
 
 
   constructor(private uiLayer: PresentationLayer,
@@ -191,13 +194,15 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
       this.projectsData.getStandardAccounts(this.projectUID),
       this.projectsData.getFinancialAccountsTypes(this.projectUID),
     ])
-    .subscribe(([a, b, c]) => {
+    .subscribe(([a, b, c, d]) => {
       this.orgUnitsList = a;
-      this.standardAccountsList = b;
-      this.accountTypesList = c;
+      this.currenciesList = b,
+      this.standardAccountsList = c;
+      this.accountTypesList = d;
       this.isLoading = false;
     });
   }
@@ -210,6 +215,7 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
       financialAccountTypeUID: ['', Validators.required],
       standardAccountUID: ['', Validators.required],
       organizationalUnitUID: ['', Validators.required],
+      currencyUID: ['', Validators.required],
       tags: [null],
       description: [''],
       attributes: [null],
@@ -233,6 +239,7 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
         organizationalUnitUID: isEmpty(this.account.organizationalUnit) ? null : this.account.organizationalUnit.uid,
         financialAccountTypeUID: isEmpty(this.account.financialAccountType) ? null : this.account.financialAccountType.uid,
         standardAccountUID: isEmpty(this.account.standardAccount) ? null : this.account.standardAccount.uid,
+        currencyUID: isEmpty(this.account.currency) ? null : this.account.currency.uid,
         tags: this.account.tags ?? [],
         description: this.account.description ?? null,
         attributes: this.account.attributes ?? null,
@@ -256,6 +263,7 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
       financialAccountTypeUID: formModel.financialAccountTypeUID ?? '',
       standardAccountUID: formModel.standardAccountUID ?? '',
       organizationalUnitUID: formModel.organizationalUnitUID ?? '',
+      currencyUID: formModel.currencyUID ?? null,
       tags: formModel.tags ?? [],
       description: formModel.description ?? '',
       attributes: formModel.attributes ?? null,

@@ -63,7 +63,22 @@
 
             </div>
 
-            <div class="fx-item-half">
+            <div class="fx-item-quarter">
+
+              <label>Moneda:</label>
+
+              <emp-ng-select
+                formControlName="currencyUID"
+                [config]="{autoSelect: !isSaved}"
+                [items]="currenciesList"
+                [loading]="isLoading"
+                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+                [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-quarter">
 
               <label>Palabras de búsqueda adicionales:</label>
               <emp-ng-input-tags
