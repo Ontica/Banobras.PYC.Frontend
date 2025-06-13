@@ -26,12 +26,16 @@ export interface DataTableColumn {
   fieldConditionStrikethrough?: string;
   functionToShowButton?: (entry: DataTableEntry) => any;
   buttonText?: string;
+  hasLevel?: boolean
+  showShadow?: boolean;
+  size?: 'xs';
 }
 
 
 export interface DataTableEntry {
   uid?: string;
   itemType?: DataTableItemType;
+  level?: number;
   clickableEntry?: boolean;
 }
 

@@ -34,7 +34,8 @@
                         'column-checkbox': column.type === dataTableColumnType.check_box,
                         'sticky-start sticky-start-width': showColumnStickyStart && i === 0 && hasItems,
                         'sticky-padding': showColumnStickyStart && i === 1 && hasItems,
-                        'sticky-end': showColumnStickyEnd && i === columns.length - 1 && hasItems}">
+                        'sticky-end': showColumnStickyEnd && i === columns.length - 1 && hasItems,
+                        'spacing-level': column.hasLevel}">
 
             <ng-container [ngSwitch]="column.type">
               <ng-container *ngSwitchCase="dataTableColumnType.check_box">
@@ -51,7 +52,7 @@
 
           </th>
 
-          <td mat-cell *matCellDef="let row;"
+          <td mat-cell *matCellDef="let row;" [style.--level]="row.level"
             [ngClass]="{'text-align-right': column.type === dataTableColumnType.decimal,
                         'info-text': column.type === dataTableColumnType.text_highlight,
                         'italic-text': column.type === dataTableColumnType.text_italic,
@@ -61,7 +62,10 @@
                         'column-action': column.type === dataTableColumnType.delete_button,
                         'sticky-start': showColumnStickyStart && i === 0,
                         'sticky-padding': showColumnStickyStart && i === 1,
-                        'sticky-end': showColumnStickyEnd && i === columns.length - 1}">
+                        'sticky-end': showColumnStickyEnd && i === columns.length - 1,
+                        'spacing-level': column.hasLevel,
+                        'shadow-cell': column.showShadow,
+                        'column-xs': column.size === 'xs'}">
 
             <ng-container [ngSwitch]="column.type">
               <ng-container *ngSwitchCase="dataTableColumnType.decimal">

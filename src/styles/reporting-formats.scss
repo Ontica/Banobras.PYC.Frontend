@@ -46,6 +46,19 @@ table.mat-mdc-table {
       padding-left: 8px;
     }
 
+    &.shadow-cell {
+      position: relative;
+      box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.1);
+      padding: 8px;
+    }
+
+    &.spacing-level {
+      padding-left: calc(16px * var(--level, 1));
+
+      @include small() {
+        padding-left: 16px;
+      }
+    }
   }
 
   th {
@@ -65,6 +78,10 @@ table.mat-mdc-table tr.mat-mdc-row {
     padding-top: 4px;
     padding-bottom: 4px;
     width: calc($checkbox-size + $grid-entry-padding-horizontal);
+  }
+
+  td.mat-mdc-cell.column-xs {
+    width: 7.5%;
   }
 
   td.mat-mdc-cell.column-sm {
@@ -130,16 +147,6 @@ table.mat-mdc-table tr.mat-mdc-row {
     td:first-of-type {
       border-right: $grid-nested-border;
     }
-  }
-
-  td.shadow-cell {
-    position: relative;
-    box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.1);
-    padding: 8px;
-  }
-
-  td.spacing-level {
-    padding-left: calc(16px * var(--level));
   }
 
   &:hover {
