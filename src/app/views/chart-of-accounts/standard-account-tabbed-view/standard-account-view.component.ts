@@ -11,8 +11,6 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { DateString, DateStringLibrary, EventInfo } from '@app/core';
 
-import { PERMISSIONS } from '@app/main-layout';
-
 import { FormHelper } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/services';
@@ -51,8 +49,6 @@ export class StandardAccountViewComponent implements OnChanges {
   @Input() actions: StandardAccountActions = EmptyStandardAccountActions;
 
   @Output() standardAccountViewEvent = new EventEmitter<EventInfo>();
-
-  permissions = PERMISSIONS;
 
   form: StandardAccountFormModel;
 

@@ -13,6 +13,8 @@ import { sendEvent } from '@app/shared/utils';
 
 import { StandardAccountHolder, EmptyStandardAccountHolder } from '@app/models';
 
+import { StandardAccountViewEventType } from './standard-account-view.component';
+
 import {
   FinancialAccountsEditionEventType
 } from '@app/views/financial-accounts/accounts-edition/financial-accounts-edition.component';
@@ -53,7 +55,7 @@ export class StandardAccountTabbedViewComponent implements OnChanges {
 
 
   onStandardAccountViewEvent(event: EventInfo) {
-    switch (event.type as StandardAccountTabbedViewEventType) {
+    switch (event.type as StandardAccountViewEventType) {
 
       default:
         console.log(`Unhandled user interface event ${event.type}`);
