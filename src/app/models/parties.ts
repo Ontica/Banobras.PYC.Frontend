@@ -9,7 +9,7 @@ import { Empty, Identifiable } from '@app/core';
 
 import { PERMISSIONS } from '@app/main-layout';
 
-import { EntityStatus, ExplorerOperation, ExplorerOperationType, ExplorerTypeConfig } from './_explorer-data';
+import { EntityStatus, ExplorerTypeConfig } from './_explorer-data';
 
 import { DataTable, DataTableColumn, DataTableColumnType } from './_data-table';
 
@@ -67,11 +67,9 @@ export interface PartiesQuery {
 
 export interface PartyDescriptor {
   uid: string;
-  code: string;
   typeUID: string;
   typeName: string;
   name: string;
-  commonName: string;
   statusName: string;
 }
 
@@ -88,7 +86,7 @@ export interface PartyFields {
 
 
 export interface PartyHolder {
-  party: Party;
+  party?: Party;
   actions: PartyActions;
 }
 
@@ -96,9 +94,7 @@ export interface PartyHolder {
 export interface Party {
   uid: string;
   type: Identifiable;
-  code: string;
   name: string;
-  commonName: string;
   status: Identifiable<EntityStatus>;
 }
 
@@ -118,18 +114,8 @@ export const EmptyPartiesQuery: PartiesQuery = {
 
 export const DefaultPartiesColumns: DataTableColumn[] = [
   {
-    field: 'code',
-    title: 'Clave',
-    type: DataTableColumnType.text_link,
-  },
-  {
     field: 'name',
     title: 'Nombre',
-    type: DataTableColumnType.text,
-  },
-  {
-    field: 'commonName',
-    title: 'Nombre común',
     type: DataTableColumnType.text,
   },
   {
@@ -155,9 +141,7 @@ export const EmptyPartiesDataTable: PartiesDataTable = {
 export const EmptyParty: Party = {
   uid: '',
   type: Empty,
-  code: '',
   name: '',
-  commonName: '',
   status: Empty,
 }
 
@@ -169,35 +153,16 @@ export const EmptyPartyActions: PartyActions = {
 
 
 export const EmptyPartyHolder: PartyHolder = {
-  party: EmptyParty,
   actions: EmptyPartyActions,
 }
-
-
-export const PartiesOperationsList: ExplorerOperation[] = [
-  {
-    uid: ExplorerOperationType.excel,
-    name: 'Exportar'
-  },
-  {
-    uid: ExplorerOperationType.delete,
-    name: 'Eliminar',
-    showConfirm: true,
-    isConfirmWarning: true,
-    confirmOperationMessage: 'eliminará',
-    confirmQuestionMessage: 'Elimino'
-  },
-];
 
 
 export function mapPartyDescriptorFromParty(party: Party): PartyDescriptor {
   return {
     uid: party.uid,
     typeUID: party.type.uid,
-    code: party.code,
     typeName: party.type.name,
     name: party.name,
-    commonName: party.commonName,
     statusName: party.status.name,
   };
 }

@@ -20,11 +20,11 @@ import { PartiesFilterEventType } from './parties-filter.component';
 
 
 export enum PartiesExplorerEventType {
-  CREATE_CLICKED            = 'PartiesExplorerComponent.Event.CreateClicked',
-  SEARCH_CLICKED            = 'PartiesExplorerComponent.Event.SearchClicked',
-  CLEAR_CLICKED             = 'PartiesExplorerComponent.Event.ClearClicked',
-  EXECUTE_OPERATION_CLICKED = 'PartiesExplorerComponent.Event.ExecuteOperationClicked',
-  SELECT_CLICKED            = 'PartiesExplorerComponent.Event.SelectClicked',
+  CREATE_CLICKED = 'PartiesExplorerComponent.Event.CreateClicked',
+  SEARCH_CLICKED = 'PartiesExplorerComponent.Event.SearchClicked',
+  CLEAR_CLICKED  = 'PartiesExplorerComponent.Event.ClearClicked',
+  EXPORT_CLICKED = 'PartiesExplorerComponent.Event.ExportClicked',
+  SELECT_CLICKED = 'PartiesExplorerComponent.Event.SelectClicked',
 }
 
 @Component({
@@ -90,6 +90,9 @@ export class PartiesExplorerComponent implements OnChanges {
         Assertion.assertValue(event.payload.entry, 'event.payload.entry');
         sendEvent(this.partiesExplorerEvent, PartiesExplorerEventType.SELECT_CLICKED,
           event.payload);
+        return;
+      case DataTableEventType.EXPORT_DATA:
+        sendEvent(this.partiesExplorerEvent, PartiesExplorerEventType.EXPORT_CLICKED);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

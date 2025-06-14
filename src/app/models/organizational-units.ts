@@ -5,11 +5,11 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Identifiable } from '@app/core';
+import { DateString, Empty, Identifiable } from '@app/core';
 
 import { DataTableColumn, DataTableColumnType } from './_data-table';
 
-import { mapPartyDescriptorFromParty, PartiesQuery, Party, PartyDescriptor } from './parties';
+import { PartiesQuery, Party, EmptyPartyActions, PartyDescriptor, PartyHolder, PartyActions } from './parties';
 
 
 export interface OrgUnitsQuery extends PartiesQuery {
@@ -18,6 +18,7 @@ export interface OrgUnitsQuery extends PartiesQuery {
 
 
 export interface OrgUnitDescriptor extends PartyDescriptor {
+
   fullName: string;
   responsibleName: string;
   level: number;
@@ -29,27 +30,48 @@ export interface OrgUnitDescriptor extends PartyDescriptor {
 
 
 export interface OrgUnit extends Party {
-  fullName: string;
+  code: string;
   responsible: Identifiable;
-  level: number;
   isLastLevel: boolean;
   startDate: DateString;
   endDate: DateString;
-  obsolete: boolean;
 }
 
 
-export function mapOrgUnitDescriptorFromOrgUnit(data: OrgUnit): OrgUnitDescriptor {
-  return {
-    ...mapPartyDescriptorFromParty(data),
-    fullName: data.fullName,
-    responsibleName: data.responsible.name,
-    level: data.level,
-    isLastLevel: data.isLastLevel,
-    startDate: data.startDate,
-    endDate: data.endDate,
-    obsolete: data.obsolete,
-  };
+export interface OrgUnitHolder extends PartyHolder {
+  organizationalUnit: OrgUnit;
+  accountabilities: AccountabilityDescriptor[];
+  actions: PartyActions;
+}
+
+
+export interface AccountabilityDescriptor {
+  uid: string;
+  responsibleName: string;
+  roleName: string;
+  commissionerName: string;
+  startDate: DateString;
+  endDate: DateString;
+}
+
+
+export const EmptyOrgUnit: OrgUnit = {
+  uid: '',
+  type: Empty,
+  name: '',
+  status: Empty,
+  code: '',
+  responsible: Empty,
+  isLastLevel: false,
+  startDate: '',
+  endDate: '',
+}
+
+
+export const EmptyOrgUnitHolder: OrgUnitHolder = {
+  organizationalUnit: EmptyOrgUnit,
+  accountabilities: [],
+  actions: EmptyPartyActions,
 }
 
 

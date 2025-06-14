@@ -20,13 +20,15 @@ import { MessageBoxService } from '@app/shared/services';
 import { PartiesDataService } from '@app/data-services';
 
 import { DataTableColumn, DefaultOrgUnitsColumns, DefaultPartiesColumns, DefaultSuppliersColumns,
-         EmptyPartiesDataTable, EmptyPartiesQuery, EmptyPartyExplorerTypeConfig, ExplorerTypeConfig,
-         getPartyExplorerTypeConfig, PartiesDataTable, PartiesQuery, PartyDescriptor,
-         PartyObjectTypes } from '@app/models';
+         EmptyPartiesDataTable, EmptyPartiesQuery, EmptyPartyExplorerTypeConfig, EmptyPartyHolder,
+         ExplorerTypeConfig, getPartyExplorerTypeConfig, OrgUnitHolder, PartiesDataTable, PartiesQuery,
+         PartyDescriptor, PartyHolder, PartyObjectTypes, SupplierHolder } from '@app/models';
 
 import {
   PartiesExplorerEventType
 } from '@app/views/parties/parties-explorer/parties-explorer.component';
+
+import { PartyTabbedViewEventType } from '../party-tabbed-view/party-tabbed-view.component';
 
 
 @Component({
@@ -43,9 +45,16 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
 
   data: PartiesDataTable = Object.assign({}, EmptyPartiesDataTable);
 
+  selectedData: PartyHolder = EmptyPartyHolder;
+
+  displayTabbedView = false;
+
   isLoading = false;
 
+  isLoadingSelection = false;
+
   queryExecuted = false;
+
 
   constructor(private uiLayer: PresentationLayer,
               private partiesData: PartiesDataService,
@@ -61,6 +70,18 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.helper.destroy();
+  }
+
+
+  get selectedDataUID(): string {
+    switch (this.config.type) {
+      case PartyObjectTypes.SUPPLIER:
+        return (this.selectedData as SupplierHolder)?.supplier?.uid ?? null;
+      case PartyObjectTypes.ORGANIZATIONAL_UNITS:
+        return (this.selectedData as OrgUnitHolder)?.organizationalUnit?.uid ?? null;
+      default:
+        return this.selectedData?.party?.uid ?? null;
+    }
   }
 
 
@@ -80,8 +101,22 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
         return;
       case PartiesExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.entry, ' event.payload.entry');
-        this.messageBox.showInDevelopment('Seleccionar ' + this.config.nameSingular.toLowerCase(),
-          event.payload.entry);
+        this.validateGetParty(event.payload.entry.uid);
+        return;
+      case PartiesExplorerEventType.EXPORT_CLICKED:
+        this.messageBox.showInDevelopment('Exportar ' + this.config.namePlural.toLowerCase());
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onPartyTabbedViewEvent(event: EventInfo) {
+    switch (event.type as PartyTabbedViewEventType) {
+      case PartyTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyPartyHolder, false);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -116,16 +151,27 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
 
 
   private validateSearchParties() {
-    let observable = null;
-
     switch (this.config.type) {
       case PartyObjectTypes.SUPPLIER:
-        observable = this.partiesData.searchSuppliers(this.query)
-        this.executeSearchParties(observable);
+        this.executeSearchParties(this.partiesData.searchSuppliers(this.query));
         return;
       case PartyObjectTypes.ORGANIZATIONAL_UNITS:
-        observable = this.partiesData.searchOrgUnits(this.query);
-        this.executeSearchParties(observable);
+        this.executeSearchParties(this.partiesData.searchOrgUnits(this.query));
+        return;
+      default:
+        this.messageBox.showInDevelopment('Buscar ' + this.config.namePlural.toLowerCase());
+        return;
+    }
+  }
+
+
+  private validateGetParty(partyUID: string) {
+    switch (this.config.type) {
+      case PartyObjectTypes.SUPPLIER:
+        this.executeGetParty(this.partiesData.getSupplier(partyUID));
+        return;
+      case PartyObjectTypes.ORGANIZATIONAL_UNITS:
+        this.executeGetParty(this.partiesData.getOrgUnit(partyUID));
         return;
       default:
         this.messageBox.showInDevelopment('Buscar ' + this.config.namePlural.toLowerCase());
@@ -141,6 +187,16 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
       .firstValue()
       .then(x => this.setData(x, true))
       .finally(() => this.isLoading = false);
+  }
+
+
+  private executeGetParty(observable: EmpObservable<PartyHolder>) {
+    this.isLoadingSelection = true;
+
+    observable
+      .firstValue()
+      .then(x => this.setSelectedData(x, true))
+      .finally(() => this.isLoadingSelection = false);
   }
 
 
@@ -164,6 +220,12 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
   private setData(data: PartyDescriptor[], queryExecuted: boolean = true) {
     this.data = Object.assign({}, this.data, { query: this.query, entries: data });
     this.queryExecuted = queryExecuted;
+  }
+
+
+  private setSelectedData(data: PartyHolder, display: boolean) {
+    this.selectedData = data;
+    this.displayTabbedView = display;
   }
 
 

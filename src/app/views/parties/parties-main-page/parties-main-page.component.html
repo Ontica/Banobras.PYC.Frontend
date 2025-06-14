@@ -1,14 +1,27 @@
+<emp-ng-spinner #spinner [visible]="isLoadingSelection">
+
+</emp-ng-spinner>
+
 <div class="explorer">
 
   <emp-ng-parties-explorer
     class="primary priority"
+    [class.std-hide]="displayTabbedView"
     [config]="config"
     [query]="query"
     [data]="data"
+    [selectedUID]="selectedDataUID"
     [isLoading]="isLoading"
     [queryExecuted]="queryExecuted"
     (partiesExplorerEvent)="onPartiesExplorerEvent($event)">
-
   </emp-ng-parties-explorer>
+
+
+  <emp-ng-party-tabbed-view *ngIf="displayTabbedView"
+    class="secondary std-stacked"
+    [config]="config"
+    [data]="selectedData"
+    (partyTabbedViewEvent)="onPartyTabbedViewEvent($event)">
+  </emp-ng-party-tabbed-view>
 
 </div>

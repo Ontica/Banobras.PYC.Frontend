@@ -1,0 +1,61 @@
+<emp-ng-card
+  [title]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab [label]="config.nameSingular">
+
+      <emp-cf-party-view
+        [config]="config"
+        [data]="party"
+        [actions]="data.actions"
+        (partyViewEvent)="onPartyViewEvent($event)">
+      </emp-cf-party-view>
+
+    </mat-tab>
+
+    <mat-tab label="Responsabilidades" *ngIf="config.type === partyObjectTypes.ORGANIZATIONAL_UNITS">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Puestos" *ngIf="config.type === partyObjectTypes.ORGANIZATIONAL_UNITS">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Cuentas" *ngIf="config.type === partyObjectTypes.SUPPLIER">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Documentos" *ngIf="config.type === partyObjectTypes.SUPPLIER">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Historial" *ngIf="config.type === partyObjectTypes.SUPPLIER">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

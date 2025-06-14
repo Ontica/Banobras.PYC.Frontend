@@ -1,0 +1,69 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div [class]="displayOrgUnitFields ? 'fx-item-half' : 'fx-item-one'">
+        <label>Tipo de {{config.nameSingular}}:</label>
+        <input type="text" class="text-box"
+          formControlName="type"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+      <ng-container *ngIf="displayOrgUnitFields">
+
+        <div class="fx-item"> </div>
+
+        <div class="fx-item-none fx-row-container fx-end">
+          <div class="fx-item-size" style="--size: 100px">
+            <label>Fecha de alta:</label>
+            <input type="text" class="text-box"
+              formControlName="startDate">
+          </div>
+
+          <div class="fx-item-size" style="--size: 100px">
+            <label>Fecha de baja:</label>
+            <input type="text" class="text-box"
+              formControlName="endDate">
+          </div>
+        </div>
+
+      </ng-container>
+
+    </div>
+
+    <div class="fx-row-container" *ngIf="displayOrgUnitFields">
+
+      <div class="fx-item">
+        <label>Código:</label>
+        <input type="text" class="text-box"
+          formControlName="code"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+      <div class="fx-item-half">
+        <label>Responsable:</label>
+        <input type="text" class="text-box"
+          formControlName="responsible"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Nombre:</label>
+        <input type="text" class="text-box"
+          formControlName="name"
+          [title]="form.getRawValue().name"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

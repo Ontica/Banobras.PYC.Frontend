@@ -12,11 +12,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
+import { EntityRecordsModule } from '../entity-records/entity-records.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
 import { PartiesMainPageComponent } from './parties-main-page/parties-main-page.component';
 import { PartiesExplorerComponent } from './parties-explorer/parties-explorer.component';
 import { PartiesFilterComponent } from './parties-explorer/parties-filter.component';
+import { PartyTabbedViewComponent } from './party-tabbed-view/party-tabbed-view.component';
+import { PartyViewComponent } from './party-tabbed-view/party-view.component';
 
 
 @NgModule({
@@ -28,12 +31,15 @@ import { PartiesFilterComponent } from './parties-explorer/parties-filter.compon
     AngularMaterialModule,
     SharedModule,
 
+    EntityRecordsModule,
     ReportsControlsModule,
   ],
   declarations: [
     PartiesMainPageComponent,
     PartiesExplorerComponent,
     PartiesFilterComponent,
+    PartyTabbedViewComponent,
+    PartyViewComponent,
   ],
   exports: [
     PartiesMainPageComponent,
