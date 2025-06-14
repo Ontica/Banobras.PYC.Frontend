@@ -14,6 +14,7 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { EntityRecordsModule } from '../entity-records/entity-records.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
+import { OrganizationalUnitsModule } from '../organizational-units/organizational-units.module';
 
 import { PartiesMainPageComponent } from './parties-main-page/parties-main-page.component';
 import { PartiesExplorerComponent } from './parties-explorer/parties-explorer.component';
@@ -33,6 +34,7 @@ import { PartyViewComponent } from './party-tabbed-view/party-view.component';
 
     EntityRecordsModule,
     ReportsControlsModule,
+    OrganizationalUnitsModule,
   ],
   declarations: [
     PartiesMainPageComponent,

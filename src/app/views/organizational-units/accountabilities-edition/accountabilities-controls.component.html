@@ -1,0 +1,30 @@
+  <div class="fx-row-container fx-space-between fx-items-center">
+
+    <div class="fx-item-quarter sm-fx-item-half">
+
+      <div class="input-icon-container">
+
+        <input #filterInput type="text" class="text-box" name="filterInput" autocomplete="off"
+          [(ngModel)]="filter"
+          placeholder="Buscar en resultado..."
+          (keyup.enter)="onFilterChanged()"
+          (keyup.escape)="onClearFilter()">
+
+        <mat-icon class="input-icon" (click)="onFilterChanged()">search</mat-icon>
+
+      </div>
+
+    </div>
+
+    <div class="fx-item">
+
+    </div>
+
+
+    <button *ngIf="canEdit"
+      class="btn-action"
+      (click)="onCreateClicked()">
+      Agregar responsabilidad
+    </button>
+
+  </div>

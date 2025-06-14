@@ -18,9 +18,11 @@
 
     <mat-tab label="Responsabilidades" *ngIf="config.type === partyObjectTypes.ORGANIZATIONAL_UNITS">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-accountabilities-edition
+        [data]="orgUnitHolder.accountabilities"
+        [canEdit]="true"
+        (accountabilitiesEditionEvent)="onAccountabilitiesEditionEvent($event)">
+      </emp-ng-accountabilities-edition>
 
     </mat-tab>
 

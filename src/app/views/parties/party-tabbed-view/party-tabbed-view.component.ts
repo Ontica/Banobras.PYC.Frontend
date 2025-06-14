@@ -16,6 +16,10 @@ import { EmptyPartyExplorerTypeConfig, EmptyPartyHolder, ExplorerTypeConfig, Org
 
 import { PartyViewEventType } from './party-view.component';
 
+import {
+  AccountabilitiesEditionEventType
+} from '@app/views/organizational-units/accountabilities-edition/accountabilities-edition.component';
+
 
 export enum PartyTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'PartyTabbedViewComponent.Event.CloseButtonClicked',
@@ -79,6 +83,16 @@ export class PartyTabbedViewComponent implements OnChanges {
 
   onPartyViewEvent(event: EventInfo) {
     switch (event.type as PartyViewEventType) {
+
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onAccountabilitiesEditionEvent(event: EventInfo) {
+    switch (event.type as AccountabilitiesEditionEventType) {
 
       default:
         console.log(`Unhandled user interface event ${event.type}`);
