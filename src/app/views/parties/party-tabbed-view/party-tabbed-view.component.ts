@@ -7,7 +7,7 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { DateStringLibrary, EventInfo, isEmpty } from '@app/core';
+import { Assertion, DateStringLibrary, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -46,11 +46,19 @@ export class PartyTabbedViewComponent implements OnChanges {
 
   selectedTabIndex = 0;
 
-  partyObjectTypes = PartyObjectTypes;
-
 
   ngOnChanges() {
     this.validateSetTitle();
+  }
+
+
+  get displayOrgUnitData(): boolean {
+    return this.config.type === PartyObjectTypes.ORGANIZATIONAL_UNITS
+  }
+
+
+  get displaySupplierData(): boolean {
+    return this.config.type === PartyObjectTypes.SUPPLIER;
   }
 
 
@@ -66,12 +74,9 @@ export class PartyTabbedViewComponent implements OnChanges {
 
   get party(): Party {
     switch (this.config.type) {
-      case PartyObjectTypes.ORGANIZATIONAL_UNITS:
-        return this.orgUnitHolder.organizationalUnit;
-      case PartyObjectTypes.SUPPLIER:
-        return this.supplierHolder.supplier;
-      default:
-        return this.data.party;
+      case PartyObjectTypes.ORGANIZATIONAL_UNITS: return this.orgUnitHolder.organizationalUnit;
+      case PartyObjectTypes.SUPPLIER: return this.supplierHolder.supplier;
+      default: return this.data.party;
     }
   }
 
@@ -83,7 +88,6 @@ export class PartyTabbedViewComponent implements OnChanges {
 
   onPartyViewEvent(event: EventInfo) {
     switch (event.type as PartyViewEventType) {
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -93,7 +97,10 @@ export class PartyTabbedViewComponent implements OnChanges {
 
   onAccountabilitiesEditionEvent(event: EventInfo) {
     switch (event.type as AccountabilitiesEditionEventType) {
-
+      case AccountabilitiesEditionEventType.UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        sendEvent(this.partyTabbedViewEvent, PartyTabbedViewEventType.DATA_UPDATED, event.payload);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

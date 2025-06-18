@@ -21,3 +21,12 @@
   </emp-ng-accountabilities-table>
 
 </div>
+
+
+<emp-ng-accountability-editor *ngIf="displayEditor"
+  [commissionerUID]="commissionerUID"
+  [accountability]="selectedData"
+  [canUpdate]="canEdit"
+  (accountabilityEditorEvent)="onAccountabilityEditorEvent($event)">
+
+</emp-ng-accountability-editor>

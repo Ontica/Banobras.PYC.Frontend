@@ -163,6 +163,6 @@ export function mapPartyDescriptorFromParty(party: Party): PartyDescriptor {
     typeUID: party.type.uid,
     typeName: party.type.name,
     name: party.name,
-    statusName: party.status.name,
+    statusName: party.status?.name ?? null,
   };
 }

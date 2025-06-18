@@ -9,7 +9,12 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { DataTableColumn, DataTableColumnType } from './_data-table';
 
-import { PartiesQuery, Party, EmptyPartyActions, PartyDescriptor, PartyHolder, PartyActions } from './parties';
+import { EntityStatus } from './_explorer-data';
+
+import { AccountabilityDescriptor } from './accountability';
+
+import { mapPartyDescriptorFromParty, PartiesQuery, Party, PartyDescriptor, PartyHolder,
+         PartyActions } from './parties';
 
 
 export interface OrgUnitsQuery extends PartiesQuery {
@@ -18,40 +23,65 @@ export interface OrgUnitsQuery extends PartiesQuery {
 
 
 export interface OrgUnitDescriptor extends PartyDescriptor {
-
+  uid: string;
+  typeName: string;
+  code: string;
+  name: string;
   fullName: string;
+  parentName: string;
   responsibleName: string;
-  level: number;
-  isLastLevel: boolean;
   startDate: DateString;
   endDate: DateString;
+  level: number;
+  isLastLevel: boolean;
   obsolete: boolean;
+  statusName: string;
 }
 
 
 export interface OrgUnit extends Party {
+  uid: string;
+  type: Identifiable;
   code: string;
+  name: string;
+  fullName: string;
+  parent: Identifiable;
   responsible: Identifiable;
-  isLastLevel: boolean;
   startDate: DateString;
   endDate: DateString;
+  level: number;
+  isLastLevel: boolean;
+  obsolete: boolean;
+  status: Identifiable<EntityStatus>;
+}
+
+
+export interface OrgUnitActions extends PartyActions {
+  canUpdate: boolean;
+  canDelete: boolean;
 }
 
 
 export interface OrgUnitHolder extends PartyHolder {
   organizationalUnit: OrgUnit;
   accountabilities: AccountabilityDescriptor[];
-  actions: PartyActions;
+  actions: OrgUnitActions;
 }
 
 
-export interface AccountabilityDescriptor {
-  uid: string;
-  responsibleName: string;
-  roleName: string;
-  commissionerName: string;
-  startDate: DateString;
-  endDate: DateString;
+export function mapOrgUnitDescriptorFromOrgUnit(data: OrgUnitHolder): OrgUnitDescriptor {
+  return {
+    ...mapPartyDescriptorFromParty(data.organizationalUnit),
+    code: data.organizationalUnit.code,
+    fullName: data.organizationalUnit.fullName,
+    responsibleName: data.organizationalUnit.responsible.name,
+    parentName: data.organizationalUnit.parent.name,
+    level: data.organizationalUnit.level,
+    isLastLevel: data.organizationalUnit.isLastLevel,
+    startDate: data.organizationalUnit.startDate,
+    endDate: data.organizationalUnit.endDate,
+    obsolete: data.organizationalUnit.obsolete,
+  };
 }
 
 
@@ -61,17 +91,27 @@ export const EmptyOrgUnit: OrgUnit = {
   name: '',
   status: Empty,
   code: '',
+  parent: Empty,
   responsible: Empty,
   isLastLevel: false,
   startDate: '',
   endDate: '',
+  fullName: '',
+  level: null,
+  obsolete: false,
 }
+
+
+export const EmptyOrgUnitActions: OrgUnitActions = {
+  canUpdate: false,
+  canDelete: false,
+};
 
 
 export const EmptyOrgUnitHolder: OrgUnitHolder = {
   organizationalUnit: EmptyOrgUnit,
   accountabilities: [],
-  actions: EmptyPartyActions,
+  actions: EmptyOrgUnitActions,
 }
 
 

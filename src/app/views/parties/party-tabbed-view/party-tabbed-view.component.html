@@ -16,13 +16,14 @@
 
     </mat-tab>
 
-    <mat-tab label="Responsabilidades" *ngIf="config.type === partyObjectTypes.ORGANIZATIONAL_UNITS">
+    <mat-tab label="Responsabilidades" *ngIf="displayOrgUnitData">
 
       <ng-template matTabContent>
 
         <emp-ng-accountabilities-edition
+          [commissionerUID]="orgUnitHolder.organizationalUnit.uid"
           [data]="orgUnitHolder.accountabilities"
-          [canEdit]="true"
+          [canEdit]="orgUnitHolder.actions?.canUpdate"
           (accountabilitiesEditionEvent)="onAccountabilitiesEditionEvent($event)">
         </emp-ng-accountabilities-edition>
 
@@ -30,7 +31,7 @@
 
     </mat-tab>
 
-    <mat-tab label="Puestos" *ngIf="config.type === partyObjectTypes.ORGANIZATIONAL_UNITS">
+    <mat-tab label="Puestos" *ngIf="displayOrgUnitData">
 
       <div class="instruction-text">
         No se encontraron registros.
@@ -38,7 +39,7 @@
 
     </mat-tab>
 
-    <mat-tab label="Cuentas" *ngIf="config.type === partyObjectTypes.SUPPLIER">
+    <mat-tab label="Cuentas" *ngIf="displaySupplierData">
 
       <div class="instruction-text">
         No se encontraron registros.
@@ -46,7 +47,7 @@
 
     </mat-tab>
 
-    <mat-tab label="Documentos" *ngIf="config.type === partyObjectTypes.SUPPLIER">
+    <mat-tab label="Documentos" *ngIf="displaySupplierData">
 
       <div class="instruction-text">
         No se encontraron registros.
@@ -54,7 +55,7 @@
 
     </mat-tab>
 
-    <mat-tab label="Historial" *ngIf="config.type === partyObjectTypes.SUPPLIER">
+    <mat-tab label="Historial" *ngIf="displaySupplierData">
 
       <div class="instruction-text">
         No se encontraron registros.

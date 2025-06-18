@@ -47,13 +47,13 @@ export interface SupplierHolder extends PartyHolder {
 }
 
 
-export function mapSupplierDescriptorFromSupplier(supplier: Supplier): SupplierDescriptor {
+export function mapSupplierDescriptorFromSupplier(data: SupplierHolder): SupplierDescriptor {
   return {
-    ...mapPartyDescriptorFromParty(supplier),
-    commonName: supplier.commonName,
-    taxCode: supplier.taxCode,
-    taxZipCode: supplier.taxZipCode,
-    taxEntityName: supplier.taxEntityName,
+    ...mapPartyDescriptorFromParty(data.supplier),
+    commonName: data.supplier.commonName,
+    taxCode: data.supplier.taxCode,
+    taxZipCode: data.supplier.taxZipCode,
+    taxEntityName: data.supplier.taxEntityName,
   };
 }
 

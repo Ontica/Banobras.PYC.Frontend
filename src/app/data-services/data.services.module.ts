@@ -11,6 +11,8 @@ import { AccessControlDataService } from './_access-control.data.service';
 
 import { SearcherDataService } from './_searcher.data.service';
 
+import { AccountabilityDataService } from './accountability.data.service';
+
 import { AssetsDataService } from './assets.data.service';
 
 import { AssetsTransactionsDataService } from './assets-transactions.data.service';
@@ -55,6 +57,7 @@ import { SuppliersDataService } from './suppliers.data.service';
   providers: [
     AccessControlDataService,
     SearcherDataService,
+    AccountabilityDataService,
     AssetsDataService,
     AssetsTransactionsDataService,
     BillsDataService,

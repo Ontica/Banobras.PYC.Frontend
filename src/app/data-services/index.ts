@@ -9,6 +9,8 @@ export * from './_access-control.data.service';
 
 export * from './_searcher.data.service';
 
+export * from './accountability.data.service';
+
 export * from './assets.data.service';
 
 export * from './assets-transactions.data.service';

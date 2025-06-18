@@ -15,6 +15,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { AccountabilitiesEditionComponent } from './accountabilities-edition/accountabilities-edition.component';
 import { AccountabilitiesControlsComponent } from './accountabilities-edition/accountabilities-controls.component';
 import { AccountabilitiesTableComponent } from './accountabilities-edition/accountabilities-table.component';
+import { AccountabilityEditorComponent } from './accountabilities-edition/accountability-editor.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { AccountabilitiesTableComponent } from './accountabilities-edition/accou
     AccountabilitiesEditionComponent,
     AccountabilitiesControlsComponent,
     AccountabilitiesTableComponent,
+    AccountabilityEditorComponent,
 
   ],
   exports: [

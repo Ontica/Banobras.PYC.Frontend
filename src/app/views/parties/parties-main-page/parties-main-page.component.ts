@@ -15,14 +15,17 @@ import { MainUIStateSelector } from '@app/presentation/exported.presentation.typ
 
 import { View } from '@app/main-layout';
 
+import { ArrayLibrary } from '@app/shared/utils';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { PartiesDataService } from '@app/data-services';
 
 import { DataTableColumn, DefaultOrgUnitsColumns, DefaultPartiesColumns, DefaultSuppliersColumns,
          EmptyPartiesDataTable, EmptyPartiesQuery, EmptyPartyExplorerTypeConfig, EmptyPartyHolder,
-         ExplorerTypeConfig, getPartyExplorerTypeConfig, OrgUnitHolder, PartiesDataTable, PartiesQuery,
-         PartyDescriptor, PartyHolder, PartyObjectTypes, SupplierHolder } from '@app/models';
+         ExplorerTypeConfig, getPartyExplorerTypeConfig, mapOrgUnitDescriptorFromOrgUnit,
+         mapPartyDescriptorFromParty, mapSupplierDescriptorFromSupplier, OrgUnitHolder, PartiesDataTable,
+         PartiesQuery, PartyDescriptor, PartyHolder, PartyObjectTypes, SupplierHolder } from '@app/models';
 
 import {
   PartiesExplorerEventType
@@ -118,6 +121,10 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
       case PartyTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedData(EmptyPartyHolder, false);
         return;
+      case PartyTabbedViewEventType.DATA_UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.insertItemToList(event.payload.data as PartyHolder);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -203,6 +210,7 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
   private setQueryAndClearExplorerData(query: PartiesQuery) {
     this.query = Object.assign({}, query);
     this.setData([], false);
+    this.setSelectedData(EmptyPartyHolder, false);
   }
 
 
@@ -214,6 +222,18 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
   private setDataColumns() {
     const columns = this.getDataColumnsByConfig();
     this.data = Object.assign({}, this.data, { columns });
+  }
+
+
+  private getDataColumnsByConfig(): DataTableColumn[] {
+    switch (this.config.type) {
+      case PartyObjectTypes.SUPPLIER:
+        return DefaultSuppliersColumns;
+      case PartyObjectTypes.ORGANIZATIONAL_UNITS:
+        return DefaultOrgUnitsColumns;
+      default:
+        return DefaultPartiesColumns;
+    }
   }
 
 
@@ -229,14 +249,22 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
   }
 
 
-  private getDataColumnsByConfig(): DataTableColumn[] {
+  private insertItemToList(data: PartyHolder) {
+    const dataToInsert = this.mapPartyDescriptorFromPartyType(data);
+    const dataListNew = ArrayLibrary.insertItemTop(this.data.entries, dataToInsert, 'uid');
+    this.setData(dataListNew);
+    this.setSelectedData(data, true);
+  }
+
+
+  private mapPartyDescriptorFromPartyType(data: PartyHolder): PartyDescriptor {
     switch (this.config.type) {
       case PartyObjectTypes.SUPPLIER:
-        return DefaultSuppliersColumns;
+        return mapSupplierDescriptorFromSupplier(data as SupplierHolder);
       case PartyObjectTypes.ORGANIZATIONAL_UNITS:
-        return DefaultOrgUnitsColumns;
+        return mapOrgUnitDescriptorFromOrgUnit(data as OrgUnitHolder);
       default:
-        return DefaultPartiesColumns;
+        return mapPartyDescriptorFromParty(data.party);
     }
   }
 

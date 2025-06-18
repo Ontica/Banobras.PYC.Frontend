@@ -24,6 +24,7 @@ export enum SearcherAPIS {
   cashFlowProjects            = 'v1/cash-flow/projects/',
   cashFlowProjectionsParties  = 'v1/cash-flow/projections/parties/',
   payableEntities             = 'v2/payments-management/payable-entities/search',
+  partyResponsables           = 'v8/human-resources/accountabilities/responsibles/search-available',
   productBudgetSegments       = 'v8/product-management/budget-segments/available',
   productManagers             = 'v8/product-management/primary-party/product-managers/',
   products                    = 'v8/product-management/products/search/',
