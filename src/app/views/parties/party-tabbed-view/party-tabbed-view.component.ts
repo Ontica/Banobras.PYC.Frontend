@@ -107,7 +107,6 @@ export class PartyTabbedViewComponent implements OnChanges {
         return this.setPartyTitle(this.supplierHolder.supplier);
       case PartyObjectTypes.ORGANIZATIONAL_UNITS:
         return this.setOrgUnitTitle(this.orgUnitHolder.organizationalUnit);
-      case PartyObjectTypes.SUPPLIER:
       default:
         return this.setPartyTitle(this.data.party ?? null);
     }

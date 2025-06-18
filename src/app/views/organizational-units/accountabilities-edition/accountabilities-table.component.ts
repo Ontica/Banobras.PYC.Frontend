@@ -39,7 +39,7 @@ export class AccountabilitiesTableComponent implements OnChanges {
 
   @Output() accountabilitiesTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault = ['roleName', 'responsibleName', 'commissionerName', 'startDate', 'endDate'];
+  displayedColumnsDefault = ['roleName', 'responsibleName', 'startDate', 'endDate'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
