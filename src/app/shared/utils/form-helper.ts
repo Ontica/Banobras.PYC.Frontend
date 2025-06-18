@@ -105,4 +105,13 @@ export class FormHelper {
     return condition ? 'Seleccionar' : `Seleccione ${fieldName}`;
   }
 
+
+  static getConditionalSearcherPlaceholder(editionMode: boolean, condition: boolean, fieldName: string): string {
+    if (!editionMode) {
+      return 'No determinado';
+    }
+
+    return condition ? 'Buscar...' : `Seleccione ${fieldName}`;
+  }
+
 }
