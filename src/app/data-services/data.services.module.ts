@@ -9,6 +9,8 @@ import { NgModule } from '@angular/core';
 
 import { AccessControlDataService } from './_access-control.data.service';
 
+import { SubjectAccountabilitiesDataService } from './_subject-accountabilities.data.service';
+
 import { SearcherDataService } from './_searcher.data.service';
 
 import { AccountabilitiesDataService } from './accountabilities.data.service';
@@ -56,6 +58,7 @@ import { SuppliersDataService } from './suppliers.data.service';
 
   providers: [
     AccessControlDataService,
+    SubjectAccountabilitiesDataService,
     SearcherDataService,
     AccountabilitiesDataService,
     AssetsDataService,

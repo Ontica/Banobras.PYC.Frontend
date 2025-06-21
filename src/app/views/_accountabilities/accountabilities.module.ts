@@ -16,6 +16,7 @@ import { AccountabilitiesControlsComponent } from './accountabilities-edition/ac
 import { AccountabilitiesTableComponent } from './accountabilities-edition/accountabilities-table.component';
 import { AccountabilityEditorComponent } from './accountabilities-edition/accountability-editor.component';
 import { CommisionerAccountabilitiesEditionComponent } from './commissioner-accountabilities/commissioner-accountabilities-edition.component';
+import { SubjectAccountabilitiesEditionComponent } from './subject-accountabilities/subject-accountabilities-edition.component';
 
 
 @NgModule({
@@ -32,9 +33,11 @@ import { CommisionerAccountabilitiesEditionComponent } from './commissioner-acco
     AccountabilitiesTableComponent,
     AccountabilityEditorComponent,
     CommisionerAccountabilitiesEditionComponent,
+    SubjectAccountabilitiesEditionComponent,
   ],
   exports: [
     CommisionerAccountabilitiesEditionComponent,
+    SubjectAccountabilitiesEditionComponent,
   ],
 })
 export class AccountabilitiesModule { }

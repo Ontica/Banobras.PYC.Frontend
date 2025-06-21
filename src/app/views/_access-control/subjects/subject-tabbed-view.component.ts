@@ -19,6 +19,10 @@ import { SubjectEditorEventType } from './subject-editor.component';
 
 import { SubjectContextsEventType } from './subject-contexts.component';
 
+import {
+  SubjectAccountabilitiesEditionEventType
+} from '@app/views/_accountabilities/subject-accountabilities/subject-accountabilities-edition.component';
+
 
 export enum SubjectTabbedViewEventType {
   SUBJECT_UPDATED = 'SubjectTabbedViewComponent.Event.SubjectUpdated',
@@ -74,17 +78,14 @@ export class SubjectTabbedViewComponent implements OnChanges {
 
   onSubjectEditorEvent(event: EventInfo) {
     switch (event.type as SubjectEditorEventType) {
-
       case SubjectEditorEventType.SUBJECT_UPDATED:
         sendEvent(this.subjectTabbedViewEvent, SubjectTabbedViewEventType.SUBJECT_UPDATED,
           event.payload);
         return;
-
       case SubjectEditorEventType.SUBJECT_DELETED:
         sendEvent(this.subjectTabbedViewEvent, SubjectTabbedViewEventType.SUBJECT_DELETED,
           event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -98,7 +99,18 @@ export class SubjectTabbedViewComponent implements OnChanges {
         Assertion.assertValue(event.payload.subjectContexts, 'event.payload.subjectContexts');
         this.setSubjectContextsList(event.payload.subjectContexts);
         return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
 
+
+  onAccountabilitiesEditionEvent(event: EventInfo) {
+    switch (event.type as SubjectAccountabilitiesEditionEventType) {
+      case SubjectAccountabilitiesEditionEventType.UPDATED:
+        Assertion.assertValue(event.payload.subjectUID, 'event.payload.subjectUID');
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

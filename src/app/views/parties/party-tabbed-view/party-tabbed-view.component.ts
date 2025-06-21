@@ -17,7 +17,7 @@ import { EmptyPartyExplorerTypeConfig, EmptyPartyHolder, ExplorerTypeConfig, Org
 import { PartyViewEventType } from './party-view.component';
 
 import {
-  AccountabilitiesEditionEventType
+  CommisionerAccountabilitiesEditionEventType
 } from '@app/views/_accountabilities/commissioner-accountabilities/commissioner-accountabilities-edition.component';
 
 
@@ -96,8 +96,8 @@ export class PartyTabbedViewComponent implements OnChanges {
 
 
   onAccountabilitiesEditionEvent(event: EventInfo) {
-    switch (event.type as AccountabilitiesEditionEventType) {
-      case AccountabilitiesEditionEventType.UPDATED:
+    switch (event.type as CommisionerAccountabilitiesEditionEventType) {
+      case CommisionerAccountabilitiesEditionEventType.UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         sendEvent(this.partyTabbedViewEvent, PartyTabbedViewEventType.DATA_UPDATED, event.payload);
         return;

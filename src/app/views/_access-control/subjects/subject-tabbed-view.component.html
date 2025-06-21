@@ -61,6 +61,20 @@
 
     </mat-tab>
 
+    <mat-tab label="Responsabilidades">
+
+      <ng-template matTabContent>
+
+        <emp-ng-subject-accountabilities-edition
+          [subjectUID]="subject.uid"
+          [canEdit]="!isDeleted && canEdit"
+          (accountabilitiesEditionEvent)="onAccountabilitiesEditionEvent($event)">
+        </emp-ng-subject-accountabilities-edition>
+
+      </ng-template>
+
+    </mat-tab>
+
   </mat-tab-group>
 
 </div>

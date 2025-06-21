@@ -20,7 +20,7 @@
 
 export * from './_access-control';
 
-export * from './_accountability';
+export * from './_accountabilities';
 
 export * from './_data-table';
 

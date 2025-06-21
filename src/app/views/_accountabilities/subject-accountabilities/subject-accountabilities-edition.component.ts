@@ -9,13 +9,15 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
+import { combineLatest } from 'rxjs';
+
 import { SkipIf } from '@app/shared/decorators';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { AccountabilitiesDataService } from '@app/data-services';
+import { SubjectAccountabilitiesDataService } from '@app/data-services';
 
-import { Accountability, AccountabilityDescriptor, EmptyAccountability, OrgUnitHolder, PartyRelationFields,
+import { Accountability, AccountabilityDescriptor, EmptyAccountability, PartyRelationFields,
          PartyRelationType } from '@app/models';
 
 import { AccountabilitiesControlsEventType } from '../accountabilities-edition/accountabilities-controls.component';
@@ -25,24 +27,24 @@ import { AccountabilityEditorEventType } from '../accountabilities-edition/accou
 import { AccountabilitiesTableEventType } from '../accountabilities-edition/accountabilities-table.component';
 
 
-export enum CommisionerAccountabilitiesEditionEventType {
-  UPDATED = 'CommisionerAccountabilitiesEditionComponent.Event.Updated',
+export enum SubjectAccountabilitiesEditionEventType {
+  UPDATED = 'SubjectAccountabilitiesEditionComponent.Event.Updated',
 }
 
 
 @Component({
-  selector: 'emp-ng-commisioner-accountabilities-edition',
-  templateUrl: './commissioner-accountabilities-edition.component.html',
+  selector: 'emp-ng-subject-accountabilities-edition',
+  templateUrl: './subject-accountabilities-edition.component.html',
 })
-export class CommisionerAccountabilitiesEditionComponent implements OnChanges {
+export class SubjectAccountabilitiesEditionComponent implements OnChanges {
 
-  @Input() commissionerUID = '';
-
-  @Input() data: AccountabilityDescriptor[] = [];
+  @Input() subjectUID = '';
 
   @Input() canEdit = false;
 
   @Output() accountabilitiesEditionEvent = new EventEmitter<EventInfo>();
+
+  data: AccountabilityDescriptor[] = [];
 
   partyRelationTypesList: PartyRelationType[] = [];
 
@@ -57,7 +59,7 @@ export class CommisionerAccountabilitiesEditionComponent implements OnChanges {
   selectedData: Accountability = EmptyAccountability;
 
 
-  constructor(private accountabilitiesData: AccountabilitiesDataService) { }
+  constructor(private accountabilitiesData: SubjectAccountabilitiesDataService) { }
 
 
   ngOnChanges() {
@@ -115,7 +117,7 @@ export class CommisionerAccountabilitiesEditionComponent implements OnChanges {
       case AccountabilitiesTableEventType.REMOVE_CLICKED:
         Assertion.assertValue(event.payload.item, 'event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.deleteAccountability(event.payload.item.uid);
+        this.deleteAccountability(event.payload.item.uid)
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -125,7 +127,8 @@ export class CommisionerAccountabilitiesEditionComponent implements OnChanges {
 
 
   private validateLoadDataLists() {
-    if (!this.commissionerUID) {
+    if (!this.subjectUID) {
+      this.data = [];
       this.partyRelationTypesList = [];
       return;
     }
@@ -137,17 +140,22 @@ export class CommisionerAccountabilitiesEditionComponent implements OnChanges {
   private loadDataLists() {
     this.isLoading = true;
 
-    this.accountabilitiesData.getStructureForEditAccountabilities(this.commissionerUID)
-      .firstValue()
-      .then(x => this.partyRelationTypesList = x.partyRelationCategories ?? [])
-      .finally(() => this.isLoading = false);
+    combineLatest([
+      this.accountabilitiesData.getAccountabilities(this.subjectUID),
+      this.accountabilitiesData.getStructureForEditAccountabilities(this.subjectUID),
+    ])
+    .subscribe(([a, b]) => {
+      this.setData(a);
+      this.partyRelationTypesList = b.partyRelationCategories ?? []
+      this.isLoading = false;
+    });
   }
 
 
   private getAccountability(accountabilityUID: string) {
     this.submitted = true;
 
-    this.accountabilitiesData.getAccountability(accountabilityUID)
+    this.accountabilitiesData.getAccountability(this.subjectUID, accountabilityUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.submitted = false);
@@ -157,7 +165,7 @@ export class CommisionerAccountabilitiesEditionComponent implements OnChanges {
   private createAccountability(dataFields: PartyRelationFields) {
     this.submitted = true;
 
-    this.accountabilitiesData.createAccountability(dataFields)
+    this.accountabilitiesData.createAccountability(this.subjectUID, dataFields)
       .firstValue()
       .then(x => this.resolveUpdated(x))
       .finally(() => this.submitted = false);
@@ -167,7 +175,7 @@ export class CommisionerAccountabilitiesEditionComponent implements OnChanges {
   private updateAccountability(accountabilityUID: string, dataFields: PartyRelationFields) {
     this.submitted = true;
 
-    this.accountabilitiesData.updateAccountability(accountabilityUID, dataFields)
+    this.accountabilitiesData.updateAccountability(this.subjectUID, accountabilityUID, dataFields)
       .firstValue()
       .then(x => this.resolveUpdated(x))
       .finally(() => this.submitted = false);
@@ -177,10 +185,15 @@ export class CommisionerAccountabilitiesEditionComponent implements OnChanges {
   private deleteAccountability(accountabilityUID: string) {
     this.submitted = true;
 
-    this.accountabilitiesData.deleteAccountability(accountabilityUID)
+    this.accountabilitiesData.deleteAccountability(this.subjectUID, accountabilityUID)
       .firstValue()
       .then(x => this.resolveUpdated(x))
       .finally(() => this.submitted = false);
+  }
+
+
+  private setData(data: AccountabilityDescriptor[]) {
+    this.data = data ?? [];
   }
 
 
@@ -190,9 +203,11 @@ export class CommisionerAccountabilitiesEditionComponent implements OnChanges {
   }
 
 
-  private resolveUpdated(data: OrgUnitHolder) {
-    sendEvent(this.accountabilitiesEditionEvent, CommisionerAccountabilitiesEditionEventType.UPDATED, {data});
+  private resolveUpdated(data: AccountabilityDescriptor[]) {
+    this.setData(data);
     this.setSelectedData(EmptyAccountability);
+    sendEvent(this.accountabilitiesEditionEvent, SubjectAccountabilitiesEditionEventType.UPDATED,
+      { subjectUID: this.subjectUID });
   }
 
 

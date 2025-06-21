@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
+import { AccountabilitiesModule } from '../_accountabilities/accountabilities.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 import { SecurityModule } from '../_security/security.module';
 
@@ -43,6 +44,7 @@ import { OperationsLogFilterComponent } from './operations-log/operations-log-fi
     AngularMaterialModule,
     SharedModule,
 
+    AccountabilitiesModule,
     ReportsControlsModule,
     SecurityModule,
   ],
