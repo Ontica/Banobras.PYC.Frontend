@@ -27,6 +27,7 @@
 <emp-ng-accountability-editor *ngIf="displayEditor"
   [responsibleUID]="subjectUID"
   [accountability]="selectedData"
+  [partyRelationTypesList]="partyRelationTypesList"
   [canUpdate]="canEdit"
   [displayCommissioner]="true"
   (accountabilityEditorEvent)="onAccountabilityEditorEvent($event)">

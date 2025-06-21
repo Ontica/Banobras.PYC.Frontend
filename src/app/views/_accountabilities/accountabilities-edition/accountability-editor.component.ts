@@ -118,8 +118,8 @@ export class AccountabilityEditorComponent implements OnChanges, OnInit {
 
 
   onRoleChanges(role: PartyRole) {
-    this.form.controls.responsibleUID.reset();
     this.requiresCode = isEmpty(role) ? false : role.requiresCode;
+    this.validateFieldsToClear();
     this.validateFieldsEnabled();
   }
 
@@ -230,6 +230,16 @@ export class AccountabilityEditorComponent implements OnChanges, OnInit {
       FormHelper.setDisableForm(this.form, disable);
       this.validateFieldsEnabled();
     });
+  }
+
+
+  private validateFieldsToClear() {
+    if (this.displayResponsible) {
+      this.form.controls.responsibleUID.reset();
+    }
+    if (this.displayCommissioner) {
+      this.form.controls.commissionerUID.reset();
+    }
   }
 
 
