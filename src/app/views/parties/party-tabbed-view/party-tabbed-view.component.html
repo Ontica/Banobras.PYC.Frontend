@@ -20,12 +20,12 @@
 
       <ng-template matTabContent>
 
-        <emp-ng-accountabilities-edition
+        <emp-ng-commisioner-accountabilities-edition
           [commissionerUID]="orgUnitHolder.organizationalUnit.uid"
           [data]="orgUnitHolder.accountabilities"
           [canEdit]="orgUnitHolder.actions?.canUpdate"
           (accountabilitiesEditionEvent)="onAccountabilitiesEditionEvent($event)">
-        </emp-ng-accountabilities-edition>
+        </emp-ng-commisioner-accountabilities-edition>
 
       </ng-template>
 

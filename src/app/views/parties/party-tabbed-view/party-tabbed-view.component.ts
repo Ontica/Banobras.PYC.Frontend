@@ -18,7 +18,7 @@ import { PartyViewEventType } from './party-view.component';
 
 import {
   AccountabilitiesEditionEventType
-} from '@app/views/organizational-units/accountabilities-edition/accountabilities-edition.component';
+} from '@app/views/_accountabilities/commissioner-accountabilities/commissioner-accountabilities-edition.component';
 
 
 export enum PartyTabbedViewEventType {

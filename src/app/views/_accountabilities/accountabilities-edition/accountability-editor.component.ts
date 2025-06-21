@@ -13,7 +13,7 @@ import { Assertion, DateString, EventInfo, isEmpty } from '@app/core';
 
 import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { AccountabilityDataService, SearcherAPIS } from '@app/data-services';
+import { SearcherAPIS } from '@app/data-services';
 
 import { EmptyAccountability, Accountability, PartyRelationFields, PartyRelationType,
          PartyRole } from '@app/models';
@@ -29,6 +29,7 @@ interface AccountabilityFormModel extends FormGroup<{
   partyRelationTypeUID: FormControl<string>;
   roleUID: FormControl<string>;
   responsibleUID: FormControl<string>;
+  commissionerUID: FormControl<string>;
   code: FormControl<string>;
   description: FormControl<string>;
   tags: FormControl<string[]>;
@@ -43,7 +44,15 @@ export class AccountabilityEditorComponent implements OnChanges, OnInit {
 
   @Input() commissionerUID = '';
 
+  @Input() responsibleUID = '';
+
   @Input() accountability: Accountability = EmptyAccountability;
+
+  @Input() partyRelationTypesList: PartyRelationType[] = [];
+
+  @Input() displayResponsible = false;
+
+  @Input() displayCommissioner = false;
 
   @Input() canUpdate = false;
 
@@ -57,24 +66,22 @@ export class AccountabilityEditorComponent implements OnChanges, OnInit {
 
   isFormDataReady = false;
 
-  isLoading = false;
-
-  partyRelationTypesList: PartyRelationType[] = [];
-
   rolesList: PartyRole[] = [];
 
-  responsablesAPI = SearcherAPIS.partyResponsables;
+  responsiblesAPI = SearcherAPIS.accountabilityResponsibles;
+
+  commissionersAPI = SearcherAPIS.accountabilityCommissioners;
 
   requiresCode = false;
 
 
-  constructor(private accountabilityData: AccountabilityDataService) {
+  constructor() {
     this.initForm();
   }
 
 
   ngOnInit() {
-    this.loadDataLists();
+    this.validateInitDataList();
   }
 
 
@@ -113,7 +120,7 @@ export class AccountabilityEditorComponent implements OnChanges, OnInit {
   onRoleChanges(role: PartyRole) {
     this.form.controls.responsibleUID.reset();
     this.requiresCode = isEmpty(role) ? false : role.requiresCode;
-    this.validateResponsableEnabled();
+    this.validateFieldsEnabled();
   }
 
 
@@ -127,12 +134,11 @@ export class AccountabilityEditorComponent implements OnChanges, OnInit {
       const eventType = this.isSaved ? AccountabilityEditorEventType.UPDATE_CLICKED :
         AccountabilityEditorEventType.CREATE_CLICKED;
 
-      const commissionerUID = this.isSaved ? this.accountability.commissioner.uid : this.commissionerUID;
-
       const payload = {
-        commissionerUID,
+        commissionerUID: this.form.value.commissionerUID,
+        responsibleUID: this.form.value.responsibleUID,
         accountabilityUID: this.isSaved ? this.accountability?.uid : null,
-        dataFields: this.getFormData(commissionerUID),
+        dataFields: this.getFormData(),
       };
 
       sendEvent(this.accountabilityEditorEvent, eventType, payload);
@@ -142,35 +148,15 @@ export class AccountabilityEditorComponent implements OnChanges, OnInit {
 
   private enableUpdateMode() {
     this.editionMode = this.canUpdate;
-
-    if (this.isSaved) {
-      this.setFormData();
-    }
-
+    this.setFormDataForUpdate();
     this.validateFormDisabled();
   }
 
 
   private enableCreateMode() {
     this.editionMode = true;
-    this.isFormDataReady = true;
-    this.validateResponsableEnabled();
-  }
-
-
-  private loadDataLists() {
-    this.isLoading = true;
-
-    this.accountabilityData.getStructureForEditAccountabilities(this.commissionerUID)
-      .firstValue()
-      .then(x => this.setPartyRelationTypesList(x.partyRelationCategories ?? []))
-      .finally(() => this.isLoading = false);
-  }
-
-
-  private setPartyRelationTypesList(data: PartyRelationType[]) {
-    this.partyRelationTypesList = data;
-    this.validateInitDataList();
+    this.setFormDataForCreate();
+    this.validateFieldsEnabled();
   }
 
 
@@ -193,6 +179,7 @@ export class AccountabilityEditorComponent implements OnChanges, OnInit {
     this.form = fb.group({
       partyRelationTypeUID: ['', Validators.required],
       responsibleUID: ['', Validators.required],
+      commissionerUID: ['', Validators.required],
       roleUID: ['', Validators.required],
       code: [''],
       description: [''],
@@ -202,13 +189,14 @@ export class AccountabilityEditorComponent implements OnChanges, OnInit {
   }
 
 
-  private setFormData() {
+  private setFormDataForUpdate() {
     this.isFormDataReady = false;
 
     setTimeout(() => {
       this.form.reset({
         partyRelationTypeUID: isEmpty(this.accountability.partyRelationType) ? null : this.accountability.partyRelationType.uid,
         responsibleUID: isEmpty(this.accountability.responsible) ? null : this.accountability.responsible.uid,
+        commissionerUID: isEmpty(this.accountability.commissioner) ? null : this.accountability.commissioner.uid,
         roleUID: isEmpty(this.accountability.role) ? null : this.accountability.role.uid,
         code: this.accountability.code ?? null,
         description: this.accountability.description ?? null,
@@ -222,32 +210,45 @@ export class AccountabilityEditorComponent implements OnChanges, OnInit {
   }
 
 
-  private validateFormDisabled() {
+  private setFormDataForCreate() {
+    this.isFormDataReady = false;
+
     setTimeout(() => {
-      const disable = this.isSaved && (!this.editionMode || !this.canUpdate);
-      FormHelper.setDisableForm(this.form, disable);
-      this.validateResponsableEnabled();
+      this.form.reset({
+        responsibleUID: this.responsibleUID,
+        commissionerUID: this.commissionerUID,
+      });
+
+      this.isFormDataReady = true;
     });
   }
 
 
-  private validateResponsableEnabled() {
-    const isRoleValid = this.form.controls.roleUID.valid;
-    FormHelper.setDisableControl(this.form.controls.responsibleUID, !isRoleValid);
+  private validateFormDisabled() {
+    setTimeout(() => {
+      const disable = this.isSaved && (!this.editionMode || !this.canUpdate);
+      FormHelper.setDisableForm(this.form, disable);
+      this.validateFieldsEnabled();
+    });
   }
 
 
-  private getFormData(commissionerUID: string): PartyRelationFields {
-    Assertion.assert(!!commissionerUID, 'Programming error: commissionerUID must be valid.');
-    Assertion.assert(this.commissionerUID === commissionerUID, 'Programming error: The commissioner´s UIDs must be the same.');
+  private validateFieldsEnabled() {
+    const isRoleValid = this.form.controls.roleUID.valid;
+    FormHelper.setDisableControl(this.form.controls.responsibleUID, !isRoleValid);
+    FormHelper.setDisableControl(this.form.controls.commissionerUID, !isRoleValid);
+  }
+
+
+  private getFormData(): PartyRelationFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const formModel = this.form.getRawValue();
 
     const data: PartyRelationFields = {
-      commissionerUID,
       partyRelationTypeUID: formModel.partyRelationTypeUID ?? '',
       responsibleUID: formModel.responsibleUID ?? '',
+      commissionerUID: formModel.commissionerUID ?? '',
       roleUID: formModel.roleUID ?? '',
       code: formModel.code ?? '',
       description: formModel.description ?? '',

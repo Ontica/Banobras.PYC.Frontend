@@ -9,34 +9,32 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { SkipIf } from '@app/shared/decorators';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { AccountabilityDataService } from '@app/data-services';
+import { AccountabilitiesDataService } from '@app/data-services';
 
-import { Accountability, AccountabilityDescriptor, EmptyAccountability, OrgUnitHolder,
-         PartyRelationFields } from '@app/models';
+import { Accountability, AccountabilityDescriptor, EmptyAccountability, OrgUnitHolder, PartyRelationFields,
+         PartyRelationType } from '@app/models';
 
-import { AccountabilitiesControlsEventType } from './accountabilities-controls.component';
+import { AccountabilitiesControlsEventType } from '../accountabilities-edition/accountabilities-controls.component';
 
-import { AccountabilityEditorEventType } from './accountability-editor.component';
+import { AccountabilityEditorEventType } from '../accountabilities-edition/accountability-editor.component';
 
-import { AccountabilitiesTableEventType } from './accountabilities-table.component';
+import { AccountabilitiesTableEventType } from '../accountabilities-edition/accountabilities-table.component';
 
 
 export enum AccountabilitiesEditionEventType {
-  UPDATED = 'AccountabilitiesEditionComponent.Event.Updated',
+  UPDATED = 'CommisionerAccountabilitiesEditionComponent.Event.Updated',
 }
 
 
 @Component({
-  selector: 'emp-ng-accountabilities-edition',
-  templateUrl: './accountabilities-edition.component.html',
+  selector: 'emp-ng-commisioner-accountabilities-edition',
+  templateUrl: './commissioner-accountabilities-edition.component.html',
 })
-export class AccountabilitiesEditionComponent implements OnChanges {
+export class CommisionerAccountabilitiesEditionComponent implements OnChanges {
 
   @Input() commissionerUID = '';
 
@@ -46,7 +44,11 @@ export class AccountabilitiesEditionComponent implements OnChanges {
 
   @Output() accountabilitiesEditionEvent = new EventEmitter<EventInfo>();
 
+  partyRelationTypesList: PartyRelationType[] = [];
+
   submitted = false;
+
+  isLoading = false;
 
   filter = '';
 
@@ -55,12 +57,12 @@ export class AccountabilitiesEditionComponent implements OnChanges {
   selectedData: Accountability = EmptyAccountability;
 
 
-  constructor(private accountabilityData: AccountabilityDataService,
-              private messageBox: MessageBoxService) { }
+  constructor(private accountabilitiesData: AccountabilitiesDataService) { }
 
 
   ngOnChanges() {
-    this.filter = '';
+    this.resetFilter();
+    this.validateLoadDataLists();
   }
 
 
@@ -113,7 +115,7 @@ export class AccountabilitiesEditionComponent implements OnChanges {
       case AccountabilitiesTableEventType.REMOVE_CLICKED:
         Assertion.assertValue(event.payload.item, 'event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.confirmRemove(event.payload.item as AccountabilityDescriptor);
+        this.deleteAccountability(event.payload.item.uid);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -122,10 +124,30 @@ export class AccountabilitiesEditionComponent implements OnChanges {
   }
 
 
+  private validateLoadDataLists() {
+    if (!this.commissionerUID) {
+      this.partyRelationTypesList = [];
+      return;
+    }
+
+    this.loadDataLists();
+  }
+
+
+  private loadDataLists() {
+    this.isLoading = true;
+
+    this.accountabilitiesData.getStructureForEditAccountabilities(this.commissionerUID)
+      .firstValue()
+      .then(x => this.partyRelationTypesList = x.partyRelationCategories ?? [])
+      .finally(() => this.isLoading = false);
+  }
+
+
   private getAccountability(accountabilityUID: string) {
     this.submitted = true;
 
-    this.accountabilityData.getAccountability(accountabilityUID)
+    this.accountabilitiesData.getAccountability(accountabilityUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.submitted = false);
@@ -135,7 +157,7 @@ export class AccountabilitiesEditionComponent implements OnChanges {
   private createAccountability(dataFields: PartyRelationFields) {
     this.submitted = true;
 
-    this.accountabilityData.createAccountability(dataFields)
+    this.accountabilitiesData.createAccountability(dataFields)
       .firstValue()
       .then(x => this.resolveUpdated(x))
       .finally(() => this.submitted = false);
@@ -145,7 +167,7 @@ export class AccountabilitiesEditionComponent implements OnChanges {
   private updateAccountability(accountabilityUID: string, dataFields: PartyRelationFields) {
     this.submitted = true;
 
-    this.accountabilityData.updateAccountability(accountabilityUID, dataFields)
+    this.accountabilitiesData.updateAccountability(accountabilityUID, dataFields)
       .firstValue()
       .then(x => this.resolveUpdated(x))
       .finally(() => this.submitted = false);
@@ -155,7 +177,7 @@ export class AccountabilitiesEditionComponent implements OnChanges {
   private deleteAccountability(accountabilityUID: string) {
     this.submitted = true;
 
-    this.accountabilityData.deleteAccountability(accountabilityUID)
+    this.accountabilitiesData.deleteAccountability(accountabilityUID)
       .firstValue()
       .then(x => this.resolveUpdated(x))
       .finally(() => this.submitted = false);
@@ -168,30 +190,15 @@ export class AccountabilitiesEditionComponent implements OnChanges {
   }
 
 
-  private confirmRemove(data: AccountabilityDescriptor) {
-    const title = 'Eliminar responsabilidad';
-    const message = this.getConfirmRemoveAccountMessage(data);
-
-    this.messageBox.confirm(message, title, 'DeleteCancel')
-      .firstValue()
-      .then(x => x ? this.deleteAccountability(data.uid) : null);
-  }
-
-
-  private getConfirmRemoveAccountMessage(data: AccountabilityDescriptor): string {
-    return `
-      <table class='confirm-data'>
-        <tr><td class='nowrap'>Rol: </td><td><strong>${data.roleName}</strong></td></tr>
-        <tr><td class='nowrap'>Responsable: </td><td><strong>${data.responsibleName}</strong></td></tr>
-      </table>
-      <br>¿Elimino la responsabilidad?`;
-  }
-
-
   private resolveUpdated(data: OrgUnitHolder) {
     const payload = { data };
     sendEvent(this.accountabilitiesEditionEvent, AccountabilitiesEditionEventType.UPDATED, payload);
     this.setSelectedData(EmptyAccountability);
+  }
+
+
+  private resetFilter() {
+    this.filter = '';
   }
 
 }

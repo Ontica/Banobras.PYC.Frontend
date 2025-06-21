@@ -14,7 +14,7 @@ import { Accountability, OrgUnitHolder, PartyRelationFields,
 
 
 @Injectable()
-export class AccountabilityDataService {
+export class AccountabilitiesDataService {
 
 
   constructor(private http: HttpService) { }

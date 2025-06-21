@@ -11,7 +11,7 @@ import { DataTableColumn, DataTableColumnType } from './_data-table';
 
 import { EntityStatus } from './_explorer-data';
 
-import { AccountabilityDescriptor } from './accountability';
+import { AccountabilityDescriptor } from './_accountability';
 
 import { mapPartyDescriptorFromParty, PartiesQuery, Party, PartyDescriptor, PartyHolder,
          PartyActions } from './parties';

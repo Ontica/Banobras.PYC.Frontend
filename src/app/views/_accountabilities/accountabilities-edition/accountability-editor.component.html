@@ -21,7 +21,6 @@
                 formControlName="partyRelationTypeUID"
                 [config]="{virtualScroll: true, showTooltip: true, autoSelect: !isSaved}"
                 [items]="partyRelationTypesList"
-                [loading]="isLoading"
                 [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
                 [showError]="formHelper.isControlInvalid(form.controls.partyRelationTypeUID)"
                 (changes)="onPartyRelationTypeChanges($event)">
@@ -37,7 +36,6 @@
                 formControlName="roleUID"
                 [config]="{showTooltip: true, autoSelect: !isSaved}"
                 [items]="rolesList"
-                [loading]="isLoading"
                 [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
                 [showError]="formHelper.isControlInvalid(form.controls.roleUID)"
                 (changes)="onRoleChanges($event)">
@@ -60,7 +58,7 @@
 
           <div class="fx-row-container">
 
-            <div class="fx-item-half">
+            <div class="fx-item-half" *ngIf="displayResponsible">
 
               <label>Responsable:</label>
 
@@ -72,10 +70,30 @@
                   partyRoleUID: form.value.roleUID,
                   keywords: '',
                 }"
-                [searcherAPI]="responsablesAPI"
+                [searcherAPI]="responsiblesAPI"
                 [initialValue]="isSaved && !isFormDataReady ? accountability.responsible : null"
                 [placeholder]="formHelper.getConditionalSearcherPlaceholder(editionMode, form.controls.roleUID.valid, 'rol')"
                 [showError]="formHelper.isControlInvalid(form.controls.responsibleUID)">
+              </emp-ng-select-typeahead>
+
+            </div>
+
+            <div class="fx-item-half" *ngIf="displayCommissioner">
+
+              <label>Área:</label>
+
+              <emp-ng-select-typeahead
+                formControlName="commissionerUID"
+                [config]="{searchByQuery: true, clearable: true, showTooltip: true}"
+                [initQuery]="{
+                  responsibleUID: responsibleUID,
+                  partyRoleUID: form.value.roleUID,
+                  keywords: '',
+                }"
+                [searcherAPI]="commissionersAPI"
+                [initialValue]="isSaved && !isFormDataReady ? accountability.commissioner : null"
+                [placeholder]="formHelper.getConditionalSearcherPlaceholder(editionMode, form.controls.roleUID.valid, 'rol')"
+                [showError]="formHelper.isControlInvalid(form.controls.commissionerUID)">
               </emp-ng-select-typeahead>
 
             </div>

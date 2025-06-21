@@ -20,6 +20,8 @@
 
 export * from './_access-control';
 
+export * from './_accountability';
+
 export * from './_data-table';
 
 export * from './_dynamic-form-fields'
@@ -27,8 +29,6 @@ export * from './_dynamic-form-fields'
 export * from './_explorer-data';
 
 export * from './_operations-log';
-
-export * from './accountability';
 
 export * from './assets';
 

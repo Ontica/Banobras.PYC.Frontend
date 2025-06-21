@@ -13,7 +13,9 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { sendEvent } from '@app/shared/utils';
+import { MessageBoxService } from '@app/shared/services';
+
+import { sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { AccountabilityDescriptor } from '@app/models';
 
@@ -37,13 +39,18 @@ export class AccountabilitiesTableComponent implements OnChanges {
 
   @Input() canEdit = false;
 
+  @Input() displayResponsible = false;
+
+  @Input() displayCommissioner = false;
+
   @Output() accountabilitiesTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault = ['roleName', 'responsibleName', 'startDate', 'endDate'];
-
-  displayedColumns = [...this.displayedColumnsDefault];
+  displayedColumns = ['roleName', 'startDate', 'endDate'];
 
   dataSource: TableVirtualScrollDataSource<AccountabilityDescriptor>;
+
+
+  constructor(private messageBox: MessageBoxService) { }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -67,8 +74,7 @@ export class AccountabilitiesTableComponent implements OnChanges {
 
 
   onRemoveClicked(item: AccountabilityDescriptor) {
-    sendEvent(this.accountabilitiesTableEvent, AccountabilitiesTableEventType.REMOVE_CLICKED,
-      { item });
+    this.confirmRemove(item);
   }
 
 
@@ -79,9 +85,36 @@ export class AccountabilitiesTableComponent implements OnChanges {
 
 
   private resetColumns() {
-    this.displayedColumns = this.canEdit ?
-      [...this.displayedColumnsDefault, 'actionDelete'] :
-      [...this.displayedColumnsDefault];
+    const columns = ['roleName'];
+    if (this.displayResponsible) columns.push('responsibleName');
+    if (this.displayCommissioner) columns.push('commissionerName');
+    columns.push('startDate', 'endDate');
+    if (this.canEdit) columns.push('actionDelete');
+    this.displayedColumns = [...columns];
+  }
+
+
+
+  private confirmRemove(item: AccountabilityDescriptor) {
+    const title = 'Eliminar responsabilidad';
+    const message = this.getConfirmRemoveAccountMessage(item);
+
+    this.messageBox.confirm(message, title, 'DeleteCancel')
+      .firstValue()
+      .then(x =>
+        sendEventIf(x, this.accountabilitiesTableEvent, AccountabilitiesTableEventType.REMOVE_CLICKED, { item })
+      );
+  }
+
+
+  private getConfirmRemoveAccountMessage(item: AccountabilityDescriptor): string {
+    return `
+      <table class='confirm-data'>
+        <tr><td class='nowrap'>Rol: </td><td><strong>${item.roleName}</strong></td></tr>
+        <tr><td class='nowrap'>Área: </td><td><strong>${item.commissionerName}</strong></td></tr>
+        <tr><td class='nowrap'>Responsable: </td><td><strong>${item.responsibleName}</strong></td></tr>
+      </table>
+      <br>¿Elimino la responsabilidad?`;
   }
 
 

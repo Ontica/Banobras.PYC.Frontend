@@ -12,10 +12,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { AccountabilitiesEditionComponent } from './accountabilities-edition/accountabilities-edition.component';
 import { AccountabilitiesControlsComponent } from './accountabilities-edition/accountabilities-controls.component';
 import { AccountabilitiesTableComponent } from './accountabilities-edition/accountabilities-table.component';
 import { AccountabilityEditorComponent } from './accountabilities-edition/accountability-editor.component';
+import { CommisionerAccountabilitiesEditionComponent } from './commissioner-accountabilities/commissioner-accountabilities-edition.component';
 
 
 @NgModule({
@@ -28,14 +28,13 @@ import { AccountabilityEditorComponent } from './accountabilities-edition/accoun
     SharedModule,
   ],
   declarations: [
-    AccountabilitiesEditionComponent,
     AccountabilitiesControlsComponent,
     AccountabilitiesTableComponent,
     AccountabilityEditorComponent,
-
+    CommisionerAccountabilitiesEditionComponent,
   ],
   exports: [
-    AccountabilitiesEditionComponent,
+    CommisionerAccountabilitiesEditionComponent,
   ],
 })
-export class OrganizationalUnitsModule { }
+export class AccountabilitiesModule { }

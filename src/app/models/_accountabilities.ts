@@ -10,9 +10,12 @@ import { DateString, Identifiable, Empty } from '@app/core';
 
 export interface AccountabilityDescriptor {
   uid: string;
+  partyRelationTypeName: string;
   commissionerName: string;
   roleName: string;
   responsibleName: string;
+  code: string;
+  description: string;
   startDate: DateString;
   endDate: DateString;
 }

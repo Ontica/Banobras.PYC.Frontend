@@ -16,6 +16,7 @@
     [data]="data"
     [filter]="filter"
     [canEdit]="canEdit"
+    [displayResponsible]="true"
     (accountabilitiesTableEvent)="onAccountabilitiesTableEvent($event)">
 
   </emp-ng-accountabilities-table>
@@ -26,7 +27,9 @@
 <emp-ng-accountability-editor *ngIf="displayEditor"
   [commissionerUID]="commissionerUID"
   [accountability]="selectedData"
+  [partyRelationTypesList]="partyRelationTypesList"
   [canUpdate]="canEdit"
+  [displayResponsible]="true"
   (accountabilityEditorEvent)="onAccountabilityEditorEvent($event)">
 
 </emp-ng-accountability-editor>

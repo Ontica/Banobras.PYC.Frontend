@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountabilitiesEditionComponent } from './accountabilities-edition.component';
+import { CommisionerAccountabilitiesEditionComponent } from './commissioner-accountabilities-edition.component';
 
-describe('AccountabilitiesEditionComponent', () => {
-  let component: AccountabilitiesEditionComponent;
-  let fixture: ComponentFixture<AccountabilitiesEditionComponent>;
+describe('CommisionerAccountabilitiesEditionComponent', () => {
+  let component: CommisionerAccountabilitiesEditionComponent;
+  let fixture: ComponentFixture<CommisionerAccountabilitiesEditionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AccountabilitiesEditionComponent]
+      declarations: [CommisionerAccountabilitiesEditionComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AccountabilitiesEditionComponent);
+    fixture = TestBed.createComponent(CommisionerAccountabilitiesEditionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

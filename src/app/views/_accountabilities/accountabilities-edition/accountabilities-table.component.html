@@ -18,13 +18,18 @@
           <td mat-cell *matCellDef="let row">{{ row.responsibleName }}</td>
         </ng-container>
 
+        <ng-container matColumnDef="commissionerName">
+          <th mat-header-cell *matHeaderCellDef> Área </th>
+          <td mat-cell *matCellDef="let row">{{ row.commissionerName }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="startDate">
           <th mat-header-cell *matHeaderCellDef class="nowrap"> Fecha inicio </th>
           <td mat-cell *matCellDef="let row">{{ row.startDate | empDateTimeFormat }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="endDate" class="nowrap">
-          <th mat-header-cell *matHeaderCellDef> Fecha fin </th>
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> Fecha fin </th>
           <td mat-cell *matCellDef="let row">{{ !row.endDate ? '-' : (row.endDate | empDateTimeFormat) }}</td>
         </ng-container>
 
