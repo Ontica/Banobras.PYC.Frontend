@@ -5,9 +5,9 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Progress } from '@app/shared/utils';
-
 import { Observable } from 'rxjs';
+
+import { Progress } from '@app/shared/utils';
 
 
 export const CsvFileTypeException = 'application/vnd.ms-excel'; // csv, xls

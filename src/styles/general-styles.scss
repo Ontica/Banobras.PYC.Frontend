@@ -120,12 +120,12 @@ button.btn-warning:hover {
 button.btn-login {
   @include input-button-settings;
 
-  background-color: $warning-color;
+  background-color: $button-login-background-color;
   color: $white;
 }
 
 button.btn-login:hover {
-  background-color: $warning-color-dark;
+  background-color: $button-login-background-color-hover;
   transition: 0.3s ease-out;
 }
 
