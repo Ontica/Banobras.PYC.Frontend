@@ -38,6 +38,10 @@ export enum TransactionHeaderEventType {
   INVENTORY      = 'AssetTransactionHeaderComponent.Event.Inventory',
 }
 
+
+const MANAGER_REQUIRED = true;
+
+
 interface TransactionFormModel extends FormGroup<{
   transactionTypeUID: FormControl<string>;
   requestedTime: FormControl<DateString>;
@@ -84,6 +88,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
 
   helper: SubscriptionHelper;
 
+  MANAGER_REQUIRED = MANAGER_REQUIRED;
+
 
   constructor(private uiLayer: PresentationLayer,
               private messageBox: MessageBoxService) {
@@ -102,7 +108,6 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
   ngOnChanges(changes: SimpleChanges) {
     if (changes.transaction && this.isSaved) {
       this.enableEditor(false);
-      this.validateDataLists();
     }
   }
 
@@ -179,6 +184,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
     if(this.isSaved) {
       this.transactionTypesList =
         ArrayLibrary.insertIfNotExist(this.transactionTypesList ?? [], this.transaction.transactionType, 'uid');
+      this.orgUnitsList =
+        ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.transaction.assignedToOrgUnit, 'uid');
     }
   }
 
@@ -190,8 +197,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
       transactionTypeUID: ['', Validators.required],
       requestedTime: [null],
       applicationTime: [null],
-      managerUID: ['', Validators.required],
-      managerOrgUnitUID: ['', Validators.required],
+      managerUID: ['', MANAGER_REQUIRED ? Validators.required : null],
+      managerOrgUnitUID: ['', MANAGER_REQUIRED ? Validators.required : null],
       assignedToUID: ['', Validators.required],
       assignedToOrgUnitUID: ['', Validators.required],
       location: [EmptyLocationSelection, Validate.objectFieldsRequired('building', 'floor', 'place')],
@@ -208,19 +215,26 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
         this.transaction.building, this.transaction.floor, this.transaction.place
       );
 
+      const managerUID = MANAGER_REQUIRED && !isEmpty(this.transaction.manager) ?
+        this.transaction.manager.uid : null;
+      const managerOrgUnitUID = MANAGER_REQUIRED && !isEmpty(this.transaction.managerOrgUnit) ?
+        this.transaction.assignedTo.uid : null;
+
       this.form.reset({
         transactionTypeUID: isEmpty(this.transaction.transactionType) ? null : this.transaction.transactionType.uid,
         requestedTime: this.transaction.requestedTime ?? null,
         applicationTime: this.transaction.applicationTime ?? null,
-        managerUID: isEmpty(this.transaction.manager) ? null : this.transaction.manager.uid,
-        managerOrgUnitUID: isEmpty(this.transaction.managerOrgUnit) ? null : this.transaction.managerOrgUnit.uid,
         assignedToUID: isEmpty(this.transaction.assignedTo) ? null : this.transaction.assignedTo.uid,
         assignedToOrgUnitUID: isEmpty(this.transaction.assignedToOrgUnit) ? null : this.transaction.assignedToOrgUnit.uid,
+        managerUID,
+        managerOrgUnitUID,
         location: locationData,
         identificators: this.transaction.identificators ?? null,
         tags: this.transaction.tags ?? null,
         description: this.transaction.description ?? null,
       });
+
+      this.validateDataLists();
     });
   }
 
@@ -228,14 +242,19 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
   private getFormData(): AssetTransactionFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
+    const managerUID = MANAGER_REQUIRED && this.form.controls.managerUID.valid ?
+      this.form.value.managerUID : null;
+    const managerOrgUnitUID = MANAGER_REQUIRED && this.form.controls.managerOrgUnitUID.valid ?
+      this.form.value.managerOrgUnitUID : null;
+
     const data: AssetTransactionFields = {
       transactionTypeUID: this.form.value.transactionTypeUID ?? null,
       requestedTime: this.form.value.applicationTime ?? null,
       applicationTime: this.form.value.applicationTime ?? null,
       assignedToUID: this.form.value.assignedToUID ?? null,
       assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
-      managerUID: this.form.value.managerUID ?? null,
-      managerOrgUnitUID: this.form.value.managerOrgUnitUID ?? null,
+      managerUID,
+      managerOrgUnitUID,
       locationUID: this.form.value.location.place.uid ?? null,
       identificators: this.form.value.identificators ?? [],
       tags: this.form.value.tags ?? [],

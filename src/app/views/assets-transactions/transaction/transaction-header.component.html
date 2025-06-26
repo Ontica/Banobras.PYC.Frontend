@@ -12,6 +12,7 @@
           formControlName="transactionTypeUID"
           [items]="transactionTypesList"
           [loading]="isLoading"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
           [showError]="formHelper.isControlInvalid(form.controls.transactionTypeUID)">
         </emp-ng-select>
 
@@ -53,7 +54,7 @@
           [searcherAPI]="assigneesAPI"
           [initialValue]="isSaved ? transaction.assignedTo : null"
           [showError]="formHelper.isControlInvalid(form.controls.assignedToUID)"
-          [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Buscar...'">
+          [placeholder]="formHelper.getSearcherPlaceholder(editionMode)">
         </emp-ng-select-typeahead>
 
       </div>
@@ -68,14 +69,14 @@
           [items]="orgUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)"
-          [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Seleccione'">
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
         </emp-ng-select>
 
       </div>
 
     </div>
 
-    <div class="fx-row-container">
+    <div class="fx-row-container" *ngIf="MANAGER_REQUIRED">
 
       <div class="fx-item-half">
 
@@ -87,7 +88,7 @@
           [searcherAPI]="managersAPI"
           [initialValue]="isSaved ? transaction.manager : null"
           [showError]="formHelper.isControlInvalid(form.controls.managerUID)"
-          [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Buscar...'">
+          [placeholder]="formHelper.getSearcherPlaceholder(editionMode)">
         </emp-ng-select-typeahead>
 
       </div>
@@ -102,7 +103,7 @@
           [items]="orgUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.managerOrgUnitUID)"
-          [placeholder]="isSaved && !editionMode ? 'No determinado' : 'Seleccione'">
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
         </emp-ng-select>
 
       </div>

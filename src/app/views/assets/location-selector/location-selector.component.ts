@@ -96,7 +96,7 @@ export class LocationSelectorComponent implements ControlValueAccessor, OnInit {
 
   get buildingPlaceholder(): string {
     if (this.disabled) {
-      return 'No definido';
+      return 'No determinado';
     }
 
     if (!this.required) {
@@ -109,7 +109,7 @@ export class LocationSelectorComponent implements ControlValueAccessor, OnInit {
 
   get floorPlaceholder(): string {
     if (this.disabled) {
-      return 'No definido';
+      return 'No determinado';
     }
 
     if (!this.required) {
@@ -126,7 +126,7 @@ export class LocationSelectorComponent implements ControlValueAccessor, OnInit {
 
   get placePlaceholder(): string {
     if (this.disabled) {
-      return 'No definido';
+      return 'No determinado';
     }
 
     if (!this.required) {
