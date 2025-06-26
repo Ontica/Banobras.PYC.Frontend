@@ -33,14 +33,19 @@ const routes: Routes = [
   //   component: RequestsMainPageComponent,
   // },
   {
-    data: { permission: ROUTES.inventarios_transacciones.permission },
-    path: ROUTES.inventarios_transacciones.path,
-    component: AssetTransactionsMainPageComponent,
+    data: { permission: ROUTES.inventarios_resguardos.permission },
+    path: ROUTES.inventarios_resguardos.path,
+    component: DefaultComponent,
   },
   {
     data: { permission: ROUTES.inventarios_activo_fijo.permission },
     path: ROUTES.inventarios_activo_fijo.path,
     component: AssetsMainPageComponent,
+  },
+  {
+    data: { permission: ROUTES.inventarios_transacciones.permission },
+    path: ROUTES.inventarios_transacciones.path,
+    component: AssetTransactionsMainPageComponent,
   },
   {
     data: { permission: ROUTES.inventarios_reportes.permission },
@@ -49,7 +54,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.inventarios_transacciones.path,
+    redirectTo: ROUTES.inventarios_resguardos.path,
     pathMatch: 'full',
   },
 ];

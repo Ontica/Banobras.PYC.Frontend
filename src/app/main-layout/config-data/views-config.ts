@@ -51,7 +51,7 @@ export const ProcurementViews: View[] = [
   //   permission: ROUTES.adquisiciones_solicitudes.permission,
   // },
   {
-    name: 'Procurement.Explorer',
+    name: 'Procurement.Contracts',
     title: 'Contratos',
     menuTitle: 'Contratos',
     url: ROUTES.adquisiciones_contratos.fullpath,
@@ -186,18 +186,25 @@ export const InventoryViews: View[] = [
   //   permission: ROUTES.inventarios_solicitudes.permission,
   // },
   {
+    name: 'Inventory.Assignments',
+    title: 'Resguardos',
+    menuTitle: 'Resguardos',
+    url: ROUTES.inventarios_resguardos.fullpath,
+    permission: ROUTES.inventarios_resguardos.permission,
+  },
+  {
+    name: 'Inventory.Assets',
+    title: 'Activo fijo',
+    menuTitle: 'Activo fijo',
+    url: ROUTES.inventarios_activo_fijo.fullpath,
+    permission: ROUTES.inventarios_activo_fijo.permission,
+  },
+  {
     name: 'Inventory.Transactions',
     title: 'Transacciones',
     menuTitle: 'Transacciones',
     url: ROUTES.inventarios_transacciones.fullpath,
     permission: ROUTES.inventarios_transacciones.permission,
-  },
-  {
-    name: 'Inventory.Explorer',
-    title: 'Activo fijo',
-    menuTitle: 'Activo fijo',
-    url: ROUTES.inventarios_activo_fijo.fullpath,
-    permission: ROUTES.inventarios_activo_fijo.permission,
   },
   {
     name: 'Inventory.Reporting',
@@ -217,7 +224,7 @@ export const CashFlowViews: View[] = [
     permission: ROUTES.flujo_de_efectivo_proyecciones.permission,
   },
   {
-    name: 'CashFlow.Explorer',
+    name: 'CashFlow.CashFlow',
     title: 'Flujo de efectivo',
     url: ROUTES.flujo_de_efectivo_explorer.fullpath,
     permission: ROUTES.flujo_de_efectivo_explorer.permission,
