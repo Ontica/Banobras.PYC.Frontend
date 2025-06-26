@@ -72,6 +72,13 @@
 
     </div>
 
+    <emp-pyc-location-selector
+      formControlName="location"
+      (changes)="onLocationChanges($event)">
+
+    </emp-pyc-location-selector>
+
+
     <div *ngIf="showFilters" [@empExpandCollapse]>
 
       <div class="fx-column-container fx-gap-half">
@@ -113,12 +120,6 @@
           </div>
 
         </div>
-
-        <emp-pyc-location-selector
-          formControlName="location"
-          (changes)="onLocationChanges($event)">
-
-        </emp-pyc-location-selector>
 
         <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
 
