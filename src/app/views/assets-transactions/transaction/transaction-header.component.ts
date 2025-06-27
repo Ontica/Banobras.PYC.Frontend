@@ -39,7 +39,7 @@ export enum TransactionHeaderEventType {
 }
 
 
-const MANAGER_REQUIRED = true;
+const MANAGER_REQUIRED = false;
 
 
 interface TransactionFormModel extends FormGroup<{
