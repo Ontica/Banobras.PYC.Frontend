@@ -13,6 +13,8 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components';
 
+import { AssetsAssignmentsMainPageComponent } from '@app/views/assets-assignments/assignments-main-page/assignments-main-page.component';
+
 // import {
 //   RequestsMainPageComponent
 // } from '@app/views/requests/requests-main-page/requests-main-page.component';
@@ -35,7 +37,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.inventarios_resguardos.permission },
     path: ROUTES.inventarios_resguardos.path,
-    component: DefaultComponent,
+    component: AssetsAssignmentsMainPageComponent,
   },
   {
     data: { permission: ROUTES.inventarios_activo_fijo.permission },
