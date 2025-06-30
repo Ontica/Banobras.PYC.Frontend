@@ -17,4 +17,11 @@
 
   </emp-pyc-assignments-explorer>
 
+  <emp-pyc-assignment-tabbed-view  *ngIf="displayTabbedView"
+    class="secondary priority std-stacked"
+    [data]="selectedData"
+    (assetsAssignmentTabbedViewEvent)="onAssetsAssignmentTabbedViewEvent($event)">
+
+  </emp-pyc-assignment-tabbed-view>
+
 </div>

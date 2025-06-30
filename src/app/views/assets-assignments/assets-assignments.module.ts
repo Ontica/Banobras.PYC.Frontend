@@ -14,11 +14,14 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 import { EntityRecordsModule } from '../entity-records/entity-records.module';
+
 import { AssetsModule } from '../assets/assets.module';
+import { AssetsTransactionsModule } from '../assets-transactions/assets-transactions.module';
 
 import { AssetsAssignmentsMainPageComponent } from './assignments-main-page/assignments-main-page.component';
 import { AssetsAssignmentsExplorerComponent } from './assignments-explorer/assignments-explorer.component';
 import { AssetsAssignmentsFilterComponent } from './assignments-explorer/assignments-filter.component';
+import { AssetsAssignmentsAssignmentTabbedViewComponent } from './assignment-tabbed-view/assignment-tabbed-view.component';
 
 
 @NgModule({
@@ -33,11 +36,13 @@ import { AssetsAssignmentsFilterComponent } from './assignments-explorer/assignm
     EntityRecordsModule,
     ReportsControlsModule,
     AssetsModule,
+    AssetsTransactionsModule,
   ],
   declarations: [
     AssetsAssignmentsMainPageComponent,
     AssetsAssignmentsExplorerComponent,
     AssetsAssignmentsFilterComponent,
+    AssetsAssignmentsAssignmentTabbedViewComponent,
   ],
   exports: [
     AssetsAssignmentsMainPageComponent,

@@ -19,6 +19,8 @@ import { EmptyAssetsAssignmentsQuery, AssetsAssignmentsQuery, AssetsAssignmentDe
 
 import { AssetsAssignmentsExplorerEventType } from '../assignments-explorer/assignments-explorer.component';
 
+import { AssetsAssignmentTabbedViewEventType } from '../assignment-tabbed-view/assignment-tabbed-view.component';
+
 
 @Component({
   selector: 'emp-pyc-assignments-main-page',
@@ -77,8 +79,19 @@ export class AssetsAssignmentsMainPageComponent {
   }
 
 
-  ondAssetsAssignmentTabbedViewEvent(event: EventInfo) {
-
+  onAssetsAssignmentTabbedViewEvent(event: EventInfo) {
+    switch (event.type as AssetsAssignmentTabbedViewEventType) {
+      case AssetsAssignmentTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyAssetsAssignmentHolder);
+        return;
+      case AssetsAssignmentTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.assignmentUID, 'event.payload.assignmentUID');
+        this.refreshSelectedData(event.payload.assignmentUID);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 
