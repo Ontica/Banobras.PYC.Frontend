@@ -32,6 +32,8 @@ export * from './_operations-log';
 
 export * from './assets';
 
+export * from './assets-assignments';
+
 export * from './assets-transactions';
 
 export * from './bills';
