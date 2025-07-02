@@ -42,6 +42,8 @@ export class AssetsTableComponent implements OnChanges {
 
   @Input() queryExecuted = false;
 
+  @Input() displayAll = true;
+
   @Output() assetsTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumns = ['check', 'assetNo', 'name', 'locationName', 'assignedTo', 'assignedToOrgUnit'];
@@ -92,6 +94,10 @@ export class AssetsTableComponent implements OnChanges {
 
   private setDataSource() {
     this.dataSource = new TableVirtualScrollDataSource(this.dataList);
+
+    this.displayedColumns = this.displayAll ?
+      ['check', 'assetNo', 'name', 'locationName', 'assignedTo', 'assignedToOrgUnit'] :
+      ['assetNo', 'name'];
   }
 
 

@@ -52,6 +52,8 @@ import { LocationSelectorComponent } from './location-selector/location-selector
   exports: [
     AssetsMainPageComponent,
     LocationSelectorComponent,
+    AssetsTableComponent,
+    AssetTransactionsTableComponent,
   ],
 })
 export class AssetsModule { }
