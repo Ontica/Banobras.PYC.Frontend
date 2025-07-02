@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyAssetsAssignmentHolder, AssetsAssignmentHolder, isEntityStatusInWarning } from '@app/models';
+import { EmptyAssetsAssignmentHolder, AssetsAssignmentHolder } from '@app/models';
 
 import { AssetsAssignmentEditorEventType } from '../assignment/assignment-editor.component';
 
@@ -74,7 +74,7 @@ export class AssetsAssignmentsAssignmentTabbedViewComponent implements OnChanges
   onDocumentsEditionEvent(event: EventInfo) {
     switch (event.type as DocumentsEditionEventType) {
       case DocumentsEditionEventType.DOCUMENTS_UPDATED:
-        const payload = { assetUID: this.data.assignation.uid };
+        const payload = { assetUID: this.data.assignment.uid };
         sendEvent(this.assetsAssignmentTabbedViewEvent, AssetsAssignmentTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:
@@ -85,12 +85,10 @@ export class AssetsAssignmentsAssignmentTabbedViewComponent implements OnChanges
 
 
   private setTitle() {
-    const status = ''
+    this.title = `${this.data.assignment.assignedTo.name}`;
 
-    this.title = `${this.data.assignation.assignedTo.name}` + status;
-
-    this.hint = `<strong>${this.data.assignation.assignedToOrgUnit?.name ?? 'No determinado'} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
-      `${this.data.assignation.locationName ?? 'No determinado'} `;
+    this.hint = `<strong>${this.data.assignment.assignedToOrgUnit?.name ?? 'No determinado'} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
+      `${this.data.assignment.locationName ?? 'No determinado'} `;
   }
 
 }

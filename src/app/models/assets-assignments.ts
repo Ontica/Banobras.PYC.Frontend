@@ -58,7 +58,7 @@ export interface AssetsAssignmentFields {
 
 
 export interface AssetsAssignmentHolder {
-  assignation: AssetsAssignment; //assignment
+  assignment: AssetsAssignment;
   assets: AssetDescriptor[];
   transactions: AssetTransactionDescriptor[];
   documents: Document[];
@@ -92,7 +92,7 @@ export const EmptyAssetsAssignment: AssetsAssignment = {
 
 
 export const EmptyAssetsAssignmentHolder: AssetsAssignmentHolder = {
-  assignation: EmptyAssetsAssignment, //assignment
+  assignment: EmptyAssetsAssignment,
   assets: [],
   transactions: [],
   documents: [],

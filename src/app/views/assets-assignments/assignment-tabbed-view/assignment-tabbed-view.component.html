@@ -8,7 +8,7 @@
     <mat-tab label="Responsable">
 
       <emp-pyc-assignment-editor
-        [assignment]="data.assignation"
+        [assignment]="data.assignment"
         (assetsAssignmentEditorEvent)="onAssetsAssignmentEditorEvent($event)">
 
       </emp-pyc-assignment-editor>
@@ -42,8 +42,8 @@
     <mat-tab label="Documentos">
 
       <emp-ng-documents-edition
-        entityType="asset-assignations"
-        [entityUID]="data.assignation.uid"
+        entityType="asset-assignments"
+        [entityUID]="data.assignment.uid"
         [documents]="data.documents ?? []"
         [canEdit]="data.actions?.canEditDocuments"
         (documentsEditionEvent)="onDocumentsEditionEvent($event)">

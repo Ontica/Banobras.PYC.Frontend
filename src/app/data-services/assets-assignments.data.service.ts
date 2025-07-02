@@ -23,7 +23,7 @@ export class AssetsAssignmentsDataService {
   searchAssetsAssignments(query: AssetsAssignmentsQuery): EmpObservable<AssetsAssignmentDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
-    const path = 'v2/assets/assignations/search';
+    const path = 'v2/assets/assignments/search';
 
     return this.http.post<AssetsAssignmentDescriptor[]>(path, query);
   }
@@ -32,7 +32,7 @@ export class AssetsAssignmentsDataService {
   getAssetsAssignment(assignmentUID: string): EmpObservable<AssetsAssignmentHolder> {
     Assertion.assertValue(assignmentUID, 'assignmentUID');
 
-    const path = `v2/assets/assignations/${assignmentUID}`;
+    const path = `v2/assets/assignments/${assignmentUID}`;
 
     return this.http.get<AssetsAssignmentHolder>(path);
   }

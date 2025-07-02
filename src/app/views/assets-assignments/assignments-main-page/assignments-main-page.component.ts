@@ -135,7 +135,7 @@ export class AssetsAssignmentsMainPageComponent {
 
   private setSelectedData(data: AssetsAssignmentHolder) {
     this.selectedData = data;
-    this.displayTabbedView = !isEmpty(this.selectedData.assignation); //assignment
+    this.displayTabbedView = !isEmpty(this.selectedData.assignment);
   }
 
 }
