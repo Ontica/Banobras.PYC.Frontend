@@ -7,41 +7,57 @@
 
     <mat-tab label="Responsable">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-pyc-assignment-editor
+        [assignment]="data.assignation"
+        (assetsAssignmentEditorEvent)="onAssetsAssignmentEditorEvent($event)">
+
+      </emp-pyc-assignment-editor>
 
     </mat-tab>
 
     <mat-tab label="Activos fijos">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <ng-template matTabContent>
+
+        <emp-pyc-assets-table
+          [dataList]="data.assets"
+          [queryExecuted]="true"
+          [displayAll]="false">
+
+        </emp-pyc-assets-table>
+
+      </ng-template>
 
     </mat-tab>
 
     <mat-tab label="Transacciones">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-pyc-asset-transactions-table
+        [transactions]="data.transactions">
+
+      </emp-pyc-asset-transactions-table>
 
     </mat-tab>
 
     <mat-tab label="Documentos">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-documents-edition
+        entityType="asset-assignations"
+        [entityUID]="data.assignation.uid"
+        [documents]="data.documents ?? []"
+        [canEdit]="data.actions?.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+
+      </emp-ng-documents-edition>
 
     </mat-tab>
 
     <mat-tab label="Historial">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-history-table
+        [history]="data.history ?? []">
+
+      </emp-ng-history-table>
 
     </mat-tab>
 

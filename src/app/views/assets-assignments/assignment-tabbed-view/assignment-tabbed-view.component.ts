@@ -13,6 +13,10 @@ import { sendEvent } from '@app/shared/utils';
 
 import { EmptyAssetsAssignmentHolder, AssetsAssignmentHolder, isEntityStatusInWarning } from '@app/models';
 
+import { AssetsAssignmentEditorEventType } from '../assignment/assignment-editor.component';
+
+import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
+
 
 export enum AssetsAssignmentTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'AssetsAssignmentTabbedViewComponent.Event.CloseButtonClicked',
@@ -49,12 +53,34 @@ export class AssetsAssignmentsAssignmentTabbedViewComponent implements OnChanges
 
 
   onAssetsAssignmentEditorEvent(event: EventInfo) {
-
+    switch (event.type as AssetsAssignmentEditorEventType) {
+      case AssetsAssignmentEditorEventType.UPDATED:
+        Assertion.assertValue(event.payload.assetUID, 'event.payload.assetUID');
+        sendEvent(this.assetsAssignmentTabbedViewEvent,
+          AssetsAssignmentTabbedViewEventType.DATA_UPDATED, event.payload);
+        return;
+      case AssetsAssignmentEditorEventType.DELETED:
+        Assertion.assertValue(event.payload.assetUID, 'event.payload.assetUID');
+        sendEvent(this.assetsAssignmentTabbedViewEvent,
+          AssetsAssignmentTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 
   onDocumentsEditionEvent(event: EventInfo) {
-
+    switch (event.type as DocumentsEditionEventType) {
+      case DocumentsEditionEventType.DOCUMENTS_UPDATED:
+        const payload = { assetUID: this.data.assignation.uid };
+        sendEvent(this.assetsAssignmentTabbedViewEvent, AssetsAssignmentTabbedViewEventType.REFRESH_DATA, payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 
