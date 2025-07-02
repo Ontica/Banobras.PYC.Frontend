@@ -16,12 +16,13 @@ import { ReportsControlsModule } from '../_reports-controls/reports-controls.mod
 import { EntityRecordsModule } from '../entity-records/entity-records.module';
 
 import { AssetsModule } from '../assets/assets.module';
-import { AssetsTransactionsModule } from '../assets-transactions/assets-transactions.module';
 
 import { AssetsAssignmentsMainPageComponent } from './assignments-main-page/assignments-main-page.component';
 import { AssetsAssignmentsExplorerComponent } from './assignments-explorer/assignments-explorer.component';
 import { AssetsAssignmentsFilterComponent } from './assignments-explorer/assignments-filter.component';
 import { AssetsAssignmentsAssignmentTabbedViewComponent } from './assignment-tabbed-view/assignment-tabbed-view.component';
+import { AssetsAssignmentHeaderComponent } from './assignment/assignment-header.component';
+import { AssetsAssignmentEditorComponent } from './assignment/assignment-editor.component';
 
 
 @NgModule({
@@ -36,13 +37,14 @@ import { AssetsAssignmentsAssignmentTabbedViewComponent } from './assignment-tab
     EntityRecordsModule,
     ReportsControlsModule,
     AssetsModule,
-    AssetsTransactionsModule,
   ],
   declarations: [
     AssetsAssignmentsMainPageComponent,
     AssetsAssignmentsExplorerComponent,
     AssetsAssignmentsFilterComponent,
     AssetsAssignmentsAssignmentTabbedViewComponent,
+    AssetsAssignmentHeaderComponent,
+    AssetsAssignmentEditorComponent,
   ],
   exports: [
     AssetsAssignmentsMainPageComponent,

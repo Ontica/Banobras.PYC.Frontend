@@ -10,6 +10,8 @@ import { DateString, Empty, Identifiable } from '@app/core';
 import { BaseActions, EmptyBaseActions, EntityStatus, ExplorerOperation,
          ExplorerOperationType } from './_explorer-data';
 
+import { DataTable, DataTableColumn, DataTableColumnType } from './_data-table';
+
 import { AssetDescriptor } from './assets';
 
 import { AssetTransactionDescriptor } from './assets-transactions';
@@ -17,7 +19,6 @@ import { AssetTransactionDescriptor } from './assets-transactions';
 import { Document } from './documents';
 
 import { HistoryEntry } from './history';
-import { DataTable, DataTableColumn, DataTableColumnType } from './_data-table';
 
 
 export interface AssetsAssignmentsQuery {
@@ -31,8 +32,6 @@ export interface AssetsAssignmentsQuery {
   tags: string[];
   keywords: string;
   status: EntityStatus;
-  // managerUID: string;
-  // managerOrgUnitUID: string;
 }
 
 
@@ -59,7 +58,7 @@ export interface AssetsAssignmentFields {
 
 
 export interface AssetsAssignmentHolder {
-  assignation: Assignment; //assignment
+  assignation: AssetsAssignment; //assignment
   assets: AssetDescriptor[];
   transactions: AssetTransactionDescriptor[];
   documents: Document[];
@@ -68,7 +67,7 @@ export interface AssetsAssignmentHolder {
 }
 
 
-export interface Assignment {
+export interface AssetsAssignment {
   uid: string;
   assignedTo: Identifiable;
   assignedToOrgUnit: Identifiable;
@@ -76,12 +75,11 @@ export interface Assignment {
   floor: Identifiable;
   place: Identifiable;
   locationName: string;
-  tags: string[];
   status: Identifiable;
 }
 
 
-export const EmptyAssignment: Assignment = {
+export const EmptyAssetsAssignment: AssetsAssignment = {
   uid: '',
   assignedTo: Empty,
   assignedToOrgUnit: Empty,
@@ -89,13 +87,12 @@ export const EmptyAssignment: Assignment = {
   floor: Empty,
   place: Empty,
   locationName: '',
-  tags: [],
   status: Empty,
 };
 
 
 export const EmptyAssetsAssignmentHolder: AssetsAssignmentHolder = {
-  assignation: EmptyAssignment, //assignment
+  assignation: EmptyAssetsAssignment, //assignment
   assets: [],
   transactions: [],
   documents: [],

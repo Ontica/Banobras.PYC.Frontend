@@ -1,0 +1,17 @@
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="section-title"> Información general del resguardo</div>
+
+  <emp-pyc-assignment-header
+    [isSaved]="isSaved"
+    [assignment]="assignment"
+    [actions]="actions"
+    (assetsAssignmentHeaderEvent)="onAssetsAssignmentHeaderEvent($event)">
+
+  </emp-pyc-assignment-header>
+
+</div>
