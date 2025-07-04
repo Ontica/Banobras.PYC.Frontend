@@ -14,8 +14,7 @@ import { MessageBoxService } from '@app/shared/services';
 import { AssetsAssignmentsDataService } from '@app/data-services';
 
 import { EmptyAssetsAssignmentsQuery, AssetsAssignmentsQuery, AssetsAssignmentDescriptor,
-         AssetsAssignmentHolder, EmptyAssetsAssignmentHolder, EmptyAssetsAssignmentsDataTable,
-         AssetsAssignmentsDataTable } from '@app/models';
+         AssetsAssignmentHolder, EmptyAssetsAssignmentHolder } from '@app/models';
 
 import { AssetsAssignmentsExplorerEventType } from '../assignments-explorer/assignments-explorer.component';
 
@@ -30,7 +29,7 @@ export class AssetsAssignmentsMainPageComponent {
 
   query: AssetsAssignmentsQuery = Object.assign({}, EmptyAssetsAssignmentsQuery);
 
-  dataList: AssetsAssignmentsDataTable = Object.assign({}, EmptyAssetsAssignmentsDataTable);
+  dataList: AssetsAssignmentDescriptor[] = [];
 
   selectedData: AssetsAssignmentHolder = EmptyAssetsAssignmentHolder;
 
@@ -128,7 +127,7 @@ export class AssetsAssignmentsMainPageComponent {
 
 
   private setDataList(data: AssetsAssignmentDescriptor[], queryExecuted: boolean = true) {
-    this.dataList = Object.assign({}, this.dataList, { query: this.query, entries: data });
+    this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
   }
 

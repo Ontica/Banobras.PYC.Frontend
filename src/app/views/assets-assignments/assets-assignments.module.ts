@@ -20,6 +20,7 @@ import { AssetsModule } from '../assets/assets.module';
 import { AssetsAssignmentsMainPageComponent } from './assignments-main-page/assignments-main-page.component';
 import { AssetsAssignmentsExplorerComponent } from './assignments-explorer/assignments-explorer.component';
 import { AssetsAssignmentsFilterComponent } from './assignments-explorer/assignments-filter.component';
+import { AssetsAssignmentTableComponent } from './assignments-explorer/assignments-table.component';
 import { AssetsAssignmentsAssignmentTabbedViewComponent } from './assignment-tabbed-view/assignment-tabbed-view.component';
 import { AssetsAssignmentHeaderComponent } from './assignment/assignment-header.component';
 import { AssetsAssignmentEditorComponent } from './assignment/assignment-editor.component';
@@ -42,6 +43,7 @@ import { AssetsAssignmentEditorComponent } from './assignment/assignment-editor.
     AssetsAssignmentsMainPageComponent,
     AssetsAssignmentsExplorerComponent,
     AssetsAssignmentsFilterComponent,
+    AssetsAssignmentTableComponent,
     AssetsAssignmentsAssignmentTabbedViewComponent,
     AssetsAssignmentHeaderComponent,
     AssetsAssignmentEditorComponent,

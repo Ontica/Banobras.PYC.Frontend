@@ -44,12 +44,6 @@ export interface AssetsAssignmentDescriptor {
 }
 
 
-export interface AssetsAssignmentsDataTable extends DataTable {
-  query: AssetsAssignmentsQuery;
-  entries: AssetsAssignmentDescriptor[];
-}
-
-
 export interface AssetsAssignmentFields {
   assignedToUID: string;
   assignedToOrgUnitUID: string;
@@ -131,35 +125,4 @@ export const EmptyAssetsAssignmentsQuery: AssetsAssignmentsQuery = {
   tags: [],
   status: null,
   keywords: '',
-};
-
-
-export const DefaultAssetsAssignmentsColumns: DataTableColumn[] = [
-  {
-    field: 'assignedToName',
-    title: 'Persona responsable',
-    type: DataTableColumnType.text_link,
-  },
-  {
-    field: 'assignedToOrgUnitName',
-    title: 'Área responsable',
-    type: DataTableColumnType.text,
-  },
-  {
-    field: 'locationName',
-    title: 'Localización',
-    type: DataTableColumnType.text,
-  },
-  // {
-  //   field: 'statusName',
-  //   title: 'Estado',
-  //   type: DataTableColumnType.text_tag,
-  // },
-];
-
-
-export const EmptyAssetsAssignmentsDataTable: AssetsAssignmentsDataTable = {
-  query: EmptyAssetsAssignmentsQuery,
-  columns: DefaultAssetsAssignmentsColumns,
-  entries: [],
 };

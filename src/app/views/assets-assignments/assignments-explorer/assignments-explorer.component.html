@@ -34,14 +34,13 @@
 
       </emp-pyc-assignments-filter>
 
-      <emp-ng-data-table class="fx-item"
-        [dataTable]="dataList"
+      <emp-pyc-assignments-table class="fx-item"
+        [dataList]="dataList"
         [selectedUID]="selectedUID"
-        [executed]="queryExecuted"
-        [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"
-        (dataTableEvent)="onAssignmentsTableEvent($event)">
+        [queryExecuted]="queryExecuted"
+        (assetsAssignmentTableEvent)="onAssignmentsTableEvent($event)">
 
-      </emp-ng-data-table>
+      </emp-pyc-assignments-table>
 
     </div>
 

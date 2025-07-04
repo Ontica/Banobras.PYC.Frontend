@@ -11,12 +11,11 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyAssetsAssignmentsQuery, AssetsAssignmentsQuery, AssetsAssignmentsDataTable,
-         EmptyAssetsAssignmentsDataTable } from '@app/models';
+import { EmptyAssetsAssignmentsQuery, AssetsAssignmentsQuery, AssetsAssignmentDescriptor} from '@app/models';
 
 import { AssetsAssignmentsFilterEventType } from './assignments-filter.component';
 
-import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
+import { AssetsAssignmentTableEventType } from './assignments-table.component';
 
 import {
   ExportReportModalEventType
@@ -39,7 +38,7 @@ export class AssetsAssignmentsExplorerComponent implements OnChanges {
 
   @Input() query: AssetsAssignmentsQuery = Object.assign({}, EmptyAssetsAssignmentsQuery);
 
-  @Input() dataList: AssetsAssignmentsDataTable = Object.assign({}, EmptyAssetsAssignmentsDataTable);
+  @Input() dataList: AssetsAssignmentDescriptor[] = [];
 
   @Input() selectedUID = '';
 
@@ -88,14 +87,19 @@ export class AssetsAssignmentsExplorerComponent implements OnChanges {
 
 
   onAssignmentsTableEvent(event: EventInfo) {
-    switch (event.type as DataTableEventType) {
-      case DataTableEventType.ENTRY_CLICKED:
-        Assertion.assertValue(event.payload.entry, 'event.payload.entry');
+    switch (event.type as AssetsAssignmentTableEventType) {
+      case AssetsAssignmentTableEventType.SELECT_CLICKED:
+        Assertion.assertValue(event.payload.item, 'event.payload.item');
         sendEvent(this.assetsAssignmentsExplorerEvent, AssetsAssignmentsExplorerEventType.SELECT_CLICKED,
-          { item: event.payload.entry });
+          event.payload);
         return;
-      case DataTableEventType.EXPORT_DATA:
-        sendEvent(this.assetsAssignmentsExplorerEvent, AssetsAssignmentsExplorerEventType.EXPORT_CLICKED);
+      case AssetsAssignmentTableEventType.EXECUTE_OPERATION_CLICKED:
+        Assertion.assertValue(event.payload.operation, 'event.payload.operation');
+        sendEvent(this.assetsAssignmentsExplorerEvent,
+          AssetsAssignmentsExplorerEventType.EXECUTE_OPERATION_CLICKED, event.payload);
+        return;
+      case AssetsAssignmentTableEventType.EXPORT_DATA_CLICKED:
+        this.setDisplayExportModal(true);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -126,7 +130,7 @@ export class AssetsAssignmentsExplorerComponent implements OnChanges {
       return;
     }
 
-    this.cardHint = `${this.dataList.entries.length} registros encontrados`;
+    this.cardHint = `${this.dataList.length} registros encontrados`;
   }
 
 
