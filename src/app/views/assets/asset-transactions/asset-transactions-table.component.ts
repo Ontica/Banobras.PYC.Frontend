@@ -32,12 +32,11 @@ export class AssetTransactionsTableComponent implements OnChanges {
 
   @Input() canEdit = false;
 
+  @Input() displayAssignmentData = true;
+
   @Output() assetTransactionsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['transactionType', 'transactionNo', 'requestedTime', 'assignedTo',
-    'description'];
-
-  displayedColumns = [...this.displayedColumnsDefault];
+  displayedColumns = ['transactionType', 'transactionNo', 'requestedTime', 'assignedTo', 'description'];
 
   dataSource: MatTableDataSource<AssetTransactionDescriptor>;
 
@@ -83,11 +82,15 @@ export class AssetTransactionsTableComponent implements OnChanges {
 
 
   private resetColumns() {
-    this.displayedColumns = [...this.displayedColumnsDefault];
+    let columns = this.displayAssignmentData ?
+      ['transactionType', 'transactionNo', 'requestedTime', 'assignedTo', 'description'] :
+      ['transactionType', 'transactionNo', 'requestedTime', 'description'];
 
     if (this.canEdit) {
-      this.displayedColumns.push('actionDelete');
+      columns.push('actionDelete');
     }
+
+    this.displayedColumns = columns;
   }
 
 

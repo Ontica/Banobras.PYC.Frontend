@@ -22,7 +22,7 @@
         <emp-pyc-assets-table
           [dataList]="data.assets"
           [queryExecuted]="true"
-          [displayAll]="false">
+          [displayAssignmentData]="false">
 
         </emp-pyc-assets-table>
 
@@ -33,7 +33,8 @@
     <mat-tab label="Transacciones">
 
       <emp-pyc-asset-transactions-table
-        [transactions]="data.transactions">
+        [transactions]="data.transactions"
+        [displayAssignmentData]="false">
 
       </emp-pyc-asset-transactions-table>
 
