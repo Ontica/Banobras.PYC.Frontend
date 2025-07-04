@@ -63,6 +63,7 @@ export interface ExplorerOperation extends Identifiable {
   uid: string;
   name: string;
   showConfirm?: boolean;
+  confirmTitleWithoutName?: boolean;
   isConfirmWarning?: boolean;
   confirmOperationMessage?: string;
   confirmQuestionMessage?: string;

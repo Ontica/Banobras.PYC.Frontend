@@ -28,6 +28,7 @@ export interface ListControlConfig {
   itemsPronouns?: string;
   selectionMessage?: string;
   showExportButton?: boolean;
+  showDivider?: boolean;
 }
 
 
@@ -36,6 +37,7 @@ const DefaultListControlConfig: ListControlConfig = {
   itemsPronouns: 'los',
   selectionMessage: 'seleccionados',
   showExportButton: false,
+  showDivider: true,
 };
 
 
@@ -119,7 +121,9 @@ export class ListControlsComponent {
 
 
   private getConfirmTitle(): string {
-    return `${this.operationSelected.name} ${this.config.itemsPronouns} ${this.config.itemsName}`;
+    return this.operationSelected.confirmTitleWithoutName ?
+      `${this.operationSelected.name}` :
+      `${this.operationSelected.name} ${this.config.itemsPronouns} ${this.config.itemsName}`;
   }
 
 
