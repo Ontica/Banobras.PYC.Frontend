@@ -1,8 +1,9 @@
 <div class="fx-column-container-fill">
 
-  <emp-ng-list-controls *ngIf="displayAssignmentData && queryExecuted"
+  <emp-ng-list-controls *ngIf="displayControls"
     class="fx-item-none"
-    [config]="{itemsName: 'activos fijos', itemsPronouns: 'los', selectionMessage: 'seleccionados', showExportButton: true}"
+    [config]="{itemsName: 'activos fijos', itemsPronouns: 'los', selectionMessage: 'seleccionados',
+               showExportButton: displayExport, showDivider: displayAssignmentData}"
     [selection]="selection"
     [operationsList]="operationsList"
     (listControlsEvent)="onListControlsEvent($event)">

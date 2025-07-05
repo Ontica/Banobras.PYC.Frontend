@@ -44,6 +44,10 @@ export class AssetsTableComponent implements OnChanges {
 
   @Input() displayAssignmentData = true;
 
+  @Input() displayExport = false;
+
+  @Input() displayOperations = false;
+
   @Output() assetsTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumns = ['check', 'assetNo', 'name', 'locationName', 'assignedTo', 'assignedToOrgUnit'];
@@ -63,6 +67,12 @@ export class AssetsTableComponent implements OnChanges {
       this.setDataSource();
       this.scrollToTop();
     }
+  }
+
+
+  get displayControls(): boolean {
+    return (this.displayExport || (this.displayOperations && this.selection.selected.length > 0)) &&
+      this.queryExecuted;
   }
 
 
@@ -95,9 +105,13 @@ export class AssetsTableComponent implements OnChanges {
   private setDataSource() {
     this.dataSource = new TableVirtualScrollDataSource(this.dataList);
 
-    this.displayedColumns = this.displayAssignmentData ?
-      ['check', 'assetNo', 'name', 'locationName', 'assignedTo', 'assignedToOrgUnit'] :
-      ['assetNo', 'name'];
+    let columns = this.displayOperations ? ['check', 'assetNo', 'name'] : ['assetNo', 'name'];
+
+    if (this.displayAssignmentData) {
+      columns.push('locationName', 'assignedTo', 'assignedToOrgUnit');
+    }
+
+    this.displayedColumns = columns;
   }
 
 

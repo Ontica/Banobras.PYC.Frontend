@@ -9,8 +9,6 @@ import { Component } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { AssetsDataService } from '@app/data-services';
 
 import { EmptyAssetHolder, EmptyAssetsQuery, AssetDescriptor, AssetHolder,
@@ -44,8 +42,7 @@ export class AssetsMainPageComponent {
   queryExecuted = false;
 
 
-  constructor(private assetsData: AssetsDataService,
-              private messageBox: MessageBoxService) { }
+  constructor(private assetsData: AssetsDataService) { }
 
 
   onAssetsExplorerEvent(event: EventInfo) {
@@ -66,10 +63,6 @@ export class AssetsMainPageComponent {
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
         this.getAsset(event.payload.item.uid);
-        return;
-      case AssetsExplorerEventType.EXECUTE_OPERATION_CLICKED:
-        Assertion.assertValue(event.payload.operation, 'event.payload.operation');
-        this.messageBox.showInDevelopment('Ejecutar operación', event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
