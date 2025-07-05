@@ -13,8 +13,9 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { AssetsAssignmentsDataService } from '@app/data-services';
 
-import { EmptyAssetsAssignmentsQuery, AssetsAssignmentsQuery, AssetsAssignmentDescriptor,
-         AssetsAssignmentHolder, EmptyAssetsAssignmentHolder } from '@app/models';
+import { AssetsAssignmentDescriptor, AssetsAssignmentHolder, AssetsAssignmentsQuery, AssetsOperationType,
+         EmptyAssetsAssignmentHolder, EmptyAssetsAssignmentsQuery, EmptyBaseActions, ExplorerOperationCommand,
+         ExplorerOperationResult } from '@app/models';
 
 import { AssetsAssignmentsExplorerEventType } from '../assignments-explorer/assignments-explorer.component';
 
@@ -60,7 +61,7 @@ export class AssetsAssignmentsMainPageComponent {
         this.setQueryAndClearExplorerData(event.payload.query as AssetsAssignmentsQuery);
         return;
       case AssetsAssignmentsExplorerEventType.EXPORT_CLICKED:
-        this.messageBox.showInDevelopment('Exportar resguardos', event.payload);
+        this.exportAssetsAssignments(this.query);
         return;
       case AssetsAssignmentsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
@@ -69,7 +70,9 @@ export class AssetsAssignmentsMainPageComponent {
         return;
       case AssetsAssignmentsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
-        this.messageBox.showInDevelopment('Ejecutar operación', event.payload);
+        Assertion.assertValue(event.payload.command, 'event.payload.command');
+        this.bulkOperationAssetsAssignments(event.payload.operation as AssetsOperationType,
+                                            event.payload.command as ExplorerOperationCommand);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -104,6 +107,23 @@ export class AssetsAssignmentsMainPageComponent {
   }
 
 
+  private exportAssetsAssignments(query: AssetsAssignmentsQuery) {
+    this.assignmentsData.exportAssetsAssignments(query)
+      .firstValue()
+      .then(x => {this.fileUrl = x.url});
+  }
+
+
+  private bulkOperationAssetsAssignments(operation: AssetsOperationType, command: ExplorerOperationCommand) {
+    this.isLoadingSelection = true;
+
+    this.assignmentsData.bulkOperationAssetsAssignments(operation, command)
+      .firstValue()
+      .then(x => this.resolveBulkOperationAssetsAssignmentsResponse(operation, x))
+      .finally(() => this.isLoadingSelection = false);
+  }
+
+
   private getAssetsAssignment(assignmentUID: string) {
     this.isLoadingSelection = true;
 
@@ -135,6 +155,17 @@ export class AssetsAssignmentsMainPageComponent {
   private setSelectedData(data: AssetsAssignmentHolder) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.assignment);
+  }
+
+
+  private resolveBulkOperationAssetsAssignmentsResponse(operation: AssetsOperationType,
+                                                        result: ExplorerOperationResult) {
+    switch (operation) {
+      default:
+        this.messageBox.show(result.message, 'Ejecutar operación');
+        this.searchAssetsAssignments(this.query);
+        return;
+    }
   }
 
 }

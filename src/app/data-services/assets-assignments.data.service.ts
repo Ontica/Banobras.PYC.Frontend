@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { FileReport, AssetsAssignmentDescriptor, AssetsAssignmentHolder,
-         AssetsAssignmentsQuery } from '@app/models';
+import { FileReport, AssetsAssignmentDescriptor, AssetsAssignmentHolder, AssetsAssignmentsQuery,
+         AssetsOperationType, ExplorerOperationCommand, ExplorerOperationResult } from '@app/models';
 
 
 @Injectable()
@@ -26,6 +26,26 @@ export class AssetsAssignmentsDataService {
     const path = 'v2/assets/assignments/search';
 
     return this.http.post<AssetsAssignmentDescriptor[]>(path, query);
+  }
+
+
+  exportAssetsAssignments(query: AssetsAssignmentsQuery): EmpObservable<FileReport> {
+    Assertion.assertValue(query, 'query');
+
+    const path = 'v2/assets/assignments/export';
+
+    return this.http.post<FileReport>(path, query);
+  }
+
+
+  bulkOperationAssetsAssignments(operationType: AssetsOperationType,
+                                 command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
+    Assertion.assertValue(operationType, 'operationType');
+    Assertion.assertValue(command, 'command');
+
+    const path = `v2/assets/assignments/bulk-operation/${operationType}`;
+
+    return this.http.post<ExplorerOperationResult>(path, command);
   }
 
 

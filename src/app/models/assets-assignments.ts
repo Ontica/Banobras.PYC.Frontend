@@ -12,7 +12,7 @@ import { BaseActions, EmptyBaseActions, EntityStatus, ExplorerOperation,
 
 import { DataTable, DataTableColumn, DataTableColumnType } from './_data-table';
 
-import { AssetDescriptor } from './assets';
+import { AssetDescriptor, AssetsOperationsList } from './assets';
 
 import { AssetTransactionDescriptor } from './assets-transactions';
 
@@ -95,23 +95,7 @@ export const EmptyAssetsAssignmentHolder: AssetsAssignmentHolder = {
 };
 
 
-export const AssetsAssignmentsOperationsList: ExplorerOperation[] = [
-  {
-    uid: ExplorerOperationType.pdf,
-    name: 'Imprimir',
-    showConfirm: true,
-    confirmOperationMessage: 'imprimirá',
-    confirmQuestionMessage: 'Imprimo'
-  },
-  {
-    uid: ExplorerOperationType.delete,
-    name: 'Eliminar',
-    showConfirm: true,
-    isConfirmWarning: true,
-    confirmOperationMessage: 'eliminará',
-    confirmQuestionMessage: 'Elimino'
-  },
-];
+export const AssetsAssignmentsOperationsList: ExplorerOperation[] = [...AssetsOperationsList];
 
 
 export const EmptyAssetsAssignmentsQuery: AssetsAssignmentsQuery = {

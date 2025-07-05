@@ -97,11 +97,10 @@ export interface Asset {
 
 
 export enum AssetsOperationType {
-  excel                = 'excel',
-  requestLoan          = 'requestLoan',
-  requestMintenance    = 'requestMintenance',
-  requestCustodyChange = 'requestCustodyChange ',
-  delete               = 'delete',
+  requestLoan        = 'requestLoan',
+  requestMaintenance = 'requestMaintenance',
+  requestAssignment  = 'requestAssignment ',
+  requestRetirement  = 'requestRetirement',
 }
 
 
@@ -169,18 +168,30 @@ export const EmptyAssetHolder: AssetHolder = {
 export const AssetsOperationsList: ExplorerOperation[] = [
   {
     uid: AssetsOperationType.requestLoan,
-    name: 'Solicitar préstamo'
+    name: 'Solicitar préstamo',
+    showConfirm: true,
+    confirmTitleWithoutName: true,
+    confirmOperationMessage: 'solicitará el préstamo de',
+    confirmQuestionMessage: 'Solicito el prestamo de'
   },
   {
-    uid: AssetsOperationType.requestMintenance,
-    name: 'Solicitar mantenimiento'
+    uid: AssetsOperationType.requestMaintenance,
+    name: 'Solicitar mantenimiento',
+    showConfirm: true,
+    confirmTitleWithoutName: true,
+    confirmOperationMessage: 'solicitará el mantenimiento',
+    confirmQuestionMessage: 'Solicito el mantenimiento'
   },
   {
-    uid: AssetsOperationType.requestCustodyChange,
-    name: 'Solicitar cambio de resguardo'
+    uid: AssetsOperationType.requestAssignment,
+    name: 'Solicitar cambio de resguardo',
+    showConfirm: true,
+    confirmTitleWithoutName: true,
+    confirmOperationMessage: 'solicitará el cambio de resguardo',
+    confirmQuestionMessage: 'Solicito el cambio de resguardo'
   },
   {
-    uid: AssetsOperationType.delete,
+    uid: AssetsOperationType.requestRetirement,
     name: 'Dar de baja',
     showConfirm: true,
     isConfirmWarning: true,
