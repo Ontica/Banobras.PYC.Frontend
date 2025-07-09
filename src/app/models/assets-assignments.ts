@@ -7,14 +7,11 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { BaseActions, EmptyBaseActions, EntityStatus, ExplorerOperation,
-         ExplorerOperationType } from './_explorer-data';
-
-import { DataTable, DataTableColumn, DataTableColumnType } from './_data-table';
+import { BaseActions, EmptyBaseActions, EntityStatus, ExplorerOperation } from './_explorer-data';
 
 import { AssetDescriptor, AssetsOperationsList } from './assets';
 
-import { AssetTransactionDescriptor } from './assets-transactions';
+import { AssetTransaction, AssetTransactionDescriptor, EmptyAssetTransaction } from './assets-transactions';
 
 import { Document } from './documents';
 
@@ -29,6 +26,8 @@ export interface AssetsAssignmentsQuery {
   buildingUID: string;
   floorUID: string;
   placeUID: string;
+  managerUID: string;
+  managerOrgUnitUID: string;
   tags: string[];
   keywords: string;
   status: EntityStatus;
@@ -39,7 +38,12 @@ export interface AssetsAssignmentDescriptor {
   uid: string;
   assignedToName: string;
   assignedToOrgUnitName: string;
+  releasedByName: string;
+  releasedByOrgUnitName: string;
   locationName: string;
+  lastAssignmentTransactionUID: string;
+  lastAssignmentTransactionNo: string;
+  lastAssignmentApplicationDate: DateString;
   statusName: string;
 }
 
@@ -65,10 +69,13 @@ export interface AssetsAssignment {
   uid: string;
   assignedTo: Identifiable;
   assignedToOrgUnit: Identifiable;
+  releasedBy: Identifiable;
+  releasedByOrgUnit: Identifiable;
   building: Identifiable;
   floor: Identifiable;
   place: Identifiable;
   locationName: string;
+  lastAssignmentTransaction: AssetTransaction;
   status: Identifiable;
 }
 
@@ -77,10 +84,13 @@ export const EmptyAssetsAssignment: AssetsAssignment = {
   uid: '',
   assignedTo: Empty,
   assignedToOrgUnit: Empty,
+  releasedBy: Empty,
+  releasedByOrgUnit: Empty,
   building: Empty,
   floor: Empty,
   place: Empty,
   locationName: '',
+  lastAssignmentTransaction: EmptyAssetTransaction,
   status: Empty,
 };
 
@@ -106,6 +116,8 @@ export const EmptyAssetsAssignmentsQuery: AssetsAssignmentsQuery = {
   buildingUID: '',
   floorUID: '',
   placeUID: '',
+  managerUID: '',
+  managerOrgUnitUID: '',
   tags: [],
   status: null,
   keywords: '',

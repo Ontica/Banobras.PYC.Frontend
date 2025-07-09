@@ -44,7 +44,7 @@ export class AssetsAssignmentTableComponent implements OnChanges {
 
   @Output() assetsAssignmentTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumns = ['check', 'assignedToName', 'assignedToOrgUnitName', 'locationName'];
+  displayedColumns = ['check', 'assignedTo', 'locationName', 'lastTransaction', 'releasedBy'];
 
   dataSource: TableVirtualScrollDataSource<AssetsAssignmentDescriptor>;
 

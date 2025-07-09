@@ -194,6 +194,8 @@ export class AssetsAssignmentsFilterComponent implements OnChanges, OnInit, OnDe
       buildingUID: this.form.value.location?.building?.uid ?? null,
       floorUID: this.form.value.location?.floor?.uid ?? null,
       placeUID: this.form.value.location?.place?.uid ?? null,
+      managerUID: null, // TODO: add field to form
+      managerOrgUnitUID: null, // TODO: add field to form
       tags: this.form.value.tags ?? null,
     };
 

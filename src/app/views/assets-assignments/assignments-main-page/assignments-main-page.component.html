@@ -5,7 +5,7 @@
 <div class="explorer">
 
   <emp-pyc-assignments-explorer
-    class="primary"
+    class="primary priority"
     [class.std-hide]="displayTabbedView"
     [query]="query"
     [dataList]="dataList"
@@ -18,7 +18,7 @@
   </emp-pyc-assignments-explorer>
 
   <emp-pyc-assignment-tabbed-view  *ngIf="displayTabbedView"
-    class="secondary priority std-stacked"
+    class="secondary std-stacked"
     [data]="selectedData"
     (assetsAssignmentTabbedViewEvent)="onAssetsAssignmentTabbedViewEvent($event)">
 

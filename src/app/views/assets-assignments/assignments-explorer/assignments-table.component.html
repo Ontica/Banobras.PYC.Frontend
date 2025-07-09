@@ -11,7 +11,7 @@
 
   <div class="fx-item">
 
-    <cdk-virtual-scroll-viewport tvsItemSize="37">
+    <cdk-virtual-scroll-viewport tvsItemSize="41">
 
       <table mat-table [dataSource]="dataSource">
 
@@ -30,23 +30,33 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="assignedToName">
-          <th mat-header-cell *matHeaderCellDef class="nowrap"> Persona responsable </th>
+        <ng-container matColumnDef="assignedTo">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> Responsable </th>
           <td mat-cell *matCellDef="let row" class="column-lg">
-            <a class="item-link" (click)="onSelectButtonClicked(row)">
-              {{ row.assignedToName }}
-            </a>
+            <a class="item-link" (click)="onSelectButtonClicked(row)">{{ row.assignedToName }}</a> <br>
+            {{ row.assignedToOrgUnitName }}
           </td>
-        </ng-container>
-
-        <ng-container matColumnDef="assignedToOrgUnitName">
-          <th mat-header-cell *matHeaderCellDef class="nowrap"> Área responsable </th>
-          <td mat-cell *matCellDef="let row">{{ row.assignedToOrgUnitName }}</td>
         </ng-container>
 
         <ng-container matColumnDef="locationName">
           <th mat-header-cell *matHeaderCellDef> Localización </th>
           <td mat-cell *matCellDef="let row">{{row.locationName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastTransaction">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> Última transacción </th>
+          <td mat-cell *matCellDef="let row" class="nowrap">
+            <span class="text-highlight">{{row.lastAssignmentTransactionNo}}</span><br>
+            {{row.lastAssignmentApplicationDate | empDateTimeFormat}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="releasedBy">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> Entregó </th>
+          <td mat-cell *matCellDef="let row">
+            <span class="text-highlight nowrap">{{ row.releasedByName }}</span> <br>
+            {{ row.releasedByOrgUnitName }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="notFoundMessage">
