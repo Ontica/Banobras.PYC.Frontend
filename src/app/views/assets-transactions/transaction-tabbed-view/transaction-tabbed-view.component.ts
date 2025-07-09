@@ -116,7 +116,7 @@ export class AssetTransactionTabbedViewComponent implements OnChanges {
     this.title = `${this.data.transaction.transactionNo}: ${this.data.transaction.transactionType.name} ${status}`;
 
     this.hint = `<strong>${assignedTo} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${this.data.transaction.locationName}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${this.data.transaction.baseLocationName}</strong> &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${entries} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${requestedTime}`;
   }

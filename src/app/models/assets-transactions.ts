@@ -15,18 +15,25 @@ import { Document } from './documents';
 
 import { HistoryEntry } from './history';
 
-import { TransactionDateType, TransactionPartyType, TransactionStatus } from './transactions';
+import { TransactionDateType, TransactionPartyType, TransactionStages,
+         TransactionStatus } from './transactions';
 
 
 export interface AssetTransactionsQuery {
   assignedToUID: string;
   assignedToOrgUnitUID: string;
   status: TransactionStatus;
+  stage: TransactionStages;
   keywords: string;
   transactionTypeUID: string;
   buildingUID: string;
   floorUID: string;
   placeUID: string;
+  managerUID: string;
+  managerOrgUnitUID: string;
+  releasedByUID: string;
+  releasedByOrgUnitUID: string;
+  operationSourceUID: string;
   transactionsNo: string[];
   entriesKeywords: string;
   tags: string[];
@@ -45,13 +52,20 @@ export interface AssetTransactionDescriptor {
   description: string;
   assignedToName: string;
   assignedToOrgUnitName: string;
-  locationName: string;
+  baseLocationName: string;
   managerName: string;
   managerOrgUnitName: string;
   operationSourceName: string;
-  requestedTime: DateString;
-  applicationTime: DateString;
+  releasedByName: string;
+  releasedByOrgUnitName: string;
+  applicationDate: DateString;
+  appliedByName: string;
   recordingTime: DateString;
+  recordedByName: string;
+  authorizationTime: DateString;
+  authorizedByName: string;
+  requestedTime: DateString;
+  requestedByName: string;
   statusName: string;
 }
 
@@ -59,7 +73,7 @@ export interface AssetTransactionDescriptor {
 export interface AssetTransactionFields {
   transactionTypeUID: string;
   requestedTime: DateString;
-  applicationTime: DateString;
+  applicationDate: DateString;
   managerUID: string;
   managerOrgUnitUID: string;
   assignedToUID: string;
@@ -91,14 +105,21 @@ export interface AssetTransaction {
   assignedTo: Identifiable;
   manager: Identifiable;
   managerOrgUnit: Identifiable;
+  releasedBy: Identifiable;
+  releasedByOrgUnit: Identifiable;
   building: Identifiable;
   floor: Identifiable;
   place: Identifiable;
-  locationName: string;
+  baseLocationName: string;
   operationSource: Identifiable;
-  requestedTime: DateString;
-  applicationTime: DateString;
+  applicationDate: DateString;
+  appliedBy: Identifiable;
   recordingTime: DateString;
+  recordedBy: Identifiable;
+  authorizationTime: DateString;
+  authorizedBy: Identifiable;
+  requestedTime: DateString;
+  requestedBy: Identifiable;
   status: Identifiable;
 }
 
@@ -152,12 +173,18 @@ export const AssetTransactionsOperationsList: ExplorerOperation[] = [
 export const EmptyAssetTransactionsQuery: AssetTransactionsQuery = {
   assignedToUID: '',
   assignedToOrgUnitUID: '',
+  stage: null,
   status: null,
   keywords: '',
   transactionTypeUID: '',
   buildingUID: '',
   floorUID: '',
   placeUID: '',
+  managerUID: '',
+  managerOrgUnitUID: '',
+  releasedByUID: '',
+  releasedByOrgUnitUID: '',
+  operationSourceUID: '',
   transactionsNo: [],
   entriesKeywords: '',
   tags: [],
@@ -178,16 +205,23 @@ export const EmptyAssetTransaction: AssetTransaction = {
   tags: [],
   manager: Empty,
   managerOrgUnit: Empty,
+  releasedBy: Empty,
+  releasedByOrgUnit: Empty,
   building: Empty,
   floor: Empty,
   place: Empty,
-  locationName: '',
+  baseLocationName: '',
   assignedToOrgUnit: Empty,
   assignedTo: Empty,
   operationSource: Empty,
-  requestedTime: '',
-  applicationTime: '',
+  applicationDate: '',
+  appliedBy: Empty,
   recordingTime: '',
+  recordedBy: Empty,
+  authorizationTime: '',
+  authorizedBy: Empty,
+  requestedTime: '',
+  requestedBy: Empty,
   status: Empty,
 }
 
@@ -227,13 +261,20 @@ export function mapAssetTransactionDescriptorFromTransaction(data: AssetTransact
     description: data.description,
     assignedToOrgUnitName: data.assignedToOrgUnit.name,
     assignedToName: data.assignedTo.name,
-    locationName: data.locationName,
+    baseLocationName: data.baseLocationName,
     managerName: data.manager.name,
     managerOrgUnitName: data.managerOrgUnit.name,
     operationSourceName: data.operationSource.name,
-    requestedTime: data.requestedTime,
-    applicationTime: data.applicationTime,
+    releasedByName: data.releasedBy.name,
+    releasedByOrgUnitName: data.releasedByOrgUnit.name,
+    applicationDate: data.applicationDate,
+    appliedByName: data.appliedBy.name,
     recordingTime: data.recordingTime,
+    recordedByName: data.recordedBy.name,
+    authorizationTime: data.authorizationTime,
+    authorizedByName: data.authorizedBy.name,
+    requestedTime: data.requestedTime,
+    requestedByName: data.requestedBy.name,
     statusName: data.status.name,
   };
 }

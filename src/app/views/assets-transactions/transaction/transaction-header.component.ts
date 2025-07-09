@@ -45,7 +45,7 @@ const MANAGER_REQUIRED = false;
 interface TransactionFormModel extends FormGroup<{
   transactionTypeUID: FormControl<string>;
   requestedTime: FormControl<DateString>;
-  applicationTime: FormControl<DateString>;
+  applicationDate: FormControl<DateString>;
   managerUID: FormControl<string>;
   managerOrgUnitUID: FormControl<string>;
   assignedToUID: FormControl<string>;
@@ -196,7 +196,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
     this.form = fb.group({
       transactionTypeUID: ['', Validators.required],
       requestedTime: [null],
-      applicationTime: [null],
+      applicationDate: [null],
       managerUID: ['', MANAGER_REQUIRED ? Validators.required : null],
       managerOrgUnitUID: ['', MANAGER_REQUIRED ? Validators.required : null],
       assignedToUID: ['', Validators.required],
@@ -223,7 +223,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
       this.form.reset({
         transactionTypeUID: isEmpty(this.transaction.transactionType) ? null : this.transaction.transactionType.uid,
         requestedTime: this.transaction.requestedTime ?? null,
-        applicationTime: this.transaction.applicationTime ?? null,
+        applicationDate: this.transaction.applicationDate ?? null,
         assignedToUID: isEmpty(this.transaction.assignedTo) ? null : this.transaction.assignedTo.uid,
         assignedToOrgUnitUID: isEmpty(this.transaction.assignedToOrgUnit) ? null : this.transaction.assignedToOrgUnit.uid,
         managerUID,
@@ -249,8 +249,8 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
 
     const data: AssetTransactionFields = {
       transactionTypeUID: this.form.value.transactionTypeUID ?? null,
-      requestedTime: this.form.value.applicationTime ?? null,
-      applicationTime: this.form.value.applicationTime ?? null,
+      requestedTime: this.form.value.applicationDate ?? null,
+      applicationDate: this.form.value.applicationDate ?? null,
       assignedToUID: this.form.value.assignedToUID ?? null,
       assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
       managerUID,
@@ -321,7 +321,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
     const description = `la transacción
       <strong>${this.transaction.transactionNo}: ${this.transaction.transactionType.name}</strong>
       con responsable <strong>${this.transaction.assignedTo.name} (${this.transaction.assignedToOrgUnit.name})</strong>
-      y localización en <strong>${this.transaction.locationName}</strong>`;
+      y localización en <strong>${this.transaction.baseLocationName}</strong>`;
 
     switch (eventType) {
       case TransactionHeaderEventType.DELETE:
