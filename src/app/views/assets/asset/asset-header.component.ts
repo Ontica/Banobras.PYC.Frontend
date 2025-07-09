@@ -34,6 +34,7 @@ interface AssetFormModel extends FormGroup<{
   brand: FormControl<string>;
   model: FormControl<string>;
   year: FormControl<number>;
+  condition: FormControl<string>;
   location: FormControl<LocationSelection>;
   description: FormControl<string>;
 }> { }
@@ -153,6 +154,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
       brand: [''],
       model: [''],
       year: [null],
+      condition: [''],
       location: [EmptyLocationSelection],
       description: [''],
     });
@@ -172,6 +174,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
         brand: this.asset.brand ?? '',
         model: this.asset.model ?? '',
         year: this.asset.year > 0 ? this.asset.year : null,
+        condition: this.asset.condition ?? '',
         location: locationData,
         description: this.asset.description ?? '',
       });
@@ -197,6 +200,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
       brand: this.form.value.brand ?? null,
       model: this.form.value.model ?? null,
       year: this.form.value.year > 0 ? this.form.value.year : null,
+      condition: this.form.value.condition ?? null,
       assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
       assignedToUID: this.form.value.assignedToUID ?? null,
       buildingUID: this.form.value.location?.building?.uid ?? null,

@@ -110,6 +110,16 @@
 
       </div>
 
+      <div class="fx-item-quarter">
+
+        <label>Condición:</label>
+
+        <input type="text" class="text-box"
+          formControlName="condition"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.condition)">
+
+      </div>
+
     </div>
 
     <div class="fx-row-container">

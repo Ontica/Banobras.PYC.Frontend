@@ -191,6 +191,8 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
       buildingUID: this.form.value.location?.building?.uid ?? null,
       floorUID: this.form.value.location?.floor?.uid ?? null,
       placeUID: this.form.value.location?.place?.uid ?? null,
+      managerUID: '', // TODO: add field to form
+      managerOrgUnitUID: '', // TODO: add field to form
     };
 
     return query;

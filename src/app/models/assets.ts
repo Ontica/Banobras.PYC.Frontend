@@ -26,6 +26,8 @@ export interface AssetsQuery {
   buildingUID: string;
   floorUID: string;
   placeUID: string;
+  managerUID: string;
+  managerOrgUnitUID: string;
 }
 
 
@@ -52,6 +54,7 @@ export interface AssetFields {
   brand: string;
   model: string;
   year: number;
+  condition: string;
   assignedToUID: string;
   assignedToOrgUnitUID: string;
   buildingUID: string;
@@ -82,6 +85,7 @@ export interface Asset {
   brand: string;
   model: string;
   year: number;
+  condition: string;
   assignedTo: Identifiable;
   assignedToOrgUnit: Identifiable;
   manager: Identifiable;
@@ -142,6 +146,7 @@ export const EmptyAsset: Asset = {
   brand: '',
   model: '',
   year: null,
+  condition: '',
   assignedToOrgUnit: Empty,
   assignedTo: Empty,
   manager: Empty,
@@ -211,4 +216,6 @@ export const EmptyAssetsQuery: AssetsQuery = {
   buildingUID: '',
   floorUID: '',
   placeUID: '',
+  managerUID: '',
+  managerOrgUnitUID: '',
 };

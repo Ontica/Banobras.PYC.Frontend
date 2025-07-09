@@ -105,7 +105,8 @@ export class AssetsTableComponent implements OnChanges {
   private setDataSource() {
     this.dataSource = new TableVirtualScrollDataSource(this.dataList);
 
-    let columns = this.displayOperations ? ['check', 'assetNo', 'name'] : ['assetNo', 'name'];
+    let columns = this.displayOperations ? ['check', 'assetNo', 'name', 'condition'] :
+      ['assetNo', 'name', 'condition'];
 
     if (this.displayAssignmentData) {
       columns.push('locationName', 'assignedTo', 'assignedToOrgUnit');
