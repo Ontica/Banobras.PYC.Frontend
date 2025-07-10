@@ -7,14 +7,14 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
-import { Assertion, EventInfo } from '@app/core';
+import { Assertion, EventInfo, Identifiable } from '@app/core';
 
 import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyAssetTransactionsQuery, AssetTransactionDescriptor,
-         AssetTransactionsQuery } from '@app/models';
+import { EmptyAssetTransactionsQuery, AssetTransactionDescriptor, AssetTransactionsQuery, TransactionStages,
+         TransactionStagesList } from '@app/models';
 
 import { TransactionsListEventType } from './transactions-list.component';
 
@@ -62,6 +62,10 @@ export class AssetTransactionsExplorerComponent implements OnChanges {
 
   displayExportModal = false;
 
+  stagesList: Identifiable<TransactionStages>[] = TransactionStagesList;
+
+  stage: TransactionStages = TransactionStages.MyInbox;
+
   PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
 
 
@@ -70,6 +74,12 @@ export class AssetTransactionsExplorerComponent implements OnChanges {
       this.setText();
       this.showFilters = false;
     }
+  }
+
+
+  onStageChanged() {
+    sendEvent(this.transactionsExplorerEvent, TransactionsExplorerEventType.CLEAR_CLICKED,
+      { query: this.query });
   }
 
 

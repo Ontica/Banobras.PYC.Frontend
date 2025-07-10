@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { combineLatest } from 'rxjs';
 
-import { EventInfo, Identifiable, isEmpty } from '@app/core';
+import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -24,8 +24,8 @@ import { SearcherAPIS } from '@app/data-services';
 
 import { AssetTransactionsQuery, buildLocationSelection, DateRange, EmptyAssetTransactionsQuery,
          EmptyDateRange, EmptyLocationSelection, LocationSelection, RequestsList, TransactionDateType,
-         TransactionDateTypesList, TransactionPartyType, TransactionPartyTypesList, TransactionStatus,
-         TransactionStatusList } from '@app/models';
+         TransactionDateTypesList, TransactionPartyType, TransactionPartyTypesList, TransactionStages,
+         TransactionStatus, TransactionStatusList } from '@app/models';
 
 
 export enum AssetTransactionsFilterEventType {
@@ -55,6 +55,8 @@ interface AssetTransactionsFilterFormModel extends FormGroup<{
   animations: [empExpandCollapse],
 })
 export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDestroy {
+
+  @Input() stage: TransactionStages = null;
 
   @Input() query: AssetTransactionsQuery = Object.assign({}, EmptyAssetTransactionsQuery);
 
@@ -219,7 +221,10 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
 
 
   private getFormData(): AssetTransactionsQuery {
+    Assertion.assert(!!this.stage, 'Programming error: assets-transactions stage is required.');
+
     const query: AssetTransactionsQuery = {
+      stage: this.stage,
       assignedToUID: this.form.value.assignedToUID ?? null,
       assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
       status: this.form.value.status ?? null,
@@ -228,7 +233,6 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
       buildingUID: this.form.value.location?.building?.uid ?? null,
       floorUID: this.form.value.location?.floor?.uid ?? null,
       placeUID: this.form.value.location?.place?.uid ?? null,
-      stage : null, // TODO: add field to form
       managerUID : null, // TODO: add field to form
       managerOrgUnitUID : null, // TODO: add field to form
       releasedByUID : null, // TODO: add field to form
