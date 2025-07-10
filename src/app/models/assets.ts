@@ -60,6 +60,8 @@ export interface AssetFields {
   buildingUID: string;
   floorUID: string;
   placeUID: string;
+  identificators: string[];
+  tags: string[];
   startDate: DateString;
   endDate: DateString;
 }

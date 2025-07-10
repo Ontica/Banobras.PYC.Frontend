@@ -124,6 +124,33 @@
 
     <div class="fx-row-container">
 
+      <div class="fx-item-half">
+
+        <label>Otras claves:</label>
+        <emp-ng-input-tags
+          formControlName="identificators"
+          [showError]="formHelper.isControlInvalid(form.controls.identificators)">
+
+        </emp-ng-input-tags>
+
+      </div>
+
+
+      <div class="fx-item-half">
+
+        <label>Palabras de búsqueda adicionales:</label>
+        <emp-ng-input-tags
+          formControlName="tags"
+          [showError]="formHelper.isControlInvalid(form.controls.tags)">
+
+        </emp-ng-input-tags>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
       <div class="fx-item-one">
         <label>Descripción:</label>
         <textarea class="text-area" empNgTextareaAutoresize rows="1"

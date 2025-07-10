@@ -36,6 +36,8 @@ interface AssetFormModel extends FormGroup<{
   year: FormControl<number>;
   condition: FormControl<string>;
   location: FormControl<LocationSelection>;
+  tags: FormControl<string[]>;
+  identificators: FormControl<string[]>;
   description: FormControl<string>;
 }> { }
 
@@ -94,12 +96,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
 
   onSubmitButtonClicked() {
     if (FormHelper.isFormReadyAndInvalidate(this.form)) {
-      let eventType = AssetHeaderEventType.CREATE;
-
-      if (this.isSaved) {
-        eventType = AssetHeaderEventType.UPDATE;
-      }
-
+      const eventType = this.isSaved ? AssetHeaderEventType.UPDATE : AssetHeaderEventType.CREATE;
       sendEvent(this.assetHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
   }
@@ -156,6 +153,8 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
       year: [null],
       condition: [''],
       location: [EmptyLocationSelection],
+      identificators: [null],
+      tags: [null],
       description: [''],
     });
   }
@@ -176,6 +175,8 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
         year: this.asset.year > 0 ? this.asset.year : null,
         condition: this.asset.condition ?? '',
         location: locationData,
+        identificators: this.asset.identificators ?? null,
+        tags: this.asset.tags ?? null,
         description: this.asset.description ?? '',
       });
     });
@@ -206,6 +207,8 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
       buildingUID: this.form.value.location?.building?.uid ?? null,
       floorUID: this.form.value.location?.floor?.uid ?? null,
       placeUID: this.form.value.location?.place?.uid ?? null,
+      identificators: this.form.value.identificators ?? [],
+      tags: this.form.value.tags ?? [],
       startDate: this.form.value.datePeriod.fromDate ?? null,
       endDate: this.form.value.datePeriod.toDate ?? null,
     };
