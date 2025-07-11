@@ -20,7 +20,7 @@ export class AssetsAssignmentsDataService {
   constructor(private http: HttpService) { }
 
 
-  searchAssetsAssignments(query: AssetsAssignmentsQuery): EmpObservable<AssetsAssignmentDescriptor[]> {
+  searchAssignments(query: AssetsAssignmentsQuery): EmpObservable<AssetsAssignmentDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v2/assets/assignments/search';
@@ -29,7 +29,7 @@ export class AssetsAssignmentsDataService {
   }
 
 
-  exportAssetsAssignments(query: AssetsAssignmentsQuery): EmpObservable<FileReport> {
+  exportAssignments(query: AssetsAssignmentsQuery): EmpObservable<FileReport> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v2/assets/assignments/export';
@@ -38,8 +38,8 @@ export class AssetsAssignmentsDataService {
   }
 
 
-  bulkOperationAssetsAssignments(operationType: AssetsOperationType,
-                                 command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
+  bulkOperationAssignments(operationType: AssetsOperationType,
+                           command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
     Assertion.assertValue(operationType, 'operationType');
     Assertion.assertValue(command, 'command');
 
@@ -49,7 +49,7 @@ export class AssetsAssignmentsDataService {
   }
 
 
-  getAssetsAssignment(assignmentUID: string): EmpObservable<AssetsAssignmentHolder> {
+  getAssignment(assignmentUID: string): EmpObservable<AssetsAssignmentHolder> {
     Assertion.assertValue(assignmentUID, 'assignmentUID');
 
     const path = `v2/assets/assignments/${assignmentUID}`;

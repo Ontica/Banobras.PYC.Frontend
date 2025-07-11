@@ -55,12 +55,12 @@ export class AssetsAssignmentsAssignmentTabbedViewComponent implements OnChanges
   onAssetsAssignmentEditorEvent(event: EventInfo) {
     switch (event.type as AssetsAssignmentEditorEventType) {
       case AssetsAssignmentEditorEventType.UPDATED:
-        Assertion.assertValue(event.payload.assetUID, 'event.payload.assetUID');
+        Assertion.assertValue(event.payload.assignmentUID, 'event.payload.assignmentUID');
         sendEvent(this.assetsAssignmentTabbedViewEvent,
           AssetsAssignmentTabbedViewEventType.DATA_UPDATED, event.payload);
         return;
       case AssetsAssignmentEditorEventType.DELETED:
-        Assertion.assertValue(event.payload.assetUID, 'event.payload.assetUID');
+        Assertion.assertValue(event.payload.assignmentUID, 'event.payload.assignmentUID');
         sendEvent(this.assetsAssignmentTabbedViewEvent,
           AssetsAssignmentTabbedViewEventType.DATA_DELETED, event.payload);
         return;
@@ -74,7 +74,7 @@ export class AssetsAssignmentsAssignmentTabbedViewComponent implements OnChanges
   onDocumentsEditionEvent(event: EventInfo) {
     switch (event.type as DocumentsEditionEventType) {
       case DocumentsEditionEventType.DOCUMENTS_UPDATED:
-        const payload = { assetUID: this.data.assignment.uid };
+        const payload = { assignmentUID: this.data.assignment.uid };
         sendEvent(this.assetsAssignmentTabbedViewEvent, AssetsAssignmentTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:

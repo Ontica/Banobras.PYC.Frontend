@@ -14,7 +14,7 @@ import { MessageBoxService } from '@app/shared/services';
 import { AssetsAssignmentsDataService } from '@app/data-services';
 
 import { AssetsAssignmentDescriptor, AssetsAssignmentHolder, AssetsAssignmentsQuery, AssetsOperationType,
-         EmptyAssetsAssignmentHolder, EmptyAssetsAssignmentsQuery, EmptyBaseActions, ExplorerOperationCommand,
+         EmptyAssetsAssignmentHolder, EmptyAssetsAssignmentsQuery, ExplorerOperationCommand,
          ExplorerOperationResult } from '@app/models';
 
 import { AssetsAssignmentsExplorerEventType } from '../assignments-explorer/assignments-explorer.component';
@@ -54,25 +54,25 @@ export class AssetsAssignmentsMainPageComponent {
       case AssetsAssignmentsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as AssetsAssignmentsQuery);
-        this.searchAssetsAssignments(this.query);
+        this.searchAssignments(this.query);
         return;
       case AssetsAssignmentsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as AssetsAssignmentsQuery);
         return;
       case AssetsAssignmentsExplorerEventType.EXPORT_CLICKED:
-        this.exportAssetsAssignments(this.query);
+        this.exportAssignments(this.query);
         return;
       case AssetsAssignmentsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.getAssetsAssignment(event.payload.item.uid);
+        this.getAssignment(event.payload.item.uid);
         return;
       case AssetsAssignmentsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         Assertion.assertValue(event.payload.command, 'event.payload.command');
-        this.bulkOperationAssetsAssignments(event.payload.operation as AssetsOperationType,
-                                            event.payload.command as ExplorerOperationCommand);
+        this.bulkOperationAssignments(event.payload.operation as AssetsOperationType,
+                                      event.payload.command as ExplorerOperationCommand);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -97,37 +97,37 @@ export class AssetsAssignmentsMainPageComponent {
   }
 
 
-  private searchAssetsAssignments(query: AssetsAssignmentsQuery) {
+  private searchAssignments(query: AssetsAssignmentsQuery) {
     this.isLoading = true;
 
-    this.assignmentsData.searchAssetsAssignments(query)
+    this.assignmentsData.searchAssignments(query)
       .firstValue()
       .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
   }
 
 
-  private exportAssetsAssignments(query: AssetsAssignmentsQuery) {
-    this.assignmentsData.exportAssetsAssignments(query)
+  private exportAssignments(query: AssetsAssignmentsQuery) {
+    this.assignmentsData.exportAssignments(query)
       .firstValue()
       .then(x => {this.fileUrl = x.url});
   }
 
 
-  private bulkOperationAssetsAssignments(operation: AssetsOperationType, command: ExplorerOperationCommand) {
+  private bulkOperationAssignments(operation: AssetsOperationType, command: ExplorerOperationCommand) {
     this.isLoadingSelection = true;
 
-    this.assignmentsData.bulkOperationAssetsAssignments(operation, command)
+    this.assignmentsData.bulkOperationAssignments(operation, command)
       .firstValue()
-      .then(x => this.resolveBulkOperationAssetsAssignmentsResponse(operation, x))
+      .then(x => this.resolveBulkOperationAssignmentsResponse(operation, x))
       .finally(() => this.isLoadingSelection = false);
   }
 
 
-  private getAssetsAssignment(assignmentUID: string) {
+  private getAssignment(assignmentUID: string) {
     this.isLoadingSelection = true;
 
-    this.assignmentsData.getAssetsAssignment(assignmentUID)
+    this.assignmentsData.getAssignment(assignmentUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
@@ -135,7 +135,7 @@ export class AssetsAssignmentsMainPageComponent {
 
 
   private refreshSelectedData(assignmentUID: string) {
-    this.getAssetsAssignment(assignmentUID);
+    this.getAssignment(assignmentUID);
   }
 
 
@@ -158,12 +158,12 @@ export class AssetsAssignmentsMainPageComponent {
   }
 
 
-  private resolveBulkOperationAssetsAssignmentsResponse(operation: AssetsOperationType,
-                                                        result: ExplorerOperationResult) {
+  private resolveBulkOperationAssignmentsResponse(operation: AssetsOperationType,
+                                                  result: ExplorerOperationResult) {
     switch (operation) {
       default:
         this.messageBox.show(result.message, 'Ejecutar operación');
-        this.searchAssetsAssignments(this.query);
+        this.searchAssignments(this.query);
         return;
     }
   }
