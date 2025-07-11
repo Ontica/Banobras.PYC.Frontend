@@ -19,13 +19,13 @@
 
       <ng-template matTabContent>
 
-        <emp-pyc-assets-table
-          [dataList]="data.assets"
-          [queryExecuted]="true"
-          [displayAssignmentData]="false"
-          [displayOperations]="data.actions?.canUpdate">
+        <emp-pyc-assignment-assets-edition
+          [assignmentUID]="data.assignment.uid"
+          [assets]="data.assets"
+          [canEdit]="data.actions?.canUpdate"
+          (assignmentAssetsEditionEvent)="onAssetsAssignmentAssetsEditionEvent($event)">
 
-        </emp-pyc-assets-table>
+        </emp-pyc-assignment-assets-edition>
 
       </ng-template>
 

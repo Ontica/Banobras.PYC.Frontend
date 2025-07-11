@@ -15,6 +15,8 @@ import { EmptyAssetsAssignmentHolder, AssetsAssignmentHolder } from '@app/models
 
 import { AssetsAssignmentEditorEventType } from '../assignment/assignment-editor.component';
 
+import { AssignmentAssetsEditionEventType } from '../assignment-assets-edition/assignment-assets-edition.component';
+
 import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 
@@ -69,6 +71,21 @@ export class AssetsAssignmentsAssignmentTabbedViewComponent implements OnChanges
         return;
     }
   }
+
+
+  onAssetsAssignmentAssetsEditionEvent(event: EventInfo) {
+    switch (event.type as AssignmentAssetsEditionEventType) {
+      case AssignmentAssetsEditionEventType.EXECUTED:
+        Assertion.assertValue(event.payload.assignmentUID, 'event.payload.assignmentUID');
+        const payload = { assignmentUID: this.data.assignment.uid };
+        sendEvent(this.assetsAssignmentTabbedViewEvent, AssetsAssignmentTabbedViewEventType.REFRESH_DATA, payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
 
 
   onDocumentsEditionEvent(event: EventInfo) {

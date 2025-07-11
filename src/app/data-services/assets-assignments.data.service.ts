@@ -57,4 +57,17 @@ export class AssetsAssignmentsDataService {
     return this.http.get<AssetsAssignmentHolder>(path);
   }
 
+
+  bulkOperationAssignmentAssets(assignmentUID: string,
+                                operationType: AssetsOperationType,
+                                command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
+    Assertion.assertValue(assignmentUID, 'assignmentUID');
+    Assertion.assertValue(operationType, 'operationType');
+    Assertion.assertValue(command, 'command');
+
+    const path = `v2/assets/assignments/${assignmentUID}/bulk-operation/${operationType}`;
+
+    return this.http.post<ExplorerOperationResult>(path, command);
+  }
+
 }
