@@ -16,7 +16,7 @@ export enum SearcherAPIS {
   assetsAssignees             = 'v2/assets/assignees',
   assetsTransactionsAssignees = 'v2/assets/transactions/assignees/',
   assetsTransactionsManagers  = 'v2/assets/transactions/managers/',
-  assetTransactionsParties    = 'v2/assets/transactions/parties/',
+  assetsTransactionsParties   = 'v2/assets/transactions/parties/',
   budgetTransactionsParties   = 'v2/budgeting/transactions/parties/',
   budgetTransactionAccounts   = 'v2/budgeting/transactions/accounts/search/',
   relatedDocumentsForEdition  = 'v2/budgeting/related-documents/for-transaction-edition/search',

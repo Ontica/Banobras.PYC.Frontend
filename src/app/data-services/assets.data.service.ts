@@ -19,21 +19,21 @@ export class AssetsDataService {
   constructor(private http: HttpService) { }
 
 
-  getAssetTypes(): EmpObservable<Identifiable[]> {
+  getAssetsTypes(): EmpObservable<Identifiable[]> {
     const path = 'v2/assets/types';
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
-  getAssetRootLocations(): EmpObservable<Identifiable[]> {
+  getAssetsRootLocations(): EmpObservable<Identifiable[]> {
     const path = 'v2/assets/locations/root';
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
-  getAssetLocationsList(locationUID: string): EmpObservable<Identifiable[]> {
+  getAssetsLocationsList(locationUID: string): EmpObservable<Identifiable[]> {
     Assertion.assertValue(locationUID, 'locationUID');
 
     const path = `v2/assets/locations/${locationUID}/children`;
