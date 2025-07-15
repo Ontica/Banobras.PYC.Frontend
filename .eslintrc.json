@@ -29,6 +29,7 @@
               "empBdg",
               "empPmt",
               "empCF",
+              "empInv",
               "empPYC"
             ],
             "style": "camelCase"
@@ -43,6 +44,7 @@
               "emp-bdg",
               "emp-pmt",
               "emp-cf",
+              "emp-inv",
               "emp-pyc"
             ],
             "style": "kebab-case"
