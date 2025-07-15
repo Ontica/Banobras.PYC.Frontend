@@ -13,16 +13,16 @@ import { sendEvent } from '@app/shared/utils';
 
 import { EmptyAssetsAssignmentsQuery, AssetsAssignmentsQuery, AssetsAssignmentDescriptor} from '@app/models';
 
-import { AssetsAssignmentsFilterEventType } from './assignments-filter.component';
+import { AssignmentsFilterEventType } from './assignments-filter.component';
 
-import { AssetsAssignmentTableEventType } from './assignments-table.component';
+import { AssignmentTableEventType } from './assignments-table.component';
 
 import {
   ExportReportModalEventType
 } from '@app/views/_reports-controls/export-report-modal/export-report-modal.component';
 
 
-export enum AssetsAssignmentsExplorerEventType {
+export enum AssignmentsExplorerEventType {
   SEARCH_CLICKED            = 'AssetsAssignmentsExplorerComponent.Event.SearchClicked',
   CLEAR_CLICKED             = 'AssetsAssignmentsExplorerComponent.Event.ClearClicked',
   EXECUTE_OPERATION_CLICKED = 'AssetsAssignmentsExplorerComponent.Event.ExecuteOperationClicked',
@@ -31,7 +31,7 @@ export enum AssetsAssignmentsExplorerEventType {
 }
 
 @Component({
-  selector: 'emp-pyc-assignments-explorer',
+  selector: 'emp-inv-assignments-explorer',
   templateUrl: './assignments-explorer.component.html',
 })
 export class AssetsAssignmentsExplorerComponent implements OnChanges {
@@ -48,7 +48,7 @@ export class AssetsAssignmentsExplorerComponent implements OnChanges {
 
   @Input() queryExecuted = false;
 
-  @Output() assetsAssignmentsExplorerEvent = new EventEmitter<EventInfo>();
+  @Output() assignmentsExplorerEvent = new EventEmitter<EventInfo>();
 
   cardTitle = 'Explorador de resguardos';
 
@@ -68,16 +68,14 @@ export class AssetsAssignmentsExplorerComponent implements OnChanges {
 
 
   onAssignmentsFilterEvent(event: EventInfo) {
-    switch (event.type as AssetsAssignmentsFilterEventType) {
-      case AssetsAssignmentsFilterEventType.SEARCH_CLICKED:
+    switch (event.type as AssignmentsFilterEventType) {
+      case AssignmentsFilterEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        sendEvent(this.assetsAssignmentsExplorerEvent, AssetsAssignmentsExplorerEventType.SEARCH_CLICKED,
-          event.payload);
+        sendEvent(this.assignmentsExplorerEvent, AssignmentsExplorerEventType.SEARCH_CLICKED, event.payload);
         return;
-      case AssetsAssignmentsFilterEventType.CLEAR_CLICKED:
+      case AssignmentsFilterEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        sendEvent(this.assetsAssignmentsExplorerEvent, AssetsAssignmentsExplorerEventType.CLEAR_CLICKED,
-          event.payload);
+        sendEvent(this.assignmentsExplorerEvent, AssignmentsExplorerEventType.CLEAR_CLICKED, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -87,18 +85,17 @@ export class AssetsAssignmentsExplorerComponent implements OnChanges {
 
 
   onAssignmentsTableEvent(event: EventInfo) {
-    switch (event.type as AssetsAssignmentTableEventType) {
-      case AssetsAssignmentTableEventType.SELECT_CLICKED:
+    switch (event.type as AssignmentTableEventType) {
+      case AssignmentTableEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, 'event.payload.item');
-        sendEvent(this.assetsAssignmentsExplorerEvent, AssetsAssignmentsExplorerEventType.SELECT_CLICKED,
-          event.payload);
+        sendEvent(this.assignmentsExplorerEvent, AssignmentsExplorerEventType.SELECT_CLICKED, event.payload);
         return;
-      case AssetsAssignmentTableEventType.EXECUTE_OPERATION_CLICKED:
+      case AssignmentTableEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
-        sendEvent(this.assetsAssignmentsExplorerEvent,
-          AssetsAssignmentsExplorerEventType.EXECUTE_OPERATION_CLICKED, event.payload);
+        sendEvent(this.assignmentsExplorerEvent,
+          AssignmentsExplorerEventType.EXECUTE_OPERATION_CLICKED, event.payload);
         return;
-      case AssetsAssignmentTableEventType.EXPORT_DATA_CLICKED:
+      case AssignmentTableEventType.EXPORT_DATA_CLICKED:
         this.setDisplayExportModal(true);
         return;
       default:
@@ -114,7 +111,7 @@ export class AssetsAssignmentsExplorerComponent implements OnChanges {
         this.setDisplayExportModal(false);
         return;
       case ExportReportModalEventType.EXPORT_BUTTON_CLICKED:
-        sendEvent(this.assetsAssignmentsExplorerEvent, AssetsAssignmentsExplorerEventType.EXPORT_CLICKED,
+        sendEvent(this.assignmentsExplorerEvent, AssignmentsExplorerEventType.EXPORT_CLICKED,
           { query: this.query });
         return;
       default:

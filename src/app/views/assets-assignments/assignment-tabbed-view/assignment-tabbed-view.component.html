@@ -7,11 +7,11 @@
 
     <mat-tab label="Responsable">
 
-      <emp-pyc-assignment-editor
+      <emp-inv-assignment-editor
         [assignment]="data.assignment"
-        (assetsAssignmentEditorEvent)="onAssetsAssignmentEditorEvent($event)">
+        (assignmentEditorEvent)="onAssignmentEditorEvent($event)">
 
-      </emp-pyc-assignment-editor>
+      </emp-inv-assignment-editor>
 
     </mat-tab>
 
@@ -19,13 +19,13 @@
 
       <ng-template matTabContent>
 
-        <emp-pyc-assignment-assets-edition
+        <emp-inv-assignment-assets-edition
           [assignmentUID]="data.assignment.uid"
           [assets]="data.assets"
           [canEdit]="data.actions?.canUpdate"
-          (assignmentAssetsEditionEvent)="onAssetsAssignmentAssetsEditionEvent($event)">
+          (assignmentAssetsEditionEvent)="onAssignmentAssetsEditionEvent($event)">
 
-        </emp-pyc-assignment-assets-edition>
+        </emp-inv-assignment-assets-edition>
 
       </ng-template>
 
@@ -33,11 +33,11 @@
 
     <mat-tab label="Transacciones">
 
-      <emp-pyc-asset-transactions-table
+      <emp-inv-asset-transactions-table
         [transactions]="data.transactions"
         [displayAssignmentData]="false">
 
-      </emp-pyc-asset-transactions-table>
+      </emp-inv-asset-transactions-table>
 
     </mat-tab>
 

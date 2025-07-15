@@ -26,7 +26,7 @@ import { AssetsAssignmentsQuery, buildLocationSelection, EmptyAssetsAssignmentsQ
          EntityStatus, EntityStatusList, LocationSelection, RequestsList } from '@app/models';
 
 
-export enum AssetsAssignmentsFilterEventType {
+export enum AssignmentsFilterEventType {
   SEARCH_CLICKED = 'AssetsAssignmentsFilterComponent.Event.SearchClicked',
   CLEAR_CLICKED  = 'AssetsAssignmentsFilterComponent.Event.ClearClicked',
 }
@@ -44,7 +44,7 @@ interface AssignmentsFilterFormModel extends FormGroup<{
 
 
 @Component({
-  selector: 'emp-pyc-assignments-filter',
+  selector: 'emp-inv-assignments-filter',
   templateUrl: './assignments-filter.component.html',
   animations: [empExpandCollapse],
 })
@@ -56,7 +56,7 @@ export class AssetsAssignmentsFilterComponent implements OnChanges, OnInit, OnDe
 
   @Output() showFiltersChange = new EventEmitter<boolean>();
 
-  @Output() assetsAssignmentsFilterEvent = new EventEmitter<EventInfo>();
+  @Output() assignmentsFilterEvent = new EventEmitter<EventInfo>();
 
   form: AssignmentsFilterFormModel;
 
@@ -120,7 +120,7 @@ export class AssetsAssignmentsFilterComponent implements OnChanges, OnInit, OnDe
 
   onSearchClicked() {
     if (this.form.valid) {
-      sendEvent(this.assetsAssignmentsFilterEvent, AssetsAssignmentsFilterEventType.SEARCH_CLICKED,
+      sendEvent(this.assignmentsFilterEvent, AssignmentsFilterEventType.SEARCH_CLICKED,
         { query: this.getFormData() });
     }
   }
@@ -128,7 +128,7 @@ export class AssetsAssignmentsFilterComponent implements OnChanges, OnInit, OnDe
 
   onClearFilters() {
     this.clearFilters();
-    sendEvent(this.assetsAssignmentsFilterEvent, AssetsAssignmentsFilterEventType.CLEAR_CLICKED,
+    sendEvent(this.assignmentsFilterEvent, AssignmentsFilterEventType.CLEAR_CLICKED,
       { query: this.getFormData() });
   }
 
@@ -137,9 +137,8 @@ export class AssetsAssignmentsFilterComponent implements OnChanges, OnInit, OnDe
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
-        { requestsList: RequestsList.assets }),
-      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSET_TYPES)
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.assets }),
+      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSETS_TYPES)
     ])
     .subscribe(([a, b]) => {
       this.orgUnitsList = a;

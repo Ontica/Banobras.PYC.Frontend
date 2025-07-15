@@ -22,14 +22,14 @@ import { sendEvent } from '@app/shared/utils';
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
 
-export enum AssetsAssignmentTableEventType {
+export enum AssignmentTableEventType {
   SELECT_CLICKED            = 'AssetsAssignmentTableComponent.Event.SelectClicked',
   EXECUTE_OPERATION_CLICKED = 'AssetsAssignmentTableComponent.Event.ExecuteOperationClicked',
   EXPORT_DATA_CLICKED       = 'AssetsAssignmentTableComponent.Event.ExportDataClicked',
 }
 
 @Component({
-  selector: 'emp-pyc-assignments-table',
+  selector: 'emp-inv-assignments-table',
   templateUrl: './assignments-table.component.html',
 })
 export class AssetsAssignmentTableComponent implements OnChanges {
@@ -42,7 +42,7 @@ export class AssetsAssignmentTableComponent implements OnChanges {
 
   @Input() queryExecuted = false;
 
-  @Output() assetsAssignmentTableEvent = new EventEmitter<EventInfo>();
+  @Output() assignmentTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumns = ['check', 'assignedTo', 'locationName', 'lastTransaction', 'releasedBy'];
 
@@ -65,11 +65,10 @@ export class AssetsAssignmentTableComponent implements OnChanges {
   onListControlsEvent(event: EventInfo) {
     switch (event.type as ListControlsEventType) {
       case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
-        sendEvent(this.assetsAssignmentTableEvent, AssetsAssignmentTableEventType.EXECUTE_OPERATION_CLICKED,
-          event.payload);
+        sendEvent(this.assignmentTableEvent, AssignmentTableEventType.EXECUTE_OPERATION_CLICKED, event.payload);
         return;
       case ListControlsEventType.EXPORT_BUTTON_CLICKED:
-        sendEvent(this.assetsAssignmentTableEvent, AssetsAssignmentTableEventType.EXPORT_DATA_CLICKED);
+        sendEvent(this.assignmentTableEvent, AssignmentTableEventType.EXPORT_DATA_CLICKED);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -79,7 +78,7 @@ export class AssetsAssignmentTableComponent implements OnChanges {
 
 
   onSelectButtonClicked(item: AssetsAssignmentDescriptor) {
-    sendEvent(this.assetsAssignmentTableEvent, AssetsAssignmentTableEventType.SELECT_CLICKED, { item });
+    sendEvent(this.assignmentTableEvent, AssignmentTableEventType.SELECT_CLICKED, { item });
   }
 
 

@@ -27,20 +27,20 @@
 
       </emp-ng-spinner>
 
-      <emp-pyc-assignments-filter class="fx-item-none"
+      <emp-inv-assignments-filter class="fx-item-none"
         [query]="query"
         [(showFilters)]="showFilters"
-        (assetsAssignmentsFilterEvent)="onAssignmentsFilterEvent($event)">
+        (assignmentsFilterEvent)="onAssignmentsFilterEvent($event)">
 
-      </emp-pyc-assignments-filter>
+      </emp-inv-assignments-filter>
 
-      <emp-pyc-assignments-table class="fx-item"
+      <emp-inv-assignments-table class="fx-item"
         [dataList]="dataList"
         [selectedUID]="selectedUID"
         [queryExecuted]="queryExecuted"
-        (assetsAssignmentTableEvent)="onAssignmentsTableEvent($event)">
+        (assignmentTableEvent)="onAssignmentsTableEvent($event)">
 
-      </emp-pyc-assignments-table>
+      </emp-inv-assignments-table>
 
     </div>
 

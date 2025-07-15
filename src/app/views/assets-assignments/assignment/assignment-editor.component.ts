@@ -18,16 +18,16 @@ import { AssetsAssignmentsDataService } from '@app/data-services';
 import { AssetsAssignment, AssetsAssignmentFields, AssetsAssignmentHolder, EmptyAssetsAssignment,
          EmptyBaseActions, BaseActions } from '@app/models';
 
-import { AssetsAssignmentHeaderEventType } from './assignment-header.component';
+import { AssignmentHeaderEventType } from './assignment-header.component';
 
 
-export enum AssetsAssignmentEditorEventType {
+export enum AssignmentEditorEventType {
   UPDATED = 'AssetsAssignmentEditorComponent.Event.Updated',
   DELETED = 'AssetsAssignmentEditorComponent.Event.Deleted',
 }
 
 @Component({
-  selector: 'emp-pyc-assignment-editor',
+  selector: 'emp-inv-assignment-editor',
   templateUrl: './assignment-editor.component.html',
 })
 export class AssetsAssignmentEditorComponent {
@@ -36,7 +36,7 @@ export class AssetsAssignmentEditorComponent {
 
   @Input() actions: BaseActions = EmptyBaseActions;
 
-  @Output() assetsAssignmentEditorEvent = new EventEmitter<EventInfo>();
+  @Output() assignmentEditorEvent = new EventEmitter<EventInfo>();
 
   submitted = false;
 
@@ -50,17 +50,17 @@ export class AssetsAssignmentEditorComponent {
   }
 
 
-  onAssetsAssignmentHeaderEvent(event: EventInfo) {
+  onAssignmentHeaderEvent(event: EventInfo) {
     if (this.submitted) {
       return;
     }
 
-    switch (event.type as AssetsAssignmentHeaderEventType) {
-      case AssetsAssignmentHeaderEventType.UPDATE:
+    switch (event.type as AssignmentHeaderEventType) {
+      case AssignmentHeaderEventType.UPDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.updateAssignment(this.assignment.uid, event.payload.dataFields as AssetsAssignmentFields);
         return;
-      case AssetsAssignmentHeaderEventType.DELETE:
+      case AssignmentHeaderEventType.DELETE:
         this.deleteAssignment(this.assignment.uid);
         return;
       default:
@@ -102,12 +102,12 @@ export class AssetsAssignmentEditorComponent {
 
 
   private resolveAssignmentUpdated(data: AssetsAssignmentHolder) {
-    sendEvent(this.assetsAssignmentEditorEvent, AssetsAssignmentEditorEventType.UPDATED, { data });
+    sendEvent(this.assignmentEditorEvent, AssignmentEditorEventType.UPDATED, { data });
   }
 
 
   private resolveAssignmentDeleted(dataUID: string) {
-    sendEvent(this.assetsAssignmentEditorEvent, AssetsAssignmentEditorEventType.DELETED, { dataUID });
+    sendEvent(this.assignmentEditorEvent, AssignmentEditorEventType.DELETED, { dataUID });
   }
 
 }

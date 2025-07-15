@@ -26,7 +26,7 @@ export enum AssignmentAssetsEditionEventType {
 }
 
 @Component({
-  selector: 'emp-pyc-assignment-assets-edition',
+  selector: 'emp-inv-assignment-assets-edition',
   templateUrl: './assignment-assets-edition.component.html',
 })
 export class AssetsAssignmentAssetsEditionComponent implements OnChanges {

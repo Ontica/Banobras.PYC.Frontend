@@ -17,13 +17,13 @@ import { AssetsAssignmentDescriptor, AssetsAssignmentHolder, AssetsAssignmentsQu
          EmptyAssetsAssignmentHolder, EmptyAssetsAssignmentsQuery, ExplorerOperationCommand,
          ExplorerOperationResult } from '@app/models';
 
-import { AssetsAssignmentsExplorerEventType } from '../assignments-explorer/assignments-explorer.component';
+import { AssignmentsExplorerEventType } from '../assignments-explorer/assignments-explorer.component';
 
-import { AssetsAssignmentTabbedViewEventType } from '../assignment-tabbed-view/assignment-tabbed-view.component';
+import { AssignmentTabbedViewEventType } from '../assignment-tabbed-view/assignment-tabbed-view.component';
 
 
 @Component({
-  selector: 'emp-pyc-assignments-main-page',
+  selector: 'emp-inv-assignments-main-page',
   templateUrl: './assignments-main-page.component.html',
 })
 export class AssetsAssignmentsMainPageComponent {
@@ -49,26 +49,26 @@ export class AssetsAssignmentsMainPageComponent {
               private messageBox: MessageBoxService) { }
 
 
-  onAssetsAssignmentsExplorerEvent(event: EventInfo) {
-    switch (event.type as AssetsAssignmentsExplorerEventType) {
-      case AssetsAssignmentsExplorerEventType.SEARCH_CLICKED:
+  onAssignmentsExplorerEvent(event: EventInfo) {
+    switch (event.type as AssignmentsExplorerEventType) {
+      case AssignmentsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as AssetsAssignmentsQuery);
         this.searchAssignments(this.query);
         return;
-      case AssetsAssignmentsExplorerEventType.CLEAR_CLICKED:
+      case AssignmentsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setQueryAndClearExplorerData(event.payload.query as AssetsAssignmentsQuery);
         return;
-      case AssetsAssignmentsExplorerEventType.EXPORT_CLICKED:
+      case AssignmentsExplorerEventType.EXPORT_CLICKED:
         this.exportAssignments(this.query);
         return;
-      case AssetsAssignmentsExplorerEventType.SELECT_CLICKED:
+      case AssignmentsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
         this.getAssignment(event.payload.item.uid);
         return;
-      case AssetsAssignmentsExplorerEventType.EXECUTE_OPERATION_CLICKED:
+      case AssignmentsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         Assertion.assertValue(event.payload.command, 'event.payload.command');
         this.bulkOperationAssignments(event.payload.operation as AssetsOperationType,
@@ -81,12 +81,12 @@ export class AssetsAssignmentsMainPageComponent {
   }
 
 
-  onAssetsAssignmentTabbedViewEvent(event: EventInfo) {
-    switch (event.type as AssetsAssignmentTabbedViewEventType) {
-      case AssetsAssignmentTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+  onAssignmentTabbedViewEvent(event: EventInfo) {
+    switch (event.type as AssignmentTabbedViewEventType) {
+      case AssignmentTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedData(EmptyAssetsAssignmentHolder);
         return;
-      case AssetsAssignmentTabbedViewEventType.REFRESH_DATA:
+      case AssignmentTabbedViewEventType.REFRESH_DATA:
         Assertion.assertValue(event.payload.assignmentUID, 'event.payload.assignmentUID');
         this.refreshSelectedData(event.payload.assignmentUID);
         return;

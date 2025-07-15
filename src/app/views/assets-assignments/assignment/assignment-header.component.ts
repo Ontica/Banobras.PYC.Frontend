@@ -26,7 +26,7 @@ import { AssetsAssignment, AssetsAssignmentFields, BaseActions, buildLocationSel
          EmptyBaseActions, EmptyLocationSelection, LocationSelection, RequestsList } from '@app/models';
 
 
-export enum AssetsAssignmentHeaderEventType {
+export enum AssignmentHeaderEventType {
   CREATE = 'AssetsAssignmentHeaderComponent.Event.Create',
   UPDATE = 'AssetsAssignmentHeaderComponent.Event.Update',
   DELETE = 'AssetsAssignmentHeaderComponent.Event.Delete',
@@ -40,7 +40,7 @@ interface AssignmentFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-pyc-assignment-header',
+  selector: 'emp-inv-assignment-header',
   templateUrl: './assignment-header.component.html',
 })
 export class AssetsAssignmentHeaderComponent implements OnInit, OnChanges, OnDestroy {
@@ -51,7 +51,7 @@ export class AssetsAssignmentHeaderComponent implements OnInit, OnChanges, OnDes
 
   @Input() actions: BaseActions = EmptyBaseActions;
 
-  @Output() assetsAssignmentHeaderEvent = new EventEmitter<EventInfo>();
+  @Output() assignmentHeaderEvent = new EventEmitter<EventInfo>();
 
   helper: SubscriptionHelper;
 
@@ -101,14 +101,14 @@ export class AssetsAssignmentHeaderComponent implements OnInit, OnChanges, OnDes
 
   onSubmitButtonClicked() {
     if (this.formHelper.isFormReadyAndInvalidate(this.form)) {
-      const eventType = this.isSaved ? AssetsAssignmentHeaderEventType.UPDATE : AssetsAssignmentHeaderEventType.CREATE;
-      sendEvent(this.assetsAssignmentHeaderEvent, eventType, { dataFields: this.getFormData() });
+      const eventType = this.isSaved ? AssignmentHeaderEventType.UPDATE : AssignmentHeaderEventType.CREATE;
+      sendEvent(this.assignmentHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
   }
 
 
   onDeleteButtonClicked() {
-    this.showConfirmMessage(AssetsAssignmentHeaderEventType.DELETE);
+    this.showConfirmMessage(AssignmentHeaderEventType.DELETE);
   }
 
 
@@ -205,7 +205,7 @@ export class AssetsAssignmentHeaderComponent implements OnInit, OnChanges, OnDes
   }
 
 
-  private showConfirmMessage(eventType: AssetsAssignmentHeaderEventType) {
+  private showConfirmMessage(eventType: AssignmentHeaderEventType) {
     const assignmentUID = this.assignment.uid;
     const confirmType = this.getConfirmType(eventType);
     const title = this.getConfirmTitle(eventType);
@@ -213,13 +213,13 @@ export class AssetsAssignmentHeaderComponent implements OnInit, OnChanges, OnDes
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => sendEventIf(x, this.assetsAssignmentHeaderEvent, eventType, { assignmentUID }));
+      .then(x => sendEventIf(x, this.assignmentHeaderEvent, eventType, { assignmentUID }));
   }
 
 
-  private getConfirmType(eventType: AssetsAssignmentHeaderEventType): 'AcceptCancel' | 'DeleteCancel' {
+  private getConfirmType(eventType: AssignmentHeaderEventType): 'AcceptCancel' | 'DeleteCancel' {
     switch (eventType) {
-      case AssetsAssignmentHeaderEventType.DELETE:
+      case AssignmentHeaderEventType.DELETE:
         return 'DeleteCancel';
       default:
         return 'AcceptCancel';
@@ -227,21 +227,21 @@ export class AssetsAssignmentHeaderComponent implements OnInit, OnChanges, OnDes
   }
 
 
-  private getConfirmTitle(eventType: AssetsAssignmentHeaderEventType): string {
+  private getConfirmTitle(eventType: AssignmentHeaderEventType): string {
     switch (eventType) {
-      case AssetsAssignmentHeaderEventType.DELETE: return 'Eliminar resguardo';
+      case AssignmentHeaderEventType.DELETE: return 'Eliminar resguardo';
       default: return '';
     }
   }
 
 
-  private getConfirmMessage(eventType: AssetsAssignmentHeaderEventType): string {
+  private getConfirmMessage(eventType: AssignmentHeaderEventType): string {
     const description = `el resguardo con responsable
       <strong>${this.assignment.assignedTo.name} (${this.assignment.assignedToOrgUnit.name})</strong>
       y localización en <strong>${this.assignment.locationName}</strong>`;
 
     switch (eventType) {
-      case AssetsAssignmentHeaderEventType.DELETE:
+      case AssignmentHeaderEventType.DELETE:
         return `Esta operación eliminará ${description}.<br><br>¿Elimino el resguardo?`;
       default: return '';
     }
