@@ -10,10 +10,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { AssetsTransactionsDataService } from '@app/data-services';
 
 @Component({
-  selector: 'emp-pyc-transaction-print-view',
+  selector: 'emp-inv-transaction-print-view',
   templateUrl: './transaction-print-view.component.html',
 })
-export class AssetTransactionPrintViewComponent implements OnChanges {
+export class AssetsTransactionPrintViewComponent implements OnChanges {
 
   @Input() transactionUID: string;
 
@@ -45,7 +45,7 @@ export class AssetTransactionPrintViewComponent implements OnChanges {
 
     this.isLoading = true;
 
-    this.transactionsData.getAssetTransactionForPrint(this.transactionUID)
+    this.transactionsData.getAssetsTransactionForPrint(this.transactionUID)
       .firstValue()
       .then(x => this.fileUrl = x.url)
       .catch(() => this.onFileError())

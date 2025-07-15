@@ -20,7 +20,7 @@ import { AssetsAssignmentsMainPageComponent } from '@app/views/assets-assignment
 // } from '@app/views/requests/requests-main-page/requests-main-page.component';
 
 import {
-  AssetTransactionsMainPageComponent
+  AssetsTransactionsMainPageComponent
 } from '@app/views/assets-transactions/transactions-main-page/transactions-main-page.component';
 
 import {
@@ -47,7 +47,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.inventarios_transacciones.permission },
     path: ROUTES.inventarios_transacciones.path,
-    component: AssetTransactionsMainPageComponent,
+    component: AssetsTransactionsMainPageComponent,
   },
   {
     data: { permission: ROUTES.inventarios_reportes.permission },

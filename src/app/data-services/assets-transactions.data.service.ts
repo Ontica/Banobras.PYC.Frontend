@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FileReport, AssetTransactionDescriptor, AssetTransactionEntry, AssetTransactionEntryFields,
-         AssetTransactionFields, AssetTransactionHolder, AssetTransactionsQuery } from '@app/models';
+import { FileReport, AssetsTransactionDescriptor, AssetsTransactionEntry, AssetsTransactionEntryFields,
+         AssetsTransactionFields, AssetsTransactionHolder, AssetsTransactionsQuery } from '@app/models';
 
 
 @Injectable()
@@ -20,23 +20,23 @@ export class AssetsTransactionsDataService {
   constructor(private http: HttpService) { }
 
 
-  getAssetTransactionsTypes(): EmpObservable<Identifiable[]> {
+  getAssetsTransactionsTypes(): EmpObservable<Identifiable[]> {
     const path = 'v2/assets/transactions/types';
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
-  searchAssetTransactions(query: AssetTransactionsQuery): EmpObservable<AssetTransactionDescriptor[]> {
+  searchAssetsTransactions(query: AssetsTransactionsQuery): EmpObservable<AssetsTransactionDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v2/assets/transactions/search';
 
-    return this.http.post<AssetTransactionDescriptor[]>(path, query);
+    return this.http.post<AssetsTransactionDescriptor[]>(path, query);
   }
 
 
-  exportAssetTransactions(query: AssetTransactionsQuery): EmpObservable<FileReport> {
+  exportAssetsTransactions(query: AssetsTransactionsQuery): EmpObservable<FileReport> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v2/assets/transactions/export';
@@ -45,16 +45,16 @@ export class AssetsTransactionsDataService {
   }
 
 
-  getAssetTransaction(transactionUID: string): EmpObservable<AssetTransactionHolder> {
+  getAssetsTransaction(transactionUID: string): EmpObservable<AssetsTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/assets/transactions/${transactionUID}`;
 
-    return this.http.get<AssetTransactionHolder>(path);
+    return this.http.get<AssetsTransactionHolder>(path);
   }
 
 
-  getAssetTransactionForPrint(transactionUID: string): EmpObservable<FileReport> {
+  getAssetsTransactionForPrint(transactionUID: string): EmpObservable<FileReport> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/assets/transactions/${transactionUID}/print`;
@@ -63,27 +63,27 @@ export class AssetsTransactionsDataService {
   }
 
 
-  createAssetTransaction(dataFields: AssetTransactionFields): EmpObservable<AssetTransactionHolder> {
+  createAssetsTransaction(dataFields: AssetsTransactionFields): EmpObservable<AssetsTransactionHolder> {
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v2/assets/transactions`;
 
-    return this.http.post<AssetTransactionHolder>(path, dataFields);
+    return this.http.post<AssetsTransactionHolder>(path, dataFields);
   }
 
 
-  updateAssetTransaction(transactionUID: string,
-                         dataFields: AssetTransactionFields): EmpObservable<AssetTransactionHolder> {
+  updateAssetsTransaction(transactionUID: string,
+                          dataFields: AssetsTransactionFields): EmpObservable<AssetsTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v2/assets/transactions/${transactionUID}`;
 
-    return this.http.put<AssetTransactionHolder>(path, dataFields);
+    return this.http.put<AssetsTransactionHolder>(path, dataFields);
   }
 
 
-  deleteAssetTransaction(transactionUID: string): EmpObservable<void> {
+  deleteAssetsTransaction(transactionUID: string): EmpObservable<void> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/assets/transactions/${transactionUID}`;
@@ -92,52 +92,52 @@ export class AssetsTransactionsDataService {
   }
 
 
-  closeAssetTransaction(transactionUID: string): EmpObservable<AssetTransactionHolder> {
+  closeAssetsTransaction(transactionUID: string): EmpObservable<AssetsTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
 
     const path = `v2/assets/transactions/${transactionUID}/close`;
 
-    return this.http.post<AssetTransactionHolder>(path);
+    return this.http.post<AssetsTransactionHolder>(path);
   }
 
 
-  cloneAssetTransaction(transactionUID: string,
-                        transactionTypeUID: string): EmpObservable<AssetTransactionHolder> {
+  cloneAssetsTransaction(transactionUID: string,
+                         transactionTypeUID: string): EmpObservable<AssetsTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(transactionTypeUID, 'transactionTypeUID');
 
     const path = `v2/assets/transactions/${transactionUID}/clone-for/${transactionTypeUID}`;
 
-    return this.http.post<AssetTransactionHolder>(path);
+    return this.http.post<AssetsTransactionHolder>(path);
   }
 
 
-  createAssetTransactionEntry(transactionUID: string,
-                              dataFields: AssetTransactionEntryFields): EmpObservable<AssetTransactionEntry> {
+  createAssetsTransactionEntry(transactionUID: string,
+                               dataFields: AssetsTransactionEntryFields): EmpObservable<AssetsTransactionEntry> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v2/assets/transactions/${transactionUID}/entries`;
 
-    return this.http.post<AssetTransactionEntry>(path, dataFields);
+    return this.http.post<AssetsTransactionEntry>(path, dataFields);
   }
 
 
-  updateAssetTransactionEntry(transactionUID: string,
-                              entryUID: string,
-                              dataFields: AssetTransactionEntryFields): EmpObservable<AssetTransactionEntry> {
+  updateAssetsTransactionEntry(transactionUID: string,
+                               entryUID: string,
+                               dataFields: AssetsTransactionEntryFields): EmpObservable<AssetsTransactionEntry> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(entryUID, 'entryUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v2/assets/transactions/${transactionUID}/entries/${entryUID}`;
 
-    return this.http.put<AssetTransactionEntry>(path, dataFields);
+    return this.http.put<AssetsTransactionEntry>(path, dataFields);
   }
 
 
-  deleteAssetTransactionEntry(transactionUID: string,
-                              entryUID: string): EmpObservable<void> {
+  deleteAssetsTransactionEntry(transactionUID: string,
+                               entryUID: string): EmpObservable<void> {
     Assertion.assertValue(transactionUID, 'transactionUID');
     Assertion.assertValue(entryUID, 'entryUID');
 

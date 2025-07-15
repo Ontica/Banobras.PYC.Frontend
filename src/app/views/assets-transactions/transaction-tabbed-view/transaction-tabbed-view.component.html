@@ -7,12 +7,12 @@
 
     <mat-tab label="Transacción">
 
-      <emp-pyc-transaction-editor
+      <emp-inv-transaction-editor
         [transaction]="data.transaction"
         [actions]="data.actions"
         (transactionEditorEvent)="onTransactionEditorEvent($event)">
 
-      </emp-pyc-transaction-editor>
+      </emp-inv-transaction-editor>
 
     </mat-tab>
 
@@ -20,13 +20,13 @@
 
       <ng-template matTabContent>
 
-        <emp-pyc-transaction-entries-edition
+        <emp-inv-transaction-entries-edition
           [transaction]="data.transaction"
           [entries]="data.entries"
           [canEdit]="data.actions.canUpdate"
           (transactionEntriesEditionEvent)="onTransactionEntriesEditionEvent($event)">
 
-        </emp-pyc-transaction-entries-edition>
+        </emp-inv-transaction-entries-edition>
 
       </ng-template>
 
@@ -36,10 +36,10 @@
 
       <ng-template matTabContent>
 
-        <emp-pyc-transaction-print-view
+        <emp-inv-transaction-print-view
           [transactionUID]="data.transaction.uid">
 
-        </emp-pyc-transaction-print-view>
+        </emp-inv-transaction-print-view>
 
       </ng-template>
 

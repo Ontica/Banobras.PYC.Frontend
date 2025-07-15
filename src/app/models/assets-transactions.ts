@@ -19,7 +19,7 @@ import { TransactionDateType, TransactionPartyType, TransactionStages,
          TransactionStatus } from './transactions';
 
 
-export interface AssetTransactionsQuery {
+export interface AssetsTransactionsQuery {
   assignedToUID: string;
   assignedToOrgUnitUID: string;
   status: TransactionStatus;
@@ -45,7 +45,7 @@ export interface AssetTransactionsQuery {
 }
 
 
-export interface AssetTransactionDescriptor {
+export interface AssetsTransactionDescriptor {
   uid: string;
   transactionTypeName: string;
   transactionNo: string;
@@ -70,7 +70,7 @@ export interface AssetTransactionDescriptor {
 }
 
 
-export interface AssetTransactionFields {
+export interface AssetsTransactionFields {
   transactionTypeUID: string;
   requestedTime: DateString;
   applicationDate: DateString;
@@ -85,16 +85,16 @@ export interface AssetTransactionFields {
 }
 
 
-export interface AssetTransactionHolder {
-  transaction: AssetTransaction,
-  entries: AssetTransactionEntry[];
+export interface AssetsTransactionHolder {
+  transaction: AssetsTransaction,
+  entries: AssetsTransactionEntry[];
   documents: Document[];
   history: HistoryEntry[];
-  actions: AssetTransactionActions;
+  actions: AssetsTransactionActions;
 }
 
 
-export interface AssetTransaction {
+export interface AssetsTransaction {
   uid: string;
   transactionType: Identifiable;
   transactionNo: string;
@@ -124,7 +124,7 @@ export interface AssetTransaction {
 }
 
 
-export interface AssetTransactionActions {
+export interface AssetsTransactionActions {
   canUpdate: boolean;
   canDelete: boolean;
   canClose: boolean;
@@ -133,7 +133,7 @@ export interface AssetTransactionActions {
 }
 
 
-export interface AssetTransactionEntryFields {
+export interface AssetsTransactionEntryFields {
   uid: string;
   transactionUID: string;
   assetUID: string;
@@ -142,7 +142,7 @@ export interface AssetTransactionEntryFields {
 }
 
 
-export interface AssetTransactionEntry {
+export interface AssetsTransactionEntry {
   uid: string;
   entryType: Identifiable;
   transaction: Identifiable;
@@ -151,7 +151,7 @@ export interface AssetTransactionEntry {
 }
 
 
-export const AssetTransactionsOperationsList: ExplorerOperation[] = [
+export const AssetsTransactionsOperationsList: ExplorerOperation[] = [
   {
     uid: ExplorerOperationType.pdf,
     name: 'Imprimir',
@@ -170,7 +170,7 @@ export const AssetTransactionsOperationsList: ExplorerOperation[] = [
 ];
 
 
-export const EmptyAssetTransactionsQuery: AssetTransactionsQuery = {
+export const EmptyAssetsTransactionsQuery: AssetsTransactionsQuery = {
   assignedToUID: '',
   assignedToOrgUnitUID: '',
   stage: null,
@@ -196,7 +196,7 @@ export const EmptyAssetTransactionsQuery: AssetTransactionsQuery = {
 };
 
 
-export const EmptyAssetTransaction: AssetTransaction = {
+export const EmptyAssetsTransaction: AssetsTransaction = {
   uid: '',
   transactionType: Empty,
   transactionNo: '',
@@ -226,7 +226,7 @@ export const EmptyAssetTransaction: AssetTransaction = {
 }
 
 
-export const EmptyAssetTransactionEntry: AssetTransactionEntry = {
+export const EmptyAssetsTransactionEntry: AssetsTransactionEntry = {
   uid: '',
   entryType: Empty,
   transaction: Empty,
@@ -235,7 +235,7 @@ export const EmptyAssetTransactionEntry: AssetTransactionEntry = {
 }
 
 
-export const EmptyAssetTransactionActions: AssetTransactionActions = {
+export const EmptyAssetsTransactionActions: AssetsTransactionActions = {
   canUpdate: false,
   canDelete: false,
   canClose: false,
@@ -244,16 +244,16 @@ export const EmptyAssetTransactionActions: AssetTransactionActions = {
 }
 
 
-export const EmptyAssetTransactionHolder: AssetTransactionHolder = {
-  transaction: EmptyAssetTransaction,
+export const EmptyAssetsTransactionHolder: AssetsTransactionHolder = {
+  transaction: EmptyAssetsTransaction,
   entries: [],
   documents: [],
   history: [],
-  actions: EmptyAssetTransactionActions,
+  actions: EmptyAssetsTransactionActions,
 };
 
 
-export function mapAssetTransactionDescriptorFromTransaction(data: AssetTransaction): AssetTransactionDescriptor {
+export function mapAssetsTransactionDescriptorFromTransaction(data: AssetsTransaction): AssetsTransactionDescriptor {
   return {
     uid: data.uid,
     transactionNo: data.transactionNo,

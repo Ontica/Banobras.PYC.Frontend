@@ -13,21 +13,21 @@ import { sendEvent } from '@app/shared/utils';
 
 import { AssetsTransactionsDataService } from '@app/data-services';
 
-import { AssetTransactionFields } from '@app/models';
+import { AssetsTransactionFields } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
 
 
 export enum TransactionCreatorEventType {
-  CREATED             = 'AssetTransactionCreatorComponent.Event.TransactionCreated',
-  CLOSE_MODAL_CLICKED = 'AssetTransactionCreatorComponent.Event.CloseModalClicked',
+  CREATED             = 'AssetsTransactionCreatorComponent.Event.TransactionCreated',
+  CLOSE_MODAL_CLICKED = 'AssetsTransactionCreatorComponent.Event.CloseModalClicked',
 }
 
 @Component({
-  selector: 'emp-pyc-transaction-creator',
+  selector: 'emp-inv-transaction-creator',
   templateUrl: './transaction-creator.component.html',
 })
-export class AssetTransactionCreatorComponent {
+export class AssetsTransactionCreatorComponent {
 
   @Output() transactionCreatorEvent = new EventEmitter<EventInfo>();
 
@@ -50,7 +50,7 @@ export class AssetTransactionCreatorComponent {
     switch (event.type as TransactionHeaderEventType) {
       case TransactionHeaderEventType.CREATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.createTransaction(event.payload.dataFields as AssetTransactionFields);
+        this.createTransaction(event.payload.dataFields as AssetsTransactionFields);
         return;
 
       default:
@@ -60,10 +60,10 @@ export class AssetTransactionCreatorComponent {
   }
 
 
-  private createTransaction(dataFields: AssetTransactionFields) {
+  private createTransaction(dataFields: AssetsTransactionFields) {
     this.submitted = true;
 
-    this.transactionsData.createAssetTransaction(dataFields)
+    this.transactionsData.createAssetsTransaction(dataFields)
       .firstValue()
       .then(x => sendEvent(this.transactionCreatorEvent, TransactionCreatorEventType.CREATED, { data: x }))
       .finally(() => this.submitted = false);

@@ -16,21 +16,21 @@ import { ReportsControlsModule } from '../_reports-controls/reports-controls.mod
 import { AssetsModule } from '../assets/assets.module';
 import { EntityRecordsModule } from '../entity-records/entity-records.module';
 
-import { AssetTransactionsMainPageComponent } from './transactions-main-page/transactions-main-page.component';
-import { AssetTransactionsExplorerComponent } from './transactions-explorer/transactions-explorer.component';
-import { AssetTransactionsFilterComponent } from './transactions-explorer/transactions-filter.component';
-import { AssetTransactionsListComponent } from './transactions-explorer/transactions-list.component';
-import { AssetTransactionsListHeaderComponent } from './transactions-explorer/transactions-list-header.component';
-import { AssetTransactionsListItemComponent } from './transactions-explorer/transactions-list-item.component';
+import { AssetsTransactionsMainPageComponent } from './transactions-main-page/transactions-main-page.component';
+import { AssetsTransactionsExplorerComponent } from './transactions-explorer/transactions-explorer.component';
+import { AssetsTransactionsFilterComponent } from './transactions-explorer/transactions-filter.component';
+import { AssetsTransactionsListComponent } from './transactions-explorer/transactions-list.component';
+import { AssetsTransactionsListHeaderComponent } from './transactions-explorer/transactions-list-header.component';
+import { AssetsTransactionsListItemComponent } from './transactions-explorer/transactions-list-item.component';
 
-import { AssetTransactionTabbedViewComponent } from './transaction-tabbed-view/transaction-tabbed-view.component';
-import { AssetTransactionPrintViewComponent } from './transaction-tabbed-view/transaction-print-view.component';
-import { AssetTransactionCreatorComponent } from './transaction/transaction-creator.component';
-import { AssetTransactionEditorComponent } from './transaction/transaction-editor.component';
-import { AssetTransactionHeaderComponent } from './transaction/transaction-header.component';
+import { AssetsTransactionTabbedViewComponent } from './transaction-tabbed-view/transaction-tabbed-view.component';
+import { AssetsTransactionPrintViewComponent } from './transaction-tabbed-view/transaction-print-view.component';
+import { AssetsTransactionCreatorComponent } from './transaction/transaction-creator.component';
+import { AssetsTransactionEditorComponent } from './transaction/transaction-editor.component';
+import { AssetsTransactionHeaderComponent } from './transaction/transaction-header.component';
 
-import { AssetTransactionEntriesEditionComponent } from './transaction-entries/transaction-entries-edition.component';
-import { AssetTransactionEntriesTableComponent } from './transaction-entries/transaction-entries-table.component';
+import { AssetsTransactionEntriesEditionComponent } from './transaction-entries/transaction-entries-edition.component';
+import { AssetsTransactionEntriesTableComponent } from './transaction-entries/transaction-entries-table.component';
 
 
 @NgModule({
@@ -47,24 +47,24 @@ import { AssetTransactionEntriesTableComponent } from './transaction-entries/tra
     ReportsControlsModule,
   ],
   declarations: [
-    AssetTransactionsMainPageComponent,
-    AssetTransactionsExplorerComponent,
-    AssetTransactionsFilterComponent,
-    AssetTransactionsListComponent,
-    AssetTransactionsListHeaderComponent,
-    AssetTransactionsListItemComponent,
+    AssetsTransactionsMainPageComponent,
+    AssetsTransactionsExplorerComponent,
+    AssetsTransactionsFilterComponent,
+    AssetsTransactionsListComponent,
+    AssetsTransactionsListHeaderComponent,
+    AssetsTransactionsListItemComponent,
 
-    AssetTransactionTabbedViewComponent,
-    AssetTransactionPrintViewComponent,
-    AssetTransactionCreatorComponent,
-    AssetTransactionEditorComponent,
-    AssetTransactionHeaderComponent,
+    AssetsTransactionTabbedViewComponent,
+    AssetsTransactionPrintViewComponent,
+    AssetsTransactionCreatorComponent,
+    AssetsTransactionEditorComponent,
+    AssetsTransactionHeaderComponent,
 
-    AssetTransactionEntriesEditionComponent,
-    AssetTransactionEntriesTableComponent,
+    AssetsTransactionEntriesEditionComponent,
+    AssetsTransactionEntriesTableComponent,
   ],
   exports: [
-    AssetTransactionsMainPageComponent,
+    AssetsTransactionsMainPageComponent,
   ]
 })
 export class AssetsTransactionsModule { }

@@ -4,7 +4,7 @@
 
 <div class="explorer">
 
-  <emp-pyc-transactions-explorer
+  <emp-inv-transactions-explorer
     class="primary"
     [class.std-hide]="displayTabbedView"
     [query]="query"
@@ -15,19 +15,19 @@
     [queryExecuted]="queryExecuted"
     (transactionsExplorerEvent)="onTransactionsExplorerEvent($event)">
 
-  </emp-pyc-transactions-explorer>
+  </emp-inv-transactions-explorer>
 
-  <emp-pyc-transaction-tabbed-view *ngIf="displayTabbedView"
+  <emp-inv-transaction-tabbed-view *ngIf="displayTabbedView"
     class="secondary priority std-stacked"
     [data]="selectedData"
     (transactionTabbedViewEvent)="onTransactionTabbedViewEvent($event)">
 
-  </emp-pyc-transaction-tabbed-view>
+  </emp-inv-transaction-tabbed-view>
 
 </div>
 
 
-<emp-pyc-transaction-creator *ngIf="displayCreator"
+<emp-inv-transaction-creator *ngIf="displayCreator"
   (transactionCreatorEvent)="onTransactionCreatorEvent($event)">
 
-</emp-pyc-transaction-creator>
+</emp-inv-transaction-creator>

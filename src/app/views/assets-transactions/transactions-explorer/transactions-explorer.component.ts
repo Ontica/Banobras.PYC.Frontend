@@ -13,12 +13,12 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyAssetTransactionsQuery, AssetTransactionDescriptor, AssetTransactionsQuery, TransactionStages,
+import { EmptyAssetsTransactionsQuery, AssetsTransactionDescriptor, AssetsTransactionsQuery, TransactionStages,
          TransactionStagesList } from '@app/models';
 
 import { TransactionsListEventType } from './transactions-list.component';
 
-import { AssetTransactionsFilterEventType } from './transactions-filter.component';
+import { TransactionsFilterEventType } from './transactions-filter.component';
 
 import {
   ExportReportModalEventType
@@ -26,23 +26,23 @@ import {
 
 
 export enum TransactionsExplorerEventType {
-  CREATE_CLICKED            = 'AssetTransactionsExplorerComponent.Event.CreateClicked',
-  SEARCH_CLICKED            = 'AssetTransactionsExplorerComponent.Event.SearchClicked',
-  CLEAR_CLICKED             = 'AssetTransactionsExplorerComponent.Event.ClearClicked',
-  EXECUTE_OPERATION_CLICKED = 'AssetTransactionsExplorerComponent.Event.ExecuteOperationClicked',
-  EXPORT_CLICKED            = 'AssetTransactionsExplorerComponent.Event.ExportClicked',
-  SELECT_CLICKED            = 'AssetTransactionsExplorerComponent.Event.SelectClicked',
+  CREATE_CLICKED            = 'AssetsTransactionsExplorerComponent.Event.CreateClicked',
+  SEARCH_CLICKED            = 'AssetsTransactionsExplorerComponent.Event.SearchClicked',
+  CLEAR_CLICKED             = 'AssetsTransactionsExplorerComponent.Event.ClearClicked',
+  EXECUTE_OPERATION_CLICKED = 'AssetsTransactionsExplorerComponent.Event.ExecuteOperationClicked',
+  EXPORT_CLICKED            = 'AssetsTransactionsExplorerComponent.Event.ExportClicked',
+  SELECT_CLICKED            = 'AssetsTransactionsExplorerComponent.Event.SelectClicked',
 }
 
 @Component({
-  selector: 'emp-pyc-transactions-explorer',
+  selector: 'emp-inv-transactions-explorer',
   templateUrl: './transactions-explorer.component.html',
 })
-export class AssetTransactionsExplorerComponent implements OnChanges {
+export class AssetsTransactionsExplorerComponent implements OnChanges {
 
-  @Input() query: AssetTransactionsQuery = Object.assign({}, EmptyAssetTransactionsQuery);
+  @Input() query: AssetsTransactionsQuery = Object.assign({}, EmptyAssetsTransactionsQuery);
 
-  @Input() dataList: AssetTransactionDescriptor[] = [];
+  @Input() dataList: AssetsTransactionDescriptor[] = [];
 
   @Input() selectedUID = '';
 
@@ -89,13 +89,13 @@ export class AssetTransactionsExplorerComponent implements OnChanges {
 
 
   onTransactionsFilterEvent(event: EventInfo) {
-    switch (event.type as AssetTransactionsFilterEventType) {
-      case AssetTransactionsFilterEventType.SEARCH_CLICKED:
+    switch (event.type as TransactionsFilterEventType) {
+      case TransactionsFilterEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.transactionsExplorerEvent, TransactionsExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
-      case AssetTransactionsFilterEventType.CLEAR_CLICKED:
+      case TransactionsFilterEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.transactionsExplorerEvent, TransactionsExplorerEventType.CLEAR_CLICKED,
           event.payload);

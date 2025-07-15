@@ -13,26 +13,26 @@ import { sendEvent } from '@app/shared/utils';
 
 import { AssetsTransactionsDataService } from '@app/data-services';
 
-import { AssetTransaction, AssetTransactionFields, AssetTransactionHolder, EmptyAssetTransaction,
-         EmptyAssetTransactionActions, AssetTransactionActions, ObjectTypes } from '@app/models';
+import { AssetsTransaction, AssetsTransactionFields, AssetsTransactionHolder, EmptyAssetsTransaction,
+         EmptyAssetsTransactionActions, AssetsTransactionActions, ObjectTypes } from '@app/models';
 
 import { TransactionHeaderEventType } from './transaction-header.component';
 
 
 export enum TransactionEditorEventType {
-  UPDATED = 'AssetTransactionEditorComponent.Event.TransactionUpdated',
-  DELETED = 'AssetTransactionEditorComponent.Event.TransactionDeleted',
+  UPDATED = 'AssetsTransactionEditorComponent.Event.TransactionUpdated',
+  DELETED = 'AssetsTransactionEditorComponent.Event.TransactionDeleted',
 }
 
 @Component({
-  selector: 'emp-pyc-transaction-editor',
+  selector: 'emp-inv-transaction-editor',
   templateUrl: './transaction-editor.component.html',
 })
-export class AssetTransactionEditorComponent {
+export class AssetsTransactionEditorComponent {
 
-  @Input() transaction: AssetTransaction = EmptyAssetTransaction;
+  @Input() transaction: AssetsTransaction = EmptyAssetsTransaction;
 
-  @Input() actions: AssetTransactionActions = EmptyAssetTransactionActions;
+  @Input() actions: AssetsTransactionActions = EmptyAssetsTransactionActions;
 
   @Output() transactionEditorEvent = new EventEmitter<EventInfo>();
 
@@ -55,7 +55,7 @@ export class AssetTransactionEditorComponent {
     switch (event.type as TransactionHeaderEventType) {
       case TransactionHeaderEventType.UPDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.updateTransaction(this.transaction.uid, event.payload.dataFields as AssetTransactionFields);
+        this.updateTransaction(this.transaction.uid, event.payload.dataFields as AssetsTransactionFields);
         return;
       case TransactionHeaderEventType.DELETE:
         this.deleteTransaction(this.transaction.uid);
@@ -76,10 +76,10 @@ export class AssetTransactionEditorComponent {
   }
 
 
-  private updateTransaction(transactionUID: string, dataFields: AssetTransactionFields) {
+  private updateTransaction(transactionUID: string, dataFields: AssetsTransactionFields) {
     this.submitted = true;
 
-    this.transactionsData.updateAssetTransaction(transactionUID, dataFields)
+    this.transactionsData.updateAssetsTransaction(transactionUID, dataFields)
       .firstValue()
       .then(x => this.resolveTransactionUpdated(x))
       .finally(() => this.submitted = false);
@@ -89,7 +89,7 @@ export class AssetTransactionEditorComponent {
   private deleteTransaction(transactionUID: string) {
     this.submitted = true;
 
-    this.transactionsData.deleteAssetTransaction(transactionUID)
+    this.transactionsData.deleteAssetsTransaction(transactionUID)
       .firstValue()
       .then(() => this.resolveTransactionDeleted(transactionUID))
       .finally(() => this.submitted = false);
@@ -99,7 +99,7 @@ export class AssetTransactionEditorComponent {
   private closeTransaction(transactionUID: string) {
     this.submitted = true;
 
-    this.transactionsData.closeAssetTransaction(transactionUID)
+    this.transactionsData.closeAssetsTransaction(transactionUID)
       .firstValue()
       .then(x => this.resolveTransactionUpdated(x))
       .finally(() => this.submitted = false);
@@ -109,14 +109,14 @@ export class AssetTransactionEditorComponent {
   private cloneTransaction(transactionUID: string, transactionTypeUID: string) {
     this.submitted = true;
 
-    this.transactionsData.cloneAssetTransaction(transactionUID, transactionTypeUID)
+    this.transactionsData.cloneAssetsTransaction(transactionUID, transactionTypeUID)
       .firstValue()
       .then(x => this.resolveTransactionUpdated(x))
       .finally(() => this.submitted = false);
   }
 
 
-  private resolveTransactionUpdated(data: AssetTransactionHolder) {
+  private resolveTransactionUpdated(data: AssetsTransactionHolder) {
     sendEvent(this.transactionEditorEvent, TransactionEditorEventType.UPDATED, { data });
   }
 

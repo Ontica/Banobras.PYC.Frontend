@@ -9,17 +9,17 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 import { Component, Input } from '@angular/core';
 
-import { AssetTransactionDescriptor } from '@app/models';
+import { AssetsTransactionDescriptor } from '@app/models';
 
 @Component({
-  selector: 'emp-pyc-transactions-list-header',
+  selector: 'emp-inv-transactions-list-header',
   templateUrl: './transactions-list-header.component.html',
   styleUrls: ['./transactions-list-item.component.scss'],
 })
-export class AssetTransactionsListHeaderComponent {
+export class AssetsTransactionsListHeaderComponent {
 
-  @Input() dataList: AssetTransactionDescriptor[] = [];
+  @Input() dataList: AssetsTransactionDescriptor[] = [];
 
-  @Input() selection = new SelectionModel<AssetTransactionDescriptor>(true, []);
+  @Input() selection = new SelectionModel<AssetsTransactionDescriptor>(true, []);
 
 }

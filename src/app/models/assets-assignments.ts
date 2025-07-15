@@ -11,7 +11,7 @@ import { BaseActions, EmptyBaseActions, EntityStatus, ExplorerOperation } from '
 
 import { AssetDescriptor, AssetsOperationsList } from './assets';
 
-import { AssetTransaction, AssetTransactionDescriptor, EmptyAssetTransaction } from './assets-transactions';
+import { AssetsTransaction, AssetsTransactionDescriptor, EmptyAssetsTransaction } from './assets-transactions';
 
 import { Document } from './documents';
 
@@ -58,7 +58,7 @@ export interface AssetsAssignmentFields {
 export interface AssetsAssignmentHolder {
   assignment: AssetsAssignment;
   assets: AssetDescriptor[];
-  transactions: AssetTransactionDescriptor[];
+  transactions: AssetsTransactionDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
   actions: BaseActions;
@@ -75,7 +75,7 @@ export interface AssetsAssignment {
   floor: Identifiable;
   place: Identifiable;
   locationName: string;
-  lastAssignmentTransaction: AssetTransaction;
+  lastAssignmentTransaction: AssetsTransaction;
   status: Identifiable;
 }
 
@@ -90,7 +90,7 @@ export const EmptyAssetsAssignment: AssetsAssignment = {
   floor: Empty,
   place: Empty,
   locationName: '',
-  lastAssignmentTransaction: EmptyAssetTransaction,
+  lastAssignmentTransaction: EmptyAssetsTransaction,
   status: Empty,
 };
 

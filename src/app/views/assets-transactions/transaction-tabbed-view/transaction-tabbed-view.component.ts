@@ -11,7 +11,7 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
-import { AssetTransactionHolder, EmptyAssetTransactionHolder } from '@app/models';
+import { AssetsTransactionHolder, EmptyAssetsTransactionHolder } from '@app/models';
 
 import { TransactionEditorEventType } from '../transaction/transaction-editor.component';
 
@@ -21,19 +21,19 @@ import { TransactionEntriesEditionEventType } from '../transaction-entries/trans
 
 
 export enum TransactionTabbedViewEventType {
-  CLOSE_BUTTON_CLICKED = 'AssetTransactionTabbedViewComponent.Event.CloseButtonClicked',
-  DATA_UPDATED         = 'AssetTransactionTabbedViewComponent.Event.DataUpdated',
-  DATA_DELETED         = 'AssetTransactionTabbedViewComponent.Event.DataDeleted',
-  REFRESH_DATA         = 'AssetTransactionTabbedViewComponent.Event.RefreshData',
+  CLOSE_BUTTON_CLICKED = 'AssetsTransactionTabbedViewComponent.Event.CloseButtonClicked',
+  DATA_UPDATED         = 'AssetsTransactionTabbedViewComponent.Event.DataUpdated',
+  DATA_DELETED         = 'AssetsTransactionTabbedViewComponent.Event.DataDeleted',
+  REFRESH_DATA         = 'AssetsTransactionTabbedViewComponent.Event.RefreshData',
 }
 
 @Component({
-  selector: 'emp-pyc-transaction-tabbed-view',
+  selector: 'emp-inv-transaction-tabbed-view',
   templateUrl: './transaction-tabbed-view.component.html',
 })
-export class AssetTransactionTabbedViewComponent implements OnChanges {
+export class AssetsTransactionTabbedViewComponent implements OnChanges {
 
-  @Input() data: AssetTransactionHolder = EmptyAssetTransactionHolder;
+  @Input() data: AssetsTransactionHolder = EmptyAssetsTransactionHolder;
 
   @Output() transactionTabbedViewEvent = new EventEmitter<EventInfo>();
 

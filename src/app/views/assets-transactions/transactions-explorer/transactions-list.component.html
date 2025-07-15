@@ -9,12 +9,12 @@
 
   </emp-ng-list-controls>
 
-  <emp-pyc-transactions-list-header
+  <emp-inv-transactions-list-header
     class="fx-item-none"
     [dataList]="dataList"
     [selection]="selection">
 
-  </emp-pyc-transactions-list-header>
+  </emp-inv-transactions-list-header>
 
   <div #listContainer class="fx-item">
 
@@ -26,12 +26,12 @@
 
         <div class="list-item-container">
 
-          <emp-pyc-transactions-list-item
+          <emp-inv-transactions-list-item
             [transaction]="item"
             [selected]="selection.isSelected(item)"
             (transactionsListItemEvent)="onTransactionsListItemEvent($event)">
 
-          </emp-pyc-transactions-list-item>
+          </emp-inv-transactions-list-item>
 
         </div>
 

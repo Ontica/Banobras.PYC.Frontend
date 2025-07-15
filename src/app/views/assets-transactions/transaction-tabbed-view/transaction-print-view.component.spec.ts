@@ -7,21 +7,21 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetTransactionPrintViewComponent } from './transaction-print-view.component';
+import { AssetsTransactionPrintViewComponent } from './transaction-print-view.component';
 
-describe('AssetTransactionPrintViewComponent', () => {
-  let component: AssetTransactionPrintViewComponent;
-  let fixture: ComponentFixture<AssetTransactionPrintViewComponent>;
+describe('AssetsTransactionPrintViewComponent', () => {
+  let component: AssetsTransactionPrintViewComponent;
+  let fixture: ComponentFixture<AssetsTransactionPrintViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AssetTransactionPrintViewComponent ]
+      declarations: [ AssetsTransactionPrintViewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AssetTransactionPrintViewComponent);
+    fixture = TestBed.createComponent(AssetsTransactionPrintViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

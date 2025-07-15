@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetTransactionTabbedViewComponent } from './transaction-tabbed-view.component';
+import { AssetsTransactionTabbedViewComponent } from './transaction-tabbed-view.component';
 
-describe('AssetTransactionTabbedViewComponent', () => {
-  let component: AssetTransactionTabbedViewComponent;
-  let fixture: ComponentFixture<AssetTransactionTabbedViewComponent>;
+describe('AssetsTransactionTabbedViewComponent', () => {
+  let component: AssetsTransactionTabbedViewComponent;
+  let fixture: ComponentFixture<AssetsTransactionTabbedViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssetTransactionTabbedViewComponent]
+      declarations: [AssetsTransactionTabbedViewComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AssetTransactionTabbedViewComponent);
+    fixture = TestBed.createComponent(AssetsTransactionTabbedViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -11,22 +11,22 @@ import { EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { AssetTransactionDescriptor } from '@app/models';
+import { AssetsTransactionDescriptor } from '@app/models';
 
 
 export enum TransactionsListItemEventType {
-  SELECT_CLICKED = 'AssetTransactionsListItemComponent.Event.SelectClicked',
-  CHECK_CLICKED  = 'AssetTransactionsListItemComponent.Event.CheckClicked',
+  SELECT_CLICKED = 'AssetsTransactionsListItemComponent.Event.SelectClicked',
+  CHECK_CLICKED  = 'AssetsTransactionsListItemComponent.Event.CheckClicked',
 }
 
 @Component({
-  selector: 'emp-pyc-transactions-list-item',
+  selector: 'emp-inv-transactions-list-item',
   templateUrl: './transactions-list-item.component.html',
   styleUrls: ['./transactions-list-item.component.scss'],
 })
-export class AssetTransactionsListItemComponent {
+export class AssetsTransactionsListItemComponent {
 
-  @Input() transaction: AssetTransactionDescriptor;
+  @Input() transaction: AssetsTransactionDescriptor;
 
   @Input() selected = false;
 

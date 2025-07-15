@@ -15,27 +15,27 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { AssetTransactionDescriptor, AssetTransactionsOperationsList } from '@app/models';
+import { AssetsTransactionDescriptor, AssetsTransactionsOperationsList } from '@app/models';
 
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
 import { TransactionsListItemEventType } from './transactions-list-item.component';
 
 export enum TransactionsListEventType {
-  SELECT_CLICKED            = 'AssetTransactionsListComponent.Event.SelectClicked',
-  EXECUTE_OPERATION_CLICKED = 'AssetTransactionsListComponent.Event.ExecuteOperationClicked',
-  EXPORT_DATA_CLICKED       = 'AssetTransactionsListComponent.Event.ExportDataClicked',
+  SELECT_CLICKED            = 'AssetsTransactionsListComponent.Event.SelectClicked',
+  EXECUTE_OPERATION_CLICKED = 'AssetsTransactionsListComponent.Event.ExecuteOperationClicked',
+  EXPORT_DATA_CLICKED       = 'AssetsTransactionsListComponent.Event.ExportDataClicked',
 }
 
 @Component({
-  selector: 'emp-pyc-transactions-list',
+  selector: 'emp-inv-transactions-list',
   templateUrl: './transactions-list.component.html',
 })
-export class AssetTransactionsListComponent implements OnChanges {
+export class AssetsTransactionsListComponent implements OnChanges {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
-  @Input() dataList: AssetTransactionDescriptor[] = [];
+  @Input() dataList: AssetsTransactionDescriptor[] = [];
 
   @Input() selectedUID = '';
 
@@ -43,9 +43,9 @@ export class AssetTransactionsListComponent implements OnChanges {
 
   @Output() transactionsListEvent = new EventEmitter<EventInfo>();
 
-  selection = new SelectionModel<AssetTransactionDescriptor>(true, []);
+  selection = new SelectionModel<AssetsTransactionDescriptor>(true, []);
 
-  operationsList = AssetTransactionsOperationsList;
+  operationsList = AssetsTransactionsOperationsList;
 
 
   ngOnChanges(changes: SimpleChanges) {

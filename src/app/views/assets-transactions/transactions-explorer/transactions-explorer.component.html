@@ -55,23 +55,23 @@
 
       </emp-ng-spinner>
 
-
-      <emp-pyc-transactions-filter
+      <emp-inv-transactions-filter
         class="fx-item-none"
         [stage]="stage"
         [query]="query"
         [(showFilters)]="showFilters"
         (transactionsFilterEvent)="onTransactionsFilterEvent($event)">
 
-      </emp-pyc-transactions-filter>
+      </emp-inv-transactions-filter>
 
-      <emp-pyc-transactions-list class="fx-item"
+      <emp-inv-transactions-list class="fx-item"
         [dataList]="dataList"
         [selectedUID]="selectedUID"
         [queryExecuted]="queryExecuted"
         (transactionsListEvent)="onTransactionsListEvent($event)">
 
-      </emp-pyc-transactions-list>
+      </emp-inv-transactions-list>
+
     </div>
 
   </div>

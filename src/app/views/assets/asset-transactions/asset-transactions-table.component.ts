@@ -15,7 +15,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { AssetTransactionDescriptor } from '@app/models';
+import { AssetsTransactionDescriptor } from '@app/models';
 
 export enum TransactionsTableEventType {
   SELECT_CLICKED = 'AssetTransactionsTableComponent.Event.SelectClicked',
@@ -28,7 +28,7 @@ export enum TransactionsTableEventType {
 })
 export class AssetTransactionsTableComponent implements OnChanges {
 
-  @Input() transactions: AssetTransactionDescriptor[] = [];
+  @Input() transactions: AssetsTransactionDescriptor[] = [];
 
   @Input() canEdit = false;
 
@@ -38,7 +38,7 @@ export class AssetTransactionsTableComponent implements OnChanges {
 
   displayedColumns = ['transactionType', 'transactionNo', 'requestedTime', 'assignedTo', 'description'];
 
-  dataSource: MatTableDataSource<AssetTransactionDescriptor>;
+  dataSource: MatTableDataSource<AssetsTransactionDescriptor>;
 
 
   constructor(private messageBox: MessageBoxService) {
@@ -53,14 +53,14 @@ export class AssetTransactionsTableComponent implements OnChanges {
   }
 
 
-  onSelectTransactionClicked(transaction: AssetTransactionDescriptor) {
+  onSelectTransactionClicked(transaction: AssetsTransactionDescriptor) {
     if (this.canEdit && window.getSelection().toString().length <= 0) {
       sendEvent(this.transactionsTableEvent, TransactionsTableEventType.SELECT_CLICKED, { transaction });
     }
   }
 
 
-  onRemoveTransactionClicked(transaction: AssetTransactionDescriptor) {
+  onRemoveTransactionClicked(transaction: AssetsTransactionDescriptor) {
     const message = this.getConfirmMessage(transaction);
 
     this.messageBox.confirm(message, 'Eliminar transacción', 'DeleteCancel')
@@ -92,7 +92,7 @@ export class AssetTransactionsTableComponent implements OnChanges {
   }
 
 
-  private getConfirmMessage(transaction: AssetTransactionDescriptor): string {
+  private getConfirmMessage(transaction: AssetsTransactionDescriptor): string {
     return `
       <table class='confirm-data'>
         <tr><td class='nowrap'>Transacción: </td><td><strong>

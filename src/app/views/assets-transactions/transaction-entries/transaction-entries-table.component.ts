@@ -13,7 +13,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { AssetTransactionEntry, AssetTransactionEntryFields, isEntityStatusInWarning } from '@app/models';
+import { AssetsTransactionEntry, AssetsTransactionEntryFields, isEntityStatusInWarning } from '@app/models';
 
 import { sendEvent, sendEventIf } from '@app/shared/utils';
 
@@ -21,22 +21,22 @@ import { MessageBoxService } from '@app/shared/services';
 
 
 export enum TransactionEntriesTableEventType {
-  SELECT_CLICKED = 'AssetTransactionEntriesTableComponent.Event.SelectClicked',
-  UPDATE_CLICKED = 'AssetTransactionEntriesTableComponent.Event.UpdateClicked',
-  DELETE_CLICKED = 'AssetTransactionEntriesTableComponent.Event.DeleteClicked',
+  SELECT_CLICKED = 'AssetsTransactionEntriesTableComponent.Event.SelectClicked',
+  UPDATE_CLICKED = 'AssetsTransactionEntriesTableComponent.Event.UpdateClicked',
+  DELETE_CLICKED = 'AssetsTransactionEntriesTableComponent.Event.DeleteClicked',
 }
 
 @Component({
-  selector: 'emp-pyc-transaction-entries-table',
+  selector: 'emp-inv-transaction-entries-table',
   templateUrl: './transaction-entries-table.component.html',
 })
-export class AssetTransactionEntriesTableComponent implements OnChanges {
+export class AssetsTransactionEntriesTableComponent implements OnChanges {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
   @Input() transactionUID = '';
 
-  @Input() entries: AssetTransactionEntry[] = [];
+  @Input() entries: AssetsTransactionEntry[] = [];
 
   @Input() filter = '';
 
@@ -46,13 +46,13 @@ export class AssetTransactionEntriesTableComponent implements OnChanges {
 
   editionMode = false;
 
-  rowInEdition: AssetTransactionEntry = null;
+  rowInEdition: AssetsTransactionEntry = null;
 
   displayedColumnsDefault: string[] = ['assetNo', 'name', 'condition', 'description'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
-  dataSource: TableVirtualScrollDataSource<AssetTransactionEntry>;
+  dataSource: TableVirtualScrollDataSource<AssetsTransactionEntry>;
 
   isEntityStatusInWarning = isEntityStatusInWarning;
 
@@ -83,12 +83,12 @@ export class AssetTransactionEntriesTableComponent implements OnChanges {
   }
 
 
-  onSelectButtonClicked(entry: AssetTransactionEntry) {
+  onSelectButtonClicked(entry: AssetsTransactionEntry) {
     sendEvent(this.transactionEntriesTableEvent, TransactionEntriesTableEventType.SELECT_CLICKED, { entry });
   }
 
 
-  onEditEntryClicked(event, entry: AssetTransactionEntry) {
+  onEditEntryClicked(event, entry: AssetsTransactionEntry) {
     event.stopPropagation();
     this.rowInEdition = { ...{}, ...entry };
     this.editionMode = true;
@@ -115,7 +115,7 @@ export class AssetTransactionEntriesTableComponent implements OnChanges {
   }
 
 
-  onDeleteEntryClicked(event, entry: AssetTransactionEntry) {
+  onDeleteEntryClicked(event, entry: AssetsTransactionEntry) {
     event.stopPropagation();
 
     const message = this.getConfirmMessage(entry);
@@ -156,7 +156,7 @@ export class AssetTransactionEntriesTableComponent implements OnChanges {
 
 
   private getFilterPredicate() {
-    return (row: AssetTransactionEntry, filter: string) => (
+    return (row: AssetsTransactionEntry, filter: string) => (
       row.asset.assetNo.toLowerCase().includes(filter) || row.asset.name.toLowerCase().includes(filter) ||
       row.description.toLowerCase().includes(filter)
     );
@@ -170,7 +170,7 @@ export class AssetTransactionEntriesTableComponent implements OnChanges {
   }
 
 
-  private getConfirmMessage(entry: AssetTransactionEntry): string {
+  private getConfirmMessage(entry: AssetsTransactionEntry): string {
     return `
       <table class='confirm-data'>
         <tr><td class='nowrap'>No. inventario: </td><td><strong>
@@ -184,10 +184,10 @@ export class AssetTransactionEntriesTableComponent implements OnChanges {
   }
 
 
-  private getDataFields(): AssetTransactionEntryFields {
+  private getDataFields(): AssetsTransactionEntryFields {
     Assertion.assert(this.isEntryInEditionValid, 'Programming error: form must be validated before command execution.');
 
-    const data: AssetTransactionEntryFields = {
+    const data: AssetsTransactionEntryFields = {
       uid: this.rowInEdition.uid,
       transactionUID: this.rowInEdition.transaction.uid,
       assetUID: this.rowInEdition.asset.uid,

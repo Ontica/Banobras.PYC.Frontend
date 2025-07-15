@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetTransactionHeaderComponent } from './transaction-header.component';
+import { AssetsTransactionHeaderComponent } from './transaction-header.component';
 
-describe('AssetTransactionHeaderComponent', () => {
-  let component: AssetTransactionHeaderComponent;
-  let fixture: ComponentFixture<AssetTransactionHeaderComponent>;
+describe('AssetsTransactionHeaderComponent', () => {
+  let component: AssetsTransactionHeaderComponent;
+  let fixture: ComponentFixture<AssetsTransactionHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssetTransactionHeaderComponent]
+      declarations: [AssetsTransactionHeaderComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AssetTransactionHeaderComponent);
+    fixture = TestBed.createComponent(AssetsTransactionHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

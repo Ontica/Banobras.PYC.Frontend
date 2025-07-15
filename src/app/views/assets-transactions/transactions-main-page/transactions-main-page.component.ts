@@ -15,9 +15,9 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { AssetsTransactionsDataService } from '@app/data-services';
 
-import { EmptyAssetTransactionHolder, EmptyAssetTransactionsQuery, AssetTransactionHolder,
-         AssetTransactionDescriptor, AssetTransactionsQuery,
-         mapAssetTransactionDescriptorFromTransaction } from '@app/models';
+import { EmptyAssetsTransactionHolder, EmptyAssetsTransactionsQuery, AssetsTransactionHolder,
+         AssetsTransactionDescriptor, AssetsTransactionsQuery,
+         mapAssetsTransactionDescriptorFromTransaction } from '@app/models';
 
 import { TransactionsExplorerEventType } from '../transactions-explorer/transactions-explorer.component';
 
@@ -27,16 +27,16 @@ import { TransactionCreatorEventType } from '../transaction/transaction-creator.
 
 
 @Component({
-  selector: 'emp-pyc-transactions-main-page',
+  selector: 'emp-inv-transactions-main-page',
   templateUrl: './transactions-main-page.component.html',
 })
-export class AssetTransactionsMainPageComponent  {
+export class AssetsTransactionsMainPageComponent  {
 
-  query: AssetTransactionsQuery = Object.assign({}, EmptyAssetTransactionsQuery);
+  query: AssetsTransactionsQuery = Object.assign({}, EmptyAssetsTransactionsQuery);
 
-  dataList: AssetTransactionDescriptor[] = [];
+  dataList: AssetsTransactionDescriptor[] = [];
 
-  selectedData: AssetTransactionHolder = EmptyAssetTransactionHolder;
+  selectedData: AssetsTransactionHolder = EmptyAssetsTransactionHolder;
 
   fileUrl = '';
 
@@ -63,7 +63,7 @@ export class AssetTransactionsMainPageComponent  {
       case TransactionCreatorEventType.CREATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         this.displayCreator = false;
-        this.insertItemToList(event.payload.data as AssetTransactionHolder);
+        this.insertItemToList(event.payload.data as AssetsTransactionHolder);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -79,12 +79,12 @@ export class AssetTransactionsMainPageComponent  {
         return;
       case TransactionsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearExplorerData(event.payload.query as AssetTransactionsQuery);
+        this.setQueryAndClearExplorerData(event.payload.query as AssetsTransactionsQuery);
         this.searchTransactions(this.query);
         return;
       case TransactionsExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearExplorerData(event.payload.query as AssetTransactionsQuery);
+        this.setQueryAndClearExplorerData(event.payload.query as AssetsTransactionsQuery);
         return;
       case TransactionsExplorerEventType.EXPORT_CLICKED:
         this.exportTransactions(this.query);
@@ -108,11 +108,11 @@ export class AssetTransactionsMainPageComponent  {
   onTransactionTabbedViewEvent(event: EventInfo) {
     switch (event.type as TransactionTabbedViewEventType) {
       case TransactionTabbedViewEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedData(EmptyAssetTransactionHolder);
+        this.setSelectedData(EmptyAssetsTransactionHolder);
         return;
       case TransactionTabbedViewEventType.DATA_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
-        this.insertItemToList(event.payload.data as AssetTransactionHolder);
+        this.insertItemToList(event.payload.data as AssetsTransactionHolder);
         return;
       case TransactionTabbedViewEventType.DATA_DELETED:
         Assertion.assertValue(event.payload.transactionUID, 'event.payload.transactionUID');
@@ -129,18 +129,18 @@ export class AssetTransactionsMainPageComponent  {
   }
 
 
-  private searchTransactions(query: AssetTransactionsQuery) {
+  private searchTransactions(query: AssetsTransactionsQuery) {
     this.isLoading = true;
 
-    this.transactionsData.searchAssetTransactions(query)
+    this.transactionsData.searchAssetsTransactions(query)
       .firstValue()
       .then(x => this.resolveSearchTransactions(x))
       .finally(() => this.isLoading = false);
   }
 
 
-  private exportTransactions(query: AssetTransactionsQuery) {
-    this.transactionsData.exportAssetTransactions(query)
+  private exportTransactions(query: AssetsTransactionsQuery) {
+    this.transactionsData.exportAssetsTransactions(query)
       .firstValue()
       .then(x => {this.fileUrl = x.url});
   }
@@ -149,14 +149,14 @@ export class AssetTransactionsMainPageComponent  {
   private getTransaction(transactionUID: string) {
     this.isLoadingSelection = true;
 
-    this.transactionsData.getAssetTransaction(transactionUID)
+    this.transactionsData.getAssetsTransaction(transactionUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
   }
 
 
-  private resolveSearchTransactions(data: AssetTransactionDescriptor[]) {
+  private resolveSearchTransactions(data: AssetsTransactionDescriptor[]) {
     this.setDataList(data, true);
   }
 
@@ -166,27 +166,27 @@ export class AssetTransactionsMainPageComponent  {
   }
 
 
-  private setQueryAndClearExplorerData(query: AssetTransactionsQuery) {
+  private setQueryAndClearExplorerData(query: AssetsTransactionsQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
-    this.setSelectedData(EmptyAssetTransactionHolder);
+    this.setSelectedData(EmptyAssetsTransactionHolder);
   }
 
 
-  private setDataList(data: AssetTransactionDescriptor[], queryExecuted: boolean = true) {
+  private setDataList(data: AssetsTransactionDescriptor[], queryExecuted: boolean = true) {
     this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
   }
 
 
-  private setSelectedData(data: AssetTransactionHolder) {
+  private setSelectedData(data: AssetsTransactionHolder) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.transaction);
   }
 
 
-  private insertItemToList(data: AssetTransactionHolder) {
-    const dataToInsert = mapAssetTransactionDescriptorFromTransaction(data.transaction);
+  private insertItemToList(data: AssetsTransactionHolder) {
+    const dataToInsert = mapAssetsTransactionDescriptorFromTransaction(data.transaction);
     const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
     this.setDataList(dataListNew);
     this.setSelectedData(data);
@@ -196,7 +196,7 @@ export class AssetTransactionsMainPageComponent  {
   private removeItemFromList(transactionUID: string) {
     const dataListNew = this.dataList.filter(x => x.uid !== transactionUID);
     this.setDataList(dataListNew);
-    this.setSelectedData(EmptyAssetTransactionHolder);
+    this.setSelectedData(EmptyAssetsTransactionHolder);
   }
 
 }

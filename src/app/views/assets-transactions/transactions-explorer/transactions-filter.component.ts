@@ -22,18 +22,18 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { AssetTransactionsQuery, buildLocationSelection, DateRange, EmptyAssetTransactionsQuery,
+import { AssetsTransactionsQuery, buildLocationSelection, DateRange, EmptyAssetsTransactionsQuery,
          EmptyDateRange, EmptyLocationSelection, LocationSelection, RequestsList, TransactionDateType,
          TransactionDateTypesList, TransactionPartyType, TransactionPartyTypesList, TransactionStages,
          TransactionStatus, TransactionStatusList } from '@app/models';
 
 
-export enum AssetTransactionsFilterEventType {
-  SEARCH_CLICKED = 'AssetTransactionsFilterComponent.Event.SearchClicked',
-  CLEAR_CLICKED  = 'AssetTransactionsFilterComponent.Event.ClearClicked',
+export enum TransactionsFilterEventType {
+  SEARCH_CLICKED = 'AssetsTransactionsFilterComponent.Event.SearchClicked',
+  CLEAR_CLICKED  = 'AssetsTransactionsFilterComponent.Event.ClearClicked',
 }
 
-interface AssetTransactionsFilterFormModel extends FormGroup<{
+interface TransactionsFilterFormModel extends FormGroup<{
   assignedToUID: FormControl<string>;
   assignedToOrgUnitUID: FormControl<string>;
   status: FormControl<TransactionStatus>;
@@ -50,15 +50,15 @@ interface AssetTransactionsFilterFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-pyc-transactions-filter',
+  selector: 'emp-inv-transactions-filter',
   templateUrl: './transactions-filter.component.html',
   animations: [empExpandCollapse],
 })
-export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDestroy {
+export class AssetsTransactionsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() stage: TransactionStages = null;
 
-  @Input() query: AssetTransactionsQuery = Object.assign({}, EmptyAssetTransactionsQuery);
+  @Input() query: AssetsTransactionsQuery = Object.assign({}, EmptyAssetsTransactionsQuery);
 
   @Input() showFilters = false;
 
@@ -66,7 +66,7 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
 
   @Output() transactionsFilterEvent = new EventEmitter<EventInfo>();
 
-  form: AssetTransactionsFilterFormModel;
+  form: TransactionsFilterFormModel;
 
   formHelper = FormHelper;
 
@@ -84,7 +84,7 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
 
   assigneesAPI = SearcherAPIS.assetsTransactionsAssignees;
 
-  partiesAPI = SearcherAPIS.assetTransactionsParties;
+  partiesAPI = SearcherAPIS.assetsTransactionsParties;
 
   selectedParty: Identifiable = null;
 
@@ -147,7 +147,7 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
 
   onSearchClicked() {
     if (this.form.valid) {
-      sendEvent(this.transactionsFilterEvent, AssetTransactionsFilterEventType.SEARCH_CLICKED,
+      sendEvent(this.transactionsFilterEvent, TransactionsFilterEventType.SEARCH_CLICKED,
         { query: this.getFormData() });
     }
   }
@@ -155,7 +155,7 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
 
   onClearFilters() {
     this.clearFilters();
-    sendEvent(this.transactionsFilterEvent, AssetTransactionsFilterEventType.CLEAR_CLICKED,
+    sendEvent(this.transactionsFilterEvent, TransactionsFilterEventType.CLEAR_CLICKED,
       { query: this.getFormData() });
   }
 
@@ -166,7 +166,7 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.assets }),
-      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSET_TRANSACTIONS_TYPES)
+      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSETS_TRANSACTIONS_TYPES)
     ])
     .subscribe(([a, b]) => {
       this.orgUnitsList = a;
@@ -220,10 +220,10 @@ export class AssetTransactionsFilterComponent implements OnChanges, OnInit, OnDe
   }
 
 
-  private getFormData(): AssetTransactionsQuery {
+  private getFormData(): AssetsTransactionsQuery {
     Assertion.assert(!!this.stage, 'Programming error: assets-transactions stage is required.');
 
-    const query: AssetTransactionsQuery = {
+    const query: AssetsTransactionsQuery = {
       stage: this.stage,
       assignedToUID: this.form.value.assignedToUID ?? null,
       assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,

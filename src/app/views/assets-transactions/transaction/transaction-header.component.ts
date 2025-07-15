@@ -24,18 +24,18 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { AssetTransaction, AssetTransactionFields, buildLocationSelection, EmptyAssetTransaction,
-         EmptyLocationSelection, LocationSelection, RequestsList, AssetTransactionActions,
-         EmptyAssetTransactionActions } from '@app/models';
+import { AssetsTransaction, AssetsTransactionFields, buildLocationSelection, EmptyAssetsTransaction,
+         EmptyLocationSelection, LocationSelection, RequestsList, AssetsTransactionActions,
+         EmptyAssetsTransactionActions } from '@app/models';
 
 
 export enum TransactionHeaderEventType {
-  CREATE         = 'AssetTransactionHeaderComponent.Event.CreateTransaction',
-  UPDATE         = 'AssetTransactionHeaderComponent.Event.UpdateTransaction',
-  DELETE         = 'AssetTransactionHeaderComponent.Event.DeleteTransaction',
-  CLOSE          = 'AssetTransactionHeaderComponent.Event.CloseTransaction',
-  CHANGE_CUSTODY = 'AssetTransactionHeaderComponent.Event.ChangeCustody',
-  INVENTORY      = 'AssetTransactionHeaderComponent.Event.Inventory',
+  CREATE         = 'AssetsTransactionHeaderComponent.Event.CreateTransaction',
+  UPDATE         = 'AssetsTransactionHeaderComponent.Event.UpdateTransaction',
+  DELETE         = 'AssetsTransactionHeaderComponent.Event.DeleteTransaction',
+  CLOSE          = 'AssetsTransactionHeaderComponent.Event.CloseTransaction',
+  CHANGE_CUSTODY = 'AssetsTransactionHeaderComponent.Event.ChangeCustody',
+  INVENTORY      = 'AssetsTransactionHeaderComponent.Event.Inventory',
 }
 
 
@@ -57,16 +57,16 @@ interface TransactionFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-pyc-transaction-header',
+  selector: 'emp-inv-transaction-header',
   templateUrl: './transaction-header.component.html',
 })
-export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDestroy {
+export class AssetsTransactionHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() isSaved = false;
 
-  @Input() transaction: AssetTransaction = EmptyAssetTransaction;
+  @Input() transaction: AssetsTransaction = EmptyAssetsTransaction;
 
-  @Input() actions: AssetTransactionActions = EmptyAssetTransactionActions;
+  @Input() actions: AssetsTransactionActions = EmptyAssetsTransactionActions;
 
   @Output() transactionHeaderEvent = new EventEmitter<EventInfo>();
 
@@ -169,7 +169,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.assets }),
-      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSET_TRANSACTIONS_TYPES)
+      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSETS_TRANSACTIONS_TYPES)
     ])
     .subscribe(([a, b]) => {
       this.orgUnitsList = a;
@@ -239,7 +239,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
   }
 
 
-  private getFormData(): AssetTransactionFields {
+  private getFormData(): AssetsTransactionFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
     const managerUID = MANAGER_REQUIRED && this.form.controls.managerUID.valid ?
@@ -247,7 +247,7 @@ export class AssetTransactionHeaderComponent implements OnInit, OnChanges, OnDes
     const managerOrgUnitUID = MANAGER_REQUIRED && this.form.controls.managerOrgUnitUID.valid ?
       this.form.value.managerOrgUnitUID : null;
 
-    const data: AssetTransactionFields = {
+    const data: AssetsTransactionFields = {
       transactionTypeUID: this.form.value.transactionTypeUID ?? null,
       requestedTime: this.form.value.applicationDate ?? null,
       applicationDate: this.form.value.applicationDate ?? null,

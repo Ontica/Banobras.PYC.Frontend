@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetTransactionsFilterComponent } from './transactions-filter.component';
+import { AssetsTransactionsFilterComponent } from './transactions-filter.component';
 
-describe('AssetTransactionsFilterComponent', () => {
-  let component: AssetTransactionsFilterComponent;
-  let fixture: ComponentFixture<AssetTransactionsFilterComponent>;
+describe('AssetsTransactionsFilterComponent', () => {
+  let component: AssetsTransactionsFilterComponent;
+  let fixture: ComponentFixture<AssetsTransactionsFilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssetTransactionsFilterComponent]
+      declarations: [AssetsTransactionsFilterComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AssetTransactionsFilterComponent);
+    fixture = TestBed.createComponent(AssetsTransactionsFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

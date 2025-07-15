@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetTransactionsMainPageComponent } from './transactions-main-page.component';
+import { AssetsTransactionsMainPageComponent } from './transactions-main-page.component';
 
-describe('AssetTransactionsMainPageComponent', () => {
-  let component: AssetTransactionsMainPageComponent;
-  let fixture: ComponentFixture<AssetTransactionsMainPageComponent>;
+describe('AssetsTransactionsMainPageComponent', () => {
+  let component: AssetsTransactionsMainPageComponent;
+  let fixture: ComponentFixture<AssetsTransactionsMainPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssetTransactionsMainPageComponent]
+      declarations: [AssetsTransactionsMainPageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AssetTransactionsMainPageComponent);
+    fixture = TestBed.createComponent(AssetsTransactionsMainPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetTransactionsExplorerComponent } from './transactions-explorer.component';
+import { AssetsTransactionsExplorerComponent } from './transactions-explorer.component';
 
-describe('AssetTransactionsExplorerComponent', () => {
-  let component: AssetTransactionsExplorerComponent;
-  let fixture: ComponentFixture<AssetTransactionsExplorerComponent>;
+describe('AssetsTransactionsExplorerComponent', () => {
+  let component: AssetsTransactionsExplorerComponent;
+  let fixture: ComponentFixture<AssetsTransactionsExplorerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssetTransactionsExplorerComponent]
+      declarations: [AssetsTransactionsExplorerComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AssetTransactionsExplorerComponent);
+    fixture = TestBed.createComponent(AssetsTransactionsExplorerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

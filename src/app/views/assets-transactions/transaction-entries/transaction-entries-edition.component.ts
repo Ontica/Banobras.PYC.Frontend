@@ -15,26 +15,26 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { AssetsTransactionsDataService } from '@app/data-services';
 
-import { AssetTransactionEntry, AssetTransaction, AssetTransactionEntryFields,
-         EmptyAssetTransaction } from '@app/models';
+import { AssetsTransactionEntry, AssetsTransaction, AssetsTransactionEntryFields,
+         EmptyAssetsTransaction } from '@app/models';
 
 import { TransactionEntriesTableEventType } from './transaction-entries-table.component';
 
 
 export enum TransactionEntriesEditionEventType {
-  UPDATED = 'AssetTransactionEntriesEditionComponent.Event.Updated',
-  DELETED = 'AssetTransactionEntriesEditionComponent.Event.Deleted',
+  UPDATED = 'AssetsTransactionEntriesEditionComponent.Event.Updated',
+  DELETED = 'AssetsTransactionEntriesEditionComponent.Event.Deleted',
 }
 
 @Component({
-  selector: 'emp-pyc-transaction-entries-edition',
+  selector: 'emp-inv-transaction-entries-edition',
   templateUrl: './transaction-entries-edition.component.html',
 })
-export class AssetTransactionEntriesEditionComponent implements OnChanges {
+export class AssetsTransactionEntriesEditionComponent implements OnChanges {
 
-  @Input() transaction: AssetTransaction = EmptyAssetTransaction;
+  @Input() transaction: AssetsTransaction = EmptyAssetsTransaction;
 
-  @Input() entries: AssetTransactionEntry[] = [];
+  @Input() entries: AssetsTransactionEntry[] = [];
 
   @Input() canEdit = false;
 
@@ -83,10 +83,10 @@ export class AssetTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
-  private updateTransactionEntry(transactionUID: string, entryUID: string, dataFields: AssetTransactionEntryFields) {
+  private updateTransactionEntry(transactionUID: string, entryUID: string, dataFields: AssetsTransactionEntryFields) {
     this.submitted = true;
 
-    this.transactionsData.updateAssetTransactionEntry(transactionUID, entryUID, dataFields)
+    this.transactionsData.updateAssetsTransactionEntry(transactionUID, entryUID, dataFields)
       .firstValue()
       .then(x => this.resolveTransactionUpdated())
       .finally(() => this.submitted = false);
@@ -96,7 +96,7 @@ export class AssetTransactionEntriesEditionComponent implements OnChanges {
   private deleteTransactionEntry(transactionUID: string, entryUID: string) {
     this.submitted = true;
 
-    this.transactionsData.deleteAssetTransactionEntry(transactionUID, entryUID)
+    this.transactionsData.deleteAssetsTransactionEntry(transactionUID, entryUID)
       .firstValue()
       .then(x => this.resolveTransactionUpdated())
       .finally(() => this.submitted = false);
