@@ -31,7 +31,7 @@ export enum AssetsExplorerEventType {
 }
 
 @Component({
-  selector: 'emp-pyc-assets-explorer',
+  selector: 'emp-inv-assets-explorer',
   templateUrl: './assets-explorer.component.html',
 })
 export class AssetsExplorerComponent implements OnChanges {

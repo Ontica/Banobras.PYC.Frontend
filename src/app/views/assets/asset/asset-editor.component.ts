@@ -20,7 +20,7 @@ export enum AssetEditorEventType {
 }
 
 @Component({
-  selector: 'emp-pyc-asset-editor',
+  selector: 'emp-inv-asset-editor',
   templateUrl: './asset-editor.component.html',
 })
 export class AssetEditorComponent {

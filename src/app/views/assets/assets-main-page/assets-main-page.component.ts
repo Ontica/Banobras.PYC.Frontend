@@ -20,7 +20,7 @@ import { AssetTabbedViewEventType } from '../asset-tabbed-view/asset-tabbed-view
 
 
 @Component({
-  selector: 'emp-pyc-assets-main-page',
+  selector: 'emp-inv-assets-main-page',
   templateUrl: './assets-main-page.component.html',
 })
 export class AssetsMainPageComponent {

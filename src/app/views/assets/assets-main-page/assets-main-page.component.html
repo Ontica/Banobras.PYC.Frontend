@@ -4,7 +4,7 @@
 
 <div class="explorer">
 
-  <emp-pyc-assets-explorer
+  <emp-inv-assets-explorer
     class="primary"
     [class.std-hide]="displayTabbedView"
     [query]="query"
@@ -15,13 +15,13 @@
     [queryExecuted]="queryExecuted"
     (assetsExplorerEvent)="onAssetsExplorerEvent($event)">
 
-  </emp-pyc-assets-explorer>
+  </emp-inv-assets-explorer>
 
-  <emp-pyc-asset-tabbed-view  *ngIf="displayTabbedView"
+  <emp-inv-asset-tabbed-view  *ngIf="displayTabbedView"
     class="secondary priority std-stacked"
     [data]="selectedData"
     (assetTabbedViewEvent)="ondAssetTabbedViewEvent($event)">
 
-  </emp-pyc-asset-tabbed-view>
+  </emp-inv-asset-tabbed-view>
 
 </div>

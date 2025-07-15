@@ -17,7 +17,7 @@ import { buildLocationSelection, EmptyLocationSelection, LocationSelection } fro
 
 
 @Component({
-  selector: 'emp-pyc-location-selector',
+  selector: 'emp-inv-location-selector',
   templateUrl: './location-selector.component.html',
   providers: [
     {
@@ -180,7 +180,7 @@ export class LocationSelectorComponent implements ControlValueAccessor, OnInit {
   private getBuildings() {
     this.isLoadingBuildings = true;
 
-    this.assetsData.getAssetRootLocations()
+    this.assetsData.getAssetsRootLocations()
       .firstValue()
       .then(x => this.buildingsList = x)
       .finally(() => this.isLoadingBuildings = false);
@@ -190,7 +190,7 @@ export class LocationSelectorComponent implements ControlValueAccessor, OnInit {
   private getFloors(buildingUID: string) {
     this.isLoadingFloors = true;
 
-    this.assetsData.getAssetLocationsList(buildingUID)
+    this.assetsData.getAssetsLocationsList(buildingUID)
       .firstValue()
       .then(x => this.floorsList = x)
       .finally(() => this.isLoadingFloors = false);
@@ -200,7 +200,7 @@ export class LocationSelectorComponent implements ControlValueAccessor, OnInit {
   private getPlaces(floorUID: string) {
     this.isLoadingPlaces = true;
 
-    this.assetsData.getAssetLocationsList(floorUID)
+    this.assetsData.getAssetsLocationsList(floorUID)
       .firstValue()
       .then(x => this.placesList = x)
       .finally(() => this.isLoadingPlaces = false);

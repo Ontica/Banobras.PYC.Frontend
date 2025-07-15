@@ -43,7 +43,7 @@ interface AssetsFilterFormModel extends FormGroup<{
 
 
 @Component({
-  selector: 'emp-pyc-assets-filter',
+  selector: 'emp-inv-assets-filter',
   templateUrl: './assets-filter.component.html',
   animations: [empExpandCollapse],
 })
@@ -138,7 +138,7 @@ export class AssetsFilterComponent implements OnChanges, OnInit, OnDestroy {
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.assets }),
-      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSET_TYPES)
+      this.helper.select<Identifiable[]>(AssetsStateSelector.ASSETS_TYPES)
     ])
     .subscribe(([a, b]) => {
       this.orgUnitsList = a;

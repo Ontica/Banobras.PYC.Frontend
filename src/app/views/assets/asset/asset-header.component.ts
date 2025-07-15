@@ -42,7 +42,7 @@ interface AssetFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-pyc-asset-header',
+  selector: 'emp-inv-asset-header',
   templateUrl: './asset-header.component.html',
 })
 export class AssetHeaderComponent implements OnInit, OnChanges {

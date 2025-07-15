@@ -29,7 +29,7 @@ export enum AssetsTableEventType {
 }
 
 @Component({
-  selector: 'emp-pyc-assets-table',
+  selector: 'emp-inv-assets-table',
   templateUrl: './assets-table.component.html',
 })
 export class AssetsTableComponent implements OnChanges {

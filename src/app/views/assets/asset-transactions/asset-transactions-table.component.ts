@@ -17,13 +17,13 @@ import { sendEvent } from '@app/shared/utils';
 
 import { AssetTransactionDescriptor } from '@app/models';
 
-export enum AssetTransactionsTableEventType {
+export enum TransactionsTableEventType {
   SELECT_CLICKED = 'AssetTransactionsTableComponent.Event.SelectClicked',
   REMOVE_CLICKED = 'AssetTransactionsTableComponent.Event.RemoveClicked',
 }
 
 @Component({
-  selector: 'emp-pyc-asset-transactions-table',
+  selector: 'emp-inv-asset-transactions-table',
   templateUrl: './asset-transactions-table.component.html',
 })
 export class AssetTransactionsTableComponent implements OnChanges {
@@ -34,7 +34,7 @@ export class AssetTransactionsTableComponent implements OnChanges {
 
   @Input() displayAssignmentData = true;
 
-  @Output() assetTransactionsTableEvent = new EventEmitter<EventInfo>();
+  @Output() transactionsTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumns = ['transactionType', 'transactionNo', 'requestedTime', 'assignedTo', 'description'];
 
@@ -55,8 +55,7 @@ export class AssetTransactionsTableComponent implements OnChanges {
 
   onSelectTransactionClicked(transaction: AssetTransactionDescriptor) {
     if (this.canEdit && window.getSelection().toString().length <= 0) {
-      sendEvent(this.assetTransactionsTableEvent,
-        AssetTransactionsTableEventType.SELECT_CLICKED, { transaction });
+      sendEvent(this.transactionsTableEvent, TransactionsTableEventType.SELECT_CLICKED, { transaction });
     }
   }
 
@@ -68,8 +67,7 @@ export class AssetTransactionsTableComponent implements OnChanges {
       .firstValue()
       .then(x => {
         if (x) {
-          sendEvent(this.assetTransactionsTableEvent,
-            AssetTransactionsTableEventType.REMOVE_CLICKED, { transaction });
+          sendEvent(this.transactionsTableEvent, TransactionsTableEventType.REMOVE_CLICKED, { transaction });
         }
       });
   }

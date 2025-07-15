@@ -26,7 +26,7 @@ export enum AssetTabbedViewEventType {
 }
 
 @Component({
-  selector: 'emp-pyc-asset-tabbed-view',
+  selector: 'emp-inv-asset-tabbed-view',
   templateUrl: './asset-tabbed-view.component.html',
 })
 export class AssetTabbedViewComponent implements OnChanges {
