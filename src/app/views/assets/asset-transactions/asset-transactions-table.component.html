@@ -1,4 +1,8 @@
-<div class="fill-table-container" [style.width.%]="100">
+<div class="fill-table-container" [style.width.%]="100" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="isLoading">
+
+  </emp-ng-spinner>
 
   <table mat-table [dataSource]="dataSource">
 
@@ -9,7 +13,9 @@
 
     <ng-container matColumnDef="transactionNo">
       <th mat-header-cell *matHeaderCellDef class="nowrap"> No. transacción </th>
-      <td mat-cell *matCellDef="let row">{{ row.transactionNo }}</td>
+      <td mat-cell *matCellDef="let row">
+        <a class="item-link" (click)="onSelectTransactionClicked(row)">{{ row.transactionNo }}</a>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="requestedTime">
@@ -49,11 +55,17 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectTransactionClicked(row)"
-      [class.selectable-row]="canEdit"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
       [hidden]="dataSource.data.length > 0"></tr>
 
   </table>
 
 </div>
+
+
+<emp-ng-file-preview #filePreview
+  title="Impresión de transacción de activos fijos"
+  hint="Información de la transacción de activos fijos">
+
+</emp-ng-file-preview>

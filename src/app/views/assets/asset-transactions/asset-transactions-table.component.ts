@@ -5,17 +5,21 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { MatTableDataSource } from '@angular/material/table';
 
-import { EventInfo } from '@app/core';
+import { EventInfo, isEmpty, StringLibrary } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { AssetsTransactionDescriptor } from '@app/models';
+import { FilePreviewComponent } from '@app/shared/containers';
+
+import { AssetsTransactionsDataService } from '@app/data-services';
+
+import { AssetsTransactionDescriptor, FileReport } from '@app/models';
 
 export enum TransactionsTableEventType {
   SELECT_CLICKED = 'AssetTransactionsTableComponent.Event.SelectClicked',
@@ -27,6 +31,8 @@ export enum TransactionsTableEventType {
   templateUrl: './asset-transactions-table.component.html',
 })
 export class AssetTransactionsTableComponent implements OnChanges {
+
+  @ViewChild('filePreview', { static: true }) filePreview: FilePreviewComponent;
 
   @Input() transactions: AssetsTransactionDescriptor[] = [];
 
@@ -40,10 +46,11 @@ export class AssetTransactionsTableComponent implements OnChanges {
 
   dataSource: MatTableDataSource<AssetsTransactionDescriptor>;
 
+  isLoading = false;
 
-  constructor(private messageBox: MessageBoxService) {
 
-  }
+  constructor(private transactionsData: AssetsTransactionsDataService,
+              private messageBox: MessageBoxService) { }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -54,8 +61,8 @@ export class AssetTransactionsTableComponent implements OnChanges {
 
 
   onSelectTransactionClicked(transaction: AssetsTransactionDescriptor) {
-    if (this.canEdit && window.getSelection().toString().length <= 0) {
-      sendEvent(this.transactionsTableEvent, TransactionsTableEventType.SELECT_CLICKED, { transaction });
+    if (window.getSelection().toString().length <= 0 && !isEmpty(transaction)) {
+      this.getDataForPrint(transaction.uid);
     }
   }
 
@@ -105,6 +112,23 @@ export class AssetTransactionsTableComponent implements OnChanges {
       </table>
 
      <br>¿Elimino la transacción?`;
+  }
+
+
+  private getDataForPrint(transactionUID: string) {
+    this.isLoading = true;
+
+    this.transactionsData.getAssetsTransactionForPrint(transactionUID)
+      .firstValue()
+      .then(x => this.openFilePreview(x))
+      .finally(() => this.isLoading = false);
+  }
+
+
+  private openFilePreview(file: FileReport) {
+    if (StringLibrary.isValidHttpUrl(file?.url || '')) {
+      this.filePreview.open(file.url, file.type);
+    }
   }
 
 }
