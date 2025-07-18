@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { BaseActions, EmptyBaseActions, EntityStatus, ExplorerOperation } from './_explorer-data';
+import { EntityStatus, ExplorerOperation } from './_explorer-data';
 
 import { AssetDescriptor, AssetsOperationsList } from './assets';
 
@@ -61,7 +61,7 @@ export interface AssetsAssignmentHolder {
   transactions: AssetsTransactionDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
-  actions: BaseActions;
+  actions: AssetsAssignmentActions;
 }
 
 
@@ -80,6 +80,14 @@ export interface AssetsAssignment {
 }
 
 
+export interface AssetsAssignmentActions {
+  canUpdate: boolean;
+  canDelete: boolean;
+  canClone: boolean;
+  canEditDocuments: boolean;
+}
+
+
 export const EmptyAssetsAssignment: AssetsAssignment = {
   uid: '',
   assignedTo: Empty,
@@ -95,13 +103,21 @@ export const EmptyAssetsAssignment: AssetsAssignment = {
 };
 
 
+export const EmptyAssetsAssignmentActions: AssetsAssignmentActions = {
+  canUpdate: false,
+  canDelete: false,
+  canClone: false,
+  canEditDocuments: false,
+}
+
+
 export const EmptyAssetsAssignmentHolder: AssetsAssignmentHolder = {
   assignment: EmptyAssetsAssignment,
   assets: [],
   transactions: [],
   documents: [],
   history: [],
-  actions: EmptyBaseActions,
+  actions: EmptyAssetsAssignmentActions,
 };
 
 
