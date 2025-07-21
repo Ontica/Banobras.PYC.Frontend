@@ -20,17 +20,6 @@
 
       <div class="fx-item-none">
 
-        <label>Fecha de registro:</label>
-
-        <emp-ng-datepicker
-          formControlName="requestedTime"
-          [showError]="formHelper.isControlInvalid(form.controls.requestedTime)">
-        </emp-ng-datepicker>
-
-      </div>
-
-      <div class="fx-item-none">
-
         <label>Fecha de aplicación:</label>
 
         <emp-ng-datepicker
@@ -50,7 +39,7 @@
 
         <emp-ng-select-typeahead
           formControlName="assignedToUID"
-          [config]="{ showTooltip: true}"
+          [config]="{showTooltip: true}"
           [searcherAPI]="assigneesAPI"
           [initialValue]="isSaved ? transaction.assignedTo : null"
           [showError]="formHelper.isControlInvalid(form.controls.assignedToUID)"
@@ -69,6 +58,40 @@
           [items]="orgUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Entregó:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="releasedByUID"
+          [config]="{showTooltip: true}"
+          [searcherAPI]="assigneesAPI"
+          [initialValue]="isSaved ? transaction.releasedBy : null"
+          [showError]="formHelper.isControlInvalid(form.controls.releasedByUID)"
+          [placeholder]="formHelper.getSearcherPlaceholder(editionMode)">
+        </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Área emisora:</label>
+
+        <emp-ng-select
+          formControlName="releasedByOrgUnitUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.releasedByOrgUnitUID)"
           [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
         </emp-ng-select>
 

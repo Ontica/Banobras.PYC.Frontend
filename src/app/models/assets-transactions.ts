@@ -72,12 +72,13 @@ export interface AssetsTransactionDescriptor {
 
 export interface AssetsTransactionFields {
   transactionTypeUID: string;
-  requestedTime: DateString;
   applicationDate: DateString;
-  managerUID: string;
-  managerOrgUnitUID: string;
   assignedToUID: string;
   assignedToOrgUnitUID: string;
+  managerUID: string;
+  managerOrgUnitUID: string;
+  releasedByUID: string;
+  releasedByOrgUnitUID: string;
   locationUID: string;
   identificators: string[];
   tags: string[];
