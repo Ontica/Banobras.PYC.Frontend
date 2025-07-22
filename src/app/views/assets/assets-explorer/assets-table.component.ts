@@ -5,8 +5,6 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { SelectionModel } from '@angular/cdk/collections';
-
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
@@ -15,7 +13,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { AssetDescriptor, AssetsOperationsList, isEntityStatusInWarning } from '@app/models';
+import { AssetDescriptor, isEntityStatusInWarning } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -23,9 +21,8 @@ import { ListControlsEventType } from '@app/views/_reports-controls/explorer/lis
 
 
 export enum AssetsTableEventType {
-  SELECT_CLICKED            = 'AssetsTableComponent.Event.SelectClicked',
-  EXECUTE_OPERATION_CLICKED = 'AssetsTableComponent.Event.ExecuteOperationClicked',
-  EXPORT_DATA_CLICKED       = 'AssetsTableComponent.Event.ExportDataClicked',
+  SELECT_CLICKED      = 'AssetsTableComponent.Event.SelectClicked',
+  EXPORT_DATA_CLICKED = 'AssetsTableComponent.Event.ExportDataClicked',
 }
 
 @Component({
@@ -42,46 +39,25 @@ export class AssetsTableComponent implements OnChanges {
 
   @Input() queryExecuted = false;
 
-  @Input() displayAssignmentData = true;
-
-  @Input() displayExport = false;
-
-  @Input() displayOperations = false;
-
   @Output() assetsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumns = ['check', 'assetNo', 'name', 'locationName', 'assignedTo', 'assignedToOrgUnit'];
+  displayedColumns = ['asset', 'location', 'assignedTo'];
 
   dataSource: TableVirtualScrollDataSource<AssetDescriptor>;
-
-  selection = new SelectionModel<AssetDescriptor>(true, []);
-
-  operationsList = AssetsOperationsList;
 
   isEntityStatusInWarning = isEntityStatusInWarning;
 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.dataList) {
-      this.clearSelection();
       this.setDataSource();
       this.scrollToTop();
     }
   }
 
 
-  get displayControls(): boolean {
-    return (this.displayExport || (this.displayOperations && this.selection.selected.length > 0)) &&
-      this.queryExecuted;
-  }
-
-
   onListControlsEvent(event: EventInfo) {
     switch (event.type as ListControlsEventType) {
-      case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
-        sendEvent(this.assetsTableEvent, AssetsTableEventType.EXECUTE_OPERATION_CLICKED,
-          event.payload);
-        return;
       case ListControlsEventType.EXPORT_BUTTON_CLICKED:
         sendEvent(this.assetsTableEvent, AssetsTableEventType.EXPORT_DATA_CLICKED);
         return;
@@ -97,22 +73,8 @@ export class AssetsTableComponent implements OnChanges {
   }
 
 
-  private clearSelection() {
-    this.selection.clear();
-  }
-
-
   private setDataSource() {
     this.dataSource = new TableVirtualScrollDataSource(this.dataList);
-
-    let columns = this.displayOperations ? ['check', 'assetNo', 'name', 'condition'] :
-      ['assetNo', 'name', 'condition'];
-
-    if (this.displayAssignmentData) {
-      columns.push('locationName', 'assignedTo', 'assignedToOrgUnit');
-    }
-
-    this.displayedColumns = columns;
   }
 
 

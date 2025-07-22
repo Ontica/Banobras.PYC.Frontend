@@ -9,9 +9,10 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { EntityStatus, ExplorerOperation } from './_explorer-data';
 
-import { AssetDescriptor, AssetsOperationsList } from './assets';
+import { AssetsOperationsList } from './assets';
 
-import { AssetsTransaction, AssetsTransactionDescriptor, EmptyAssetsTransaction } from './assets-transactions';
+import { AssetsTransaction, AssetsTransactionDescriptor, AssetsTransactionEntry,
+         EmptyAssetsTransaction } from './assets-transactions';
 
 import { Document } from './documents';
 
@@ -57,7 +58,7 @@ export interface AssetsAssignmentFields {
 
 export interface AssetsAssignmentHolder {
   assignment: AssetsAssignment;
-  assets: AssetDescriptor[];
+  entries: AssetsTransactionEntry[];
   transactions: AssetsTransactionDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
@@ -113,7 +114,7 @@ export const EmptyAssetsAssignmentActions: AssetsAssignmentActions = {
 
 export const EmptyAssetsAssignmentHolder: AssetsAssignmentHolder = {
   assignment: EmptyAssetsAssignment,
-  assets: [],
+  entries: [],
   transactions: [],
   documents: [],
   history: [],

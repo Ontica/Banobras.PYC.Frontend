@@ -15,7 +15,7 @@ import { EmptyAssetsAssignmentHolder, AssetsAssignmentHolder } from '@app/models
 
 import { AssignmentEditorEventType } from '../assignment/assignment-editor.component';
 
-import { AssignmentAssetsEditionEventType } from '../assignment-assets-edition/assignment-assets-edition.component';
+import { AssignmentEntriesEditionEventType } from '../assignment-assets-edition/assignment-entries-edition.component';
 
 import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
@@ -73,9 +73,9 @@ export class AssetsAssignmentsAssignmentTabbedViewComponent implements OnChanges
   }
 
 
-  onAssignmentAssetsEditionEvent(event: EventInfo) {
-    switch (event.type as AssignmentAssetsEditionEventType) {
-      case AssignmentAssetsEditionEventType.EXECUTED:
+  onAssignmentEntriesEditionEvent(event: EventInfo) {
+    switch (event.type as AssignmentEntriesEditionEventType) {
+      case AssignmentEntriesEditionEventType.EXECUTED:
         Assertion.assertValue(event.payload.assignmentUID, 'event.payload.assignmentUID');
         const payload = { assignmentUID: this.data.assignment.uid };
         sendEvent(this.assignmentTabbedViewEvent, AssignmentTabbedViewEventType.REFRESH_DATA, payload);

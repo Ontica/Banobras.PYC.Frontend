@@ -24,7 +24,9 @@ import { AssetsAssignmentTableComponent } from './assignments-explorer/assignmen
 import { AssetsAssignmentsAssignmentTabbedViewComponent } from './assignment-tabbed-view/assignment-tabbed-view.component';
 import { AssetsAssignmentHeaderComponent } from './assignment/assignment-header.component';
 import { AssetsAssignmentEditorComponent } from './assignment/assignment-editor.component';
-import { AssetsAssignmentAssetsEditionComponent } from './assignment-assets-edition/assignment-assets-edition.component';
+import { AssetsAssignmentEntriesEditionComponent } from './assignment-assets-edition/assignment-entries-edition.component';
+import { AssetsAssignmentEntriesTableComponent } from './assignment-assets-edition/assignment-entries-table.component';
+
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import { AssetsAssignmentAssetsEditionComponent } from './assignment-assets-edit
     AssetsAssignmentsAssignmentTabbedViewComponent,
     AssetsAssignmentHeaderComponent,
     AssetsAssignmentEditorComponent,
-    AssetsAssignmentAssetsEditionComponent,
+    AssetsAssignmentEntriesEditionComponent,
+    AssetsAssignmentEntriesTableComponent,
   ],
   exports: [
     AssetsAssignmentsMainPageComponent,

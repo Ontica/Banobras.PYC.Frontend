@@ -93,11 +93,6 @@ export class AssetsExplorerComponent implements OnChanges {
         sendEvent(this.assetsExplorerEvent, AssetsExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
-      case AssetsTableEventType.EXECUTE_OPERATION_CLICKED:
-        Assertion.assertValue(event.payload.operation, 'event.payload.operation');
-        sendEvent(this.assetsExplorerEvent, AssetsExplorerEventType.EXECUTE_OPERATION_CLICKED,
-          event.payload);
-        return;
       case AssetsTableEventType.EXPORT_DATA_CLICKED:
         this.setDisplayExportModal(true);
         return;

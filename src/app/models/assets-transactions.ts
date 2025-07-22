@@ -148,6 +148,8 @@ export interface AssetsTransactionEntry {
   entryType: Identifiable;
   transaction: Identifiable;
   asset: Asset;
+  previousCondition: string;
+  releasedCondition: string;
   description: string;
 }
 
@@ -232,6 +234,8 @@ export const EmptyAssetsTransactionEntry: AssetsTransactionEntry = {
   entryType: Empty,
   transaction: Empty,
   asset: EmptyAsset,
+  previousCondition: '',
+  releasedCondition: '',
   description: '',
 }
 

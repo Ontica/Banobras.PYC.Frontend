@@ -1,0 +1,14 @@
+<div class="fx-column-container-fill fx-gap-half" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <emp-inv-assignment-entries-table class="fx-item"
+    [entries]="entries"
+    [displayOperations]="canEdit"
+    (assignmentEntriesTableEvent)="onAssignmentEntriesTableEvent($event)">
+
+  </emp-inv-assignment-entries-table>
+
+</div>

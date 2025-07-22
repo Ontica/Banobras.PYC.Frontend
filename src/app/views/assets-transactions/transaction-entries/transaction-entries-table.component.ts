@@ -48,7 +48,7 @@ export class AssetsTransactionEntriesTableComponent implements OnChanges {
 
   rowInEdition: AssetsTransactionEntry = null;
 
-  displayedColumnsDefault: string[] = ['assetNo', 'name', 'condition', 'description'];
+  displayedColumnsDefault: string[] = ['assetNo', 'name', 'previousCondition', 'releasedCondition', 'description'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 

@@ -40,7 +40,7 @@ export interface AssetDescriptor {
   assignedToName: string;
   assignedToOrgUnitName: string;
   locationName: string;
-  condition: string;
+  currentCondition: string;
   inUseName: string;
   startDate: DateString;
   endDate: DateString;
@@ -51,7 +51,7 @@ export interface AssetDescriptor {
 export interface AssetFields {
   assetTypeUID: string;
   assetNo: string;
-  condition: string;
+  currentCondition: string;
   inUse: string;
   startDate: DateString;
   endDate: DateString;
@@ -100,7 +100,7 @@ export interface Asset {
   floor: Identifiable;
   place: Identifiable;
   locationName: string;
-  condition: string;
+  currentCondition: string;
   brand: string;
   model: string;
   serialNo: string;
@@ -167,7 +167,7 @@ export const EmptyAsset: Asset = {
   floor: Empty,
   place: Empty,
   locationName: '',
-  condition: '',
+  currentCondition: '',
   brand: '',
   model: '',
   serialNo: '',

@@ -28,7 +28,7 @@ export enum AssetHeaderEventType {
 interface AssetFormModel extends FormGroup<{
   assetTypeUID: FormControl<string>;
   assetNo: FormControl<string>;
-  condition: FormControl<string>;
+  currentCondition: FormControl<string>;
   inUse: FormControl<string>;
   datePeriod: FormControl<DateRange>;
   assignedToOrgUnitUID: FormControl<string>;
@@ -158,7 +158,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
     this.form = fb.group({
       assetTypeUID: [''],
       assetNo: [''],
-      condition: [''],
+      currentCondition: [''],
       inUse: [''],
       datePeriod: [EmptyDateRange],
       name: [''],
@@ -187,7 +187,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
       this.form.reset({
         assetTypeUID: isEmpty(this.asset.assetType) ? null : this.asset.assetType.uid,
         assetNo: this.asset.assetNo ?? '',
-        condition: this.asset.condition ?? '',
+        currentCondition: this.asset.currentCondition ?? '',
         inUse: isEmpty(this.asset.inUse) ? null : this.asset.inUse.uid,
         datePeriod: { fromDate: this.asset.startDate ?? null, toDate: this.asset.endDate ?? null },
         assignedToOrgUnitUID: isEmpty(this.asset.assignedToOrgUnit) ? null : this.asset.assignedToOrgUnit.uid,
@@ -224,7 +224,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
     const data: AssetFields = {
       assetTypeUID: this.form.value.assetTypeUID ?? null,
       assetNo: this.form.value.assetNo ?? null,
-      condition: this.form.value.condition ?? null,
+      currentCondition: this.form.value.currentCondition ?? null,
       inUse: this.form.value.inUse ?? null,
       startDate: this.form.value.datePeriod.fromDate ?? null,
       endDate: this.form.value.datePeriod.toDate ?? null,

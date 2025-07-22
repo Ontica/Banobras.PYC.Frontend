@@ -1,0 +1,74 @@
+<div class="fx-column-container-fill">
+
+  <emp-ng-list-controls *ngIf="displayControls"
+    class="fx-item-none"
+    [config]="{itemsName: 'movimientos', itemsPronouns: 'los', selectionMessage: 'seleccionados', showDivider: false}"
+    [selection]="selection"
+    [operationsList]="operationsList"
+    (listControlsEvent)="onListControlsEvent($event)">
+
+  </emp-ng-list-controls>
+
+  <div class="fx-item">
+
+    <cdk-virtual-scroll-viewport tvsItemSize="32">
+
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="check">
+          <th mat-header-cell *matHeaderCellDef>
+            <emp-ng-check-box-all title="Todos" *ngIf="dataSource.data.length > 0"
+              [(selection)]="selection"
+              [values]="dataSource.data">
+            </emp-ng-check-box-all>
+          </th>
+          <td mat-cell *matCellDef="let row" class="column-checkbox">
+            <mat-checkbox empNgStopPropagation
+              [checked]="selection.isSelected(row)"
+              (change)="selection.toggle(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="assetNo">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> No. inventario </th>
+          <td mat-cell *matCellDef="let row">
+            <a class="item-link" (click)="onSelectButtonClicked(row)">
+              {{ !!row.asset.assetNo ? row.asset.assetNo : 'No determinado' }}
+            </a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let row">{{ row.asset.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="previousCondition">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> Condición anterior </th>
+          <td mat-cell *matCellDef="let row">{{row.previousCondition}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="releasedCondition">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> Condición actual </th>
+          <td mat-cell *matCellDef="let row">{{row.releasedCondition}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="notFoundMessage">
+          <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+            Este resguardo no tiene movimientos.
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
+          [hidden]="dataSource.data.length > 0"></tr>
+
+      </table>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

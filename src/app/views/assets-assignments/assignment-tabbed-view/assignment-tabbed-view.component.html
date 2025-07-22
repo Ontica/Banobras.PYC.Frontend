@@ -15,17 +15,17 @@
 
     </mat-tab>
 
-    <mat-tab label="Activos fijos">
+    <mat-tab label="Movimientos">
 
       <ng-template matTabContent>
 
-        <emp-inv-assignment-assets-edition
+        <emp-inv-assignment-entries-edition
           [assignmentUID]="data.assignment.uid"
-          [assets]="data.assets"
+          [entries]="data.entries"
           [canEdit]="data.actions?.canClone"
-          (assignmentAssetsEditionEvent)="onAssignmentAssetsEditionEvent($event)">
+          (assignmentEntriesEditionEvent)="onAssignmentEntriesEditionEvent($event)">
 
-        </emp-inv-assignment-assets-edition>
+        </emp-inv-assignment-entries-edition>
 
       </ng-template>
 

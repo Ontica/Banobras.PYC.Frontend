@@ -58,9 +58,9 @@ export class AssetsAssignmentsDataService {
   }
 
 
-  bulkOperationAssignmentAssets(assignmentUID: string,
-                                operationType: AssetsOperationType,
-                                command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
+  bulkOperationAssignmentEntries(assignmentUID: string,
+                                 operationType: AssetsOperationType,
+                                 command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
     Assertion.assertValue(assignmentUID, 'assignmentUID');
     Assertion.assertValue(operationType, 'operationType');
     Assertion.assertValue(command, 'command');
