@@ -41,6 +41,7 @@ export interface AssetDescriptor {
   assignedToOrgUnitName: string;
   locationName: string;
   condition: string;
+  inUseName: string;
   startDate: DateString;
   endDate: DateString;
   statusName: string;
@@ -49,21 +50,28 @@ export interface AssetDescriptor {
 
 export interface AssetFields {
   assetTypeUID: string;
-  name: string;
-  description: string;
-  brand: string;
-  model: string;
-  year: number;
+  assetNo: string;
   condition: string;
+  inUse: string;
+  startDate: DateString;
+  endDate: DateString;
   assignedToUID: string;
   assignedToOrgUnitUID: string;
+  name: string;
   buildingUID: string;
   floorUID: string;
   placeUID: string;
+  brand: string;
+  model: string;
+  serialNo: string;
+  acquisitionDate: DateString;
+  invoiceNo: string;
+  accountingTag: string;
+  historicalValue: number;
+  supplierName: string;
   identificators: string[];
   tags: string[];
-  startDate: DateString;
-  endDate: DateString;
+  description: string;
 }
 
 
@@ -84,10 +92,6 @@ export interface Asset {
   description: string;
   identificators: string[];
   tags: string[];
-  brand: string;
-  model: string;
-  year: number;
-  condition: string;
   assignedTo: Identifiable;
   assignedToOrgUnit: Identifiable;
   manager: Identifiable;
@@ -96,6 +100,16 @@ export interface Asset {
   floor: Identifiable;
   place: Identifiable;
   locationName: string;
+  condition: string;
+  brand: string;
+  model: string;
+  serialNo: string;
+  acquisitionDate: DateString;
+  invoiceNo: string;
+  accountingTag: string;
+  supplierName: string;
+  historicalValue: number;
+  inUse: Identifiable;
   startDate: DateString;
   endDate: DateString;
   status: Identifiable;
@@ -145,10 +159,6 @@ export const EmptyAsset: Asset = {
   description: '',
   identificators: [],
   tags: [],
-  brand: '',
-  model: '',
-  year: null,
-  condition: '',
   assignedToOrgUnit: Empty,
   assignedTo: Empty,
   manager: Empty,
@@ -157,6 +167,16 @@ export const EmptyAsset: Asset = {
   floor: Empty,
   place: Empty,
   locationName: '',
+  condition: '',
+  brand: '',
+  model: '',
+  serialNo: '',
+  acquisitionDate: '',
+  invoiceNo: '',
+  accountingTag: '',
+  supplierName: '',
+  historicalValue: null,
+  inUse: Empty,
   startDate: '',
   endDate: '',
   status: Empty,

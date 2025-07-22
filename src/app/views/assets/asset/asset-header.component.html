@@ -2,34 +2,32 @@
 
   <div class="fx-column-container fx-gap-half">
 
+    <div class="section-title"> Información general </div>
+
     <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
 
-      <div class="fx-item-half sm-fx-item">
-
-        <label>Área responsable:</label>
-
-        <emp-ng-select
-          formControlName="assignedToOrgUnitUID"
-          [config]="{virtualScroll: true, showTooltip: true}"
-          [items]="organizationalUnitsList"
-          [loading]="isLoading"
-          [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
-          [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)">
-        </emp-ng-select>
-
+      <div class="fx-item-quarter">
+        <label>No. inventario:</label>
+        <input type="text" class="text-box"
+          formControlName="assetNo"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.assetNo)">
       </div>
 
-      <div class="fx-item-size sm-fx-item" style="--size: calc(50% - 221px)">
-
+      <div class="fx-item-quarter sm-fx-item">
         <label>Tipo de activo fijo:</label>
-
         <emp-ng-select
           formControlName="assetTypeUID"
           [items]="assetTypesList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.assetTypeUID)">
         </emp-ng-select>
+      </div>
 
+      <div class="fx-item-size sm-fx-item" style="--size: calc(50% - 221px)">
+        <label>Condición:</label>
+        <input type="text" class="text-box"
+          formControlName="condition"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.condition)">
       </div>
 
       <div class="fx-item-none sm-fx-item">
@@ -43,12 +41,24 @@
 
     </div>
 
+
+    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+
+      <div class="fx-item">
+        <label>Nombre:</label>
+        <input #nameInput
+          type="text" class="text-box" [title]="nameInput?.value ?? ''"
+          formControlName="name"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+      </div>
+
+    </div>
+
+
     <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
 
       <div class="fx-item-half sm-fx-item">
-
-        <label>Persona responsable:</label>
-
+        <label>Persona resguardataria:</label>
         <emp-ng-select
           formControlName="assignedToUID"
           [items]="assignedTosList"
@@ -56,20 +66,22 @@
           [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
           [showError]="formHelper.isControlInvalid(form.controls.assignedToUID)">
         </emp-ng-select>
-
       </div>
 
       <div class="fx-item-half sm-fx-item">
-
-        <label>Nombre:</label>
-
-        <input type="text" class="text-box"
-          formControlName="name"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
-
+        <label>Área de resguardo:</label>
+        <emp-ng-select
+          formControlName="assignedToOrgUnitUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="organizationalUnitsList"
+          [loading]="isLoading"
+          [placeholder]="editionMode ? 'Seleccionar' : 'No determinado'"
+          [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)">
+        </emp-ng-select>
       </div>
 
     </div>
+
 
     <emp-inv-location-selector
       formControlName="location"
@@ -78,76 +90,108 @@
 
     </emp-inv-location-selector>
 
+
+    <div class="section-title"> Información adicional </div>
+
     <div class="fx-row-container">
 
-      <div class="fx-item-quarter sm-fx-item-half">
-
+      <div class="fx-item-quarter">
         <label>Marca:</label>
-
         <input type="text" class="text-box"
           formControlName="brand"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.brand)">
-
       </div>
 
       <div class="fx-item-quarter">
-
         <label>Modelo:</label>
-
         <input type="text" class="text-box"
           formControlName="model"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.model)">
-
       </div>
 
       <div class="fx-item-quarter">
-
-        <label>Año:</label>
-
+        <label>No. serie:</label>
         <input type="text" class="text-box"
-          formControlName="year"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.year)">
-
+          formControlName="serialNo"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.serialNo)">
       </div>
 
       <div class="fx-item-quarter">
-
-        <label>Condición:</label>
-
-        <input type="text" class="text-box"
-          formControlName="condition"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.condition)">
-
+        <label>Fecha de adquisición:</label>
+        <emp-ng-datepicker
+          formControlName="acquisitionDate"
+          [showError]="formHelper.isControlInvalid(form.controls.acquisitionDate)">
+        </emp-ng-datepicker>
       </div>
 
     </div>
 
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-quarter">
+        <label>Número de factura:</label>
+        <input type="text" class="text-box"
+          formControlName="invoiceNo"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.invoiceNo)">
+      </div>
+
+      <div class="fx-item-quarter">
+        <label>Identificador contable:</label>
+        <input type="text" class="text-box"
+          formControlName="accountingTag"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.accountingTag)">
+      </div>
+
+      <div class="fx-item-quarter">
+        <label>Valor historico:</label>
+        <emp-ng-input-numeric
+          formControlName="historicalValue"
+          [showError]="formHelper.isControlInvalid(form.controls.historicalValue)">
+        </emp-ng-input-numeric>
+      </div>
+
+      <div class="fx-item-quarter">
+        <label>En uso:</label>
+        <emp-ng-select
+          formControlName="inUse"
+          [items]="inUseList"
+          [showError]="formHelper.isControlInvalid(form.controls.inUse)">
+        </emp-ng-select>
+      </div>
+
+    </div>
+
+
     <div class="fx-row-container">
 
       <div class="fx-item-half">
+        <label>Proveedor:</label>
+        <input type="text" class="text-box"
+          formControlName="supplierName"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.supplierName)">
+      </div>
 
+      <div class="fx-item-quarter">
         <label>Otras claves:</label>
         <emp-ng-input-tags
           formControlName="identificators"
           [showError]="formHelper.isControlInvalid(form.controls.identificators)">
 
         </emp-ng-input-tags>
-
       </div>
 
-
-      <div class="fx-item-half">
-
+      <div class="fx-item-quarter">
         <label>Palabras de búsqueda adicionales:</label>
         <emp-ng-input-tags
           formControlName="tags"
           [showError]="formHelper.isControlInvalid(form.controls.tags)">
 
         </emp-ng-input-tags>
-
       </div>
 
     </div>
+
 
     <div class="fx-row-container">
 
