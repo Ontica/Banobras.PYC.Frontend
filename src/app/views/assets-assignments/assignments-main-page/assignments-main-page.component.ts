@@ -154,13 +154,19 @@ export class AssetsAssignmentsMainPageComponent {
   }
 
 
-  private getAssignment(assignmentUID: string) {
+  private getAssignment(assignmentUID: string, refresh: boolean = false) {
     this.isLoadingSelection = true;
 
     this.assignmentsData.getAssignment(assignmentUID)
       .firstValue()
-      .then(x => this.setSelectedData(x))
+      .then(x => this.resolveGetAssignment(x, refresh))
+      .catch(e => this.setSelectedData(EmptyAssetsAssignmentHolder))
       .finally(() => this.isLoadingSelection = false);
+  }
+
+
+  private resolveGetAssignment(data: AssetsAssignmentHolder, refresh: boolean = false) {
+    this.setSelectedData(data);
   }
 
 
@@ -171,7 +177,7 @@ export class AssetsAssignmentsMainPageComponent {
 
 
   private refreshSelectedData(assignmentUID: string) {
-    this.getAssignment(assignmentUID);
+    this.getAssignment(assignmentUID, true);
   }
 
 
@@ -216,9 +222,7 @@ export class AssetsAssignmentsMainPageComponent {
 
 
   private openFilePreview(file: FileReport) {
-    if (StringLibrary.isValidHttpUrl(file?.url || '')) {
-      this.filePreview.open(file.url, file.type);
-    }
+    this.filePreview.open(file.url, file.type);
   }
 
 }

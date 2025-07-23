@@ -77,8 +77,7 @@ export class AssetsAssignmentsAssignmentTabbedViewComponent implements OnChanges
     switch (event.type as AssignmentEntriesEditionEventType) {
       case AssignmentEntriesEditionEventType.EXECUTED:
         Assertion.assertValue(event.payload.assignmentUID, 'event.payload.assignmentUID');
-        const payload = { assignmentUID: this.data.assignment.uid };
-        sendEvent(this.assignmentTabbedViewEvent, AssignmentTabbedViewEventType.REFRESH_DATA, payload);
+        sendEvent(this.assignmentTabbedViewEvent, AssignmentTabbedViewEventType.REFRESH_DATA, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

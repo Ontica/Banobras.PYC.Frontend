@@ -21,8 +21,7 @@
                 formControlName="assignedToUID"
                 [config]="{showTooltip: true}"
                 [searcherAPI]="assigneesAPI"
-                [showError]="formHelper.isControlInvalid(form.controls.assignedToUID)"
-                [placeholder]="formHelper.getSearcherPlaceholder(editionMode)">
+                [showError]="formHelper.isControlInvalid(form.controls.assignedToUID)">
               </emp-ng-select-typeahead>
 
             </div>
@@ -36,8 +35,7 @@
                 [config]="{virtualScroll: true, showTooltip: true}"
                 [items]="orgUnitsList"
                 [loading]="isLoading"
-                [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)"
-                [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+                [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)">
               </emp-ng-select>
 
             </div>

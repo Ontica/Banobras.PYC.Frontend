@@ -54,8 +54,6 @@ export class AssetsAssignmentsOperationDataComponent implements OnInit, OnDestro
 
   formHelper = FormHelper;
 
-  editionMode = false;
-
   isLoading = false;
 
   orgUnitsList: Identifiable[] = [];
