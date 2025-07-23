@@ -25,3 +25,10 @@
   </emp-inv-assignment-tabbed-view>
 
 </div>
+
+
+<emp-inv-assignments-operation-data *ngIf="displayOperationDataModal"
+  [data]="selectedOperationData"
+  (assignmentsOperationDataEvent)="onAssignmentsOperationDataEvent($event)">
+
+</emp-inv-assignments-operation-data>

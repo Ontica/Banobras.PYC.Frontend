@@ -21,12 +21,12 @@ import { AssetsAssignmentsMainPageComponent } from './assignments-main-page/assi
 import { AssetsAssignmentsExplorerComponent } from './assignments-explorer/assignments-explorer.component';
 import { AssetsAssignmentsFilterComponent } from './assignments-explorer/assignments-filter.component';
 import { AssetsAssignmentTableComponent } from './assignments-explorer/assignments-table.component';
+import { AssetsAssignmentsOperationDataComponent } from './assignments-operation/assignments-operation-data.component';
 import { AssetsAssignmentsAssignmentTabbedViewComponent } from './assignment-tabbed-view/assignment-tabbed-view.component';
 import { AssetsAssignmentHeaderComponent } from './assignment/assignment-header.component';
 import { AssetsAssignmentEditorComponent } from './assignment/assignment-editor.component';
 import { AssetsAssignmentEntriesEditionComponent } from './assignment-entries-edition/assignment-entries-edition.component';
 import { AssetsAssignmentEntriesTableComponent } from './assignment-entries-edition/assignment-entries-table.component';
-
 
 
 @NgModule({
@@ -47,6 +47,7 @@ import { AssetsAssignmentEntriesTableComponent } from './assignment-entries-edit
     AssetsAssignmentsExplorerComponent,
     AssetsAssignmentsFilterComponent,
     AssetsAssignmentTableComponent,
+    AssetsAssignmentsOperationDataComponent,
     AssetsAssignmentsAssignmentTabbedViewComponent,
     AssetsAssignmentHeaderComponent,
     AssetsAssignmentEditorComponent,

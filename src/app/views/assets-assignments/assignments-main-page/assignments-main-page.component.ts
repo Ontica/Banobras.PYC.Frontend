@@ -13,11 +13,14 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { AssetsAssignmentsDataService } from '@app/data-services';
 
-import { AssetsAssignmentDescriptor, AssetsAssignmentHolder, AssetsAssignmentsQuery, AssetsOperationType,
-         EmptyAssetsAssignmentHolder, EmptyAssetsAssignmentsQuery, ExplorerOperationCommand,
+import { AssetsAssignmentDescriptor, AssetsAssignmentHolder, AssetsAssignmentsOperationCommand,
+         AssetsAssignmentsOperationData, AssetsAssignmentsOperationType, AssetsAssignmentsQuery,
+         EmptyAssetsAssignmentHolder, EmptyAssetsAssignmentsOperationData, EmptyAssetsAssignmentsQuery,
          ExplorerOperationResult } from '@app/models';
 
 import { AssignmentsExplorerEventType } from '../assignments-explorer/assignments-explorer.component';
+
+import { AssignmentsOperationDataEventType } from '../assignments-operation/assignments-operation-data.component';
 
 import { AssignmentTabbedViewEventType } from '../assignment-tabbed-view/assignment-tabbed-view.component';
 
@@ -35,6 +38,10 @@ export class AssetsAssignmentsMainPageComponent {
   selectedData: AssetsAssignmentHolder = EmptyAssetsAssignmentHolder;
 
   displayTabbedView = false;
+
+  displayOperationDataModal = false;
+
+  selectedOperationData: AssetsAssignmentsOperationData = Object.assign({}, EmptyAssetsAssignmentsOperationData);
 
   fileUrl = '';
 
@@ -70,9 +77,27 @@ export class AssetsAssignmentsMainPageComponent {
         return;
       case AssignmentsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
+        Assertion.assertValue(event.payload.command.items, 'event.payload.command.items');
+        this.setSelectedOperationData(event.payload.operation as AssetsAssignmentsOperationType,
+                                      event.payload.command.items);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onAssignmentsOperationDataEvent(event: EventInfo) {
+    switch (event.type as AssignmentsOperationDataEventType) {
+      case AssignmentsOperationDataEventType.CLOSE_MODAL_CLICKED:
+        this.setSelectedOperationData(null, []);
+        return;
+      case AssignmentsOperationDataEventType.EXECUTE_CLICKED:
+        Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         Assertion.assertValue(event.payload.command, 'event.payload.command');
-        this.bulkOperationAssignments(event.payload.operation as AssetsOperationType,
-                                      event.payload.command as ExplorerOperationCommand);
+        this.bulkOperationAssignments(event.payload.operation,
+                                      event.payload.command);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -114,7 +139,8 @@ export class AssetsAssignmentsMainPageComponent {
   }
 
 
-  private bulkOperationAssignments(operation: AssetsOperationType, command: ExplorerOperationCommand) {
+  private bulkOperationAssignments(operation: AssetsAssignmentsOperationType,
+                                   command: AssetsAssignmentsOperationCommand) {
     this.isLoadingSelection = true;
 
     this.assignmentsData.bulkOperationAssignments(operation, command)
@@ -131,6 +157,12 @@ export class AssetsAssignmentsMainPageComponent {
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
+  }
+
+
+  private refreshData() {
+    this.setSelectedData(EmptyAssetsAssignmentHolder);
+    this.searchAssignments(this.query);
   }
 
 
@@ -158,12 +190,21 @@ export class AssetsAssignmentsMainPageComponent {
   }
 
 
-  private resolveBulkOperationAssignmentsResponse(operation: AssetsOperationType,
+  private setSelectedOperationData(operation: AssetsAssignmentsOperationType,
+                                   assignments: string[]) {
+    this.selectedOperationData = Object.assign({}, EmptyAssetsAssignmentsOperationData,
+      { operation, assignments });
+    this.displayOperationDataModal = !!operation;
+  }
+
+
+  private resolveBulkOperationAssignmentsResponse(operation: AssetsAssignmentsOperationType,
                                                   result: ExplorerOperationResult) {
     switch (operation) {
       default:
+        this.setSelectedOperationData(null, []);
+        this.refreshData();
         this.messageBox.show(result.message, 'Ejecutar operación');
-        this.searchAssignments(this.query);
         return;
     }
   }

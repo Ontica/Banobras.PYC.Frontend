@@ -9,8 +9,9 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { FileReport, AssetsAssignmentDescriptor, AssetsAssignmentHolder, AssetsAssignmentsQuery,
-         AssetsOperationType, ExplorerOperationCommand, ExplorerOperationResult } from '@app/models';
+import { AssetsAssignmentDescriptor, AssetsAssignmentHolder, AssetsAssignmentsQuery,
+         AssetsAssignmentsOperationType, AssetsAssignmentsOperationCommand, ExplorerOperationResult,
+         FileReport } from '@app/models';
 
 
 @Injectable()
@@ -38,8 +39,8 @@ export class AssetsAssignmentsDataService {
   }
 
 
-  bulkOperationAssignments(operationType: AssetsOperationType,
-                           command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
+  bulkOperationAssignments(operationType: AssetsAssignmentsOperationType,
+                           command: AssetsAssignmentsOperationCommand): EmpObservable<ExplorerOperationResult> {
     Assertion.assertValue(operationType, 'operationType');
     Assertion.assertValue(command, 'command');
 
@@ -59,8 +60,8 @@ export class AssetsAssignmentsDataService {
 
 
   bulkOperationAssignmentEntries(assignmentUID: string,
-                                 operationType: AssetsOperationType,
-                                 command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
+                                 operationType: AssetsAssignmentsOperationType,
+                                 command: AssetsAssignmentsOperationCommand): EmpObservable<ExplorerOperationResult> {
     Assertion.assertValue(assignmentUID, 'assignmentUID');
     Assertion.assertValue(operationType, 'operationType');
     Assertion.assertValue(command, 'command');

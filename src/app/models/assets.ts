@@ -116,14 +116,6 @@ export interface Asset {
 }
 
 
-export enum AssetsOperationType {
-  requestLoan        = 'requestLoan',
-  requestMaintenance = 'requestMaintenance',
-  requestAssignment  = 'requestAssignment ',
-  requestRetirement  = 'requestRetirement',
-}
-
-
 export interface LocationSelection {
   building: Identifiable;
   floor: Identifiable;
@@ -190,42 +182,6 @@ export const EmptyAssetHolder: AssetHolder = {
   history: [],
   actions: EmptyBaseActions,
 };
-
-
-export const AssetsOperationsList: ExplorerOperation[] = [
-  {
-    uid: AssetsOperationType.requestLoan,
-    name: 'Solicitar préstamo',
-    showConfirm: true,
-    confirmTitleWithoutName: true,
-    confirmOperationMessage: 'solicitará el préstamo de',
-    confirmQuestionMessage: 'Solicito el prestamo de'
-  },
-  {
-    uid: AssetsOperationType.requestMaintenance,
-    name: 'Solicitar mantenimiento',
-    showConfirm: true,
-    confirmTitleWithoutName: true,
-    confirmOperationMessage: 'solicitará el mantenimiento',
-    confirmQuestionMessage: 'Solicito el mantenimiento'
-  },
-  {
-    uid: AssetsOperationType.requestAssignment,
-    name: 'Solicitar cambio de resguardo',
-    showConfirm: true,
-    confirmTitleWithoutName: true,
-    confirmOperationMessage: 'solicitará el cambio de resguardo',
-    confirmQuestionMessage: 'Solicito el cambio de resguardo'
-  },
-  {
-    uid: AssetsOperationType.requestRetirement,
-    name: 'Dar de baja',
-    showConfirm: true,
-    isConfirmWarning: true,
-    confirmOperationMessage: 'dará de baja',
-    confirmQuestionMessage: 'Doy de baja'
-  },
-];
 
 
 export const EmptyAssetsQuery: AssetsQuery = {

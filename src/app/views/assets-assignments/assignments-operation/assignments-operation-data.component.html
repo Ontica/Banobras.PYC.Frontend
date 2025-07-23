@@ -1,0 +1,134 @@
+<emp-ng-modal-window [config]="{width:'1024px'}">
+
+  <emp-ng-card
+    [title]="title"
+    hint="Información de la operación a ejecutar."
+    (cardClose)="onCloseModalClicked()">
+
+    <div class="card-body-padding">
+
+      <form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+        <div class="fx-column-container fx-gap-half">
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Recibió:</label>
+
+              <emp-ng-select-typeahead
+                formControlName="assignedToUID"
+                [config]="{showTooltip: true}"
+                [searcherAPI]="assigneesAPI"
+                [showError]="formHelper.isControlInvalid(form.controls.assignedToUID)"
+                [placeholder]="formHelper.getSearcherPlaceholder(editionMode)">
+              </emp-ng-select-typeahead>
+
+            </div>
+
+            <div class="fx-item">
+
+              <label>Área receptora:</label>
+
+              <emp-ng-select
+                formControlName="assignedToOrgUnitUID"
+                [config]="{virtualScroll: true, showTooltip: true}"
+                [items]="orgUnitsList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)"
+                [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-none">
+
+              <label>Fecha de aplicación:</label>
+
+              <emp-ng-datepicker
+                formControlName="applicationDate"
+                [showError]="formHelper.isControlInvalid(form.controls.applicationDate)">
+              </emp-ng-datepicker>
+
+            </div>
+
+          </div>
+
+          <emp-inv-location-selector
+            formControlName="location"
+            [required]="true"
+            [errors]="form.controls.location.errors"
+            [showError]="formHelper.isControlInvalid(form.controls.location)">
+
+          </emp-inv-location-selector>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Otras claves:</label>
+              <emp-ng-input-tags
+                formControlName="identificators"
+                [showError]="formHelper.isControlInvalid(form.controls.identificators)">
+
+              </emp-ng-input-tags>
+
+            </div>
+
+
+            <div class="fx-item-half">
+
+              <label>Palabras de búsqueda adicionales:</label>
+              <emp-ng-input-tags
+                formControlName="tags"
+                [showError]="formHelper.isControlInvalid(form.controls.tags)">
+
+              </emp-ng-input-tags>
+
+            </div>
+
+          </div>
+
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-one">
+              <label>Descripción:</label>
+              <textarea class="text-area" empNgTextareaAutoresize rows="1"
+                formControlName="description"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+              </textarea>
+            </div>
+
+          </div>
+
+        </div>
+
+        <mat-divider class="horizontal">
+
+        </mat-divider>
+
+        <div #rowFooter class="fx-row-container">
+
+
+          <div class="fx-item fx-end fx-items-center">
+
+            <button
+              [class.btn]="!formHelper.isFormReady(form)"
+              [class.btn-action]="formHelper.isFormReady(form)"
+              (click)="onSubmitButtonClicked()">
+              Ejecutar
+            </button>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

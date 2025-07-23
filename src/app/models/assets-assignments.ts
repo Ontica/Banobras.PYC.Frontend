@@ -9,8 +9,6 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { EntityStatus, ExplorerOperation } from './_explorer-data';
 
-import { AssetsOperationsList } from './assets';
-
 import { AssetsTransaction, AssetsTransactionDescriptor, AssetsTransactionEntry,
          EmptyAssetsTransaction } from './assets-transactions';
 
@@ -89,6 +87,41 @@ export interface AssetsAssignmentActions {
 }
 
 
+export enum AssetsAssignmentsOperationType {
+  requestLoan        = 'requestLoan',
+  requestMaintenance = 'requestMaintenance',
+  requestAssignment  = 'requestAssignment ',
+  requestRetirement  = 'requestRetirement',
+}
+
+
+export interface AssetsAssignmentsOperationCommand {
+  assignments?: string[];
+  assets?: string[];
+  applicationDate: DateString;
+  assignedToUID: string;
+  assignedToOrgUnitUID: string;
+  locationUID: string;
+  identificators: string[];
+  tags: string[];
+  description: string;
+}
+
+
+export interface AssetsAssignmentsOperationData {
+  operation: AssetsAssignmentsOperationType;
+  assignments: string[];
+  assets: string[];
+}
+
+
+export const EmptyAssetsAssignmentsOperationData: AssetsAssignmentsOperationData = {
+  operation: null,
+  assignments: [],
+  assets: [],
+}
+
+
 export const EmptyAssetsAssignment: AssetsAssignment = {
   uid: '',
   assignedTo: Empty,
@@ -122,9 +155,6 @@ export const EmptyAssetsAssignmentHolder: AssetsAssignmentHolder = {
 };
 
 
-export const AssetsAssignmentsOperationsList: ExplorerOperation[] = [...AssetsOperationsList];
-
-
 export const EmptyAssetsAssignmentsQuery: AssetsAssignmentsQuery = {
   assignedToUID: '',
   assignedToOrgUnitUID: '',
@@ -139,3 +169,45 @@ export const EmptyAssetsAssignmentsQuery: AssetsAssignmentsQuery = {
   status: null,
   keywords: '',
 };
+
+
+export const AssetsAssignmentsOperationsList: ExplorerOperation[] = [
+  {
+    uid: AssetsAssignmentsOperationType.requestLoan,
+    name: 'Solicitar préstamo',
+  },
+  {
+    uid: AssetsAssignmentsOperationType.requestMaintenance,
+    name: 'Solicitar mantenimiento',
+  },
+  {
+    uid: AssetsAssignmentsOperationType.requestAssignment,
+    name: 'Solicitar cambio de resguardo',
+  },
+  {
+    uid: AssetsAssignmentsOperationType.requestRetirement,
+    name: 'Dar de baja',
+    showConfirm: true,
+    isConfirmWarning: true,
+    confirmOperationMessage: 'dará de baja',
+    confirmQuestionMessage: 'Doy de baja'
+  },
+];
+
+
+export const EmptyAssetsAssignmentsOperationCommand: AssetsAssignmentsOperationCommand = {
+  assignments: [],
+  assets: [],
+  applicationDate: '',
+  assignedToUID: '',
+  assignedToOrgUnitUID: '',
+  locationUID: '',
+  identificators: [],
+  tags: [],
+  description: '',
+}
+
+
+export function getAssetsAssignmentsOperationName(type: AssetsAssignmentsOperationType): string {
+  return AssetsAssignmentsOperationsList.find(x => x.uid === type)?.name ?? '';
+}

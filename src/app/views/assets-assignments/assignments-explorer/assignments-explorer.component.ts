@@ -92,6 +92,7 @@ export class AssetsAssignmentsExplorerComponent implements OnChanges {
         return;
       case AssignmentTableEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
+        Assertion.assertValue(event.payload.command.items, 'event.payload.command.items');
         sendEvent(this.assignmentsExplorerEvent,
           AssignmentsExplorerEventType.EXECUTE_OPERATION_CLICKED, event.payload);
         return;
