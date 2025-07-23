@@ -5,18 +5,20 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import { Assertion, EventInfo, isEmpty } from '@app/core';
+import { Assertion, EventInfo, isEmpty, StringLibrary } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/services';
+import { AlertService } from '@app/shared/services';
 
 import { AssetsAssignmentsDataService } from '@app/data-services';
+
+import { FilePreviewComponent } from '@app/shared/containers';
 
 import { AssetsAssignmentDescriptor, AssetsAssignmentHolder, AssetsAssignmentsOperationCommand,
          AssetsAssignmentsOperationData, AssetsAssignmentsOperationType, AssetsAssignmentsQuery,
          EmptyAssetsAssignmentHolder, EmptyAssetsAssignmentsOperationData, EmptyAssetsAssignmentsQuery,
-         ExplorerOperationResult } from '@app/models';
+         ExplorerOperationResult, FileReport } from '@app/models';
 
 import { AssignmentsExplorerEventType } from '../assignments-explorer/assignments-explorer.component';
 
@@ -30,6 +32,8 @@ import { AssignmentTabbedViewEventType } from '../assignment-tabbed-view/assignm
   templateUrl: './assignments-main-page.component.html',
 })
 export class AssetsAssignmentsMainPageComponent {
+
+  @ViewChild('filePreview', { static: true }) filePreview: FilePreviewComponent;
 
   query: AssetsAssignmentsQuery = Object.assign({}, EmptyAssetsAssignmentsQuery);
 
@@ -53,7 +57,7 @@ export class AssetsAssignmentsMainPageComponent {
 
 
   constructor(private assignmentsData: AssetsAssignmentsDataService,
-              private messageBox: MessageBoxService) { }
+              private alertService: AlertService) { }
 
 
   onAssignmentsExplorerEvent(event: EventInfo) {
@@ -204,8 +208,16 @@ export class AssetsAssignmentsMainPageComponent {
       default:
         this.setSelectedOperationData(null, []);
         this.refreshData();
-        this.messageBox.show(result.message, 'Ejecutar operación');
+        this.openFilePreview(result.file);
+        this.alertService.openAlert(result.message, 'Ok');
         return;
+    }
+  }
+
+
+  private openFilePreview(file: FileReport) {
+    if (StringLibrary.isValidHttpUrl(file?.url || '')) {
+      this.filePreview.open(file.url, file.type);
     }
   }
 
