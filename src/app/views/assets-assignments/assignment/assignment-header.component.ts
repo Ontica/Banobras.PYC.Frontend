@@ -36,6 +36,8 @@ export enum AssignmentHeaderEventType {
 interface AssignmentFormModel extends FormGroup<{
   assignedToUID: FormControl<string>;
   assignedToOrgUnitUID: FormControl<string>;
+  releasedByUID: FormControl<string>;
+  releasedByOrgUnitUID: FormControl<string>;
   location: FormControl<LocationSelection>;
 }> { }
 
@@ -155,6 +157,8 @@ export class AssetsAssignmentHeaderComponent implements OnInit, OnChanges, OnDes
     this.form = fb.group({
       assignedToUID: ['', Validators.required],
       assignedToOrgUnitUID: ['', Validators.required],
+      releasedByUID: ['', Validators.required],
+      releasedByOrgUnitUID: ['', Validators.required],
       location: [EmptyLocationSelection, Validate.objectFieldsRequired('building', 'floor', 'place')],
     });
   }
@@ -169,6 +173,8 @@ export class AssetsAssignmentHeaderComponent implements OnInit, OnChanges, OnDes
       this.form.reset({
         assignedToUID: isEmpty(this.assignment.assignedTo) ? null : this.assignment.assignedTo.uid,
         assignedToOrgUnitUID: isEmpty(this.assignment.assignedToOrgUnit) ? null : this.assignment.assignedToOrgUnit.uid,
+        releasedByUID: isEmpty(this.assignment.releasedBy) ? null : this.assignment.releasedBy.uid,
+        releasedByOrgUnitUID: isEmpty(this.assignment.releasedByOrgUnit) ? null : this.assignment.releasedByOrgUnit.uid,
         location: locationData,
       });
 
@@ -183,6 +189,8 @@ export class AssetsAssignmentHeaderComponent implements OnInit, OnChanges, OnDes
     const data: AssetsAssignmentFields = {
       assignedToUID: this.form.value.assignedToUID ?? null,
       assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
+      releasedByUID: this.form.value.releasedByUID ?? null,
+      releasedByOrgUnitUID: this.form.value.releasedByOrgUnitUID ?? null,
       locationUID: this.form.value.location.place.uid ?? null,
     };
 
@@ -236,7 +244,7 @@ export class AssetsAssignmentHeaderComponent implements OnInit, OnChanges, OnDes
 
 
   private getConfirmMessage(eventType: AssignmentHeaderEventType): string {
-    const description = `el resguardo con responsable
+    const description = `el resguardo a cargo de
       <strong>${this.assignment.assignedTo.name} (${this.assignment.assignedToOrgUnit.name})</strong>
       y localización en <strong>${this.assignment.locationName}</strong>`;
 

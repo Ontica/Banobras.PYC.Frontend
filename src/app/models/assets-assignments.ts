@@ -50,6 +50,8 @@ export interface AssetsAssignmentDescriptor {
 export interface AssetsAssignmentFields {
   assignedToUID: string;
   assignedToOrgUnitUID: string;
+  releasedByUID: string;
+  releasedByOrgUnitUID: string;
   locationUID: string;
 }
 

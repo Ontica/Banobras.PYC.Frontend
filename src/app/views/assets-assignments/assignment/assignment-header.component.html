@@ -6,7 +6,7 @@
 
       <div class="fx-item-half">
 
-        <label>Persona responsable:</label>
+        <label>Resguardatario:</label>
 
         <emp-ng-select-typeahead
           formControlName="assignedToUID"
@@ -21,7 +21,7 @@
 
       <div class="fx-item-half">
 
-        <label>Área responsable:</label>
+        <label>Área de resguardo:</label>
 
         <emp-ng-select
           formControlName="assignedToOrgUnitUID"
@@ -29,6 +29,40 @@
           [items]="orgUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.assignedToOrgUnitUID)"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Entregado por:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="releasedByUID"
+          [config]="{showTooltip: true}"
+          [searcherAPI]="assigneesAPI"
+          [initialValue]="isSaved ? assignment.releasedBy : null"
+          [showError]="formHelper.isControlInvalid(form.controls.releasedByUID)"
+          [placeholder]="formHelper.getSearcherPlaceholder(editionMode)">
+        </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Área de entrega:</label>
+
+        <emp-ng-select
+          formControlName="releasedByOrgUnitUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.releasedByOrgUnitUID)"
           [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
         </emp-ng-select>
 
