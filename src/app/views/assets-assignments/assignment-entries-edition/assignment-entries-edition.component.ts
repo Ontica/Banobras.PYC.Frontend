@@ -15,7 +15,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { AssetsAssignmentsDataService } from '@app/data-services';
 
-import { AssetsOperationType, AssetsTransactionEntry, ExplorerOperationCommand,
+import { AssetsAssignmentsOperationType, AssetsTransactionEntry, AssetsAssignmentsOperationCommand,
          ExplorerOperationResult } from '@app/models';
 
 import { AssignmentEntriesTableEventType } from './assignment-entries-table.component';
@@ -64,8 +64,8 @@ export class AssetsAssignmentEntriesEditionComponent implements OnChanges {
       case AssignmentEntriesTableEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         Assertion.assertValue(event.payload.command, 'event.payload.command');
-        this.bulkOperationAssignmentEntries(event.payload.operation as AssetsOperationType,
-                                           event.payload.command as ExplorerOperationCommand);
+        this.bulkOperationAssignmentEntries(event.payload.operation as AssetsAssignmentsOperationType,
+                                           event.payload.command as AssetsAssignmentsOperationCommand);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -74,7 +74,8 @@ export class AssetsAssignmentEntriesEditionComponent implements OnChanges {
   }
 
 
-  private bulkOperationAssignmentEntries(operation: AssetsOperationType, command: ExplorerOperationCommand) {
+  private bulkOperationAssignmentEntries(operation: AssetsAssignmentsOperationType,
+                                         command: AssetsAssignmentsOperationCommand) {
     this.submitted = true;
 
     this.assignmentsData.bulkOperationAssignmentEntries(this.assignmentUID, operation, command)
@@ -84,7 +85,7 @@ export class AssetsAssignmentEntriesEditionComponent implements OnChanges {
   }
 
 
-  private resolveBulkOperationAssignmentEntriesResponse(operation: AssetsOperationType,
+  private resolveBulkOperationAssignmentEntriesResponse(operation: AssetsAssignmentsOperationType,
                                                         result: ExplorerOperationResult) {
     switch (operation) {
       default:

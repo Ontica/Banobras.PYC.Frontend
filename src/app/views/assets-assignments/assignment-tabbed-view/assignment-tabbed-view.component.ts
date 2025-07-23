@@ -15,7 +15,7 @@ import { EmptyAssetsAssignmentHolder, AssetsAssignmentHolder } from '@app/models
 
 import { AssignmentEditorEventType } from '../assignment/assignment-editor.component';
 
-import { AssignmentEntriesEditionEventType } from '../assignment-assets-edition/assignment-entries-edition.component';
+import { AssignmentEntriesEditionEventType } from '../assignment-entries-edition/assignment-entries-edition.component';
 
 import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
