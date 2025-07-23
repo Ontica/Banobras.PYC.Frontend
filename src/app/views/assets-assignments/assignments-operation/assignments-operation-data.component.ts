@@ -62,8 +62,6 @@ export class AssetsAssignmentsOperationDataComponent implements OnInit, OnDestro
 
   assigneesAPI = SearcherAPIS.assetsTransactionsAssignees;
 
-  managersAPI = SearcherAPIS.assetsTransactionsManagers;
-
   helper: SubscriptionHelper;
 
 

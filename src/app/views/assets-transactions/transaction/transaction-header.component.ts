@@ -39,9 +39,6 @@ export enum TransactionHeaderEventType {
 }
 
 
-const MANAGER_REQUIRED = false;
-
-
 interface TransactionFormModel extends FormGroup<{
   transactionTypeUID: FormControl<string>;
   applicationDate: FormControl<DateString>;
@@ -49,8 +46,6 @@ interface TransactionFormModel extends FormGroup<{
   assignedToOrgUnitUID: FormControl<string>;
   releasedByUID: FormControl<string>;
   releasedByOrgUnitUID: FormControl<string>;
-  managerUID: FormControl<string>;
-  managerOrgUnitUID: FormControl<string>;
   location: FormControl<LocationSelection>;
   identificators: FormControl<string[]>;
   tags: FormControl<string[]>;
@@ -85,11 +80,7 @@ export class AssetsTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
   assigneesAPI = SearcherAPIS.assetsTransactionsAssignees;
 
-  managersAPI = SearcherAPIS.assetsTransactionsManagers;
-
   helper: SubscriptionHelper;
-
-  MANAGER_REQUIRED = MANAGER_REQUIRED;
 
 
   constructor(private uiLayer: PresentationLayer,
@@ -201,8 +192,6 @@ export class AssetsTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       assignedToOrgUnitUID: ['', Validators.required],
       releasedByUID: ['', Validators.required],
       releasedByOrgUnitUID: ['', Validators.required],
-      managerUID: ['', MANAGER_REQUIRED ? Validators.required : null],
-      managerOrgUnitUID: ['', MANAGER_REQUIRED ? Validators.required : null],
       location: [EmptyLocationSelection, Validate.objectFieldsRequired('building', 'floor', 'place')],
       identificators: [null],
       tags: [null],
@@ -217,11 +206,6 @@ export class AssetsTransactionHeaderComponent implements OnInit, OnChanges, OnDe
         this.transaction.building, this.transaction.floor, this.transaction.place
       );
 
-      const managerUID = MANAGER_REQUIRED && !isEmpty(this.transaction.manager) ?
-        this.transaction.manager.uid : null;
-      const managerOrgUnitUID = MANAGER_REQUIRED && !isEmpty(this.transaction.managerOrgUnit) ?
-        this.transaction.assignedTo.uid : null;
-
       this.form.reset({
         transactionTypeUID: isEmpty(this.transaction.transactionType) ? null : this.transaction.transactionType.uid,
         applicationDate: this.transaction.applicationDate ?? null,
@@ -229,8 +213,6 @@ export class AssetsTransactionHeaderComponent implements OnInit, OnChanges, OnDe
         assignedToOrgUnitUID: isEmpty(this.transaction.assignedToOrgUnit) ? null : this.transaction.assignedToOrgUnit.uid,
         releasedByUID: isEmpty(this.transaction.releasedBy) ? null : this.transaction.releasedBy.uid,
         releasedByOrgUnitUID: isEmpty(this.transaction.releasedByOrgUnit) ? null : this.transaction.releasedByOrgUnit.uid,
-        managerUID,
-        managerOrgUnitUID,
         location: locationData,
         identificators: this.transaction.identificators ?? null,
         tags: this.transaction.tags ?? null,
@@ -245,11 +227,6 @@ export class AssetsTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   private getFormData(): AssetsTransactionFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
-    const managerUID = MANAGER_REQUIRED && this.form.controls.managerUID.valid ?
-      this.form.value.managerUID : null;
-    const managerOrgUnitUID = MANAGER_REQUIRED && this.form.controls.managerOrgUnitUID.valid ?
-      this.form.value.managerOrgUnitUID : null;
-
     const data: AssetsTransactionFields = {
       transactionTypeUID: this.form.value.transactionTypeUID ?? null,
       applicationDate: this.form.value.applicationDate ?? null,
@@ -257,8 +234,6 @@ export class AssetsTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       assignedToOrgUnitUID: this.form.value.assignedToOrgUnitUID ?? null,
       releasedByUID: this.form.value.releasedByUID ?? null,
       releasedByOrgUnitUID: this.form.value.releasedByOrgUnitUID ?? null,
-      managerUID,
-      managerOrgUnitUID,
       locationUID: this.form.value.location.place.uid ?? null,
       identificators: this.form.value.identificators ?? [],
       tags: this.form.value.tags ?? [],
@@ -273,7 +248,6 @@ export class AssetsTransactionHeaderComponent implements OnInit, OnChanges, OnDe
     setTimeout(() => {
       FormHelper.markControlsAsUntouched(this.form.controls.assignedToUID);
       FormHelper.markControlsAsUntouched(this.form.controls.releasedByUID);
-      FormHelper.markControlsAsUntouched(this.form.controls.managerUID);
     });
   }
 

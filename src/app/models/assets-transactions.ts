@@ -29,8 +29,6 @@ export interface AssetsTransactionsQuery {
   buildingUID: string;
   floorUID: string;
   placeUID: string;
-  managerUID: string;
-  managerOrgUnitUID: string;
   releasedByUID: string;
   releasedByOrgUnitUID: string;
   operationSourceUID: string;
@@ -53,8 +51,6 @@ export interface AssetsTransactionDescriptor {
   assignedToName: string;
   assignedToOrgUnitName: string;
   baseLocationName: string;
-  managerName: string;
-  managerOrgUnitName: string;
   operationSourceName: string;
   releasedByName: string;
   releasedByOrgUnitName: string;
@@ -75,8 +71,6 @@ export interface AssetsTransactionFields {
   applicationDate: DateString;
   assignedToUID: string;
   assignedToOrgUnitUID: string;
-  managerUID: string;
-  managerOrgUnitUID: string;
   releasedByUID: string;
   releasedByOrgUnitUID: string;
   locationUID: string;
@@ -104,8 +98,6 @@ export interface AssetsTransaction {
   tags: string[];
   assignedToOrgUnit: Identifiable;
   assignedTo: Identifiable;
-  manager: Identifiable;
-  managerOrgUnit: Identifiable;
   releasedBy: Identifiable;
   releasedByOrgUnit: Identifiable;
   building: Identifiable;
@@ -183,8 +175,6 @@ export const EmptyAssetsTransactionsQuery: AssetsTransactionsQuery = {
   buildingUID: '',
   floorUID: '',
   placeUID: '',
-  managerUID: '',
-  managerOrgUnitUID: '',
   releasedByUID: '',
   releasedByOrgUnitUID: '',
   operationSourceUID: '',
@@ -206,8 +196,6 @@ export const EmptyAssetsTransaction: AssetsTransaction = {
   description: '',
   identificators: [],
   tags: [],
-  manager: Empty,
-  managerOrgUnit: Empty,
   releasedBy: Empty,
   releasedByOrgUnit: Empty,
   building: Empty,
@@ -267,8 +255,6 @@ export function mapAssetsTransactionDescriptorFromTransaction(data: AssetsTransa
     assignedToOrgUnitName: data.assignedToOrgUnit.name,
     assignedToName: data.assignedTo.name,
     baseLocationName: data.baseLocationName,
-    managerName: data.manager.name,
-    managerOrgUnitName: data.managerOrgUnit.name,
     operationSourceName: data.operationSource.name,
     releasedByName: data.releasedBy.name,
     releasedByOrgUnitName: data.releasedByOrgUnit.name,

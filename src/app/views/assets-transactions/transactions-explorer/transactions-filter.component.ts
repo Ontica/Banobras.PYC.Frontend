@@ -233,8 +233,6 @@ export class AssetsTransactionsFilterComponent implements OnChanges, OnInit, OnD
       buildingUID: this.form.value.location?.building?.uid ?? null,
       floorUID: this.form.value.location?.floor?.uid ?? null,
       placeUID: this.form.value.location?.place?.uid ?? null,
-      managerUID : null, // TODO: add field to form
-      managerOrgUnitUID : null, // TODO: add field to form
       releasedByUID : null, // TODO: add field to form
       releasedByOrgUnitUID : null, // TODO: add field to form
       operationSourceUID : null, // TODO: add field to form

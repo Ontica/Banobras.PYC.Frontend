@@ -99,40 +99,6 @@
 
     </div>
 
-    <div class="fx-row-container" *ngIf="MANAGER_REQUIRED">
-
-      <div class="fx-item-half">
-
-        <label>Persona administradora:</label>
-
-        <emp-ng-select-typeahead
-          formControlName="managerUID"
-          [config]="{ showTooltip: true}"
-          [searcherAPI]="managersAPI"
-          [initialValue]="isSaved ? transaction.manager : null"
-          [showError]="formHelper.isControlInvalid(form.controls.managerUID)"
-          [placeholder]="formHelper.getSearcherPlaceholder(editionMode)">
-        </emp-ng-select-typeahead>
-
-      </div>
-
-      <div class="fx-item-half">
-
-        <label>Área administradora:</label>
-
-        <emp-ng-select
-          formControlName="managerOrgUnitUID"
-          [config]="{virtualScroll: true, showTooltip: true}"
-          [items]="orgUnitsList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.managerOrgUnitUID)"
-          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
-        </emp-ng-select>
-
-      </div>
-
-    </div>
-
     <emp-inv-location-selector
       formControlName="location"
       [required]="true"
