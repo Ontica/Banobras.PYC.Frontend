@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { AssetsAssignmentsDataService } from '@app/data-services';
@@ -50,11 +52,8 @@ export class AssetsAssignmentEditorComponent {
   }
 
 
+  @SkipIf('submitted')
   onAssignmentHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as AssignmentHeaderEventType) {
       case AssignmentHeaderEventType.UPDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');

@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { AssetsTransactionsDataService } from '@app/data-services';
 
 import { AssetsTransaction, AssetsTransactionFields, AssetsTransactionHolder, EmptyAssetsTransaction,
@@ -46,12 +48,8 @@ export class AssetsTransactionEditorComponent {
     return !isEmpty(this.transaction);
   }
 
-
+  @SkipIf('submitted')
   onTransactionHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as TransactionHeaderEventType) {
       case TransactionHeaderEventType.UPDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');

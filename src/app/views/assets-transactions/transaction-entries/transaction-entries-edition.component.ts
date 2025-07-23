@@ -11,6 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { AssetsTransactionsDataService } from '@app/data-services';
@@ -61,11 +63,8 @@ export class AssetsTransactionEntriesEditionComponent implements OnChanges {
   }
 
 
+  @SkipIf('submitted')
   onTransactionEntriesTableEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as TransactionEntriesTableEventType) {
       case TransactionEntriesTableEventType.UPDATE_CLICKED:
         Assertion.assertValue(event.payload.entryUID, 'event.payload.entryUID');

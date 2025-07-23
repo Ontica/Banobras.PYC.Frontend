@@ -9,6 +9,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EventInfo, isEmpty } from '@app/core';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { Asset, EmptyAsset, BaseActions, EmptyBaseActions } from '@app/models';
 
 import { AssetHeaderEventType } from './asset-header.component';
@@ -39,11 +41,8 @@ export class AssetEditorComponent {
   }
 
 
+  @SkipIf('submitted')
   onAssetHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as AssetHeaderEventType) {
 
       default:
