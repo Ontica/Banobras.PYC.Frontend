@@ -187,7 +187,7 @@ export class AssetsTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
     this.form = fb.group({
       transactionTypeUID: ['', Validators.required],
-      applicationDate: [null],
+      applicationDate: [null as DateString, Validators.required],
       assignedToUID: ['', Validators.required],
       assignedToOrgUnitUID: ['', Validators.required],
       releasedByUID: ['', Validators.required],
@@ -195,7 +195,7 @@ export class AssetsTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       location: [EmptyLocationSelection, Validate.objectFieldsRequired('building', 'floor', 'place')],
       identificators: [null],
       tags: [null],
-      description: ['', Validators.required],
+      description: [''],
     });
   }
 
