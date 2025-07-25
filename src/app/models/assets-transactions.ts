@@ -131,6 +131,8 @@ export interface AssetsTransactionEntryFields {
   transactionUID: string;
   assetUID: string;
   entryTypeUID: string;
+  previousCondition: string;
+  releasedCondition: string;
   description: string;
 }
 

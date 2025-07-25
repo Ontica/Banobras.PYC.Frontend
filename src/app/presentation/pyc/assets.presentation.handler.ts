@@ -15,14 +15,16 @@ import { AssetsDataService, AssetsTransactionsDataService } from '@app/data-serv
 
 
 export enum SelectorType {
-  ASSETS_TYPES              = 'PYC.Assets.Selector.AssetsTypes.List',
+  ASSETS_CONDITIONS         = 'PYC.Assets.Selector.AssetsConditions.List',
   ASSETS_TRANSACTIONS_TYPES = 'PYC.Assets.Selector.AssetsTransactionsTypes.List',
+  ASSETS_TYPES              = 'PYC.Assets.Selector.AssetsTypes.List',
 }
 
 
 const initialState: StateValues = [
-  { key: SelectorType.ASSETS_TYPES,              value: [] },
+  { key: SelectorType.ASSETS_CONDITIONS,         value: [] },
   { key: SelectorType.ASSETS_TRANSACTIONS_TYPES, value: [] },
+  { key: SelectorType.ASSETS_TYPES,              value: [] },
 ];
 
 
@@ -42,14 +44,20 @@ export class AssetsPresentationHandler extends AbstractPresentationHandler {
 
     switch (selectorType) {
 
-      case SelectorType.ASSETS_TYPES: {
-        const provider = () => this.assetsData.getAssetsTypes();
+      case SelectorType.ASSETS_CONDITIONS: {
+        const provider = () => this.assetsData.getAssetsConditions();
 
         return super.selectFirst<U>(selectorType, provider);
       }
 
       case SelectorType.ASSETS_TRANSACTIONS_TYPES: {
         const provider = () => this.transactionsData.getAssetsTransactionsTypes();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.ASSETS_TYPES: {
+        const provider = () => this.assetsData.getAssetsTypes();
 
         return super.selectFirst<U>(selectorType, provider);
       }

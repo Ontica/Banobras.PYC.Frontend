@@ -26,6 +26,13 @@ export class AssetsDataService {
   }
 
 
+  getAssetsConditions(): EmpObservable<Identifiable[]> {
+    const path = 'v2/assets/conditions';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   getAssetsRootLocations(): EmpObservable<Identifiable[]> {
     const path = 'v2/assets/locations/root';
 

@@ -7,11 +7,16 @@
 
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges,
+         ViewChild } from '@angular/core';
 
 import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
-import { Assertion, EventInfo } from '@app/core';
+import { Assertion, EventInfo, Identifiable } from '@app/core';
+
+import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
+
+import { AssetsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { AssetsTransactionEntry, AssetsTransactionEntryFields, isEntityStatusInWarning } from '@app/models';
 
@@ -29,8 +34,38 @@ export enum TransactionEntriesTableEventType {
 @Component({
   selector: 'emp-inv-transaction-entries-table',
   templateUrl: './transaction-entries-table.component.html',
+  styles: `
+    .cell-previous-condition {
+      padding-left: 0!important;
+    }
+
+    .header-released-condition {
+      padding-left: 10px;
+    }
+
+    .cell-released-condition {
+      width: 145px;
+    }
+
+    .cell-released-condition-enabled {
+      padding: 2px 0 2px 10px;
+    }
+
+    .cell-released-condition-disabled {
+      padding-left: 10px;
+    }
+
+    .cell-description {
+      width: 20%;
+    }
+
+    .cell-description-enabled {
+      width: 20%;
+      padding: 2px 0 2px 0;
+    }
+  `,
 })
-export class AssetsTransactionEntriesTableComponent implements OnChanges {
+export class AssetsTransactionEntriesTableComponent implements OnChanges, OnInit, OnDestroy {
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
@@ -48,7 +83,8 @@ export class AssetsTransactionEntriesTableComponent implements OnChanges {
 
   rowInEdition: AssetsTransactionEntry = null;
 
-  displayedColumnsDefault: string[] = ['assetNo', 'name', 'previousCondition', 'releasedCondition', 'description'];
+  displayedColumnsDefault: string[] = ['assetNo', 'name', 'previousCondition', 'releasedCondition',
+    'description'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
@@ -56,8 +92,17 @@ export class AssetsTransactionEntriesTableComponent implements OnChanges {
 
   isEntityStatusInWarning = isEntityStatusInWarning;
 
+  conditionsList: Identifiable[] = [];
 
-  constructor(private messageBox: MessageBoxService) {}
+  isLoading = false;
+
+  helper: SubscriptionHelper;
+
+
+  constructor(private uiLayer: PresentationLayer,
+              private messageBox: MessageBoxService) {
+    this.helper = uiLayer.createSubscriptionHelper();
+  }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -73,8 +118,18 @@ export class AssetsTransactionEntriesTableComponent implements OnChanges {
   }
 
 
+  ngOnInit() {
+    this.loadDataLists();
+  }
+
+
+  ngOnDestroy() {
+    this.helper.destroy();
+  }
+
+
   get isEntryInEditionValid(): boolean {
-    return this.rowInEdition.description !== '';
+    return !!this.rowInEdition.description && !!this.rowInEdition.releasedCondition;
   }
 
 
@@ -129,6 +184,16 @@ export class AssetsTransactionEntriesTableComponent implements OnChanges {
   }
 
 
+  private loadDataLists() {
+    this.isLoading = true;
+    this.helper.select<Identifiable[]>(AssetsStateSelector.ASSETS_CONDITIONS)
+      .subscribe(x => {
+        this.conditionsList = x;
+        this.isLoading = false;
+      });
+  }
+
+
   private setDataSource() {
     this.resetColumns();
     this.dataSource = new TableVirtualScrollDataSource(this.entries);
@@ -158,7 +223,8 @@ export class AssetsTransactionEntriesTableComponent implements OnChanges {
   private getFilterPredicate() {
     return (row: AssetsTransactionEntry, filter: string) => (
       row.asset.assetNo.toLowerCase().includes(filter) || row.asset.name.toLowerCase().includes(filter) ||
-      row.description.toLowerCase().includes(filter)
+      row.description.toLowerCase().includes(filter) || row.previousCondition.toLowerCase().includes(filter) ||
+      row.releasedCondition.toLowerCase().includes(filter)
     );
   }
 
@@ -192,6 +258,8 @@ export class AssetsTransactionEntriesTableComponent implements OnChanges {
       transactionUID: this.rowInEdition.transaction.uid,
       assetUID: this.rowInEdition.asset.uid,
       entryTypeUID: this.rowInEdition.entryType.uid,
+      previousCondition: this.rowInEdition.previousCondition,
+      releasedCondition: this.rowInEdition.releasedCondition,
       description: this.rowInEdition.description,
     };
 

@@ -21,26 +21,44 @@
         </ng-container>
 
         <ng-container matColumnDef="previousCondition">
-          <th mat-header-cell *matHeaderCellDef class="nowrap"> Condición anterior </th>
-          <td mat-cell *matCellDef="let row">{{row.previousCondition}}</td>
+          <th mat-header-cell *matHeaderCellDef class="nowrap shadow-cell cell-previous-condition"> Condición anterior </th>
+          <td mat-cell *matCellDef="let row" class="shadow-cell cell-previous-condition">{{row.previousCondition}}</td>
         </ng-container>
 
         <ng-container matColumnDef="releasedCondition">
-          <th mat-header-cell *matHeaderCellDef class="nowrap"> Condición actual </th>
-          <td mat-cell *matCellDef="let row">{{row.releasedCondition}}</td>
+          <th mat-header-cell *matHeaderCellDef class="nowrap header-released-condition"> Condición actual </th>
+          <td mat-cell *matCellDef="let row"
+            class="cell-released-condition"
+            [ngClass]="isRowInEdition(row.uid) ? 'cell-released-condition-enabled' : 'cell-released-condition-disabled'">
+
+            <ng-container *ngIf="!isRowInEdition(row.uid)">{{row.releasedCondition}}</ng-container>
+            <ng-container *ngIf="isRowInEdition(row.uid)">
+
+              <emp-ng-select
+                [(ngModel)]="rowInEdition.releasedCondition"
+                [items]="conditionsList"
+                [showError]="!rowInEdition.releasedCondition"
+                [style.margin]="0">
+              </emp-ng-select>
+
+            </ng-container>
+
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef> Observaciones </th>
-          <td mat-cell *matCellDef="let row" [class.padding-icon]="isRowInEdition(row.uid)" [style.width.%]="25">
+          <td mat-cell *matCellDef="let row"
+            class="cell-description"
+            [class.cell-description-enabled]="isRowInEdition(row.uid)">
 
             <ng-container *ngIf="!isRowInEdition(row.uid)">{{!row.description ? 'N/D' : row.description}}</ng-container>
             <ng-container *ngIf="isRowInEdition(row.uid)">
 
-              <textarea class="text-area" empNgTextareaAutoresize rows="1"
+              <textarea class="text-area" empNgTextareaAutoresize rows="1" [maxHeightTextarea]="128"
                 [(ngModel)]="rowInEdition.description"
-                [class.invalid-control]="!isEntryInEditionValid"
-                [style.margin]="0">
+                [class.invalid-control]="!rowInEdition.description"
+                [style.margin]="'2px 0 0 0'">
               </textarea>
 
             </ng-container>
