@@ -5,7 +5,15 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-export function SkipIf(flag: keyof any) {
+export interface SkipFlags {
+  submitted?: boolean;
+  isLoading?: boolean;
+  disabled?: boolean;
+  ready?: boolean;
+}
+
+
+export function SkipIf<K extends keyof SkipFlags>(flag: K) {
   return function (
     target: any,
     propertyKey: string,
@@ -14,7 +22,7 @@ export function SkipIf(flag: keyof any) {
     const originalMethod = descriptor.value;
 
     descriptor.value = function (...args: any[]) {
-      if (this[flag]) {
+      if ((this as SkipFlags)[flag]) {
         return;
       }
       return originalMethod.apply(this, args);

@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { ProductsDataService } from '@app/data-services';
 
 import { ProductActions, Product, ProductFields, EmptyProductActions, EmptyProduct,
@@ -47,11 +49,8 @@ export class ProductEditorComponent {
   }
 
 
+  @SkipIf('submitted')
   onProductHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as ProductHeaderEventType) {
       case ProductHeaderEventType.UPDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');

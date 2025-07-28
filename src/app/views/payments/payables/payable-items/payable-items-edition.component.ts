@@ -9,6 +9,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { EmptyPayableActions, PayableActions, PayableItem } from '@app/models';
@@ -35,20 +37,14 @@ export class PayableItemsEditionComponent {
   submitted = false;
 
 
-  constructor(private messageBox: MessageBoxService) {
-
-  }
+  constructor(private messageBox: MessageBoxService) { }
 
 
+  @SkipIf('submitted')
   onPayableItemsTableEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as PayableItemsTableEventType) {
       case PayableItemsTableEventType.SELECT_ITEM_CLICKED:
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-
         return;
       case PayableItemsTableEventType.REMOVE_ITEM_CLICKED:
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');

@@ -13,6 +13,8 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { StepsDataService } from '@app/data-services';
 
 import { EmptyRequestData, EmptyStep, RequestData, RequestsList, Step, StepFields,
@@ -91,11 +93,8 @@ export class RequestStepsEditionComponent {
   }
 
 
+  @SkipIf('submitted')
   onRequestStepEditorEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as RequestStepEditorEventType) {
       case RequestStepEditorEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedStep(EmptyStep);

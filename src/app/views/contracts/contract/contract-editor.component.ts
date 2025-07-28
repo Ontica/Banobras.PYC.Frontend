@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { ContractsDataService } from '@app/data-services';
 
 import { ContractActions, Contract, ContractFields, EmptyContractActions, EmptyContract } from '@app/models';
@@ -46,11 +48,8 @@ export class ContractEditorComponent {
   }
 
 
+  @SkipIf('submitted')
   onContractHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as ContractHeaderEventType) {
       case ContractHeaderEventType.UPDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');

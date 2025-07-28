@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { PayablesDataService } from '@app/data-services';
 
 import { EmptyPayable, EmptyPayableActions, EmptyPayableEntity, Payable, PayableActions, PayableData,
@@ -49,11 +51,8 @@ export class PayableEditorComponent {
   }
 
 
+  @SkipIf('submitted')
   onPayableHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as PayableHeaderEventType) {
       case PayableHeaderEventType.UPDATE_PAYABLE:
         Assertion.assertValue(event.payload.payableFields, 'event.payload.payableFields');

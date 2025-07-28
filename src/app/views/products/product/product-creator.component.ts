@@ -11,6 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { ProductsDataService } from '@app/data-services';
 
 import { ProductFields } from '@app/models';
@@ -42,17 +44,13 @@ export class ProductCreatorComponent {
   }
 
 
+  @SkipIf('submitted')
   onProductHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as ProductHeaderEventType) {
       case ProductHeaderEventType.CREATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.createProduct(event.payload.dataFields as ProductFields);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

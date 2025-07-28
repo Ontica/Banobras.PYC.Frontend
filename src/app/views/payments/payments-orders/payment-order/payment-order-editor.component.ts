@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { PaymentOrdersDataService } from '@app/data-services';
 
 import { EmptyPaymentOrder, EmptyPaymentOrderActions, PaymentOrder, PaymentOrderActions, PaymentOrderFields,
@@ -47,11 +49,8 @@ export class PaymentOrderEditorComponent {
   }
 
 
+  @SkipIf('submitted')
   onPaymentOrderHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as PaymentOrderHeaderEventType) {
       case PaymentOrderHeaderEventType.UPDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');

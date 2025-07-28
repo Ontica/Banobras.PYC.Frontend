@@ -11,6 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { BudgetsDataService } from '@app/data-services';
@@ -51,11 +53,8 @@ export class BudgetManagementComponent {
               private messageBox: MessageBoxService) { }
 
 
+  @SkipIf('submitted')
   onBudgetSubmitterEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as BudgetSubmitterEventType) {
       case BudgetSubmitterEventType.REQUEST:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');

@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { ContractsDataService } from '@app/data-services';
 
 import { ContractItem, EmptyContractItem, ContractItemFields, Contract, EmptyContract } from '@app/models';
@@ -53,11 +55,8 @@ export class ContractItemsEditionComponent {
   }
 
 
+  @SkipIf('submitted')
   onContractItemEditorEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as ContractItemEditorEventType) {
       case ContractItemEditorEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedItem(EmptyContractItem);
@@ -81,11 +80,8 @@ export class ContractItemsEditionComponent {
   }
 
 
+  @SkipIf('submitted')
   onContractItemsTableEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as ContractItemsTableEventType) {
       case ContractItemsTableEventType.SELECT_ITEM_CLICKED:
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');

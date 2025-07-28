@@ -9,6 +9,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EventInfo, isEmpty } from '@app/core';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { Bill, EmptyBill, BaseActions, EmptyBaseActions } from '@app/models';
 
 import { BillHeaderEventType } from './bill-header.component';
@@ -39,11 +41,8 @@ export class BillEditorComponent {
   }
 
 
+  @SkipIf('submitted')
   onBillHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as BillHeaderEventType) {
 
       default:

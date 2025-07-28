@@ -11,6 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { PayablesDataService } from '@app/data-services';
 
 import { PayableData, PayableFields } from '@app/models';
@@ -42,17 +44,13 @@ export class PayableCreatorComponent {
   }
 
 
+  @SkipIf('submitted')
   onPayableHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as PayableHeaderEventType) {
       case PayableHeaderEventType.CREATE_PAYABLE:
         Assertion.assertValue(event.payload.payableFields, 'event.payload.payableFields');
         this.createPayable(event.payload.payableFields as PayableFields);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

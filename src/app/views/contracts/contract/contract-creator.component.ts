@@ -11,6 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { ContractsDataService } from '@app/data-services';
 
 import { ContractFields } from '@app/models';
@@ -42,17 +44,13 @@ export class ContractCreatorComponent {
   }
 
 
+  @SkipIf('submitted')
   onContractHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as ContractHeaderEventType) {
       case ContractHeaderEventType.CREATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.createContract(event.payload.dataFields as ContractFields);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

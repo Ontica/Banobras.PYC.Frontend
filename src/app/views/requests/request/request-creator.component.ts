@@ -11,6 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { RequestsDataService } from '@app/data-services';
 
 import { RequestData, RequestFields, RequestsList } from '@app/models';
@@ -43,17 +45,13 @@ export class RequestCreatorComponent {
   }
 
 
+  @SkipIf('submitted')
   onRequestHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as RequestHeaderEventType) {
       case RequestHeaderEventType.CREATE_REQUEST:
         Assertion.assertValue(event.payload.requestFields, 'event.payload.requestFields');
         this.createRequest(event.payload.requestFields as RequestFields);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

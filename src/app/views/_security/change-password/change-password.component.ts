@@ -11,6 +11,8 @@ import { Assertion, AuthenticationService, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { ChangePasswordFormEventType } from './change-password-form.component';
 
 export enum ChangePasswordEventType {
@@ -34,11 +36,8 @@ export class ChangePasswordComponent {
   constructor(private authenticationService: AuthenticationService) { }
 
 
+  @SkipIf('submitted')
   onChangePasswordFormEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as ChangePasswordFormEventType) {
       case ChangePasswordFormEventType.CHANGE_PASSWORD:
         Assertion.assertValue(event.payload.userID, 'event.payload.userID');

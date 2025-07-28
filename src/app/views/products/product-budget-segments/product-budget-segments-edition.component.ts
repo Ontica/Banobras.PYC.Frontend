@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { ProductsDataService } from '@app/data-services';
 
 import { ProductBudgetSegment, EmptyProductBudgetSegment, ProductBudgetSegmentFields } from '@app/models';
@@ -53,11 +55,8 @@ export class ProductBudgetSegmentsEditionComponent {
   }
 
 
+  @SkipIf('submitted')
   onProductBudgetSegmentEditorEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as ProductBudgetSegmentEditorEventType) {
       case ProductBudgetSegmentEditorEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedItem(EmptyProductBudgetSegment);
@@ -75,11 +74,8 @@ export class ProductBudgetSegmentsEditionComponent {
   }
 
 
+  @SkipIf('submitted')
   onProductBudgetSegmentsTableEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as ProductBudgetSegmentsTableEventType) {
       case ProductBudgetSegmentsTableEventType.REMOVE_ITEM_CLICKED:
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');

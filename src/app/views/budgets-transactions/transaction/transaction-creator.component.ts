@@ -11,6 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { BudgetTransactionsDataService } from '@app/data-services';
 
 import { BudgetTransactionFields } from '@app/models';
@@ -42,11 +44,8 @@ export class BudgetTransactionCreatorComponent {
   }
 
 
+  @SkipIf('submitted')
   onTransactionHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as TransactionHeaderEventType) {
       case TransactionHeaderEventType.CREATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');

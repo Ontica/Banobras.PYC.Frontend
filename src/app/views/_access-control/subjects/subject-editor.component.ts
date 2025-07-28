@@ -13,6 +13,8 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { AccessControlDataService } from '@app/data-services';
 
 import { EmptySubject, Subject, SubjectFields } from '@app/models';
@@ -46,16 +48,11 @@ export class SubjectEditorComponent {
 
 
   constructor(private accessControlData: AccessControlDataService,
-              private messageBox: MessageBoxService) {
-
-  }
+              private messageBox: MessageBoxService) { }
 
 
-  onSubjectHeaderEvent(event: EventInfo): void {
-    if (this.submitted) {
-      return;
-    }
-
+  @SkipIf('submitted')
+  onSubjectHeaderEvent(event: EventInfo) {
     switch (event.type as SubjectHeaderEventType) {
       case SubjectHeaderEventType.UPDATE_SUBJECT:
         Assertion.assertValue(event.payload.subject, 'event.payload.subject');

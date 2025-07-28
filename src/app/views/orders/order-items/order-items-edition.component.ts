@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { OrdersDataService } from '@app/data-services';
 
 import { OrderItem, EmptyOrderItem, OrderItemFields, Order, EmptyOrder, OrderExplorerTypeConfig,
@@ -56,11 +58,8 @@ export class OrderItemsEditionComponent {
   }
 
 
+  @SkipIf('submitted')
   onOrderItemEditorEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as OrderItemEditorEventType) {
       case OrderItemEditorEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedItem(EmptyOrderItem);
@@ -84,11 +83,8 @@ export class OrderItemsEditionComponent {
   }
 
 
+  @SkipIf('submitted')
   onOrderItemsTableEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as OrderItemsTableEventType) {
       case OrderItemsTableEventType.SELECT_ITEM_CLICKED:
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');

@@ -11,6 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { FilePreviewComponent } from '@app/shared/containers';
 
 import { DocumentsDataService } from '@app/data-services';
@@ -57,11 +59,8 @@ export class DocumentsEditionComponent {
   }
 
 
+  @SkipIf('submitted')
   onDocumentUploaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as DocumentUploaderEventType) {
       case DocumentUploaderEventType.CLOSE_MODAL_CLICKED:
         this.displayUploader = false;
@@ -77,11 +76,8 @@ export class DocumentsEditionComponent {
   }
 
 
+  @SkipIf('submitted')
   onDocumentsTableEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as DocumentsTableEventType) {
       case DocumentsTableEventType.SHOW_DOCUMENT_CLICKED:
         Assertion.assertValue(event.payload.document.uid, 'event.payload.document.uid');

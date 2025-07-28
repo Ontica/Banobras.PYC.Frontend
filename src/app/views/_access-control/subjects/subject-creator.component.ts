@@ -9,13 +9,16 @@ import { Component, EventEmitter, Output } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { AccessControlDataService } from '@app/data-services';
-
-import { SubjectFields } from '@app/models';
-
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
+import { AccessControlDataService } from '@app/data-services';
+
+import { Subject, SubjectFields } from '@app/models';
+
 import { SubjectHeaderEventType } from './subject-header.component';
+
 
 export enum SubjectCreatorEventType {
   CLOSE_MODAL_CLICKED = 'SubjectCreatorComponent.Event.CloseModalClicked',
@@ -32,28 +35,22 @@ export class SubjectCreatorComponent {
 
   submitted = false;
 
-  constructor(private accessControlData: AccessControlDataService) {
 
-  }
+  constructor(private accessControlData: AccessControlDataService) { }
 
 
-  onClose() {
+  onCloseClicked() {
     sendEvent(this.subjectCreatorEvent, SubjectCreatorEventType.CLOSE_MODAL_CLICKED);
   }
 
 
-  onSubjectHeaderEvent(event: EventInfo): void {
-    if (this.submitted) {
-      return;
-    }
-
+  @SkipIf('submitted')
+  onSubjectHeaderEvent(event: EventInfo) {
     switch (event.type as SubjectHeaderEventType) {
-
       case SubjectHeaderEventType.CREATE_SUBJECT:
         Assertion.assertValue(event.payload.subject, 'event.payload.subject');
         this.createSubject(event.payload.subject as SubjectFields);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -66,11 +63,14 @@ export class SubjectCreatorComponent {
 
     this.accessControlData.createSubject(subjectFields)
       .firstValue()
-      .then(x => {
-        sendEvent(this.subjectCreatorEvent, SubjectCreatorEventType.SUBJECT_CREATED, {subject: x});
-        this.onClose();
-      })
+      .then(x => this.resolveCreateSubject(x))
       .finally(() => this.submitted = false);
+  }
+
+
+  private resolveCreateSubject(subject: Subject) {
+    sendEvent(this.subjectCreatorEvent, SubjectCreatorEventType.SUBJECT_CREATED, { subject });
+    this.onCloseClicked();
   }
 
 }

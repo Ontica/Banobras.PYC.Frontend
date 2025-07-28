@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { RequestsDataService } from '@app/data-services';
 
 import { EmptyRequest, Request, RequestFields, RequestsList } from '@app/models';
@@ -46,41 +48,31 @@ export class RequestEditorComponent {
   }
 
 
+  @SkipIf('submitted')
   onRequestHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as RequestHeaderEventType) {
       case RequestHeaderEventType.UPDATE_REQUEST:
         Assertion.assertValue(event.payload.requestFields, 'event.payload.requestFields');
         this.updateRequest(event.payload.requestFields as RequestFields);
         return;
-
       case RequestHeaderEventType.DELETE_REQUEST:
         this.deleteRequest();
         return;
-
       case RequestHeaderEventType.SUSPEND_REQUEST:
         this.suspendRequest();
         return;
-
       case RequestHeaderEventType.CANCEL_REQUEST:
         this.cancelRequest();
         return;
-
       case RequestHeaderEventType.START_REQUEST:
         this.startRequest();
         return;
-
       case RequestHeaderEventType.ACTIVATE_REQUEST:
         this.activateRequest();
         return;
-
       case RequestHeaderEventType.CLOSE_REQUEST:
         this.closeRequest();
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

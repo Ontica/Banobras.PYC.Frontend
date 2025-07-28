@@ -11,6 +11,8 @@ import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { BudgetTransactionsDataService } from '@app/data-services';
 
 import { BudgetTransaction, BudgetTransactionActions, BudgetTransactionHolder, EmptyBudgetTransaction,
@@ -47,11 +49,8 @@ export class BudgetTransactionEditorComponent {
   }
 
 
+  @SkipIf('submitted')
   onTransactionHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as TransactionHeaderEventType) {
       case TransactionHeaderEventType.UPDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');

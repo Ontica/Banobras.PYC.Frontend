@@ -11,6 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { SkipIf } from '@app/shared/decorators';
+
 import { OrdersDataService } from '@app/data-services';
 
 import { EmptyOrderExplorerTypeConfig, OrderFields, OrderExplorerTypeConfig, ObjectTypes } from '@app/models';
@@ -44,11 +46,8 @@ export class OrderCreatorComponent {
   }
 
 
+  @SkipIf('submitted')
   onOrderHeaderEvent(event: EventInfo) {
-    if (this.submitted) {
-      return;
-    }
-
     switch (event.type as OrderHeaderEventType) {
       case OrderHeaderEventType.CREATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
