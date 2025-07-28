@@ -12,8 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { EntityRecordsModule } from '../entity-records/entity-records.module';
-import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
+import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
+import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 
 import { FinancialAccountsEditionComponent } from './accounts-edition/financial-accounts-edition.component';
 import { FinancialAccountsControlsComponent } from './accounts-edition/financial-accounts-controls.component';
@@ -25,6 +25,7 @@ import { OperationsEditionComponent } from './operations/operations-edition.comp
 import { OperationsTableComponent } from './operations/operations-table.component';
 import { OperationAssignerComponent } from './operations/operation-assigner.component';
 
+// imports of standalone component
 import { FinancialProjectModalComponent } from '../financial-projects/project/project-modal.component';
 
 

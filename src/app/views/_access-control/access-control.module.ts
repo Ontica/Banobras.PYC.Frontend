@@ -12,9 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { AccountabilitiesModule } from '../_accountabilities/accountabilities.module';
-import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
-import { SecurityModule } from '../_security/security.module';
+import { AccountabilitiesModule } from '@app/views/_accountabilities/accountabilities.module';
+import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
+import { SecurityModule } from '@app/views/_security/security.module';
 
 import { AccessControlControlsComponent } from './access-control-viewer/access-control-controls.component';
 import { AccessControlFilterComponent } from './access-control-viewer/access-control-filter.component';

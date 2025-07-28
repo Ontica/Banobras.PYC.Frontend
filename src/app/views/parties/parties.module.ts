@@ -12,9 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { AccountabilitiesModule } from '../_accountabilities/accountabilities.module';
-import { EntityRecordsModule } from '../entity-records/entity-records.module';
-import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
+import { AccountabilitiesModule } from '@app/views/_accountabilities/accountabilities.module';
+import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
+import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 
 import { PartiesMainPageComponent } from './parties-main-page/parties-main-page.component';
 import { PartiesExplorerComponent } from './parties-explorer/parties-explorer.component';

@@ -12,9 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { FinancialAccountsModule } from '../financial-accounts/financial-accounts.module';
-import { EntityRecordsModule } from '../entity-records/entity-records.module';
-import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
+import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
+import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
+import { FinancialAccountsModule } from '@app/views/financial-accounts/financial-accounts.module';
 
 import { FinancialProjectsMainPageComponent } from './projects-main-page/projects-main-page.component';
 import { FinancialProjectsExplorerComponent } from './projects-explorer/projects-explorer.component';
@@ -35,9 +35,9 @@ import { FinancialProjectTabbedViewComponent } from './project-tabbed-view/proje
     AngularMaterialModule,
     SharedModule,
 
-    FinancialAccountsModule,
-    EntityRecordsModule,
     ReportsControlsModule,
+    EntityRecordsModule,
+    FinancialAccountsModule,
 
     FinancialProjectHeaderComponent,
   ],
