@@ -13,19 +13,21 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components';
 
-import { AssetsAssignmentsMainPageComponent } from '@app/views/assets-assignments/assignments-main-page/assignments-main-page.component';
+import {
+  AssetsAssignmentsMainPageComponent
+} from '@app/views/inventory/assets-assignments/assignments-main-page/assignments-main-page.component';
+
+import {
+  AssetsTransactionsMainPageComponent
+} from '@app/views/inventory/assets-transactions/transactions-main-page/transactions-main-page.component';
+
+import {
+  AssetsMainPageComponent
+} from '@app/views/inventory/assets/assets-main-page/assets-main-page.component';
 
 // import {
 //   RequestsMainPageComponent
 // } from '@app/views/requests/requests-main-page/requests-main-page.component';
-
-import {
-  AssetsTransactionsMainPageComponent
-} from '@app/views/assets-transactions/transactions-main-page/transactions-main-page.component';
-
-import {
-  AssetsMainPageComponent
-} from '@app/views/assets/assets-main-page/assets-main-page.component';
 
 
 const routes: Routes = [

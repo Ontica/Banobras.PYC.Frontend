@@ -12,8 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
-import { EntityRecordsModule } from '../entity-records/entity-records.module';
+import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
+import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 
 import { AssetsMainPageComponent } from './assets-main-page/assets-main-page.component';
 import { AssetsExplorerComponent } from './assets-explorer/assets-explorer.component';
