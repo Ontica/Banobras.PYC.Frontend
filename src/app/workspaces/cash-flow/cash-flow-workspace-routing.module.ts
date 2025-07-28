@@ -14,12 +14,12 @@ import { ROUTES } from '@app/main-layout';
 import { DefaultComponent } from '@app/shared/components';
 
 import {
-  ChartOfAccountsMainPageComponent
-} from '@app/views/chart-of-accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
+  CashFlowProjectionsMainPageComponent
+} from '@app/views/cash-flow/projections/projections-main-page/projections-main-page.component';
 
 import {
-  CashFlowProjectionsMainPageComponent
-} from '@app/views/cash-flow/projections-main-page/projections-main-page.component';
+  ChartOfAccountsMainPageComponent
+} from '@app/views/chart-of-accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
 
 import {
   FinancialProjectsMainPageComponent
