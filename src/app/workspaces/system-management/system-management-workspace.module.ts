@@ -13,7 +13,7 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { AccessControlModule } from '@app/views/_access-control/access-control.module';
-import { BudgetTransactionsModule } from '@app/views/budgets-transactions/budget-transactions.module';
+import { BudgetTransactionsModule } from '@app/views/budgeting/budgets-transactions/budget-transactions.module';
 import { PartiesModule } from '@app/views/parties/parties.module';
 
 import { SystemManagementWorkspaceRoutingModule } from './system-management-workspace-routing.module';

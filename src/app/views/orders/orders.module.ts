@@ -12,9 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
-import { BudgetingModule } from '../budgeting/budgeting.module';
-import { EntityRecordsModule } from '../entity-records/entity-records.module';
+import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
+import { BudgetsModule } from '@app/views/budgeting/budgets/budgets.module';
+import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 
 import { OrdersMainPageComponent } from './orders-main-page/orders-main-page.component';
 import { OrdersExplorerComponent } from './orders-explorer/orders-explorer.component';
@@ -38,7 +38,7 @@ import { OrderItemEditorComponent } from './order-items/order-item-editor.compon
     AngularMaterialModule,
     SharedModule,
 
-    BudgetingModule,
+    BudgetsModule,
     EntityRecordsModule,
     ReportsControlsModule,
   ],

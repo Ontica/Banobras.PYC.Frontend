@@ -10,9 +10,9 @@ import { CommonModule } from '@angular/common';
 
 import { BudgetWorkspaceRoutingModule } from './budget-workspace-routing.module';
 
-import { BudgetingModule } from '@app/views/budgeting/budgeting.module';
+import { BudgetsModule } from '@app/views/budgeting/budgets/budgets.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
-import { BudgetTransactionsModule } from '@app/views/budgets-transactions/budget-transactions.module';
+import { BudgetTransactionsModule } from '@app/views/budgeting/budgets-transactions/budget-transactions.module';
 
 @NgModule({
 
@@ -21,7 +21,7 @@ import { BudgetTransactionsModule } from '@app/views/budgets-transactions/budget
 
     BudgetWorkspaceRoutingModule,
 
-    BudgetingModule,
+    BudgetsModule,
     RequestsModule,
     BudgetTransactionsModule,
   ]

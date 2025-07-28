@@ -13,19 +13,17 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components';
 
-// import {
-//   RequestsMainPageComponent
-// } from '@app/views/requests/requests-main-page/requests-main-page.component';
-
 import {
   BudgetMainPageComponent
-} from '@app/views/budgeting/budget-main-page/budget-main-page.component';
+} from '@app/views/budgeting/budgets/budget-main-page/budget-main-page.component';
 
 import {
   BudgetTransactionsMainPageComponent
-} from '@app/views/budgets-transactions/transactions-main-page/transactions-main-page.component';
+} from '@app/views/budgeting/budgets-transactions/transactions-main-page/transactions-main-page.component';
 
-
+// import {
+//   RequestsMainPageComponent
+// } from '@app/views/requests/requests-main-page/requests-main-page.component';
 
 
 const routes: Routes = [

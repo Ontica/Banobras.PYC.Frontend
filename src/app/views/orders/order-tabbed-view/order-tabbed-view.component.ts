@@ -11,16 +11,20 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { OrderHolder, EmptyOrderHolder, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrder,
-         ContractOrder } from '@app/models';
+import { OrderHolder, EmptyOrderHolder, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes,
+         PayableOrder, ContractOrder } from '@app/models';
 
 import { OrderEditorEventType } from '../order/order-editor.component';
 
 import { OrderItemsEditionEventType } from '../order-items/order-items-edition.component';
 
-import { BudgetManagementEventType } from '@app/views/budgeting/budget-management/budget-management.component';
+import {
+  BudgetManagementEventType
+} from '@app/views/budgeting/budgets/budget-management/budget-management.component';
 
-import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
+import {
+  DocumentsEditionEventType
+} from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 
 export enum OrderTabbedViewEventType {
