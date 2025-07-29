@@ -297,11 +297,11 @@ export const ROUTES = {
     fullpath: '/flujo-de-efectivo/explorer',
   },
 
-  flujo_de_efectivo_codificacion: {
-    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_CODIFICACION,
+  flujo_de_efectivo_operacion: {
+    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_OPERACION,
     parent: 'flujo-de-efectivo',
-    path: 'codificacion',
-    fullpath: '/flujo-de-efectivo/codificacion',
+    path: 'operacion',
+    fullpath: '/flujo-de-efectivo/operacion',
   },
 
   flujo_de_efectivo_proyectos: {

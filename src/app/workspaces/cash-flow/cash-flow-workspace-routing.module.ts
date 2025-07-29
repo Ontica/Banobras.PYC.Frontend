@@ -38,8 +38,8 @@ const routes: Routes = [
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.flujo_de_efectivo_codificacion.permission },
-    path: ROUTES.flujo_de_efectivo_codificacion.path,
+    data: { permission: ROUTES.flujo_de_efectivo_operacion.permission },
+    path: ROUTES.flujo_de_efectivo_operacion.path,
     component: DefaultComponent,
   },
   {
