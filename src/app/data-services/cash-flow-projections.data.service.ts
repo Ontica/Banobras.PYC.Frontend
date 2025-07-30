@@ -30,14 +30,14 @@ export class CashFlowProjectionsDataService {
   }
 
 
-  getCategories(): EmpObservable<Identifiable[]> {
+  getProjectionTypes(): EmpObservable<Identifiable[]> {
     const path = 'v1/cash-flow/projections/categories';
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
-  getClassifications(): EmpObservable<Identifiable[]> {
+  getProjectTypes(): EmpObservable<Identifiable[]> {
     const path = 'v1/cash-flow/projections/classifications';
 
     return this.http.get<Identifiable[]>(path);

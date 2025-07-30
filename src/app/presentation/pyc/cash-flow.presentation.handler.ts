@@ -15,18 +15,18 @@ import { CashFlowProjectionsDataService } from '@app/data-services';
 
 
 export enum SelectorType {
-  PLANS             = 'PYC.CashFlow.Selector.Plans.List',
-  CATEGORIES        = 'PYC.CashFlow.Selector.Categories.List',
-  CLASSIFICATIONS   = 'PYC.CashFlow.Selector.Classifications.List',
   OPERATION_SOURCES = 'PYC.CashFlow.Selector.OperationSources.List',
+  PLANS             = 'PYC.CashFlow.Selector.Plans.List',
+  PROJECT_TYPES     = 'PYC.CashFlow.Selector.ProjectTypes.List',
+  PROJECTION_TYPES  = 'PYC.CashFlow.Selector.ProjectionTypes.List',
 }
 
 
 const initialState: StateValues = [
-  { key: SelectorType.PLANS,             value: [] },
-  { key: SelectorType.CATEGORIES,        value: [] },
-  { key: SelectorType.CLASSIFICATIONS,   value: [] },
   { key: SelectorType.OPERATION_SOURCES, value: [] },
+  { key: SelectorType.PLANS,             value: [] },
+  { key: SelectorType.PROJECT_TYPES,     value: [] },
+  { key: SelectorType.PROJECTION_TYPES,  value: [] },
 ];
 
 
@@ -45,26 +45,26 @@ export class CashFlowPresentationHandler extends AbstractPresentationHandler {
 
     switch (selectorType) {
 
+      case SelectorType.OPERATION_SOURCES: {
+        const provider = () => this.projectionsData.getOperationSources();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
       case SelectorType.PLANS: {
         const provider = () => this.projectionsData.getPlans();
 
         return super.selectFirst<U>(selectorType, provider);
       }
 
-      case SelectorType.CATEGORIES: {
-        const provider = () => this.projectionsData.getCategories();
+      case SelectorType.PROJECT_TYPES: {
+        const provider = () => this.projectionsData.getProjectTypes();
 
         return super.selectFirst<U>(selectorType, provider);
       }
 
-      case SelectorType.CLASSIFICATIONS: {
-        const provider = () => this.projectionsData.getClassifications();
-
-        return super.selectFirst<U>(selectorType, provider);
-      }
-
-      case SelectorType.OPERATION_SOURCES: {
-        const provider = () => this.projectionsData.getOperationSources();
+      case SelectorType.PROJECTION_TYPES: {
+        const provider = () => this.projectionsData.getProjectionTypes();
 
         return super.selectFirst<U>(selectorType, provider);
       }

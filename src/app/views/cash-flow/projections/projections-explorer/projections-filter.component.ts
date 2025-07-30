@@ -177,8 +177,8 @@ export class CashFlowProjectionsFilterComponent implements OnChanges, OnInit, On
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.PLANS),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.CATEGORIES),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.CLASSIFICATIONS),
+      this.helper.select<Identifiable[]>(CashFlowStateSelector.PROJECTION_TYPES),
+      this.helper.select<Identifiable[]>(CashFlowStateSelector.PROJECT_TYPES),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.OPERATION_SOURCES),
     ])
     .subscribe(([a, b, c, d, e]) => {
