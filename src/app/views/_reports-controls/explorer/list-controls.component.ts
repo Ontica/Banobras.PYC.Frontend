@@ -142,8 +142,21 @@ export class ListControlsComponent {
 
   private emitExecuteOperation() {
     const operation: ExplorerOperationType = this.operationSelected.uid as ExplorerOperationType;
-    const command: ExplorerOperationCommand = { items: this.selection.selected.map(r => r.uid) };
+    const command: ExplorerOperationCommand = { items: this.getItems() };
     sendEvent(this.listControlsEvent, ListControlsEventType.EXECUTE_OPERATION_CLICKED, { operation, command });
+  }
+
+
+  private getItems(): any[] {
+    if (this.selection.selected.some(x => x.uid)) {
+      return this.selection.selected.map(r => r.uid);
+    }
+
+    if (this.selection.selected.some(x => x.id)) {
+      return this.selection.selected.map(r => r.id);
+    }
+
+    return [];
   }
 
 }
