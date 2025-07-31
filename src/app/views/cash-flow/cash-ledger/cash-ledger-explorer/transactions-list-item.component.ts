@@ -20,7 +20,7 @@ export enum CashTransactionsListItemEventType {
 }
 
 @Component({
-  selector: 'emp-cf-transactions-list-item',
+  selector: 'emp-cf-cash-transactions-list-item',
   templateUrl: './transactions-list-item.component.html',
   styleUrls: ['./transactions-list-item.component.scss'],
 })

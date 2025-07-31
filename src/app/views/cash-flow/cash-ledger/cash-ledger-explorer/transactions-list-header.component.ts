@@ -12,7 +12,7 @@ import { Component, Input } from '@angular/core';
 import { CashTransactionDescriptor } from '@app/models';
 
 @Component({
-  selector: 'emp-cf-transactions-list-header',
+  selector: 'emp-cf-cash-transactions-list-header',
   templateUrl: './transactions-list-header.component.html',
   styleUrls: ['./transactions-list-item.component.scss'],
 })

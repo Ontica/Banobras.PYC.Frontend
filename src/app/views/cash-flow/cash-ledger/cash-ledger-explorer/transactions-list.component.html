@@ -10,13 +10,13 @@
   </emp-ng-list-controls>
 
 
-  <emp-cf-transactions-list-header
+  <emp-cf-cash-transactions-list-header
     class="fx-item-none"
     [dataList]="dataList"
     [selection]="selection"
     [displayControls]="displayControls">
 
-  </emp-cf-transactions-list-header>
+  </emp-cf-cash-transactions-list-header>
 
 
   <div #listContainer class="fx-item">
@@ -29,13 +29,13 @@
 
           <div class="list-item-container">
 
-            <emp-cf-transactions-list-item
+            <emp-cf-cash-transactions-list-item
               [item]="item"
               [selected]="selection.isSelected(item)"
               [displayControls]="displayControls"
               (transactionsListItemEvent)="onCashTransactionsListItemEvent($event)">
 
-            </emp-cf-transactions-list-item>
+            </emp-cf-cash-transactions-list-item>
 
           </div>
 

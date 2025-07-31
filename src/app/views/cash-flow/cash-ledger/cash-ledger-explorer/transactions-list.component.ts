@@ -27,7 +27,7 @@ export enum CashTransactionsListEventType {
 }
 
 @Component({
-  selector: 'emp-cf-transactions-list',
+  selector: 'emp-cf-cash-transactions-list',
   templateUrl: './transactions-list.component.html',
 })
 export class CashTransactionsListComponent implements OnChanges {
