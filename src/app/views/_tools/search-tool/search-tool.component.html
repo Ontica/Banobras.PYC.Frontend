@@ -1,0 +1,134 @@
+<div class="explorer fluid">
+
+  <div class="primary">
+
+    <div class="card card-border">
+
+      <div class="card-header card-header-flat">
+
+        <div class="card-title">
+          Búsqueda universal
+
+          <div class="card-hint" empNgProgressText
+            loadingText="Cargando"
+            [finalText]="cardHint"
+            [isLoading]="isLoading">
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        <div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+          <emp-ng-spinner #spinner [visible]="isLoading" >
+
+          </emp-ng-spinner>
+
+          <div class="fx-item-none">
+
+            <form #form="ngForm" empNgFormKeyDownEnter autocomplete="off" class="form-section form-container">
+
+              <div class="fx-column-container fx-gap-half">
+
+                  <div class="fx-row-container">
+
+                    <div class="fx-item-quarter">
+
+                      <label>Área:</label>
+
+                      <emp-ng-select name="partyUID" required
+                        [(ngModel)]="formData.partyUID"
+                        [items]="partiesList"
+                        [config]="{selectFirst: true}"
+                        [loading]="isLoading"
+                        [showError]="!formData.partyUID">
+                      </emp-ng-select>
+
+                    </div>
+
+                    <div class="fx-item-half">
+
+                      <label>Buscar:</label>
+
+                      <emp-ng-select name="type" required
+                        [(ngModel)]="formData.type"
+                        [items]="seachTypesList"
+                        [showError]="!formData.type"
+                        placeholder="Todos">
+                      </emp-ng-select>
+
+                    </div>
+
+                    <div class="fx-item-half fx-items-end">
+
+                      <div class="input-search-container">
+
+                        <input type="text" class="text-box" name="keywords" #keywords="ngModel" required
+                          placeholder="Buscar por concepto, descripción, palabra ..."
+                          [(ngModel)]="formData.keywords"
+                          [class.invalid-control]="keywords.invalid"
+                          (keyup.enter)="onFilterChanges()"
+                          (keyup.escape)="onClearKeywords()"
+                          [style.marginRight]="0"
+                          [style.width.%]="100">
+
+                      </div>
+
+                    </div>
+
+                    <div #filterOptionsSection class="fx-item-none fx-items-start" [style.paddingTop.px]="13">
+
+                      <mat-divider vertical="true" class="vertical-slim" [style.margin-left.px]="8">
+
+                      </mat-divider>
+
+                      <button title="Buscar"
+                        [class.btn-icon-action]="form.valid"
+                        [class.btn-icon]="!form.valid"
+                        (click)="onSearchClicked()">
+
+                        <mat-icon>search</mat-icon>
+
+                      </button>
+
+                    </div>
+
+                  </div>
+
+              </div>
+
+            </form>
+
+          </div>
+
+          <div class="fx-item">
+
+          </div>
+
+          <!-- <emp-land-record-search-filter class="fx-item-none"
+            [query]="data.recordSearchQuery"
+            (recordSearchFilterEvent)="onRecordSearchFilterEvent($event)">
+
+          </emp-land-record-search-filter>
+
+          <emp-land-record-search-list class="fx-item" [style.width.%]="100"
+            [recordsList]="data.records"
+            [recordSearchType]="data.recordSearchQuery.type"
+            [queryExecuted]="data.queryExecuted"
+            [isLoading]="isLoading"
+            (recordSearchListEvent)="onRecordSearchListEvent($event)">
+
+          </emp-land-record-search-list> -->
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

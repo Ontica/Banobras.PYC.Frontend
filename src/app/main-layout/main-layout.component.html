@@ -61,6 +61,10 @@
 
       <container-element [ngSwitch]="toolSelected" #tools_section>
 
+        <emp-ng-search-tool *ngSwitchCase="'Search'">
+
+        </emp-ng-search-tool>
+
         <ng-container *ngSwitchDefault>
 
           <div [style.width.px]="960">
