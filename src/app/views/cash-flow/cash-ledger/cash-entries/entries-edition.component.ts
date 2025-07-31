@@ -11,11 +11,14 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
+import { sendEvent } from '@app/shared/utils';
+
 import { SkipIf } from '@app/shared/decorators';
 
 import { CashLedgerDataService } from '@app/data-services';
 
-import { CashEntry, CashTransactionDescriptor, EmptyCashTransactionDescriptor } from '@app/models';
+import { CashEntriesOperationCommand, CashEntry, CashTransactionDescriptor, CashTransactionHolder,
+         EmptyCashTransactionDescriptor } from '@app/models';
 
 import { CashEntriesTableEventType } from './entries-table.component';
 
@@ -50,17 +53,33 @@ export class CashEntriesEditionComponent {
     switch (event.type as CashEntriesTableEventType) {
       case CashEntriesTableEventType.SELECT_ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry.id, 'event.payload.entry.id');
+
         return;
-      case CashEntriesTableEventType.UPDATE_ENTRY_CASH_ACCOUNT_CLICKED:
+      case CashEntriesTableEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.transactionID, 'event.payload.transactionID');
-        Assertion.assertValue(event.payload.entryId, 'event.payload.entryId');
-        Assertion.assertValue(event.payload.cashAccount, 'event.payload.cashAccount');
-        this.messageBox.showInDevelopment('Guardar concepto presupuestal', event.payload);
+        Assertion.assertValue(event.payload.command, 'event.payload.command');
+        this.executeCashEntriesOperation(event.payload.transactionID, event.payload.command);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private executeCashEntriesOperation(transactionID: number,
+                                      command: CashEntriesOperationCommand) {
+    this.submitted = true;
+
+    this.cashLedgerData.executeCashEntriesOperation(transactionID, command)
+      .firstValue()
+      .then(x => this.resolveExecuteCashEntriesOperationResponse(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private resolveExecuteCashEntriesOperationResponse(data: CashTransactionHolder) {
+    sendEvent(this.entriesEditionEvent, CashEntriesEditionEventType.UPDATED, { data });
   }
 
 }

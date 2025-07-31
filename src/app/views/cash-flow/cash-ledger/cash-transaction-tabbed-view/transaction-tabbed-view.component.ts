@@ -21,8 +21,9 @@ import {
 
 
 export enum CashTransactionTabbedViewEventType {
-  CLOSE_BUTTON_CLICKED = 'CashTransactionTabbedViewComponent.Event.CloseButtonClicked',
-  REFRESH_DATA         = 'CashTransactionTabbedViewComponent.Event.RefreshData',
+  CLOSE   = 'CashTransactionTabbedViewComponent.Event.Close',
+  UPDATED = 'CashTransactionTabbedViewComponent.Event.Updated',
+  REFRESH = 'CashTransactionTabbedViewComponent.Event.Refresh',
 }
 
 @Component({
@@ -48,16 +49,16 @@ export class CashTransactionTabbedViewComponent implements OnChanges {
 
 
   onCloseButtonClicked() {
-    sendEvent(this.transactionTabbedViewEvent, CashTransactionTabbedViewEventType.CLOSE_BUTTON_CLICKED);
+    sendEvent(this.transactionTabbedViewEvent, CashTransactionTabbedViewEventType.CLOSE);
   }
 
 
   onCashEntriesEditionEvent(event: EventInfo) {
     switch (event.type as CashEntriesEditionEventType) {
       case CashEntriesEditionEventType.UPDATED:
-        Assertion.assertValue(event.payload.transactionID, 'event.payload.transactionID');
-        sendEvent(this.transactionTabbedViewEvent,
-          CashTransactionTabbedViewEventType.REFRESH_DATA, { dataID: event.payload.transactionID });
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        sendEvent(this.transactionTabbedViewEvent, CashTransactionTabbedViewEventType.UPDATED,
+          { data: event.payload.data });
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -70,7 +71,7 @@ export class CashTransactionTabbedViewComponent implements OnChanges {
     switch (event.type as DocumentsEditionEventType) {
       case DocumentsEditionEventType.DOCUMENTS_UPDATED:
         const payload = { dataID: this.data.transaction.id };
-        sendEvent(this.transactionTabbedViewEvent, CashTransactionTabbedViewEventType.REFRESH_DATA, payload);
+        sendEvent(this.transactionTabbedViewEvent, CashTransactionTabbedViewEventType.REFRESH, payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

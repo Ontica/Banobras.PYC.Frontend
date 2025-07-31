@@ -89,7 +89,7 @@
         <td mat-cell *matCellDef="let row"
             class="cell-cash-account"
             [class.cell-cash-account-enabled]="isRowInEdition(row.id)">
-          <ng-container *ngIf="!isRowInEdition(row.id)">{{ !row.cashAccount?.name ? '-' : row.cashAccount?.name }}</ng-container>
+          <ng-container *ngIf="!isRowInEdition(row.id)">{{ !row.cashAccount?.name ? '-' : row.cashAccount.name }}</ng-container>
           <ng-container *ngIf="isRowInEdition(row.id)">
 
             <input type="text" class="text-box" empNgStopPropagation
@@ -106,10 +106,10 @@
 
           <div class="fx-row-container fx-end" *ngIf="!isRowInEdition(row.id)">
 
-            <button
+            <button *ngIf="row.canEditCashFlow"
               mat-icon-button empNgStopPropagation
               title="Editar concepto presupuestal"
-              (click)="onEditEntryCashAccountClicked(row)">
+              (click)="onEditEntryClicked(row)">
               <mat-icon> edit </mat-icon>
             </button>
 
@@ -128,7 +128,7 @@
               [color]="isEntryInEditionValid ? 'primary' : null"
               [style.marginRight]="0"
               [disabled]="!isEntryInEditionValid"
-              (click)="onUpdateEntryCashAccountClicked()">
+              (click)="onUpdateEntryClicked()">
               <mat-icon [color]="isEntryInEditionValid ? 'primary' : null"> done </mat-icon>
             </button>
           </div>

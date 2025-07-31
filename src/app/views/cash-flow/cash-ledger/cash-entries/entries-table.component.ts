@@ -15,17 +15,15 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { MessageBoxService } from '@app/shared/services';
-
-import { CashEntry, ExplorerOperation, NoCashFlowOperation, TotalItemTypeList, TransactionStatus,
-         UndoCashFlowDataOperation } from '@app/models';
+import { CashEntry, ExplorerOperation, MarkAsNoCashEntriesOperation, TotalItemTypeList, TransactionStatus,
+         RemoveCashEntriesOperation, CashEntriesOperationCommand, CashEntriesOperation } from '@app/models';
 
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
 
 export enum CashEntriesTableEventType {
-  SELECT_ENTRY_CLICKED              = 'CashEntriesTableComponent.Event.SelectEntryClicked',
-  UPDATE_ENTRY_CASH_ACCOUNT_CLICKED = 'CashEntriesTableComponent.Event.UpdateEntryCashAccountClicked',
+  SELECT_ENTRY_CLICKED      = 'CashEntriesTableComponent.Event.SelectEntryClicked',
+  EXECUTE_OPERATION_CLICKED = 'CashEntriesTableComponent.Event.ExecuteOperationClicked',
 }
 
 @Component({
@@ -73,9 +71,6 @@ export class CashEntriesTableComponent implements OnChanges {
   operationsList: ExplorerOperation[] = [];
 
 
-  constructor(private messageBox: MessageBoxService) { }
-
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.entries) {
       this.clearSelection();
@@ -101,7 +96,17 @@ export class CashEntriesTableComponent implements OnChanges {
   onListControlsEvent(event: EventInfo) {
     switch (event.type as ListControlsEventType) {
       case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
-        this.messageBox.showInDevelopment('Ejecutar operación', event.payload);
+        Assertion.assertValue(event.payload.operation, 'event.payload.operation');
+        Assertion.assertValue(event.payload.command, 'event.payload.command');
+        Assertion.assertValue(event.payload.command.items, 'event.payload.command.items');
+
+        const command: CashEntriesOperationCommand = {
+          operation: event.payload.operation,
+          entries: event.payload.command.items,
+        };
+
+        sendEvent(this.entriesTableEvent, CashEntriesTableEventType.EXECUTE_OPERATION_CLICKED,
+          { transactionID: this.transactionID, command });
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -123,8 +128,13 @@ export class CashEntriesTableComponent implements OnChanges {
   }
 
 
-  onEditEntryCashAccountClicked(entry: CashEntry) {
-    const cashAccountEdit = entry.cashAccount?.name ?? '';
+  onEditEntryClicked(entry: CashEntry) {
+    if (!entry.canEditCashFlow) {
+      return;
+    }
+
+    const cashAccountEdit = entry.cashAccount.uid === '0' ? '' : entry.cashAccount.name;
+
     this.rowInEdition = { ...{}, ...entry, cashAccountEdit };
     this.editionMode = true;
   }
@@ -136,25 +146,27 @@ export class CashEntriesTableComponent implements OnChanges {
   }
 
 
-  onUpdateEntryCashAccountClicked() {
-    const payload = {
-      transactionID: this.transactionID,
-      entryId: this.rowInEdition.id,
+  onUpdateEntryClicked() {
+    const command: CashEntriesOperationCommand = {
+      operation: CashEntriesOperation.MarkAsCashEntries,
+      entries: [this.rowInEdition.id],
       cashAccount: this.rowInEdition.cashAccountEdit,
     };
 
-    sendEvent(this.entriesTableEvent, CashEntriesTableEventType.UPDATE_ENTRY_CASH_ACCOUNT_CLICKED,
-      payload);
+    sendEvent(this.entriesTableEvent, CashEntriesTableEventType.EXECUTE_OPERATION_CLICKED,
+      { transactionID: this.transactionID, command });
   }
 
 
   private clearSelection() {
     this.selection.clear();
+    this.onCancelEditionClicked();
   }
 
 
   private setDataTable() {
     this.resetColumns();
+    this.entries.forEach(x => x.canEditCashFlow = ['0'].includes(x.cashAccount.uid));
     this.dataSource = new MatTableDataSource(this.entries);
   }
 
@@ -173,12 +185,12 @@ export class CashEntriesTableComponent implements OnChanges {
     }
 
     if (this.status === TransactionStatus.Closed) {
-      this.operationsList = [...[], UndoCashFlowDataOperation];
+      this.operationsList = [...[], RemoveCashEntriesOperation];
       return;
     }
 
     if (this.status === TransactionStatus.Pending) {
-      this.operationsList = [...[], NoCashFlowOperation, UndoCashFlowDataOperation];
+      this.operationsList = [...[], MarkAsNoCashEntriesOperation, RemoveCashEntriesOperation];
     }
   }
 

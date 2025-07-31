@@ -81,10 +81,14 @@ export class CashLedgerMainPageComponent {
 
   onCashTransactionTabbedViewEvent(event: EventInfo) {
     switch (event.type as CashTransactionTabbedViewEventType) {
-      case CashTransactionTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+      case CashTransactionTabbedViewEventType.CLOSE:
         this.setSelectedData(EmptyCashTransactionHolder);
         return;
-      case CashTransactionTabbedViewEventType.REFRESH_DATA:
+      case CashTransactionTabbedViewEventType.UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.insertItemToList(event.payload.data as CashTransactionHolder);
+        return;
+      case CashTransactionTabbedViewEventType.REFRESH:
         Assertion.assertValue(event.payload.dataID, 'event.payload.dataID');
         this.refreshSelectedData(event.payload.dataID);
         return;

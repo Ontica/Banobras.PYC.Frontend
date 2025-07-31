@@ -83,9 +83,10 @@ export interface CashEntry {
   exchangeRate: number;
   debit: number;
   credit: number;
-  cashAccountId: number;
   cashAccount: Identifiable;
+
   cashAccountEdit: string;
+  canEditCashFlow: boolean;
 }
 
 
@@ -104,14 +105,22 @@ export interface CashTransactionHolder {
 }
 
 
-export enum CashEntriesOperationTypes {
-  noCashFlow             = 'noCashFlow',
-  discardCashFlowChanges = 'discardCashFlowChanges',
+export enum CashEntriesOperation {
+  MarkAsCashEntries   = 'MarkAsCashEntries',
+  MarkAsNoCashEntries = 'MarkAsNoCashEntries',
+  RemoveCashEntries   = 'RemoveCashEntries',
 }
 
 
-export const NoCashFlowOperation: ExplorerOperation = {
-  uid: CashEntriesOperationTypes.noCashFlow,
+export interface CashEntriesOperationCommand {
+  operation: CashEntriesOperation;
+  entries: number[];
+  cashAccount?: string;
+}
+
+
+export const MarkAsNoCashEntriesOperation: ExplorerOperation = {
+  uid: CashEntriesOperation.MarkAsNoCashEntries,
   name: 'Marcar sin flujo',
   showConfirm: true,
   confirmOperationMessage: 'marcará sin flujo',
@@ -119,8 +128,8 @@ export const NoCashFlowOperation: ExplorerOperation = {
 };
 
 
-export const UndoCashFlowDataOperation: ExplorerOperation = {
-  uid: CashEntriesOperationTypes.discardCashFlowChanges,
+export const RemoveCashEntriesOperation: ExplorerOperation = {
+  uid: CashEntriesOperation.RemoveCashEntries,
   name: 'Descartar cambios de flujo',
   showConfirm: true,
   confirmOperationMessage: 'descartará los cambios del flujo de',
@@ -181,9 +190,10 @@ export const EmptyCashEntry: CashEntry = {
   exchangeRate: null,
   debit: null,
   credit: null,
-  cashAccountId: null,
   cashAccount: Empty,
+
   cashAccountEdit: null,
+  canEditCashFlow: false,
 };
 
 
