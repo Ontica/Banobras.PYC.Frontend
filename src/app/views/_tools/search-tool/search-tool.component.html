@@ -35,20 +35,6 @@
 
                   <div class="fx-row-container">
 
-                    <div class="fx-item-quarter">
-
-                      <label>Área:</label>
-
-                      <emp-ng-select name="partyUID" required
-                        [(ngModel)]="formData.partyUID"
-                        [items]="partiesList"
-                        [config]="{selectFirst: true}"
-                        [loading]="isLoading"
-                        [showError]="!formData.partyUID">
-                      </emp-ng-select>
-
-                    </div>
-
                     <div class="fx-item-half">
 
                       <label>Buscar:</label>
@@ -58,6 +44,19 @@
                         [items]="seachTypesList"
                         [showError]="!formData.type"
                         placeholder="Todos">
+                      </emp-ng-select>
+
+                    </div>
+
+                    <div class="fx-item-quarter">
+
+                      <label>Área:</label>
+
+                      <emp-ng-select name="partyUID"
+                        [(ngModel)]="formData.partyUID"
+                        [items]="partiesList"
+                        [loading]="isLoading"
+                        placeholder="Todas">
                       </emp-ng-select>
 
                     </div>
