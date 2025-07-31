@@ -1,0 +1,54 @@
+<div class="fx-column-container-fill">
+
+  <emp-ng-list-controls *ngIf="displayControls && dataList.length > 0 && selection.selected.length > 0"
+    class="fx-item-none"
+    [config]="{itemsName: 'pólizas', itemsPronouns: 'las', selectionMessage: 'seleccionadas'}"
+    [selection]="selection"
+    [operationsList]="operationsList"
+    (listControlsEvent)="onListControlsEvent($event)">
+
+  </emp-ng-list-controls>
+
+
+  <emp-cf-transactions-list-header
+    class="fx-item-none"
+    [dataList]="dataList"
+    [selection]="selection"
+    [displayControls]="displayControls">
+
+  </emp-cf-transactions-list-header>
+
+
+  <div #listContainer class="fx-item">
+
+    <cdk-virtual-scroll-viewport itemSize="67">
+
+        <div *cdkVirtualFor="let item of dataList"
+          class="list-item"
+          [class.list-item-selected]="item.id === selectedID">
+
+          <div class="list-item-container">
+
+            <emp-cf-transactions-list-item
+              [item]="item"
+              [selected]="selection.isSelected(item)"
+              [displayControls]="displayControls"
+              (transactionsListItemEvent)="onCashTransactionsListItemEvent($event)">
+
+            </emp-cf-transactions-list-item>
+
+          </div>
+
+        </div>
+
+        <div *ngIf="dataList.length === 0" class="text-not-found">
+          {{ queryExecuted ?
+             'No se encontraron pólizas ' + (displayControls ? ' con el filtro proporcionado.' : '.') :
+             'No se ha invocado la búsqueda de pólizas.' }}
+        </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

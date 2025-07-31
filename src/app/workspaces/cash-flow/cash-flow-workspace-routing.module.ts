@@ -18,6 +18,10 @@ import {
 } from '@app/views/cash-flow/projections/projections-main-page/projections-main-page.component';
 
 import {
+  CashLedgerMainPageComponent
+} from '@app/views/cash-flow/cash-ledger/cash-ledger-main-page/cash-ledger-main-page.component';
+
+import {
   ChartOfAccountsMainPageComponent
 } from '@app/views/chart-of-accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
 
@@ -40,7 +44,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.flujo_de_efectivo_operacion.permission },
     path: ROUTES.flujo_de_efectivo_operacion.path,
-    component: DefaultComponent,
+    component: CashLedgerMainPageComponent,
   },
   {
     data: { permission: ROUTES.flujo_de_efectivo_proyectos.permission },

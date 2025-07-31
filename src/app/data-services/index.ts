@@ -27,6 +27,8 @@ export * from './budgets.data.service';
 
 export * from './cash-flow-projections.data.service';
 
+export * from './cash-ledger.data.service';
+
 export * from './catalogues.data.service';
 
 export * from './chart-of-accounts.service';
