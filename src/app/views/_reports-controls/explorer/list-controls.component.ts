@@ -9,7 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Entity, EventInfo, isEmpty } from '@app/core';
+import { EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
@@ -55,7 +55,7 @@ export class ListControlsComponent {
     this.listControlConfig = Object.assign({}, DefaultListControlConfig, value);
   }
 
-  @Input() selection = new SelectionModel<Entity>(true, []);
+  @Input() selection = new SelectionModel<{uid?: string, id?: number}>(true, []);
 
   @Input() operationsList: ExplorerOperation[] = [];
 
