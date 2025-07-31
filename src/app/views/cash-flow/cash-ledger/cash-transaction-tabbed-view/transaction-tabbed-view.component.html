@@ -1,0 +1,78 @@
+<emp-ng-card
+  [title]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Póliza">
+
+      <ng-template matTabContent>
+
+        <emp-cf-cash-transaction-view
+          [transaction]="data.transaction">
+
+        </emp-cf-cash-transaction-view>
+
+      </ng-template>
+
+    </mat-tab>
+
+    <mat-tab label="Movimientos">
+
+      <ng-template matTabContent>
+
+        <emp-cf-cash-entries-edition
+          [transaction]="data.transaction"
+          [entries]="data.entries"
+          [canEdit]="data.actions.canUpdate"
+          (entriesEditionEvent)="onCashEntriesEditionEvent($event)">
+
+        </emp-cf-cash-entries-edition>
+
+      </ng-template>
+
+    </mat-tab>
+
+    <mat-tab label="Impresión">
+
+      <ng-template matTabContent>
+
+        <emp-cf-cash-transaction-print-view
+          [transactionID]="data.transaction.id">
+
+        </emp-cf-cash-transaction-print-view>
+
+      </ng-template>
+
+    </mat-tab>
+
+    <mat-tab label="Documentos">
+
+      <emp-ng-documents-edition
+        entityType="cash-transactions"
+        [entityUID]="data.transaction.id + ''"
+        [documents]="data.documents"
+        [canEdit]="data.actions.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+
+      </emp-ng-documents-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Historial">
+
+      <ng-template matTabContent>
+
+        <emp-ng-history-table
+          [history]="data.history">
+
+        </emp-ng-history-table>
+
+      </ng-template>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

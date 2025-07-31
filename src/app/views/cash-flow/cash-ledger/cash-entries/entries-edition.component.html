@@ -1,0 +1,17 @@
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <emp-cf-cash-entries-table
+    class="fx-item"
+    [transactionID]=" transaction.id"
+    [status]="transaction.status"
+    [entries]="entries"
+    [canEdit]="canEdit"
+    (entriesTableEvent)="onCashEntriesTableEvent($event)">
+
+  </emp-cf-cash-entries-table>
+
+</div>

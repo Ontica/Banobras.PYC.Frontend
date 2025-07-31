@@ -1,0 +1,155 @@
+<div class="fx-column-container-fill">
+
+  <emp-ng-list-controls *ngIf="displayControls"
+    class="fx-item-none"
+    [config]="{itemsName: 'movimientos', itemsPronouns: 'los', selectionMessage: 'seleccionados', showDivider: false}"
+    [selection]="selection"
+    [operationsList]="operationsList"
+    (listControlsEvent)="onListControlsEvent($event)">
+
+  </emp-ng-list-controls>
+
+
+  <div class="fill-table-container" [style.width.%]="100">
+
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="check">
+        <th mat-header-cell *matHeaderCellDef>
+          <emp-ng-check-box-all title="Todos" *ngIf="dataSource.data.length > 0"
+            [(selection)]="selection"
+            [values]="dataSource.data">
+          </emp-ng-check-box-all>
+        </th>
+        <td mat-cell *matCellDef="let row" class="column-checkbox">
+          <mat-checkbox empNgStopPropagation
+            [checked]="selection.isSelected(row)"
+            (change)="selection.toggle(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="accountNumber">
+        <th mat-header-cell *matHeaderCellDef class="nowrap"> No. cuenta / Auxiliar</th>
+        <td mat-cell *matCellDef="let row" class="nowrap">
+          {{ row.accountNumber }}
+          <br>
+          <em>{{ row.subledgerAccountNumber }}</em>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sector">
+        <th mat-header-cell *matHeaderCellDef> Sec </th>
+        <td mat-cell *matCellDef="let row">{{ row.sectorCode }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="accountName">
+        <th mat-header-cell *matHeaderCellDef class="nowrap"> Descripción / Concepto </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.accountName }}
+          <br>
+          <em>{{ row.subledgerAccountName }}</em>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="verificationNumber">
+        <th mat-header-cell *matHeaderCellDef> Verif </th>
+        <td mat-cell *matCellDef="let row">{{ row.verificationNumber }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="responsibilityArea">
+        <th mat-header-cell *matHeaderCellDef> Área </th>
+        <td mat-cell *matCellDef="let row">{{ row.responsibilityAreaName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="currency">
+        <th mat-header-cell *matHeaderCellDef> Moneda </th>
+        <td mat-cell *matCellDef="let row" class="nowrap">{{ row.currencyName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="exchangeRate">
+        <th mat-header-cell *matHeaderCellDef class="text-align-right nowrap"> T. de cambio </th>
+        <td mat-cell *matCellDef="let row" class="text-align-right nowrap">
+          {{ row.exchangeRate !== 0 ? (row.exchangeRate | number : '1.6-6') : '-'}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="debit">
+        <th mat-header-cell *matHeaderCellDef class="text-align-right"> Debe </th>
+        <td mat-cell *matCellDef="let row" class="text-align-right">{{ row.debit | number : '1.2-2' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="credit">
+        <th mat-header-cell *matHeaderCellDef class="text-align-right"> Haber </th>
+        <td mat-cell *matCellDef="let row" class="text-align-right">{{ row.credit | number : '1.2-2' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cashAccount">
+        <th mat-header-cell *matHeaderCellDef class="nowrap"> Concepto presupuestal </th>
+        <td mat-cell *matCellDef="let row"
+            class="cell-cash-account"
+            [class.cell-cash-account-enabled]="isRowInEdition(row.id)">
+          <ng-container *ngIf="!isRowInEdition(row.id)">{{ !row.cashAccount?.name ? '-' : row.cashAccount?.name }}</ng-container>
+          <ng-container *ngIf="isRowInEdition(row.id)">
+
+            <input type="text" class="text-box" empNgStopPropagation
+              [(ngModel)]="rowInEdition.cashAccountEdit"
+              [class.invalid-control]="!rowInEdition.cashAccountEdit">
+
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let row" class="column-action">
+
+          <div class="fx-row-container fx-end" *ngIf="!isRowInEdition(row.id)">
+
+            <button
+              mat-icon-button empNgStopPropagation
+              title="Editar concepto presupuestal"
+              (click)="onEditEntryCashAccountClicked(row)">
+              <mat-icon> edit </mat-icon>
+            </button>
+
+          </div>
+
+          <div class="fx-row-container" *ngIf="isRowInEdition(row.id)">
+
+            <button mat-icon-button empNgStopPropagation
+              title="Cancelar"
+              (click)="onCancelEditionClicked()">
+              <mat-icon> close </mat-icon>
+            </button>
+
+            <button mat-icon-button empNgStopPropagation
+              title="Guardar"
+              [color]="isEntryInEditionValid ? 'primary' : null"
+              [style.marginRight]="0"
+              [disabled]="!isEntryInEditionValid"
+              (click)="onUpdateEntryCashAccountClicked()">
+              <mat-icon [color]="isEntryInEditionValid ? 'primary' : null"> done </mat-icon>
+            </button>
+          </div>
+
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="notFoundMessage">
+        <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+          Esta póliza no tiene movimientos.
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectEntryClicked(row)"
+        class="selectable-row"></tr>
+      <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
+        [hidden]="dataSource.data.length > 0"></tr>
+
+    </table>
+
+  </div>
+
+</div>

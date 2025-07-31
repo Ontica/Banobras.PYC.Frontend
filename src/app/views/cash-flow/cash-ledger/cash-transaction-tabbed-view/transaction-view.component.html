@@ -1,0 +1,64 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+        <label>Contabilidad:</label>
+        <input type="text" class="text-box"
+          formControlName="ledger">
+      </div>
+
+      <div class="fx-item">
+        <label>Tipo de transacción:</label>
+        <input type="text" class="text-box"
+          formControlName="transactionType">
+      </div>
+
+      <div class="fx-item-none">
+        <label>Fecha de elaboración:</label>
+        <emp-ng-datepicker
+          formControlName="recordingDate">
+        </emp-ng-datepicker>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+        <label>Origen:</label>
+        <input type="text" class="text-box"
+          formControlName="source">
+      </div>
+
+      <div class="fx-item">
+        <label>Tipo de póliza:</label>
+        <input type="text" class="text-box"
+          formControlName="voucherType">
+      </div>
+
+      <div class="fx-item-none">
+        <label>Fecha de afectación:</label>
+        <emp-ng-datepicker
+          formControlName="accountingDate">
+        </emp-ng-datepicker>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container sm-fx-column-container">
+
+      <div class="fx-item-one">
+        <label>Concepto:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="concept">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

@@ -16,4 +16,11 @@
 
   </emp-cf-cash-ledger-explorer>
 
+  <emp-cf-cash-transaction-tabbed-view *ngIf="displayTabbedView"
+    class="secondary priority std-stacked"
+    [data]="selectedData"
+    (transactionTabbedViewEvent)="onCashTransactionTabbedViewEvent($event)">
+
+  </emp-cf-cash-transaction-tabbed-view>
+
 </div>

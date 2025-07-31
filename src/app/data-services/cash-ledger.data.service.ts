@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { CashLedgerQuery, CashTransactionDescriptor, CashTransactionHolder } from '@app/models';
+import { CashLedgerQuery, CashTransactionDescriptor, CashTransactionHolder, FileReport } from '@app/models';
 
 
 @Injectable()
@@ -62,6 +62,15 @@ export class CashLedgerDataService {
     const path = `v1/cash-flow/cash-ledger/transactions/${transactionID}`;
 
     return this.http.get<CashTransactionHolder>(path);
+  }
+
+
+  getCashTransactionForPrint(transactionID: number): EmpObservable<FileReport> {
+    Assertion.assertValue(transactionID, 'transactionID');
+
+    const path = `v1/cash-flow/cash-ledger/transactions/${transactionID}/print`;
+
+    return this.http.get<FileReport>(path);
   }
 
 }

@@ -21,6 +21,11 @@ import { CashLedgerFilterComponent } from './cash-ledger-explorer/cash-ledger-fi
 import { CashTransactionsListComponent } from './cash-ledger-explorer/transactions-list.component';
 import { CashTransactionsListHeaderComponent } from './cash-ledger-explorer/transactions-list-header.component';
 import { CashTransactionsListItemComponent } from './cash-ledger-explorer/transactions-list-item.component';
+import { CashTransactionTabbedViewComponent } from './cash-transaction-tabbed-view/transaction-tabbed-view.component';
+import { CashTransactionViewComponent } from './cash-transaction-tabbed-view/transaction-view.component';
+import { CashTransactionPrintViewComponent } from './cash-transaction-tabbed-view/transaction-print-view.component';
+import { CashEntriesEditionComponent } from './cash-entries/entries-edition.component';
+import { CashEntriesTableComponent } from './cash-entries/entries-table.component';
 
 
 @NgModule({
@@ -42,6 +47,11 @@ import { CashTransactionsListItemComponent } from './cash-ledger-explorer/transa
     CashTransactionsListComponent,
     CashTransactionsListHeaderComponent,
     CashTransactionsListItemComponent,
+    CashTransactionTabbedViewComponent,
+    CashTransactionViewComponent,
+    CashTransactionPrintViewComponent,
+    CashEntriesEditionComponent,
+    CashEntriesTableComponent,
   ],
   exports: [
     CashLedgerMainPageComponent,

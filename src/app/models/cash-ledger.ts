@@ -17,8 +17,8 @@ import { HistoryEntry } from './history';
 
 
 export const CashTransactionStatusList: Identifiable<TransactionStatus>[] = [
-  { uid: TransactionStatus.Pending,         name: 'Pendiente' },
-  { uid: TransactionStatus.Closed,          name: 'Cerrada' },
+  { uid: TransactionStatus.Pending, name: 'Pendiente' },
+  { uid: TransactionStatus.Closed,  name: 'Cerrada' },
 ];
 
 
@@ -65,6 +65,7 @@ export interface CashTransactionDescriptor {
   voucherTypeName: string;
   accountingDate: DateString;
   concept: string;
+  status: TransactionStatus;
   statusName: string;
 }
 
@@ -82,12 +83,15 @@ export interface CashEntry {
   exchangeRate: number;
   debit: number;
   credit: number;
+  cashAccountId: number;
   cashAccount: Identifiable;
+  cashAccountEdit: string;
 }
 
 
 export interface CashTransactionActions {
   canUpdate: boolean;
+  canEditDocuments: boolean;
 }
 
 
@@ -98,6 +102,30 @@ export interface CashTransactionHolder {
   history: HistoryEntry[];
   actions: CashTransactionActions;
 }
+
+
+export enum CashEntriesOperationTypes {
+  noCashFlow             = 'noCashFlow',
+  discardCashFlowChanges = 'discardCashFlowChanges',
+}
+
+
+export const NoCashFlowOperation: ExplorerOperation = {
+  uid: CashEntriesOperationTypes.noCashFlow,
+  name: 'Marcar sin flujo',
+  showConfirm: true,
+  confirmOperationMessage: 'marcará sin flujo',
+  confirmQuestionMessage: 'Marco sin flujo'
+};
+
+
+export const UndoCashFlowDataOperation: ExplorerOperation = {
+  uid: CashEntriesOperationTypes.discardCashFlowChanges,
+  name: 'Descartar cambios de flujo',
+  showConfirm: true,
+  confirmOperationMessage: 'descartará los cambios del flujo de',
+  confirmQuestionMessage: 'Descarto los cambios del flujo de'
+};
 
 
 export const EmptyCashLedgerQuery: CashLedgerQuery = {
@@ -135,6 +163,7 @@ export const EmptyCashTransactionDescriptor: CashTransactionDescriptor = {
   accountingDate: '',
   recordingDate: '',
   elaboratedBy: '',
+  status: null,
   statusName: '',
 }
 
@@ -152,12 +181,15 @@ export const EmptyCashEntry: CashEntry = {
   exchangeRate: null,
   debit: null,
   credit: null,
+  cashAccountId: null,
   cashAccount: Empty,
+  cashAccountEdit: null,
 };
 
 
 export const EmptyCashTransactionActions: CashTransactionActions = {
   canUpdate: false,
+  canEditDocuments: false,
 };
 
 

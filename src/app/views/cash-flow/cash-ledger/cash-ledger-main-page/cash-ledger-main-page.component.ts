@@ -9,6 +9,8 @@ import { Component } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
 
+import { ArrayLibrary } from '@app/shared/utils';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { CashLedgerDataService } from '@app/data-services';
@@ -17,6 +19,10 @@ import { CashTransactionDescriptor, CashTransactionHolder, CashLedgerQuery, Empt
          EmptyCashLedgerQuery } from '@app/models';
 
 import { CashLedgerExplorerEventType } from '../cash-ledger-explorer/cash-ledger-explorer.component';
+
+import {
+  CashTransactionTabbedViewEventType
+} from '../cash-transaction-tabbed-view/transaction-tabbed-view.component';
 
 
 @Component({
@@ -64,7 +70,23 @@ export class CashLedgerMainPageComponent {
       case CashLedgerExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.id, 'event.payload.item.id');
-        this.messageBox.showInDevelopment('Seleccionar póliza', event.payload.item);
+        this.getCashTransaction(event.payload.item.id);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onCashTransactionTabbedViewEvent(event: EventInfo) {
+    switch (event.type as CashTransactionTabbedViewEventType) {
+      case CashTransactionTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyCashTransactionHolder);
+        return;
+      case CashTransactionTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.dataID, 'event.payload.dataID');
+        this.refreshSelectedData(event.payload.dataID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -80,6 +102,25 @@ export class CashLedgerMainPageComponent {
       .firstValue()
       .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
+  }
+
+
+  private getCashTransaction(dataID: number, refresh: boolean = false) {
+    this.isLoadingSelection = true;
+
+    this.cashLedgerData.getCashTransaction(dataID)
+      .firstValue()
+      .then(x => this.resolveGetCashTransaction(x, refresh))
+      .catch(e => this.setSelectedData(EmptyCashTransactionHolder))
+      .finally(() => this.isLoadingSelection = false);
+  }
+
+
+  private resolveGetCashTransaction(data: CashTransactionHolder, refresh: boolean = false) {
+    this.setSelectedData(data);
+    if (refresh) {
+      this.insertItemToList(data);
+    }
   }
 
 
@@ -100,6 +141,19 @@ export class CashLedgerMainPageComponent {
   private setSelectedData(data: CashTransactionHolder) {
     this.selectedData = data;
     this.displayTabbedView = this.selectedData && this.selectedData.transaction.id > 0;
+  }
+
+
+  private refreshSelectedData(dataID: number) {
+    this.getCashTransaction(dataID, true);
+  }
+
+
+  private insertItemToList(data: CashTransactionHolder) {
+    const dataToInsert = data.transaction;
+    const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'id');
+    this.setDataList(dataListNew);
+    this.setSelectedData(data);
   }
 
 }
