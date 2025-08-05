@@ -69,6 +69,24 @@
     flex: 3 1 600px;
     max-width: 1085px;
   }
+
+  .full-size {
+    flex: 1 1 auto;
+    min-width: 75%;
+    max-width: 97%;
+
+    @media (min-width: $screen-small) {
+      max-width: 97%;
+    }
+
+    @media (min-width: $screen-medium) {
+      max-width: 85%;
+    }
+
+    @media (min-width: $screen-standard) {
+      max-width: 75%;
+    }
+  }
 }
 
 .explorer.fluid {
