@@ -11,14 +11,38 @@
         [innerHTML]="hint | empSafeHtml"></div>
     </div>
 
-    <div *ngIf="!disableClose" class="card-header-options">
-      <mat-icon class="card-icon" (click)="onClose()">close</mat-icon>
+    <div *ngIf="!disableClose || showExpand" class="card-header-options">
+      <div class="fx-row-container fx-gap">
+
+        <div *ngIf="showExpand" class="std-hide">
+
+          <mat-icon
+            class="card-icon"
+            [title]="expanded ? 'Reducir' : 'Ampliar'"
+            (click)="onExpand()">
+            {{expanded ? 'last_page' : 'first_page'}}
+          </mat-icon>
+
+        </div>
+
+        <mat-icon *ngIf="!disableClose"
+          class="card-icon"
+          title="Cerrar"
+          (click)="onClose()">
+          close
+        </mat-icon>
+
+      </div>
     </div>
 
   </div>
 
   <div class="card-body" (scroll)="onWindowScroll($event)">
-    <ng-content></ng-content>
+
+    <ng-content>
+
+    </ng-content>
+
   </div>
 
 </div>

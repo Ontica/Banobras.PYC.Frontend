@@ -25,17 +25,31 @@ export class CardComponent {
 
   @Input() disableClose = false;
 
+  @Input() showExpand = false;
+
+  @Input() expanded = false;
+
   @Input() showCardHeaderFlat = false;
 
   @Output() cardClose = new EventEmitter<void>();
 
+  @Output() cardExpand = new EventEmitter<void>();
+
   @Output() cardScroll = new EventEmitter<void>();
+
 
   onClose() {
     this.cardClose.emit();
   }
 
+
+  onExpand() {
+    this.cardExpand.emit();
+  }
+
+
   onWindowScroll($event) {
     this.cardScroll.emit($event.timeStamp);
   }
+
 }
