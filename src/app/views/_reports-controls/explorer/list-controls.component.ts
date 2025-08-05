@@ -9,7 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { EventInfo, isEmpty } from '@app/core';
+import { EventInfo, FlexibleIdentifiable, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
@@ -20,24 +20,42 @@ import { ExplorerOperation, ExplorerOperationCommand, ExplorerOperationType } fr
 
 export enum ListControlsEventType {
   EXECUTE_OPERATION_CLICKED = 'ListControlsComponent.Event.ExecuteOperationClicked',
+  STATUS_CHANGED            = 'ListControlsComponent.Event.StatusChanged',
+  FILTER_CHANGED            = 'ListControlsComponent.Event.FilterChanged',
   EXPORT_BUTTON_CLICKED     = 'ListControlsComponent.Event.ExportButtonClicked',
 }
 
 export interface ListControlConfig {
+  showOperationControl?: boolean;
+  showExportButton?: boolean;
+  showStatus?: boolean;
+  showSearcher?: boolean;
+  showDivider?: boolean;
+  labelsAside?: 'left' | 'top';
   itemsName?: string;
   itemsPronouns?: string;
   selectionMessage?: string;
-  showExportButton?: boolean;
-  showDivider?: boolean;
+  statusSelectFirst?: boolean;
+  searcherAside?: 'left' | 'right';
+  searcherPlaceholder?: string;
+  searcherText?: string;
 }
 
 
 const DefaultListControlConfig: ListControlConfig = {
+  showOperationControl: true,
+  showExportButton: false,
+  showStatus: false,
+  showSearcher: false,
+  showDivider: true,
+  labelsAside: 'left',
   itemsName: 'elementos',
   itemsPronouns: 'los',
   selectionMessage: 'seleccionados',
-  showExportButton: false,
-  showDivider: true,
+  statusSelectFirst: false,
+  searcherAside: 'left',
+  searcherPlaceholder: 'Buscar...',
+  searcherText: null,
 };
 
 
@@ -59,6 +77,12 @@ export class ListControlsComponent {
 
   @Input() operationsList: ExplorerOperation[] = [];
 
+  @Input() statusList: FlexibleIdentifiable[] = [];
+
+  @Input() filter = null;
+
+  @Input() status = null;
+
   @Output() listControlsEvent = new EventEmitter<EventInfo>();
 
   listControlConfig = DefaultListControlConfig;
@@ -67,6 +91,11 @@ export class ListControlsComponent {
 
 
   constructor(private messageBox: MessageBoxService) { }
+
+
+  get displayOperationControl(): boolean {
+    return this.config.showOperationControl && this.selection.selected.length > 0;
+  }
 
 
   get operationValid() {
@@ -78,7 +107,7 @@ export class ListControlsComponent {
   }
 
 
-  onOperationChanges(operation: ExplorerOperation) {
+  onOperationChanges() {
 
   }
 
@@ -90,6 +119,24 @@ export class ListControlsComponent {
     }
 
     this.validateShowConfirmMessage();
+  }
+
+
+  onStatusChanges() {
+    sendEvent(this.listControlsEvent, ListControlsEventType.STATUS_CHANGED,
+      { status: this.status });
+  }
+
+
+  onClearFilter() {
+    this.filter = '';
+    this.onFilterData();
+  }
+
+
+  onFilterData() {
+    sendEvent(this.listControlsEvent, ListControlsEventType.FILTER_CHANGED,
+      { filter: this.filter });
   }
 
 

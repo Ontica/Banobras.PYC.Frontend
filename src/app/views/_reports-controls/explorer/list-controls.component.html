@@ -1,60 +1,133 @@
-<mat-divider *ngIf="listControlConfig.showDivider">
+<mat-divider *ngIf="config.showDivider">
 
 </mat-divider>
 
-<div class="fx-row-container fx-space-between fx-items-center list-selection-header"
+<div class="fx-row-container fx-items-center list-selection-header"
+  [ngClass]="{'fx-space-between': config.searcherAside === 'left',
+              'fx-items-center': config.labelsAside === 'left',
+              'fx-items-end': config.labelsAside === 'top'}"
   [style.minHeight.px]="42">
 
-  <ng-container *ngIf="selection.selected.length > 0">
 
-    <div class="fx-item-none">
+  <ng-container #OperationSection *ngIf="displayOperationControl">
 
-      <div class="text-small" [style.marginRight.px]="8">
+    <div class="fx-item-none fx-row-container fx-items-center">
 
-        ¿Qué debo hacer con {{listControlConfig.itemsPronouns}} {{selection.selected.length}} {{listControlConfig.itemsName}}?
+      <div class="fx-item-none" *ngIf="config.labelsAside === 'left'">
+
+        <div class="text-small" [style.marginRight.px]="8">
+
+          ¿Qué debo hacer con {{config.itemsPronouns}} {{selection.selected.length}} {{config.itemsName}}?
+
+        </div>
+
+      </div>
+
+      <div class="fx-item-size" style="--size: 240px">
+
+        <label class="label-top nowrap" *ngIf="config.labelsAside === 'top'">
+
+          ¿Qué debo hacer con {{config.itemsPronouns}} {{selection.selected.length}} {{config.itemsName}}?
+
+        </label>
+
+        <emp-ng-select name="operation"
+          [config]="{bindByValue: false, selectFirst: true}"
+          [(ngModel)]="operationSelected"
+          [items]="operationsList"
+          (changes)="onOperationChanges()">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-none" [style.margin-top.px]="config.labelsAside === 'top' ? 12 : 0">
+
+        <button type="button"
+          class="btn"
+          (click)="onExecuteOperationClicked()">
+          Ejecutar
+        </button>
 
       </div>
 
     </div>
 
-    <div class="fx-item-size" style="--size: 240px">
-
-      <emp-ng-select name="operation"
-        [config]="{bindByValue: false, selectFirst: true}"
-        [(ngModel)]="operationSelected"
-        [items]="operationsList"
-        (changes)="onOperationChanges($event)">
-      </emp-ng-select>
-
-    </div>
-
-    <div class="fx-item-none">
-
-      <button type="button"
-        class="btn"
-        (click)="onExecuteOperationClicked()">
-        Ejecutar
-      </button>
-
-    </div>
-
-    <mat-divider vertical="true" class="vertical-inline" *ngIf="config.showExportButton">
+    <mat-divider vertical="true" *ngIf="config.showExportButton || config.showSearcher" class="vertical-inline"
+      [style.margin-bottom.px]="config.labelsAside === 'top' ? 2 : 0">
 
     </mat-divider>
 
   </ng-container>
 
-  <div class="fx-item sm-hide">
 
-  </div>
+  <ng-container #SearcherSection *ngIf="config.showStatus">
 
-  <div class="fx-item-none fx-row-container" *ngIf="config.showExportButton" [style.marginRight.px]="8">
+    <div class="fx-item sm-hide" *ngIf="config.searcherAside === 'right'">
 
-    <button class="btn"
-      (click)="onExportButtonClicked()">
-      Exportar
-    </button>
+    </div>
 
-  </div>
+    <div class="fx-item-quarter sm-fx-item-half">
+
+      <emp-ng-select name="status"
+        [config]="{clearable: true, bindByValue: false, selectFirst: config.statusSelectFirst}"
+        [(ngModel)]="status"
+        [items]="statusList"
+        placeholder="Todos"
+        (changes)="onStatusChanges()">
+      </emp-ng-select>
+
+    </div>
+
+  </ng-container>
+
+
+  <ng-container #SearcherSection *ngIf="config.showSearcher">
+
+    <div class="fx-item sm-hide" *ngIf="config.searcherAside === 'right' && !config.showStatus">
+
+    </div>
+
+    <div class="fx-item-quarter sm-fx-item-half"
+      [style.height]="config.searcherText ? '44px' : 'auto'">
+
+      <label class="label-top" *ngIf="config.searcherText" [style.margin-bottom.px]="2">
+
+        {{config.searcherText}}
+
+      </label>
+
+      <div class="input-icon-container">
+
+        <input #filterInput type="text" class="text-box" name="filterInput" autocomplete="off"
+          [(ngModel)]="filter"
+          [placeholder]="config.searcherPlaceholder"
+          (keyup.enter)="onFilterData()"
+          (keyup.escape)="onClearFilter()">
+
+        <mat-icon class="input-icon" (click)="onFilterData()">search</mat-icon>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+
+  <ng-container #ExportButtonSection *ngIf="config.showExportButton">
+
+    <div class="fx-item sm-hide">
+
+    </div>
+
+    <div class="fx-item-none fx-row-container" [style.margin-right.px]="8">
+
+      <button class="btn"
+        (click)="onExportButtonClicked()">
+        Exportar
+      </button>
+
+    </div>
+
+  </ng-container>
 
 </div>
