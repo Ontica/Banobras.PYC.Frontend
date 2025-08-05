@@ -39,7 +39,7 @@
 
             <ng-container [ngSwitch]="column.type">
               <ng-container *ngSwitchCase="dataTableColumnType.check_box">
-                <emp-ng-check-box-all title="Todos" *ngIf="hasItems"
+                <emp-ng-check-box-all *ngIf="hasItems"
                   [(selection)]="selection"
                   [values]="dataSource.data">
                 </emp-ng-check-box-all>

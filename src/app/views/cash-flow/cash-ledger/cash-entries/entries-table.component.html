@@ -16,7 +16,7 @@
 
       <ng-container matColumnDef="check">
         <th mat-header-cell *matHeaderCellDef>
-          <emp-ng-check-box-all title="Todos" *ngIf="dataSource.data.length > 0"
+          <emp-ng-check-box-all *ngIf="dataSource.data.length > 0"
             [(selection)]="selection"
             [values]="dataSource.data">
           </emp-ng-check-box-all>
