@@ -8,6 +8,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { EmpAutofocusDirective } from './auto-focus.directive';
 import { EmpContextMenuDisabledDirective } from './context-menu-disabled.directive';
 import { EmpCurrencyDirective } from './currency.directive';
 import { EmpFormKeyDownEnterDirective } from './form-keydown-enter.directive';
@@ -29,6 +30,7 @@ import { EmpTextareaAutoresizeDirective } from './text-area-autoresize.directive
   ],
 
   declarations: [
+    EmpAutofocusDirective,
     EmpContextMenuDisabledDirective,
     EmpCurrencyDirective,
     EmpFormKeyDownEnterDirective,
@@ -44,6 +46,7 @@ import { EmpTextareaAutoresizeDirective } from './text-area-autoresize.directive
   ],
 
   exports: [
+    EmpAutofocusDirective,
     EmpContextMenuDisabledDirective,
     EmpCurrencyDirective,
     EmpFormKeyDownEnterDirective,
