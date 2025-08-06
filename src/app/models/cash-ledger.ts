@@ -7,7 +7,7 @@
 
 import { DateString, Empty, FlexibleIdentifiable, Identifiable } from '@app/core';
 
-import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
+import { ExplorerOperation } from './_explorer-data';
 
 import { TransactionStatus } from './transactions';
 
@@ -22,10 +22,19 @@ export const CashTransactionStatusList: Identifiable<TransactionStatus>[] = [
 ];
 
 
-export const CashLedgerOperationsList: ExplorerOperation[] = [
+export enum CashTransactionsOperationType {
+  autoCodify = 'auto-codify',
+}
+
+
+export const CashTransactionsOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excelEntries,
-    name: 'Exportar movimientos'
+    uid: CashTransactionsOperationType.autoCodify,
+    name: 'Codificación automática',
+    showConfirm: true,
+    confirmTitleWithoutName: true,
+    confirmOperationMessage: 'ejecutará el proceso de codificación automática de',
+    confirmQuestionMessage: 'Ejecuto el proceso de codificación automática de',
   },
 ];
 
@@ -117,14 +126,12 @@ export const CashAccountPendingID = 0;
 export const WithCashAccountID = 1;
 
 
-
 export const CashAccountStatusList: FlexibleIdentifiable[] = [
   { id: CashAccountPendingID,   name: 'Pendientes' },
   { id: CashAccountWaitingID,   name: 'Con flujo pendiente'},
   { id: WithCashAccountID,      name: 'Con flujo asignado' },
   { id: NoCashAccountID,        name: 'Sin flujo' },
 ];
-
 
 
 export enum CashEntriesOperation {

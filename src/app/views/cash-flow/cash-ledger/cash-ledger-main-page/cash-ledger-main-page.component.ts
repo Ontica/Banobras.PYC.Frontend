@@ -16,7 +16,8 @@ import { MessageBoxService } from '@app/shared/services';
 import { CashLedgerDataService } from '@app/data-services';
 
 import { CashTransactionDescriptor, CashTransactionHolder, CashLedgerQuery, EmptyCashTransactionHolder,
-         EmptyCashLedgerQuery } from '@app/models';
+         EmptyCashLedgerQuery, CashTransactionsOperationType, ExplorerOperationCommand,
+         ExplorerOperationResult } from '@app/models';
 
 import { CashLedgerExplorerEventType } from '../cash-ledger-explorer/cash-ledger-explorer.component';
 
@@ -67,7 +68,8 @@ export class CashLedgerMainPageComponent {
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         Assertion.assertValue(event.payload.command, 'event.payload.command');
         Assertion.assertValue(event.payload.command.items, 'event.payload.command.items');
-        this.messageBox.showInDevelopment('Ejecutar operación', event.payload);
+        this.bulkOperationCashTransactions(event.payload.operation,
+                                           event.payload.command);
         return;
       case CashLedgerExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
@@ -115,6 +117,17 @@ export class CashLedgerMainPageComponent {
   }
 
 
+  private bulkOperationCashTransactions(operation: CashTransactionsOperationType,
+                                        command: ExplorerOperationCommand) {
+    this.isLoadingSelection = true;
+
+    this.cashLedgerData.bulkOperationCashTransactions(operation, command)
+      .firstValue()
+      .then(x => this.resolveBulkOperationCashTransactionsResponse(operation, x))
+      .finally(() => this.isLoadingSelection = false);
+  }
+
+
   private getCashTransaction(dataID: number, refresh: boolean = false) {
     this.isLoadingSelection = true;
 
@@ -134,6 +147,20 @@ export class CashLedgerMainPageComponent {
   }
 
 
+  private resolveBulkOperationCashTransactionsResponse(operation: CashTransactionsOperationType,
+                                                       result: ExplorerOperationResult) {
+    switch (operation) {
+      case CashTransactionsOperationType.autoCodify:
+        this.messageBox.show(result.message, 'Codificación automática');
+        this.reloadDataList();
+        return;
+      default:
+        console.log(`Unhandled user interface event ${operation}`);
+        return;
+    }
+  }
+
+
   private setQueryAndClearExplorerData(query: CashLedgerQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
@@ -146,6 +173,11 @@ export class CashLedgerMainPageComponent {
                       queryExecuted: boolean = true) {
     this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
+  }
+
+
+  private reloadDataList(): void {
+    this.setDataList([...[], ...this.dataList]);
   }
 
 

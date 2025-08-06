@@ -15,7 +15,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { CashLedgerOperationsList, CashTransactionDescriptor } from '@app/models';
+import { CashTransactionsOperationsList, CashTransactionDescriptor } from '@app/models';
 
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
@@ -46,7 +46,7 @@ export class CashTransactionsListComponent implements OnChanges {
 
   selection = new SelectionModel<CashTransactionDescriptor>(true, []);
 
-  operationsList = CashLedgerOperationsList;
+  operationsList = CashTransactionsOperationsList;
 
 
   ngOnChanges(changes: SimpleChanges) {

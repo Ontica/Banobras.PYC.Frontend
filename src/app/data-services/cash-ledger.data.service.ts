@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { CashEntriesOperationCommand, CashLedgerQuery, CashTransactionDescriptor, CashTransactionHolder,
+         CashTransactionsOperationType, ExplorerOperationCommand, ExplorerOperationResult,
          FileReport } from '@app/models';
 
 
@@ -54,6 +55,17 @@ export class CashLedgerDataService {
     const path = 'v1/cash-flow/cash-ledger/transactions/search';
 
     return this.http.post<CashTransactionDescriptor[]>(path, query);
+  }
+
+
+  bulkOperationCashTransactions(operationType: CashTransactionsOperationType,
+                                command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
+    Assertion.assertValue(operationType, 'operationType');
+    Assertion.assertValue(command, 'command');
+
+    const path = `v1/cash-flow/cash-ledger/transactions/bulk-operation/${operationType}`;
+
+    return this.http.post<ExplorerOperationResult>(path, command);
   }
 
 
