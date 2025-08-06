@@ -32,7 +32,7 @@
         </label>
 
         <emp-ng-select name="operation"
-          [config]="{bindByValue: false, selectFirst: true}"
+          [config]="{bindByValue: false, selectFirst: true, showTooltip: true}"
           [(ngModel)]="operationSelected"
           [items]="operationsList"
           (changes)="onOperationChanges()">
@@ -69,7 +69,7 @@
     <div class="fx-item-quarter sm-fx-item-half">
 
       <emp-ng-select name="status"
-        [config]="{clearable: true, bindByValue: false, selectFirst: config.statusSelectFirst}"
+        [config]="{clearable: true, bindByValue: false, selectFirst: config.statusSelectFirst, showTooltip: true}"
         [(ngModel)]="status"
         [items]="statusList"
         placeholder="Todos"

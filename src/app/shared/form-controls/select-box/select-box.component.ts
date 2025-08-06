@@ -198,7 +198,7 @@ export class SelectBoxComponent implements OnInit, OnChanges, OnDestroy, Control
       const valueFromList = this.items.find(x => x[this.bindValue] === this.value);
       return valueFromList ? valueFromList[this.bindLabel] : '';
     } else {
-      return this.value;
+      return this.bindLabel ? this.value[this.bindLabel] : this.value;
     }
   }
 
