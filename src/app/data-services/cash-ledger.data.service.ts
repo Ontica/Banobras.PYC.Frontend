@@ -78,6 +78,15 @@ export class CashLedgerDataService {
   }
 
 
+  autoCodifyCashTransaction(transactionID: number): EmpObservable<CashTransactionHolder> {
+    Assertion.assertValue(transactionID, 'transactionID');
+
+    const path = `v1/cash-flow/cash-ledger/transactions/${transactionID}/auto-codify`;
+
+    return this.http.post<CashTransactionHolder>(path);
+  }
+
+
   executeCashEntriesOperation(transactionID: number,
                               command: CashEntriesOperationCommand): EmpObservable<CashTransactionHolder> {
     Assertion.assertValue(transactionID, 'transactionID');

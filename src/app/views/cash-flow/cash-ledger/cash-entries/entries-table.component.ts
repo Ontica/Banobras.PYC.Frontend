@@ -13,7 +13,9 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { Assertion, EventInfo, FlexibleIdentifiable } from '@app/core';
 
-import { FormatLibrary, sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
+
+import { MessageBoxService } from '@app/shared/services';
 
 import { CashAccountPendingID, CashAccountStatusList, CashAccountWaitingID, CashEntriesOperation,
          CashEntriesOperationCommand, CashEntry, ExplorerOperation, MarkAsCashEntriesWaitingOperation,
@@ -24,6 +26,7 @@ import { ListControlsEventType } from '@app/views/_reports-controls/explorer/lis
 
 
 export enum CashEntriesTableEventType {
+  AUTO_CODIFY_CLICKED       = 'CashEntriesTableComponent.Event.AutoCodifyClicked',
   SELECT_ENTRY_CLICKED      = 'CashEntriesTableComponent.Event.SelectEntryClicked',
   EXECUTE_OPERATION_CLICKED = 'CashEntriesTableComponent.Event.ExecuteOperationClicked',
 }
@@ -81,6 +84,9 @@ export class CashEntriesTableComponent implements OnChanges {
   displayedItemsText = '';
 
 
+  constructor(private messageBox: MessageBoxService) { }
+
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes.transactionID) {
       const transactionChanged = changes.transactionID.previousValue !== changes.transactionID.currentValue;
@@ -110,7 +116,12 @@ export class CashEntriesTableComponent implements OnChanges {
 
 
   get showNotFound(): boolean {
-    return !(!this.hasData || (this.hasData && this.dataSource.filteredData.length === 0));
+    return !this.hasData || (this.hasData && this.dataSource.filteredData.length === 0);
+  }
+
+
+  onAutoCodifyClicked() {
+    this.showConfirmAutoCodify();
   }
 
 
@@ -285,6 +296,16 @@ export class CashEntriesTableComponent implements OnChanges {
       this.displayedItemsText = FormatLibrary.numberWithCommas(this.dataSource.filteredData.length) +
         ' de ' + FormatLibrary.numberWithCommas(this.dataSource.data.length) + ' registros mostrados';
     }
+  }
+
+
+  private showConfirmAutoCodify() {
+    const message = `Esta operación ejecutará el proceso de codificación automática sobre todos los movimientos pendientes.
+      <br><br>¿Ejecuto el proceso de codificación automática?`;
+
+    this.messageBox.confirm(message, 'Codificación automática')
+      .firstValue()
+      .then(x => sendEventIf(x, this.entriesTableEvent, CashEntriesTableEventType.AUTO_CODIFY_CLICKED));
   }
 
 }

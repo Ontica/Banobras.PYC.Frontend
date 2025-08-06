@@ -9,8 +9,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { sendEvent } from '@app/shared/utils';
 
 import { SkipIf } from '@app/shared/decorators';
@@ -44,16 +42,14 @@ export class CashEntriesEditionComponent {
   submitted = false;
 
 
-  constructor(private cashLedgerData: CashLedgerDataService,
-              private messageBox: MessageBoxService) { }
+  constructor(private cashLedgerData: CashLedgerDataService) { }
 
 
   @SkipIf('submitted')
   onCashEntriesTableEvent(event: EventInfo) {
     switch (event.type as CashEntriesTableEventType) {
-      case CashEntriesTableEventType.SELECT_ENTRY_CLICKED:
-        Assertion.assertValue(event.payload.entry.id, 'event.payload.entry.id');
-
+      case CashEntriesTableEventType.AUTO_CODIFY_CLICKED:
+        this.autoCodifyCashTransaction(this.transaction.id);
         return;
       case CashEntriesTableEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.transactionID, 'event.payload.transactionID');
@@ -67,18 +63,28 @@ export class CashEntriesEditionComponent {
   }
 
 
+  private autoCodifyCashTransaction(transactionID: number) {
+    this.submitted = true;
+
+    this.cashLedgerData.autoCodifyCashTransaction(transactionID)
+      .firstValue()
+      .then(x => this.resolveCashEntriesUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
   private executeCashEntriesOperation(transactionID: number,
                                       command: CashEntriesOperationCommand) {
     this.submitted = true;
 
     this.cashLedgerData.executeCashEntriesOperation(transactionID, command)
       .firstValue()
-      .then(x => this.resolveExecuteCashEntriesOperationResponse(x))
+      .then(x => this.resolveCashEntriesUpdated(x))
       .finally(() => this.submitted = false);
   }
 
 
-  private resolveExecuteCashEntriesOperationResponse(data: CashTransactionHolder) {
+  private resolveCashEntriesUpdated(data: CashTransactionHolder) {
     sendEvent(this.entriesEditionEvent, CashEntriesEditionEventType.UPDATED, { data });
   }
 

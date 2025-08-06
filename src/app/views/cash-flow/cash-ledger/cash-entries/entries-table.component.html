@@ -155,11 +155,32 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="status">
+        <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length" class="column-no-padding">
+
+          <div class="fx-row-container fx-end fx-items-center fx-gap-half" style="padding: 5px 0;">
+
+            <div class="fx-item">
+
+            </div>
+
+            <button *ngIf="canEdit" class="btn-action"
+              (click)="onAutoCodifyClicked()">
+              Codificación automática
+            </button>
+
+          </div>
+
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectEntryClicked(row)"
         class="selectable-row"></tr>
       <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
-        [hidden]="showNotFound"></tr>
+        [hidden]="!showNotFound"></tr>
+      <tr mat-footer-row *matFooterRowDef="['status']; sticky: true;"
+        [hidden]="!canEdit"></tr>
 
     </table>
 
