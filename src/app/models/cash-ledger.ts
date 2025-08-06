@@ -128,9 +128,10 @@ export const CashAccountStatusList: FlexibleIdentifiable[] = [
 
 
 export enum CashEntriesOperation {
-  MarkAsCashEntries   = 'MarkAsCashEntries',
-  MarkAsNoCashEntries = 'MarkAsNoCashEntries',
-  RemoveCashEntries   = 'RemoveCashEntries',
+  MarkAsCashEntries        = 'MarkAsCashEntries',
+  MarkAsCashEntriesWaiting = 'MarkAsCashEntriesWaiting',
+  MarkAsNoCashEntries      = 'MarkAsNoCashEntries',
+  RemoveCashEntries        = 'RemoveCashEntries',
 }
 
 
@@ -139,6 +140,15 @@ export interface CashEntriesOperationCommand {
   entries: number[];
   cashAccount?: string;
 }
+
+
+export const MarkAsCashEntriesWaitingOperation: ExplorerOperation = {
+  uid: CashEntriesOperation.MarkAsCashEntriesWaiting,
+  name: 'Marcar con flujo pendiente',
+  showConfirm: true,
+  confirmOperationMessage: 'marcará con flujo pendiente',
+  confirmQuestionMessage: 'Marco con flujo pendiente'
+};
 
 
 export const MarkAsNoCashEntriesOperation: ExplorerOperation = {

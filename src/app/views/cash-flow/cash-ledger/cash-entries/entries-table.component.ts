@@ -16,7 +16,7 @@ import { Assertion, EventInfo, FlexibleIdentifiable } from '@app/core';
 import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
 import { CashAccountPendingID, CashAccountStatusList, CashAccountWaitingID, CashEntriesOperation,
-         CashEntriesOperationCommand, CashEntry, ExplorerOperation,
+         CashEntriesOperationCommand, CashEntry, ExplorerOperation, MarkAsCashEntriesWaitingOperation,
          MarkAsNoCashEntriesOperation, NoCashAccountID, RemoveCashEntriesOperation,  TotalItemTypeList,
          TransactionStatus, WithCashAccountID } from '@app/models';
 
@@ -249,6 +249,7 @@ export class CashEntriesTableComponent implements OnChanges {
     if (this.status === TransactionStatus.Pending) {
       this.operationsList = [...[],
         MarkAsNoCashEntriesOperation,
+        MarkAsCashEntriesWaitingOperation,
         RemoveCashEntriesOperation];
     }
   }
