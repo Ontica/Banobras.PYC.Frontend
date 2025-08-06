@@ -7,6 +7,7 @@
   <emp-cf-cash-ledger-explorer
     class="primary"
     [class.std-hide]="displayTabbedView"
+    [class.hide]="expandTabbedView"
     [query]="query"
     [dataList]="dataList"
     [selectedID]="selectedData.transaction.id"
@@ -18,7 +19,9 @@
 
   <emp-cf-cash-transaction-tabbed-view *ngIf="displayTabbedView"
     class="secondary priority std-stacked"
+    [ngClass]="{'stacked full-size': expandTabbedView}"
     [data]="selectedData"
+    [expandTabbedView]="expandTabbedView"
     (transactionTabbedViewEvent)="onCashTransactionTabbedViewEvent($event)">
 
   </emp-cf-cash-transaction-tabbed-view>

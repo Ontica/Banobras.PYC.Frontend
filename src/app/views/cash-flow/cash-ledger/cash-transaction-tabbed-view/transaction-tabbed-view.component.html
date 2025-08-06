@@ -1,7 +1,10 @@
 <emp-ng-card
   [title]="title"
   [hint]="hint"
-  (cardClose)="onCloseButtonClicked()">
+  [showExpand]="true"
+  [expanded]="expandTabbedView"
+  (cardClose)="onCloseButtonClicked()"
+  (cardExpand)="onExpandButtonClicked()">
 
   <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
 

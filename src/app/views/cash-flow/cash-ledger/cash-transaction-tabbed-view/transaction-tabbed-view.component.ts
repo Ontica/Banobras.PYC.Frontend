@@ -22,6 +22,7 @@ import {
 
 export enum CashTransactionTabbedViewEventType {
   CLOSE   = 'CashTransactionTabbedViewComponent.Event.Close',
+  EXPAND  = 'CashTransactionTabbedViewComponent.Event.Expand',
   UPDATED = 'CashTransactionTabbedViewComponent.Event.Updated',
   REFRESH = 'CashTransactionTabbedViewComponent.Event.Refresh',
 }
@@ -33,6 +34,8 @@ export enum CashTransactionTabbedViewEventType {
 export class CashTransactionTabbedViewComponent implements OnChanges {
 
   @Input() data: CashTransactionHolder = EmptyCashTransactionHolder;
+
+  @Input() expandTabbedView = false;
 
   @Output() transactionTabbedViewEvent = new EventEmitter<EventInfo>();
 
@@ -50,6 +53,11 @@ export class CashTransactionTabbedViewComponent implements OnChanges {
 
   onCloseButtonClicked() {
     sendEvent(this.transactionTabbedViewEvent, CashTransactionTabbedViewEventType.CLOSE);
+  }
+
+
+  onExpandButtonClicked() {
+    sendEvent(this.transactionTabbedViewEvent, CashTransactionTabbedViewEventType.EXPAND);
   }
 
 

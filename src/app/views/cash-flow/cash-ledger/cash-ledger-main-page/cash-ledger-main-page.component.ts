@@ -39,6 +39,8 @@ export class CashLedgerMainPageComponent {
 
   displayTabbedView = false;
 
+  expandTabbedView = false;
+
   isLoading = false;
 
   isLoadingSelection = false;
@@ -83,6 +85,10 @@ export class CashLedgerMainPageComponent {
     switch (event.type as CashTransactionTabbedViewEventType) {
       case CashTransactionTabbedViewEventType.CLOSE:
         this.setSelectedData(EmptyCashTransactionHolder);
+        this.resetExpandTabbedView();
+        return;
+      case CashTransactionTabbedViewEventType.EXPAND:
+        this.setExpandTabbedView();
         return;
       case CashTransactionTabbedViewEventType.UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
@@ -132,6 +138,7 @@ export class CashLedgerMainPageComponent {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
     this.setSelectedData(EmptyCashTransactionHolder);
+    this.resetExpandTabbedView();
   }
 
 
@@ -158,6 +165,16 @@ export class CashLedgerMainPageComponent {
     const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'id');
     this.setDataList(dataListNew);
     this.setSelectedData(data);
+  }
+
+
+  private setExpandTabbedView(){
+    this.expandTabbedView = !this.expandTabbedView;
+  }
+
+
+  private resetExpandTabbedView() {
+    this.expandTabbedView = false;
   }
 
 }
