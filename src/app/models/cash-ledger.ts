@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Empty, Identifiable } from '@app/core';
+import { DateString, Empty, FlexibleIdentifiable, Identifiable } from '@app/core';
 
 import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
 
@@ -103,6 +103,28 @@ export interface CashTransactionHolder {
   history: HistoryEntry[];
   actions: CashTransactionActions;
 }
+
+
+export const CashAccountWaitingID = -2;
+
+
+export const NoCashAccountID = -1;
+
+
+export const CashAccountPendingID = 0;
+
+
+export const WithCashAccountID = 1;
+
+
+
+export const CashAccountStatusList: FlexibleIdentifiable[] = [
+  { id: CashAccountPendingID,   name: 'Pendientes' },
+  { id: CashAccountWaitingID,   name: 'Con flujo pendiente'},
+  { id: WithCashAccountID,      name: 'Con flujo asignado' },
+  { id: NoCashAccountID,        name: 'Sin flujo' },
+];
+
 
 
 export enum CashEntriesOperation {

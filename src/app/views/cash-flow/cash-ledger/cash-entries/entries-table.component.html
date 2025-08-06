@@ -1,10 +1,17 @@
 <div class="fx-column-container-fill">
 
-  <emp-ng-list-controls *ngIf="displayControls"
+  <emp-ng-list-controls
     class="fx-item-none"
-    [config]="{itemsName: 'movimientos', itemsPronouns: 'los', selectionMessage: 'seleccionados', showDivider: false}"
+    [config]="{itemsName: 'movimientos', itemsPronouns: 'los', selectionMessage: 'seleccionados',
+               labelsAside: 'top', searcherAside: 'right',
+               showDivider: false, showStatus: true, showSearcher: true,
+               searcherText: displayedItemsText}"
     [selection]="selection"
     [operationsList]="operationsList"
+    [statusList]="cashAccountStatusList"
+    [filter]="filter"
+    [status]="cashAccountStatus"
+    [style.margin]="'0 -16px 0 -8px'"
     (listControlsEvent)="onListControlsEvent($event)">
 
   </emp-ng-list-controls>
@@ -16,9 +23,10 @@
 
       <ng-container matColumnDef="check">
         <th mat-header-cell *matHeaderCellDef>
-          <emp-ng-check-box-all *ngIf="dataSource.data.length > 0"
+          <emp-ng-check-box-all *ngIf="hasData"
             [(selection)]="selection"
-            [values]="dataSource.data">
+            [values]="dataSource.data"
+            [filteredValues]="dataSource.filteredData">
           </emp-ng-check-box-all>
         </th>
         <td mat-cell *matCellDef="let row" class="column-checkbox">
@@ -30,7 +38,7 @@
       </ng-container>
 
       <ng-container matColumnDef="accountNumber">
-        <th mat-header-cell *matHeaderCellDef class="nowrap"> No. cuenta / Auxiliar</th>
+        <th mat-header-cell *matHeaderCellDef class="nowrap"> No. cuenta / No. Auxiliar</th>
         <td mat-cell *matCellDef="let row" class="nowrap">
           {{ row.accountNumber }}
           <br>
@@ -44,7 +52,7 @@
       </ng-container>
 
       <ng-container matColumnDef="accountName">
-        <th mat-header-cell *matHeaderCellDef class="nowrap"> Descripción / Concepto </th>
+        <th mat-header-cell *matHeaderCellDef class="nowrap"> Cuenta / Auxiliar </th>
         <td mat-cell *matCellDef="let row">
           {{ row.accountName }}
           <br>
@@ -85,16 +93,18 @@
       </ng-container>
 
       <ng-container matColumnDef="cashAccount">
-        <th mat-header-cell *matHeaderCellDef class="nowrap"> Concepto presupuestal </th>
+        <th mat-header-cell *matHeaderCellDef class="nowrap"> Concepto </th>
         <td mat-cell *matCellDef="let row"
             class="cell-cash-account"
             [class.cell-cash-account-enabled]="isRowInEdition(row.id)">
           <ng-container *ngIf="!isRowInEdition(row.id)">{{ !row.cashAccount?.name ? '-' : row.cashAccount.name }}</ng-container>
           <ng-container *ngIf="isRowInEdition(row.id)">
 
-            <input type="text" class="text-box" empNgStopPropagation
+            <input type="text" class="text-box" empNgStopPropagation empNgAutofocus
               [(ngModel)]="rowInEdition.cashAccountEdit"
-              [class.invalid-control]="!rowInEdition.cashAccountEdit">
+              [class.invalid-control]="!rowInEdition.cashAccountEdit"
+              (keyup.escape)="rowInEdition.cashAccountEdit = ''"
+              (keyup.enter)="onUpdateEntryClicked()">
 
           </ng-container>
         </td>
@@ -105,6 +115,8 @@
         <td mat-cell *matCellDef="let row" class="column-action">
 
           <div class="fx-row-container fx-end" *ngIf="!isRowInEdition(row.id)">
+
+            <div [style.width.px]="32"></div>
 
             <button *ngIf="row.canEditCashFlow"
               mat-icon-button empNgStopPropagation
@@ -138,7 +150,8 @@
 
       <ng-container matColumnDef="notFoundMessage">
         <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
-          Esta póliza no tiene movimientos.
+          {{!hasData ? 'Esta póliza no tiene movimientos.' :
+            'No se encontraron movimientos con el filtro proporcionado.'}}
         </td>
       </ng-container>
 
@@ -146,7 +159,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectEntryClicked(row)"
         class="selectable-row"></tr>
       <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
-        [hidden]="dataSource.data.length > 0"></tr>
+        [hidden]="showNotFound"></tr>
 
     </table>
 

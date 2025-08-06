@@ -11,12 +11,14 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 import { MatTableDataSource } from '@angular/material/table';
 
-import { Assertion, EventInfo } from '@app/core';
+import { Assertion, EventInfo, FlexibleIdentifiable } from '@app/core';
 
-import { sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
-import { CashEntry, ExplorerOperation, MarkAsNoCashEntriesOperation, TotalItemTypeList, TransactionStatus,
-         RemoveCashEntriesOperation, CashEntriesOperationCommand, CashEntriesOperation } from '@app/models';
+import { CashAccountPendingID, CashAccountStatusList, CashAccountWaitingID, CashEntriesOperation,
+         CashEntriesOperationCommand, CashEntry, ExplorerOperation,
+         MarkAsNoCashEntriesOperation, NoCashAccountID, RemoveCashEntriesOperation,  TotalItemTypeList,
+         TransactionStatus, WithCashAccountID } from '@app/models';
 
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
@@ -70,11 +72,25 @@ export class CashEntriesTableComponent implements OnChanges {
 
   operationsList: ExplorerOperation[] = [];
 
+  cashAccountStatusList = CashAccountStatusList;
+
+  cashAccountStatus: FlexibleIdentifiable = null;
+
+  filter = '';
+
+  displayedItemsText = '';
+
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.transactionID) {
+      const transactionChanged = changes.transactionID.previousValue !== changes.transactionID.currentValue;
+      this.resetControls(transactionChanged);
+    }
+
     if (changes.entries) {
-      this.clearSelection();
+      this.resetControls(false);
       this.setDataTable();
+      this.setDisplayedItemsText();
     }
 
     if (changes.status) {
@@ -83,18 +99,33 @@ export class CashEntriesTableComponent implements OnChanges {
   }
 
 
-  get displayControls(): boolean {
-    return this.canEdit && this.selection.selected.length > 0;
-  }
-
-
   get isEntryInEditionValid(): boolean {
     return !!this.rowInEdition.cashAccountEdit;
   }
 
 
+  get hasData(): boolean {
+    return this.dataSource.data.length > 0;
+  }
+
+
+  get showNotFound(): boolean {
+    return !(!this.hasData || (this.hasData && this.dataSource.filteredData.length === 0));
+  }
+
+
   onListControlsEvent(event: EventInfo) {
     switch (event.type as ListControlsEventType) {
+      case ListControlsEventType.FILTER_CHANGED:
+        this.filter = event.payload.filter ?? '';
+        this.applyFilter(this.cashAccountStatus?.id ?? null, this.filter);
+        this.setDisplayedItemsText();
+        return;
+      case ListControlsEventType.STATUS_CHANGED:
+        this.cashAccountStatus = event.payload.status ?? null;
+        this.applyFilter(this.cashAccountStatus?.id ?? null, this.filter);
+        this.setDisplayedItemsText();
+        return;
       case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         Assertion.assertValue(event.payload.command, 'event.payload.command');
@@ -133,7 +164,8 @@ export class CashEntriesTableComponent implements OnChanges {
       return;
     }
 
-    const cashAccountEdit = entry.cashAccount.uid === '0' ? '' : entry.cashAccount.name;
+    const cashAccountEdit = [CashAccountPendingID, CashAccountWaitingID].includes(+entry.cashAccount.uid) ?
+      '' : entry.cashAccount.name;
 
     this.rowInEdition = { ...{}, ...entry, cashAccountEdit };
     this.editionMode = true;
@@ -147,6 +179,10 @@ export class CashEntriesTableComponent implements OnChanges {
 
 
   onUpdateEntryClicked() {
+    if (!this.rowInEdition.cashAccountEdit) {
+      return;
+    }
+
     const command: CashEntriesOperationCommand = {
       operation: CashEntriesOperation.MarkAsCashEntries,
       entries: [this.rowInEdition.id],
@@ -158,16 +194,37 @@ export class CashEntriesTableComponent implements OnChanges {
   }
 
 
+  private resetControls(fullReset: boolean) {
+    this.clearSelection();
+    this.clearFilter(fullReset);
+    this.onCancelEditionClicked();
+  }
+
+
   private clearSelection() {
     this.selection.clear();
-    this.onCancelEditionClicked();
+  }
+
+
+  private clearFilter(fullReset: boolean) {
+    this.filter = '';
+    if (fullReset) {
+      this.cashAccountStatus = null;
+    }
   }
 
 
   private setDataTable() {
     this.resetColumns();
-    this.entries.forEach(x => x.canEditCashFlow = ['0'].includes(x.cashAccount.uid));
+    this.entries.forEach(x =>
+      x.canEditCashFlow = [CashAccountPendingID, CashAccountWaitingID].includes(+x.cashAccount.uid)
+    );
     this.dataSource = new MatTableDataSource(this.entries);
+    this.dataSource.filterPredicate = this.getFilterPredicate();
+
+    if (this.cashAccountStatus?.id !== null) {
+      this.applyFilter(this.cashAccountStatus?.id, this.filter);
+    }
   }
 
 
@@ -190,7 +247,42 @@ export class CashEntriesTableComponent implements OnChanges {
     }
 
     if (this.status === TransactionStatus.Pending) {
-      this.operationsList = [...[], MarkAsNoCashEntriesOperation, RemoveCashEntriesOperation];
+      this.operationsList = [...[],
+        MarkAsNoCashEntriesOperation,
+        RemoveCashEntriesOperation];
+    }
+  }
+
+
+  private getFilterPredicate(): (data: any, filter: string) => boolean {
+    return (row: CashEntry, filter: string) => {
+      const { keywords, status } = JSON.parse(filter);
+      const keyword = keywords.toLowerCase();
+
+      const uid = +row.cashAccount?.uid || 0;
+      const isControlStatus = [CashAccountPendingID, CashAccountWaitingID, NoCashAccountID].includes(status);
+
+      const matchesKeyword = Object.values(row).some(value => String(value).toLowerCase().includes(keyword));
+      const matchesStatus = status === WithCashAccountID ? uid > 1 : isControlStatus ? uid === status : true;
+
+      return matchesKeyword && matchesStatus;
+    };
+  }
+
+
+  private applyFilter(status: number, keywords: string) {
+    const filterValue = { status, keywords: keywords.trim().toLowerCase() };
+    this.dataSource.filter = JSON.stringify(filterValue);
+  }
+
+
+  private setDisplayedItemsText() {
+    if (this.dataSource.filteredData.length === this.dataSource.data.length) {
+      this.displayedItemsText = FormatLibrary.numberWithCommas(this.dataSource.data.length) +
+        ' registros encontrados';
+    } else {
+      this.displayedItemsText = FormatLibrary.numberWithCommas(this.dataSource.filteredData.length) +
+        ' de ' + FormatLibrary.numberWithCommas(this.dataSource.data.length) + ' registros mostrados';
     }
   }
 
