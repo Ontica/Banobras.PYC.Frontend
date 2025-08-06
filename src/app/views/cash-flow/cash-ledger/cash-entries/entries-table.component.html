@@ -159,6 +159,14 @@
 
           <div class="fx-row-container fx-end fx-items-center fx-gap-half" style="padding: 5px 0;">
 
+            <mat-icon [ngClass]="hasEntriesPending ? 'icon-warning' : 'icon-success'">info</mat-icon>
+
+            <span class="text-status">
+              {{ hasEntriesPending ?
+                 'Hay ' + entriesPendingCount + ' movimientos pendientes de codificación.' :
+                 'Todos los movimientos están codificados.' }}
+            </span>
+
             <div class="fx-item">
 
             </div>

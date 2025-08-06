@@ -120,6 +120,17 @@ export class CashEntriesTableComponent implements OnChanges {
   }
 
 
+  get hasEntriesPending(): boolean {
+    return this.entries.some(x => [CashAccountPendingID, CashAccountWaitingID].includes(+x.cashAccount.uid));
+  }
+
+
+  get entriesPendingCount(): number {
+    return this.entries.filter(x =>
+      [CashAccountPendingID, CashAccountWaitingID].includes(+x.cashAccount.uid)).length;
+  }
+
+
   onAutoCodifyClicked() {
     this.showConfirmAutoCodify();
   }

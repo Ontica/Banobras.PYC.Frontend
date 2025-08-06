@@ -153,6 +153,8 @@ export class CashLedgerMainPageComponent {
       case CashTransactionsOperationType.autoCodify:
         this.messageBox.show(result.message, 'Codificación automática');
         this.reloadDataList();
+        this.setSelectedData(EmptyCashTransactionHolder);
+        this.resetExpandTabbedView();
         return;
       default:
         console.log(`Unhandled user interface event ${operation}`);
