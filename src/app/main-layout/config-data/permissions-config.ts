@@ -80,7 +80,7 @@ export enum PERMISSIONS {
 
   ROUTE_FLUJO_DE_EFECTIVO_PROYECCIONES = 'route-flujo-de-efectivo-proyecciones',
   ROUTE_FLUJO_DE_EXPLORER = 'route-flujo-de-efectivo-explorer',
-  ROUTE_FLUJO_DE_EFECTIVO_OPERACION = 'route-flujo-de-efectivo-operacion',
+  ROUTE_FLUJO_DE_EFECTIVO_CODIFICACION = 'route-flujo-de-efectivo-codificacion',
   ROUTE_FLUJO_DE_EFECTIVO_PROYECTOS = 'route-flujo-de-efectivo-proyectos',
   ROUTE_FLUJO_DE_EFECTIVO_REGLAS = 'route-flujo-de-efectivo-reglas',
   ROUTE_FLUJO_DE_EFECTIVO_REPORTES = 'route-flujo-de-efectivo-reportes',

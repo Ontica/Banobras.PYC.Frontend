@@ -45,7 +45,7 @@ export class CashLedgerExplorerComponent implements OnChanges {
 
   @Output() cashLedgerExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Operación';
+  cardTitle = 'Codificación';
 
   cardHint = 'Seleccionar los filtros';
 

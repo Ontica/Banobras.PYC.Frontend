@@ -230,10 +230,10 @@ export const CashFlowViews: View[] = [
     permission: ROUTES.flujo_de_efectivo_explorer.permission,
   },
   {
-    name: 'CashFlow.Operation',
-    title: 'Operación',
-    url: ROUTES.flujo_de_efectivo_operacion.fullpath,
-    permission: ROUTES.flujo_de_efectivo_operacion.permission,
+    name: 'CashFlow.Codify',
+    title: 'Codificación',
+    url: ROUTES.flujo_de_efectivo_codificacion.fullpath,
+    permission: ROUTES.flujo_de_efectivo_codificacion.permission,
   },
   {
     name: 'CashFlow.Projects',
