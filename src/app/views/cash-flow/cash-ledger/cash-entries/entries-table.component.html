@@ -40,7 +40,7 @@
       <ng-container matColumnDef="accountNumber">
         <th mat-header-cell *matHeaderCellDef class="nowrap"> No. cuenta / No. Auxiliar</th>
         <td mat-cell *matCellDef="let row" class="nowrap">
-          {{ row.accountNumber }}
+          <span [title]="row.parentAccountFullName">{{ row.accountNumber }}</span>
           <br>
           <em>{{ row.subledgerAccountNumber }}</em>
         </td>
@@ -54,7 +54,7 @@
       <ng-container matColumnDef="accountName">
         <th mat-header-cell *matHeaderCellDef class="nowrap"> Cuenta / Auxiliar </th>
         <td mat-cell *matCellDef="let row">
-          {{ row.accountName }}
+          <span [title]="row.parentAccountFullName">{{ row.accountName }}</span>
           <br>
           <em>{{ row.subledgerAccountName }}</em>
         </td>
@@ -62,23 +62,22 @@
 
       <ng-container matColumnDef="verificationNumber">
         <th mat-header-cell *matHeaderCellDef> Verif </th>
-        <td mat-cell *matCellDef="let row">{{ row.verificationNumber }}</td>
+        <td mat-cell *matCellDef="let row">{{ !row.verificationNumber ? '-' : row.verificationNumber }}</td>
       </ng-container>
 
       <ng-container matColumnDef="responsibilityArea">
         <th mat-header-cell *matHeaderCellDef> Área </th>
-        <td mat-cell *matCellDef="let row">{{ row.responsibilityAreaName }}</td>
+        <td mat-cell *matCellDef="let row">
+          <span [title]="row.responsibilityAreaName">{{ row.responsibilityAreaCode }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="currency">
         <th mat-header-cell *matHeaderCellDef> Moneda </th>
-        <td mat-cell *matCellDef="let row" class="nowrap">{{ row.currencyName }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="exchangeRate">
-        <th mat-header-cell *matHeaderCellDef class="text-align-right nowrap"> T. de cambio </th>
-        <td mat-cell *matCellDef="let row" class="text-align-right nowrap">
-          {{ row.exchangeRate !== 0 ? (row.exchangeRate | number : '1.6-6') : '-'}}
+        <td mat-cell *matCellDef="let row" class="nowrap">
+          {{ row.currencyName }}
+          <br *ngIf="row.currencyId !== 1">
+          <em *ngIf="row.currencyId !== 1">T.C.: {{ row.exchangeRate !== 0 ? (row.exchangeRate | number : '1.6-6') : '-'}}</em>
         </td>
       </ng-container>
 

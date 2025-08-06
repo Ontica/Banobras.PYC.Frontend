@@ -83,11 +83,17 @@ export interface CashEntry {
   id: number;
   accountNumber: string;
   accountName: string;
+  parentAccountFullName: string;
   sectorCode: string;
   subledgerAccountNumber: string;
   subledgerAccountName: string;
   verificationNumber: string;
+  responsibilityAreaCode: string;
   responsibilityAreaName: string;
+  budgetCode: string;
+  description: string;
+  date: DateString;
+  currencyId: number;
   currencyName: string;
   exchangeRate: number;
   debit: number;
@@ -222,9 +228,15 @@ export const EmptyCashEntry: CashEntry = {
   accountName: '',
   sectorCode: '',
   subledgerAccountNumber: '',
+  parentAccountFullName: '',
   subledgerAccountName: '',
   verificationNumber: '',
+  responsibilityAreaCode: '',
   responsibilityAreaName: '',
+  budgetCode: '',
+  description: '',
+  date: '',
+  currencyId: null,
   currencyName: '',
   exchangeRate: null,
   debit: null,

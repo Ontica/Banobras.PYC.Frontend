@@ -63,7 +63,7 @@ export class CashEntriesTableComponent implements OnChanges {
   rowInEdition: CashEntry = null;
 
   displayedColumnsDefault: string[] = ['accountNumber', 'sector', 'accountName', 'verificationNumber',
-    'responsibilityArea', 'currency', 'exchangeRate', 'debit', 'credit', 'cashAccount'];
+    'responsibilityArea', 'currency', 'debit', 'credit', 'cashAccount'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
