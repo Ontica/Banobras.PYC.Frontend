@@ -11,9 +11,7 @@ import { CommonModule } from '@angular/common';
 
 import { SharedModule } from '@app/shared/shared.module';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { AngularMaterialModule } from '@app/shared/angular-material.module';
+import { SearchServicesModule } from '../search-services/search-services.module';
 
 import { SearchToolComponent } from './search-tool/search-tool.component';
 
@@ -21,11 +19,8 @@ import { SearchToolComponent } from './search-tool/search-tool.component';
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-
-    AngularMaterialModule,
     SharedModule,
+    SearchServicesModule,
   ],
   declarations: [
     SearchToolComponent,

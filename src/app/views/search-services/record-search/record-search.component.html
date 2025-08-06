@@ -1,0 +1,53 @@
+<div class="explorer fluid">
+
+  <div class="primary">
+
+    <div class="card card-border">
+
+      <div class="card-header card-header-flat">
+
+        <div class="card-title">
+          Búsqueda universal
+
+          <div class="card-hint" empNgProgressText
+            loadingText="Cargando"
+            [finalText]="cardHint"
+            [isLoading]="isLoading">
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        <div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+          <emp-ng-spinner #spinner [visible]="isLoading" >
+
+          </emp-ng-spinner>
+
+          <emp-pyc-record-search-filter class="fx-item-none"
+            [query]="data.recordSearchQuery"
+            (recordSearchFilterEvent)="onRecordSearchFilterEvent($event)">
+
+          </emp-pyc-record-search-filter>
+
+          <emp-pyc-record-search-list class="fx-item" [style.width.%]="100"
+            [recordsList]="data.records"
+            [recordSearchType]="data.recordSearchQuery.type"
+            [queryExecuted]="data.queryExecuted"
+            [isLoading]="isLoading"
+            (recordSearchListEvent)="onRecordSearchListEvent($event)">
+
+          </emp-pyc-record-search-list>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

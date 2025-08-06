@@ -78,6 +78,8 @@ export * from './payments-orders';
 
 export * from './products';
 
+export * from './record-search';
+
 export * from './reporting';
 
 export * from './requests';

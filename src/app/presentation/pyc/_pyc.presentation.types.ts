@@ -6,6 +6,14 @@
  */
 
 
+/* Actions */
+
+import { ActionType as SearchServicesAction } from './search-services.presentation.handler';
+export { ActionType as SearchServicesAction } from './search-services.presentation.handler'
+
+export type PYCActions = SearchServicesAction;
+
+
 /* Selectors */
 
 import { SelectorType as AccountsStateSelector } from './accounts.presentation.handler';
@@ -35,6 +43,9 @@ export { SelectorType as ProductsStateSelector } from './products.presentation.h
 import { SelectorType as RequestsStateSelector } from './requests.presentation.handler';
 export { SelectorType as RequestsStateSelector } from './requests.presentation.handler';
 
+import { SelectorType as SearchServicesStateSelector } from './search-services.presentation.handler';
+export { SelectorType as SearchServicesStateSelector } from './search-services.presentation.handler';
+
 export type PYCSelectors = AccountsStateSelector |
                            AssetsStateSelector |
                            BudgetingStateSelector |
@@ -43,4 +54,5 @@ export type PYCSelectors = AccountsStateSelector |
                            FinancialProjectsStateSelector |
                            PaymentsStateSelector |
                            ProductsStateSelector |
-                           RequestsStateSelector;
+                           RequestsStateSelector |
+                           SearchServicesStateSelector;

@@ -24,6 +24,7 @@ import { FinancialProjectsPresentationHandler } from './pyc/financial-projects.p
 import { PaymentsPresentationHandler } from './pyc/payments.presentation.handler';
 import { ProductsPresentationHandler } from './pyc/products.presentation.handler';
 import { RequestsPresentationHandler } from './pyc/requests.presentation.handler';
+import { SearchServicesPresentationHandler } from './pyc/search-services.presentation.handler';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { RequestsPresentationHandler } from './pyc/requests.presentation.handler
     PaymentsPresentationHandler,
     ProductsPresentationHandler,
     RequestsPresentationHandler,
+    SearchServicesPresentationHandler,
 
     { provide: STATE_HANDLERS, useExisting: MainLayoutPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AppStatusPresentationHandler, multi: true },
@@ -54,6 +56,7 @@ import { RequestsPresentationHandler } from './pyc/requests.presentation.handler
     { provide: STATE_HANDLERS, useExisting: PaymentsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: ProductsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: RequestsPresentationHandler, multi: true },
+    { provide: STATE_HANDLERS, useExisting: SearchServicesPresentationHandler, multi: true },
   ]
 
 })

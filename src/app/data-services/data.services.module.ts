@@ -53,6 +53,8 @@ import { ProductsDataService } from './products.data.service';
 
 import { RequestsDataService } from './requests.data.service';
 
+import { SearchServicesDataService } from './search-services.data.service';
+
 import { StepsDataService } from './steps.data.service';
 
 import { SuppliersDataService } from './suppliers.data.service';
@@ -84,6 +86,7 @@ import { SuppliersDataService } from './suppliers.data.service';
     PaymentOrdersDataService,
     ProductsDataService,
     RequestsDataService,
+    SearchServicesDataService,
     StepsDataService,
     SuppliersDataService,
   ]

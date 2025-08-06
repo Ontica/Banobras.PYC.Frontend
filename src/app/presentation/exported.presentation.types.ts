@@ -15,13 +15,13 @@ export * from './app-data/_app-data.presentation.types';
 import { SMSelectors } from './security-management/_security.management.presentation.types';
 export * from './security-management/_security.management.presentation.types';
 
-import { PYCSelectors } from './pyc/_pyc.presentation.types';
+import { PYCActions, PYCSelectors } from './pyc/_pyc.presentation.types';
 export * from './pyc/_pyc.presentation.types';
 
 
 /* Exportation types */
 
-export type ActionType = MainLayoutActions | AppStatusActions ;
+export type ActionType = MainLayoutActions | AppStatusActions | PYCActions;
 
 export type CommandType = '';
 
