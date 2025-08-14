@@ -21,6 +21,7 @@ import { EmpPreventDefaultDirective } from './prevent-default.directive';
 import { EmpResizableDirective } from './resizable.directive';
 import { EmpStopPropagationDirective } from './stop-propagation.directive';
 import { EmpTextareaAutoresizeDirective } from './text-area-autoresize.directive';
+import { EmpTextTruncateToggleDirective } from './text-truncate-toggle.directive';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { EmpTextareaAutoresizeDirective } from './text-area-autoresize.directive
     EmpResizableDirective,
     EmpStopPropagationDirective,
     EmpTextareaAutoresizeDirective,
+    EmpTextTruncateToggleDirective,
   ],
 
   exports: [
@@ -59,6 +61,7 @@ import { EmpTextareaAutoresizeDirective } from './text-area-autoresize.directive
     EmpResizableDirective,
     EmpStopPropagationDirective,
     EmpTextareaAutoresizeDirective,
+    EmpTextTruncateToggleDirective,
   ],
 
 })

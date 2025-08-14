@@ -346,6 +346,17 @@ textarea:focus {
   font-size: 1em;
 }
 
+.text-expandable-selection {
+  font-size: 0.75rem;
+}
+
+.text-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: var(--max-lines, 4);
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .left {
   float: left;
 }
@@ -848,9 +859,4 @@ ul.default-list {
 .container-full-size {
   width: 100%;
   height: 100%;
-}
-
-
-.text-expandable-selection {
-  font-size: 0.75rem;
 }
