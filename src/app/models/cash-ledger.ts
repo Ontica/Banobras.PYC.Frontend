@@ -16,35 +16,52 @@ import { Document } from './documents';
 import { HistoryEntry } from './history';
 
 
+export enum CashLedgerQueryType {
+  transactions = '2',
+  entries      = '1',
+}
+
+
+export const CashLedgerQueryTypesList: Identifiable<CashLedgerQueryType>[] = [
+  { uid: CashLedgerQueryType.transactions, name: 'Pólizas' },
+  { uid: CashLedgerQueryType.entries,      name: 'Movimientos'},
+];
+
+
 export const CashTransactionStatusList: Identifiable<TransactionStatus>[] = [
   { uid: TransactionStatus.Pending, name: 'Pendiente' },
   { uid: TransactionStatus.Closed,  name: 'Cerrada' },
 ];
 
 
-export enum CashTransactionsOperationType {
+export enum CashLedgerOperationType {
   autoCodify = 'auto-codify',
+  excel      = 'excel',
 }
 
 
-export const CashTransactionsOperationsList: ExplorerOperation[] = [
-  {
-    uid: CashTransactionsOperationType.autoCodify,
-    name: 'Codificación automática',
-    showConfirm: true,
-    confirmTitleWithoutName: true,
-    confirmOperationMessage: 'ejecutará el proceso de codificación automática de',
-    confirmQuestionMessage: 'Ejecuto el proceso de codificación automática de',
-  },
-];
+export const AutoCodifyOperation: ExplorerOperation = {
+  uid: CashLedgerOperationType.autoCodify,
+  name: 'Codificación automática',
+  showConfirm: true,
+  confirmTitleWithoutName: true,
+  confirmOperationMessage: 'ejecutará el proceso de codificación automática de',
+  confirmQuestionMessage: 'Ejecuto el proceso de codificación automática de',
+};
+
+
+export const ExcelOperation: ExplorerOperation = {
+  uid: CashLedgerOperationType.excel,
+  name: 'Exportar'
+};
 
 
 export interface CashLedgerQuery {
-  status: TransactionStatus;
+  transactionStatus: TransactionStatus;
+  cashAccountStatus: CashAccountStatus;
   fromAccountingDate?: DateString;
   toAccountingDate?: DateString;
   keywords: string;
-  concept: string;
   cashAccounts: string[];
   voucherAccounts: string[];
   subledgerAccounts: string[];
@@ -63,7 +80,12 @@ export interface CashLedgerQuery {
 }
 
 
-export interface CashTransactionDescriptor {
+export interface CashLedgerDescriptor {
+  id: number;
+}
+
+
+export interface CashTransactionDescriptor extends CashLedgerDescriptor {
   id: number;
   number: string;
   ledgerName: string;
@@ -76,6 +98,34 @@ export interface CashTransactionDescriptor {
   concept: string;
   status: TransactionStatus;
   statusName: string;
+}
+
+
+export interface CashEntryDescriptor extends CashLedgerDescriptor {
+  id: number;
+
+  transactionId: number;
+  transactionNumber: string;
+  transactionLedgerName: string;
+  transactionRecordingDate: DateString;
+  transactionAccountingDate: DateString;
+  transactionConcept: string;
+
+  accountNumber: string;
+  accountName: string;
+  parentAccountFullName: string;
+  sectorCode: string;
+  subledgerAccountNumber: string;
+  subledgerAccountName: string;
+  verificationNumber: string;
+  responsibilityAreaCode: string;
+  responsibilityAreaName: string;
+  currencyId: number;
+  currencyName: string;
+  exchangeRate: number;
+  debit: number;
+  credit: number;
+  cashAccountName: string;
 }
 
 
@@ -179,7 +229,8 @@ export const RemoveCashEntriesOperation: ExplorerOperation = {
 
 
 export const EmptyCashLedgerQuery: CashLedgerQuery = {
-  status: null,
+  transactionStatus: null,
+  cashAccountStatus: null,
   keywords: '',
   fromAccountingDate: '',
   toAccountingDate: '',
@@ -198,7 +249,6 @@ export const EmptyCashLedgerQuery: CashLedgerQuery = {
   projectTypeUID: '',
   projectAccountUID: '',
   entriesKeywords: '',
-  concept: '',
 };
 
 

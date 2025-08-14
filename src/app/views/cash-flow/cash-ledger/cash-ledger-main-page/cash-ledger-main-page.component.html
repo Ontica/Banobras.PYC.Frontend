@@ -8,9 +8,10 @@
     class="primary"
     [class.std-hide]="displayTabbedView"
     [class.hide]="expandTabbedView"
+    [queryType]="queryType"
     [query]="query"
     [dataList]="dataList"
-    [selectedID]="selectedData.transaction.id"
+    [selectedID]="selectedID"
     [isLoading]="isLoading"
     [queryExecuted]="queryExecuted"
     (cashLedgerExplorerEvent)="onCashLedgerExplorerEvent($event)">
@@ -22,6 +23,7 @@
     [ngClass]="{'stacked full-size': expandTabbedView}"
     [data]="selectedData"
     [expandTabbedView]="expandTabbedView"
+    [queryCashAccountStatus]="queryCashAccountStatus"
     (transactionTabbedViewEvent)="onCashTransactionTabbedViewEvent($event)">
 
   </emp-cf-cash-transaction-tabbed-view>

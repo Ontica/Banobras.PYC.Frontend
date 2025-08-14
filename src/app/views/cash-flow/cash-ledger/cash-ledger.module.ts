@@ -18,9 +18,9 @@ import { EntityRecordsModule } from '@app/views/entity-records/entity-records.mo
 import { CashLedgerMainPageComponent } from './cash-ledger-main-page/cash-ledger-main-page.component';
 import { CashLedgerExplorerComponent } from './cash-ledger-explorer/cash-ledger-explorer.component';
 import { CashLedgerFilterComponent } from './cash-ledger-explorer/cash-ledger-filter.component';
-import { CashTransactionsListComponent } from './cash-ledger-explorer/transactions-list.component';
-import { CashTransactionsListHeaderComponent } from './cash-ledger-explorer/transactions-list-header.component';
-import { CashTransactionsListItemComponent } from './cash-ledger-explorer/transactions-list-item.component';
+import { CashLedgerListComponent } from './cash-ledger-explorer/cash-ledger-list.component';
+import { CashLedgerListHeaderComponent } from './cash-ledger-explorer/cash-ledger-list-header.component';
+import { CashLedgerListItemComponent } from './cash-ledger-explorer/cash-ledger-list-item.component';
 import { CashTransactionTabbedViewComponent } from './cash-transaction-tabbed-view/transaction-tabbed-view.component';
 import { CashTransactionViewComponent } from './cash-transaction-tabbed-view/transaction-view.component';
 import { CashTransactionPrintViewComponent } from './cash-transaction-tabbed-view/transaction-print-view.component';
@@ -44,9 +44,9 @@ import { CashEntriesTableComponent } from './cash-entries/entries-table.componen
     CashLedgerMainPageComponent,
     CashLedgerExplorerComponent,
     CashLedgerFilterComponent,
-    CashTransactionsListComponent,
-    CashTransactionsListHeaderComponent,
-    CashTransactionsListItemComponent,
+    CashLedgerListComponent,
+    CashLedgerListHeaderComponent,
+    CashLedgerListItemComponent,
     CashTransactionTabbedViewComponent,
     CashTransactionViewComponent,
     CashTransactionPrintViewComponent,

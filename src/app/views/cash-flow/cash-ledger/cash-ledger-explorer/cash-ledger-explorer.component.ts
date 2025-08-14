@@ -13,11 +13,12 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { CashLedgerQuery, CashTransactionDescriptor, EmptyCashLedgerQuery } from '@app/models';
+import { CashLedgerDescriptor, CashLedgerQuery, CashLedgerQueryType,
+         EmptyCashLedgerQuery } from '@app/models';
 
 import { CashLedgerFilterEventType } from './cash-ledger-filter.component';
 
-import { CashTransactionsListEventType } from './transactions-list.component';
+import { CashLedgerListEventType } from './cash-ledger-list.component';
 
 
 export enum CashLedgerExplorerEventType {
@@ -33,9 +34,11 @@ export enum CashLedgerExplorerEventType {
 })
 export class CashLedgerExplorerComponent implements OnChanges {
 
+  @Input() queryType: CashLedgerQueryType = CashLedgerQueryType.transactions;
+
   @Input() query: CashLedgerQuery = Object.assign({}, EmptyCashLedgerQuery);
 
-  @Input() dataList: CashTransactionDescriptor[] = [];
+  @Input() dataList: CashLedgerDescriptor[] = [];
 
   @Input() selectedID: number = null;
 
@@ -71,11 +74,13 @@ export class CashLedgerExplorerComponent implements OnChanges {
   onCashLedgerFilterEvent(event: EventInfo) {
     switch (event.type as CashLedgerFilterEventType) {
       case CashLedgerFilterEventType.SEARCH_CLICKED:
+        Assertion.assertValue(event.payload.queryType, 'event.payload.queryType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.cashLedgerExplorerEvent, CashLedgerExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
       case CashLedgerFilterEventType.CLEAR_CLICKED:
+        Assertion.assertValue(event.payload.queryType, 'event.payload.queryType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.cashLedgerExplorerEvent, CashLedgerExplorerEventType.CLEAR_CLICKED,
           event.payload);
@@ -87,14 +92,14 @@ export class CashLedgerExplorerComponent implements OnChanges {
   }
 
 
-  onCashTransactionsListEvent(event: EventInfo) {
-    switch (event.type as CashTransactionsListEventType) {
-      case CashTransactionsListEventType.SELECT_CLICKED:
+  onCashLedgerListEvent(event: EventInfo) {
+    switch (event.type as CashLedgerListEventType) {
+      case CashLedgerListEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, 'event.payload.item');
         sendEvent(this.cashLedgerExplorerEvent, CashLedgerExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
-      case CashTransactionsListEventType.EXECUTE_OPERATION_CLICKED:
+      case CashLedgerListEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         sendEvent(this.cashLedgerExplorerEvent, CashLedgerExplorerEventType.EXECUTE_OPERATION_CLICKED,
           event.payload);
@@ -112,7 +117,8 @@ export class CashLedgerExplorerComponent implements OnChanges {
       return;
     }
 
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    const queryType = this.queryType === CashLedgerQueryType.transactions ? 'pólizas' : 'movimientos';
+    this.cardHint = `${this.dataList.length} registros encontrados (${queryType})`;
   }
 
 }

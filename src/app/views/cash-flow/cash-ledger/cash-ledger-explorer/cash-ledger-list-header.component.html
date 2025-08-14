@@ -1,0 +1,87 @@
+<div class="list-header">
+
+  <div class="list-header-container">
+
+    <div class="fx-row-container fx-gap-size entry-gap-size fx-items-center sm-fx-gap">
+
+      <div class="fx-item-size column-size-check sm-fx-item-none" *ngIf="displayControls">
+        <div *ngIf="dataList.length > 0">
+
+          <emp-ng-check-box-all
+            [(selection)]="selection"
+            [values]="dataList">
+          </emp-ng-check-box-all>
+
+        </div>
+      </div>
+
+      <ng-container [ngSwitch]="queryType">
+
+        <ng-container *ngSwitchCase="CashLedgerQueryType.transactions">
+
+          <div class="fx-item column-size-sm sm-fx-item-none">
+            <span class="nowrap">No. Póliza</span><br>
+            <span>Contabilidad</span><br>
+            Origen
+          </div>
+
+          <div class="fx-item-size column-size-sm sm-fx-item-none">
+            <span class="nowrap">Tipo de transacción</span><br>
+            <span class="nowrap">Fecha de elaboración</span><br>
+            Elaboró
+          </div>
+
+          <div class="fx-item-size column-size-sm sm-fx-item-none">
+            <span class="nowrap">Tipo de póliza</span><br>
+            <span class="nowrap">Fecha de afectación</span><br>
+            Estado
+          </div>
+
+          <div class="fx-item">
+            Concepto
+          </div>
+
+        </ng-container>
+
+
+
+        <ng-container *ngSwitchCase="CashLedgerQueryType.entries">
+
+          <div class="fx-item-size column-size-sm sm-fx-item-none">
+            <span class="nowrap">No. Póliza</span><br>
+            <span>Contabilidad</span><br>
+            Elaboracion / Afectación
+          </div>
+
+          <div class="fx-item column-size-sm sm-fx-item-none">
+            Concepto de la póliza
+          </div>
+
+          <div class="fx-item-size column-size-sm sm-fx-item-none">
+            <span class="nowrap">No. Cuenta</span><br>
+            <span class="nowrap">Cuenta</span><br>
+            Sector
+          </div>
+
+          <div class="fx-item-size column-size-sm sm-fx-item-none">
+            <span class="nowrap">No. Auxiliar</span><br>
+            <span class="nowrap">Auxiliar</span><br>
+            No. verificación
+          </div>
+
+          <div class="fx-item-size column-size-sm sm-fx-item-none">
+            <span class="nowrap">Importe</span><br>
+            <span class="nowrap">Tipo de cambio</span><br>
+            Concepto
+          </div>
+
+        </ng-container>
+
+      </ng-container>
+
+    </div>
+
+
+  </div>
+
+</div>

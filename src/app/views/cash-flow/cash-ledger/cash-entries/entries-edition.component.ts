@@ -15,8 +15,8 @@ import { SkipIf } from '@app/shared/decorators';
 
 import { CashLedgerDataService } from '@app/data-services';
 
-import { CashEntriesOperationCommand, CashEntry, CashTransactionDescriptor, CashTransactionHolder,
-         EmptyCashTransactionDescriptor } from '@app/models';
+import { CashAccountStatus, CashEntriesOperationCommand, CashEntry, CashTransactionDescriptor,
+         CashTransactionHolder, EmptyCashTransactionDescriptor } from '@app/models';
 
 import { CashEntriesTableEventType } from './entries-table.component';
 
@@ -36,6 +36,8 @@ export class CashEntriesEditionComponent {
   @Input() entries: CashEntry[] = [];
 
   @Input() canEdit = false;
+
+  @Input() queryCashAccountStatus: CashAccountStatus = null;
 
   @Output() entriesEditionEvent = new EventEmitter<EventInfo>();
 

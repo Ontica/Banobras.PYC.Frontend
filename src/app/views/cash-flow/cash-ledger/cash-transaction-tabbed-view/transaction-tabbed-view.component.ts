@@ -11,7 +11,7 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { CashTransactionHolder, EmptyCashTransactionHolder } from '@app/models';
+import { CashAccountStatus, CashTransactionHolder, EmptyCashTransactionHolder } from '@app/models';
 
 import { CashEntriesEditionEventType } from '../cash-entries/entries-edition.component';
 
@@ -36,6 +36,8 @@ export class CashTransactionTabbedViewComponent implements OnChanges {
   @Input() data: CashTransactionHolder = EmptyCashTransactionHolder;
 
   @Input() expandTabbedView = false;
+
+  @Input() queryCashAccountStatus: CashAccountStatus = null;
 
   @Output() transactionTabbedViewEvent = new EventEmitter<EventInfo>();
 

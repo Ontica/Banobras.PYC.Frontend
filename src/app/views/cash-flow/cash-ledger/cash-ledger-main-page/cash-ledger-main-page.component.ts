@@ -15,9 +15,9 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { CashLedgerDataService } from '@app/data-services';
 
-import { CashTransactionDescriptor, CashTransactionHolder, CashLedgerQuery, EmptyCashTransactionHolder,
-         EmptyCashLedgerQuery, CashTransactionsOperationType, ExplorerOperationCommand,
-         ExplorerOperationResult } from '@app/models';
+import { CashAccountStatus, CashLedgerDescriptor, CashLedgerOperationType, CashLedgerQuery,
+         CashLedgerQueryType, CashTransactionHolder, EmptyCashLedgerQuery, EmptyCashTransactionHolder,
+         ExplorerOperationCommand, ExplorerOperationResult } from '@app/models';
 
 import { CashLedgerExplorerEventType } from '../cash-ledger-explorer/cash-ledger-explorer.component';
 
@@ -32,11 +32,17 @@ import {
 })
 export class CashLedgerMainPageComponent {
 
+  queryType: CashLedgerQueryType = CashLedgerQueryType.transactions;
+
   query: CashLedgerQuery = Object.assign({}, EmptyCashLedgerQuery);
 
-  dataList: CashTransactionDescriptor[] = [];
+  queryCashAccountStatus: CashAccountStatus = null;
+
+  dataList: CashLedgerDescriptor[] = [];
 
   selectedData: CashTransactionHolder = EmptyCashTransactionHolder;
+
+  selectedID = null;
 
   displayTabbedView = false;
 
@@ -56,25 +62,39 @@ export class CashLedgerMainPageComponent {
   onCashLedgerExplorerEvent(event: EventInfo) {
     switch (event.type as CashLedgerExplorerEventType) {
       case CashLedgerExplorerEventType.SEARCH_CLICKED:
+        Assertion.assertValue(event.payload.queryType, 'event.payload.queryType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearExplorerData(event.payload.query as CashLedgerQuery);
-        this.searchCashLedger(this.query);
+        this.setQueryAndClearExplorerData(event.payload.queryType as CashLedgerQueryType,
+                                          event.payload.query as CashLedgerQuery);
+        if (this.queryType === CashLedgerQueryType.transactions) {
+          this.searchCashTransactions(this.query);
+        } else {
+          this.searchCashEntries(this.query);
+        }
         return;
       case CashLedgerExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearExplorerData(event.payload.query as CashLedgerQuery);
+        Assertion.assertValue(event.payload.queryType, 'event.payload.queryType');
+        this.setQueryAndClearExplorerData(event.payload.queryType as CashLedgerQueryType,
+                                          event.payload.query as CashLedgerQuery);
         return;
       case CashLedgerExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         Assertion.assertValue(event.payload.command, 'event.payload.command');
         Assertion.assertValue(event.payload.command.items, 'event.payload.command.items');
-        this.bulkOperationCashTransactions(event.payload.operation,
-                                           event.payload.command);
+        this.validateBulkOperationCashTransactions(event.payload.operation,
+                                                   event.payload.command);
         return;
       case CashLedgerExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
-        Assertion.assertValue(event.payload.item.id, 'event.payload.item.id');
-        this.getCashTransaction(event.payload.item.id);
+
+        const itemId = this.queryType === CashLedgerQueryType.transactions ?
+          event.payload.item.id : event.payload.item.transactionId;
+
+        Assertion.assertValue(itemId, 'itemId');
+
+        this.selectedID = event.payload.item.id ?? null;
+        this.getCashTransaction(itemId);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -94,7 +114,12 @@ export class CashLedgerMainPageComponent {
         return;
       case CashTransactionTabbedViewEventType.UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
-        this.insertItemToList(event.payload.data as CashTransactionHolder);
+        if (this.queryType === CashLedgerQueryType.transactions) {
+          this.insertItemToList(event.payload.data as CashTransactionHolder);
+        } else {
+          // TODO: verify what to do here
+          this.setSelectedData(event.payload.data);
+        }
         return;
       case CashTransactionTabbedViewEventType.REFRESH:
         Assertion.assertValue(event.payload.dataID, 'event.payload.dataID');
@@ -107,17 +132,27 @@ export class CashLedgerMainPageComponent {
   }
 
 
-  private searchCashLedger(query: CashLedgerQuery) {
+  private searchCashTransactions(query: CashLedgerQuery) {
     this.isLoading = true;
 
-    this.cashLedgerData.searchCashLedger(query)
+    this.cashLedgerData.searchCashTransactions(query)
       .firstValue()
       .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
   }
 
 
-  private bulkOperationCashTransactions(operation: CashTransactionsOperationType,
+  private searchCashEntries(query: CashLedgerQuery) {
+    this.isLoading = true;
+
+    this.cashLedgerData.searchCashEntries(query)
+      .firstValue()
+      .then(x => this.setDataList(x, true))
+      .finally(() => this.isLoading = false);
+  }
+
+
+  private bulkOperationCashTransactions(operation: CashLedgerOperationType,
                                         command: ExplorerOperationCommand) {
     this.isLoadingSelection = true;
 
@@ -147,10 +182,10 @@ export class CashLedgerMainPageComponent {
   }
 
 
-  private resolveBulkOperationCashTransactionsResponse(operation: CashTransactionsOperationType,
+  private resolveBulkOperationCashTransactionsResponse(operation: CashLedgerOperationType,
                                                        result: ExplorerOperationResult) {
     switch (operation) {
-      case CashTransactionsOperationType.autoCodify:
+      case CashLedgerOperationType.autoCodify:
         this.messageBox.show(result.message, 'Codificación automática');
         this.reloadDataList();
         this.setSelectedData(EmptyCashTransactionHolder);
@@ -163,15 +198,18 @@ export class CashLedgerMainPageComponent {
   }
 
 
-  private setQueryAndClearExplorerData(query: CashLedgerQuery) {
+  private setQueryAndClearExplorerData(queryType: CashLedgerQueryType, query: CashLedgerQuery) {
+    this.queryType = queryType;
     this.query = Object.assign({}, query);
+    this.queryCashAccountStatus = this.queryType === CashLedgerQueryType.entries ?
+      this.query.cashAccountStatus ?? null : null;
     this.setDataList([], false);
     this.setSelectedData(EmptyCashTransactionHolder);
     this.resetExpandTabbedView();
   }
 
 
-  private setDataList(data: CashTransactionDescriptor[],
+  private setDataList(data: CashLedgerDescriptor[],
                       queryExecuted: boolean = true) {
     this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
@@ -186,6 +224,9 @@ export class CashLedgerMainPageComponent {
   private setSelectedData(data: CashTransactionHolder) {
     this.selectedData = data;
     this.displayTabbedView = this.selectedData && this.selectedData.transaction.id > 0;
+    if (!this.displayTabbedView) {
+      this.selectedID = null;
+    }
   }
 
 
@@ -209,6 +250,24 @@ export class CashLedgerMainPageComponent {
 
   private resetExpandTabbedView() {
     this.expandTabbedView = false;
+  }
+
+
+  private validateBulkOperationCashTransactions(operation: CashLedgerOperationType,
+                                                command: ExplorerOperationCommand) {
+    switch (operation) {
+      case CashLedgerOperationType.autoCodify:
+        this.bulkOperationCashTransactions(operation, command);
+        return;
+      case CashLedgerOperationType.excel:
+        const queryTypeName = this.queryType === CashLedgerQueryType.transactions ?
+          'pólizas' : 'movimientos';
+        this.messageBox.showInDevelopment(`Exportar ${queryTypeName}`);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${operation}`);
+        return;
+    }
   }
 
 }

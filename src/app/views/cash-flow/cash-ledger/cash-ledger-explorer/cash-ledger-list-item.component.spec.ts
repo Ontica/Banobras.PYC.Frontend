@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CashTransactionsListComponent } from './transactions-list.component';
+import { CashLedgerListItemComponent } from './cash-ledger-list-item.component';
 
-describe('CashTransactionsListComponent', () => {
-  let component: CashTransactionsListComponent;
-  let fixture: ComponentFixture<CashTransactionsListComponent>;
+describe('CashLedgerListItemComponent', () => {
+  let component: CashLedgerListItemComponent;
+  let fixture: ComponentFixture<CashLedgerListItemComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CashTransactionsListComponent]
+      declarations: [CashLedgerListItemComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CashTransactionsListComponent);
+    fixture = TestBed.createComponent(CashLedgerListItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

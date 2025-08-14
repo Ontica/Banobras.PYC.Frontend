@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { combineLatest } from 'rxjs';
 
-import { EventInfo, Identifiable, isEmpty } from '@app/core';
+import { EventInfo, FlexibleIdentifiable, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -22,7 +22,8 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { CashLedgerQuery, CashTransactionStatusList, DateRange, EmptyCashLedgerQuery, EmptyDateRange,
+import { CashAccountStatus, CashAccountStatusList, CashLedgerQuery, CashLedgerQueryType,
+         CashLedgerQueryTypesList, CashTransactionStatusList, DateRange, EmptyCashLedgerQuery, EmptyDateRange,
          RequestsList, TransactionStatus } from '@app/models';
 
 
@@ -32,9 +33,11 @@ export enum CashLedgerFilterEventType {
 }
 
 interface CashLedgerFilterFormModel extends FormGroup<{
+  queryType: FormControl<CashLedgerQueryType>;
   accountingDate: FormControl<DateRange>;
-  status: FormControl<TransactionStatus>;
   keywords: FormControl<string>;
+  transactionStatus: FormControl<TransactionStatus>;
+  cashAccountStatus: FormControl<FlexibleIdentifiable>;
   cashAccounts : FormControl<string[]>;
   voucherAccounts : FormControl<string[]>;
   subledgerAccounts : FormControl<string[]>;
@@ -42,7 +45,6 @@ interface CashLedgerFilterFormModel extends FormGroup<{
   transactionTypeUID: FormControl<string>;
   accountingLedgerUID: FormControl<string>;
   sourceUID: FormControl<string>;
-  concept: FormControl<string>;
   voucherTypeUID: FormControl<string>;
   entriesKeywords: FormControl<string>;
   recordingDate: FormControl<DateRange>;
@@ -59,6 +61,8 @@ interface CashLedgerFilterFormModel extends FormGroup<{
 })
 export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
 
+  @Input() queryType: CashLedgerQueryType = CashLedgerQueryType.transactions;
+
   @Input() query: CashLedgerQuery = Object.assign({}, EmptyCashLedgerQuery);
 
   @Input() showFilters = false;
@@ -67,13 +71,19 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   @Output() cashLedgerFilterEvent = new EventEmitter<EventInfo>();
 
+  CashLedgerQueryTypes = CashLedgerQueryType;
+
   form: CashLedgerFilterFormModel;
 
   formHelper = FormHelper;
 
   isLoading = false;
 
-  statusList: Identifiable[] = CashTransactionStatusList;
+  queryTypesList = CashLedgerQueryTypesList;
+
+  transactionStatusList = CashTransactionStatusList;
+
+  cashAccountStatusList = CashAccountStatusList;
 
   orgUnitsList: Identifiable[] = [];
 
@@ -142,7 +152,7 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
   onSearchClicked() {
     if (this.form.valid) {
       sendEvent(this.cashLedgerFilterEvent, CashLedgerFilterEventType.SEARCH_CLICKED,
-        { query: this.getFormData() });
+        { queryType: this.form.value.queryType, query: this.getFormData() });
     }
   }
 
@@ -150,7 +160,7 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
   onClearFilters() {
     this.clearFilters();
     sendEvent(this.cashLedgerFilterEvent, CashLedgerFilterEventType.CLEAR_CLICKED,
-      { query: this.getFormData() });
+      { queryType: this.form.value.queryType, query: this.getFormData() });
   }
 
 
@@ -181,7 +191,9 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      status: [null],
+      queryType: [null],
+      transactionStatus: [null],
+      cashAccountStatus: [null],
       accountingDate: [EmptyDateRange],
       keywords: [null],
       cashAccounts: [null],
@@ -193,7 +205,6 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
       sourceUID: [null],
       voucherTypeUID: [null],
       entriesKeywords: [null],
-      concept: [null],
       projectTypeUID: [null],
       recordingDate: [EmptyDateRange],
       projectUID: [null],
@@ -205,7 +216,9 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   private setFormData() {
     this.form.reset({
-      status: this.query.status,
+      queryType: this.queryType,
+      transactionStatus: this.query.transactionStatus,
+      cashAccountStatus: CashAccountStatusList.find(x => x.id === this.query.cashAccountStatus) ?? null,
       accountingDate: { fromDate: this.query.fromAccountingDate ?? null, toDate: this.query.toAccountingDate ?? null },
       keywords: this.query.keywords,
       cashAccounts: this.query.cashAccounts,
@@ -217,7 +230,6 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
       sourceUID: this.query.sourceUID,
       voucherTypeUID: this.query.voucherTypeUID,
       entriesKeywords: this.query.entriesKeywords,
-      concept: this.query.concept,
       recordingDate: { fromDate: this.query.fromRecordingDate ?? null, toDate: this.query.toRecordingDate ?? null },
       projectTypeUID: this.query.projectTypeUID,
       projectUID: this.query.projectUID,
@@ -229,7 +241,8 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   private getFormData(): CashLedgerQuery {
     const query: CashLedgerQuery = {
-      status: this.form.value.status ?? null,
+      transactionStatus: this.form.value.transactionStatus ?? null,
+      cashAccountStatus: this.form.value.cashAccountStatus?.id ?? null,
       keywords: this.form.value.keywords ?? null,
       cashAccounts: this.form.value.cashAccounts ?? null,
       voucherAccounts: this.form.value.voucherAccounts ?? null,
@@ -241,7 +254,6 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
       projectTypeUID: this.form.value.projectTypeUID ?? null,
       accountingLedgerUID: this.form.value.accountingLedgerUID ?? null,
       sourceUID: this.form.value.sourceUID ?? null,
-      concept: this.form.value.concept ?? null,
       projectUID: this.form.value.projectUID ?? null,
       projectAccountUID: this.form.value.projectAccountUID ?? null,
       partyUID: this.form.value.partyUID ?? null,
@@ -273,7 +285,7 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private clearFilters() {
-    this.form.reset({recordingDate: EmptyDateRange, accountingDate: EmptyDateRange});
+    this.form.reset({queryType: this.queryType, recordingDate: EmptyDateRange, accountingDate: EmptyDateRange});
     this.selectedProject = null;
     this.selectedProjectAccount = null;
   }

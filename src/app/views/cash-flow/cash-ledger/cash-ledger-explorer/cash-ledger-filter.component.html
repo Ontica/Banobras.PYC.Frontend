@@ -2,34 +2,37 @@
 
   <div class="fx-column-container fx-gap-half">
 
-    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+    <div class="fx-row-container">
 
-      <div class="fx-item-quarter sm-fx-item">
+      <div class="fx-item-half fx-row-container">
 
-        <label>Estatus:</label>
+        <div class="fx-item-size" style="--size: calc(100% - 221px)">
 
-        <emp-ng-select
-          formControlName="status"
-          [config]="{clearable: true, showTooltip: true}"
-          [items]="statusList"
-          [showError]="formHelper.isControlInvalid(form.controls.status)"
-          placeholder="Todos">
-        </emp-ng-select>
+          <label class="nowrap">Tipo de consulta:</label>
+
+          <emp-ng-select
+            formControlName="queryType"
+            [config]="{selectFirst: true, showTooltip: true}"
+            [items]="queryTypesList"
+            [showError]="formHelper.isControlInvalid(form.controls.queryType)">
+          </emp-ng-select>
+
+        </div>
+
+        <div class="fx-item-none">
+
+          <label>Fecha de afectación:</label>
+
+          <emp-ng-date-range-picker
+            formControlName="accountingDate"
+            [showError]="formHelper.isControlInvalid(form.controls.accountingDate)">
+          </emp-ng-date-range-picker>
+
+        </div>
 
       </div>
 
-      <div class="fx-item-none">
-
-        <label>Fecha de afectación:</label>
-
-        <emp-ng-date-range-picker
-          formControlName="accountingDate"
-          [showError]="formHelper.isControlInvalid(form.controls.accountingDate)">
-        </emp-ng-date-range-picker>
-
-      </div>
-
-      <div class="fx-item fx-items-end sm-fx-item">
+      <div class="fx-item fx-items-end">
 
         <div class="input-search-container">
 
@@ -43,9 +46,7 @@
 
       </div>
 
-
-
-      <div #filterOptionsSection class="fx-item-none fx-items-start" [style.paddingTop.px]="13">
+      <div #filterOptionsSection class="fx-item-none fx-items-end" [style.paddingBottom.px]="2">
 
         <button title="Buscar"
           [class.btn-icon-action]="form.valid"
@@ -70,6 +71,53 @@
     </div>
 
 
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Contabilidad:</label>
+
+        <emp-ng-select
+          formControlName="accountingLedgerUID"
+          [config]="{clearable: true, showTooltip: true}"
+          [items]="accountingLedgersList"
+          [showError]="formHelper.isControlInvalid(form.controls.accountingLedgerUID)"
+          placeholder="Todas">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Estatus póliza:</label>
+
+        <emp-ng-select
+          formControlName="transactionStatus"
+          [config]="{clearable: true}"
+          [items]="transactionStatusList"
+          [showError]="formHelper.isControlInvalid(form.controls.transactionStatus)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Estatus movimiento:</label>
+
+        <emp-ng-select
+          formControlName="cashAccountStatus"
+          [config]="{clearable: true, showTooltip: true, bindByValue: false}"
+          [items]="cashAccountStatusList"
+          [showError]="formHelper.isControlInvalid(form.controls.cashAccountStatus)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+
     <div *ngIf="showFilters" [@empExpandCollapse]>
 
       <div class="fx-column-container fx-gap-half">
@@ -79,37 +127,9 @@
         </mat-divider>
 
 
-        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+        <div class="fx-row-container">
 
-          <div class="fx-item-half sm-fx-item">
-
-            <label>Contabilidad:</label>
-
-            <emp-ng-select
-              formControlName="accountingLedgerUID"
-              [config]="{clearable: true, showTooltip: true}"
-              [items]="accountingLedgersList"
-              [showError]="formHelper.isControlInvalid(form.controls.accountingLedgerUID)"
-              placeholder="Todas">
-            </emp-ng-select>
-
-          </div>
-
-          <div class="fx-item-half sm-fx-item">
-
-            <label>Concepto:</label>
-            <input type="text" class="text-box"
-              formControlName="concept"
-              [class.invalid-control]="formHelper.isControlInvalid(form.controls.concept)">
-
-          </div>
-
-        </div>
-
-
-        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
-
-          <div class="fx-item-half sm-fx-item">
+          <div class="fx-item-half">
 
             <label>Tipo de transacción:</label>
 
@@ -124,7 +144,7 @@
 
           </div>
 
-          <div class="fx-item-half sm-fx-item">
+          <div class="fx-item-half">
 
             <label>Tipo de póliza:</label>
 
@@ -141,55 +161,9 @@
 
         </div>
 
+        <div class="fx-row-container">
 
-        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
-
-          <div class="fx-item-quarter sm-fx-item">
-
-            <label>Conceptos presupuestales:</label>
-            <emp-ng-input-tags
-              formControlName="cashAccounts"
-              [showError]="formHelper.isControlInvalid(form.controls.cashAccounts)">
-            </emp-ng-input-tags>
-
-          </div>
-
-          <div class="fx-item-quarter sm-fx-item">
-
-            <label>Cuentas contables:</label>
-            <emp-ng-input-tags
-              formControlName="voucherAccounts"
-              [showError]="formHelper.isControlInvalid(form.controls.voucherAccounts)">
-            </emp-ng-input-tags>
-
-          </div>
-
-          <div class="fx-item-quarter sm-fx-item">
-
-            <label>Auxiliares contables:</label>
-            <emp-ng-input-tags
-              formControlName="subledgerAccounts"
-              [showError]="formHelper.isControlInvalid(form.controls.subledgerAccounts)">
-            </emp-ng-input-tags>
-
-          </div>
-
-          <div class="fx-item-quarter sm-fx-item">
-
-            <label>No. de verificaciones:</label>
-            <emp-ng-input-tags
-              formControlName="verificationNumbers"
-              [showError]="formHelper.isControlInvalid(form.controls.verificationNumbers)">
-            </emp-ng-input-tags>
-
-          </div>
-
-        </div>
-
-
-        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
-
-          <div class="fx-item-half sm-fx-item">
+          <div class="fx-item-half">
 
             <label>Origen:</label>
 
@@ -200,15 +174,6 @@
               [showError]="formHelper.isControlInvalid(form.controls.sourceUID)"
               placeholder="Todos">
             </emp-ng-select>
-
-          </div>
-
-          <div class="fx-item sm-fx-item">
-
-            <label>Filtro por movimientos:</label>
-            <input type="text" class="text-box"
-              formControlName="entriesKeywords"
-              [class.invalid-control]="formHelper.isControlInvalid(form.controls.entriesKeywords)">
 
           </div>
 
@@ -223,12 +188,65 @@
 
           </div>
 
+          <div class="fx-item">
+
+            <label class="nowrap">Filtro por movimientos:</label>
+            <input type="text" class="text-box"
+              formControlName="entriesKeywords"
+              [class.invalid-control]="formHelper.isControlInvalid(form.controls.entriesKeywords)">
+
+          </div>
+
+        </div>
+
+        <div class="fx-row-container">
+
+          <div class="fx-item-quarter">
+
+            <label class="nowrap">Conceptos presupuestales:</label>
+            <emp-ng-input-tags
+              formControlName="cashAccounts"
+              [showError]="formHelper.isControlInvalid(form.controls.cashAccounts)">
+            </emp-ng-input-tags>
+
+          </div>
+
+          <div class="fx-item-quarter">
+
+            <label>Cuentas contables:</label>
+            <emp-ng-input-tags
+              formControlName="voucherAccounts"
+              [showError]="formHelper.isControlInvalid(form.controls.voucherAccounts)">
+            </emp-ng-input-tags>
+
+          </div>
+
+          <div class="fx-item-quarter">
+
+            <label>Auxiliares contables:</label>
+            <emp-ng-input-tags
+              formControlName="subledgerAccounts"
+              [showError]="formHelper.isControlInvalid(form.controls.subledgerAccounts)">
+            </emp-ng-input-tags>
+
+          </div>
+
+          <div class="fx-item-quarter">
+
+            <label>No. de verificaciones:</label>
+            <emp-ng-input-tags
+              formControlName="verificationNumbers"
+              [showError]="formHelper.isControlInvalid(form.controls.verificationNumbers)">
+            </emp-ng-input-tags>
+
+          </div>
+
         </div>
 
 
-        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+        <div class="fx-row-container">
 
-          <div class="fx-item-half sm-fx-item">
+          <div class="fx-item-half">
 
             <label>Área responsable:</label>
 
@@ -243,7 +261,7 @@
 
           </div>
 
-          <div class="fx-item-half sm-fx-item">
+          <div class="fx-item-half">
 
             <label>Tipo de proyecto:</label>
 
@@ -261,9 +279,9 @@
         </div>
 
 
-        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+        <div class="fx-row-container">
 
-          <div class="fx-item-half sm-fx-item">
+          <div class="fx-item-half">
 
             <label>Proyecto:</label>
 
@@ -278,7 +296,7 @@
 
           </div>
 
-          <div class="fx-item-half sm-fx-item">
+          <div class="fx-item-half">
             <label>Cuenta financiera:</label>
 
             <emp-ng-select-typeahead

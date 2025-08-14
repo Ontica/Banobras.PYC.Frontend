@@ -29,6 +29,7 @@
           [transaction]="data.transaction"
           [entries]="data.entries"
           [canEdit]="data.actions.canUpdate"
+          [queryCashAccountStatus]="queryCashAccountStatus"
           (entriesEditionEvent)="onCashEntriesEditionEvent($event)">
 
         </emp-cf-cash-entries-edition>

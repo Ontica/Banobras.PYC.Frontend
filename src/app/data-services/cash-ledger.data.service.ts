@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { CashEntriesOperationCommand, CashLedgerQuery, CashTransactionDescriptor, CashTransactionHolder,
-         CashTransactionsOperationType, ExplorerOperationCommand, ExplorerOperationResult,
+import { CashEntriesOperationCommand, CashEntryDescriptor, CashLedgerOperationType, CashLedgerQuery,
+         CashTransactionDescriptor, CashTransactionHolder, ExplorerOperationCommand, ExplorerOperationResult,
          FileReport } from '@app/models';
 
 
@@ -49,7 +49,7 @@ export class CashLedgerDataService {
   }
 
 
-  searchCashLedger(query: CashLedgerQuery): EmpObservable<CashTransactionDescriptor[]> {
+  searchCashTransactions(query: CashLedgerQuery): EmpObservable<CashTransactionDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v1/cash-flow/cash-ledger/transactions/search';
@@ -58,7 +58,17 @@ export class CashLedgerDataService {
   }
 
 
-  bulkOperationCashTransactions(operationType: CashTransactionsOperationType,
+
+  searchCashEntries(query: CashLedgerQuery): EmpObservable<CashEntryDescriptor[]> {
+    Assertion.assertValue(query, 'query');
+
+    const path = 'v1/cash-flow/cash-ledger/entries/search';
+
+    return this.http.post<CashEntryDescriptor[]>(path, query);
+  }
+
+
+  bulkOperationCashTransactions(operationType: CashLedgerOperationType,
                                 command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
     Assertion.assertValue(operationType, 'operationType');
     Assertion.assertValue(command, 'command');

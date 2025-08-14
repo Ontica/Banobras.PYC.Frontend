@@ -30,19 +30,21 @@
 
       <emp-cf-cash-ledger-filter
         class="fx-item-none"
+        [queryType]="queryType"
         [query]="query"
         [(showFilters)]="showFilters"
         (cashLedgerFilterEvent)="onCashLedgerFilterEvent($event)">
 
       </emp-cf-cash-ledger-filter>
 
-      <emp-cf-cash-transactions-list class="fx-item"
+      <emp-cf-cash-ledger-list class="fx-item"
+        [queryType]="queryType"
         [dataList]="dataList"
         [selectedID]="selectedID"
         [queryExecuted]="queryExecuted"
-        (transactionsListEvent)="onCashTransactionsListEvent($event)">
+        (cashLedgerListEvent)="onCashLedgerListEvent($event)">
 
-      </emp-cf-cash-transactions-list>
+      </emp-cf-cash-ledger-list>
 
     </div>
 

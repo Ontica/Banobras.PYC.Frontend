@@ -55,6 +55,8 @@ export class CashEntriesTableComponent implements OnChanges {
 
   @Input() canEdit = false;
 
+  @Input() queryCashAccountStatus: CashAccountStatus = null;
+
   @Output() entriesTableEvent = new EventEmitter<EventInfo>();
 
   editionMode = false;
@@ -235,6 +237,9 @@ export class CashEntriesTableComponent implements OnChanges {
     this.filter = '';
     if (fullReset) {
       this.cashAccountStatus = null;
+      // TODO: define condition for queryCashAccountStatus
+        // this.queryCashAccountStatus === null ? null :
+        //  this.cashAccountStatusList.find(x => x.id === this.queryCashAccountStatus) ?? null;
     }
   }
 

@@ -10,13 +10,14 @@
   </emp-ng-list-controls>
 
 
-  <emp-cf-cash-transactions-list-header
+  <emp-cf-cash-ledger-list-header
     class="fx-item-none"
+    [queryType]="queryType"
     [dataList]="dataList"
     [selection]="selection"
     [displayControls]="displayControls">
 
-  </emp-cf-cash-transactions-list-header>
+  </emp-cf-cash-ledger-list-header>
 
 
   <div #listContainer class="fx-item">
@@ -29,13 +30,14 @@
 
           <div class="list-item-container">
 
-            <emp-cf-cash-transactions-list-item
+            <emp-cf-cash-ledger-list-item
+              [queryType]="queryType"
               [item]="item"
               [selected]="selection.isSelected(item)"
               [displayControls]="displayControls"
-              (transactionsListItemEvent)="onCashTransactionsListItemEvent($event)">
+              (cashLedgerListItemEvent)="onCashLedgerListItemEvent($event)">
 
-            </emp-cf-cash-transactions-list-item>
+            </emp-cf-cash-ledger-list-item>
 
           </div>
 
@@ -43,8 +45,8 @@
 
         <div *ngIf="dataList.length === 0" class="text-not-found">
           {{ queryExecuted ?
-             'No se encontraron pólizas ' + (displayControls ? ' con el filtro proporcionado.' : '.') :
-             'No se ha invocado la búsqueda de pólizas.' }}
+             'No se encontraron registros ' + (displayControls ? ' con el filtro proporcionado.' : '.') :
+             'No se ha invocado la búsqueda.' }}
         </div>
 
     </cdk-virtual-scroll-viewport>
