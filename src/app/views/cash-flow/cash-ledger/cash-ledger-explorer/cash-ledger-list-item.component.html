@@ -35,7 +35,9 @@
       </div>
 
       <div class="fx-item">
-        <span>{{!transaction.concept ? '-' : transaction.concept}}</span>
+        <div empNgTextTruncateToggle [text]="transaction.concept">
+          {{!transaction.concept ? '-' : transaction.concept}}
+        </div>
       </div>
 
     </ng-container>
@@ -57,7 +59,9 @@
       </div>
 
       <div class="fx-item column-size-sm sm-fx-item-none">
-        <span>{{!entry.transactionConcept ? '-' : entry.transactionConcept}}</span>
+        <div empNgTextTruncateToggle [text]="entry.transactionConcept">
+          {{!entry.transactionConcept ? '-' : entry.transactionConcept}}
+        </div>
       </div>
 
       <div class="fx-item-size column-size-sm sm-fx-item-none" [title]="entry.parentAccountFullName">
