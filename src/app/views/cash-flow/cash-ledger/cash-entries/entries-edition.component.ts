@@ -39,6 +39,8 @@ export class CashEntriesEditionComponent {
 
   @Input() queryCashAccountStatus: CashAccountStatus = null;
 
+  @Input() selectedEntryID: number = null;
+
   @Output() entriesEditionEvent = new EventEmitter<EventInfo>();
 
   submitted = false;

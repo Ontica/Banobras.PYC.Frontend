@@ -59,6 +59,11 @@ export class CashLedgerMainPageComponent {
               private messageBox: MessageBoxService) { }
 
 
+  get isQueryTypeEntries(): boolean {
+    return this.queryType === CashLedgerQueryType.entries;
+  }
+
+
   onCashLedgerExplorerEvent(event: EventInfo) {
     switch (event.type as CashLedgerExplorerEventType) {
       case CashLedgerExplorerEventType.SEARCH_CLICKED:
@@ -117,8 +122,7 @@ export class CashLedgerMainPageComponent {
         if (this.queryType === CashLedgerQueryType.transactions) {
           this.insertItemToList(event.payload.data as CashTransactionHolder);
         } else {
-          // TODO: verify what to do here
-          this.setSelectedData(event.payload.data);
+          this.refreshData(event.payload.data);
         }
         return;
       case CashTransactionTabbedViewEventType.REFRESH:
@@ -201,8 +205,7 @@ export class CashLedgerMainPageComponent {
   private setQueryAndClearExplorerData(queryType: CashLedgerQueryType, query: CashLedgerQuery) {
     this.queryType = queryType;
     this.query = Object.assign({}, query);
-    this.queryCashAccountStatus = this.queryType === CashLedgerQueryType.entries ?
-      this.query.cashAccountStatus ?? null : null;
+    this.queryCashAccountStatus = this.isQueryTypeEntries ? this.query.cashAccountStatus ?? null : null;
     this.setDataList([], false);
     this.setSelectedData(EmptyCashTransactionHolder);
     this.resetExpandTabbedView();
@@ -213,6 +216,10 @@ export class CashLedgerMainPageComponent {
                       queryExecuted: boolean = true) {
     this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
+
+    if (this.isQueryTypeEntries && this.selectedID && !this.dataList.some(x => x.id === this.selectedID)) {
+      this.selectedID = null;
+    }
   }
 
 
@@ -227,6 +234,17 @@ export class CashLedgerMainPageComponent {
     if (!this.displayTabbedView) {
       this.selectedID = null;
     }
+  }
+
+
+  private refreshData(selectedData: CashTransactionHolder = EmptyCashTransactionHolder) {
+    if (this.queryType === CashLedgerQueryType.transactions) {
+      this.searchCashTransactions(this.query);
+    } else {
+      this.searchCashEntries(this.query);
+    }
+
+    this.setSelectedData(selectedData);
   }
 
 

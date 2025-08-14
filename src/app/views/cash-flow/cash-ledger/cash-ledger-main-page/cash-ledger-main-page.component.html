@@ -24,6 +24,7 @@
     [data]="selectedData"
     [expandTabbedView]="expandTabbedView"
     [queryCashAccountStatus]="queryCashAccountStatus"
+    [selectedEntryID]="isQueryTypeEntries ? selectedID : null"
     (transactionTabbedViewEvent)="onCashTransactionTabbedViewEvent($event)">
 
   </emp-cf-cash-transaction-tabbed-view>

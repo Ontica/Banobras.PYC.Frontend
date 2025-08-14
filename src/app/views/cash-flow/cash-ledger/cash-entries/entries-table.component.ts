@@ -57,6 +57,8 @@ export class CashEntriesTableComponent implements OnChanges {
 
   @Input() queryCashAccountStatus: CashAccountStatus = null;
 
+  @Input() selectedEntryID: number = null;
+
   @Output() entriesTableEvent = new EventEmitter<EventInfo>();
 
   editionMode = false;
@@ -90,8 +92,8 @@ export class CashEntriesTableComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.transactionID) {
-      const transactionChanged = changes.transactionID.previousValue !== changes.transactionID.currentValue;
-      this.resetControls(transactionChanged);
+      const fullReset =  changes.transactionID.previousValue !== changes.transactionID.currentValue;
+      this.resetControls(fullReset);
     }
 
     if (changes.entries) {
@@ -236,10 +238,8 @@ export class CashEntriesTableComponent implements OnChanges {
   private clearFilter(fullReset: boolean) {
     this.filter = '';
     if (fullReset) {
-      this.cashAccountStatus = null;
-      // TODO: define condition for queryCashAccountStatus
-        // this.queryCashAccountStatus === null ? null :
-        //  this.cashAccountStatusList.find(x => x.id === this.queryCashAccountStatus) ?? null;
+      this.cashAccountStatus =  this.queryCashAccountStatus === null ? null :
+        this.cashAccountStatusList.find(x => x.id === this.queryCashAccountStatus) ?? null;
     }
   }
 

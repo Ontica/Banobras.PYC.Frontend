@@ -39,6 +39,8 @@ export class CashTransactionTabbedViewComponent implements OnChanges {
 
   @Input() queryCashAccountStatus: CashAccountStatus = null;
 
+  @Input() selectedEntryID: number = null;
+
   @Output() transactionTabbedViewEvent = new EventEmitter<EventInfo>();
 
   title = '';

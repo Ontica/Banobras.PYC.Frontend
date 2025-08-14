@@ -183,7 +183,7 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onSelectEntryClicked(row)"
-        class="selectable-row"></tr>
+        class="selectable-row" [class.row-selected]="row.id === selectedEntryID"></tr>
       <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
         [hidden]="!showNotFound"></tr>
       <tr mat-footer-row *matFooterRowDef="['status']; sticky: true;"

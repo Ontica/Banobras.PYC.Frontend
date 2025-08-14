@@ -17,8 +17,8 @@ import { HistoryEntry } from './history';
 
 
 export enum CashLedgerQueryType {
-  transactions = '2',
-  entries      = '1',
+  transactions = 'cash-transactions',
+  entries      = 'cash-entries',
 }
 
 
