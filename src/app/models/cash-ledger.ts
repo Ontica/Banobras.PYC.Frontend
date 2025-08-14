@@ -120,23 +120,19 @@ export interface CashTransactionHolder {
 }
 
 
-export const CashAccountWaitingID = -2;
-
-
-export const NoCashAccountID = -1;
-
-
-export const CashAccountPendingID = 0;
-
-
-export const WithCashAccountID = 1;
+export enum CashAccountStatus {
+  CashAccountWaiting = -2,
+  NoCashAccount      = -1,
+  CashAccountPending = 0,
+  WithCashAccount    = 1,
+}
 
 
 export const CashAccountStatusList: FlexibleIdentifiable[] = [
-  { id: CashAccountPendingID,   name: 'Pendientes' },
-  { id: CashAccountWaitingID,   name: 'Con flujo pendiente'},
-  { id: WithCashAccountID,      name: 'Con flujo asignado' },
-  { id: NoCashAccountID,        name: 'Sin flujo' },
+  { id: CashAccountStatus.CashAccountPending, name: 'Pendientes' },
+  { id: CashAccountStatus.CashAccountWaiting, name: 'Con flujo pendiente'},
+  { id: CashAccountStatus.WithCashAccount,    name: 'Con flujo asignado' },
+  { id: CashAccountStatus.NoCashAccount,      name: 'Sin flujo' },
 ];
 
 

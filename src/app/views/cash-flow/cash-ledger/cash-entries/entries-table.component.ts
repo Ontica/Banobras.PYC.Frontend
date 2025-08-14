@@ -17,10 +17,9 @@ import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { CashAccountPendingID, CashAccountStatusList, CashAccountWaitingID, CashEntriesOperation,
-         CashEntriesOperationCommand, CashEntry, ExplorerOperation, MarkAsCashEntriesWaitingOperation,
-         MarkAsNoCashEntriesOperation, NoCashAccountID, RemoveCashEntriesOperation,  TotalItemTypeList,
-         TransactionStatus, WithCashAccountID } from '@app/models';
+import { CashAccountStatus, CashAccountStatusList, CashEntriesOperation, CashEntriesOperationCommand,
+         CashEntry, ExplorerOperation, MarkAsCashEntriesWaitingOperation, MarkAsNoCashEntriesOperation,
+         RemoveCashEntriesOperation,  TotalItemTypeList, TransactionStatus } from '@app/models';
 
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
@@ -62,7 +61,7 @@ export class CashEntriesTableComponent implements OnChanges {
 
   rowInEdition: CashEntry = null;
 
-  displayedColumnsDefault: string[] = ['accountNumber', 'sector', 'accountName', 'verificationNumber',
+  displayedColumnsDefault: string[] = ['account', 'sector', 'subledgerAccount', 'verificationNumber',
     'responsibilityArea', 'currency', 'debit', 'credit', 'cashAccount'];
 
   displayedColumns = [...this.displayedColumnsDefault];
@@ -121,13 +120,15 @@ export class CashEntriesTableComponent implements OnChanges {
 
 
   get hasEntriesPending(): boolean {
-    return this.entries.some(x => [CashAccountPendingID, CashAccountWaitingID].includes(+x.cashAccount.uid));
+    return this.entries.some(x => [CashAccountStatus.CashAccountPending,
+                                   CashAccountStatus.CashAccountWaiting].includes(+x.cashAccount.uid));
   }
 
 
   get entriesPendingCount(): number {
     return this.entries.filter(x =>
-      [CashAccountPendingID, CashAccountWaitingID].includes(+x.cashAccount.uid)).length;
+      [CashAccountStatus.CashAccountPending,
+       CashAccountStatus.CashAccountWaiting].includes(+x.cashAccount.uid)).length;
   }
 
 
@@ -186,8 +187,10 @@ export class CashEntriesTableComponent implements OnChanges {
       return;
     }
 
-    const cashAccountEdit = [CashAccountPendingID, CashAccountWaitingID].includes(+entry.cashAccount.uid) ?
-      '' : entry.cashAccount.name;
+    const noCashAccountName = [CashAccountStatus.CashAccountPending,
+                              CashAccountStatus.CashAccountWaiting].includes(+entry.cashAccount.uid);
+
+    const cashAccountEdit = noCashAccountName ? '' : entry.cashAccount.name;
 
     this.rowInEdition = { ...{}, ...entry, cashAccountEdit };
     this.editionMode = true;
@@ -239,7 +242,8 @@ export class CashEntriesTableComponent implements OnChanges {
   private setDataTable() {
     this.resetColumns();
     this.entries.forEach(x =>
-      x.canEditCashFlow = [CashAccountPendingID, CashAccountWaitingID].includes(+x.cashAccount.uid)
+      x.canEditCashFlow = [CashAccountStatus.CashAccountPending,
+                           CashAccountStatus.CashAccountWaiting].includes(+x.cashAccount.uid)
     );
     this.dataSource = new MatTableDataSource(this.entries);
     this.dataSource.filterPredicate = this.getFilterPredicate();
@@ -283,10 +287,13 @@ export class CashEntriesTableComponent implements OnChanges {
       const keyword = keywords.toLowerCase();
 
       const uid = +row.cashAccount?.uid || 0;
-      const isControlStatus = [CashAccountPendingID, CashAccountWaitingID, NoCashAccountID].includes(status);
+      const isControlStatus = [CashAccountStatus.CashAccountPending,
+                               CashAccountStatus.CashAccountWaiting,
+                               CashAccountStatus.NoCashAccount].includes(status);
 
       const matchesKeyword = Object.values(row).some(value => String(value).toLowerCase().includes(keyword));
-      const matchesStatus = status === WithCashAccountID ? uid > 1 : isControlStatus ? uid === status : true;
+      const matchesStatus = status === CashAccountStatus.WithCashAccount ?
+        uid > 1 : isControlStatus ? uid === status : true;
 
       return matchesKeyword && matchesStatus;
     };
@@ -311,8 +318,8 @@ export class CashEntriesTableComponent implements OnChanges {
 
 
   private showConfirmAutoCodify() {
-    const message = `Esta operación ejecutará el proceso de codificación automática sobre todos los movimientos pendientes.
-      <br><br>¿Ejecuto el proceso de codificación automática?`;
+    const message = `Esta operación ejecutará el proceso de codificación automática sobre todos los ` +
+      `movimientos pendientes.<br><br>¿Ejecuto el proceso de codificación automática?`;
 
     this.messageBox.confirm(message, 'Codificación automática')
       .firstValue()

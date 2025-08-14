@@ -37,12 +37,12 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="accountNumber">
-        <th mat-header-cell *matHeaderCellDef class="nowrap"> No. cuenta / No. Auxiliar</th>
-        <td mat-cell *matCellDef="let row" class="nowrap">
-          <span [title]="row.parentAccountFullName">{{ row.accountNumber }}</span>
+      <ng-container matColumnDef="account">
+        <th mat-header-cell *matHeaderCellDef class="nowrap"> Cuenta </th>
+        <td mat-cell *matCellDef="let row" [title]="row.parentAccountFullName">
+          <span class="nowrap">{{ row.accountNumber }}</span>
           <br>
-          <em>{{ row.subledgerAccountNumber }}</em>
+          <em>{{ row.accountName }}</em>
         </td>
       </ng-container>
 
@@ -51,12 +51,12 @@
         <td mat-cell *matCellDef="let row">{{ row.sectorCode }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="accountName">
-        <th mat-header-cell *matHeaderCellDef class="nowrap"> Cuenta / Auxiliar </th>
+      <ng-container matColumnDef="subledgerAccount">
+        <th mat-header-cell *matHeaderCellDef> Auxiliar </th>
         <td mat-cell *matCellDef="let row">
-          <span [title]="row.parentAccountFullName">{{ row.accountName }}</span>
+          <span class="nowrap">{{ !!row.subledgerAccountNumber ? row.subledgerAccountNumber : 'No aplica' }}</span>
           <br>
-          <em>{{ row.subledgerAccountName }}</em>
+          <em *ngIf="!!row.subledgerAccountName">{{ row.subledgerAccountName }}</em>
         </td>
       </ng-container>
 

@@ -100,7 +100,7 @@ export class RecordSearchComponent implements OnInit, OnDestroy {
       case RecordSearchType.Accounting:
       case RecordSearchType.CashFlow:
       case RecordSearchType.Credit:
-        this.messageService.showInDevelopment('Buscador universal');
+        this.messageService.showInDevelopment('Busqueda universal');
         return;
       default:
         console.log(`Unhandled search type ${query.type}`);
