@@ -88,6 +88,15 @@ export class CashLedgerDataService {
   }
 
 
+  getCashTransactionForPrint(transactionID: number): EmpObservable<FileReport> {
+    Assertion.assertValue(transactionID, 'transactionID');
+
+    const path = `v1/cash-flow/cash-ledger/transactions/${transactionID}/print`;
+
+    return this.http.get<FileReport>(path);
+  }
+
+
   autoCodifyCashTransaction(transactionID: number): EmpObservable<CashTransactionHolder> {
     Assertion.assertValue(transactionID, 'transactionID');
 
@@ -117,12 +126,14 @@ export class CashLedgerDataService {
   }
 
 
-  getCashTransactionForPrint(transactionID: number): EmpObservable<FileReport> {
-    Assertion.assertValue(transactionID, 'transactionID');
+  bulkOperationCashEntries(operationType: CashLedgerOperationType,
+                           command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
+    Assertion.assertValue(operationType, 'operationType');
+    Assertion.assertValue(command, 'command');
 
-    const path = `v1/cash-flow/cash-ledger/transactions/${transactionID}/print`;
+    const path = `v1/cash-flow/cash-ledger/entries/bulk-operation/${operationType}`;
 
-    return this.http.get<FileReport>(path);
+    return this.http.post<ExplorerOperationResult>(path, command);
   }
 
 }

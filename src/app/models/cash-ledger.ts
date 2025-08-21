@@ -35,25 +35,39 @@ export const CashTransactionStatusList: Identifiable<TransactionStatus>[] = [
 
 
 export enum CashLedgerOperationType {
-  autoCodify = 'auto-codify',
-  excel      = 'excel',
+  autoCodify    = 'auto-codify',
+  exportEntries = 'export-entries',
+  exportTotales = 'export-totals',
+  export        = 'export',
 }
 
 
-export const AutoCodifyOperation: ExplorerOperation = {
-  uid: CashLedgerOperationType.autoCodify,
-  name: 'Codificación automática',
-  showConfirm: true,
-  confirmTitleWithoutName: true,
-  confirmOperationMessage: 'ejecutará el proceso de codificación automática de',
-  confirmQuestionMessage: 'Ejecuto el proceso de codificación automática de',
-};
+export const CashTransactionsOperationsList: ExplorerOperation[] = [
+  {
+    uid: CashLedgerOperationType.autoCodify,
+    name: 'Codificación automática',
+    showConfirm: true,
+    confirmTitleWithoutName: true,
+    confirmOperationMessage: 'ejecutará el proceso de codificación automática de',
+    confirmQuestionMessage: 'Ejecuto el proceso de codificación automática de',
+  },
+  {
+    uid: CashLedgerOperationType.exportEntries,
+    name: 'Exportar movimientos'
+  },
+  {
+    uid: CashLedgerOperationType.exportTotales,
+    name: 'Exportar totales'
+  },
+];
 
 
-export const ExcelOperation: ExplorerOperation = {
-  uid: CashLedgerOperationType.excel,
-  name: 'Exportar'
-};
+export const CashEntriesOperationsList: ExplorerOperation[] = [
+  {
+    uid: CashLedgerOperationType.export,
+    name: 'Exportar'
+  },
+];
 
 
 export interface CashLedgerQuery {

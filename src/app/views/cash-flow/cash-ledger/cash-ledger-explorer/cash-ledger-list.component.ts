@@ -15,7 +15,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { AutoCodifyOperation, CashLedgerDescriptor, CashLedgerQueryType, ExcelOperation } from '@app/models';
+import { CashEntriesOperationsList, CashLedgerDescriptor, CashLedgerQueryType,
+         CashTransactionsOperationsList } from '@app/models';
 
 import { ListControlsEventType } from '@app/views/_reports-controls/explorer/list-controls.component';
 
@@ -64,6 +65,11 @@ export class CashLedgerListComponent implements OnChanges {
   }
 
 
+  get isQueryTypeEntries(): boolean {
+    return this.queryType === CashLedgerQueryType.entries;
+  }
+
+
   onListControlsEvent(event: EventInfo) {
     switch (event.type as ListControlsEventType) {
       case ListControlsEventType.EXECUTE_OPERATION_CLICKED:
@@ -98,10 +104,10 @@ export class CashLedgerListComponent implements OnChanges {
   private setOperationsList() {
     switch (this.queryType) {
       case CashLedgerQueryType.transactions:
-        this.operationsList = [AutoCodifyOperation, ExcelOperation];
+        this.operationsList = CashTransactionsOperationsList;
         return;
       case CashLedgerQueryType.entries:
-        this.operationsList = [ExcelOperation];
+        this.operationsList = CashEntriesOperationsList;
         return;
       default:
         this.operationsList = [];

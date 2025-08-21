@@ -2,7 +2,10 @@
 
   <emp-ng-list-controls *ngIf="displayControls && dataList.length > 0 && selection.selected.length > 0"
     class="fx-item-none"
-    [config]="{itemsName: 'pólizas', itemsPronouns: 'las', selectionMessage: 'seleccionadas'}"
+    [config]="{
+      itemsName: isQueryTypeEntries ? 'movimientos' : 'pólizas',
+      itemsPronouns: isQueryTypeEntries ? 'los' : 'las',
+      selectionMessage: isQueryTypeEntries ? 'seleccionados' : 'seleccionadas'}"
     [selection]="selection"
     [operationsList]="operationsList"
     (listControlsEvent)="onListControlsEvent($event)">

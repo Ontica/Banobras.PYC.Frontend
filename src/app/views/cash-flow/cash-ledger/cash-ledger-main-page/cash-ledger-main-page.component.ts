@@ -17,9 +17,14 @@ import { CashLedgerDataService } from '@app/data-services';
 
 import { CashAccountStatus, CashLedgerDescriptor, CashLedgerOperationType, CashLedgerQuery,
          CashLedgerQueryType, CashTransactionHolder, EmptyCashLedgerQuery, EmptyCashTransactionHolder,
-         ExplorerOperationCommand, ExplorerOperationResult } from '@app/models';
+         EmptyExplorerBulkOperationData, ExplorerBulkOperationData, ExplorerOperationCommand,
+         ExplorerOperationResult } from '@app/models';
 
 import { CashLedgerExplorerEventType } from '../cash-ledger-explorer/cash-ledger-explorer.component';
+
+import {
+  ExportReportModalEventType
+} from '@app/views/_reports-controls/export-report-modal/export-report-modal.component';
 
 import {
   CashTransactionTabbedViewEventType
@@ -54,6 +59,10 @@ export class CashLedgerMainPageComponent {
 
   queryExecuted = false;
 
+  displayExportModal = false;
+
+  selectedExportData: ExplorerBulkOperationData = Object.assign({}, EmptyExplorerBulkOperationData);
+
 
   constructor(private cashLedgerData: CashLedgerDataService,
               private messageBox: MessageBoxService) { }
@@ -87,8 +96,8 @@ export class CashLedgerMainPageComponent {
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         Assertion.assertValue(event.payload.command, 'event.payload.command');
         Assertion.assertValue(event.payload.command.items, 'event.payload.command.items');
-        this.validateBulkOperationCashTransactions(event.payload.operation,
-                                                   event.payload.command);
+        this.validateBulkOperation(event.payload.operation,
+                                   event.payload.command);
         return;
       case CashLedgerExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
@@ -100,6 +109,25 @@ export class CashLedgerMainPageComponent {
 
         this.selectedID = event.payload.item.id ?? null;
         this.getCashTransaction(itemId);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onExportReportModalEvent(event: EventInfo) {
+    switch (event.type as ExportReportModalEventType) {
+      case ExportReportModalEventType.CLOSE_MODAL_CLICKED:
+        this.setDisplayExportModal(false);
+        return;
+      case ExportReportModalEventType.EXPORT_BUTTON_CLICKED:
+        if (this.queryType === CashLedgerQueryType.transactions) {
+          this.bulkOperationCashTransactions(this.selectedExportData.operation, this.selectedExportData.command);
+        } else {
+          this.bulkOperationCashEntries(this.selectedExportData.operation, this.selectedExportData.command);
+        }
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -162,7 +190,18 @@ export class CashLedgerMainPageComponent {
 
     this.cashLedgerData.bulkOperationCashTransactions(operation, command)
       .firstValue()
-      .then(x => this.resolveBulkOperationCashTransactionsResponse(operation, x))
+      .then(x => this.resolveBulkOperationResponse(operation, x))
+      .finally(() => this.isLoadingSelection = false);
+  }
+
+
+  private bulkOperationCashEntries(operation: CashLedgerOperationType,
+                                   command: ExplorerOperationCommand) {
+    this.isLoadingSelection = true;
+
+    this.cashLedgerData.bulkOperationCashEntries(operation, command)
+      .firstValue()
+      .then(x => this.resolveBulkOperationResponse(operation, x))
       .finally(() => this.isLoadingSelection = false);
   }
 
@@ -186,8 +225,8 @@ export class CashLedgerMainPageComponent {
   }
 
 
-  private resolveBulkOperationCashTransactionsResponse(operation: CashLedgerOperationType,
-                                                       result: ExplorerOperationResult) {
+  private resolveBulkOperationResponse(operation: CashLedgerOperationType,
+                                       result: ExplorerOperationResult) {
     switch (operation) {
       case CashLedgerOperationType.autoCodify:
         this.messageBox.show(result.message, 'Codificación automática');
@@ -195,10 +234,21 @@ export class CashLedgerMainPageComponent {
         this.setSelectedData(EmptyCashTransactionHolder);
         this.resetExpandTabbedView();
         return;
+      case CashLedgerOperationType.exportEntries:
+      case CashLedgerOperationType.exportTotales:
+      case CashLedgerOperationType.export:
+        this.resolveExportOperation(result);
+        return;
       default:
         console.log(`Unhandled user interface event ${operation}`);
         return;
     }
+  }
+
+
+  private resolveExportOperation(result: ExplorerOperationResult) {
+    this.selectedExportData.fileUrl = result.file.url;
+    this.selectedExportData.message = result.message;
   }
 
 
@@ -271,21 +321,53 @@ export class CashLedgerMainPageComponent {
   }
 
 
-  private validateBulkOperationCashTransactions(operation: CashLedgerOperationType,
-                                                command: ExplorerOperationCommand) {
+  private validateBulkOperation(operation: CashLedgerOperationType,
+                                command: ExplorerOperationCommand) {
     switch (operation) {
       case CashLedgerOperationType.autoCodify:
         this.bulkOperationCashTransactions(operation, command);
         return;
-      case CashLedgerOperationType.excel:
-        const queryTypeName = this.queryType === CashLedgerQueryType.transactions ?
-          'pólizas' : 'movimientos';
-        this.messageBox.showInDevelopment(`Exportar ${queryTypeName}`);
+      case CashLedgerOperationType.exportEntries: {
+        const title = `Exportar movimientos`;
+        const message = `Esta operación exportará los movimientos de las ` +
+          `<strong>${command.items.length} pólizas</strong> seleccionadas.` +
+          `<br><br>¿Exporto los movimientos?`;
+        this.setDisplayExportModal(true, operation, command, title, message);
         return;
+      }
+      case CashLedgerOperationType.exportTotales: {
+        const title = `Exportar totales`;
+        const message = `Esta operación exportará los totales de las ` +
+          `<strong>${command.items.length} pólizas</strong> seleccionadas.` +
+          `<br><br>¿Exporto los totales?`;
+        this.setDisplayExportModal(true, operation, command, title, message);
+        return;
+      }
+      case CashLedgerOperationType.export: {
+        const title = `Exportar movimientos`;
+        const message = `Esta operación exportará los ` +
+          `<strong>${command.items.length} movimientos</strong> seleccionados.` +
+          `<br><br>¿Exporto los movimientos?`;
+        this.setDisplayExportModal(true, operation, command, title, message);
+        return;
+      }
       default:
         console.log(`Unhandled user interface event ${operation}`);
         return;
     }
   }
 
+
+  private setDisplayExportModal(display: boolean,
+                                operation?: CashLedgerOperationType, command?: ExplorerOperationCommand,
+                                title?: string, message?: string) {
+    this.displayExportModal = display;
+    this.selectedExportData = {
+      operation: operation ?? null,
+      command: command ?? null,
+      title: title ?? null,
+      message: message ?? null,
+      fileUrl: '',
+    };
+  }
 }
