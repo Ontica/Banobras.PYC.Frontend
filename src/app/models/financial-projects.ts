@@ -16,7 +16,7 @@ import { HistoryEntry } from './history';
 
 export const FinancialProjectsOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excel,
+    uid: ExplorerOperationType.export,
     name: 'Exportar'
   },
 ];

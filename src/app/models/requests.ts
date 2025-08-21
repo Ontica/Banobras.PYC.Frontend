@@ -68,7 +68,7 @@ export interface RequestType extends Identifiable {
 
 export const RequestsOperationList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excel,
+    uid: ExplorerOperationType.export,
     name: 'Exportar'
   },
   {

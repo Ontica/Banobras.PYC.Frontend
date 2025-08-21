@@ -274,7 +274,7 @@ export const EmptyOrderHolder: OrderHolder = {
 
 export const OrdersOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excel,
+    uid: ExplorerOperationType.export,
     name: 'Exportar'
   },
   {

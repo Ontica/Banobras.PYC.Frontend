@@ -53,10 +53,10 @@ export function isEntityStatusInWarning(statusName: string): boolean {
 
 
 export enum ExplorerOperationType {
-  excel        = 'export',
-  excelEntries = 'export-entries',
-  pdf          = 'print',
-  delete       = 'delete',
+  export        = 'export',
+  exportEntries = 'export-entries',
+  pdf           = 'print',
+  delete        = 'delete',
 }
 
 export interface ExplorerOperation extends Identifiable {
@@ -82,7 +82,7 @@ export interface ExplorerOperationResult {
 
 
 export interface ExplorerBulkOperationData {
-  operation: ExplorerOperationType,
+  operation: ExplorerOperationType | any,
   command: ExplorerOperationCommand;
   title: string;
   message: string;

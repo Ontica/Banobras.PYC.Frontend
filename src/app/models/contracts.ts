@@ -68,7 +68,7 @@ export interface ContractFields {
 
 export const ContractsOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excel,
+    uid: ExplorerOperationType.export,
     name: 'Exportar'
   },
   {

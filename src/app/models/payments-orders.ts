@@ -154,7 +154,7 @@ export interface PaymentOrderActions {
 
 export const PaymentsOrdersOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excel,
+    uid: ExplorerOperationType.export,
     name: 'Exportar'
   },
   {

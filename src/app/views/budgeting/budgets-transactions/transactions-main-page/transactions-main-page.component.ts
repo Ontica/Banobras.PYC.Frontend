@@ -230,7 +230,7 @@ export class BudgetTransactionsMainPageComponent {
 
   private validateBulkOperationTransactions(operation: ExplorerOperationType, command: ExplorerOperationCommand) {
     switch (operation) {
-      case ExplorerOperationType.excelEntries:
+      case ExplorerOperationType.exportEntries:
         this.showExportTransactionsEntries(operation, command);
         return;
       default:
@@ -245,7 +245,7 @@ export class BudgetTransactionsMainPageComponent {
     let message = '';
 
     switch (operation) {
-      case ExplorerOperationType.excelEntries:
+      case ExplorerOperationType.exportEntries:
         title = 'Exportar los movimientos de las transacciones';
         message = `Esta operación exportará los movimientos de las ` +
           `<strong> ${command.items.length} transacciones</strong> seleccionadas.` +
@@ -277,7 +277,7 @@ export class BudgetTransactionsMainPageComponent {
   private resolveBulkOperationTransactionsResponse(operation: ExplorerOperationType,
                                                    result: ExplorerOperationResult) {
     switch (operation) {
-      case ExplorerOperationType.excelEntries:
+      case ExplorerOperationType.exportEntries:
         this.resolveExportTransactionsEntries(result);
         return;
       default:

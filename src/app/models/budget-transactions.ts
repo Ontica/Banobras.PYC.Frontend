@@ -298,7 +298,7 @@ export interface BudgetTransactionActions {
 
 export const BudgetTransactionsOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excelEntries,
+    uid: ExplorerOperationType.exportEntries,
     name: 'Exportar movimientos'
   },
 ];

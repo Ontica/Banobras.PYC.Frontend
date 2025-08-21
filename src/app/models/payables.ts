@@ -157,7 +157,7 @@ export interface PayableEntityItem {
 
 export const PayablesOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excel,
+    uid: ExplorerOperationType.export,
     name: 'Exportar'
   },
   {

@@ -27,7 +27,7 @@ export const CashFlowProjectionsStagesList: Identifiable<TransactionStages>[] = 
 
 export const CashFlowProjectionsOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excelEntries,
+    uid: ExplorerOperationType.exportEntries,
     name: 'Exportar movimientos'
   },
 ];

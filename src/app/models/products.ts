@@ -112,7 +112,7 @@ export interface ProductSearch {
 
 export const ProductsOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.excel,
+    uid: ExplorerOperationType.export,
     name: 'Exportar'
   },
 ];
