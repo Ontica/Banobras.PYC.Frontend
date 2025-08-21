@@ -155,8 +155,20 @@ export interface CashEntry {
 }
 
 
+export interface CashTransactionAnalysisEntry {
+  entryLabel: string;
+  currency: string;
+  totalEntries: number;
+  debits: number;
+  credits: number;
+  difference: number;
+}
+
+
 export interface CashTransactionActions {
   canUpdate: boolean;
+  canAnalize: boolean;
+  canReview: boolean;
   canEditDocuments: boolean;
 }
 
@@ -296,6 +308,8 @@ export const EmptyCashEntry: CashEntry = {
 
 export const EmptyCashTransactionActions: CashTransactionActions = {
   canUpdate: false,
+  canAnalize: false,
+  canReview: false,
   canEditDocuments: false,
 };
 

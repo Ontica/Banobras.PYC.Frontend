@@ -171,7 +171,12 @@
 
             </div>
 
-            <button *ngIf="canEdit" class="btn-action"
+            <button *ngIf="canAnalize" class="btn"
+              (click)="onAnalizeClicked()">
+              Analizar
+            </button>
+
+            <button *ngIf="canUpdate" class="btn-action"
               (click)="onAutoCodifyClicked()">
               Codificación automática
             </button>
@@ -187,7 +192,7 @@
       <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
         [hidden]="!showNotFound"></tr>
       <tr mat-footer-row *matFooterRowDef="['status']; sticky: true;"
-        [hidden]="!canEdit"></tr>
+        [hidden]="!canUpdate"></tr>
 
     </table>
 

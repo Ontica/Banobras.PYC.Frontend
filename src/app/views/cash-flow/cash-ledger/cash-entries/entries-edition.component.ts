@@ -15,10 +15,12 @@ import { SkipIf } from '@app/shared/decorators';
 
 import { CashLedgerDataService } from '@app/data-services';
 
-import { CashAccountStatus, CashEntriesOperationCommand, CashEntry, CashTransactionDescriptor,
-         CashTransactionHolder, EmptyCashTransactionDescriptor } from '@app/models';
+import { CashAccountStatus, CashEntriesOperationCommand, CashEntry, CashTransactionAnalysisEntry,
+         CashTransactionDescriptor, CashTransactionHolder, EmptyCashTransactionDescriptor } from '@app/models';
 
 import { CashEntriesTableEventType } from './entries-table.component';
+
+import { CashEntriesAnalysisEventType } from './entries-analysis.component';
 
 
 export enum CashEntriesEditionEventType {
@@ -35,7 +37,9 @@ export class CashEntriesEditionComponent {
 
   @Input() entries: CashEntry[] = [];
 
-  @Input() canEdit = false;
+  @Input() canUpdate = false;
+
+  @Input() canAnalize = false;
 
   @Input() queryCashAccountStatus: CashAccountStatus = null;
 
@@ -45,6 +49,10 @@ export class CashEntriesEditionComponent {
 
   submitted = false;
 
+  displayEntriesAnalysis = false;
+
+  entriesAnalysis: CashTransactionAnalysisEntry[] = [];
+
 
   constructor(private cashLedgerData: CashLedgerDataService) { }
 
@@ -52,6 +60,9 @@ export class CashEntriesEditionComponent {
   @SkipIf('submitted')
   onCashEntriesTableEvent(event: EventInfo) {
     switch (event.type as CashEntriesTableEventType) {
+      case CashEntriesTableEventType.ANALIZE_CLICKED:
+        this.analyzeCashTransaction(this.transaction.id);
+        return;
       case CashEntriesTableEventType.AUTO_CODIFY_CLICKED:
         this.autoCodifyCashTransaction(this.transaction.id);
         return;
@@ -64,6 +75,28 @@ export class CashEntriesEditionComponent {
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  onCashEntriesAnalysisEvent(event: EventInfo) {
+    switch (event.type as CashEntriesAnalysisEventType) {
+      case CashEntriesAnalysisEventType.CLOSE_BUTTON_CLICKED:
+        this.setEntriesAnalysis([], false);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  private analyzeCashTransaction(transactionID: number) {
+    this.submitted = true;
+
+    this.cashLedgerData.analyzeCashTransaction(transactionID)
+      .firstValue()
+      .then(x => this.setEntriesAnalysis(x, true))
+      .finally(() => this.submitted = false);
   }
 
 
@@ -85,6 +118,12 @@ export class CashEntriesEditionComponent {
       .firstValue()
       .then(x => this.resolveCashEntriesUpdated(x))
       .finally(() => this.submitted = false);
+  }
+
+
+  private setEntriesAnalysis(data: CashTransactionAnalysisEntry[], display: boolean) {
+    this.entriesAnalysis = data ?? [];
+    this.displayEntriesAnalysis = display;
   }
 
 

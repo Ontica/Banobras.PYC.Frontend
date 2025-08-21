@@ -9,7 +9,8 @@
     [transactionID]=" transaction.id"
     [status]="transaction.status"
     [entries]="entries"
-    [canEdit]="canEdit"
+    [canUpdate]="canUpdate"
+    [canAnalize]="canAnalize"
     [queryCashAccountStatus]="queryCashAccountStatus"
     [selectedEntryID]="selectedEntryID"
     (entriesTableEvent)="onCashEntriesTableEvent($event)">
@@ -17,3 +18,10 @@
   </emp-cf-cash-entries-table>
 
 </div>
+
+
+<emp-cf-cash-entries-analysis *ngIf="displayEntriesAnalysis"
+  [entriesAnalysis]="entriesAnalysis"
+  (entriesAnalysisEvent)="onCashEntriesAnalysisEvent($event)">
+
+</emp-cf-cash-entries-analysis>

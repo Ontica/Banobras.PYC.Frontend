@@ -26,6 +26,7 @@ import { ListControlsEventType } from '@app/views/_reports-controls/explorer/lis
 
 export enum CashEntriesTableEventType {
   AUTO_CODIFY_CLICKED       = 'CashEntriesTableComponent.Event.AutoCodifyClicked',
+  ANALIZE_CLICKED           = 'CashEntriesTableComponent.Event.AnalizeClicked',
   SELECT_ENTRY_CLICKED      = 'CashEntriesTableComponent.Event.SelectEntryClicked',
   EXECUTE_OPERATION_CLICKED = 'CashEntriesTableComponent.Event.ExecuteOperationClicked',
 }
@@ -53,7 +54,9 @@ export class CashEntriesTableComponent implements OnChanges {
 
   @Input() entries: CashEntry[] = [];
 
-  @Input() canEdit = false;
+  @Input() canUpdate = false;
+
+  @Input() canAnalize = false;
 
   @Input() queryCashAccountStatus: CashAccountStatus = null;
 
@@ -133,6 +136,11 @@ export class CashEntriesTableComponent implements OnChanges {
     return this.entries.filter(x =>
       [CashAccountStatus.CashAccountPending,
        CashAccountStatus.CashAccountWaiting].includes(+x.cashAccount.uid)).length;
+  }
+
+
+  onAnalizeClicked() {
+    sendEvent(this.entriesTableEvent, CashEntriesTableEventType.ANALIZE_CLICKED);
   }
 
 
@@ -260,14 +268,14 @@ export class CashEntriesTableComponent implements OnChanges {
 
 
   private resetColumns() {
-    this.displayedColumns = this.canEdit ?
+    this.displayedColumns = this.canUpdate ?
       ['check', ...this.displayedColumnsDefault, 'action'] :
       [...this.displayedColumnsDefault];
   }
 
 
   private buildOperationsList() {
-    if (!this.canEdit) {
+    if (!this.canUpdate) {
       this.operationsList = [];
       return;
     }

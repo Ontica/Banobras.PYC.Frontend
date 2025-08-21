@@ -26,6 +26,7 @@ import { CashTransactionViewComponent } from './cash-transaction-tabbed-view/tra
 import { CashTransactionPrintViewComponent } from './cash-transaction-tabbed-view/transaction-print-view.component';
 import { CashEntriesEditionComponent } from './cash-entries/entries-edition.component';
 import { CashEntriesTableComponent } from './cash-entries/entries-table.component';
+import { CashEntriesAnalysisComponent } from './cash-entries/entries-analysis.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { CashEntriesTableComponent } from './cash-entries/entries-table.componen
     CashTransactionPrintViewComponent,
     CashEntriesEditionComponent,
     CashEntriesTableComponent,
+    CashEntriesAnalysisComponent,
   ],
   exports: [
     CashLedgerMainPageComponent,

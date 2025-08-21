@@ -28,7 +28,8 @@
         <emp-cf-cash-entries-edition
           [transaction]="data.transaction"
           [entries]="data.entries"
-          [canEdit]="data.actions.canUpdate"
+          [canUpdate]="data.actions.canUpdate"
+          [canAnalize]="data.actions.canAnalize"
           [queryCashAccountStatus]="queryCashAccountStatus"
           [selectedEntryID]="selectedEntryID"
           (entriesEditionEvent)="onCashEntriesEditionEvent($event)">
