@@ -5,7 +5,9 @@
     [config]="{
       itemsName: isQueryTypeEntries ? 'movimientos' : 'pólizas',
       itemsPronouns: isQueryTypeEntries ? 'los' : 'las',
-      selectionMessage: isQueryTypeEntries ? 'seleccionados' : 'seleccionadas'}"
+      selectionMessage: isQueryTypeEntries ? 'seleccionados' : 'seleccionadas',
+      labelOperationSize: '285px'
+    }"
     [selection]="selection"
     [operationsList]="operationsList"
     (listControlsEvent)="onListControlsEvent($event)">

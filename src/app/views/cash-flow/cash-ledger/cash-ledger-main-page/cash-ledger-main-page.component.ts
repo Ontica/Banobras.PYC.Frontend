@@ -236,6 +236,7 @@ export class CashLedgerMainPageComponent {
         return;
       case CashLedgerOperationType.exportEntries:
       case CashLedgerOperationType.exportTotales:
+      case CashLedgerOperationType.exportAnalysis:
       case CashLedgerOperationType.export:
         this.resolveExportOperation(result);
         return;
@@ -340,6 +341,14 @@ export class CashLedgerMainPageComponent {
         const message = `Esta operación exportará los totales de las ` +
           `<strong>${command.items.length} pólizas</strong> seleccionadas.` +
           `<br><br>¿Exporto los totales?`;
+        this.setDisplayExportModal(true, operation, command, title, message);
+        return;
+      }
+      case CashLedgerOperationType.exportAnalysis: {
+        const title = `Exportar análisis de la codificación`;
+        const message = `Esta operación exportará el análisis de la codificación de las ` +
+          `<strong>${command.items.length} pólizas</strong> seleccionadas.` +
+          `<br><br>¿Exporto el análisis?`;
         this.setDisplayExportModal(true, operation, command, title, message);
         return;
       }

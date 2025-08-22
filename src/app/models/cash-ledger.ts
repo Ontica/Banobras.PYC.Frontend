@@ -35,10 +35,11 @@ export const CashTransactionStatusList: Identifiable<TransactionStatus>[] = [
 
 
 export enum CashLedgerOperationType {
-  autoCodify    = 'auto-codify',
-  exportEntries = 'export-entries',
-  exportTotales = 'export-totals',
-  export        = 'export',
+  autoCodify     = 'auto-codify',
+  exportEntries  = 'export-entries',
+  exportTotales  = 'export-totals',
+  exportAnalysis = 'export-analysis',
+  export         = 'export',
 }
 
 
@@ -58,6 +59,10 @@ export const CashTransactionsOperationsList: ExplorerOperation[] = [
   {
     uid: CashLedgerOperationType.exportTotales,
     name: 'Exportar totales'
+  },
+  {
+    uid: CashLedgerOperationType.exportAnalysis,
+    name: 'Exportar análisis de la codificación'
   },
 ];
 
