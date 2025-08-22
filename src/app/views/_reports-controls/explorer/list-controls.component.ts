@@ -32,6 +32,7 @@ export interface ListControlConfig {
   showSearcher?: boolean;
   showDivider?: boolean;
   labelsAside?: 'left' | 'top';
+  labelOperationSize?: string;
   itemsName?: string;
   itemsPronouns?: string;
   selectionMessage?: string;
@@ -49,6 +50,7 @@ const DefaultListControlConfig: ListControlConfig = {
   showSearcher: false,
   showDivider: true,
   labelsAside: 'left',
+  labelOperationSize: '240px',
   itemsName: 'elementos',
   itemsPronouns: 'los',
   selectionMessage: 'seleccionados',
