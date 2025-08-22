@@ -82,7 +82,8 @@ export enum PERMISSIONS {
   ROUTE_FLUJO_DE_EXPLORER = 'route-flujo-de-efectivo-explorer',
   ROUTE_FLUJO_DE_EFECTIVO_CODIFICACION = 'route-flujo-de-efectivo-codificacion',
   ROUTE_FLUJO_DE_EFECTIVO_PROYECTOS = 'route-flujo-de-efectivo-proyectos',
-  ROUTE_FLUJO_DE_EFECTIVO_REGLAS = 'route-flujo-de-efectivo-reglas',
+  ROUTE_FLUJO_DE_EFECTIVO_CUENTAS_ESTANDAR = 'route-flujo-de-efectivo-cuentas-estandar',
+  ROUTE_FLUJO_DE_EFECTIVO_CUENTAS = 'route-flujo-de-efectivo-cuentas',
   ROUTE_FLUJO_DE_EFECTIVO_REPORTES = 'route-flujo-de-efectivo-reportes',
 
   //

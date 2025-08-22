@@ -242,11 +242,18 @@ export const CashFlowViews: View[] = [
     permission: ROUTES.flujo_de_efectivo_proyectos.permission,
   },
   {
-    name: 'CashFlow.Rules',
+    name: 'CashFlow.StandardAccounts',
+    title: 'Cuentas estandar',
+    menuTitle: 'Cuentas estandar',
+    url: ROUTES.flujo_de_efectivo_cuentas_estandar.fullpath,
+    permission: ROUTES.flujo_de_efectivo_cuentas_estandar.permission,
+  },
+  {
+    name: 'CashFlow.Accounts',
     title: 'Cuentas',
     menuTitle: 'Cuentas',
-    url: ROUTES.flujo_de_efectivo_reglas.fullpath,
-    permission: ROUTES.flujo_de_efectivo_reglas.permission,
+    url: ROUTES.flujo_de_efectivo_cuentas.fullpath,
+    permission: ROUTES.flujo_de_efectivo_cuentas.permission,
   },
   {
     name: 'CashFlow.Reports',

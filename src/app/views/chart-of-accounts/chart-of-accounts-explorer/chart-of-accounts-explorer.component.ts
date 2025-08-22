@@ -49,7 +49,7 @@ export class ChartOfAccountsExplorerComponent implements OnChanges {
 
   permissions = PERMISSIONS;
 
-  cardTitle = 'Catálogos de cuentas';
+  cardTitle = 'Explorador de cuentas estandar';
 
   cardHint = 'Seleccionar los filtros';
 

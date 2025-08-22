@@ -311,11 +311,18 @@ export const ROUTES = {
     fullpath: '/flujo-de-efectivo/proyectos',
   },
 
-  flujo_de_efectivo_reglas: {
-    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_REGLAS,
+  flujo_de_efectivo_cuentas_estandar: {
+    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_CUENTAS_ESTANDAR,
     parent: 'flujo-de-efectivo',
-    path: 'reglas',
-    fullpath: '/flujo-de-efectivo/reglas',
+    path: 'cuentas-estandar',
+    fullpath: '/flujo-de-efectivo/cuentas-estandar',
+  },
+
+  flujo_de_efectivo_cuentas: {
+    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_CUENTAS,
+    parent: 'flujo-de-efectivo',
+    path: 'cuentas',
+    fullpath: '/flujo-de-efectivo/cuentas',
   },
 
   flujo_de_efectivo_reportes: {

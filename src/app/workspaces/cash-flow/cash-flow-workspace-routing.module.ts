@@ -52,9 +52,14 @@ const routes: Routes = [
     component: FinancialProjectsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.flujo_de_efectivo_reglas.permission },
-    path: ROUTES.flujo_de_efectivo_reglas.path,
+    data: { permission: ROUTES.flujo_de_efectivo_cuentas_estandar.permission },
+    path: ROUTES.flujo_de_efectivo_cuentas_estandar.path,
     component: ChartOfAccountsMainPageComponent,
+  },
+  {
+    data: { permission: ROUTES.flujo_de_efectivo_cuentas.permission },
+    path: ROUTES.flujo_de_efectivo_cuentas.path,
+    component: DefaultComponent,
   },
   {
     data: { permission: ROUTES.flujo_de_efectivo_reportes.permission },
