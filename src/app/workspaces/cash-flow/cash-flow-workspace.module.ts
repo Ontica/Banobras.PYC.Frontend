@@ -11,8 +11,8 @@ import { CommonModule } from '@angular/common';
 import { CashFlowWorkspaceRoutingModule } from './cash-flow-workspace-routing.module';
 
 
-import { CashFlowProjectionsModule } from '@app/views/cash-flow/projections/cash-flow-projections.module';
-import { CashLedgerModule } from '@app/views/cash-flow/cash-ledger/cash-ledger.module';
+import { CashFlowProjectionsModule } from '@app/views/cash-management/cash-flow-projections/cash-flow-projections.module';
+import { CashLedgerModule } from '@app/views/cash-management/cash-ledger/cash-ledger.module';
 import { ChartOfAccountsModule } from '@app/views/chart-of-accounts/chart-of-accounts.module';
 import { FinancialProjectsModule } from '@app/views/financial-projects/financial-projects.module';
 

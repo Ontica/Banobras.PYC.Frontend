@@ -15,11 +15,11 @@ import { DefaultComponent } from '@app/shared/components';
 
 import {
   CashFlowProjectionsMainPageComponent
-} from '@app/views/cash-flow/projections/projections-main-page/projections-main-page.component';
+} from '@app/views/cash-management/cash-flow-projections/projections-main-page/projections-main-page.component';
 
 import {
   CashLedgerMainPageComponent
-} from '@app/views/cash-flow/cash-ledger/cash-ledger-main-page/cash-ledger-main-page.component';
+} from '@app/views/cash-management/cash-ledger/cash-ledger-main-page/cash-ledger-main-page.component';
 
 import {
   ChartOfAccountsMainPageComponent
