@@ -58,7 +58,6 @@ export class CashLedgerDataService {
   }
 
 
-
   searchCashEntries(query: CashLedgerQuery): EmpObservable<CashEntryDescriptor[]> {
     Assertion.assertValue(query, 'query');
 

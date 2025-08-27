@@ -15,9 +15,9 @@ import { SearcherDataService } from './_searcher.data.service';
 
 import { AccountabilitiesDataService } from './accountabilities.data.service';
 
-import { AssetsDataService } from './assets.data.service';
-
 import { AssetsAssignmentsDataService } from './assets-assignments.data.service';
+
+import { AssetsDataService } from './assets.data.service';
 
 import { AssetsTransactionsDataService } from './assets-transactions.data.service';
 
@@ -67,8 +67,8 @@ import { SuppliersDataService } from './suppliers.data.service';
     SubjectAccountabilitiesDataService,
     SearcherDataService,
     AccountabilitiesDataService,
-    AssetsDataService,
     AssetsAssignmentsDataService,
+    AssetsDataService,
     AssetsTransactionsDataService,
     BillsDataService,
     BudgetsDataService,

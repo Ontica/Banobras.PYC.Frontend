@@ -16,7 +16,8 @@ import { EventInfo, FlexibleIdentifiable, Identifiable, isEmpty } from '@app/cor
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CashFlowStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
+import { CashLedgerStateSelector, CataloguesStateSelector,
+         FinancialProjectsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -168,12 +169,12 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.ACCOUNTING_LEDGERS),
+      this.helper.select<Identifiable[]>(CashLedgerStateSelector.ACCOUNTING_LEDGERS),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.PROJECT_TYPES),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.TRANSACTION_SOURCES),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.TRANSACTION_TYPES),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.VOUCHER_TYPES),
+      this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.PROJECT_TYPES),
+      this.helper.select<Identifiable[]>(CashLedgerStateSelector.TRANSACTION_SOURCES),
+      this.helper.select<Identifiable[]>(CashLedgerStateSelector.TRANSACTION_TYPES),
+      this.helper.select<Identifiable[]>(CashLedgerStateSelector.VOUCHER_TYPES),
     ])
     .subscribe(([a, b, c, d, e, f]) => {
       this.accountingLedgersList = a;

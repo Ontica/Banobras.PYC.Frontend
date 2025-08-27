@@ -16,7 +16,7 @@ import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CashFlowStateSelector,
+import { CashFlowProjectionsStateSelector,
          CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
@@ -176,10 +176,10 @@ export class CashFlowProjectionsFilterComponent implements OnChanges, OnInit, On
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.PLANS),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.PROJECTION_TYPES),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.PROJECT_TYPES),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.OPERATION_SOURCES),
+      this.helper.select<Identifiable[]>(CashFlowProjectionsStateSelector.PLANS),
+      this.helper.select<Identifiable[]>(CashFlowProjectionsStateSelector.PROJECTION_TYPES),
+      this.helper.select<Identifiable[]>(CashFlowProjectionsStateSelector.PROJECT_TYPES),
+      this.helper.select<Identifiable[]>(CashFlowProjectionsStateSelector.OPERATION_SOURCES),
     ])
     .subscribe(([a, b, c, d, e]) => {
       this.orgUnitsList = a;

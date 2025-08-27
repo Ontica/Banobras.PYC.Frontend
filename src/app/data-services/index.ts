@@ -13,11 +13,11 @@ export * from './_searcher.data.service';
 
 export * from './accountabilities.data.service';
 
-export * from './assets.data.service';
-
 export * from './assets-assignments.data.service';
 
 export * from './assets-transactions.data.service';
+
+export * from './assets.data.service';
 
 export * from './bills.data.service';
 
