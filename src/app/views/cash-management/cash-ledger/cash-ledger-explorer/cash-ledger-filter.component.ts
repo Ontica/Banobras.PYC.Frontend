@@ -22,9 +22,9 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { CashAccountStatus, CashAccountStatusList, CashLedgerQuery, CashLedgerQueryType,
-         CashLedgerQueryTypesList, CashTransactionStatusList, DateRange, EmptyCashLedgerQuery, EmptyDateRange,
-         RequestsList, TransactionStatus } from '@app/models';
+import { CashAccountStatusQueryList, CashLedgerQuery, CashLedgerQueryType, CashLedgerQueryTypesList,
+         CashTransactionStatusList, DateRange, EmptyCashLedgerQuery, EmptyDateRange, RequestsList,
+         TransactionStatus } from '@app/models';
 
 
 export enum CashLedgerFilterEventType {
@@ -83,7 +83,7 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   transactionStatusList = CashTransactionStatusList;
 
-  cashAccountStatusList = CashAccountStatusList;
+  cashAccountStatusList = CashAccountStatusQueryList;
 
   orgUnitsList: Identifiable[] = [];
 
@@ -218,7 +218,7 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
     this.form.reset({
       queryType: this.queryType,
       transactionStatus: this.query.transactionStatus,
-      cashAccountStatus: CashAccountStatusList.find(x => x.id === this.query.cashAccountStatus) ?? null,
+      cashAccountStatus: this.cashAccountStatusList.find(x => x.id === this.query.cashAccountStatus) ?? null,
       accountingDate: { fromDate: this.query.fromAccountingDate ?? null, toDate: this.query.toAccountingDate ?? null },
       keywords: this.query.keywords,
       cashAccounts: this.query.cashAccounts,

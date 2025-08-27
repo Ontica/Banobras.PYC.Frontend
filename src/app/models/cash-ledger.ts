@@ -206,10 +206,20 @@ export enum CashAccountStatus {
   NoCashAccount      = -1,
   CashAccountPending = 0,
   WithCashAccount    = 1,
+  FalsePositives     = -3,
 }
 
 
-export const CashAccountStatusList: FlexibleIdentifiable[] = [
+export const CashAccountStatusQueryList: FlexibleIdentifiable[] = [
+  { id: CashAccountStatus.CashAccountPending, name: 'Pendientes' },
+  { id: CashAccountStatus.CashAccountWaiting, name: 'Con flujo pendiente'},
+  { id: CashAccountStatus.WithCashAccount,    name: 'Con flujo asignado' },
+  { id: CashAccountStatus.NoCashAccount,      name: 'Sin flujo' },
+  { id: CashAccountStatus.FalsePositives,     name: 'Falsos positivos' },
+];
+
+
+export const CashAccountStatusEditList: FlexibleIdentifiable[] = [
   { id: CashAccountStatus.CashAccountPending, name: 'Pendientes' },
   { id: CashAccountStatus.CashAccountWaiting, name: 'Con flujo pendiente'},
   { id: CashAccountStatus.WithCashAccount,    name: 'Con flujo asignado' },

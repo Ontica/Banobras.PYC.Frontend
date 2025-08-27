@@ -17,7 +17,7 @@ import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { CashAccountStatus, CashAccountStatusList, CashEntriesOperation, CashEntriesOperationCommand,
+import { CashAccountStatus, CashAccountStatusEditList, CashEntriesOperation, CashEntriesOperationCommand,
          CashEntry, ExplorerOperation, MarkAsCashEntriesWaitingOperation, MarkAsNoCashEntriesOperation,
          RemoveCashEntriesOperation,  TotalItemTypeList, TransactionStatus } from '@app/models';
 
@@ -81,7 +81,7 @@ export class CashEntriesTableComponent implements OnChanges {
 
   operationsList: ExplorerOperation[] = [];
 
-  cashAccountStatusList = CashAccountStatusList;
+  cashAccountStatusList = CashAccountStatusEditList;
 
   cashAccountStatus: FlexibleIdentifiable = null;
 
