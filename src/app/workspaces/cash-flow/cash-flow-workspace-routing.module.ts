@@ -18,16 +18,20 @@ import {
 } from '@app/views/cash-management/cash-flow-projections/projections-main-page/projections-main-page.component';
 
 import {
+  CashFlowMainPageComponent
+} from '@app/views/cash-management/cash-flow/cash-flow-main-page/cash-flow-main-page.component';
+
+import {
   CashLedgerMainPageComponent
 } from '@app/views/cash-management/cash-ledger/cash-ledger-main-page/cash-ledger-main-page.component';
 
 import {
-  ChartOfAccountsMainPageComponent
-} from '@app/views/chart-of-accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
-
-import {
   FinancialProjectsMainPageComponent
 } from '@app/views/financial-projects/projects-main-page/projects-main-page.component';
+
+import {
+  ChartOfAccountsMainPageComponent
+} from '@app/views/chart-of-accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
 
 
 const routes: Routes = [
@@ -39,7 +43,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.flujo_de_efectivo_explorer.permission },
     path: ROUTES.flujo_de_efectivo_explorer.path,
-    component: DefaultComponent,
+    component: CashFlowMainPageComponent,
   },
   {
     data: { permission: ROUTES.flujo_de_efectivo_codificacion.permission },

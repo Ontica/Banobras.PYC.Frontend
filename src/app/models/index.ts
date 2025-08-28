@@ -44,6 +44,8 @@ export * from './budgets';
 
 export * from './cash-flow-projections';
 
+export * from './cash-flow';
+
 export * from './cash-ledger';
 
 export * from './chart-of-accounts';

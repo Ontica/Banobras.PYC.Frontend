@@ -18,6 +18,7 @@ import { AccessControlPresentationHandler } from './security-management/access-c
 import { AccountsPresentationHandler } from './pyc/accounts.presentation.handler';
 import { AssetsPresentationHandler } from './pyc/assets.presentation.handler';
 import { BudgetingPresentationHandler } from './pyc/budgeting.presentation.handler';
+import { CashFlowPresentationHandler } from './pyc/cash-flow.presentation.handler';
 import { CashFlowProjectionsPresentationHandler } from './pyc/cash-flow-projections.presentation.handler';
 import { CashLedgerPresentationHandler } from './pyc/cash-ledger.presentation.handler';
 import { CataloguesPresentationHandler } from './pyc/catalogues.presentation.handler';
@@ -37,6 +38,7 @@ import { SearchServicesPresentationHandler } from './pyc/search-services.present
     AccessControlPresentationHandler,
     AssetsPresentationHandler,
     BudgetingPresentationHandler,
+    CashFlowPresentationHandler,
     CashFlowProjectionsPresentationHandler,
     CashLedgerPresentationHandler,
     CataloguesPresentationHandler,
@@ -51,7 +53,8 @@ import { SearchServicesPresentationHandler } from './pyc/search-services.present
     { provide: STATE_HANDLERS, useExisting: AccountsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AccessControlPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AssetsPresentationHandler, multi: true },
-    { provide: STATE_HANDLERS, useExisting: BudgetingPresentationHandler, multi: true }
+    { provide: STATE_HANDLERS, useExisting: BudgetingPresentationHandler, multi: true },
+    { provide: STATE_HANDLERS, useExisting: CashFlowPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: CashFlowProjectionsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: CashLedgerPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: CataloguesPresentationHandler, multi: true },

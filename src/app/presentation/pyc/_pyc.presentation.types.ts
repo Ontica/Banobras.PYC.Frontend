@@ -25,6 +25,9 @@ export { SelectorType as AssetsStateSelector } from './assets.presentation.handl
 import { SelectorType as BudgetingStateSelector } from './budgeting.presentation.handler';
 export { SelectorType as BudgetingStateSelector } from './budgeting.presentation.handler';
 
+import { SelectorType as CashFlowStateSelector } from './cash-flow.presentation.handler';
+export { SelectorType as CashFlowStateSelector } from './cash-flow.presentation.handler';
+
 import { SelectorType as CashFlowProjectionsStateSelector } from './cash-flow-projections.presentation.handler';
 export { SelectorType as CashFlowProjectionsStateSelector } from './cash-flow-projections.presentation.handler';
 
@@ -52,6 +55,7 @@ export { SelectorType as SearchServicesStateSelector } from './search-services.p
 export type PYCSelectors = AccountsStateSelector |
                            AssetsStateSelector |
                            BudgetingStateSelector |
+                           CashFlowStateSelector |
                            CashFlowProjectionsStateSelector |
                            CashLedgerStateSelector |
                            CataloguesStateSelector |

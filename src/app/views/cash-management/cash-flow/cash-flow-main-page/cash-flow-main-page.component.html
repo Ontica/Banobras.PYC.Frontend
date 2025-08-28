@@ -1,0 +1,14 @@
+<div class="explorer">
+
+  <emp-cf-cash-flow-explorer
+    class="primary priority"
+    [query]="query"
+    [data]="data"
+    [selectedUID]="selectedData?.uid ?? null"
+    [isLoading]="isLoading"
+    [queryExecuted]="queryExecuted"
+    (cashFlowExplorerEvent)="onCashFlowExplorerEvent($event)">
+
+  </emp-cf-cash-flow-explorer>
+
+</div>
