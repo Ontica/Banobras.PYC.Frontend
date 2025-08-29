@@ -7,7 +7,7 @@
 
 import { Component } from '@angular/core';
 
-import { Assertion, EventInfo } from '@app/core';
+import { Assertion, Empty, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
@@ -17,6 +17,10 @@ import { CashFlowData, CashFlowEntryDescriptor, CashFlowQuery, EmptyCashFlowData
          EmptyCashFlowQuery } from '@app/models';
 
 import { CashFlowExplorerEventType } from '../cash-flow-explorer/cash-flow-explorer.component';
+
+import {
+  ExportReportModalEventType
+} from '@app/views/_reports-controls/export-report-modal/export-report-modal.component';
 
 
 @Component({
@@ -35,6 +39,12 @@ export class CashFlowMainPageComponent {
 
   queryExecuted = false;
 
+  selectedReportType: Identifiable = Empty;
+
+  displayExportModal = false;
+
+  fileUrl = '';
+
 
   constructor(private cashFlowData: CashFlowDataService,
               private messageBox: MessageBoxService) { }
@@ -43,20 +53,37 @@ export class CashFlowMainPageComponent {
   onCashFlowExplorerEvent(event: EventInfo) {
     switch (event.type as CashFlowExplorerEventType) {
       case CashFlowExplorerEventType.SEARCH_CLICKED:
+        Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearExplorerData(event.payload.query as CashFlowQuery);
+        this.setQueryAndClearExplorerData(event.payload.reportType, event.payload.query as CashFlowQuery);
         this.searchCashFlowData(this.query);
         return;
       case CashFlowExplorerEventType.CLEAR_CLICKED:
+        Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearExplorerData(event.payload.query as CashFlowQuery);
+        this.setQueryAndClearExplorerData(event.payload.reportType, event.payload.query as CashFlowQuery);
         return;
       case CashFlowExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.entry, ' event.payload.entry');
         this.messageBox.showInDevelopment('Seleccionar elemento', event.payload.entry);
         return;
       case CashFlowExplorerEventType.EXPORT_CLICKED:
-        this.messageBox.showInDevelopment('Exportar flujo de efectivo', this.query);
+        this.setDisplayExportModal(true);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onExportReportModalEvent(event: EventInfo) {
+    switch (event.type as ExportReportModalEventType) {
+      case ExportReportModalEventType.CLOSE_MODAL_CLICKED:
+        this.setDisplayExportModal(false);
+        return;
+      case ExportReportModalEventType.EXPORT_BUTTON_CLICKED:
+        this.exportCashFlowData(this.query);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -75,7 +102,15 @@ export class CashFlowMainPageComponent {
   }
 
 
-  private setQueryAndClearExplorerData(query: CashFlowQuery) {
+  private exportCashFlowData(query: CashFlowQuery) {
+    this.cashFlowData.exportCashFlowData(query)
+      .firstValue()
+      .then(x => {this.fileUrl = x.url});
+  }
+
+
+  private setQueryAndClearExplorerData(reportType: Identifiable, query: CashFlowQuery) {
+    this.selectedReportType = isEmpty(reportType) ? Empty : reportType;
     this.query = Object.assign({}, EmptyCashFlowQuery, query);
     this.setData(EmptyCashFlowData, false);
     this.setSelectedData(null);
@@ -90,6 +125,11 @@ export class CashFlowMainPageComponent {
 
   private setSelectedData(data: CashFlowEntryDescriptor) {
     this.selectedData = data;
+  }
+
+  private setDisplayExportModal(display: boolean) {
+    this.displayExportModal = display;
+    this.fileUrl = '';
   }
 
 }

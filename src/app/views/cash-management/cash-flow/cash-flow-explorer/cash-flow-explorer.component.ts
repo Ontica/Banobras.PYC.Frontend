@@ -60,11 +60,13 @@ export class CashFlowExplorerComponent implements OnChanges {
   onCashFlowFilterEvent(event: EventInfo) {
     switch (event.type as CashFlowFilterEventType) {
       case CashFlowFilterEventType.SEARCH_CLICKED:
+        Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.cashFlowExplorerEvent, CashFlowExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
       case CashFlowFilterEventType.CLEAR_CLICKED:
+        Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.cashFlowExplorerEvent, CashFlowExplorerEventType.CLEAR_CLICKED,
           event.payload);

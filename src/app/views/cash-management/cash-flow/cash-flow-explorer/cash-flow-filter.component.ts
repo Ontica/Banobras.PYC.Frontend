@@ -135,14 +135,20 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   onSearchClicked() {
     if (FormHelper.isFormReadyAndInvalidate(this.form)) {
-      sendEvent(this.cashFlowFilterEvent, CashFlowFilterEventType.SEARCH_CLICKED, {query: this.getFormData()});
+      sendEvent(this.cashFlowFilterEvent, CashFlowFilterEventType.SEARCH_CLICKED, {
+        reportType: this.getReportType(),
+        query: this.getFormData(),
+      });
     }
   }
 
 
   onClearFilters() {
     this.clearFilters();
-    sendEvent(this.cashFlowFilterEvent, CashFlowFilterEventType.CLEAR_CLICKED, {query: this.getFormData()});
+    sendEvent(this.cashFlowFilterEvent, CashFlowFilterEventType.CLEAR_CLICKED, {
+      reportType: this.getReportType(),
+      query: this.getFormData(),
+    });
   }
 
 
@@ -209,6 +215,11 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
       subprogramUID: this.query.subprogramUID,
       financingSourceUID: this.query.financingSourceUID,
     });
+  }
+
+
+  private getReportType(): Identifiable {
+    return this.reportTypesList.find(x => x.uid === this.form.value.reportType) ?? null;
   }
 
 

@@ -12,3 +12,11 @@
   </emp-cf-cash-flow-explorer>
 
 </div>
+
+
+<emp-ng-export-report-modal *ngIf="displayExportModal"
+  [title]="'Exportar ' + selectedReportType.name.toLowerCase()"
+  [fileUrl]="fileUrl"
+  (exportReportModalEvent)="onExportReportModalEvent($event)">
+
+</emp-ng-export-report-modal>
