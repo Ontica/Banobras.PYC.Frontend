@@ -11,22 +11,22 @@
 
       </emp-ng-spinner>
 
-      <emp-cf-operation-assigner *ngIf="canEdit"
+      <emp-cf-operation-type-assigner *ngIf="canEdit"
         [accountUID]="accountUID"
-        [operations]="data.availableOperations"
-        (operationAssignerEvent)="onOperationAssignerEvent($event)">
+        [operationsTypes]="data.availableOperations"
+        (operationTypeAssignerEvent)="onOperationTypeAssignerEvent($event)">
 
-      </emp-cf-operation-assigner>
+      </emp-cf-operation-type-assigner>
 
       <br>
 
-      <emp-cf-operations-table
+      <emp-cf-operations-types-table
         [accountUID]="accountUID"
-        [operations]="data.currentOperations"
+        [operationsTypes]="data.currentOperations"
         [canEdit]="canEdit"
-        (operationsTableEvent)="onOperationsTableEvent($event)">
+        (operationsTypesTableEvent)="onOperationsTypesTableEvent($event)">
 
-      </emp-cf-operations-table>
+      </emp-cf-operations-types-table>
 
     </div>
 

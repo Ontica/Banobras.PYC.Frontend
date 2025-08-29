@@ -21,7 +21,7 @@ import {
 
 import {
   FinancialAccountsEditionEventType
-} from '@app/views/financial-accounts/accounts-edition/financial-accounts-edition.component';
+} from '@app/views/financial-accounts/accounts-edition/accounts-edition.component';
 
 
 export enum ProjectTabbedViewEventType {

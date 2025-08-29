@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinancialAccountsTableComponent } from './financial-accounts-table.component';
+import { FinancialAccountOperationsTypesTableComponent } from './operations-types-table.component';
 
-describe('FinancialAccountsTableComponent', () => {
-  let component: FinancialAccountsTableComponent;
-  let fixture: ComponentFixture<FinancialAccountsTableComponent>;
+describe('FinancialAccountOperationsTypesTableComponent', () => {
+  let component: FinancialAccountOperationsTypesTableComponent;
+  let fixture: ComponentFixture<FinancialAccountOperationsTypesTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FinancialAccountsTableComponent]
+      declarations: [FinancialAccountOperationsTypesTableComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FinancialAccountsTableComponent);
+    fixture = TestBed.createComponent(FinancialAccountOperationsTypesTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

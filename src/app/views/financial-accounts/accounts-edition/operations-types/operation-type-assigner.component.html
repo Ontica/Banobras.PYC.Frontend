@@ -1,0 +1,49 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-row-container fx-items-center">
+
+    <div class="fx-item">
+
+      <emp-ng-select
+        formControlName="operationTypeUID"
+        placeholder="Cuenta"
+        [config]="{showTooltip: true}"
+        [items]="operationsTypes"
+        [showError]="formHelper.isControlInvalid(form.controls.operationTypeUID)">
+      </emp-ng-select>
+
+    </div>
+
+    <div class="fx-item-quarter">
+
+      <input type="text" class="text-box"
+        formControlName="operationNo"
+        placeholder="Concepto"
+        [class.invalid-control]="formHelper.isControlInvalid(form.controls.operationNo)">
+
+    </div>
+
+    <div class="fx-item-quarter">
+
+      <emp-ng-select
+        formControlName="currencyUID"
+        placeholder="Moneda"
+        [items]="currenciesList"
+        [loading]="isLoading"
+        [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+      </emp-ng-select>
+
+    </div>
+
+    <button title="Agregar concepto" #submitButton
+      [class.btn-icon-action]="formHelper.isFormReady(form)"
+      [class.btn-icon]="!formHelper.isFormReady(form)"
+      (click)="onAssignClicked()">
+
+      <mat-icon> add </mat-icon>
+
+    </button>
+
+  </div>
+
+</form>

@@ -45,7 +45,7 @@ interface FinancialAccountFormModel extends FormGroup<{
 
 @Component({
   selector: 'emp-cf-financial-account-editor',
-  templateUrl: './financial-account-editor.component.html',
+  templateUrl: './account-editor.component.html',
 })
 export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDestroy {
 

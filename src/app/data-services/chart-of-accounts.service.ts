@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { ChartOfAccounts, ChartOfAccountsQuery, FinancialAccountOperations,
+import { ChartOfAccounts, ChartOfAccountsQuery, FinancialAccountOperationsTypes,
          StandardAccountHolder } from '@app/models';
 
 
@@ -47,34 +47,34 @@ export class ChartOfAccountsDataService {
   }
 
 
-  getAccountOperations(accountUID: string): EmpObservable<FinancialAccountOperations> {
+  getAccountOperationsTypes(accountUID: string): EmpObservable<FinancialAccountOperationsTypes> {
     Assertion.assertValue(accountUID, 'accountUID');
 
     const path = `v2/financial-accounts/${accountUID}/operations`;
 
-    return this.http.get<FinancialAccountOperations>(path);
+    return this.http.get<FinancialAccountOperationsTypes>(path);
   }
 
 
-  addAccountOperation(accountUID: string,
-                      operationUID: string): EmpObservable<FinancialAccountOperations> {
+  addAccountOperationType(accountUID: string,
+                          operationTypeUID: string): EmpObservable<FinancialAccountOperationsTypes> {
     Assertion.assertValue(accountUID, 'accountUID');
-    Assertion.assertValue(operationUID, 'operationUID');
+    Assertion.assertValue(operationTypeUID, 'operationTypeUID');
 
-    const path = `v2/financial-accounts/${accountUID}/operations/${operationUID}`;
+    const path = `v2/financial-accounts/${accountUID}/operations/${operationTypeUID}`;
 
-    return this.http.post<FinancialAccountOperations>(path);
+    return this.http.post<FinancialAccountOperationsTypes>(path);
   }
 
 
-  removeAccountOperation(accountUID: string,
-                         operationUID: string): EmpObservable<FinancialAccountOperations> {
+  removeAccountOperationType(accountUID: string,
+                             operationTypeUID: string): EmpObservable<FinancialAccountOperationsTypes> {
     Assertion.assertValue(accountUID, 'accountUID');
-    Assertion.assertValue(operationUID, 'operationUID');
+    Assertion.assertValue(operationTypeUID, 'operationTypeUID');
 
-    const path = `v2/financial-accounts/${accountUID}/operations/${operationUID}`;
+    const path = `v2/financial-accounts/${accountUID}/operations/${operationTypeUID}`;
 
-    return this.http.delete<FinancialAccountOperations>(path);
+    return this.http.delete<FinancialAccountOperationsTypes>(path);
   }
 
 }

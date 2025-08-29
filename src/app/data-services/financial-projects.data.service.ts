@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FinancialAccountOperations, FinancialAccount, FinancialAccountFields, FinancialProjectDescriptor,
-         FinancialProjectFields, FinancialProjectHolder, FinancialProjectsQuery,
+import { FinancialAccountOperationsTypes, FinancialAccount, FinancialAccountFields,
+         FinancialProjectDescriptor, FinancialProjectFields, FinancialProjectHolder, FinancialProjectsQuery,
          FinancialProjectStructureForEdit, FinancialProject } from '@app/models';
 
 
@@ -91,7 +91,7 @@ export class FinancialProjectsDataService {
   //#endregion
 
 
-  //#region PROJECT (CRUD + OPERATIONS)
+  //#region PROJECT (CRUD)
   getProject(projectUID: string): EmpObservable<FinancialProjectHolder> {
     Assertion.assertValue(projectUID, 'projectUID');
 
@@ -188,15 +188,15 @@ export class FinancialProjectsDataService {
   //#endregion
 
 
-  //#region PROJECT ACCOUNT OPERATIONS
-  getProjectAccountOperations(projectUID: string,
-                              accountUID: string): EmpObservable<FinancialAccountOperations> {
+  //#region PROJECT ACCOUNT OPERATIONS TYPES
+  getProjectAccountOperationsTypes(projectUID: string,
+                                   accountUID: string): EmpObservable<FinancialAccountOperationsTypes> {
     Assertion.assertValue(projectUID, 'projectUID');
     Assertion.assertValue(accountUID, 'accountUID');
 
     const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}/operations`;
 
-    return this.http.get<FinancialAccountOperations>(path);
+    return this.http.get<FinancialAccountOperationsTypes>(path);
   }
   //#endregion
 

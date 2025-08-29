@@ -27,7 +27,7 @@ export enum FinancialAccountsTableEventType {
 
 @Component({
   selector: 'emp-cf-financial-accounts-table',
-  templateUrl: './financial-accounts-table.component.html',
+  templateUrl: './accounts-table.component.html',
 })
 export class FinancialAccountsTableComponent implements OnChanges {
 

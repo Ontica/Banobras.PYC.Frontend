@@ -7,7 +7,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinancialAccountsControlsComponent } from './financial-accounts-controls.component';
+import { FinancialAccountsControlsComponent } from './accounts-controls.component';
 
 describe('FinancialAccountsControlsComponent', () => {
   let component: FinancialAccountsControlsComponent;

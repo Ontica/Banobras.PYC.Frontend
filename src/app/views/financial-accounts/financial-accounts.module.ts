@@ -15,15 +15,16 @@ import { SharedModule } from '@app/shared/shared.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 
-import { FinancialAccountsEditionComponent } from './accounts-edition/financial-accounts-edition.component';
-import { FinancialAccountsControlsComponent } from './accounts-edition/financial-accounts-controls.component';
-import { FinancialAccountsTableComponent } from './accounts-edition/financial-accounts-table.component';
-import { FinancialAccountEditorComponent } from './accounts-edition/financial-account-editor.component';
-import { CreditAccountAttributesComponent } from './account-attributes/credit-account-attributes.component';
-import { CreditFinancialDataComponent } from './financial-data/credit-financial-data.component';
-import { OperationsEditionComponent } from './operations/operations-edition.component';
-import { OperationsTableComponent } from './operations/operations-table.component';
-import { OperationAssignerComponent } from './operations/operation-assigner.component';
+import { FinancialAccountsEditionComponent } from './accounts-edition/accounts-edition.component';
+import { FinancialAccountsControlsComponent } from './accounts-edition/accounts-controls.component';
+import { FinancialAccountsTableComponent } from './accounts-edition/accounts-table.component';
+import { FinancialAccountEditorComponent } from './accounts-edition/account-editor.component';
+import { CreditAccountAttributesComponent } from './accounts-edition/account-attributes/credit-account-attributes.component';
+import { CreditFinancialDataComponent } from './accounts-edition/financial-data/credit-financial-data.component';
+
+import { FinancialAccountOperationsTypesEditionComponent } from './accounts-edition/operations-types/operations-types-edition.component';
+import { FinancialAccountOperationsTypesTableComponent } from './accounts-edition/operations-types/operations-types-table.component';
+import { FinancialAccountOperationTypeAssignerComponent } from './accounts-edition/operations-types/operation-type-assigner.component';
 
 // imports of standalone component
 import { FinancialProjectModalComponent } from '../financial-projects/project/project-modal.component';
@@ -50,9 +51,9 @@ import { FinancialProjectModalComponent } from '../financial-projects/project/pr
     FinancialAccountEditorComponent,
     CreditAccountAttributesComponent,
     CreditFinancialDataComponent,
-    OperationsEditionComponent,
-    OperationsTableComponent,
-    OperationAssignerComponent,
+    FinancialAccountOperationsTypesEditionComponent,
+    FinancialAccountOperationsTypesTableComponent,
+    FinancialAccountOperationTypeAssignerComponent,
   ],
   exports: [
     FinancialAccountsEditionComponent,

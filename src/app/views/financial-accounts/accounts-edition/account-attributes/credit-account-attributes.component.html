@@ -39,7 +39,7 @@
 
       <input type="text" class="text-box"
         [(ngModel)]="selectedData.externalCreditNo"
-        [class.invalid-control]="showError && errors?.externalCreditNoError"
+        [class.invalid-control]="showError && errors?.externalCreditNoNumberError"
         [disabled]="disabled"
         (change)="onSelectedDataChanged()">
 

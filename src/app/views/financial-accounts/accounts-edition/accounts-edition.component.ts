@@ -18,27 +18,25 @@ import { sendEvent } from '@app/shared/utils';
 import { FinancialProjectsDataService } from '@app/data-services';
 
 import { FinancialAccountDescriptor, FinancialAccount, EmptyFinancialAccount, FinancialAccountFields,
-         EmptyFinancialAccountDescriptor, OperacionSelectData, EmptyOperacionSelectData} from '@app/models';
+         EmptyFinancialAccountDescriptor } from '@app/models';
 
-import { FinancialAccountsControlsEventType } from './financial-accounts-controls.component';
+import { FinancialAccountsControlsEventType } from './accounts-controls.component';
 
-import { FinancialAccountsTableEventType } from './financial-accounts-table.component';
+import { FinancialAccountsTableEventType } from './accounts-table.component';
 
-import { FinancialAccountEditorEventType } from './financial-account-editor.component';
+import { FinancialAccountEditorEventType } from './account-editor.component';
 
-import { OperationsEditionEventType } from '../operations/operations-edition.component';
+import { OperationsTypesEditionEventType } from './operations-types/operations-types-edition.component';
 
 import { ProjectModalEventType } from '@app/views/financial-projects/project/project-modal.component';
-
 
 export enum FinancialAccountsEditionEventType {
   UPDATED = 'FinancialAccountsEditionComponent.Event.Updated',
 }
 
-
 @Component({
   selector: 'emp-cf-financial-accounts-edition',
-  templateUrl: './financial-accounts-edition.component.html',
+  templateUrl: './accounts-edition.component.html',
 })
 export class FinancialAccountsEditionComponent implements OnChanges {
 
@@ -62,11 +60,11 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
   displayProjectEditor = false;
 
-  displayOperations = false;
+  displayOperationsTypesEditor = false;
 
   selectedAccount: FinancialAccount = EmptyFinancialAccount;
 
-  selectedOperationData: OperacionSelectData = EmptyOperacionSelectData;
+  selectedData: { projectUID: string; accountUID: string; } = { projectUID: null, accountUID: null };
 
   createAccount = false;
 
@@ -90,7 +88,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  get canEditOperations(): boolean {
+  get canEditOperationsTypes(): boolean {
     return this.queryType === 'standard-accounts' && this.canUpdate;
   }
 
@@ -156,7 +154,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
         return;
       case FinancialAccountsTableEventType.OPERATIONS_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        this.setSelectedOperation(event.payload.account)
+        this.setSelectedOperationTypeData(event.payload.account)
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -177,12 +175,12 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  onOperationsEditionEvent(event: EventInfo) {
-    switch (event.type as OperationsEditionEventType) {
-      case OperationsEditionEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedOperation(EmptyFinancialAccountDescriptor);
+  onOperationsTypesEditionEvent(event: EventInfo) {
+    switch (event.type as OperationsTypesEditionEventType) {
+      case OperationsTypesEditionEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedOperationTypeData(EmptyFinancialAccountDescriptor);
         return;
-      case OperationsEditionEventType.UPDATED:
+      case OperationsTypesEditionEventType.UPDATED:
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -239,14 +237,14 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
 
   private setSelectedProject(data: FinancialAccountDescriptor, display?: boolean) {
-    this.selectedOperationData = { projectUID: data.projectUID, accountUID: data.uid, operationsUID: null };
+    this.selectedData = { projectUID: data.projectUID, accountUID: data.uid };
     this.displayProjectEditor = display ?? !isEmpty(data);
   }
 
 
-  private setSelectedOperation(data: FinancialAccountDescriptor, display?: boolean) {
-    this.selectedOperationData = {projectUID: data.projectUID, accountUID: data.uid, operationsUID: null};
-    this.displayOperations = display ?? !isEmpty(data);
+  private setSelectedOperationTypeData(data: FinancialAccountDescriptor, display?: boolean) {
+    this.selectedData = { projectUID: data.projectUID, accountUID: data.uid} ;
+    this.displayOperationsTypesEditor = display ?? !isEmpty(data);
   }
 
 

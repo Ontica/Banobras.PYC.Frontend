@@ -18,7 +18,7 @@ export enum FinancialAccountsControlsEventType {
 
 @Component({
   selector: 'emp-cf-financial-accounts-controls',
-  templateUrl: './financial-accounts-controls.component.html',
+  templateUrl: './accounts-controls.component.html',
 })
 export class FinancialAccountsControlsComponent {
 

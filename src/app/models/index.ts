@@ -58,6 +58,8 @@ export * from './documents';
 
 export * from './edition-command';
 
+export * from './financial-accounts';
+
 export * from './financial-projects';
 
 export * from './history';

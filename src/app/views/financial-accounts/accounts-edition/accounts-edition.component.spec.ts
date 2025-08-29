@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinancialAccountEditorComponent } from './financial-account-editor.component';
+import { FinancialAccountsEditionComponent } from './accounts-edition.component';
 
-describe('FinancialAccountEditorComponent', () => {
-  let component: FinancialAccountEditorComponent;
-  let fixture: ComponentFixture<FinancialAccountEditorComponent>;
+describe('FinancialAccountsEditionComponent', () => {
+  let component: FinancialAccountsEditionComponent;
+  let fixture: ComponentFixture<FinancialAccountsEditionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FinancialAccountEditorComponent]
+      declarations: [FinancialAccountsEditionComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FinancialAccountEditorComponent);
+    fixture = TestBed.createComponent(FinancialAccountsEditionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

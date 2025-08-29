@@ -9,7 +9,7 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { EntityStatus } from './_explorer-data';
 
-import { FinancialAccountDescriptor } from './financial-projects';
+import { FinancialAccountDescriptor } from './financial-accounts';
 
 
 export enum AccountRoleType {
