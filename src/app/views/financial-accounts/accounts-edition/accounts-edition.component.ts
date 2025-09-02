@@ -26,7 +26,7 @@ import { FinancialAccountsTableEventType } from './accounts-table.component';
 
 import { FinancialAccountEditorEventType } from './account-editor.component';
 
-import { OperationsTypesEditionEventType } from './operations-types/operations-types-edition.component';
+import { OperationsEditionEventType } from './operations/operations-edition.component';
 
 import { ProjectModalEventType } from '@app/views/financial-projects/project/project-modal.component';
 
@@ -60,7 +60,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
   displayProjectEditor = false;
 
-  displayOperationsTypesEditor = false;
+  displayOperationsEditor = false;
 
   selectedAccount: FinancialAccount = EmptyFinancialAccount;
 
@@ -88,7 +88,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  get canEditOperationsTypes(): boolean {
+  get canEditOperations(): boolean {
     return this.queryType === 'standard-accounts' && this.canUpdate;
   }
 
@@ -154,7 +154,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
         return;
       case FinancialAccountsTableEventType.OPERATIONS_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        this.setSelectedOperationTypeData(event.payload.account)
+        this.setSelectedOperationData(event.payload.account)
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -175,12 +175,12 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  onOperationsTypesEditionEvent(event: EventInfo) {
-    switch (event.type as OperationsTypesEditionEventType) {
-      case OperationsTypesEditionEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedOperationTypeData(EmptyFinancialAccountDescriptor);
+  onOperationsEditionEvent(event: EventInfo) {
+    switch (event.type as OperationsEditionEventType) {
+      case OperationsEditionEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedOperationData(EmptyFinancialAccountDescriptor);
         return;
-      case OperationsTypesEditionEventType.UPDATED:
+      case OperationsEditionEventType.UPDATED:
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -242,9 +242,9 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  private setSelectedOperationTypeData(data: FinancialAccountDescriptor, display?: boolean) {
-    this.selectedData = { projectUID: data.projectUID, accountUID: data.uid} ;
-    this.displayOperationsTypesEditor = display ?? !isEmpty(data);
+  private setSelectedOperationData(data: FinancialAccountDescriptor, display?: boolean) {
+    this.selectedData = { projectUID: data.projectUID, accountUID: data.uid};
+    this.displayOperationsEditor = display ?? !isEmpty(data);
   }
 
 

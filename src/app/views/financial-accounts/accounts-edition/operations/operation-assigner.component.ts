@@ -17,34 +17,34 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { FormHelper, sendEvent } from '@app/shared/utils';
 
-import { FinancialAccountOperationTypeFields } from '@app/models';
+import { FinancialAccountOperationFields } from '@app/models';
 
 
-export enum OperationTypeAssignerEventType {
-  ASSIGN_BUTTON_CLICKED = 'FinancialAccountOperationTypeAssignerComponent.Event.AssignButtonClicked',
+export enum OperationAssignerEventType {
+  ASSIGN_BUTTON_CLICKED = 'FinancialAccountOperationAssignerComponent.Event.AssignButtonClicked',
 }
 
-interface OperationTypeAssignerFormModel extends FormGroup<{
-  operationTypeUID: FormControl<string>;
-  operationNo: FormControl<string>;
+interface OperationAssignerFormModel extends FormGroup<{
+  operationAccountTypeUID: FormControl<string>;
+  accountNo: FormControl<string>;
   currencyUID: FormControl<string>;
 }> { }
 
 @Component({
-  selector: 'emp-cf-operation-type-assigner',
-  templateUrl: './operation-type-assigner.component.html',
+  selector: 'emp-cf-operation-assigner',
+  templateUrl: './operation-assigner.component.html',
 })
-export class FinancialAccountOperationTypeAssignerComponent implements OnChanges, OnInit, OnDestroy {
+export class FinancialAccountOperationAssignerComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() accountUID = '';
 
-  @Input() operationsTypes: Identifiable[] = [];
+  @Input() operations: Identifiable[] = [];
 
-  @Output() operationTypeAssignerEvent = new EventEmitter<EventInfo>();
+  @Output() operationAssignerEvent = new EventEmitter<EventInfo>();
 
   helper: SubscriptionHelper;
 
-  form: OperationTypeAssignerFormModel;
+  form: OperationAssignerFormModel;
 
   formHelper = FormHelper;
 
@@ -76,7 +76,7 @@ export class FinancialAccountOperationTypeAssignerComponent implements OnChanges
 
   onAssignClicked() {
     if (FormHelper.isFormReadyAndInvalidate(this.form)) {
-      sendEvent(this.operationTypeAssignerEvent, OperationTypeAssignerEventType.ASSIGN_BUTTON_CLICKED,
+      sendEvent(this.operationAssignerEvent, OperationAssignerEventType.ASSIGN_BUTTON_CLICKED,
         { accountUID: this.accountUID, dataFields: this.getFormData() });
     }
   }
@@ -97,9 +97,9 @@ export class FinancialAccountOperationTypeAssignerComponent implements OnChanges
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      operationTypeUID: ['', Validators.required],
-      operationNo: ['', Validators.required],
+      operationAccountTypeUID: ['', Validators.required],
       currencyUID: ['', Validators.required],
+      accountNo: ['', Validators.required],
     });
   }
 
@@ -109,13 +109,13 @@ export class FinancialAccountOperationTypeAssignerComponent implements OnChanges
   }
 
 
-  private getFormData(): FinancialAccountOperationTypeFields {
+  private getFormData(): FinancialAccountOperationFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
-    const data: FinancialAccountOperationTypeFields = {
-      operationUID: this.form.value.operationTypeUID ?? null,
-      operationNo: this.form.value.operationNo ?? null,
+    const data: FinancialAccountOperationFields = {
+      operationAccountTypeUID: this.form.value.operationAccountTypeUID ?? null,
       currencyUID: this.form.value.currencyUID ?? null,
+      accountNo: this.form.value.accountNo ?? null,
     };
 
     return data;

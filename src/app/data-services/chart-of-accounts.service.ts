@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { ChartOfAccounts, ChartOfAccountsQuery, FinancialAccountOperationsTypes,
-         StandardAccountHolder } from '@app/models';
+import { ChartOfAccounts, ChartOfAccountsQuery, FinancialAccountOperationFields,
+         FinancialAccountOperationsHolder, StandardAccountHolder } from '@app/models';
 
 
 @Injectable()
@@ -37,7 +37,8 @@ export class ChartOfAccountsDataService {
   }
 
 
-  getStandardAccount(chartOfAccountsUID: string, stdAccountUID: string): EmpObservable<StandardAccountHolder> {
+  getStandardAccount(chartOfAccountsUID: string,
+                     stdAccountUID: string): EmpObservable<StandardAccountHolder> {
     Assertion.assertValue(chartOfAccountsUID, 'chartOfAccountsUID');
     Assertion.assertValue(stdAccountUID, 'stdAccountUID');
 
@@ -47,34 +48,34 @@ export class ChartOfAccountsDataService {
   }
 
 
-  getAccountOperationsTypes(accountUID: string): EmpObservable<FinancialAccountOperationsTypes> {
+  getAccountOperations(accountUID: string): EmpObservable<FinancialAccountOperationsHolder> {
     Assertion.assertValue(accountUID, 'accountUID');
 
     const path = `v2/financial-accounts/${accountUID}/operations`;
 
-    return this.http.get<FinancialAccountOperationsTypes>(path);
+    return this.http.get<FinancialAccountOperationsHolder>(path);
   }
 
 
-  addAccountOperationType(accountUID: string,
-                          operationTypeUID: string): EmpObservable<FinancialAccountOperationsTypes> {
+  addAccountOperation(accountUID: string,
+                      dataFields: FinancialAccountOperationFields): EmpObservable<FinancialAccountOperationsHolder> {
     Assertion.assertValue(accountUID, 'accountUID');
-    Assertion.assertValue(operationTypeUID, 'operationTypeUID');
+    Assertion.assertValue(dataFields, 'dataFields');
 
-    const path = `v2/financial-accounts/${accountUID}/operations/${operationTypeUID}`;
+    const path = `v2/financial-accounts/${accountUID}/operations`;
 
-    return this.http.post<FinancialAccountOperationsTypes>(path);
+    return this.http.post<FinancialAccountOperationsHolder>(path, dataFields);
   }
 
 
-  removeAccountOperationType(accountUID: string,
-                             operationTypeUID: string): EmpObservable<FinancialAccountOperationsTypes> {
+  removeAccountOperation(accountUID: string,
+                         operationUID: string): EmpObservable<FinancialAccountOperationsHolder> {
     Assertion.assertValue(accountUID, 'accountUID');
-    Assertion.assertValue(operationTypeUID, 'operationTypeUID');
+    Assertion.assertValue(operationUID, 'operationUID');
 
-    const path = `v2/financial-accounts/${accountUID}/operations/${operationTypeUID}`;
+    const path = `v2/financial-accounts/${accountUID}/operations/${operationUID}`;
 
-    return this.http.delete<FinancialAccountOperationsTypes>(path);
+    return this.http.delete<FinancialAccountOperationsHolder>(path);
   }
 
 }

@@ -22,9 +22,9 @@ import { FinancialAccountEditorComponent } from './accounts-edition/account-edit
 import { CreditAccountAttributesComponent } from './accounts-edition/account-attributes/credit-account-attributes.component';
 import { CreditFinancialDataComponent } from './accounts-edition/financial-data/credit-financial-data.component';
 
-import { FinancialAccountOperationsTypesEditionComponent } from './accounts-edition/operations-types/operations-types-edition.component';
-import { FinancialAccountOperationsTypesTableComponent } from './accounts-edition/operations-types/operations-types-table.component';
-import { FinancialAccountOperationTypeAssignerComponent } from './accounts-edition/operations-types/operation-type-assigner.component';
+import { FinancialAccountOperationsEditionComponent } from './accounts-edition/operations/operations-edition.component';
+import { FinancialAccountOperationsTableComponent } from './accounts-edition/operations/operations-table.component';
+import { FinancialAccountOperationAssignerComponent } from './accounts-edition/operations/operation-assigner.component';
 
 // imports of standalone component
 import { FinancialProjectModalComponent } from '../financial-projects/project/project-modal.component';
@@ -51,9 +51,9 @@ import { FinancialProjectModalComponent } from '../financial-projects/project/pr
     FinancialAccountEditorComponent,
     CreditAccountAttributesComponent,
     CreditFinancialDataComponent,
-    FinancialAccountOperationsTypesEditionComponent,
-    FinancialAccountOperationsTypesTableComponent,
-    FinancialAccountOperationTypeAssignerComponent,
+    FinancialAccountOperationsEditionComponent,
+    FinancialAccountOperationsTableComponent,
+    FinancialAccountOperationAssignerComponent,
   ],
   exports: [
     FinancialAccountsEditionComponent,

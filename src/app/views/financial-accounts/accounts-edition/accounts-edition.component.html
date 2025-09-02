@@ -17,7 +17,7 @@
     [filter]="filter"
     [displayProject]="displayProject"
     [canEditAccounts]="canEditAccounts"
-    [canEditOperations]="canEditOperationsTypes"
+    [canEditOperations]="canEditOperations"
     (financialAccountsTableEvent)="onFinancialAccountsTableEvent($event)">
 
   </emp-cf-financial-accounts-table>
@@ -42,10 +42,10 @@
 </emp-cf-project-modal>
 
 
-<emp-cf-operations-types-edition *ngIf="displayOperationsTypesEditor"
+<emp-cf-operations-edition *ngIf="displayOperationsEditor"
   [projectUID]="selectedData.projectUID"
   [accountUID]="selectedData.accountUID"
-  [canEdit]="canEditOperationsTypes"
-  (operationsTypesEditionEvent)="onOperationsTypesEditionEvent($event)">
+  [canEdit]="canEditOperations"
+  (operationsEditionEvent)="onOperationsEditionEvent($event)">
 
-</emp-cf-operations-types-edition>
+</emp-cf-operations-edition>

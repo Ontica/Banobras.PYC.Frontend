@@ -11,16 +11,19 @@ import { DateString, Empty, Identifiable } from '@app/core';
 export interface FinancialAccountDescriptor {
   uid: string;
   accountNo: string;
+  financialAccountTypeName: string;
+  description: string;
+  standardAccountName: string;
   projectUID: string;
   projectNo: string;
   projectName: string;
-  financialAccountTypeName: string;
-  standardAccountName: string;
   organizationalUnitName: string;
   currencyName: string;
-  description: string;
+  subledgerAccountNo: string;
   startDate: DateString;
   endDate: DateString;
+  attributes: AccountAttributes;
+  financialData: FinancialData;
   statusName: string;
 }
 
@@ -91,24 +94,24 @@ export interface FinancialAccount {
 }
 
 
-export interface FinancialAccountOperationsTypes {
-  account: FinancialAccountDescriptor;
+export interface FinancialAccountOperationsHolder {
+  baseAccount: FinancialAccountDescriptor;
   availableOperations: Identifiable[];
-  currentOperations: FinancialAccountOperationType[];
+  currentOperations: FinancialAccountOperation[];
 }
 
 
-export interface FinancialAccountOperationType extends Identifiable { // TODO: quitar este extends
+export interface FinancialAccountOperation {
   uid: string;
-  operation: string;
-  operationNo: string;
+  accountNo: string;
+  operationTypeName: string;
   currencyName: string;
 }
 
 
-export interface FinancialAccountOperationTypeFields {
-  operationUID: string;
-  operationNo: string;
+export interface FinancialAccountOperationFields {
+  operationAccountTypeUID: string;
+  accountNo: string;
   currencyUID: string;
 }
 
@@ -149,16 +152,19 @@ export function buildCreditFinancialData(data: CreditFinancialData): CreditFinan
 export const EmptyFinancialAccountDescriptor: FinancialAccountDescriptor = {
   uid: '',
   accountNo: '',
+  financialAccountTypeName: '',
   projectUID: '',
   projectNo: '',
   projectName: '',
-  financialAccountTypeName: '',
   standardAccountName: '',
   organizationalUnitName: '',
+  subledgerAccountNo: '',
   currencyName: '',
   description: '',
   startDate: '',
   endDate: '',
+  attributes: null,
+  financialData: null,
   statusName: '',
 }
 
@@ -182,8 +188,8 @@ export const EmptyFinancialAccount: FinancialAccount = {
 }
 
 
-export const EmptyFinancialAccountOperationsTypes: FinancialAccountOperationsTypes = {
-  account: EmptyFinancialAccountDescriptor,
+export const EmptyFinancialAccountOperationsHolder: FinancialAccountOperationsHolder = {
+  baseAccount: EmptyFinancialAccountDescriptor,
   availableOperations: [],
   currentOperations: [],
 };

@@ -7,21 +7,21 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinancialAccountOperationTypeAssignerComponent } from './operation-type-assigner.component';
+import { FinancialAccountOperationAssignerComponent } from './operation-assigner.component';
 
-describe('FinancialAccountOperationTypeAssignerComponent', () => {
-  let component: FinancialAccountOperationTypeAssignerComponent;
-  let fixture: ComponentFixture<FinancialAccountOperationTypeAssignerComponent>;
+describe('FinancialAccountOperationAssignerComponent', () => {
+  let component: FinancialAccountOperationAssignerComponent;
+  let fixture: ComponentFixture<FinancialAccountOperationAssignerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FinancialAccountOperationTypeAssignerComponent ]
+      declarations: [ FinancialAccountOperationAssignerComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FinancialAccountOperationTypeAssignerComponent);
+    fixture = TestBed.createComponent(FinancialAccountOperationAssignerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

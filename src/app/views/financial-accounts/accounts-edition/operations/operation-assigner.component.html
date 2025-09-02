@@ -5,11 +5,11 @@
     <div class="fx-item">
 
       <emp-ng-select
-        formControlName="operationTypeUID"
+        formControlName="operationAccountTypeUID"
         placeholder="Cuenta"
         [config]="{showTooltip: true}"
-        [items]="operationsTypes"
-        [showError]="formHelper.isControlInvalid(form.controls.operationTypeUID)">
+        [items]="operations"
+        [showError]="formHelper.isControlInvalid(form.controls.operationAccountTypeUID)">
       </emp-ng-select>
 
     </div>
@@ -17,9 +17,9 @@
     <div class="fx-item-quarter">
 
       <input type="text" class="text-box"
-        formControlName="operationNo"
+        formControlName="accountNo"
         placeholder="Concepto"
-        [class.invalid-control]="formHelper.isControlInvalid(form.controls.operationNo)">
+        [class.invalid-control]="formHelper.isControlInvalid(form.controls.accountNo)">
 
     </div>
 
