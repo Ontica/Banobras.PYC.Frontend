@@ -68,15 +68,6 @@ export class FinancialProjectsDataService {
 
     return this.http.get<Identifiable[]>(path);
   }
-
-
-  getFinancialAccountsTypes(projectUID: string): EmpObservable<Identifiable[]> {
-    Assertion.assertValue(projectUID, 'projectUID');
-
-    const path = `v1/financial-projects/${projectUID}/financial-accounts-types`;
-
-    return this.http.get<Identifiable[]>(path);
-  }
   //#endregion
 
 

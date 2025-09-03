@@ -27,6 +27,13 @@ export class ChartOfAccountsDataService {
   }
 
 
+  getStandardAccounts(): EmpObservable<Identifiable[]> {
+    const path = `v3/standard-accounts`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   searchChartOfAccounts(query: ChartOfAccountsQuery): EmpObservable<ChartOfAccounts> {
     Assertion.assertValue(query, 'query');
     Assertion.assertValue(query.chartOfAccountsUID, 'query.chartOfAccountsUID');

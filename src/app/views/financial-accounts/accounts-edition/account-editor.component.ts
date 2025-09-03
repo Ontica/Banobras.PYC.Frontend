@@ -16,7 +16,7 @@ import { Assertion, EventInfo, Identifiable, isEmpty, Validate } from '@app/core
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
+import { AccountsStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -184,14 +184,14 @@ export class FinancialAccountEditorComponent implements OnChanges, OnInit, OnDes
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
+      this.helper.select<Identifiable[]>(AccountsStateSelector.ACCOUNTS_TYPES_LIST),
       this.projectsData.getStandardAccounts(this.projectUID),
-      this.projectsData.getFinancialAccountsTypes(this.projectUID),
     ])
     .subscribe(([a, b, c, d]) => {
       this.orgUnitsList = a;
       this.currenciesList = b,
-      this.standardAccountsList = c;
-      this.accountTypesList = d;
+      this.accountTypesList = c;
+      this.standardAccountsList = d;
       this.isLoading = false;
     });
   }

@@ -41,6 +41,8 @@ import { ContractsDataService } from './contracts.data.service';
 
 import { DocumentsDataService } from './documents.data.service';
 
+import { FinancialAccountsDataService } from './financial-accounts.data.service';
+
 import { FinancialProjectsDataService } from './financial-projects.data.service';
 
 import { OrdersDataService } from './orders.data.service';
@@ -82,6 +84,7 @@ import { SuppliersDataService } from './suppliers.data.service';
     ChartOfAccountsDataService,
     ContractsDataService,
     DocumentsDataService,
+    FinancialAccountsDataService,
     FinancialProjectsDataService,
     OrdersDataService,
     PartiesDataService,
