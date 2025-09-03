@@ -230,7 +230,7 @@ export class CashLedgerMainPageComponent {
     switch (operation) {
       case CashLedgerOperationType.autoCodify:
         this.messageBox.show(result.message, 'Codificación automática');
-        this.reloadDataList();
+        this.refreshData();
         this.setSelectedData(EmptyCashTransactionHolder);
         this.resetExpandTabbedView();
         return;
@@ -271,11 +271,6 @@ export class CashLedgerMainPageComponent {
     if (this.isQueryTypeEntries && this.selectedID && !this.dataList.some(x => x.id === this.selectedID)) {
       this.selectedID = null;
     }
-  }
-
-
-  private reloadDataList(): void {
-    this.setDataList([...[], ...this.dataList]);
   }
 
 

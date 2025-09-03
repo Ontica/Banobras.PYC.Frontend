@@ -45,14 +45,6 @@ export enum CashLedgerOperationType {
 
 export const CashTransactionsOperationsList: ExplorerOperation[] = [
   {
-    uid: CashLedgerOperationType.autoCodify,
-    name: 'Codificación automática',
-    showConfirm: true,
-    confirmTitleWithoutName: true,
-    confirmOperationMessage: 'ejecutará el proceso de codificación automática de',
-    confirmQuestionMessage: 'Ejecuto el proceso de codificación automática de',
-  },
-  {
     uid: CashLedgerOperationType.exportEntries,
     name: 'Exportar movimientos'
   },
@@ -63,6 +55,14 @@ export const CashTransactionsOperationsList: ExplorerOperation[] = [
   {
     uid: CashLedgerOperationType.exportAnalysis,
     name: 'Exportar análisis de la codificación'
+  },
+  {
+    uid: CashLedgerOperationType.autoCodify,
+    name: 'Codificación automática',
+    showConfirm: true,
+    confirmTitleWithoutName: true,
+    confirmOperationMessage: 'ejecutará el proceso de codificación automática de',
+    confirmQuestionMessage: 'Ejecuto el proceso de codificación automática de',
   },
 ];
 
