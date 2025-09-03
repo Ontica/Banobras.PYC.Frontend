@@ -243,8 +243,8 @@ export const CashFlowViews: View[] = [
   },
   {
     name: 'CashFlow.StandardAccounts',
-    title: 'Cuentas estandar',
-    menuTitle: 'Cuentas estandar',
+    title: 'Cuentas estándar',
+    menuTitle: 'Cuentas estándar',
     url: ROUTES.flujo_de_efectivo_cuentas_estandar.fullpath,
     permission: ROUTES.flujo_de_efectivo_cuentas_estandar.permission,
   },
