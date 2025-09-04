@@ -5,7 +5,8 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Directive, ElementRef, HostListener, Input, OnChanges, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnChanges } from '@angular/core';
+
 
 @Directive({
   selector: '[empNgTextTruncateToggle]'
@@ -19,7 +20,8 @@ export class EmpTextTruncateToggleDirective implements OnChanges {
   private expanded = false;
 
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(private el: ElementRef) { }
+
 
   ngOnChanges() {
     this.expanded = false;
@@ -35,13 +37,15 @@ export class EmpTextTruncateToggleDirective implements OnChanges {
 
 
   private applyState() {
-    this.renderer.setStyle(this.el.nativeElement, '--max-lines', this.maxLines);
+    this.el.nativeElement.style.setProperty('--max-lines', `${this.maxLines}`);
+
     if (this.expanded) {
-      this.renderer.removeClass(this.el.nativeElement, 'text-truncate');
-      this.el.nativeElement.title = '';
+      this.el.nativeElement.classList.remove('text-truncate');
+      this.el.nativeElement.removeAttribute('title');
     } else {
-      this.renderer.addClass(this.el.nativeElement, 'text-truncate');
-      this.el.nativeElement.title = this.text;
+      this.el.nativeElement.classList.add('text-truncate');
+      this.el.nativeElement.setAttribute('title', this.text ?? '');
     }
   }
+
 }
