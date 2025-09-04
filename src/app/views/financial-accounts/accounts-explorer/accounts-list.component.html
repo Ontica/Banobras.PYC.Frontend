@@ -1,0 +1,45 @@
+<div class="fx-column-container-fill">
+
+  <emp-ng-list-controls *ngIf="queryExecuted && dataList.length > 0"
+    class="fx-item-none"
+    [config]="{ showExportButton: true, showSearcher: true }"
+    (listControlsEvent)="onListControlsEvent($event)">
+
+  </emp-ng-list-controls>
+
+
+  <emp-cf-accounts-list-header class="fx-item-none">
+
+  </emp-cf-accounts-list-header>
+
+
+  <div #listContainer class="fx-item">
+
+    <cdk-virtual-scroll-viewport itemSize="67">
+
+        <div *cdkVirtualFor="let item of filteredDataList"
+          class="list-item"
+          [class.list-item-selected]="item.uid === selectedUID">
+
+          <div class="list-item-container">
+
+            <emp-cf-accounts-list-item
+              [item]="item"
+              [selected]="item.uid === selectedUID"
+              (accountsListItemEvent)="onAccountsListItemEvent($event)">
+
+            </emp-cf-accounts-list-item>
+
+          </div>
+
+        </div>
+
+        <div *ngIf="noDataMessage" class="text-not-found">
+          {{ noDataMessage }}
+        </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

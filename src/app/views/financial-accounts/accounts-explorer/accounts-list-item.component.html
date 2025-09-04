@@ -1,0 +1,39 @@
+<div class="fx-row-container fx-gap-size entry-gap-size">
+
+  <div class="fx-item-size column-size-md">
+    <div class="list-item-text-highlight nowrap"
+      (click)="onSelectClicked()">
+      <a class="bold-text">{{item.accountNo}}</a>
+    </div>
+    <div class="bold-text">{{item.financialAccountTypeName}}</div>
+    <div empNgTextTruncateToggle [text]="item.description" [maxLines]="2">
+      {{item.description}}
+    </div>
+  </div>
+
+  <div class="fx-item">
+    <div empNgTextTruncateToggle [text]="item.standardAccountName" [maxLines]="4">
+      {{item.standardAccountName}}
+    </div>
+  </div>
+
+  <div class="fx-item-size column-size-md">
+    <div class="list-item-text-highlight">{{item.organizationalUnitName}}</div>
+    <div class="bold-text">{{!item.subledgerAccountNo ? 'No aplica' : item.subledgerAccountNo}}</div>
+    <div>{{item.currencyName}}</div>
+  </div>
+
+  <div class="fx-item-size column-size-md">
+    <div class="list-item-text-highlight">{{item.projectNo}}</div>
+    <div class="bold-text">{{item.projectName}}</div>
+    <div>{{!item.projectTypeName ? '-' : item.projectTypeName}}</div>
+  </div>
+
+  <div class="fx-item-size column-size-status">
+    <span class="tag" [style.font-size.px]="10"
+      [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(item.statusName)}">
+      {{item.statusName}}
+    </span>
+  </div>
+
+</div>

@@ -15,6 +15,13 @@ import { SharedModule } from '@app/shared/shared.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 
+import { FinancialAccountsMainPageComponent } from './accounts-main-page/accounts-main-page.component';
+import { FinancialAccountsExplorerComponent } from './accounts-explorer/accounts-explorer.component';
+import { FinancialAccountsFilterComponent } from './accounts-explorer/accounts-filter.component';
+import { FinancialAccountsListComponent } from './accounts-explorer/accounts-list.component';
+import { FinancialAccountListHeaderComponent } from './accounts-explorer/accounts-list-header.component';
+import { FinancialAccountListItemComponent } from './accounts-explorer/accounts-list-item.component';
+
 import { FinancialAccountsEditionComponent } from './accounts-edition/accounts-edition.component';
 import { FinancialAccountsControlsComponent } from './accounts-edition/accounts-controls.component';
 import { FinancialAccountsTableComponent } from './accounts-edition/accounts-table.component';
@@ -45,6 +52,12 @@ import { FinancialProjectModalComponent } from '../financial-projects/project/pr
     FinancialProjectModalComponent,
   ],
   declarations: [
+    FinancialAccountsMainPageComponent,
+    FinancialAccountsExplorerComponent,
+    FinancialAccountsFilterComponent,
+    FinancialAccountsListComponent,
+    FinancialAccountListHeaderComponent,
+    FinancialAccountListItemComponent,
     FinancialAccountsEditionComponent,
     FinancialAccountsControlsComponent,
     FinancialAccountsTableComponent,
@@ -56,6 +69,7 @@ import { FinancialProjectModalComponent } from '../financial-projects/project/pr
     FinancialAccountOperationAssignerComponent,
   ],
   exports: [
+    FinancialAccountsMainPageComponent,
     FinancialAccountsEditionComponent,
   ]
 })

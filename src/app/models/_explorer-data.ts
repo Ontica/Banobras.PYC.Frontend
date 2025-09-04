@@ -97,6 +97,12 @@ export interface BaseActions {
 }
 
 
+export interface ExplorerDisplayedData {
+  displayedCount: number;
+  totalCount: number;
+}
+
+
 export const EmptyExplorerBulkOperationData: ExplorerBulkOperationData = {
   operation: null,
   command: null,

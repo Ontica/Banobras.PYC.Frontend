@@ -7,24 +7,40 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
+import { EntityStatus } from './_explorer-data';
+
+
+export interface FinancialAccountsQuery {
+  organizationUnitUID: string;
+  status: EntityStatus;
+  keywords: string;
+  accountTypeUID: string;
+  standardAccountUID: string;
+  subledgerAcccountNo: string;
+  currencyUID: string;
+  projectTypeUID: string;
+  projectUID: string;
+}
+
 
 export interface FinancialAccountDescriptor {
   uid: string;
+  projectUID: string;
   accountNo: string;
   financialAccountTypeName: string;
-  description: string;
   standardAccountName: string;
-  projectUID: string;
+  organizationalUnitName: string;
+  subledgerAccountNo: string;
+  currencyName: string;
   projectNo: string;
   projectName: string;
-  organizationalUnitName: string;
-  currencyName: string;
-  subledgerAccountNo: string;
+  projectTypeName: string;
+  description: string;
+  statusName: string;
   startDate: DateString;
   endDate: DateString;
   attributes: AccountAttributes;
   financialData: FinancialData;
-  statusName: string;
 }
 
 
@@ -75,22 +91,28 @@ export interface CreditFinancialData extends FinancialData {
 }
 
 
+export interface FinancialAccountHolder {
+  account: FinancialAccount;
+}
+
+
 export interface FinancialAccount {
   uid: string;
+  accountNo: string;
   financialAccountType: Identifiable;
+  description: string;
   standardAccount: Identifiable;
   organizationalUnit: Identifiable;
   currency: Identifiable;
-  accountNo: string;
+  subledgerAccountNo: string;
+  project: Identifiable;
   tags: string[];
-  description: string;
   startDate: DateString;
   endDate: DateString;
   status: Identifiable;
   attributes: AccountAttributes;
   financialData: FinancialData;
   parent: Identifiable;
-  project: Identifiable;
 }
 
 
@@ -149,6 +171,19 @@ export function buildCreditFinancialData(data: CreditFinancialData): CreditFinan
 }
 
 
+export const EmptyFinancialAccountsQuery: FinancialAccountsQuery = {
+  organizationUnitUID: '',
+  accountTypeUID: '',
+  standardAccountUID: '',
+  currencyUID: '',
+  projectTypeUID: '',
+  projectUID: '',
+  keywords: '',
+  subledgerAcccountNo: '',
+  status: null,
+}
+
+
 export const EmptyFinancialAccountDescriptor: FinancialAccountDescriptor = {
   uid: '',
   accountNo: '',
@@ -156,6 +191,7 @@ export const EmptyFinancialAccountDescriptor: FinancialAccountDescriptor = {
   projectUID: '',
   projectNo: '',
   projectName: '',
+  projectTypeName: '',
   standardAccountName: '',
   organizationalUnitName: '',
   subledgerAccountNo: '',
@@ -173,18 +209,24 @@ export const EmptyFinancialAccount: FinancialAccount = {
   uid: '',
   accountNo: '',
   financialAccountType: Empty,
+  description: '',
   standardAccount: Empty,
   organizationalUnit: Empty,
+  subledgerAccountNo: '',
   currency: Empty,
+  project: Empty,
   tags: [],
-  description: '',
   startDate: '',
   endDate: '',
   status: Empty,
   attributes: null,
   financialData:  null,
   parent: Empty,
-  project: Empty,
+}
+
+
+export const EmptyFinancialAccountHolder: FinancialAccountHolder = {
+  account: EmptyFinancialAccount,
 }
 
 

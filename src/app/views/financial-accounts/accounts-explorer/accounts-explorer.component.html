@@ -1,0 +1,46 @@
+<div class="card card-border">
+
+  <div class="card-header card-header-flat">
+
+    <div class="card-title">
+      Explorador de cuentas
+
+      <div class="card-hint" empNgProgressText
+        loadingText="Cargando"
+        [finalText]="cardHint"
+        [isLoading]="isLoading">
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card-body" [empNgSpinnerHost]="spinner">
+
+    <div class="fx-column-container-fill">
+
+      <emp-ng-spinner #spinner [visible]="isLoading">
+
+      </emp-ng-spinner>
+
+      <emp-cf-accounts-filter class="fx-item-none"
+        [query]="query"
+        [(showFilters)]="showFilters"
+        (accountsFilterEvent)="onAccountsFilterEvent($event)">
+
+      </emp-cf-accounts-filter>
+
+      <emp-cf-accounts-list class="fx-item"
+        [dataList]="dataList"
+        [selectedUID]="selectedUID"
+        [queryExecuted]="queryExecuted"
+        [isLoading]="isLoading"
+        (accountsListEvent)="onAccountsListEvent($event)">
+
+      </emp-cf-accounts-list>
+
+    </div>
+
+  </div>
+
+</div>

@@ -33,6 +33,10 @@ import {
   ChartOfAccountsMainPageComponent
 } from '@app/views/chart-of-accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
 
+import {
+  FinancialAccountsMainPageComponent
+} from '@app/views/financial-accounts/accounts-main-page/accounts-main-page.component';
+
 
 const routes: Routes = [
   {
@@ -63,7 +67,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.flujo_de_efectivo_cuentas.permission },
     path: ROUTES.flujo_de_efectivo_cuentas.path,
-    component: DefaultComponent,
+    component: FinancialAccountsMainPageComponent,
   },
   {
     data: { permission: ROUTES.flujo_de_efectivo_reportes.permission },

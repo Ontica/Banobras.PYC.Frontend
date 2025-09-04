@@ -7,7 +7,9 @@
 
 import { Injectable } from '@angular/core';
 
-import { EmpObservable, HttpService, Identifiable } from '@app/core';
+import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
+
+import { FileReport, FinancialAccountDescriptor, FinancialAccountsQuery } from '@app/models';
 
 
 @Injectable()
@@ -22,6 +24,24 @@ export class FinancialAccountsDataService {
     const path = `v1/financial-projects/financial-accounts-types`;
 
     return this.http.get<Identifiable[]>(path);
+  }
+
+
+  searchAccounts(query: FinancialAccountsQuery): EmpObservable<FinancialAccountDescriptor[]> {
+    Assertion.assertValue(query, 'query');
+
+    const path = `v2/financial-accounts/search`;
+
+    return this.http.post<FinancialAccountDescriptor[]>(path, query);
+  }
+
+
+  exportAccounts(query: FinancialAccountsQuery): EmpObservable<FileReport> {
+    Assertion.assertValue(query, 'query');
+
+    const path = `v2/financial-accounts/export`;
+
+    return this.http.post<FileReport>(path, query);
   }
 
 }
