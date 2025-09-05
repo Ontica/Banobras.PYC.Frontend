@@ -1,0 +1,68 @@
+<emp-ng-card
+  [title]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Cuenta">
+
+      <emp-cf-account-editor
+        [account]="data.account"
+        [projectUID]="data.account.project.uid">
+
+      </emp-cf-account-editor>
+
+    </mat-tab>
+
+
+    <mat-tab label="Proyecto">
+
+      <emp-cf-project-editor
+        [project]="data.project">
+
+      </emp-cf-project-editor>
+
+    </mat-tab>
+
+
+    <mat-tab label="Operaciones">
+
+      <emp-cf-operations-edition
+        [projectUID]="data.account.project.uid"
+        [accountUID]="data.account.uid"
+        [data]="data.operationAccounts"
+        [canEdit]="data.actions.canUpdate"
+        (operationsEditionEvent)="onOperationsEditionEvent($event)">
+
+      </emp-cf-operations-edition>
+
+    </mat-tab>
+
+
+    <mat-tab label="Documentos">
+
+      <emp-ng-documents-edition
+        entityType="financial-accounts"
+        [entityUID]="data.account.uid"
+        [documents]="data.documents"
+        [canEdit]="data.actions.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+
+      </emp-ng-documents-edition>
+
+    </mat-tab>
+
+
+    <mat-tab label="Historial">
+
+      <emp-ng-history-table
+        [history]="data.history">
+
+      </emp-ng-history-table>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

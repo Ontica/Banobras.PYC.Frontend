@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FileReport, FinancialAccountDescriptor, FinancialAccountsQuery } from '@app/models';
+import { FileReport, FinancialAccountDescriptor, FinancialAccountHolder,
+         FinancialAccountsQuery } from '@app/models';
 
 
 @Injectable()
@@ -42,6 +43,15 @@ export class FinancialAccountsDataService {
     const path = `v2/financial-accounts/export`;
 
     return this.http.post<FileReport>(path, query);
+  }
+
+
+  getAccount(accountUID: string): EmpObservable<FinancialAccountHolder> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/${accountUID}`;
+
+    return this.http.get<FinancialAccountHolder>(path);
   }
 
 }

@@ -9,8 +9,6 @@ import { Component } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { FinancialAccountsDataService } from '@app/data-services';
 
 import { EmptyFinancialAccountHolder, EmptyFinancialAccountsQuery, FinancialAccountDescriptor,
@@ -21,6 +19,8 @@ import {
 } from '@app/views/_reports-controls/export-report-modal/export-report-modal.component';
 
 import { AccountsExplorerEventType } from '../accounts-explorer/accounts-explorer.component';
+
+import { AccountTabbedViewEventType } from '../account-tabbed-view/account-tabbed-view.component';
 
 
 @Component({
@@ -50,8 +50,7 @@ export class FinancialAccountsMainPageComponent {
   fileUrl = '';
 
 
-  constructor(private accountsData: FinancialAccountsDataService,
-              private messageBox: MessageBoxService) { }
+  constructor(private accountsData: FinancialAccountsDataService) { }
 
 
   onAccountsExplorerEvent(event: EventInfo) {
@@ -71,7 +70,23 @@ export class FinancialAccountsMainPageComponent {
       case AccountsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.messageBox.showInDevelopment('Seleccionar cuenta', event.payload);
+        this.getAccount(event.payload.item.uid);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onAccountTabbedViewEvent(event: EventInfo) {
+    switch (event.type as AccountTabbedViewEventType) {
+      case AccountTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setSelectedData(EmptyFinancialAccountHolder);
+        return;
+      case AccountTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        this.refreshSelectedData(event.payload.dataUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -112,6 +127,17 @@ export class FinancialAccountsMainPageComponent {
   }
 
 
+  private getAccount(accountUID: string) {
+    this.isLoadingSelection = true;
+
+    this.accountsData.getAccount(accountUID)
+      .firstValue()
+      .then(x => this.setSelectedData(x))
+      .catch(e => this.setSelectedData(EmptyFinancialAccountHolder))
+      .finally(() => this.isLoadingSelection = false);
+  }
+
+
   private setQueryAndClearExplorerData(query: FinancialAccountsQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
@@ -135,6 +161,11 @@ export class FinancialAccountsMainPageComponent {
   private setDisplayExportModal(display: boolean) {
     this.displayExportModal = display;
     this.fileUrl = '';
+  }
+
+
+  private refreshSelectedData(dataUID: string) {
+    this.getAccount(dataUID);
   }
 
 }

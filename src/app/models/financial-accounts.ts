@@ -7,7 +7,13 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { EntityStatus } from './_explorer-data';
+import { BaseActions, EmptyBaseActions, EntityStatus } from './_explorer-data';
+
+import { EmptyFinancialProject, FinancialProject } from './financial-projects';
+
+import { Document } from './documents';
+
+import { HistoryEntry } from './history';
 
 
 export interface FinancialAccountsQuery {
@@ -93,6 +99,11 @@ export interface CreditFinancialData extends FinancialData {
 
 export interface FinancialAccountHolder {
   account: FinancialAccount;
+  project: FinancialProject;
+  operationAccounts: FinancialAccountOperationsStructure;
+  documents: Document[];
+  history: HistoryEntry[];
+  actions: BaseActions;
 }
 
 
@@ -230,6 +241,16 @@ export const EmptyFinancialAccountOperationsStructure: FinancialAccountOperation
   availableOperations: [],
   currentOperations: [],
 };
+
+
+export const EmptyFinancialAccountHolder: FinancialAccountHolder = {
+  account: EmptyFinancialAccount,
+  project: EmptyFinancialProject,
+  operationAccounts: EmptyFinancialAccountOperationsStructure,
+  documents: [],
+  history: [],
+  actions: EmptyBaseActions,
+}
 
 
 export const EmptyCreditAttributes: CreditAttributes = {

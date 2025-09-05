@@ -16,6 +16,13 @@
 
   </emp-cf-accounts-explorer>
 
+  <emp-cf-account-tabbed-view *ngIf="displayTabbedView"
+    class="secondary priority std-stacked"
+    [data]="selectedData"
+    (accountTabbedViewEvent)="onAccountTabbedViewEvent($event)">
+
+  </emp-cf-account-tabbed-view>
+
 </div>
 
 

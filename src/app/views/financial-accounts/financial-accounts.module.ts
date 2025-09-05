@@ -21,6 +21,7 @@ import { FinancialAccountsFilterComponent } from './accounts-explorer/accounts-f
 import { FinancialAccountsListComponent } from './accounts-explorer/accounts-list.component';
 import { FinancialAccountListHeaderComponent } from './accounts-explorer/accounts-list-header.component';
 import { FinancialAccountListItemComponent } from './accounts-explorer/accounts-list-item.component';
+import { FinancialAccountTabbedViewComponent } from './account-tabbed-view/account-tabbed-view.component';
 import { FinancialAccountOperationsModalComponent } from './operations/operations-modal.component';
 import { FinancialAccountsEditionComponent } from './accounts-edition/accounts-edition.component';
 import { FinancialAccountsControlsComponent } from './accounts-edition/accounts-controls.component';
@@ -36,6 +37,7 @@ import { FinancialAccountOperationAssignerComponent } from './operations/operati
 
 // imports of standalone component
 import { FinancialProjectModalComponent } from '../financial-projects/project/project-modal.component';
+import { FinancialProjectEditorComponent } from '../financial-projects/project/project-editor.component';
 
 
 @NgModule({
@@ -51,6 +53,7 @@ import { FinancialProjectModalComponent } from '../financial-projects/project/pr
     ReportsControlsModule,
 
     FinancialProjectModalComponent,
+    FinancialProjectEditorComponent,
   ],
   declarations: [
     FinancialAccountsMainPageComponent,
@@ -59,6 +62,7 @@ import { FinancialProjectModalComponent } from '../financial-projects/project/pr
     FinancialAccountsListComponent,
     FinancialAccountListHeaderComponent,
     FinancialAccountListItemComponent,
+    FinancialAccountTabbedViewComponent,
     FinancialAccountsEditionComponent,
     FinancialAccountsControlsComponent,
     FinancialAccountsTableComponent,
