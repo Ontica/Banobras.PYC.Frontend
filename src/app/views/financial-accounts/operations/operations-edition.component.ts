@@ -5,13 +5,13 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { ChartOfAccountsDataService, FinancialProjectsDataService } from '@app/data-services';
+import { ChartOfAccountsDataService } from '@app/data-services';
 
 import { EmptyFinancialAccountOperationsStructure, FinancialAccountOperationsStructure,
          FinancialAccountOperationFields } from '@app/models';
@@ -30,34 +30,24 @@ export enum OperationsEditionEventType {
   selector: 'emp-cf-operations-edition',
   templateUrl: './operations-edition.component.html',
 })
-export class FinancialAccountOperationsEditionComponent implements OnChanges {
+export class FinancialAccountOperationsEditionComponent {
 
   @Input() projectUID = '';
 
   @Input() accountUID = '';
 
+  @Input() data: FinancialAccountOperationsStructure = EmptyFinancialAccountOperationsStructure;
+
   @Input() canEdit = false;
 
+  @Input() isLoading = false;
+
   @Output() operationsEditionEvent = new EventEmitter<EventInfo>();
-
-  title = 'Editar conceptos de la cuenta';
-
-  data: FinancialAccountOperationsStructure = EmptyFinancialAccountOperationsStructure;
 
   submitted = false;
 
 
-  constructor(private accountsData: ChartOfAccountsDataService,
-              private projectsData: FinancialProjectsDataService) { }
-
-
-  ngOnChanges() {
-    if (!!this.projectUID) {
-      this.getProjectAccountOperations(this.projectUID, this.accountUID);
-    } else {
-      this.getAccountOperations(this.accountUID);
-    }
-  }
+  constructor(private accountsData: ChartOfAccountsDataService) { }
 
 
   onCloseButtonClicked() {
@@ -95,26 +85,6 @@ export class FinancialAccountOperationsEditionComponent implements OnChanges {
   }
 
 
-  private getProjectAccountOperations(projectUID: string, accountUID: string) {
-    this.submitted = true;
-
-    this.projectsData.getProjectAccountOperations(projectUID, accountUID)
-      .firstValue()
-      .then(x => this.setAccountOperationsData(x))
-      .finally(() => this.submitted = false);
-  }
-
-
-  private getAccountOperations(accountUID: string) {
-    this.submitted = true;
-
-    this.accountsData.getAccountOperations(accountUID)
-      .firstValue()
-      .then(x => this.setAccountOperationsData(x))
-      .finally(() => this.submitted = false);
-  }
-
-
   private addAccountOperation(accountUID: string, dataFields: FinancialAccountOperationFields) {
     this.submitted = true;
 
@@ -136,21 +106,7 @@ export class FinancialAccountOperationsEditionComponent implements OnChanges {
 
 
   private resolveOperationUpdated(data: FinancialAccountOperationsStructure) {
-    this.setAccountOperationsData(data);
-    sendEvent(this.operationsEditionEvent, OperationsEditionEventType.UPDATED);
-  }
-
-
-  private setAccountOperationsData(data: FinancialAccountOperationsStructure) {
-    this.data = data;
-    this.setTexts();
-  }
-
-
-  private setTexts() {
-    this.title = this.canEdit ?
-    `Editar conceptos de la cuenta - ${this.data.baseAccount.accountNo}` :
-    `Conceptos de la cuenta - ${this.data.baseAccount.accountNo}`;
+    sendEvent(this.operationsEditionEvent, OperationsEditionEventType.UPDATED, { data });
   }
 
 }

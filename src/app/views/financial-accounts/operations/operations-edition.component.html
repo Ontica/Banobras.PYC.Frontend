@@ -1,0 +1,24 @@
+<div class="fx-column-container" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted || isLoading">
+
+  </emp-ng-spinner>
+
+  <emp-cf-operation-assigner *ngIf="canEdit"
+    [accountUID]="accountUID"
+    [operations]="data.availableOperations"
+    (operationAssignerEvent)="onOperationAssignerEvent($event)">
+
+  </emp-cf-operation-assigner>
+
+  <br>
+
+  <emp-cf-operations-table
+    [accountUID]="accountUID"
+    [operations]="data.currentOperations"
+    [canEdit]="canEdit"
+    (operationsTableEvent)="onOperationsTableEvent($event)">
+
+  </emp-cf-operations-table>
+
+</div>

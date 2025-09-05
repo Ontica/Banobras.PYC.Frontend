@@ -35,17 +35,17 @@
 </emp-cf-account-modal>
 
 
-<emp-cf-project-modal *ngIf="displayProjectEditor"
+<emp-cf-project-modal *ngIf="displayProjectModal"
   [projectUID]="selectedData.projectUID"
   (projectModalEvent)="onProjectModalEvent($event)">
 
 </emp-cf-project-modal>
 
 
-<emp-cf-operations-edition *ngIf="displayOperationsEditor"
+<emp-cf-operations-modal *ngIf="displayOperationsModal"
   [projectUID]="selectedData.projectUID"
   [accountUID]="selectedData.accountUID"
   [canEdit]="canEditOperations"
-  (operationsEditionEvent)="onOperationsEditionEvent($event)">
+  (operationsModalEvent)="onOperationsModalEvent($event)">
 
-</emp-cf-operations-edition>
+</emp-cf-operations-modal>

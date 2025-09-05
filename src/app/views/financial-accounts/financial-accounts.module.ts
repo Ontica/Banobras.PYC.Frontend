@@ -21,7 +21,7 @@ import { FinancialAccountsFilterComponent } from './accounts-explorer/accounts-f
 import { FinancialAccountsListComponent } from './accounts-explorer/accounts-list.component';
 import { FinancialAccountListHeaderComponent } from './accounts-explorer/accounts-list-header.component';
 import { FinancialAccountListItemComponent } from './accounts-explorer/accounts-list-item.component';
-
+import { FinancialAccountOperationsModalComponent } from './operations/operations-modal.component';
 import { FinancialAccountsEditionComponent } from './accounts-edition/accounts-edition.component';
 import { FinancialAccountsControlsComponent } from './accounts-edition/accounts-controls.component';
 import { FinancialAccountsTableComponent } from './accounts-edition/accounts-table.component';
@@ -30,10 +30,9 @@ import { FinancialAccountEditorComponent } from './accounts-edition/account-edit
 import { FinancialAccountModalComponent } from './accounts-edition/account-modal.component';
 import { CreditAccountAttributesComponent } from './accounts-edition/account-attributes/credit-account-attributes.component';
 import { CreditFinancialDataComponent } from './accounts-edition/financial-data/credit-financial-data.component';
-
-import { FinancialAccountOperationsEditionComponent } from './accounts-edition/operations/operations-edition.component';
-import { FinancialAccountOperationsTableComponent } from './accounts-edition/operations/operations-table.component';
-import { FinancialAccountOperationAssignerComponent } from './accounts-edition/operations/operation-assigner.component';
+import { FinancialAccountOperationsEditionComponent } from './operations/operations-edition.component';
+import { FinancialAccountOperationsTableComponent } from './operations/operations-table.component';
+import { FinancialAccountOperationAssignerComponent } from './operations/operation-assigner.component';
 
 // imports of standalone component
 import { FinancialProjectModalComponent } from '../financial-projects/project/project-modal.component';
@@ -68,6 +67,7 @@ import { FinancialProjectModalComponent } from '../financial-projects/project/pr
     FinancialAccountModalComponent,
     CreditAccountAttributesComponent,
     CreditFinancialDataComponent,
+    FinancialAccountOperationsModalComponent,
     FinancialAccountOperationsEditionComponent,
     FinancialAccountOperationsTableComponent,
     FinancialAccountOperationAssignerComponent,

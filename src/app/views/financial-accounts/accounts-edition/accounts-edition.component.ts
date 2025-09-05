@@ -26,9 +26,10 @@ import { AccountsTableEventType } from './accounts-table.component';
 
 import { AccountModalEventType } from './account-modal.component';
 
-import { OperationsEditionEventType } from './operations/operations-edition.component';
+import { OperationsModalEventType } from '../operations/operations-modal.component';
 
 import { ProjectModalEventType } from '@app/views/financial-projects/project/project-modal.component';
+
 
 export enum AccountsEditionEventType {
   UPDATED = 'FinancialAccountsEditionComponent.Event.Updated',
@@ -58,9 +59,9 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
   displayAccountModal = false;
 
-  displayProjectEditor = false;
+  displayProjectModal = false;
 
-  displayOperationsEditor = false;
+  displayOperationsModal = false;
 
   selectedAccount: FinancialAccount = EmptyFinancialAccount;
 
@@ -154,7 +155,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
         return;
       case AccountsTableEventType.OPERATIONS_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        this.setSelectedOperationData(event.payload.account)
+        this.setSelectedOperations(event.payload.account)
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -175,12 +176,12 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  onOperationsEditionEvent(event: EventInfo) {
-    switch (event.type as OperationsEditionEventType) {
-      case OperationsEditionEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedOperationData(EmptyFinancialAccountDescriptor);
+  onOperationsModalEvent(event: EventInfo) {
+    switch (event.type as OperationsModalEventType) {
+      case OperationsModalEventType.CLOSE_MODAL_CLICKED:
+        this.setSelectedOperations(EmptyFinancialAccountDescriptor);
         return;
-      case OperationsEditionEventType.UPDATED:
+      case OperationsModalEventType.UPDATED:
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -238,13 +239,13 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
   private setSelectedProject(data: FinancialAccountDescriptor, display?: boolean) {
     this.selectedData = { projectUID: data.projectUID, accountUID: data.uid };
-    this.displayProjectEditor = display ?? !isEmpty(data);
+    this.displayProjectModal = display ?? !isEmpty(data);
   }
 
 
-  private setSelectedOperationData(data: FinancialAccountDescriptor, display?: boolean) {
+  private setSelectedOperations(data: FinancialAccountDescriptor, display?: boolean) {
     this.selectedData = { projectUID: data.projectUID, accountUID: data.uid};
-    this.displayOperationsEditor = display ?? !isEmpty(data);
+    this.displayOperationsModal = display ?? !isEmpty(data);
   }
 
 
