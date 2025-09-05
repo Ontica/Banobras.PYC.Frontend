@@ -116,7 +116,7 @@ export interface FinancialAccount {
 }
 
 
-export interface FinancialAccountOperationsHolder {
+export interface FinancialAccountOperationsStructure {
   baseAccount: FinancialAccountDescriptor;
   availableOperations: Identifiable[];
   currentOperations: FinancialAccountOperation[];
@@ -225,12 +225,7 @@ export const EmptyFinancialAccount: FinancialAccount = {
 }
 
 
-export const EmptyFinancialAccountHolder: FinancialAccountHolder = {
-  account: EmptyFinancialAccount,
-}
-
-
-export const EmptyFinancialAccountOperationsHolder: FinancialAccountOperationsHolder = {
+export const EmptyFinancialAccountOperationsStructure: FinancialAccountOperationsStructure = {
   baseAccount: EmptyFinancialAccountDescriptor,
   availableOperations: [],
   currentOperations: [],

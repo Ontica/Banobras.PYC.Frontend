@@ -13,7 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { ChartOfAccountsDataService, FinancialProjectsDataService } from '@app/data-services';
 
-import { EmptyFinancialAccountOperationsHolder, FinancialAccountOperationsHolder,
+import { EmptyFinancialAccountOperationsStructure, FinancialAccountOperationsStructure,
          FinancialAccountOperationFields } from '@app/models';
 
 import { OperationAssignerEventType } from './operation-assigner.component';
@@ -42,7 +42,7 @@ export class FinancialAccountOperationsEditionComponent implements OnChanges {
 
   title = 'Editar conceptos de la cuenta';
 
-  data: FinancialAccountOperationsHolder = EmptyFinancialAccountOperationsHolder;
+  data: FinancialAccountOperationsStructure = EmptyFinancialAccountOperationsStructure;
 
   submitted = false;
 
@@ -135,13 +135,13 @@ export class FinancialAccountOperationsEditionComponent implements OnChanges {
   }
 
 
-  private resolveOperationUpdated(data: FinancialAccountOperationsHolder) {
+  private resolveOperationUpdated(data: FinancialAccountOperationsStructure) {
     this.setAccountOperationsData(data);
     sendEvent(this.operationsEditionEvent, OperationsEditionEventType.UPDATED);
   }
 
 
-  private setAccountOperationsData(data: FinancialAccountOperationsHolder) {
+  private setAccountOperationsData(data: FinancialAccountOperationsStructure) {
     this.data = data;
     this.setTexts();
   }

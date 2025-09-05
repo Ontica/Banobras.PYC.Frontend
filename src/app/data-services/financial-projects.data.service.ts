@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FinancialAccountOperationsHolder, FinancialAccount, FinancialAccountFields,
+import { FinancialAccountOperationsStructure, FinancialAccount, FinancialAccountFields,
          FinancialProjectDescriptor, FinancialProjectFields, FinancialProjectHolder, FinancialProjectsQuery,
          FinancialProjectStructureForEdit, FinancialProject } from '@app/models';
 
@@ -181,13 +181,13 @@ export class FinancialProjectsDataService {
 
   //#region PROJECT ACCOUNT OPERATIONS
   getProjectAccountOperations(projectUID: string,
-                              accountUID: string): EmpObservable<FinancialAccountOperationsHolder> {
+                              accountUID: string): EmpObservable<FinancialAccountOperationsStructure> {
     Assertion.assertValue(projectUID, 'projectUID');
     Assertion.assertValue(accountUID, 'accountUID');
 
     const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}/operations`;
 
-    return this.http.get<FinancialAccountOperationsHolder>(path);
+    return this.http.get<FinancialAccountOperationsStructure>(path);
   }
   //#endregion
 

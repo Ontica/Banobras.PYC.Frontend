@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { ChartOfAccounts, ChartOfAccountsQuery, FinancialAccountOperationFields,
-         FinancialAccountOperationsHolder, StandardAccountHolder } from '@app/models';
+         FinancialAccountOperationsStructure, StandardAccountHolder } from '@app/models';
 
 
 @Injectable()
@@ -55,34 +55,34 @@ export class ChartOfAccountsDataService {
   }
 
 
-  getAccountOperations(accountUID: string): EmpObservable<FinancialAccountOperationsHolder> {
+  getAccountOperations(accountUID: string): EmpObservable<FinancialAccountOperationsStructure> {
     Assertion.assertValue(accountUID, 'accountUID');
 
     const path = `v2/financial-accounts/${accountUID}/operations`;
 
-    return this.http.get<FinancialAccountOperationsHolder>(path);
+    return this.http.get<FinancialAccountOperationsStructure>(path);
   }
 
 
   addAccountOperation(accountUID: string,
-                      dataFields: FinancialAccountOperationFields): EmpObservable<FinancialAccountOperationsHolder> {
+                      dataFields: FinancialAccountOperationFields): EmpObservable<FinancialAccountOperationsStructure> {
     Assertion.assertValue(accountUID, 'accountUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v2/financial-accounts/${accountUID}/operations`;
 
-    return this.http.post<FinancialAccountOperationsHolder>(path, dataFields);
+    return this.http.post<FinancialAccountOperationsStructure>(path, dataFields);
   }
 
 
   removeAccountOperation(accountUID: string,
-                         operationUID: string): EmpObservable<FinancialAccountOperationsHolder> {
+                         operationUID: string): EmpObservable<FinancialAccountOperationsStructure> {
     Assertion.assertValue(accountUID, 'accountUID');
     Assertion.assertValue(operationUID, 'operationUID');
 
     const path = `v2/financial-accounts/${accountUID}/operations/${operationUID}`;
 
-    return this.http.delete<FinancialAccountOperationsHolder>(path);
+    return this.http.delete<FinancialAccountOperationsStructure>(path);
   }
 
 }
