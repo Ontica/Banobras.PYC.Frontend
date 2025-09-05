@@ -20,22 +20,22 @@ import { FinancialProjectsDataService } from '@app/data-services';
 import { FinancialAccountDescriptor, FinancialAccount, EmptyFinancialAccount, FinancialAccountFields,
          EmptyFinancialAccountDescriptor } from '@app/models';
 
-import { FinancialAccountsControlsEventType } from './accounts-controls.component';
+import { AccountsControlsEventType } from './accounts-controls.component';
 
-import { FinancialAccountsTableEventType } from './accounts-table.component';
+import { AccountsTableEventType } from './accounts-table.component';
 
-import { FinancialAccountEditorEventType } from './account-editor.component';
+import { AccountModalEventType } from './account-modal.component';
 
 import { OperationsEditionEventType } from './operations/operations-edition.component';
 
 import { ProjectModalEventType } from '@app/views/financial-projects/project/project-modal.component';
 
-export enum FinancialAccountsEditionEventType {
+export enum AccountsEditionEventType {
   UPDATED = 'FinancialAccountsEditionComponent.Event.Updated',
 }
 
 @Component({
-  selector: 'emp-cf-financial-accounts-edition',
+  selector: 'emp-cf-accounts-edition',
   templateUrl: './accounts-edition.component.html',
 })
 export class FinancialAccountsEditionComponent implements OnChanges {
@@ -50,13 +50,13 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
   @Input() queryType: 'financial-project' | 'standard-accounts' = null;
 
-  @Output() financialAccountsEditionEvent = new EventEmitter<EventInfo>();
+  @Output() accountsEditionEvent = new EventEmitter<EventInfo>();
 
   submitted = false;
 
   filter = '';
 
-  displayAccountEditor = false;
+  displayAccountModal = false;
 
   displayProjectEditor = false;
 
@@ -66,7 +66,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
   selectedData: { projectUID: string; accountUID: string; } = { projectUID: null, accountUID: null };
 
-  createAccount = false;
+  createAccountMode = false;
 
 
   constructor(private projectsData: FinancialProjectsDataService,
@@ -93,12 +93,12 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  onFinancialAccountsControlsEvent(event: EventInfo) {
-    switch (event.type as FinancialAccountsControlsEventType) {
-      case FinancialAccountsControlsEventType.FILTER_CHANGED:
+  onAccountsControlsEvent(event: EventInfo) {
+    switch (event.type as AccountsControlsEventType) {
+      case AccountsControlsEventType.FILTER_CHANGED:
         this.filter = event.payload.filter as string;
         return;
-      case FinancialAccountsControlsEventType.CREATE_CLICKED:
+      case AccountsControlsEventType.CREATE_CLICKED:
         this.setSelectedAccount(EmptyFinancialAccount, true);
         return;
       default:
@@ -109,22 +109,22 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
 
   @SkipIf('submitted')
-  onFinancialAccountEditorEvent(event: EventInfo) {
-    switch (event.type as FinancialAccountEditorEventType) {
-      case FinancialAccountEditorEventType.CLOSE_BUTTON_CLICKED:
+  onAccountModalEvent(event: EventInfo) {
+    switch (event.type as AccountModalEventType) {
+      case AccountModalEventType.CLOSE_MODAL_CLICKED:
         this.setSelectedAccount(EmptyFinancialAccount);
         return;
-      case FinancialAccountEditorEventType.CREATE_CLICKED:
+      case AccountModalEventType.CREATE_CLICKED:
         Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.createFinancialAccount(event.payload.projectUID,
+        this.createAccount(event.payload.projectUID,
                                     event.payload.dataFields);
         return;
-      case FinancialAccountEditorEventType.UPDATE_CLICKED:
+      case AccountModalEventType.UPDATE_CLICKED:
         Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
         Assertion.assertValue(event.payload.accountUID, 'event.payload.accountUID');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.updateFinancialAccount(event.payload.projectUID,
+        this.updateAccount(event.payload.projectUID,
                                     event.payload.accountUID,
                                     event.payload.dataFields);
         return;
@@ -136,23 +136,23 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
 
   @SkipIf('submitted')
-  onFinancialAccountsTableEvent(event: EventInfo) {
-    switch (event.type as FinancialAccountsTableEventType) {
-      case FinancialAccountsTableEventType.ACCOUNT_CLICKED:
+  onAccountsTableEvent(event: EventInfo) {
+    switch (event.type as AccountsTableEventType) {
+      case AccountsTableEventType.ACCOUNT_CLICKED:
         Assertion.assertValue(event.payload.account.projectUID, 'event.payload.account.projectUID');
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        this.getFinancialAccount(event.payload.account.projectUID, event.payload.account.uid);
+        this.getAccount(event.payload.account.projectUID, event.payload.account.uid);
         return;
-      case FinancialAccountsTableEventType.PROJECT_CLICKED:
+      case AccountsTableEventType.PROJECT_CLICKED:
         Assertion.assertValue(event.payload.account.projectUID, 'event.payload.account.projectUID');
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
         this.setSelectedProject(event.payload.account)
         return;
-      case FinancialAccountsTableEventType.REMOVE_CLICKED:
+      case AccountsTableEventType.REMOVE_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        this.confirmRemoveFinancialAccount(event.payload.account as FinancialAccountDescriptor);
+        this.confirmRemoveAccount(event.payload.account as FinancialAccountDescriptor);
         return;
-      case FinancialAccountsTableEventType.OPERATIONS_CLICKED:
+      case AccountsTableEventType.OPERATIONS_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
         this.setSelectedOperationData(event.payload.account)
         return;
@@ -189,7 +189,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  private getFinancialAccount(projectUID: string, accountUID: string) {
+  private getAccount(projectUID: string, accountUID: string) {
     this.submitted = true;
 
     this.projectsData.getProjectAccount(projectUID, accountUID)
@@ -199,7 +199,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  private createFinancialAccount(projectUID: string, dataFields: FinancialAccountFields) {
+  private createAccount(projectUID: string, dataFields: FinancialAccountFields) {
     this.submitted = true;
 
     this.projectsData.createProjectAccount(projectUID, dataFields)
@@ -209,7 +209,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  private updateFinancialAccount(projectUID: string, accountUID: string, dataFields: FinancialAccountFields) {
+  private updateAccount(projectUID: string, accountUID: string, dataFields: FinancialAccountFields) {
     this.submitted = true;
 
     this.projectsData.updateProjectAccount(projectUID, accountUID, dataFields)
@@ -219,7 +219,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  private removeFinancialAccount(projectUID: string, accountUID: string) {
+  private removeAccount(projectUID: string, accountUID: string) {
     this.submitted = true;
 
     this.projectsData.removeProjectAccount(projectUID, accountUID)
@@ -230,9 +230,9 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
 
   private setSelectedAccount(data: FinancialAccount, display?: boolean) {
-    this.createAccount = isEmpty(data) && display;
+    this.createAccountMode = isEmpty(data) && display;
     this.selectedAccount = data;
-    this.displayAccountEditor = display ?? !isEmpty(data);
+    this.displayAccountModal = display ?? !isEmpty(data);
   }
 
 
@@ -248,13 +248,13 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  private confirmRemoveFinancialAccount(account: FinancialAccountDescriptor) {
+  private confirmRemoveAccount(account: FinancialAccountDescriptor) {
     const title = 'Eliminar cuenta';
     const message = this.getConfirmRemoveAccountMessage(account);
 
     this.messageBox.confirm(message, title, 'DeleteCancel')
       .firstValue()
-      .then(x => x ? this.removeFinancialAccount(account.projectUID, account.uid) : null);
+      .then(x => x ? this.removeAccount(account.projectUID, account.uid) : null);
   }
 
 
@@ -272,7 +272,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
   private resolveAccountUpdated(projectUID: string) {
     const payload = { dataUID: projectUID };
-    sendEvent(this.financialAccountsEditionEvent, FinancialAccountsEditionEventType.UPDATED, payload);
+    sendEvent(this.accountsEditionEvent, AccountsEditionEventType.UPDATED, payload);
     this.setSelectedAccount(EmptyFinancialAccount);
   }
 

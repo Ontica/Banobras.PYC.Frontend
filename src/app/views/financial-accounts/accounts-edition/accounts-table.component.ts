@@ -18,7 +18,7 @@ import { sendEvent } from '@app/shared/utils';
 import { FinancialAccountDescriptor } from '@app/models';
 
 
-export enum FinancialAccountsTableEventType {
+export enum AccountsTableEventType {
   ACCOUNT_CLICKED    = 'FinancialAccountsTableComponent.Event.AccountClicked',
   PROJECT_CLICKED    = 'FinancialAccountsTableComponent.Event.ProjectClicked',
   OPERATIONS_CLICKED = 'FinancialAccountsTableComponent.Event.OperationsClicked',
@@ -26,7 +26,7 @@ export enum FinancialAccountsTableEventType {
 }
 
 @Component({
-  selector: 'emp-cf-financial-accounts-table',
+  selector: 'emp-cf-accounts-table',
   templateUrl: './accounts-table.component.html',
 })
 export class FinancialAccountsTableComponent implements OnChanges {
@@ -43,7 +43,7 @@ export class FinancialAccountsTableComponent implements OnChanges {
 
   @Input() canEditOperations = false;
 
-  @Output() financialAccountsTableEvent = new EventEmitter<EventInfo>();
+  @Output() accountsTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumnsDefault: string[] = ['accountNo', 'organizationalUnitName', 'financialAccountTypeName',
     'description', 'statusName', 'actionOperations'];
@@ -67,29 +67,25 @@ export class FinancialAccountsTableComponent implements OnChanges {
 
   onSelectAccountClicked(account: FinancialAccountDescriptor) {
     if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.financialAccountsTableEvent, FinancialAccountsTableEventType.ACCOUNT_CLICKED,
-        { account });
+      sendEvent(this.accountsTableEvent, AccountsTableEventType.ACCOUNT_CLICKED, { account });
     }
   }
 
 
   onSelectProjectClicked(account: FinancialAccountDescriptor) {
     if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.financialAccountsTableEvent, FinancialAccountsTableEventType.PROJECT_CLICKED,
-        { account });
+      sendEvent(this.accountsTableEvent, AccountsTableEventType.PROJECT_CLICKED, { account });
     }
   }
 
 
   onOperationsClicked(account: FinancialAccountDescriptor) {
-    sendEvent(this.financialAccountsTableEvent, FinancialAccountsTableEventType.OPERATIONS_CLICKED,
-      { account });
+    sendEvent(this.accountsTableEvent, AccountsTableEventType.OPERATIONS_CLICKED, { account });
   }
 
 
   onRemoveAccountClicked(account: FinancialAccountDescriptor) {
-    sendEvent(this.financialAccountsTableEvent, FinancialAccountsTableEventType.REMOVE_CLICKED,
-      { account });
+    sendEvent(this.accountsTableEvent, AccountsTableEventType.REMOVE_CLICKED, { account });
   }
 
 

@@ -25,7 +25,9 @@ import { FinancialAccountListItemComponent } from './accounts-explorer/accounts-
 import { FinancialAccountsEditionComponent } from './accounts-edition/accounts-edition.component';
 import { FinancialAccountsControlsComponent } from './accounts-edition/accounts-controls.component';
 import { FinancialAccountsTableComponent } from './accounts-edition/accounts-table.component';
+import { FinancialAccountHeaderComponent } from './accounts-edition/account-header.component';
 import { FinancialAccountEditorComponent } from './accounts-edition/account-editor.component';
+import { FinancialAccountModalComponent } from './accounts-edition/account-modal.component';
 import { CreditAccountAttributesComponent } from './accounts-edition/account-attributes/credit-account-attributes.component';
 import { CreditFinancialDataComponent } from './accounts-edition/financial-data/credit-financial-data.component';
 
@@ -61,7 +63,9 @@ import { FinancialProjectModalComponent } from '../financial-projects/project/pr
     FinancialAccountsEditionComponent,
     FinancialAccountsControlsComponent,
     FinancialAccountsTableComponent,
+    FinancialAccountHeaderComponent,
     FinancialAccountEditorComponent,
+    FinancialAccountModalComponent,
     CreditAccountAttributesComponent,
     CreditFinancialDataComponent,
     FinancialAccountOperationsEditionComponent,

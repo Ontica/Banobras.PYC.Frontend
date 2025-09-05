@@ -4,35 +4,35 @@
 
   </emp-ng-spinner>
 
-  <emp-cf-financial-accounts-controls
+  <emp-cf-accounts-controls
     [filter]="filter"
     [canEdit]="canEditAccounts"
-    (financialAccountsControlsEvent)="onFinancialAccountsControlsEvent($event)">
+    (accountsControlsEvent)="onAccountsControlsEvent($event)">
 
-  </emp-cf-financial-accounts-controls>
+  </emp-cf-accounts-controls>
 
-  <emp-cf-financial-accounts-table
+  <emp-cf-accounts-table
     class="fx-item"
     [accounts]="accounts"
     [filter]="filter"
     [displayProject]="displayProject"
     [canEditAccounts]="canEditAccounts"
     [canEditOperations]="canEditOperations"
-    (financialAccountsTableEvent)="onFinancialAccountsTableEvent($event)">
+    (accountsTableEvent)="onAccountsTableEvent($event)">
 
-  </emp-cf-financial-accounts-table>
+  </emp-cf-accounts-table>
 
 </div>
 
 
-<emp-cf-financial-account-editor *ngIf="displayAccountEditor"
-  [projectUID]="createAccount ? projectUID : selectedAccount.project.uid"
+<emp-cf-account-modal *ngIf="displayAccountModal"
+  [projectUID]="createAccountMode ? projectUID : selectedAccount.project.uid"
   [organizationalUnitUID]="organizationalUnitUID"
   [account]="selectedAccount"
   [canUpdate]="canEditAccounts"
-  (financialAccountEditorEvent)="onFinancialAccountEditorEvent($event)">
+  (accountModalEvent)="onAccountModalEvent($event)">
 
-</emp-cf-financial-account-editor>
+</emp-cf-account-modal>
 
 
 <emp-cf-project-modal *ngIf="displayProjectEditor"

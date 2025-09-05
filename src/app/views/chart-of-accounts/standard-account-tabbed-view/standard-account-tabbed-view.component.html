@@ -20,13 +20,13 @@
 
       <ng-template matTabContent>
 
-        <emp-cf-financial-accounts-edition
+        <emp-cf-accounts-edition
           queryType="standard-accounts"
           [accounts]="data.accounts"
           [canUpdate]="data.actions.canUpdate"
-          (financialAccountsEditionEvent)="onFinancialAccountsEditionEvent($event)">
+          (accountsEditionEvent)="onAccountsEditionEvent($event)">
 
-        </emp-cf-financial-accounts-edition>
+        </emp-cf-accounts-edition>
 
       </ng-template>
 

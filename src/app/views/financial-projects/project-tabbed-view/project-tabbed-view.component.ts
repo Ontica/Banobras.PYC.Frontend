@@ -20,7 +20,7 @@ import {
 } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 import {
-  FinancialAccountsEditionEventType
+  AccountsEditionEventType
 } from '@app/views/financial-accounts/accounts-edition/accounts-edition.component';
 
 
@@ -77,9 +77,9 @@ export class FinancialProjectTabbedViewComponent implements OnChanges {
   }
 
 
-  onFinancialAccountsEditionEvent(event: EventInfo) {
-    switch (event.type as FinancialAccountsEditionEventType) {
-      case FinancialAccountsEditionEventType.UPDATED:
+  onAccountsEditionEvent(event: EventInfo) {
+    switch (event.type as AccountsEditionEventType) {
+      case AccountsEditionEventType.UPDATED:
         Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
         sendEvent(this.projectTabbedViewEvent,
           ProjectTabbedViewEventType.REFRESH_DATA, event.payload);

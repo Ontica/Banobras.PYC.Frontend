@@ -11,13 +11,13 @@ import { EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-export enum FinancialAccountsControlsEventType {
+export enum AccountsControlsEventType {
   FILTER_CHANGED = 'FinancialAccountsControlsComponent.Event.FilterChanged',
   CREATE_CLICKED = 'FinancialAccountsControlsComponent.Event.CreateClicked',
 }
 
 @Component({
-  selector: 'emp-cf-financial-accounts-controls',
+  selector: 'emp-cf-accounts-controls',
   templateUrl: './accounts-controls.component.html',
 })
 export class FinancialAccountsControlsComponent {
@@ -26,11 +26,11 @@ export class FinancialAccountsControlsComponent {
 
   @Input() canEdit = false;
 
-  @Output() financialAccountsControlsEvent = new EventEmitter<EventInfo>();
+  @Output() accountsControlsEvent = new EventEmitter<EventInfo>();
 
 
   onFilterChanged() {
-    sendEvent(this.financialAccountsControlsEvent, FinancialAccountsControlsEventType.FILTER_CHANGED,
+    sendEvent(this.accountsControlsEvent, AccountsControlsEventType.FILTER_CHANGED,
       { filter: this.filter });
   }
 
@@ -42,7 +42,7 @@ export class FinancialAccountsControlsComponent {
 
 
   onCreateClicked() {
-    sendEvent(this.financialAccountsControlsEvent, FinancialAccountsControlsEventType.CREATE_CLICKED);
+    sendEvent(this.accountsControlsEvent, AccountsControlsEventType.CREATE_CLICKED);
   }
 
 }

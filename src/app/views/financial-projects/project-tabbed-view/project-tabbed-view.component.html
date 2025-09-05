@@ -20,15 +20,15 @@
 
       <ng-template matTabContent>
 
-        <emp-cf-financial-accounts-edition
+        <emp-cf-accounts-edition
           queryType="financial-project"
           [projectUID]="data.project.uid"
           [organizationalUnitUID]="data.project.baseOrgUnit.uid"
           [accounts]="data.accounts"
           [canUpdate]="data.actions.canUpdate"
-          (financialAccountsEditionEvent)="onFinancialAccountsEditionEvent($event)">
+          (accountsEditionEvent)="onAccountsEditionEvent($event)">
 
-        </emp-cf-financial-accounts-edition>
+        </emp-cf-accounts-edition>
 
       </ng-template>
 

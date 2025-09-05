@@ -1,155 +1,18 @@
-<emp-ng-modal-window [config]="{width:'900px'}">
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
 
-  <emp-ng-card
-    [title]="title"
-    hint='Información de la cuenta'
-    (cardClose)="onCloseButtonClicked()">
+  <emp-ng-spinner #spinner [visible]="submitted">
 
-    <div class="card-body-padding">
+  </emp-ng-spinner>
 
-      <form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+  <div class="section-title"> Información general de la cuenta</div>
 
-        <div class="fx-column-container fx-gap-half">
+    <emp-cf-account-header
+      [projectUID]="projectUID"
+      [organizationalUnitUID]="organizationalUnitUID"
+      [account]="account"
+      [canUpdate]="canUpdate"
+      (accountHeaderEvent)="onAccountHeaderEvent($event)">
 
-          <div class="fx-row-container">
+    </emp-cf-account-header>
 
-            <div class="fx-item-half">
-
-              <label>Área:</label>
-
-              <emp-ng-select
-                formControlName="organizationalUnitUID"
-                [config]="{virtualScroll: true, showTooltip: true, autoSelect: !isSaved}"
-                [items]="orgUnitsList"
-                [loading]="isLoading"
-                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
-                [showError]="formHelper.isControlInvalid(form.controls.organizationalUnitUID)">
-              </emp-ng-select>
-
-            </div>
-
-            <div class="fx-item-half">
-
-              <label>Tipo de cuenta:</label>
-
-              <emp-ng-select
-                formControlName="financialAccountTypeUID"
-                [config]="{showTooltip: true, autoSelect: !isSaved}"
-                [items]="accountTypesList"
-                [loading]="isLoading"
-                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
-                [showError]="formHelper.isControlInvalid(form.controls.financialAccountTypeUID)"
-                (changes)="onFinancialAccountTypeChanges($event)">
-              </emp-ng-select>
-
-            </div>
-
-          </div>
-
-          <div class="fx-row-container">
-
-            <div class="fx-item-half">
-
-              <label>Cuenta estándar:</label>
-
-              <emp-ng-select
-                formControlName="standardAccountUID"
-                [config]="{showTooltip: true, autoSelect: !isSaved}"
-                [items]="standardAccountsList"
-                [loading]="isLoading"
-                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
-                [showError]="formHelper.isControlInvalid(form.controls.standardAccountUID)">
-              </emp-ng-select>
-
-            </div>
-
-            <div class="fx-item-quarter">
-
-              <label>Moneda:</label>
-
-              <emp-ng-select
-                formControlName="currencyUID"
-                [config]="{autoSelect: !isSaved}"
-                [items]="currenciesList"
-                [loading]="isLoading"
-                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
-                [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
-              </emp-ng-select>
-
-            </div>
-
-            <div class="fx-item-quarter">
-
-              <label>Palabras de búsqueda adicionales:</label>
-              <emp-ng-input-tags
-                formControlName="tags"
-                [showError]="formHelper.isControlInvalid(form.controls.tags)">
-
-              </emp-ng-input-tags>
-
-            </div>
-
-          </div>
-
-          <div class="fx-row-container">
-
-            <div class="fx-item-one">
-              <label>Descripción:</label>
-              <textarea class="text-area" empNgTextareaAutoresize rows="1"
-                formControlName="description"
-                [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
-              </textarea>
-            </div>
-
-          </div>
-
-          <emp-cf-credit-account-attributes *ngIf="isCreditAccount"
-            formControlName="attributes"
-            [editionMode]="!isSaved || editionMode"
-            [errors]="form.controls.attributes.errors"
-            [showError]="formHelper.isControlInvalid(form.controls.attributes)"
-            (changes)="onCreditAccountChanges($event)">
-
-          </emp-cf-credit-account-attributes>
-
-
-          <emp-cf-credit-financial-data *ngIf="isCreditAccount"
-            formControlName="financialData"
-            [editionMode]="!isSaved || editionMode"
-            [errors]="form.controls.financialData.errors"
-            [showError]="formHelper.isControlInvalid(form.controls.financialData)">
-
-          </emp-cf-credit-financial-data>
-
-        </div>
-
-        <ng-container *ngIf="!isSaved || (isSaved && canUpdate)">
-
-          <mat-divider class="horizontal">
-
-          </mat-divider>
-
-          <div #rowFooter class="fx-row-container">
-
-             <div class="fx-item fx-end fx-items-center">
-
-                <button
-                  [class.btn]="!formHelper.isFormReady(form)"
-                  [class.btn-action]="formHelper.isFormReady(form)"
-                  (click)="onSubmitButtonClicked()">
-                  {{!isSaved ? 'Agregar' : 'Guardar'}}
-                </button>
-
-              </div>
-
-          </div>
-
-        </ng-container>
-
-      </form>
-
-    </div>
-
-  </emp-ng-card>
-
-</emp-ng-modal-window>
+</div>
