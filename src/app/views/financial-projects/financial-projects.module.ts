@@ -40,6 +40,7 @@ import { FinancialProjectTabbedViewComponent } from './project-tabbed-view/proje
     FinancialAccountsModule,
 
     FinancialProjectHeaderComponent,
+    FinancialProjectEditorComponent,
   ],
   declarations: [
     FinancialProjectsMainPageComponent,
@@ -47,7 +48,6 @@ import { FinancialProjectTabbedViewComponent } from './project-tabbed-view/proje
     FinancialProjectsFilterComponent,
     FinancialProjectsTableComponent,
     FinancialProjectCreatorComponent,
-    FinancialProjectEditorComponent,
     FinancialProjectTabbedViewComponent,
   ],
   exports: [

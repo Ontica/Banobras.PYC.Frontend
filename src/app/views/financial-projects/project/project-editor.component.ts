@@ -13,12 +13,14 @@ import { sendEvent } from '@app/shared/utils';
 
 import { SkipIf } from '@app/shared/decorators';
 
+import { STANDALONE_IMPORTS } from '@app/shared/standalone-imports';
+
 import { FinancialProjectsDataService } from '@app/data-services';
 
 import { EmptyFinancialProject, EmptyFinancialProjectActions, FinancialProject, FinancialProjectActions,
          FinancialProjectHolder, FinancialProjectFields } from '@app/models';
 
-import { ProjectHeaderEventType } from './project-header.component';
+import { FinancialProjectHeaderComponent, ProjectHeaderEventType } from './project-header.component';
 
 
 export enum ProjectEditorEventType {
@@ -29,6 +31,11 @@ export enum ProjectEditorEventType {
 @Component({
   selector: 'emp-cf-project-editor',
   templateUrl: './project-editor.component.html',
+  standalone: true,
+  imports: [
+    ...STANDALONE_IMPORTS,
+    FinancialProjectHeaderComponent,
+  ],
 })
 export class FinancialProjectEditorComponent {
 
