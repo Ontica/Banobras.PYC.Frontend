@@ -13,8 +13,8 @@ import { FileType } from '@app/shared/form-controls';
 
 
 export type DocumentsEntityTypes = 'asset-assignments' | 'asset-transactions' | 'assets' | 'bills' |
-  'budget-transactions' | 'cash-flow' | 'cash-transactions' | 'contracts' | 'financial-projects' | 'orders' |
-  'payables' | 'payments-orders' | 'requests';
+  'budget-transactions' | 'cash-flow' | 'cash-transactions' | 'contracts' | 'financial-accounts' |
+  'financial-projects' | 'orders' | 'payables' | 'payments-orders' | 'requests';
 
 
 export interface Document {
@@ -65,6 +65,7 @@ export function getEntityModule(entityType: DocumentsEntityTypes): string {
     case 'cash-transactions': return 'v1/cash-flow/cash-ledger/transactions';
     case 'contracts': return 'v8/procurement/contracts';
     case 'financial-projects': return 'v1/financial-projects';
+    case 'financial-accounts': return 'v2/financial-accounts';
     case 'orders': return 'v8/order-management/orders';
     case 'payables': return 'v2/payments-management/payables';
     case 'payments-orders': return 'v2/payments-management/payment-orders';
