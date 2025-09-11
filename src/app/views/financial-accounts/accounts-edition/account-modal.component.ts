@@ -17,9 +17,11 @@ import { AccountHeaderEventType } from './account-header.component';
 
 
 export enum AccountModalEventType {
-  CLOSE_MODAL_CLICKED = 'FinancialAccountModalComponent.Event.CloseModalClicked',
-  CREATE_CLICKED      = 'FinancialAccountModalComponent.Event.CreateClicked',
-  UPDATE_CLICKED      = 'FinancialAccountModalComponent.Event.UpdateClicked',
+  CLOSE_MODAL_CLICKED      = 'FinancialAccountModalComponent.Event.CloseModalClicked',
+  CREATE_CLICKED           = 'FinancialAccountModalComponent.Event.CreateClicked',
+  UPDATE_CLICKED           = 'FinancialAccountModalComponent.Event.UpdateClicked',
+  CREATE_EXTERNAL_CLICKED  = 'FinancialAccountModalComponent.Event.CreateExternalClicked',
+  REFRESH_EXTERNAL_CLICKED = 'FinancialAccountModalComponent.Event.RefreshExternalClicked',
 }
 
 @Component({
@@ -70,6 +72,15 @@ export class FinancialAccountModalComponent {
         Assertion.assertValue(event.payload.accountUID, 'event.payload.accountUID');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         sendEvent(this.accountModalEvent, AccountModalEventType.UPDATE_CLICKED, event.payload);
+        return;
+      case AccountHeaderEventType.CREATE_EXTERNAL_CLICKED:
+        Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
+        Assertion.assertValue(event.payload.dataFields.attributes.externalCreditNo, 'event.payload.dataFields.attributes.externalCreditNo');
+        sendEvent(this.accountModalEvent, AccountModalEventType.CREATE_EXTERNAL_CLICKED, event.payload);
+        return;
+      case AccountHeaderEventType.REFRESH_EXTERNAL_CLICKED:
+        Assertion.assertValue(event.payload.accountUID, 'event.payload.accountUID');
+        sendEvent(this.accountModalEvent, AccountModalEventType.REFRESH_EXTERNAL_CLICKED, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

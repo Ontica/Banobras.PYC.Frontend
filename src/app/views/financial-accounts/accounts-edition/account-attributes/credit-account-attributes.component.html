@@ -13,34 +13,34 @@
         [(ngModel)]="selectedData.creditTypeId"
         [items]="creditTypesList"
         [config]="{clearable: true}"
-        [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+        [placeholder]="null"
         [showError]="showError && errors?.creditTypeIdError"
-        [disabled]="disabled"
+        [disabled]="!canEditExternalData"
         (changes)="onSelectedDataChanged()">
       </emp-ng-select>
 
     </div>
 
-    <div class="fx-item-quarter">
+    <div class="fx-item">
 
       <label>No. crédito SIC:</label>
 
       <input type="text" class="text-box"
-        [(ngModel)]="selectedData.creditAccountingAccount"
-        [class.invalid-control]="showError && errors?.creditAccountingAccountError"
-        [disabled]="disabled"
+        [(ngModel)]="selectedData.externalCreditNo"
+        [class.invalid-control]="showError && errors?.externalCreditNoNumberError"
+        [disabled]="!canEditExternalData"
         (change)="onSelectedDataChanged()">
 
     </div>
 
     <div class="fx-item-quarter">
 
-      <label>No. crédito externo:</label>
+      <label>Auxiliar:</label>
 
       <input type="text" class="text-box"
-        [(ngModel)]="selectedData.externalCreditNo"
-        [class.invalid-control]="showError && errors?.externalCreditNoNumberError"
-        [disabled]="disabled"
+        [(ngModel)]="selectedData.subledgerAccountNo"
+        [class.invalid-control]="showError && errors?.subledgerAccountNoError"
+        [disabled]="!canEditExternalData"
         (change)="onSelectedDataChanged()">
 
     </div>
@@ -54,9 +54,9 @@
         [(ngModel)]="selectedData.creditStageId"
         [items]="creditStagesList"
         [config]="{clearable: true}"
-        [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+        [placeholder]="null"
         [showError]="showError && errors?.creditStageIdError"
-        [disabled]="disabled"
+        [disabled]="!canEditExternalData"
         (changes)="onSelectedDataChanged()">
       </emp-ng-select>
 
@@ -73,7 +73,7 @@
       <input type="text" class="text-box"
         [(ngModel)]="selectedData.borrower"
         [class.invalid-control]="showError && errors?.borrowerError"
-        [disabled]="disabled"
+        [disabled]="!canEditExternalData"
         (change)="onSelectedDataChanged()">
 
     </div>

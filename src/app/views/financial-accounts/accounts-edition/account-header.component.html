@@ -6,6 +6,22 @@
 
       <div class="fx-item-half">
 
+        <label>Tipo de cuenta:</label>
+
+        <emp-ng-select
+          formControlName="financialAccountTypeUID"
+          [config]="{showTooltip: true, autoSelect: !isSaved}"
+          [items]="accountTypesList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+          [showError]="formHelper.isControlInvalid(form.controls.financialAccountTypeUID)"
+          (changes)="onFinancialAccountTypeChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+      <div *ngIf="!displayCreditAccountSearcher" class="fx-item-half">
+
         <label>Área:</label>
 
         <emp-ng-select
@@ -19,19 +35,39 @@
 
       </div>
 
-      <div class="fx-item-half">
+      <emp-cf-external-credit-searcher *ngIf="displayCreditAccountSearcher"
+        class="fx-item"
+        (externalCreditSearcherEvent)="onExternalCreditSearcherEvent($event)">
 
-        <label>Tipo de cuenta:</label>
+      </emp-cf-external-credit-searcher>
+
+    </div>
+
+    <div class="fx-row-container" *ngIf="displayCreditAccountSearcher">
+
+      <div class="fx-item-half" >
+
+        <label>Área:</label>
 
         <emp-ng-select
-          formControlName="financialAccountTypeUID"
-          [config]="{showTooltip: true, autoSelect: !isSaved}"
-          [items]="accountTypesList"
+          formControlName="organizationalUnitUID"
+          [config]="{virtualScroll: true, showTooltip: true, autoSelect: !isSaved}"
+          [items]="orgUnitsList"
           [loading]="isLoading"
-          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
-          [showError]="formHelper.isControlInvalid(form.controls.financialAccountTypeUID)"
-          (changes)="onFinancialAccountTypeChanges($event)">
+          [placeholder]="null"
+          [showError]="formHelper.isControlInvalid(form.controls.organizationalUnitUID)">
         </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half" *ngIf="displayCreditAccountSearcher">
+
+        <label>Palabras de búsqueda adicionales:</label>
+        <emp-ng-input-tags
+          formControlName="tags"
+          [showError]="formHelper.isControlInvalid(form.controls.tags)">
+
+        </emp-ng-input-tags>
 
       </div>
 
@@ -48,13 +84,13 @@
           [config]="{showTooltip: true, autoSelect: !isSaved}"
           [items]="standardAccountsList"
           [loading]="isLoading"
-          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+          [placeholder]="isCreditAccount ? null : formHelper.getSimplePlaceholder(editionMode)"
           [showError]="formHelper.isControlInvalid(form.controls.standardAccountUID)">
         </emp-ng-select>
 
       </div>
 
-      <div class="fx-item-quarter">
+      <div [ngClass]="displayCreditAccountSearcher ? 'fx-item-half' : 'fx-item-quarter'">
 
         <label>Moneda:</label>
 
@@ -63,13 +99,13 @@
           [config]="{autoSelect: !isSaved}"
           [items]="currenciesList"
           [loading]="isLoading"
-          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+          [placeholder]="isCreditAccount ? null : formHelper.getSimplePlaceholder(editionMode)"
           [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
         </emp-ng-select>
 
       </div>
 
-      <div class="fx-item-quarter">
+      <div class="fx-item-quarter" *ngIf="!displayCreditAccountSearcher">
 
         <label>Palabras de búsqueda adicionales:</label>
         <emp-ng-input-tags
@@ -98,11 +134,9 @@
       formControlName="attributes"
       [editionMode]="!isSaved || editionMode"
       [errors]="form.controls.attributes.errors"
-      [showError]="formHelper.isControlInvalid(form.controls.attributes)"
-      (changes)="onCreditAccountChanges($event)">
+      [showError]="formHelper.isControlInvalid(form.controls.attributes)">
 
     </emp-cf-credit-account-attributes>
-
 
     <emp-cf-credit-financial-data *ngIf="isCreditAccount"
       formControlName="financialData"
@@ -125,10 +159,10 @@
         <div class="fx-item fx-end fx-items-center">
 
           <button
-            [class.btn]="!formHelper.isFormReady(form)"
-            [class.btn-action]="formHelper.isFormReady(form)"
+            [class.btn]="!isFormReady"
+            [class.btn-action]="isFormReady"
             (click)="onSubmitButtonClicked()">
-            {{!isSaved ? 'Agregar' : 'Guardar'}}
+            {{submitTextButton}}
           </button>
 
         </div>

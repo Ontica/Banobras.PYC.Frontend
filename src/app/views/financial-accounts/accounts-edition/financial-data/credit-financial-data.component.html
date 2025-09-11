@@ -125,7 +125,7 @@
         [(ngModel)]="selectedData.interestRateTypeUID"
         [items]="interestRateTypesList"
         [config]="{clearable: true}"
-        [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+        [placeholder]="null"
         [showError]="showError && errors?.tasaError"
         [disabled]="disabled"
         [loading]="isLoading"

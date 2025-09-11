@@ -12,23 +12,27 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { combineLatest } from 'rxjs';
 
-import { Assertion, EventInfo, Identifiable, isEmpty, Validate } from '@app/core';
+import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { AccountsStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { FinancialProjectsDataService } from '@app/data-services';
 
 import { AccountAttributes, CreditAttributes, EmptyFinancialAccount, FinancialAccount, FinancialAccountFields,
          FinancialData, ObjectTypes, RequestsList } from '@app/models';
 
+import { ExternalCreditSearcherEventType } from './external-credit/external-credit-searcher.component';
+
 
 export enum AccountHeaderEventType {
-  CREATE_CLICKED = 'FinancialAccountHeaderComponent.Event.CreateClicked',
-  UPDATE_CLICKED = 'FinancialAccountHeaderComponent.Event.UpdateClicked',
+  CREATE_CLICKED           = 'FinancialAccountHeaderComponent.Event.CreateClicked',
+  UPDATE_CLICKED           = 'FinancialAccountHeaderComponent.Event.UpdateClicked',
+  CREATE_EXTERNAL_CLICKED  = 'FinancialAccountHeaderComponent.Event.CreateExternalClicked',
+  REFRESH_EXTERNAL_CLICKED = 'FinancialAccountHeaderComponent.Event.RefreshExternalClicked',
 }
 
 interface AccountFormModel extends FormGroup<{
@@ -75,6 +79,8 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
   standardAccountsList: Identifiable[] = [];
 
   currenciesList: Identifiable[] = [];
+
+  hasExternalData = false;
 
 
   constructor(private uiLayer: PresentationLayer,
@@ -124,34 +130,77 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
   }
 
 
-  onFinancialAccountTypeChanges(type: Identifiable) {
-    const hasCreditTypeId = !!this.form.getRawValue().attributes &&
-      !!this.form.getRawValue().attributes['creditTypeId'];
-
-    const creditTypeId = !hasCreditTypeId ? null : this.form.getRawValue().attributes['creditTypeId'];
-
-    this.validateCreditAttributesFieldsRequired(!creditTypeId ? null : creditTypeId);
+  get displayCreditAccountSearcher(): boolean {
+    return !this.isSaved && this.isCreditAccount;
   }
 
 
-  onCreditAccountChanges(value: CreditAttributes) {
-    this.validateCreditAttributesFieldsRequired(!value.creditTypeId ? null : value.creditTypeId);
+  get submitTextButton(): string {
+    if (!this.isSaved) {
+      return 'Agregar';
+    } else {
+      return this.isCreditAccount ? 'Refrescar' : 'Guardar';
+    }
+  }
+
+
+  get isFormReady(): boolean {
+    if (this.isSaved) {
+      return this.isCreditAccount ? true : FormHelper.isFormReady(this.form);
+    } else {
+      return this.isCreditAccount ? this.hasExternalData && !!this.form.value.financialAccountTypeUID :
+        FormHelper.isFormReady(this.form);
+    }
+  }
+
+
+  onFinancialAccountTypeChanges(type: Identifiable) {
+    this.resetCreditData(EmptyFinancialAccount);
+    this.validateDisabledControls();
+  }
+
+
+  onExternalCreditSearcherEvent(event: EventInfo) {
+    switch (event.type as ExternalCreditSearcherEventType) {
+      case ExternalCreditSearcherEventType.DATA_CHANGED:
+        this.resetCreditData(!event.payload.data ? EmptyFinancialAccount : event.payload.data);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 
   onSubmitButtonClicked() {
-    if (FormHelper.isFormReadyAndInvalidate(this.form)) {
-      const eventType = this.isSaved ? AccountHeaderEventType.UPDATE_CLICKED :
-        AccountHeaderEventType.CREATE_CLICKED;
-
-      const payload = {
-        projectUID: this.projectUID,
-        accountUID: this.isSaved ? this.account?.uid : null,
-        dataFields: this.getFormData()
-      };
-
-      sendEvent(this.accountHeaderEvent, eventType, payload);
+    if (!this.isFormReady) {
+      FormHelper.isFormReadyAndInvalidate(this.form)
+      return;
     }
+
+    const eventType = this.getEventType();
+    const payload = this.buildPayload();
+
+    sendEvent(this.accountHeaderEvent, eventType, payload);
+  }
+
+
+  private getEventType(): AccountHeaderEventType {
+    const eventMap = {
+      create: this.isCreditAccount ? AccountHeaderEventType.CREATE_EXTERNAL_CLICKED : AccountHeaderEventType.CREATE_CLICKED,
+      update: this.isCreditAccount ? AccountHeaderEventType.REFRESH_EXTERNAL_CLICKED: AccountHeaderEventType.UPDATE_CLICKED,
+    };
+
+    return this.isSaved ? eventMap.update : eventMap.create;
+  }
+
+
+  private buildPayload() {
+    return {
+      projectUID: this.projectUID,
+      accountUID: this.isSaved ? this.account?.uid : null,
+      dataFields: this.getFormData(),
+    };
   }
 
 
@@ -159,7 +208,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
     this.editionMode = this.canUpdate;
 
     if (this.isSaved) {
-      this.setFormData();
+      this.setFormData(this.account);
     }
 
     this.validateFormDisabled();
@@ -186,8 +235,17 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
       this.currenciesList = b,
       this.accountTypesList = c;
       this.standardAccountsList = d;
+      this.validateDataLists(this.account);
       this.isLoading = false;
     });
+  }
+
+
+  private validateDataLists(account: FinancialAccount) {
+    this.orgUnitsList =
+      ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], account.organizationalUnit, 'uid');
+    this.standardAccountsList =
+      ArrayLibrary.insertIfNotExist(this.standardAccountsList ?? [], account.standardAccount, 'uid');
   }
 
 
@@ -216,43 +274,62 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
   }
 
 
-  private setFormData() {
+  private setFormData(account: FinancialAccount) {
     setTimeout(() => {
+      this.validateDataLists(account);
+
       this.form.reset({
-        organizationalUnitUID: isEmpty(this.account.organizationalUnit) ? null : this.account.organizationalUnit.uid,
-        financialAccountTypeUID: isEmpty(this.account.financialAccountType) ? null : this.account.financialAccountType.uid,
-        standardAccountUID: isEmpty(this.account.standardAccount) ? null : this.account.standardAccount.uid,
-        currencyUID: isEmpty(this.account.currency) ? null : this.account.currency.uid,
-        tags: this.account.tags ?? [],
-        description: this.account.description ?? null,
-        attributes: this.account.attributes ?? null,
-        financialData: this.account.financialData ?? null,
+        financialAccountTypeUID: isEmpty(account.financialAccountType) ? null : account.financialAccountType.uid,
+        organizationalUnitUID: isEmpty(account.organizationalUnit) ? null : account.organizationalUnit.uid,
+        standardAccountUID: isEmpty(account.standardAccount) ? null : account.standardAccount.uid,
+        currencyUID: isEmpty(account.currency) ? null : account.currency.uid,
+        tags: account.tags ?? [],
+        description: account.description ?? null,
+        attributes: account.attributes ?? null,
+        financialData: account.financialData ?? null,
       });
     });
+  }
 
-    const creditTypeId = (this.account.attributes as CreditAttributes).creditTypeId;
-    this.validateCreditAttributesFieldsRequired(!creditTypeId ? null : creditTypeId);
+
+  private resetCreditData(account: FinancialAccount) {
+    setTimeout(() => {
+      this.hasExternalData = !!(account?.attributes as CreditAttributes)?.externalCreditNo;
+      this.validateDataLists(account);
+
+      this.form.reset({
+        financialAccountTypeUID: this.form.value.financialAccountTypeUID,
+        organizationalUnitUID: isEmpty(account.organizationalUnit) ? null : account.organizationalUnit.uid,
+        standardAccountUID: isEmpty(account.standardAccount) ? null : account.standardAccount.uid,
+        currencyUID: isEmpty(account.currency) ? null : account.currency.uid,
+        tags: account.tags ?? [],
+        description: account.description ?? null,
+        attributes: account.attributes ?? null,
+        financialData: account.financialData ?? null,
+      });
+    });
   }
 
 
   private validateFormDisabled() {
-    FormHelper.setDisableForm(this.form, !this.canUpdate);
+    setTimeout(() => {
+      if (this.isCreditAccount) FormHelper.setDisableForm(this.form);
+      else FormHelper.setDisableForm(this.form, !this.canUpdate);
+    })
   }
 
 
-  private validateCreditAttributesFieldsRequired(creditTypeId: number) {
-    if ([].includes(creditTypeId)) {
-      FormHelper.setControlValidators(this.form.controls.attributes,
-        [Validate.objectFieldsRequired('creditAccountingAccount')]);
-    } else {
-      FormHelper.clearControlValidators(this.form.controls.attributes);
-    }
+  private validateDisabledControls() {
+    FormHelper.setDisableControl(this.form.controls.organizationalUnitUID, this.isCreditAccount);
+    FormHelper.setDisableControl(this.form.controls.standardAccountUID, this.isCreditAccount);
+    FormHelper.setDisableControl(this.form.controls.organizationalUnitUID, this.isCreditAccount);
+    FormHelper.setDisableControl(this.form.controls.currencyUID, this.isCreditAccount);
+    FormHelper.setDisableControl(this.form.controls.description, this.isCreditAccount);
+    FormHelper.setDisableControl(this.form.controls.financialData, this.isCreditAccount);
   }
 
 
   private getFormData(): FinancialAccountFields {
-    Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
-
     const formModel = this.form.getRawValue();
 
     const data: FinancialAccountFields = {
@@ -262,8 +339,8 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
       currencyUID: formModel.currencyUID ?? null,
       tags: formModel.tags ?? [],
       description: formModel.description ?? '',
-      attributes: formModel.attributes ?? null,
-      financialData: formModel.financialData ?? null,
+      attributes: this.isCreditAccount ? formModel.attributes ?? null : null,
+      financialData: this.isCreditAccount ? formModel.financialData ?? null : null,
     };
 
     return data;

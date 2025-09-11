@@ -46,6 +46,8 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor {
 
   disabled: boolean;
 
+  canEditExternalData = false;
+
   selectedData: CreditAttributes = EmptyCreditAttributes;
 
   formHelper = FormHelper;

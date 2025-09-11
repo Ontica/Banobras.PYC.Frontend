@@ -1,0 +1,28 @@
+  <div class="fx-row-container">
+
+    <div class="fx-item">
+
+      <label>Buscar (No. crédito SIC):</label>
+
+      <input type="text" class="text-box"
+        [(ngModel)]="externalCreditNo"
+        [class.invalid-control]="!externalCreditNo"
+        (keyup.escape)="onExternalCreditClear()">
+
+    </div>
+
+    <div class="fx-item-none" [style.paddingTop.px]="13">
+
+      <button title="Buscar"
+        [class.btn-icon]="!externalCreditNo"
+        [class.btn-icon-action]="externalCreditNo"
+        [class.spinner]="isLoading"
+        (click)="onExternalCreditSearch()">
+
+        <mat-icon>search</mat-icon>
+
+      </button>
+
+    </div>
+
+  </div>

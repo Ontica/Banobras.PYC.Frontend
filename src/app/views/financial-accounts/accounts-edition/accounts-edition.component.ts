@@ -18,7 +18,7 @@ import { sendEvent } from '@app/shared/utils';
 import { FinancialAccountsDataService } from '@app/data-services';
 
 import { FinancialAccountDescriptor, FinancialAccount, EmptyFinancialAccount, FinancialAccountFields,
-         EmptyFinancialAccountDescriptor } from '@app/models';
+         EmptyFinancialAccountDescriptor, ExternalAccountFields } from '@app/models';
 
 import { AccountsControlsEventType } from './accounts-controls.component';
 
@@ -129,6 +129,22 @@ export class FinancialAccountsEditionComponent implements OnChanges {
                            event.payload.accountUID,
                            event.payload.dataFields);
         return;
+      case AccountModalEventType.CREATE_EXTERNAL_CLICKED:
+        Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
+        Assertion.assertValue(event.payload.dataFields.attributes.externalCreditNo, 'event.payload.dataFields.attributes.externalCreditNo');
+
+        const accountNo = event.payload.dataFields.attributes.externalCreditNo;
+
+        const dataFields: ExternalAccountFields = {
+          projectUID: event.payload.projectUID,
+        };
+
+        this.createAccountFromCreditSystem(accountNo, dataFields);
+        return;
+      case AccountModalEventType.REFRESH_EXTERNAL_CLICKED:
+        Assertion.assertValue(event.payload.accountUID, 'event.payload.accountUID');
+        this.refreshAccountFromCreditSystem(event.payload.accountUID);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -230,6 +246,26 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
+  private createAccountFromCreditSystem(accountNo: string, dataFields: ExternalAccountFields) {
+    this.submitted = true;
+
+    this.accountsData.createAccountFromCreditSystem(accountNo, dataFields)
+      .firstValue()
+      .then(x => this.resolveAccountUpdated(x.project.uid))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private refreshAccountFromCreditSystem(accountUID: string) {
+    this.submitted = true;
+
+    this.accountsData.refreshAccountFromCreditSystem(accountUID)
+      .firstValue()
+      .then(x => this.resolveAccountRefreshed(x))
+      .finally(() => this.submitted = false);
+  }
+
+
   private setSelectedAccount(data: FinancialAccount, display?: boolean) {
     this.createAccountMode = isEmpty(data) && display;
     this.selectedAccount = data;
@@ -275,6 +311,13 @@ export class FinancialAccountsEditionComponent implements OnChanges {
     const payload = { dataUID: projectUID };
     sendEvent(this.accountsEditionEvent, AccountsEditionEventType.UPDATED, payload);
     this.setSelectedAccount(EmptyFinancialAccount);
+  }
+
+
+  private resolveAccountRefreshed(account: FinancialAccount) {
+    const payload = { dataUID: account.project.uid };
+    sendEvent(this.accountsEditionEvent, AccountsEditionEventType.UPDATED, payload);
+    this.setSelectedAccount(account);
   }
 
 }

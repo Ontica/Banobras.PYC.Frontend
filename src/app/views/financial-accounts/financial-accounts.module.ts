@@ -31,6 +31,7 @@ import { FinancialAccountEditorComponent } from './accounts-edition/account-edit
 import { FinancialAccountModalComponent } from './accounts-edition/account-modal.component';
 import { CreditAccountAttributesComponent } from './accounts-edition/account-attributes/credit-account-attributes.component';
 import { CreditFinancialDataComponent } from './accounts-edition/financial-data/credit-financial-data.component';
+import { ExternalCreditSearcherComponent } from './accounts-edition/external-credit/external-credit-searcher.component';
 import { FinancialAccountOperationsEditionComponent } from './operations/operations-edition.component';
 import { FinancialAccountOperationsTableComponent } from './operations/operations-table.component';
 import { FinancialAccountOperationAssignerComponent } from './operations/operation-assigner.component';
@@ -71,6 +72,7 @@ import { FinancialProjectEditorComponent } from '../financial-projects/project/p
     FinancialAccountModalComponent,
     CreditAccountAttributesComponent,
     CreditFinancialDataComponent,
+    ExternalCreditSearcherComponent,
     FinancialAccountOperationsModalComponent,
     FinancialAccountOperationsEditionComponent,
     FinancialAccountOperationsTableComponent,
