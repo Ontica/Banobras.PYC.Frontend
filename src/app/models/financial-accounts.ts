@@ -73,11 +73,11 @@ export interface FinancialData {
 
 
 export interface CreditAttributes extends AccountAttributes {
-  borrower: string;
-  creditAccountingAccount: string;
   creditTypeId: number;
-  creditStageId: number;
   externalCreditNo: string;
+  subledgerAccountNo: string;
+  creditStageId: number;
+  borrower: string;
 }
 
 
@@ -127,6 +127,11 @@ export interface FinancialAccount {
 }
 
 
+export interface ExternalAccountFields {
+  projectUID: string;
+}
+
+
 export interface FinancialAccountOperationsStructure {
   baseAccount: FinancialAccountDescriptor;
   availableOperations: Identifiable[];
@@ -151,11 +156,11 @@ export interface FinancialAccountOperationFields {
 
 export function buildCreditAttributes(data: CreditAttributes): CreditAttributes {
   const cleanData: CreditAttributes = {
-    creditAccountingAccount: data.creditAccountingAccount ?? '',
-    borrower: data.borrower ?? '',
     creditTypeId: data.creditTypeId ?? null,
-    creditStageId: data.creditStageId ?? null,
     externalCreditNo: data.externalCreditNo ?? '',
+    subledgerAccountNo: data.subledgerAccountNo ?? '',
+    creditStageId: data.creditStageId ?? null,
+    borrower: data.borrower ?? '',
   };
 
   return cleanData;
@@ -254,11 +259,11 @@ export const EmptyFinancialAccountHolder: FinancialAccountHolder = {
 
 
 export const EmptyCreditAttributes: CreditAttributes = {
-  creditAccountingAccount: '',
-  borrower: '',
   creditTypeId: null,
-  creditStageId: null,
   externalCreditNo: '',
+  subledgerAccountNo: '',
+  creditStageId: null,
+  borrower: '',
 };
 
 

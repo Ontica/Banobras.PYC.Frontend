@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { ChartOfAccountsDataService } from '@app/data-services';
+import { FinancialAccountsDataService } from '@app/data-services';
 
 import { EmptyFinancialAccountOperationsStructure, FinancialAccountOperationsStructure,
          FinancialAccountOperationFields } from '@app/models';
@@ -47,7 +47,7 @@ export class FinancialAccountOperationsEditionComponent {
   submitted = false;
 
 
-  constructor(private accountsData: ChartOfAccountsDataService) { }
+  constructor(private accountsData: FinancialAccountsDataService) { }
 
 
   onCloseButtonClicked() {

@@ -9,8 +9,9 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FileReport, FinancialAccountDescriptor, FinancialAccountHolder,
-         FinancialAccountsQuery } from '@app/models';
+import { ExternalAccountFields, FileReport, FinancialAccount, FinancialAccountDescriptor,
+         FinancialAccountFields, FinancialAccountHolder, FinancialAccountOperationFields,
+         FinancialAccountOperationsStructure, FinancialAccountsQuery } from '@app/models';
 
 
 @Injectable()
@@ -52,6 +53,122 @@ export class FinancialAccountsDataService {
     const path = `v2/financial-accounts/${accountUID}`;
 
     return this.http.get<FinancialAccountHolder>(path);
+  }
+
+
+  getProjectAccount(projectUID: string,
+                    accountUID: string): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}`;
+
+    return this.http.get<FinancialAccount>(path);
+  }
+
+
+  createProjectAccount(projectUID: string,
+                       dataFields: FinancialAccountFields): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/financial-projects/${projectUID}/accounts`;
+
+    return this.http.post<FinancialAccount>(path, dataFields);
+  }
+
+
+  updateProjectAccount(projectUID: string,
+                       accountUID: string,
+                       dataFields: FinancialAccountFields): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(accountUID, 'accountUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}`;
+
+    return this.http.put<FinancialAccount>(path, dataFields);
+  }
+
+
+  removeProjectAccount(projectUID: string,
+                       accountUID: string): EmpObservable<void> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}`;
+
+    return this.http.delete<void>(path);
+  }
+
+
+  getAccountFromCreditSystem(accountNo: string): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(accountNo, 'accountNo');
+
+    const path = `v2/financial-accounts/external-systems/credit/${accountNo}`;
+
+    return this.http.get<FinancialAccount>(path);
+  }
+
+
+  createAccountFromCreditSystem(accountNo: string, dataFields: ExternalAccountFields): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(accountNo, 'accountNo');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/financial-accounts/external-systems/credit/${accountNo}/create`;
+
+    return this.http.post<FinancialAccount>(path, dataFields);
+  }
+
+
+  refreshAccountFromCreditSystem(accountUID: string): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/external-systems/credit/${accountUID}/refresh`;
+
+    return this.http.put<FinancialAccount>(path, null);
+  }
+
+
+  getProjectAccountOperations(projectUID: string,
+                              accountUID: string): EmpObservable<FinancialAccountOperationsStructure> {
+    Assertion.assertValue(projectUID, 'projectUID');
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}/operations`;
+
+    return this.http.get<FinancialAccountOperationsStructure>(path);
+  }
+
+
+  getAccountOperations(accountUID: string): EmpObservable<FinancialAccountOperationsStructure> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/${accountUID}/operations`;
+
+    return this.http.get<FinancialAccountOperationsStructure>(path);
+  }
+
+
+  addAccountOperation(accountUID: string,
+                      dataFields: FinancialAccountOperationFields): EmpObservable<FinancialAccountOperationsStructure> {
+    Assertion.assertValue(accountUID, 'accountUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/financial-accounts/${accountUID}/operations`;
+
+    return this.http.post<FinancialAccountOperationsStructure>(path, dataFields);
+  }
+
+
+  removeAccountOperation(accountUID: string,
+                         operationUID: string): EmpObservable<FinancialAccountOperationsStructure> {
+    Assertion.assertValue(accountUID, 'accountUID');
+    Assertion.assertValue(operationUID, 'operationUID');
+
+    const path = `v2/financial-accounts/${accountUID}/operations/${operationUID}`;
+
+    return this.http.delete<FinancialAccountOperationsStructure>(path);
   }
 
 }

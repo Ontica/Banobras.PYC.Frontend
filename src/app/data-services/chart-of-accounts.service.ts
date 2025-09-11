@@ -9,8 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { ChartOfAccounts, ChartOfAccountsQuery, FinancialAccountOperationFields,
-         FinancialAccountOperationsStructure, StandardAccountHolder } from '@app/models';
+import { ChartOfAccounts, ChartOfAccountsQuery, StandardAccountHolder } from '@app/models';
 
 
 @Injectable()
@@ -52,37 +51,6 @@ export class ChartOfAccountsDataService {
     const path = `v3/charts-of-accounts/${chartOfAccountsUID}/standard-accounts/${stdAccountUID}`;
 
     return this.http.get<StandardAccountHolder>(path);
-  }
-
-
-  getAccountOperations(accountUID: string): EmpObservable<FinancialAccountOperationsStructure> {
-    Assertion.assertValue(accountUID, 'accountUID');
-
-    const path = `v2/financial-accounts/${accountUID}/operations`;
-
-    return this.http.get<FinancialAccountOperationsStructure>(path);
-  }
-
-
-  addAccountOperation(accountUID: string,
-                      dataFields: FinancialAccountOperationFields): EmpObservable<FinancialAccountOperationsStructure> {
-    Assertion.assertValue(accountUID, 'accountUID');
-    Assertion.assertValue(dataFields, 'dataFields');
-
-    const path = `v2/financial-accounts/${accountUID}/operations`;
-
-    return this.http.post<FinancialAccountOperationsStructure>(path, dataFields);
-  }
-
-
-  removeAccountOperation(accountUID: string,
-                         operationUID: string): EmpObservable<FinancialAccountOperationsStructure> {
-    Assertion.assertValue(accountUID, 'accountUID');
-    Assertion.assertValue(operationUID, 'operationUID');
-
-    const path = `v2/financial-accounts/${accountUID}/operations/${operationUID}`;
-
-    return this.http.delete<FinancialAccountOperationsStructure>(path);
   }
 
 }

@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { ChartOfAccountsDataService, FinancialProjectsDataService } from '@app/data-services';
+import { FinancialAccountsDataService } from '@app/data-services';
 
 import { EmptyFinancialAccountOperationsStructure, FinancialAccountOperationsStructure } from '@app/models';
 
@@ -42,8 +42,7 @@ export class FinancialAccountOperationsModalComponent implements OnChanges {
   isLoading = false;
 
 
-  constructor(private accountsData: ChartOfAccountsDataService,
-              private projectsData: FinancialProjectsDataService) { }
+  constructor(private accountsData: FinancialAccountsDataService) { }
 
 
   ngOnChanges() {
@@ -84,7 +83,7 @@ export class FinancialAccountOperationsModalComponent implements OnChanges {
   private getProjectAccountOperations(projectUID: string, accountUID: string) {
     this.isLoading = true;
 
-    this.projectsData.getProjectAccountOperations(projectUID, accountUID)
+    this.accountsData.getProjectAccountOperations(projectUID, accountUID)
       .firstValue()
       .then(x => this.setAccountOperationsData(x))
       .finally(() => this.isLoading = false);

@@ -15,7 +15,7 @@ import { SkipIf } from '@app/shared/decorators';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { FinancialProjectsDataService } from '@app/data-services';
+import { FinancialAccountsDataService } from '@app/data-services';
 
 import { FinancialAccountDescriptor, FinancialAccount, EmptyFinancialAccount, FinancialAccountFields,
          EmptyFinancialAccountDescriptor } from '@app/models';
@@ -70,7 +70,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   createAccountMode = false;
 
 
-  constructor(private projectsData: FinancialProjectsDataService,
+  constructor(private accountsData: FinancialAccountsDataService,
               private messageBox: MessageBoxService) { }
 
 
@@ -119,15 +119,15 @@ export class FinancialAccountsEditionComponent implements OnChanges {
         Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.createAccount(event.payload.projectUID,
-                                    event.payload.dataFields);
+                           event.payload.dataFields);
         return;
       case AccountModalEventType.UPDATE_CLICKED:
         Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
         Assertion.assertValue(event.payload.accountUID, 'event.payload.accountUID');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.updateAccount(event.payload.projectUID,
-                                    event.payload.accountUID,
-                                    event.payload.dataFields);
+                           event.payload.accountUID,
+                           event.payload.dataFields);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -193,7 +193,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   private getAccount(projectUID: string, accountUID: string) {
     this.submitted = true;
 
-    this.projectsData.getProjectAccount(projectUID, accountUID)
+    this.accountsData.getProjectAccount(projectUID, accountUID)
       .firstValue()
       .then(x => this.setSelectedAccount(x))
       .finally(() => this.submitted = false);
@@ -203,7 +203,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   private createAccount(projectUID: string, dataFields: FinancialAccountFields) {
     this.submitted = true;
 
-    this.projectsData.createProjectAccount(projectUID, dataFields)
+    this.accountsData.createProjectAccount(projectUID, dataFields)
       .firstValue()
       .then(x => this.resolveAccountUpdated(projectUID))
       .finally(() => this.submitted = false);
@@ -213,7 +213,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   private updateAccount(projectUID: string, accountUID: string, dataFields: FinancialAccountFields) {
     this.submitted = true;
 
-    this.projectsData.updateProjectAccount(projectUID, accountUID, dataFields)
+    this.accountsData.updateProjectAccount(projectUID, accountUID, dataFields)
       .firstValue()
       .then(x => this.resolveAccountUpdated(projectUID))
       .finally(() => this.submitted = false);
@@ -223,7 +223,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   private removeAccount(projectUID: string, accountUID: string) {
     this.submitted = true;
 
-    this.projectsData.removeProjectAccount(projectUID, accountUID)
+    this.accountsData.removeProjectAccount(projectUID, accountUID)
       .firstValue()
       .then(x => this.resolveAccountUpdated(projectUID))
       .finally(() => this.submitted = false);
