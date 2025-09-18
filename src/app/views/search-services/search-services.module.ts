@@ -11,11 +11,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
+import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
 import { RecordSearchComponent } from './record-search/record-search.component';
 import { RecordSearchFilterComponent } from './record-search/record-search-filter.component';
-import { RecordSearchListComponent } from './record-search/record-search-list.component';
-import { RecordSearchListItemComponent } from './record-search/record-search-list-item.component';
 
 
 @NgModule({
@@ -26,12 +25,12 @@ import { RecordSearchListItemComponent } from './record-search/record-search-lis
 
     AngularMaterialModule,
     SharedModule,
+
+    ReportsControlsModule,
   ],
   declarations: [
     RecordSearchComponent,
     RecordSearchFilterComponent,
-    RecordSearchListComponent,
-    RecordSearchListItemComponent,
   ],
   exports: [
     RecordSearchComponent,

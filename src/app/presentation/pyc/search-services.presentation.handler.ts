@@ -47,26 +47,19 @@ export class SearchServicesPresentationHandler extends AbstractPresentationHandl
     let provider: () => any;
 
     switch (selectorType) {
-
       default:
         return super.select<U>(selectorType, params);
-
     }
   }
 
 
   dispatch(actionType: ActionType, params?: any): void {
     switch (actionType) {
-
       case ActionType.SET_RECORD_SEARCH_DATA:
-        Assertion.assertValue(params.recordSearchData, 'payload.recordSearchData');
-
-        const recordSearchData = params.recordSearchData || this.getValue(SelectorType.RECORD_SEARCH_DATA);
-
-        this.setValue(SelectorType.RECORD_SEARCH_DATA, recordSearchData);
-
+        Assertion.assertValue(params.data, 'payload.data');
+        const data = params.data || this.getValue(SelectorType.RECORD_SEARCH_DATA);
+        this.setValue(SelectorType.RECORD_SEARCH_DATA, data);
         return;
-
       default:
         throw this.unhandledCommandOrActionType(actionType);
     }

@@ -4,20 +4,20 @@
 
       <div class="fx-row-container">
 
-        <div class="fx-item-half">
+        <div class="fx-item-size" style="--size: calc(55% - 221px)">
 
-          <label>Buscar:</label>
+          <label>Tipo de consulta:</label>
 
-          <emp-ng-select name="type" required
-            [(ngModel)]="formData.type"
-            [items]="recordSearchTypeList"
-            [showError]="!formData.type">
+          <emp-ng-select name="queryType" required
+            [(ngModel)]="formData.queryType"
+            [items]="queryTypeList"
+            [showError]="!formData.queryType">
           </emp-ng-select>
 
         </div>
 
 
-        <div class="fx-item">
+        <div class="fx-item-none">
 
           <label>Período:</label>
 
@@ -29,18 +29,15 @@
         </div>
 
 
-        <div class="fx-item-half fx-items-end">
+        <div class="fx-item">
 
-          <div class="input-search-container">
+          <label>Conceptos:</label>
 
-            <input type="text" class="text-box" name="keywords" #keywords="ngModel" required
-              placeholder="Buscar por concepto, descripción, palabra..."
-              [(ngModel)]="formData.keywords"
-              [class.invalid-control]="keywords.invalid"
-              (keyup.enter)="onSearchClicked()"
-              (keyup.escape)="onClearKeywords()">
-
-          </div>
+          <emp-ng-input-tags name="keywords" required
+            [(ngModel)]="formData.accounts"
+            [showError]="!formData.accounts || formData.accounts.length === 0"
+            (clear)="formData.accounts = []">
+          </emp-ng-input-tags>
 
         </div>
 
@@ -55,6 +52,24 @@
             <mat-icon>search</mat-icon>
 
           </button>
+
+        </div>
+
+      </div>
+
+      <div class="fx-row-container">
+
+        <div class="fx-item-size" style="--size: 55%">
+
+          <label>Contabilidad:</label>
+
+          <emp-ng-select name="ledger"
+            [config]="{clearable: true, multiple: true, showTooltip: true}"
+            [(ngModel)]="formData.ledgers"
+            [items]="ledgersList"
+            [loading]="isLoading"
+            placeholder="Todas">
+          </emp-ng-select>
 
         </div>
 

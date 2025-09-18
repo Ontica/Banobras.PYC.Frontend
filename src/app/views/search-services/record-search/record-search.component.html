@@ -28,19 +28,18 @@
           </emp-ng-spinner>
 
           <emp-pyc-record-search-filter class="fx-item-none"
-            [query]="data.recordSearchQuery"
+            [query]="data.query"
             (recordSearchFilterEvent)="onRecordSearchFilterEvent($event)">
 
           </emp-pyc-record-search-filter>
 
-          <emp-pyc-record-search-list class="fx-item" [style.width.%]="100"
-            [recordsList]="data.records"
-            [recordSearchType]="data.recordSearchQuery.type"
-            [queryExecuted]="data.queryExecuted"
-            [isLoading]="isLoading"
-            (recordSearchListEvent)="onRecordSearchListEvent($event)">
+          <emp-ng-data-table class="fx-item"
+            [dataTable]="data"
+            [executed]="data.queryExecuted"
+            [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"
+            (dataTableEvent)="onDataTableEvent($event)">
 
-          </emp-pyc-record-search-list>
+          </emp-ng-data-table>
 
         </div>
 

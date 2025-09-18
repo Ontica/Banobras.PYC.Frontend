@@ -7,7 +7,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Assertion, Empty, EventInfo } from '@app/core';
+import { Assertion, EventInfo, Identifiable } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -18,12 +18,11 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { SearchServicesDataService } from '@app/data-services';
 
-import { EmptyRecordSearchData, RecordSearchData, RecordSearchQuery, RecordSearchResult,
-         RecordSearchType } from '@app/models';
+import { EmptyRecordSearchData, RecordSearchData, RecordSearchQuery, RecordQueryType } from '@app/models';
+
+import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
 
 import { RecordSearchFilterEventType } from './record-search-filter.component';
-
-import { RecordSearchListEventType } from './record-search-list.component';
 
 
 @Component({
@@ -32,7 +31,7 @@ import { RecordSearchListEventType } from './record-search-list.component';
 })
 export class RecordSearchComponent implements OnInit, OnDestroy {
 
-  data: RecordSearchData = EmptyRecordSearchData;
+  data: RecordSearchData = Object.assign({}, EmptyRecordSearchData);
 
   cardHint = 'Seleccionar los filtros';
 
@@ -40,9 +39,10 @@ export class RecordSearchComponent implements OnInit, OnDestroy {
 
   helper: SubscriptionHelper;
 
+
   constructor(private uiLayer: PresentationLayer,
-              private searchServicesData: SearchServicesDataService,
-              private messageService: MessageBoxService) {
+              private searchData: SearchServicesDataService,
+              private messageBox: MessageBoxService) {
     this.helper = uiLayer.createSubscriptionHelper();
   }
 
@@ -61,9 +61,9 @@ export class RecordSearchComponent implements OnInit, OnDestroy {
   onRecordSearchFilterEvent(event: EventInfo) {
     switch (event.type as RecordSearchFilterEventType) {
       case RecordSearchFilterEventType.SEARCH_CLICKED:
+        Assertion.assertValue(event.payload.queryType, 'event.payload.queryType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.resetData(event.payload.query as RecordSearchQuery);
-        this.validateSearchType(event.payload.query as RecordSearchQuery);
+        this.validateQueryType(event.payload.queryType, event.payload.query as RecordSearchQuery);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -72,11 +72,14 @@ export class RecordSearchComponent implements OnInit, OnDestroy {
   }
 
 
-  onRecordSearchListEvent(event: EventInfo) {
-    switch (event.type as RecordSearchListEventType) {
-      case RecordSearchListEventType.SELECT_RECORD:
-        Assertion.assertValue(event.payload.record.recordableSubject.uid, 'event.payload.record.recordableSubject.uid');
-        this.messageService.showInDevelopment('Seleccionar registro');
+  onDataTableEvent(event: EventInfo) {
+    switch (event.type as DataTableEventType) {
+      case DataTableEventType.COUNT_FILTERED_ENTRIES:
+        Assertion.assertValue(event.payload.displayedEntriesMessage, 'event.payload.displayedEntriesMessage');
+        this.setText(event.payload.displayedEntriesMessage as string);
+        return;
+      case DataTableEventType.EXPORT_DATA:
+        this.messageBox.showInDevelopment('Exportar ' + this.data.queryType.name);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -85,59 +88,98 @@ export class RecordSearchComponent implements OnInit, OnDestroy {
   }
 
 
-  private resetData(query: RecordSearchQuery) {
-    this.saveDataInState(query, [], false);
-  }
-
-
-  private validateSearchType(query: RecordSearchQuery) {
+  private validateQueryType(queryType: Identifiable, query: RecordSearchQuery) {
     if (!this.isValidRecordSearchQuery(query)) {
       return;
     }
 
-    switch (query.type) {
-      case RecordSearchType.Budget:
-      case RecordSearchType.Accounting:
-      case RecordSearchType.CashFlow:
-      case RecordSearchType.Credit:
-        this.messageService.showInDevelopment('Busqueda universal');
+    this.resetRecords(queryType, query);
+
+    switch (query.queryType) {
+      case RecordQueryType.AccountTotals:
+        this.searchRecords(queryType, query);
+        return;
+      case RecordQueryType.AccountingEntries:
+      case RecordQueryType.CashFlowEntries:
+      case RecordQueryType.CreditEntries:
+        this.setDummyRecords(queryType, query);
         return;
       default:
-        console.log(`Unhandled search type ${query.type}`);
+        console.log(`Unhandled search type ${query.queryType}`);
         return;
     }
   }
 
 
-  private isValidRecordSearchQuery(query: RecordSearchQuery): boolean {
-    return !!query.type && !!query.datePeriod && !!query.keywords;
+  private resetRecords(queryType: Identifiable, query: RecordSearchQuery) {
+    this.resolveSearchRecords(queryType, query, EmptyRecordSearchData, false);
   }
 
 
-  private saveDataInState(query: RecordSearchQuery, records: RecordSearchResult[], queryExecuted: boolean) {
-    const recordSearchData: RecordSearchData = {
-      recordSearchQuery: query,
-      queryExecuted: queryExecuted,
-      records: records,
+  private searchRecords(queryType: Identifiable, query: RecordSearchQuery) {
+    this.isLoading = true;
+
+    this.searchData.searchRecords(query)
+      .firstValue()
+      .then(x => this.resolveSearchRecords(queryType, query, x))
+      .finally(() => this.isLoading = false);
+  }
+
+
+  private setDummyRecords(queryType: Identifiable, query: RecordSearchQuery) {
+    this.isLoading = true;
+
+    setTimeout(() => {
+      this.resolveSearchRecords(queryType, query, EmptyRecordSearchData);
+      this.isLoading = false;
+      this.messageBox.showInDevelopment('Buscar ' + queryType.name.toLowerCase());
+    }, 500);
+  }
+
+
+  private resolveSearchRecords(queryType: Identifiable, query: RecordSearchQuery,
+                               result: RecordSearchData, queryExecuted: boolean = true) {
+    const data: RecordSearchData = {
+      queryType,
+      query,
+      queryExecuted,
+      columns: result?.columns ?? [],
+      entries: result?.entries ?? [],
     };
 
-    this.uiLayer.dispatch(SearchServicesAction.SET_RECORD_SEARCH_DATA, {recordSearchData});
+    this.data = data;
+    this.saveDataInState(data);
+  }
+
+
+  private isValidRecordSearchQuery(query: RecordSearchQuery): boolean {
+    return !!query.queryType && !!query.fromDate && !!query.toDate && !!query.accounts;
+  }
+
+
+  private saveDataInState(data: RecordSearchData) {
+    this.uiLayer.dispatch(SearchServicesAction.SET_RECORD_SEARCH_DATA, {data});
   }
 
 
   private setInitData(data: RecordSearchData) {
     this.data = data;
-    this.setText(data);
+    this.setText();
   }
 
 
-  private setText(data: RecordSearchData) {
-    if (!data.queryExecuted) {
+  private setText(displayedEntriesMessage?: string) {
+    if (!this.data.queryExecuted) {
       this.cardHint = 'Seleccionar los filtros';
       return;
     }
 
-    this.cardHint = `${data.records.length} registros encontrados`;
+    if (displayedEntriesMessage) {
+      this.cardHint = `${this.data.queryType.name} - ${displayedEntriesMessage}`;
+      return;
+    }
+
+    this.cardHint = `${this.data.queryType.name} - ${this.data.entries.length} registros encontrados`;
   }
 
 }

@@ -5,45 +5,51 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Identifiable } from '@app/core';
+import { DateString, Empty, Identifiable } from '@app/core';
 
-import { DateRange, EmptyDateRange } from './reporting';
+import { DataTable, DataTableColumn, DataTableQuery } from './_data-table';
 
 
-export enum RecordSearchType {
-  Budget     = 'Budget',
-  Accounting = 'Accounting',
-  CashFlow   = 'CashFlow',
-  Credit     = 'Credit',
+export enum RecordQueryType {
+  AccountTotals     = 'AccountTotals',
+  AccountingEntries = 'AccountingEntries',
+  CashFlowEntries   = 'CashFlowEntries',
+  CreditEntries     = 'CreditEntries',
 }
 
 
-export const RecordSearchTypeList: Identifiable[] = [
-  { uid: RecordSearchType.Budget,     name: 'Conceptos presupuestales' },
-  { uid: RecordSearchType.Accounting, name: 'Movimientos contables' },
-  { uid: RecordSearchType.CashFlow,   name: 'Movimientos de flujo de efectivo' },
-  { uid: RecordSearchType.Credit,     name: 'Movimientos del sistema de créditos' },
+export const RecordQueryTypeList: Identifiable[] = [
+  { uid: RecordQueryType.AccountTotals,     name: 'Conceptos presupuestales' },
+  { uid: RecordQueryType.AccountingEntries, name: 'Movimientos contables' },
+  { uid: RecordQueryType.CashFlowEntries,   name: 'Movimientos de flujo de efectivo' },
+  { uid: RecordQueryType.CreditEntries,     name: 'Movimientos del sistema de créditos' },
 ];
 
 
-export interface RecordSearchData {
-  queryExecuted: boolean;
-  recordSearchQuery: RecordSearchQuery;
-  records: RecordSearchResult[];
+export interface RecordSearchData extends DataTable {
+  query: RecordSearchQuery;
+  columns: DataTableColumn[];
+  entries: RecordSearchResult[];
+  queryExecuted?: boolean;
+  queryType?: Identifiable;
 }
 
 
-export interface RecordSearchQuery {
-  type: RecordSearchType;
-  datePeriod: DateRange;
-  keywords: string;
+export interface RecordSearchQuery extends DataTableQuery {
+  queryType: RecordQueryType;
+  fromDate: DateString;
+  toDate: DateString;
+  accounts: string[];
+  ledgers: string[];
 }
 
 
 export const EmptyRecordSearchQuery: RecordSearchQuery = {
-  type: RecordSearchType.Budget,
-  datePeriod: EmptyDateRange,
-  keywords: '',
+  queryType: RecordQueryType.AccountTotals,
+  fromDate: '',
+  toDate: '',
+  accounts: [],
+  ledgers: [],
 };
 
 
@@ -60,9 +66,11 @@ export const EmptyRecordSearchResult: RecordSearchResult = {
 
 
 export const EmptyRecordSearchData: RecordSearchData = {
+  query: EmptyRecordSearchQuery,
+  columns: [],
+  entries: [],
   queryExecuted: false,
-  recordSearchQuery: EmptyRecordSearchQuery,
-  records: [],
+  queryType: Empty,
 }
 
 
