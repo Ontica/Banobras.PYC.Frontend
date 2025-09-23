@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 
 import { EventInfo } from '@app/core';
 
@@ -28,9 +28,13 @@ export enum ExternalCreditSearcherEventType {
 })
 export class ExternalCreditSearcherComponent {
 
+  @ViewChild('inputSearch') inputSearch!: ElementRef<HTMLInputElement>;
+
   @Output() externalCreditSearcherEvent = new EventEmitter<EventInfo>();
 
   externalCreditNo = null;
+
+  hasValidData = false;
 
   isLoading = false;
 
@@ -46,7 +50,8 @@ export class ExternalCreditSearcherComponent {
 
   onExternalCreditClear() {
     this.externalCreditNo = null;
-    this.emitData(null)
+    this.clearData();
+    this.focusInput();
   }
 
 
@@ -55,15 +60,32 @@ export class ExternalCreditSearcherComponent {
 
     this.accountsData.getAccountFromCreditSystem(this.externalCreditNo)
       .firstValue()
-      .then(x => this.emitData(x))
-      .catch(e => this.emitData(null))
+      .then(x => this.resolveData(x))
+      .catch(e => this.clearData())
       .finally(() => this.isLoading = false);
+  }
+
+
+  private resolveData(data: FinancialAccount) {
+    this.hasValidData = true;
+    this.emitData(data);
+  }
+
+
+  private clearData() {
+    this.hasValidData = false;
+    this.emitData(null)
   }
 
 
   private emitData(data: FinancialAccount) {
     sendEvent(this.externalCreditSearcherEvent, ExternalCreditSearcherEventType.DATA_CHANGED,
       { data });
+  }
+
+
+  private focusInput() {
+    setTimeout(() => this.inputSearch.nativeElement.focus());
   }
 
 }

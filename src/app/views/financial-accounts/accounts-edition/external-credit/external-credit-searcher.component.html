@@ -4,22 +4,35 @@
 
       <label>Buscar (No. crédito SIC):</label>
 
-      <input type="text" class="text-box"
+      <input #inputSearch empNgAutofocus
+        type="text" class="text-box"
         [(ngModel)]="externalCreditNo"
         [class.invalid-control]="!externalCreditNo"
-        (keyup.escape)="onExternalCreditClear()">
+        [disabled]="hasValidData"
+        (keyup.escape)="externalCreditNo = null"
+        (keyup.enter)="onExternalCreditSearch()">
 
     </div>
 
     <div class="fx-item-none" [style.paddingTop.px]="13">
 
-      <button title="Buscar"
+      <button *ngIf="!hasValidData"
+        title="Buscar"
         [class.btn-icon]="!externalCreditNo"
         [class.btn-icon-action]="externalCreditNo"
         [class.spinner]="isLoading"
         (click)="onExternalCreditSearch()">
 
-        <mat-icon>search</mat-icon>
+        <mat-icon> search </mat-icon>
+
+      </button>
+
+      <button *ngIf="hasValidData"
+        title="Limpiar"
+        class="btn-icon"
+        (click)="onExternalCreditClear()">
+
+        <mat-icon> close </mat-icon>
 
       </button>
 
