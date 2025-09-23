@@ -9,12 +9,11 @@
       <label>Tipo de crédito:</label>
 
       <emp-ng-select
-        bindValue="id"
-        [(ngModel)]="selectedData.creditTypeId"
+        [(ngModel)]="selectedData.creditType"
         [items]="creditTypesList"
-        [config]="{clearable: true}"
+        [config]="{clearable: true, bindByValue: false}"
         [placeholder]="null"
-        [showError]="showError && errors?.creditTypeIdError"
+        [showError]="showError && errors?.creditTypeError"
         [disabled]="!canEditExternalData"
         (changes)="onSelectedDataChanged()">
       </emp-ng-select>
@@ -50,12 +49,11 @@
       <label>Etapa del crédito:</label>
 
       <emp-ng-select
-        bindValue="id"
-        [(ngModel)]="selectedData.creditStageId"
+        [(ngModel)]="selectedData.creditStage"
         [items]="creditStagesList"
-        [config]="{clearable: true}"
+        [config]="{clearable: true, bindByValue: false}"
         [placeholder]="null"
-        [showError]="showError && errors?.creditStageIdError"
+        [showError]="showError && errors?.creditStageError"
         [disabled]="!canEditExternalData"
         (changes)="onSelectedDataChanged()">
       </emp-ng-select>

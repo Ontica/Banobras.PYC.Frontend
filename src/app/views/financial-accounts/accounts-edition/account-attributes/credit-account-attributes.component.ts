@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/cor
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { FormHelper } from '@app/shared/utils';
+import { ArrayLibrary, FormHelper } from '@app/shared/utils';
 
 import { AccountAttributes, buildCreditAttributes, CreditAttributes,
          EmptyCreditAttributes } from '@app/models';
@@ -75,6 +75,7 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor {
   writeValue(value: CreditAttributes) {
     const data = !value ? EmptyCreditAttributes : value;
     this.setSelectedData(data);
+    this.setDefaultDataLists();
     this.value = data;
   }
 
@@ -88,6 +89,14 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor {
 
   private setSelectedData(data: CreditAttributes) {
     this.selectedData = Object.assign({}, EmptyCreditAttributes, data);
+  }
+
+
+  private setDefaultDataLists() {
+    this.creditTypesList =
+      ArrayLibrary.insertIfNotExist(this.creditTypesList ?? [], this.selectedData.creditType, 'uid');
+    this.creditStagesList =
+      ArrayLibrary.insertIfNotExist(this.creditStagesList ?? [], this.selectedData.creditStage, 'uid');
   }
 
 }

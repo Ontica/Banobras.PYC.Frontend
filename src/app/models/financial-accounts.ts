@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Empty, Identifiable } from '@app/core';
+import { DateString, Empty, Identifiable, isEmpty } from '@app/core';
 
 import { BaseActions, EmptyBaseActions, EntityStatus } from './_explorer-data';
 
@@ -73,10 +73,10 @@ export interface FinancialData {
 
 
 export interface CreditAttributes extends AccountAttributes {
-  creditTypeId: number;
+  creditType: Identifiable;
   externalCreditNo: string;
   subledgerAccountNo: string;
-  creditStageId: number;
+  creditStage: Identifiable;
   borrower: string;
 }
 
@@ -156,10 +156,10 @@ export interface FinancialAccountOperationFields {
 
 export function buildCreditAttributes(data: CreditAttributes): CreditAttributes {
   const cleanData: CreditAttributes = {
-    creditTypeId: data.creditTypeId ?? null,
+    creditType: isEmpty(data.creditType) ? null : data.creditType,
     externalCreditNo: data.externalCreditNo ?? '',
     subledgerAccountNo: data.subledgerAccountNo ?? '',
-    creditStageId: data.creditStageId ?? null,
+    creditStage: isEmpty(data.creditStage) ? null : data.creditStage,
     borrower: data.borrower ?? '',
   };
 
@@ -259,10 +259,10 @@ export const EmptyFinancialAccountHolder: FinancialAccountHolder = {
 
 
 export const EmptyCreditAttributes: CreditAttributes = {
-  creditTypeId: null,
+  creditType: Empty,
   externalCreditNo: '',
   subledgerAccountNo: '',
-  creditStageId: null,
+  creditStage: Empty,
   borrower: '',
 };
 
