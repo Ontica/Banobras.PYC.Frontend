@@ -45,22 +45,22 @@
 
     <div class="fx-row-container" *ngIf="displayCreditAccountSearcher">
 
-      <div class="fx-item-half" >
+      <div class="fx-item-half">
 
-        <label>Área:</label>
+        <label>Cuenta estándar:</label>
 
         <emp-ng-select
-          formControlName="organizationalUnitUID"
-          [config]="{virtualScroll: true, showTooltip: true, autoSelect: !isSaved}"
-          [items]="orgUnitsList"
+          formControlName="standardAccountUID"
+          [config]="{showTooltip: true, autoSelect: !isSaved}"
+          [items]="standardAccountsList"
           [loading]="isLoading"
-          [placeholder]="null"
-          [showError]="formHelper.isControlInvalid(form.controls.organizationalUnitUID)">
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+          [showError]="formHelper.isControlInvalid(form.controls.standardAccountUID)">
         </emp-ng-select>
 
       </div>
 
-      <div class="fx-item-half" *ngIf="displayCreditAccountSearcher">
+      <div class="fx-item-half">
 
         <label>Palabras de búsqueda adicionales:</label>
         <emp-ng-input-tags
@@ -75,7 +75,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-half">
+      <div class="fx-item-half" *ngIf="!displayCreditAccountSearcher">
 
         <label>Cuenta estándar:</label>
 
@@ -84,8 +84,23 @@
           [config]="{showTooltip: true, autoSelect: !isSaved}"
           [items]="standardAccountsList"
           [loading]="isLoading"
-          [placeholder]="isCreditAccount ? null : formHelper.getSimplePlaceholder(editionMode)"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
           [showError]="formHelper.isControlInvalid(form.controls.standardAccountUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half" *ngIf="displayCreditAccountSearcher">
+
+        <label>Área:</label>
+
+        <emp-ng-select
+          formControlName="organizationalUnitUID"
+          [config]="{virtualScroll: true, showTooltip: true, autoSelect: !isSaved}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [placeholder]="null"
+          [showError]="formHelper.isControlInvalid(form.controls.organizationalUnitUID)">
         </emp-ng-select>
 
       </div>

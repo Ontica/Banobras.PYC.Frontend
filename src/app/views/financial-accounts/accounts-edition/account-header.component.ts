@@ -148,7 +148,8 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
     if (this.isSaved) {
       return this.isCreditAccount ? true : FormHelper.isFormReady(this.form);
     } else {
-      return this.isCreditAccount ? this.hasExternalData && !!this.form.value.financialAccountTypeUID :
+      return this.isCreditAccount ?
+        this.hasExternalData && !!this.form.value.financialAccountTypeUID :
         FormHelper.isFormReady(this.form);
     }
   }
@@ -268,7 +269,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
   private setDefaultFormData() {
     setTimeout(() => {
       this.form.reset({
-        organizationalUnitUID: !this.organizationalUnitUID ? '' : this.organizationalUnitUID,
+        organizationalUnitUID: isEmpty({uid: this.organizationalUnitUID}) ? '' : this.organizationalUnitUID,
       });
     });
   }
@@ -297,9 +298,14 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
       this.hasExternalData = !!(account?.attributes as CreditAttributes)?.externalCreditNo;
       this.validateDataLists(account);
 
+      const financialAccountTypeUID = this.form.value.financialAccountTypeUID;
+      const organizationalUnitUID = this.isCreditAccount ?
+        isEmpty(account.organizationalUnit) ? null : account.organizationalUnit.uid :
+        this.form.value.organizationalUnitUID;
+
       this.form.reset({
-        financialAccountTypeUID: this.form.value.financialAccountTypeUID,
-        organizationalUnitUID: isEmpty(account.organizationalUnit) ? null : account.organizationalUnit.uid,
+        financialAccountTypeUID,
+        organizationalUnitUID,
         standardAccountUID: isEmpty(account.standardAccount) ? null : account.standardAccount.uid,
         currencyUID: isEmpty(account.currency) ? null : account.currency.uid,
         tags: account.tags ?? [],
@@ -320,8 +326,6 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
 
 
   private validateDisabledControls() {
-    FormHelper.setDisableControl(this.form.controls.organizationalUnitUID, this.isCreditAccount);
-    FormHelper.setDisableControl(this.form.controls.standardAccountUID, this.isCreditAccount);
     FormHelper.setDisableControl(this.form.controls.organizationalUnitUID, this.isCreditAccount);
     FormHelper.setDisableControl(this.form.controls.currencyUID, this.isCreditAccount);
     FormHelper.setDisableControl(this.form.controls.description, this.isCreditAccount);

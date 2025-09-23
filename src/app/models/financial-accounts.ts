@@ -129,6 +129,7 @@ export interface FinancialAccount {
 
 export interface ExternalAccountFields {
   projectUID: string;
+  standardAccountUID: string;
 }
 
 

@@ -131,12 +131,14 @@ export class FinancialAccountsEditionComponent implements OnChanges {
         return;
       case AccountModalEventType.CREATE_EXTERNAL_CLICKED:
         Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
+        Assertion.assertValue(event.payload.dataFields.standardAccountUID, 'event.payload.dataFields.standardAccountUID');
         Assertion.assertValue(event.payload.dataFields.attributes.externalCreditNo, 'event.payload.dataFields.attributes.externalCreditNo');
 
         const accountNo = event.payload.dataFields.attributes.externalCreditNo;
 
         const dataFields: ExternalAccountFields = {
           projectUID: event.payload.projectUID,
+          standardAccountUID: event.payload.dataFields.standardAccountUID,
         };
 
         this.createAccountFromCreditSystem(accountNo, dataFields);
