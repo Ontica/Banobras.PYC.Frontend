@@ -8,11 +8,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
          SimpleChanges } from '@angular/core';
 
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { combineLatest } from 'rxjs';
 
-import { EventInfo, FlexibleIdentifiable, Identifiable, isEmpty } from '@app/core';
+import { EventInfo, FlexibleIdentifiable, Identifiable, isEmpty, Validate } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -151,7 +151,7 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
 
 
   onSearchClicked() {
-    if (this.form.valid) {
+    if (FormHelper.isFormReadyAndInvalidate(this.form)) {
       sendEvent(this.cashLedgerFilterEvent, CashLedgerFilterEventType.SEARCH_CLICKED,
         { queryType: this.form.value.queryType, query: this.getFormData() });
     }
@@ -192,11 +192,11 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      queryType: [null],
+      queryType: [CashLedgerQueryType.transactions, Validators.required],
+      accountingDate: [EmptyDateRange, [Validators.required, Validate.periodRequired]],
+      keywords: [null],
       transactionStatus: [null],
       cashAccountStatus: [null],
-      accountingDate: [EmptyDateRange],
-      keywords: [null],
       cashAccounts: [null],
       voucherAccounts: [null],
       subledgerAccounts: [null],
