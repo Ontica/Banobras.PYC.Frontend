@@ -23,6 +23,7 @@ import { TransactionsListEventType } from './transactions-list.component';
 
 export enum TransactionsExplorerEventType {
   CREATE_CLICKED            = 'BudgetTransactionsExplorerComponent.Event.CreateClicked',
+  IMPORT_CLICKED            = 'BudgetTransactionsExplorerComponent.Event.ImportClicked',
   SEARCH_CLICKED            = 'BudgetTransactionsExplorerComponent.Event.SearchClicked',
   CLEAR_CLICKED             = 'BudgetTransactionsExplorerComponent.Event.ClearClicked',
   EXECUTE_OPERATION_CLICKED = 'BudgetTransactionsExplorerComponent.Event.ExecuteOperationClicked',
@@ -59,6 +60,8 @@ export class BudgetTransactionsExplorerComponent implements OnChanges {
 
   PERMISSION_TO_CREATE = PERMISSIONS.FEATURE_EDICION_TRANSACCIONES_PRESUPUESTALES;
 
+  PERMISSION_TO_IMPORT = PERMISSIONS.FEATURE_IMPORTACION_TRANSACCIONES_PRESUPUESTALES;
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.dataList) {
@@ -71,6 +74,11 @@ export class BudgetTransactionsExplorerComponent implements OnChanges {
   onStageChanged() {
     sendEvent(this.transactionsExplorerEvent, TransactionsExplorerEventType.CLEAR_CLICKED,
       { query: this.query });
+  }
+
+
+  onImportTransactionClicked() {
+    sendEvent(this.transactionsExplorerEvent, TransactionsExplorerEventType.IMPORT_CLICKED);
   }
 
 

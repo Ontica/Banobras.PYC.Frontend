@@ -64,6 +64,8 @@ export * from './financial-projects';
 
 export * from './history';
 
+export * from './import-budget-transactions';
+
 export * from './imported-data';
 
 export * from './object-types';

@@ -1,0 +1,188 @@
+<emp-ng-modal-window [config]="{width: '780px'}">
+
+  <emp-ng-card
+    [title]='title'
+    hint='Agrega transacciones presupuestales desde un archivo Excel'
+    (cardClose)="onCloseModalClicked()">
+
+    <div class="card-body-padding">
+
+      <form [formGroup]="form" [empNgSpinnerHost]="spinner" empNgFormKeyDownEnter
+        autocomplete="off" class="form-section">
+
+        <emp-ng-spinner #spinner [visible]="submitted">
+
+        </emp-ng-spinner>
+
+        <div class="fx-column-container-fill fx-gap-half">
+
+          <div class="section-title"> Archivo a importar </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-one">
+              <label>Archivo:</label>
+              <emp-ng-file-control [disabled]="executedImported"
+                [fileControl]="file"
+                [showError]="showFileError"
+                [config]="{filesTypes: ['excel'], autoUpload: true, placeholder: 'Elegir o arrastrar el archivo  Excel.'}"
+                (fileControlChange)="onFileControlChange($event)">
+
+              </emp-ng-file-control>
+            </div>
+
+          </div>
+
+          <div class="section-title"> Información sobre las transacciones y parámetros de importación </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Tipo de presupuesto:</label>
+
+              <emp-ng-select
+                formControlName="budgetTypeUID"
+                [config]="{autoSelect: true}"
+                [items]="budgetTypesList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
+                (changes)="onBudgetTypeChanged($event)">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>Presupuesto:</label>
+
+              <emp-ng-select
+                formControlName="budgetUID"
+                placeholder="Seleccione tipo de presupuesto"
+                [config]="{autoSelect: true}"
+                [items]="budgetsList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.budgetUID)"
+                (changes)="onBudgetChanged($event)">
+              </emp-ng-select>
+
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Tipo de transacción:</label>
+
+              <emp-ng-select
+                formControlName="transactionTypeUID"
+                placeholder="Seleccione presupuesto"
+                [config]="{autoSelect: true}"
+                [items]="transactionTypesList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.transactionTypeUID)"
+                (changes)="onTransactionTypeChanged($event)">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-size" style="--size: calc(50% - 126px)">
+
+              <label>Fuente:</label>
+
+              <emp-ng-select
+                formControlName="operationSourceUID"
+                placeholder="Seleccione tipo de transacción"
+                [config]="{autoSelect: true}"
+                [items]="operationSourcesList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.operationSourceUID)">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-none">
+
+              <label>Fecha de aplicación:</label>
+
+              <emp-ng-datepicker
+                formControlName="applicationDate"
+                [showError]="formHelper.isControlInvalid(form.controls.applicationDate)">
+              </emp-ng-datepicker>
+
+            </div>
+
+          </div>
+
+          <ng-container *ngIf="executedDryRun">
+
+            <div class="section-title">
+              Información del archivo a importar
+            </div>
+
+            <div class="fx-row-container"
+              [style.maxHeight]="'200px'" [style.minHeight]="'auto'">
+
+              <emp-bdg-transactions-importer-details-table class="fx-item-one"
+                [importResult]="importResult"
+                [commandExecuted]="executedDryRun">
+
+              </emp-bdg-transactions-importer-details-table>
+
+            </div>
+
+          </ng-container>
+
+          <mat-divider class="horizontal-slim">
+
+          </mat-divider>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item fx-end fx-items-center">
+
+              <button type="button"
+                [disabled]="executedImported"
+                [class.btn]="executedDryRun || !isFileFormValid"
+                [class.btn-action]="!executedDryRun && isFileFormValid"
+                (click)="onSubmitDryRunImportTransactions()" >
+                Analizar archivo
+              </button>
+
+              <button type="button"
+                [disabled]="executedImported"
+                [class.btn]="!isReadyForSubmit"
+                [class.btn-action]="isReadyForSubmit"
+                (click)="onSubmitImportTransactions()">
+                Importar cambios
+              </button>
+
+              <ng-container *ngIf="executedImported">
+
+                <mat-divider vertical="true" class="vertical" [style.marginTop.px]="0">
+
+                </mat-divider>
+
+                <button type="button"
+                  class="btn-action"
+                  (click)="onCloseModalClicked()">
+                  Cerrar
+                </button>
+
+              </ng-container>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

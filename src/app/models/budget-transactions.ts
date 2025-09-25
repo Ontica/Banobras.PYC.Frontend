@@ -30,7 +30,6 @@ export interface BudgetTypeForEdition {
 
 
 export interface BudgetForEdition extends Budget {
-  operationSources: Identifiable[];
   segmentTypes: BudgetSegmentType[];
   transactionTypes: BudgetTransactionType[];
 }

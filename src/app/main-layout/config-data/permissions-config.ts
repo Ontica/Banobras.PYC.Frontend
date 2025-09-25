@@ -61,6 +61,7 @@ export enum PERMISSIONS {
   ROUTE_PRESUPUESTO_REPORTES = 'route-presupuesto-reportes',
 
   FEATURE_EDICION_TRANSACCIONES_PRESUPUESTALES = 'feature-edicion-transacciones-presupuestales',
+  FEATURE_IMPORTACION_TRANSACCIONES_PRESUPUESTALES = 'feature-importacion-transacciones-presupuestales',
 
   //
   // INVENTARIOS

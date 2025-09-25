@@ -13,7 +13,8 @@ import { BudgetAccount, BudgetTransactionEntryByYear, BudgetTransactionEntryByYe
          BudgetTransactionEntryFields, BudgetTransactionDescriptor, BudgetTransactionEntry,
          BudgetTransactionFields, BudgetTransactionHolder, BudgetTransactionsQuery,
          BudgetTransactionRejectFields, BudgetTypeForEdition, FileReport, ExplorerOperationType,
-         ExplorerOperationCommand, ExplorerOperationResult } from '@app/models';
+         ExplorerOperationCommand, ExplorerOperationResult, ImportBudgetTransactionsCommand,
+         ImportBudgetTransactionsResult } from '@app/models';
 
 
 @Injectable()
@@ -21,6 +22,7 @@ export class BudgetTransactionsDataService {
 
 
   constructor(private http: HttpService) { }
+
 
   //#region CATALOGUES
   getBudgetTypesForTransactionEdition(): EmpObservable<BudgetTypeForEdition[]> {
@@ -77,6 +79,23 @@ export class BudgetTransactionsDataService {
     return this.http.post<ExplorerOperationResult>(path);
   }
   //#endregion TRANSACTIONS
+
+
+  //#region IMPORT TRANSACTIONS
+  importTransactions(file: File,
+                     command: ImportBudgetTransactionsCommand): EmpObservable<ImportBudgetTransactionsResult> {
+    Assertion.assertValue(file, 'file');
+    Assertion.assertValue(command, 'command');
+
+    const formData: FormData = new FormData();
+    formData.append('media', file);
+    formData.append('command', JSON.stringify(command));
+
+    const path = `v2/budgeting/transactions/import-excel`;
+
+    return this.http.post<ImportBudgetTransactionsResult>(path, formData);
+  }
+  //#endregion IMPORT TRANSACTIONS
 
 
   //#region TRANSACTION (CRUD + OPERATIONS)

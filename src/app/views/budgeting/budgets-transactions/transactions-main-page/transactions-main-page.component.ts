@@ -24,6 +24,8 @@ import {
 
 import { TransactionsExplorerEventType } from '../transactions-explorer/transactions-explorer.component';
 
+import { TransactionsImporterEventType } from '../transactions-importer/transactions-importer.component';
+
 import { TransactionCreatorEventType } from '../transaction/transaction-creator.component';
 
 import { TransactionTabbedViewEventType } from '../transaction-tabbed-view/transaction-tabbed-view.component';
@@ -45,18 +47,35 @@ export class BudgetTransactionsMainPageComponent {
 
   displayCreator = false;
 
+  displayImporter = false;
+
+  displayExportModal = false;
+
   isLoading = false;
 
   isLoadingSelection = false;
 
   queryExecuted = false;
 
-  displayExportModal = false;
-
   selectedExportData: ExplorerBulkOperationData = Object.assign({}, EmptyExplorerBulkOperationData);
 
 
   constructor(private transactionsData: BudgetTransactionsDataService) { }
+
+
+  onTransactionsImporterEvent(event: EventInfo) {
+    switch (event.type as TransactionsImporterEventType) {
+      case TransactionsImporterEventType.CLOSE_MODAL_CLICKED:
+        this.displayImporter = false;
+        return;
+      case TransactionsImporterEventType.DATA_IMPORTED:
+        // TODO: define what to do after import data
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
 
 
   onTransactionCreatorEvent(event: EventInfo) {
@@ -80,6 +99,9 @@ export class BudgetTransactionsMainPageComponent {
     switch (event.type as TransactionsExplorerEventType) {
       case TransactionsExplorerEventType.CREATE_CLICKED:
         this.displayCreator = true;
+        return;
+      case TransactionsExplorerEventType.IMPORT_CLICKED:
+        this.displayImporter = true;
         return;
       case TransactionsExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');

@@ -23,6 +23,9 @@ import { BudgetTransactionsFilterComponent } from './transactions-explorer/trans
 import { BudgetTransactionsListHeaderComponent } from './transactions-explorer/transactions-list-header.component';
 import { BudgetTransactionsListItemComponent } from './transactions-explorer/transactions-list-item.component';
 
+import { BudgetTransactionsImporterComponent } from './transactions-importer/transactions-importer.component';
+import { BudgetTransactionsImporterDetailsTableComponent } from './transactions-importer/importer-details-table.component';
+
 import { BudgetTransactionTabbedViewComponent } from './transaction-tabbed-view/transaction-tabbed-view.component';
 import { BudgetTransactionPrintViewComponent } from './transaction-tabbed-view/transaction-print-view.component';
 import { BudgetTransactionCreatorComponent } from './transaction/transaction-creator.component';
@@ -55,6 +58,9 @@ import { BudgetTransactionsPlanningGeneratorComponent } from './transactions-pla
     BudgetTransactionsFilterComponent,
     BudgetTransactionsListHeaderComponent,
     BudgetTransactionsListItemComponent,
+
+    BudgetTransactionsImporterComponent,
+    BudgetTransactionsImporterDetailsTableComponent,
 
     BudgetTransactionTabbedViewComponent,
     BudgetTransactionPrintViewComponent,

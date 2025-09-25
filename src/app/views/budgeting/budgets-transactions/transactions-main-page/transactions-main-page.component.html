@@ -26,6 +26,12 @@
 </div>
 
 
+<emp-bdg-transactions-importer *ngIf="displayImporter"
+  (transactionsImporterEvent)="onTransactionsImporterEvent($event)">
+
+</emp-bdg-transactions-importer>
+
+
 <emp-bdg-transaction-creator *ngIf="displayCreator"
   (transactionCreatorEvent)="onTransactionCreatorEvent($event)">
 

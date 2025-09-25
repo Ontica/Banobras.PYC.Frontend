@@ -1,0 +1,54 @@
+<div class="scrollable-container mat-elevation-z1" [style.maxHeight.%]="100"
+  [style.marginTop.px]="0" [style.marginRight.px]="8" [style.marginBottom.px]="0">
+
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Hoja </th>
+      <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="transactionsCount">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Transacciones </th>
+      <td mat-cell *matCellDef="let row" class="text-align-right bold-text" [style.width.px]="80">
+        {{ row.transactionsCount | number }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="errorsCount">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Errores </th>
+      <td mat-cell *matCellDef="let row" class="text-align-right bold-text" [style.width.px]="80">
+        <span *ngIf="!row.errorsCount || row.errorsCount === 0">-</span>
+        <a *ngIf="row.errorsCount > 0" class="tag tag-error" title="Mostrar errores"
+          (click)="onShowErrorsClicked(row)">
+          {{ row.errorsCount | number }}
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="warningsCount">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Advertencias </th>
+      <td mat-cell *matCellDef="let row" class="text-align-right bold-text" [style.width.px]="80">
+        <span *ngIf="!row.warningsCount || row.warningsCount === 0">-</span>
+        <a *ngIf="row.warningsCount > 0" class="tag tag-warning" title="Mostrar advertencias"
+          (click)="onShowWarningsClicked(row)">
+          {{ row.warningsCount | number }}
+        </a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+
+  <div *ngIf="!commandExecuted" class="text-not-found">
+    <p>Cargando...</p>
+  </div>
+
+  <div *ngIf="commandExecuted && dataSource.data.length === 0" class="text-not-found">
+    <p>No se encontraron resultados.</p>
+  </div>
+
+</div>
