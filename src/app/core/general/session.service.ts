@@ -101,7 +101,8 @@ export class SessionService {
 
 
   hasPermission(permission: string | string[]): boolean {
-    if (typeof permission === 'string' && permission === PERMISSION_NOT_REQUIRED) {
+    if ((typeof permission === 'string' && permission === PERMISSION_NOT_REQUIRED) ||
+        (Array.isArray(permission) && permission.some(x => x=== PERMISSION_NOT_REQUIRED))) {
       return true;
     }
 
