@@ -1,0 +1,22 @@
+<div class="explorer">
+
+  <emp-cf-cash-flow-report-explorer
+    class="primary priority"
+    [query]="query"
+    [data]="data"
+    [selectedUID]="selectedData?.uid ?? null"
+    [isLoading]="isLoading"
+    [queryExecuted]="queryExecuted"
+    (reportExplorerEvent)="onCashFlowReportExplorerEvent($event)">
+
+  </emp-cf-cash-flow-report-explorer>
+
+</div>
+
+
+<emp-ng-export-report-modal *ngIf="displayExportModal"
+  [title]="'Exportar ' + selectedReportType.name.toLowerCase()"
+  [fileUrl]="fileUrl"
+  (exportReportModalEvent)="onExportReportModalEvent($event)">
+
+</emp-ng-export-report-modal>

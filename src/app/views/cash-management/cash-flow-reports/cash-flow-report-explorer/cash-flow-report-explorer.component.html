@@ -1,0 +1,46 @@
+<div class="card card-border">
+
+  <div class="card-header card-header-flat">
+
+    <div class="card-title">
+      {{titleText}}
+
+      <div class="card-hint" empNgProgressText
+        loadingText="Cargando"
+        [finalText]="cardHint"
+        [isLoading]="isLoading">
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card-body" [empNgSpinnerHost]="spinner">
+
+    <div class="fx-column-container-fill">
+
+      <emp-ng-spinner #spinner [visible]="isLoading">
+
+      </emp-ng-spinner>
+
+      <emp-cf-cash-flow-report-filter class="fx-item-none"
+        [query]="query"
+        [(showFilters)]="showFilters"
+        (reportFilterEvent)="onCashFlowReportFilterEvent($event)">
+
+      </emp-cf-cash-flow-report-filter>
+
+      <emp-ng-data-table class="fx-item"
+        [dataTable]="data"
+        [selectedUID]="selectedUID"
+        [executed]="queryExecuted"
+        [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"
+        (dataTableEvent)="onDataTableEvent($event)">
+
+      </emp-ng-data-table>
+
+    </div>
+
+  </div>
+
+</div>

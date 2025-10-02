@@ -12,6 +12,7 @@ import { CashFlowWorkspaceRoutingModule } from './cash-flow-workspace-routing.mo
 
 import { CashFlowModule } from '@app/views/cash-management/cash-flow/cash-flow.module';
 import { CashFlowProjectionsModule } from '@app/views/cash-management/cash-flow-projections/cash-flow-projections.module';
+import { CashFlowReportsModule } from '@app/views/cash-management/cash-flow-reports/cash-flow-reports.module';
 import { CashLedgerModule } from '@app/views/cash-management/cash-ledger/cash-ledger.module';
 import { ChartOfAccountsModule } from '@app/views/chart-of-accounts/chart-of-accounts.module';
 import { FinancialAccountsModule } from '@app/views/financial-accounts/financial-accounts.module';
@@ -27,6 +28,7 @@ import { FinancialProjectsModule } from '@app/views/financial-projects/financial
 
     CashFlowModule,
     CashFlowProjectionsModule,
+    CashFlowReportsModule,
     CashLedgerModule,
     ChartOfAccountsModule,
     FinancialAccountsModule,

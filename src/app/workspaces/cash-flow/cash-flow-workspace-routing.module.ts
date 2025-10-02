@@ -11,8 +11,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ROUTES } from '@app/main-layout';
 
-import { DefaultComponent } from '@app/shared/components';
-
 import {
   CashFlowProjectionsMainPageComponent
 } from '@app/views/cash-management/cash-flow-projections/projections-main-page/projections-main-page.component';
@@ -36,6 +34,10 @@ import {
 import {
   FinancialAccountsMainPageComponent
 } from '@app/views/financial-accounts/accounts-main-page/accounts-main-page.component';
+
+import {
+  CashFlowReportMainPageComponent
+} from '@app/views/cash-management/cash-flow-reports/cash-flow-report-main-page/cash-flow-report-main-page.component';
 
 
 const routes: Routes = [
@@ -72,7 +74,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.flujo_de_efectivo_reportes.permission },
     path: ROUTES.flujo_de_efectivo_reportes.path,
-    component: DefaultComponent,
+    component: CashFlowReportMainPageComponent,
   },
   {
     path: '',

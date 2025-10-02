@@ -257,8 +257,8 @@ export const CashFlowViews: View[] = [
   },
   {
     name: 'CashFlow.Reports',
-    title: 'Reportes',
-    menuTitle: 'Reportes',
+    title: 'Reportes operativos',
+    menuTitle: 'Reportes operativos',
     url: ROUTES.flujo_de_efectivo_reportes.fullpath,
     permission: ROUTES.flujo_de_efectivo_reportes.permission,
   },
