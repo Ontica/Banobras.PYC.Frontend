@@ -63,7 +63,9 @@ export class RecordSearchComponent implements OnInit, OnDestroy {
       case RecordSearchFilterEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.queryType, 'event.payload.queryType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.validateQueryType(event.payload.queryType, event.payload.query as RecordSearchQuery);
+        this.validateQueryType(event.payload.queryValid,
+                               event.payload.queryType,
+                               event.payload.query as RecordSearchQuery);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -79,7 +81,7 @@ export class RecordSearchComponent implements OnInit, OnDestroy {
         this.setText(event.payload.displayedEntriesMessage as string);
         return;
       case DataTableEventType.EXPORT_DATA:
-        this.messageBox.showInDevelopment('Exportar ' + this.data.queryType.name);
+        this.messageBox.showInDevelopment('Exportar ' + this.data.queryType.name.toLowerCase());
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -88,56 +90,32 @@ export class RecordSearchComponent implements OnInit, OnDestroy {
   }
 
 
-  private validateQueryType(queryType: Identifiable, query: RecordSearchQuery) {
-    if (!this.isValidRecordSearchQuery(query)) {
+  private validateQueryType(queryValid: boolean, queryType: Identifiable<RecordQueryType>, query: RecordSearchQuery) {
+    if (!queryValid) {
       return;
     }
 
     this.resetRecords(queryType, query);
-
-    switch (query.queryType) {
-      case RecordQueryType.AccountTotals:
-        this.searchRecords(queryType, query);
-        return;
-      case RecordQueryType.AccountingEntries:
-      case RecordQueryType.CashFlowEntries:
-      case RecordQueryType.CreditEntries:
-        this.setDummyRecords(queryType, query);
-        return;
-      default:
-        console.log(`Unhandled search type ${query.queryType}`);
-        return;
-    }
+    this.searchRecords(queryType, query);
   }
 
 
-  private resetRecords(queryType: Identifiable, query: RecordSearchQuery) {
+  private resetRecords(queryType: Identifiable<RecordQueryType>, query: RecordSearchQuery) {
     this.resolveSearchRecords(queryType, query, EmptyRecordSearchData, false);
   }
 
 
-  private searchRecords(queryType: Identifiable, query: RecordSearchQuery) {
+  private searchRecords(queryType: Identifiable<RecordQueryType>, query: RecordSearchQuery) {
     this.isLoading = true;
 
-    this.searchData.searchRecords(query)
+    this.searchData.searchRecords(queryType.uid as RecordQueryType, query)
       .firstValue()
       .then(x => this.resolveSearchRecords(queryType, query, x))
       .finally(() => this.isLoading = false);
   }
 
 
-  private setDummyRecords(queryType: Identifiable, query: RecordSearchQuery) {
-    this.isLoading = true;
-
-    setTimeout(() => {
-      this.resolveSearchRecords(queryType, query, EmptyRecordSearchData);
-      this.isLoading = false;
-      this.messageBox.showInDevelopment('Buscar ' + queryType.name.toLowerCase());
-    }, 500);
-  }
-
-
-  private resolveSearchRecords(queryType: Identifiable, query: RecordSearchQuery,
+  private resolveSearchRecords(queryType: Identifiable<RecordQueryType>, query: RecordSearchQuery,
                                result: RecordSearchData, queryExecuted: boolean = true) {
     const data: RecordSearchData = {
       queryType,
@@ -149,11 +127,6 @@ export class RecordSearchComponent implements OnInit, OnDestroy {
 
     this.data = data;
     this.saveDataInState(data);
-  }
-
-
-  private isValidRecordSearchQuery(query: RecordSearchQuery): boolean {
-    return !!query.queryType && !!query.fromDate && !!query.toDate && !!query.accounts;
   }
 
 

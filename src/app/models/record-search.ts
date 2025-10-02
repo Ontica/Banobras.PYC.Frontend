@@ -11,18 +11,22 @@ import { DataTable, DataTableColumn, DataTableQuery } from './_data-table';
 
 
 export enum RecordQueryType {
-  AccountTotals     = 'AccountTotals',
-  AccountingEntries = 'AccountingEntries',
-  CashFlowEntries   = 'CashFlowEntries',
-  CreditEntries     = 'CreditEntries',
+  AccountTotals                       = 'AccountTotals',
+  AccountingEntriesByAccount          = 'AccountingEntriesByAccount',
+  AccountingEntriesBySubledgerAccount = 'AccountingEntriesBySubledgerAccount',
+  CashFlowAccountingEntries           = 'CashFlowAccountingEntries',
+  CashFlowEntries                     = 'CashFlowEntries',
+  CreditEntries                       = 'CreditEntries',
 }
 
 
 export const RecordQueryTypeList: Identifiable[] = [
-  { uid: RecordQueryType.AccountTotals,     name: 'Conceptos presupuestales' },
-  { uid: RecordQueryType.AccountingEntries, name: 'Movimientos contables' },
-  { uid: RecordQueryType.CashFlowEntries,   name: 'Movimientos de flujo de efectivo' },
-  { uid: RecordQueryType.CreditEntries,     name: 'Movimientos del sistema de créditos' },
+  { uid: RecordQueryType.AccountTotals,                       name: 'Conceptos presupuestales' },
+  { uid: RecordQueryType.AccountingEntriesBySubledgerAccount, name: 'Movimientos contables por auxiliar' },
+  { uid: RecordQueryType.AccountingEntriesByAccount,          name: 'Movimientos contables por cuenta' },
+  { uid: RecordQueryType.CashFlowAccountingEntries,           name: 'Movimientos de flujo de efectivo por auxiliar' },
+  { uid: RecordQueryType.CashFlowEntries,                     name: 'Movimientos de flujo de efectivo por concepto' },
+  { uid: RecordQueryType.CreditEntries,                       name: 'Movimientos del sistema de créditos' },
 ];
 
 
@@ -39,8 +43,10 @@ export interface RecordSearchQuery extends DataTableQuery {
   queryType: RecordQueryType;
   fromDate: DateString;
   toDate: DateString;
-  accounts: string[];
+  operationTypeUID: string;
+  keywords: string[];
   ledgers: string[];
+  parties: string[];
 }
 
 
@@ -48,8 +54,10 @@ export const EmptyRecordSearchQuery: RecordSearchQuery = {
   queryType: RecordQueryType.AccountTotals,
   fromDate: '',
   toDate: '',
-  accounts: [],
+  operationTypeUID: '',
+  keywords: [],
   ledgers: [],
+  parties: [],
 };
 
 

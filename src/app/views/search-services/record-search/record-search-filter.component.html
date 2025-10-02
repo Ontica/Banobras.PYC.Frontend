@@ -4,20 +4,21 @@
 
       <div class="fx-row-container">
 
-        <div class="fx-item-size" style="--size: calc(55% - 221px)">
+        <div class="fx-item-size" style="--size: 40%">
 
           <label>Tipo de consulta:</label>
 
           <emp-ng-select name="queryType" required
             [(ngModel)]="formData.queryType"
+            [config]="{showTooltip: true}"
             [items]="queryTypeList"
-            [showError]="!formData.queryType">
+            [showError]="!formData.queryType"
+            (changes)="onQueryTypeChanges()">
           </emp-ng-select>
 
         </div>
 
-
-        <div class="fx-item-none">
+        <div class="fx-item-none" *ngIf="displayPeriod">
 
           <label>Período:</label>
 
@@ -28,15 +29,28 @@
 
         </div>
 
+        <div class="fx-item-size" style="--size: 25%" *ngIf="displayOperationType">
+
+          <label>Tipo de operación:</label>
+
+          <emp-ng-select name="operationTypeUID"
+            [(ngModel)]="formData.operationTypeUID"
+            [config]="{clearable: true, showTooltip: true}"
+            [items]="operationTypesList"
+            [loading]="isLoading"
+            placeholder="Todos">
+          </emp-ng-select>
+
+        </div>
 
         <div class="fx-item">
 
-          <label>Conceptos:</label>
+          <label>{{keywordslabel}}:</label>
 
           <emp-ng-input-tags name="keywords" required
-            [(ngModel)]="formData.accounts"
-            [showError]="!formData.accounts || formData.accounts.length === 0"
-            (clear)="formData.accounts = []">
+            [(ngModel)]="formData.keywords"
+            [showError]="!formData.keywords || formData.keywords.length === 0"
+            (clear)="formData.keywords = []">
           </emp-ng-input-tags>
 
         </div>
@@ -59,7 +73,7 @@
 
       <div class="fx-row-container">
 
-        <div class="fx-item-size" style="--size: 55%">
+        <div class="fx-item-size" style="--size: 40%" *ngIf="displayLedgers">
 
           <label>Contabilidad:</label>
 
@@ -67,6 +81,20 @@
             [config]="{clearable: true, multiple: true, showTooltip: true}"
             [(ngModel)]="formData.ledgers"
             [items]="ledgersList"
+            [loading]="isLoading"
+            placeholder="Todas">
+          </emp-ng-select>
+
+        </div>
+
+        <div class="fx-item-size" style="--size: 40%" *ngIf="displayParties">
+
+          <label>Área:</label>
+
+          <emp-ng-select name="parties"
+            [(ngModel)]="formData.parties"
+            [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
+            [items]="orgUnitsList"
             [loading]="isLoading"
             placeholder="Todas">
           </emp-ng-select>
