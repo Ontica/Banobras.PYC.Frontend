@@ -52,6 +52,8 @@ export class InputTagsComponent implements ControlValueAccessor {
 
   @Input() showError = false;
 
+  @Input() placeholder = '';
+
   @Output() clear = new EventEmitter<boolean>();
 
   @Output() changes = new EventEmitter<any>();
