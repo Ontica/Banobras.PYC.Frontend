@@ -9,7 +9,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { CashFlowData, CashFlowQuery, EmptyCashFlowData, EmptyCashFlowQuery } from '@app/models';
+import { CashFlowExplorer, CashFlowExplorerQuery, EmptyCashFlowExplorer,
+         EmptyCashFlowExplorerQuery } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -30,9 +31,9 @@ export enum CashFlowExplorerEventType {
 })
 export class CashFlowExplorerComponent implements OnChanges {
 
-  @Input() query: CashFlowQuery = Object.assign({}, EmptyCashFlowQuery);
+  @Input() query: CashFlowExplorerQuery = Object.assign({}, EmptyCashFlowExplorerQuery);
 
-  @Input() data: CashFlowData = Object.assign({}, EmptyCashFlowData);
+  @Input() data: CashFlowExplorer = Object.assign({}, EmptyCashFlowExplorer);
 
   @Input() selectedUID: string = null;
 

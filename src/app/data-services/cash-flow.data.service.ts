@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { CashFlowData, CashFlowQuery, FileReport } from '@app/models';
+import { CashFlowExplorer, CashFlowExplorerQuery, FileReport } from '@app/models';
 
 
 @Injectable()
@@ -47,16 +47,16 @@ export class CashFlowDataService {
   }
 
 
-  searchCashFlowData(query: CashFlowQuery): EmpObservable<CashFlowData> {
+  searchCashFlowExplorer(query: CashFlowExplorerQuery): EmpObservable<CashFlowExplorer> {
     Assertion.assertValue(query, 'query');
 
     const path = `v1/cash-flow/explorer`;
 
-    return this.http.post<CashFlowData>(path, query);
+    return this.http.post<CashFlowExplorer>(path, query);
   }
 
 
-  exportCashFlowData(query: CashFlowQuery): EmpObservable<FileReport> {
+  exportCashFlowExplorer(query: CashFlowExplorerQuery): EmpObservable<FileReport> {
     Assertion.assertValue(query, 'query');
 
     const path = `v1/cash-flow/export`;

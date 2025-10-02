@@ -13,8 +13,8 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { CashFlowDataService } from '@app/data-services';
 
-import { CashFlowData, CashFlowEntryDescriptor, CashFlowQuery, EmptyCashFlowData,
-         EmptyCashFlowQuery } from '@app/models';
+import { CashFlowExplorer, CashFlowEntryDescriptor, CashFlowExplorerQuery, EmptyCashFlowExplorer,
+         EmptyCashFlowExplorerQuery } from '@app/models';
 
 import { CashFlowExplorerEventType } from '../cash-flow-explorer/cash-flow-explorer.component';
 
@@ -29,9 +29,9 @@ import {
 })
 export class CashFlowMainPageComponent {
 
-  query: CashFlowQuery = Object.assign({}, EmptyCashFlowQuery);
+  query: CashFlowExplorerQuery = Object.assign({}, EmptyCashFlowExplorerQuery);
 
-  data: CashFlowData = Object.assign({}, EmptyCashFlowData);
+  data: CashFlowExplorer = Object.assign({}, EmptyCashFlowExplorer);
 
   selectedData: CashFlowEntryDescriptor = null;
 
@@ -55,13 +55,13 @@ export class CashFlowMainPageComponent {
       case CashFlowExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearExplorerData(event.payload.reportType, event.payload.query as CashFlowQuery);
-        this.searchCashFlowData(this.query);
+        this.setQueryAndClearData(event.payload.reportType, event.payload.query as CashFlowExplorerQuery);
+        this.searchCashFlowExplorer(this.query);
         return;
       case CashFlowExplorerEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearExplorerData(event.payload.reportType, event.payload.query as CashFlowQuery);
+        this.setQueryAndClearData(event.payload.reportType, event.payload.query as CashFlowExplorerQuery);
         return;
       case CashFlowExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.entry, ' event.payload.entry');
@@ -83,7 +83,7 @@ export class CashFlowMainPageComponent {
         this.setDisplayExportModal(false);
         return;
       case ExportReportModalEventType.EXPORT_BUTTON_CLICKED:
-        this.exportCashFlowData(this.query);
+        this.exportCashFlowExplorer(this.query);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -92,33 +92,33 @@ export class CashFlowMainPageComponent {
   }
 
 
-  private searchCashFlowData(query: CashFlowQuery) {
+  private searchCashFlowExplorer(query: CashFlowExplorerQuery) {
     this.isLoading = true;
 
-    this.cashFlowData.searchCashFlowData(query)
+    this.cashFlowData.searchCashFlowExplorer(query)
       .firstValue()
       .then(x => this.setData(x))
       .finally(() => this.isLoading = false);
   }
 
 
-  private exportCashFlowData(query: CashFlowQuery) {
-    this.cashFlowData.exportCashFlowData(query)
+  private exportCashFlowExplorer(query: CashFlowExplorerQuery) {
+    this.cashFlowData.exportCashFlowExplorer(query)
       .firstValue()
       .then(x => {this.fileUrl = x.url});
   }
 
 
-  private setQueryAndClearExplorerData(reportType: Identifiable, query: CashFlowQuery) {
+  private setQueryAndClearData(reportType: Identifiable, query: CashFlowExplorerQuery) {
     this.selectedReportType = isEmpty(reportType) ? Empty : reportType;
-    this.query = Object.assign({}, EmptyCashFlowQuery, query);
-    this.setData(EmptyCashFlowData, false);
+    this.query = Object.assign({}, EmptyCashFlowExplorerQuery, query);
+    this.setData(EmptyCashFlowExplorer, false);
     this.setSelectedData(null);
   }
 
 
-  private setData(data: CashFlowData, queryExecuted: boolean = true) {
-    this.data = data.columns ? data : Object.assign({}, EmptyCashFlowData);
+  private setData(data: CashFlowExplorer, queryExecuted: boolean = true) {
+    this.data = data.columns ? data : Object.assign({}, EmptyCashFlowExplorer);
     this.queryExecuted = queryExecuted;
   }
 

@@ -23,25 +23,25 @@
           <label>Fecha de afectación:</label>
 
           <emp-ng-date-range-picker
-            formControlName="accountingDate"
-            [showError]="formHelper.isControlInvalid(form.controls.accountingDate)">
+            formControlName="datePeriod"
+            [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
           </emp-ng-date-range-picker>
 
         </div>
 
       </div>
 
-      <div class="fx-item">
+      <div class="fx-item fx-items-end sm-fx-item">
 
-        <label>Contabilidad:</label>
+        <div class="input-search-container">
 
-        <emp-ng-select
-          formControlName="accountingLedgerUID"
-          [config]="{clearable: true, showTooltip: true}"
-          [items]="accountingLedgersList"
-          [showError]="formHelper.isControlInvalid(form.controls.accountingLedgerUID)"
-          placeholder="Todas">
-        </emp-ng-select>
+          <input type="text" class="text-box" name="keywords"
+            placeholder="Buscar..."
+            formControlName="keywords"
+            (keyup.enter)="onSearchClicked()"
+            (keyup.escape)="form.controls.keywords.reset()">
+
+        </div>
 
       </div>
 
@@ -69,6 +69,40 @@
 
     </div>
 
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Tipo de operación:</label>
+
+        <emp-ng-select
+          formControlName="operationTypeUID"
+          [config]="{clearable: true, showTooltip: true}"
+          [items]="operationTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.operationTypeUID)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Área responsable:</label>
+
+        <emp-ng-select
+          formControlName="partyUID"
+          [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.partyUID)"
+          placeholder="Todas">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
     <div *ngIf="showFilters" [@empExpandCollapse]>
 
       <div class="fx-column-container fx-gap-half">
@@ -78,21 +112,6 @@
         </mat-divider>
 
         <div class="fx-row-container">
-
-          <div class="fx-item-half">
-
-            <label>Área responsable:</label>
-
-            <emp-ng-select
-              formControlName="partyUID"
-              [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
-              [items]="orgUnitsList"
-              [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.partyUID)"
-              placeholder="Todas">
-            </emp-ng-select>
-
-          </div>
 
           <div class="fx-item-half">
 
@@ -109,10 +128,6 @@
 
           </div>
 
-        </div>
-
-        <div class="fx-row-container">
-
           <div class="fx-item-half">
 
             <label>Proyecto:</label>
@@ -128,38 +143,9 @@
 
           </div>
 
-          <div class="fx-item-half">
-            <label>Cuenta financiera:</label>
-
-            <emp-ng-select-typeahead
-              formControlName="financialAccountUID"
-              placeholder="Todas"
-              [config]="{ clearable: true, showTooltip: true }"
-              [searcherAPI]="accountsAPI"
-              [initialValue]="selectedAccount"
-              (changes)="onAccountChanges($event)">
-            </emp-ng-select-typeahead>
-
-          </div>
-
         </div>
 
         <div class="fx-row-container">
-
-          <div class="fx-item-half">
-
-            <label>Concepto:</label>
-
-            <emp-ng-select
-              formControlName="operationTypeUID"
-              [config]="{clearable: true, showTooltip: true}"
-              [items]="operationTypesList"
-              [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.operationTypeUID)"
-              placeholder="Todos">
-            </emp-ng-select>
-
-          </div>
 
           <div  class="fx-item-half">
 
@@ -173,6 +159,21 @@
               [showError]="formHelper.isControlInvalid(form.controls.financingSourceUID)"
               placeholder="Todas">
             </emp-ng-select>
+
+          </div>
+
+          <div class="fx-item-half">
+
+            <label>Cuenta financiera:</label>
+
+            <emp-ng-select-typeahead
+              formControlName="financialAccountUID"
+              placeholder="Todas"
+              [config]="{ clearable: true, showTooltip: true }"
+              [searcherAPI]="accountsAPI"
+              [initialValue]="selectedAccount"
+              (changes)="onAccountChanges($event)">
+            </emp-ng-select-typeahead>
 
           </div>
 

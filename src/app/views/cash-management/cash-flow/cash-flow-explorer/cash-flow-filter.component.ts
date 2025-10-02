@@ -16,15 +16,15 @@ import { EventInfo, Identifiable, isEmpty, Validate } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CashFlowStateSelector, CashLedgerStateSelector, CataloguesStateSelector,
+import { CashFlowStateSelector, CataloguesStateSelector,
          FinancialProjectsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper, sendEvent, empExpandCollapse } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { CashFlowQuery, CashFlowReportTypes, CashFlowReportTypesList, DateRange, EmptyCashFlowQuery,
-         EmptyDateRange, RequestsList } from '@app/models';
+import { CashFlowExplorerQuery, CashFlowExplorerTypes, CashFlowExplorerTypesList, DateRange,
+         EmptyCashFlowExplorerQuery, EmptyDateRange, RequestsList } from '@app/models';
 
 
 export enum CashFlowFilterEventType {
@@ -33,15 +33,15 @@ export enum CashFlowFilterEventType {
 }
 
 interface CashFlowFilterFormModel extends FormGroup<{
-  reportType: FormControl<CashFlowReportTypes>;
-  accountingDate: FormControl<DateRange>;
-  accountingLedgerUID: FormControl<string>;
+  reportType: FormControl<CashFlowExplorerTypes>;
+  datePeriod: FormControl<DateRange>;
+  keywords: FormControl<string>;
+  operationTypeUID: FormControl<string>;
   partyUID: FormControl<string>;
   projectTypeUID: FormControl<string>;
   projectUID: FormControl<string>;
-  financialAccountUID: FormControl<string>;
-  operationTypeUID: FormControl<string>;
   financingSourceUID: FormControl<string>;
+  financialAccountUID: FormControl<string>;
   programUID: FormControl<string>;
   subprogramUID: FormControl<string>;
 }> { }
@@ -53,7 +53,7 @@ interface CashFlowFilterFormModel extends FormGroup<{
 })
 export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
 
-  @Input() query: CashFlowQuery = Object.assign({}, EmptyCashFlowQuery);
+  @Input() query: CashFlowExplorerQuery = Object.assign({}, EmptyCashFlowExplorerQuery);
 
   @Input() showFilters = false;
 
@@ -69,9 +69,7 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoading = false;
 
-  reportTypesList = CashFlowReportTypesList;
-
-  accountingLedgersList: Identifiable[] = [];
+  reportTypesList = CashFlowExplorerTypesList;
 
   orgUnitsList: Identifiable[] = [];
 
@@ -156,7 +154,6 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<Identifiable[]>(CashLedgerStateSelector.ACCOUNTING_LEDGERS),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
       this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.PROJECT_TYPES),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.FINANCING_SOURCES),
@@ -164,14 +161,13 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
       this.helper.select<Identifiable[]>(CashFlowStateSelector.PROGRAMS),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.SUBPROGRAMS),
     ])
-    .subscribe(([a, b, c, d, e, f, g]) => {
-      this.accountingLedgersList = a;
-      this.orgUnitsList = b;
-      this.projectTypesList = c;
-      this.sourcesList = d;
-      this.operationTypesList = e;
-      this.programsList = f;
-      this.subprogramsList = g;
+    .subscribe(([a, b, c, d, e, f]) => {
+      this.orgUnitsList = a;
+      this.projectTypesList = b;
+      this.sourcesList = c;
+      this.operationTypesList = d;
+      this.programsList = e;
+      this.subprogramsList = f;
 
       this.isLoading = false;
     });
@@ -182,38 +178,38 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      reportType: [CashFlowReportTypes.CashFlow, Validators.required],
-      accountingDate: [EmptyDateRange, [Validators.required, Validate.periodRequired]],
-      accountingLedgerUID: [null],
+      reportType: [CashFlowExplorerTypes.CashFlow, Validators.required],
+      datePeriod: [EmptyDateRange, [Validators.required, Validate.periodRequired]],
+      keywords: [null],
+      operationTypeUID: [null],
       partyUID: [null],
       projectTypeUID: [null],
       projectUID: [null],
+      financingSourceUID: [null],
       financialAccountUID: [null],
-      operationTypeUID: [null],
       programUID: [null],
       subprogramUID: [null],
-      financingSourceUID: [null],
     });
   }
 
 
   private setFormData() {
-    const accountingDate = {
-      fromDate: this.query.fromAccountingDate ?? null, toDate: this.query.toAccountingDate ?? null
+    const datePeriod = {
+      fromDate: this.query.fromDate ?? null, toDate: this.query.toDate ?? null
     };
 
     this.form.reset({
-      accountingDate,
+      datePeriod,
       reportType: this.query.reportType,
-      accountingLedgerUID: this.query.accountingLedgerUID,
+      keywords: this.query.keywords,
+      operationTypeUID: this.query.operationTypeUID,
       partyUID: this.query.partyUID,
       projectTypeUID: this.query.projectTypeUID,
       projectUID: this.query.projectUID,
+      financingSourceUID: this.query.financingSourceUID,
       financialAccountUID: this.query.financialAccountUID,
-      operationTypeUID: this.query.operationTypeUID,
       programUID: this.query.programUID,
       subprogramUID: this.query.subprogramUID,
-      financingSourceUID: this.query.financingSourceUID,
     });
   }
 
@@ -223,20 +219,20 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  private getFormData(): CashFlowQuery {
-    const query: CashFlowQuery = {
+  private getFormData(): CashFlowExplorerQuery {
+    const query: CashFlowExplorerQuery = {
       reportType: this.form.value.reportType ?? null,
-      fromAccountingDate: this.form.value.accountingDate.fromDate ?? null,
-      toAccountingDate: this.form.value.accountingDate.toDate ?? null,
-      accountingLedgerUID: this.form.value.accountingLedgerUID ?? null,
+      fromDate: this.form.value.datePeriod.fromDate ?? null,
+      toDate: this.form.value.datePeriod.toDate ?? null,
+      keywords: this.form.value.keywords ?? null,
+      operationTypeUID: this.form.value.operationTypeUID ?? null,
       partyUID: this.form.value.partyUID ?? null,
       projectTypeUID: this.form.value.projectTypeUID ?? null,
       projectUID: this.form.value.projectUID ?? null,
+      financingSourceUID: this.form.value.financingSourceUID ?? null,
       financialAccountUID: this.form.value.financialAccountUID ?? null,
-      operationTypeUID: this.form.value.operationTypeUID ?? null,
       programUID: this.form.value.programUID ?? null,
       subprogramUID: this.form.value.subprogramUID ?? null,
-      financingSourceUID: this.form.value.financingSourceUID ?? null,
     };
 
     return query;
@@ -246,7 +242,7 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
   private clearFilters() {
     this.form.reset({
       reportType: this.form.value.reportType,
-      accountingDate: EmptyDateRange
+      datePeriod: EmptyDateRange
     });
     this.selectedProject = null;
     this.selectedAccount = null;

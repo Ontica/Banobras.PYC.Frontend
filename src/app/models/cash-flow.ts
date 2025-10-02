@@ -10,44 +10,40 @@ import { DateString, Identifiable } from '@app/core';
 import { DataTable, DataTableColumn, DataTableEntry } from './_data-table';
 
 
-export enum CashFlowReportTypes {
-  CashFlow        = 'CashFlow',
-  ConceptDetail   = 'ConceptDetail',
-  AccountTotals   = 'AccountTotals',
-  ConceptTotals   = 'ConceptTotals',
-  ProjectTotals   = 'ProjectTotals',
-  ConceptAnalytic = 'ConceptAnalytic',
+export enum CashFlowExplorerTypes {
+  CashFlow      = 'CashFlow',
+  AccountTotals = 'AccountTotals',
+  ConceptTotals = 'ConceptTotals',
+  ProjectTotals = 'ProjectTotals',
 }
 
 
-export const CashFlowReportTypesList: Identifiable<CashFlowReportTypes>[] = [
-  {uid: CashFlowReportTypes.CashFlow,        name: 'Flujo de efectivo'},
-  {uid: CashFlowReportTypes.ConceptDetail,   name: 'Detalle a nivel de concepto'},
-  {uid: CashFlowReportTypes.AccountTotals,   name: 'Totales por cuenta'},
-  {uid: CashFlowReportTypes.ConceptTotals,   name: 'Totales por concepto'},
-  {uid: CashFlowReportTypes.ProjectTotals,   name: 'Totales por proyecto'},
-  {uid: CashFlowReportTypes.ConceptAnalytic, name: 'Analítico por concepto de movimientos'},
+export const CashFlowExplorerTypesList: Identifiable<CashFlowExplorerTypes>[] = [
+  {uid: CashFlowExplorerTypes.CashFlow,        name: 'Flujo de efectivo'},
+  {uid: CashFlowExplorerTypes.AccountTotals,   name: 'Totales por cuenta'},
+  {uid: CashFlowExplorerTypes.ConceptTotals,   name: 'Totales por concepto'},
+  {uid: CashFlowExplorerTypes.ProjectTotals,   name: 'Totales por proyecto'},
 ];
 
 
-export interface CashFlowQuery {
-  reportType: CashFlowReportTypes;
-  fromAccountingDate: DateString;
-  toAccountingDate: DateString;
-  accountingLedgerUID: string;
+export interface CashFlowExplorerQuery {
+  reportType: CashFlowExplorerTypes;
+  fromDate: DateString;
+  toDate: DateString;
+  keywords: string;
   partyUID: string;
+  operationTypeUID: string;
   projectTypeUID: string;
   projectUID: string;
-  financialAccountUID: string;
-  operationTypeUID: string;
   financingSourceUID: string;
+  financialAccountUID: string;
   programUID: string;
   subprogramUID: string;
 }
 
 
-export interface CashFlowData extends DataTable {
-  query: CashFlowQuery;
+export interface CashFlowExplorer extends DataTable {
+  query: CashFlowExplorerQuery;
   columns: DataTableColumn[];
   entries: CashFlowEntryDescriptor[];
 }
@@ -58,24 +54,24 @@ export interface CashFlowEntryDescriptor extends DataTableEntry {
 }
 
 
-export const EmptyCashFlowQuery: CashFlowQuery = {
-  reportType: CashFlowReportTypes.CashFlow,
-  fromAccountingDate: '',
-  toAccountingDate: '',
-  accountingLedgerUID: '',
+export const EmptyCashFlowExplorerQuery: CashFlowExplorerQuery = {
+  reportType: CashFlowExplorerTypes.CashFlow,
+  fromDate: '',
+  toDate: '',
+  keywords: '',
+  operationTypeUID: '',
   partyUID: '',
   projectTypeUID: '',
   projectUID: '',
+  financingSourceUID: '',
   financialAccountUID: '',
-  operationTypeUID: '',
   programUID: '',
   subprogramUID: '',
-  financingSourceUID: '',
 };
 
 
-export const EmptyCashFlowData: CashFlowData = {
-  query: EmptyCashFlowQuery,
+export const EmptyCashFlowExplorer: CashFlowExplorer = {
+  query: EmptyCashFlowExplorerQuery,
   columns: [],
   entries: [],
 };
