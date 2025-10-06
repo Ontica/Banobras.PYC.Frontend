@@ -11,8 +11,6 @@ import { FormatLibrary } from '@app/shared/utils';
 
 import { Assertion } from './assertion';
 
-import { isEmpty } from '../data-types';
-
 
 export class Validate {
 

@@ -128,16 +128,13 @@ export class RequestsMainPageComponent implements OnInit, OnDestroy {
         this.setSelectedData(EmptyRequestData);
         return;
       case RequestTabbedViewEventType.DATA_UPDATED:
+      case RequestTabbedViewEventType.REFRESH_DATA:
         Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
         this.refreshSelectedData(event.payload.requestUID);
         return;
       case RequestTabbedViewEventType.DATA_DELETED:
         Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
         this.removeItemFromList(event.payload.requestUID);
-        return;
-      case RequestTabbedViewEventType.REFRESH_DATA:
-        Assertion.assertValue(event.payload.requestUID, 'event.payload.requestUID');
-        this.refreshSelectedData(event.payload.requestUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

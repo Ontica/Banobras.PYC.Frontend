@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 
 import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
-import { FormatLibrary, sendEvent } from '@app/shared/utils';
+import { sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionHolder, EmptyBudgetTransactionHolder } from '@app/models';
 

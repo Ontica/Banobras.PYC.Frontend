@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable, isEmpty } from '@app/core';
 
-import { BaseActions, EmptyBaseActions, EntityStatus, ExplorerOperation } from './_explorer-data';
+import { BaseActions, EmptyBaseActions, EntityStatus } from './_explorer-data';
 
 import { AssetsTransactionDescriptor } from './assets-transactions';
 

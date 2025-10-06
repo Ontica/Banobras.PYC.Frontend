@@ -23,7 +23,7 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { BudgetType, ContractsQuery, EntityStatus, EntityStatusList, EmptyContractsQuery,
+import { ContractsQuery, EntityStatus, EntityStatusList, EmptyContractsQuery,
          RequestsList } from '@app/models';
 
 

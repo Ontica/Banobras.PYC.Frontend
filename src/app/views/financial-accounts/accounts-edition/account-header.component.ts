@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { combineLatest } from 'rxjs';
 
-import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
+import { EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -233,7 +233,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
     ])
     .subscribe(([a, b, c, d]) => {
       this.orgUnitsList = a;
-      this.currenciesList = b,
+      this.currenciesList = b;
       this.accountTypesList = c;
       this.standardAccountsList = d;
       this.validateDataLists(this.account);

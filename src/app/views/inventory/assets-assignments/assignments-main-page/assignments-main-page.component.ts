@@ -7,7 +7,7 @@
 
 import { Component, ViewChild } from '@angular/core';
 
-import { Assertion, EventInfo, isEmpty, StringLibrary } from '@app/core';
+import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { AlertService } from '@app/shared/services';
 
