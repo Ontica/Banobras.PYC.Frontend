@@ -28,10 +28,6 @@ import {
 } from '@app/views/financial-projects/projects-main-page/projects-main-page.component';
 
 import {
-  ChartOfAccountsMainPageComponent
-} from '@app/views/chart-of-accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
-
-import {
   FinancialAccountsMainPageComponent
 } from '@app/views/financial-accounts/accounts-main-page/accounts-main-page.component';
 
@@ -60,11 +56,6 @@ const routes: Routes = [
     data: { permission: ROUTES.flujo_de_efectivo_proyectos.permission },
     path: ROUTES.flujo_de_efectivo_proyectos.path,
     component: FinancialProjectsMainPageComponent,
-  },
-  {
-    data: { permission: ROUTES.flujo_de_efectivo_cuentas_estandar.permission },
-    path: ROUTES.flujo_de_efectivo_cuentas_estandar.path,
-    component: ChartOfAccountsMainPageComponent,
   },
   {
     data: { permission: ROUTES.flujo_de_efectivo_cuentas.permission },

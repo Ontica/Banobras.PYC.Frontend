@@ -242,13 +242,6 @@ export const CashFlowViews: View[] = [
     permission: ROUTES.flujo_de_efectivo_proyectos.permission,
   },
   {
-    name: 'CashFlow.StandardAccounts',
-    title: 'Cuentas estándar',
-    menuTitle: 'Cuentas estándar',
-    url: ROUTES.flujo_de_efectivo_cuentas_estandar.fullpath,
-    permission: ROUTES.flujo_de_efectivo_cuentas_estandar.permission,
-  },
-  {
     name: 'CashFlow.Accounts',
     title: 'Cuentas',
     menuTitle: 'Cuentas',
@@ -261,6 +254,28 @@ export const CashFlowViews: View[] = [
     menuTitle: 'Reportes operativos',
     url: ROUTES.flujo_de_efectivo_reportes.fullpath,
     permission: ROUTES.flujo_de_efectivo_reportes.permission,
+  },
+];
+
+
+export const CataloguesAndRulesViews: View[] = [
+  {
+    name: 'CataloguesAndRulesViews.AccountsChart',
+    title: 'Catálogos de cuentas',
+    url: ROUTES.reglas_y_catalogos_catalogos_de_cuentas.fullpath,
+    permission: ROUTES.reglas_y_catalogos_catalogos_de_cuentas.permission,
+  },
+  {
+    name: 'CataloguesAndRulesViews.AccountsGroups',
+    title: 'Agrupaciones',
+    url: ROUTES.reglas_y_catalogos_agrupaciones.fullpath,
+    permission: ROUTES.reglas_y_catalogos_agrupaciones.permission,
+  },
+  {
+    name: 'CataloguesAndRulesViews.AccountingRules',
+    title: 'Reglas contables',
+    url: ROUTES.reglas_y_catalogos_reglas_contables.fullpath,
+    permission: ROUTES.reglas_y_catalogos_reglas_contables.permission,
   },
 ];
 

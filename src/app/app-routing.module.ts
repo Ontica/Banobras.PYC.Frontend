@@ -69,25 +69,34 @@ const routes: Routes = [
       .then((m) => m.CashFlowWorkspaceModule)
   },
   {
+    data: { permission: ROUTES.reglas_y_catalogos.permission },
+    path: ROUTES.reglas_y_catalogos.path,
+    component: MainLayoutComponent,
+    canActivate: [ParentRouteGuard],
+    canActivateChild: [ChildRouteGuard],
+    loadChildren: () => import('./workspaces/catalogues-and-rules/catalogues-and-rules-workspace.module')
+      .then((m) => m.CataloguesAndRulesWorkspaceModule)
+  },
+  {
     data: { permission: ROUTES.administracion.permission },
     path: ROUTES.administracion.path,
     component: MainLayoutComponent,
     canActivate: [ParentRouteGuard],
     canActivateChild: [ChildRouteGuard],
     loadChildren: () => import('./workspaces/system-management/system-management-workspace.module')
-                             .then((m) => m.SystemManagementWorkspaceModule)
+      .then((m) => m.SystemManagementWorkspaceModule)
   },
   {
     path: ROUTES.unauthorized.path,
     canActivate: [ParentRouteGuard],
     component: MainLayoutComponent,
     loadChildren: () => import('./workspaces/system-security/unauthorized.module')
-                              .then(m => m.UnauthorizedModule)
+      .then(m => m.UnauthorizedModule)
   },
   {
     path: ROUTES.security.path,
     loadChildren: () => import('./workspaces/system-security/authentication.module')
-                              .then(m => m.AuthenticationModule)
+      .then(m => m.AuthenticationModule)
   },
   { path: '', redirectTo: DEFAULT_PATH, pathMatch: 'full' },
   { path: '**', component: NoContentComponent }

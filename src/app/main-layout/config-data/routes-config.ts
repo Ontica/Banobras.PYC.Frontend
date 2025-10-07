@@ -54,6 +54,13 @@ export const ROUTES = {
     fullpath: '/flujo-de-efectivo',
   },
 
+  reglas_y_catalogos: {
+    permission: PERMISSIONS.MODULE_REGLAS_Y_CATALOGOS,
+    parent: '',
+    path: 'reglas-y-catalogos',
+    fullpath: '/reglas-y-catalogos',
+  },
+
   administracion: {
     permission: PERMISSIONS.MODULE_ADMINISTRACION_DE_SISTEMA,
     parent: '',
@@ -311,13 +318,6 @@ export const ROUTES = {
     fullpath: '/flujo-de-efectivo/proyectos',
   },
 
-  flujo_de_efectivo_cuentas_estandar: {
-    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_CUENTAS_ESTANDAR,
-    parent: 'flujo-de-efectivo',
-    path: 'cuentas-estandar',
-    fullpath: '/flujo-de-efectivo/cuentas-estandar',
-  },
-
   flujo_de_efectivo_cuentas: {
     permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_CUENTAS,
     parent: 'flujo-de-efectivo',
@@ -333,6 +333,29 @@ export const ROUTES = {
   },
 
   //#endregion
+
+  // #region accounting-catalogues-and-rules-routing module
+
+  reglas_y_catalogos_catalogos_de_cuentas: {
+    permission: PERMISSIONS.ROUTE_CATALOGOS_DE_CUENTAS,
+    parent: 'reglas-y-catalogos',
+    path: 'catalogos-de-cuentas',
+    fullpath: '/reglas-y-catalogos/catalogos-de-cuentas',
+  },
+  reglas_y_catalogos_agrupaciones: {
+    permission: PERMISSIONS.ROUTE_AGRUPACIONES,
+    parent: 'reglas-y-catalogos',
+    path: 'agrupaciones',
+    fullpath: '/reglas-y-catalogos/agrupaciones',
+  },
+  reglas_y_catalogos_reglas_contables: {
+    permission: PERMISSIONS.ROUTE_REGLAS_CONTABLES,
+    parent: 'reglas-y-catalogos',
+    path: 'reglas-contables',
+    fullpath: '/reglas-y-catalogos/reglas-contables',
+  },
+
+  // #endregion
 
   // #region system-management-routing module
 

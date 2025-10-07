@@ -12,6 +12,7 @@ import { View, Layout } from '../common-models/common';
 import {
   UnauthorizedViews,
   SystemManagementViews,
+  CataloguesAndRulesViews,
   StepsViews,
   BudgetViews,
   CashFlowViews,
@@ -21,11 +22,12 @@ import {
 } from './views-config';
 
 
-export type LAYOUT_TYPE = 'SystemManagement' | 'Unauthorized' |
+export type LAYOUT_TYPE = 'Unauthorized' | 'SystemManagement' | 'CataloguesAndRules' |
                           'Steps' | 'Procurement' | 'Payments' | 'Budget' | 'Inventory' | 'CashFlow';
 
 
 export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
+                                                          CataloguesAndRulesViews,
                                                           StepsViews,
                                                           BudgetViews,
                                                           CashFlowViews,
@@ -82,6 +84,14 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
     defaultTitle: 'Programa financiero',
     url: ROUTES.flujo_de_efectivo.fullpath,
     permission: ROUTES.flujo_de_efectivo.permission,
+  },
+  {
+    name: 'CataloguesAndRules',
+    views: CataloguesAndRulesViews,
+    hint: 'Administración de reglas y catálogos de cuentas',
+    defaultTitle: 'Reglas y catálogos',
+    url: ROUTES.reglas_y_catalogos.fullpath,
+    permission: ROUTES.reglas_y_catalogos.permission,
   },
   {
     name: 'SystemManagement',

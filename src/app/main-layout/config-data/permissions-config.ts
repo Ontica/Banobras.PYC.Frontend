@@ -83,9 +83,17 @@ export enum PERMISSIONS {
   ROUTE_FLUJO_DE_EXPLORER = 'route-flujo-de-efectivo-explorer',
   ROUTE_FLUJO_DE_EFECTIVO_CODIFICACION = 'route-flujo-de-efectivo-codificacion',
   ROUTE_FLUJO_DE_EFECTIVO_PROYECTOS = 'route-flujo-de-efectivo-proyectos',
-  ROUTE_FLUJO_DE_EFECTIVO_CUENTAS_ESTANDAR = 'route-flujo-de-efectivo-cuentas-estandar',
   ROUTE_FLUJO_DE_EFECTIVO_CUENTAS = 'route-flujo-de-efectivo-cuentas',
   ROUTE_FLUJO_DE_EFECTIVO_REPORTES = 'route-flujo-de-efectivo-reportes',
+
+  //
+  // REGLAS Y CATALOGOS
+  //
+  MODULE_REGLAS_Y_CATALOGOS = 'module-reglas-y-catalogos',
+
+  ROUTE_CATALOGOS_DE_CUENTAS = 'route-catalogos-de-cuentas',
+  ROUTE_AGRUPACIONES = 'route-agrupaciones',
+  ROUTE_REGLAS_CONTABLES = 'route-reglas-contables',
 
   //
   // ADMINISTRACION
