@@ -19,19 +19,19 @@
 
     <div class="header">
 
-      <span class="sm-hide">{{appConfig.data.name}}</span>
-      <span class="sm-show">{{appConfig.data.nameShort}}</span>
+      <span class="layout-menu-hide">{{appConfig.data.name}}</span>
+      <span class="layout-menu-show">{{appConfig.data.nameShort}}</span>
 
     </div>
 
     <div class="subheader">
 
-      <span *ngIf="appConfig.layout.displayNavbarHint" class="sm-hide">
+      <span *ngIf="appConfig.layout.displayNavbarHint" class="layout-menu-hide">
         {{appConfig.data.hint}} &nbsp; &nbsp; | &nbsp; &nbsp;
       </span>
 
-      <span class="sm-hide">{{appConfig.data.organization}}</span>
-      <span class="sm-show">{{appConfig.data.organizationShort}}</span>
+      <span class="layout-menu-hide">{{appConfig.data.organization}}</span>
+      <span class="layout-menu-show">{{appConfig.data.organizationShort}}</span>
 
     </div>
 

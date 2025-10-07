@@ -41,7 +41,7 @@ $min-width-right: 200px;
     margin: 0 $layout-margin-size-border 0 $layout-margin-size;
   }
 
-  @include standard() {
+  @include layout-menu() {
     .left-section {
       min-width: auto;
       margin: 0 $layout-margin-size-small;

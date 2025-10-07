@@ -28,6 +28,14 @@
   }
 }
 
+.layout-menu-show {
+  display: none;
+
+  @include layout-menu() {
+    display: block;
+  }
+}
+
 .std-show {
   display: none;
 
@@ -56,6 +64,13 @@
 
 .std-hide {
   @include standard() {
+    display: none;
+  }
+}
+
+
+.layout-menu-hide {
+  @include layout-menu() {
     display: none;
   }
 }
