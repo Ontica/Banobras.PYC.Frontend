@@ -228,7 +228,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
-      this.helper.select<Identifiable[]>(AccountsStateSelector.ACCOUNTS_TYPES_LIST),
+      this.helper.select<Identifiable[]>(AccountsStateSelector.ACCOUNTS_TYPES),
       this.projectsData.getStandardAccounts(this.projectUID),
     ])
     .subscribe(([a, b, c, d]) => {

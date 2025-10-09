@@ -123,7 +123,7 @@ export class ChartOfAccountsFilterComponent implements OnChanges, OnInit, OnDest
   private loadDataLists() {
     this.isLoading = true;
 
-    this.helper.select<Identifiable[]>(AccountsStateSelector.CHARTS_OF_ACCOUNTS_LIST)
+    this.helper.select<Identifiable[]>(AccountsStateSelector.CHARTS_OF_ACCOUNTS)
       .subscribe(x => {
         this.chartsOfAccountsList = x;
         this.setChartOfAccountsDefault();
