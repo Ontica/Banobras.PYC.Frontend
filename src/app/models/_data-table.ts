@@ -28,7 +28,9 @@ export interface DataTableColumn {
   buttonText?: string;
   hasLevel?: boolean
   showShadow?: boolean;
-  size?: 'xs';
+  size?: 'xs' | 'sm';
+  showTooltip?: boolean;
+  tooltipField?: string;
 }
 
 
