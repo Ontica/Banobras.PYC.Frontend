@@ -61,12 +61,10 @@ export class FinancialConceptTabbedViewComponent implements OnChanges {
 
 
   private setTitle() {
-    const startDate = DateStringLibrary.format(this.data.concept.startDate);
-
     this.title = `${this.data.concept.number}: ${this.data.concept.name}`;
 
-    this.hint = `<strong>${this.data.concept.group.name} &nbsp; &nbsp; | &nbsp; &nbsp; </strong>` +
-      `${startDate}`;
+    this.hint = `<strong>${this.data.concept.group.name} &nbsp; | &nbsp; </strong>` +
+      `${this.data.concept.fullName}`;
   }
 
 }

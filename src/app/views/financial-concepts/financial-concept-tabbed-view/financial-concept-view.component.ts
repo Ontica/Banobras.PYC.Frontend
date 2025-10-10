@@ -25,7 +25,6 @@ interface FinancialConceptFormModel extends FormGroup<{
   group: FormControl<string>;
   number: FormControl<string>;
   name: FormControl<string>;
-  fullName: FormControl<string>;
   description: FormControl<string>;
   startDate: FormControl<DateString>;
   endDate: FormControl<DateString>;
@@ -67,7 +66,6 @@ export class FinancialConceptViewComponent implements OnChanges {
       group: [null],
       number: [null],
       name: [null],
-      fullName: [null],
       description: [null],
       startDate: [null],
       endDate: [null],
@@ -80,7 +78,6 @@ export class FinancialConceptViewComponent implements OnChanges {
       group: this.concept.group.name,
       number: this.concept.number,
       name: this.concept.name,
-      fullName: this.concept.fullName,
       description: this.concept.description,
       startDate: DateStringLibrary.format(this.concept.startDate),
       endDate: DateStringLibrary.format(this.concept.endDate),
