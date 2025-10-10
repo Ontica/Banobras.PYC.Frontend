@@ -52,7 +52,7 @@
       <ng-container *ngTemplateOutlet="optionTemplate; context:{item: item}"></ng-container>
     </ng-container>
     <ng-container *ngIf="!optionTemplate">
-      <span [title]="!this.selectBoxConfig.showTooltip ? '' : (bindLabel ? item[bindLabel] : item)">
+      <span [title]="!selectBoxConfig.showTooltip ? '' : (bindTooltipField ? item[bindTooltipField] : item)">
         {{bindLabel ? item[bindLabel] : item}}
       </span>
     </ng-container>
