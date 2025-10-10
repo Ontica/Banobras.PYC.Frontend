@@ -9,14 +9,13 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } 
 
 import { combineLatest } from 'rxjs';
 
-import { Empty, EventInfo, Identifiable } from '@app/core';
+import { Empty, EventInfo, FlexibleIdentifiable, Identifiable } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CashFlowStateSelector, CashLedgerStateSelector,
-         CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
+import { CashFlowStateSelector, CataloguesStateSelector, FinancialConceptsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { EmptyRecordSearchQuery, RecordSearchQuery, RecordQueryType, RecordQueryTypeList,
          RequestsList } from '@app/models';
@@ -38,17 +37,17 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
   formData = {
     queryType: RecordQueryType.AccountTotals,
     datePeriod: { fromDate: null, toDate: null },
-    operationTypeUID: null,
+    classificationUID: null,
     keywords: [],
-    ledgers: [],
-    parties: [],
+    operationTypeUID: null,
+    partyUID: null,
   };
 
   queryTypeList = RecordQueryTypeList;
 
-  operationTypesList: Identifiable[] = [];
+  classificationsList: FlexibleIdentifiable[] = [];
 
-  ledgersList: Identifiable[] = [];
+  operationTypesList: Identifiable[] = [];
 
   orgUnitsList: Identifiable[] = [];
 
@@ -78,48 +77,40 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
 
 
   get isFormValid(): boolean {
-    return !!this.formData.queryType && !!this.formData.keywords && (
+    return !!this.formData.queryType && (
       !this.displayPeriod ? true : !!this.formData.datePeriod.fromDate && !!this.formData.datePeriod.toDate
     );
   }
 
 
   get displayPeriod(): boolean {
-    return [RecordQueryType.AccountingEntriesBySubledgerAccount,
-            RecordQueryType.AccountingEntriesByAccount,
-            RecordQueryType.CashFlowAccountingEntries,
-            RecordQueryType.CashFlowEntries,
+    return [RecordQueryType.CashFlowAccountingEntries,
             RecordQueryType.CreditEntries].includes(this.formData.queryType);
   }
+
+
+  get displayClassification(): boolean {
+    return [RecordQueryType.AccountTotals].includes(this.formData.queryType);
+  }
+
 
   get displayOperationType(): boolean {
     return [RecordQueryType.AccountTotals].includes(this.formData.queryType);
   }
 
 
-  get displayLedgers(): boolean {
-    return [RecordQueryType.AccountingEntriesByAccount,
-            RecordQueryType.AccountingEntriesBySubledgerAccount].includes(this.formData.queryType);
-  }
-
-
   get displayParties(): boolean {
     return [RecordQueryType.AccountTotals,
-            RecordQueryType.CashFlowAccountingEntries,
-            RecordQueryType.CashFlowEntries].includes(this.formData.queryType);
+            RecordQueryType.CashFlowAccountingEntries].includes(this.formData.queryType);
   }
 
 
   get keywordslabel(): string {
     switch (this.formData.queryType) {
       case RecordQueryType.AccountTotals:
-      case RecordQueryType.CashFlowEntries:
         return 'Buscar (conceptos)';
-      case RecordQueryType.AccountingEntriesBySubledgerAccount:
       case RecordQueryType.CashFlowAccountingEntries:
         return 'Buscar (auxiliares)';
-      case RecordQueryType.AccountingEntriesByAccount:
-        return 'Buscar (cuentas)';
       case RecordQueryType.CreditEntries:
         return 'Buscar (No. de créditos SIC)';
       default:
@@ -148,14 +139,14 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
-      this.helper.select<Identifiable[]>(CashLedgerStateSelector.ACCOUNTING_LEDGERS),
+      this.helper.select<FlexibleIdentifiable[]>(FinancialConceptsStateSelector.CLASSIFICATIONS),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.OPERATION_TYPES),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
     ])
     .subscribe(([a, b, c]) => {
-      this.orgUnitsList = a;
-      this.ledgersList = b;
-      this.operationTypesList = c;
+      this.classificationsList = a;
+      this.operationTypesList = b;
+      this.orgUnitsList = c;
       this.isLoading = false;
     });
   }
@@ -167,8 +158,8 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
       datePeriod: { fromDate: this.query.fromDate, toDate: this.query.toDate },
       operationTypeUID: this.query.operationTypeUID,
       keywords: this.query.keywords,
-      ledgers: this.query.ledgers,
-      parties: this.query.parties,
+      classificationUID: this.query.classificationUID,
+      partyUID: this.query.partyUID,
     };
   }
 
@@ -176,12 +167,12 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
   private getRecordSearchQuery(): RecordSearchQuery {
     const query: RecordSearchQuery = {
       queryType: this.formData.queryType,
+      classificationUID: this.formData.classificationUID,
       keywords: this.formData.keywords,
       fromDate: this.displayPeriod ? this.formData.datePeriod.fromDate : null,
       toDate: this.displayPeriod ? this.formData.datePeriod.toDate : null,
       operationTypeUID: this.displayOperationType ? this.formData.operationTypeUID : null,
-      ledgers: this.displayLedgers ? this.formData.ledgers : null,
-      parties: this.displayParties ? this.formData.parties : null,
+      partyUID: this.displayParties ? this.formData.partyUID : null,
     };
 
     return query;

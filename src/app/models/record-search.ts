@@ -11,22 +11,16 @@ import { DataTable, DataTableColumn, DataTableQuery } from './_data-table';
 
 
 export enum RecordQueryType {
-  AccountTotals                       = 'AccountTotals',
-  AccountingEntriesByAccount          = 'AccountingEntriesByAccount',
-  AccountingEntriesBySubledgerAccount = 'AccountingEntriesBySubledgerAccount',
-  CashFlowAccountingEntries           = 'CashFlowAccountingEntries',
-  CashFlowEntries                     = 'CashFlowEntries',
-  CreditEntries                       = 'CreditEntries',
+  AccountTotals             = 'AccountTotals',
+  CashFlowAccountingEntries = 'CashFlowAccountingEntries',
+  CreditEntries             = 'CreditEntries',
 }
 
 
 export const RecordQueryTypeList: Identifiable[] = [
-  { uid: RecordQueryType.AccountTotals,                       name: 'Conceptos presupuestales' },
-  { uid: RecordQueryType.AccountingEntriesBySubledgerAccount, name: 'Movimientos contables por auxiliar' },
-  { uid: RecordQueryType.AccountingEntriesByAccount,          name: 'Movimientos contables por cuenta' },
-  { uid: RecordQueryType.CashFlowAccountingEntries,           name: 'Movimientos de flujo de efectivo por auxiliar' },
-  { uid: RecordQueryType.CashFlowEntries,                     name: 'Movimientos de flujo de efectivo por concepto' },
-  { uid: RecordQueryType.CreditEntries,                       name: 'Movimientos del sistema de créditos' },
+  { uid: RecordQueryType.AccountTotals,             name: 'Conceptos presupuestales' },
+  { uid: RecordQueryType.CashFlowAccountingEntries, name: 'Movimientos de flujo de efectivo por auxiliar' },
+  { uid: RecordQueryType.CreditEntries,             name: 'Movimientos del sistema de créditos' },
 ];
 
 
@@ -43,10 +37,10 @@ export interface RecordSearchQuery extends DataTableQuery {
   queryType: RecordQueryType;
   fromDate: DateString;
   toDate: DateString;
+  classificationUID: string;
   operationTypeUID: string;
   keywords: string[];
-  ledgers: string[];
-  parties: string[];
+  partyUID: string;
 }
 
 
@@ -54,10 +48,10 @@ export const EmptyRecordSearchQuery: RecordSearchQuery = {
   queryType: RecordQueryType.AccountTotals,
   fromDate: '',
   toDate: '',
+  classificationUID: '',
   operationTypeUID: '',
   keywords: [],
-  ledgers: [],
-  parties: [],
+  partyUID: '',
 };
 
 

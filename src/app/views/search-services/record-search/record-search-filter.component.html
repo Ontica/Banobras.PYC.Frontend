@@ -4,7 +4,7 @@
 
       <div class="fx-row-container">
 
-        <div class="fx-item-size" style="--size: 40%">
+        <div class="fx-item-size" style="--size: 37%">
 
           <label>Tipo de consulta:</label>
 
@@ -14,6 +14,21 @@
             [items]="queryTypeList"
             [showError]="!formData.queryType"
             (changes)="onQueryTypeChanges()">
+          </emp-ng-select>
+
+        </div>
+
+        <div class="fx-item-size" style="--size: 25%" *ngIf="displayClassification">
+
+          <label>Clasificación:</label>
+
+          <emp-ng-select name="classificationUID"
+            [(ngModel)]="formData.classificationUID"
+            [config]="{clearable: true, showTooltip: true, searchableFields: ['name', 'fullName']}"
+            [items]="classificationsList"
+            [loading]="isLoading"
+            bindTooltip="fullName"
+            placeholder="Todas">
           </emp-ng-select>
 
         </div>
@@ -29,27 +44,12 @@
 
         </div>
 
-        <div class="fx-item-size" style="--size: 25%" *ngIf="displayOperationType">
-
-          <label>Tipo de operación:</label>
-
-          <emp-ng-select name="operationTypeUID"
-            [(ngModel)]="formData.operationTypeUID"
-            [config]="{clearable: true, showTooltip: true}"
-            [items]="operationTypesList"
-            [loading]="isLoading"
-            placeholder="Todos">
-          </emp-ng-select>
-
-        </div>
-
         <div class="fx-item">
 
           <label>{{keywordslabel}}:</label>
 
-          <emp-ng-input-tags name="keywords" required
+          <emp-ng-input-tags name="keywords"
             [(ngModel)]="formData.keywords"
-            [showError]="!formData.keywords || formData.keywords.length === 0"
             (clear)="formData.keywords = []">
           </emp-ng-input-tags>
 
@@ -73,26 +73,26 @@
 
       <div class="fx-row-container">
 
-        <div class="fx-item-size" style="--size: 40%" *ngIf="displayLedgers">
+        <div class="fx-item-size" style="--size: 37%" *ngIf="displayOperationType">
 
-          <label>Contabilidad:</label>
+          <label>Tipo de operación:</label>
 
-          <emp-ng-select name="ledger"
-            [config]="{clearable: true, multiple: true, showTooltip: true}"
-            [(ngModel)]="formData.ledgers"
-            [items]="ledgersList"
+          <emp-ng-select name="operationTypeUID"
+            [(ngModel)]="formData.operationTypeUID"
+            [config]="{clearable: true, showTooltip: true}"
+            [items]="operationTypesList"
             [loading]="isLoading"
-            placeholder="Todas">
+            placeholder="Todos">
           </emp-ng-select>
 
         </div>
 
-        <div class="fx-item-size" style="--size: 40%" *ngIf="displayParties">
+        <div class="fx-item-size" [style.--size]="displayOperationType ? '63%' : '37%'" *ngIf="displayParties">
 
           <label>Área:</label>
 
-          <emp-ng-select name="parties"
-            [(ngModel)]="formData.parties"
+          <emp-ng-select name="partyUID"
+            [(ngModel)]="formData.partyUID"
             [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
             [items]="orgUnitsList"
             [loading]="isLoading"
