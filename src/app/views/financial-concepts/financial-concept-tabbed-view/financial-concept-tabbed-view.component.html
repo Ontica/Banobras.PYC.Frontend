@@ -1,0 +1,29 @@
+<emp-ng-card
+  [title]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Concepto">
+
+      <emp-cf-financial-concept-view
+        [concept]="data.concept"
+        [actions]="data.actions"
+        (financialConceptViewEvent)="onFinancialConceptViewEvent($event)">
+
+      </emp-cf-financial-concept-view>
+
+    </mat-tab>
+
+    <mat-tab label="Integración">
+
+      <div class="instruction-text">
+        No se encontraron registros.
+      </div>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

@@ -1,0 +1,74 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+        <label>Agrupación:</label>
+        <input type="text" class="text-box"
+          formControlName="group"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+      <div class="fx-item">
+        <label>Código:</label>
+        <input type="text" class="text-box"
+          formControlName="number">
+      </div>
+
+      <div class="fx-item-none fx-row-container fx-end">
+        <div class="fx-item-size" style="--size: 100px">
+          <label>Fecha de alta:</label>
+          <input type="text" class="text-box"
+            formControlName="startDate">
+        </div>
+
+        <div class="fx-item-size" style="--size: 100px">
+          <label>Fecha de baja:</label>
+          <input type="text" class="text-box"
+            formControlName="endDate">
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Nombre:</label>
+        <input type="text" class="text-box"
+          formControlName="name"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+        </textarea>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Nombre completo:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="fullName"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

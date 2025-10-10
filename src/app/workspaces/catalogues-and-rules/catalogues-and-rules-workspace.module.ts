@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { CataloguesAndRulesWorkspaceRoutingModule } from './catalogues-and-rules-workspace-routing.module';
 
 import { ChartOfAccountsModule } from '@app/views/chart-of-accounts/chart-of-accounts.module';
+import { FinancialConceptsModule } from '@app/views/financial-concepts/financial-concepts.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ChartOfAccountsModule } from '@app/views/chart-of-accounts/chart-of-acc
     CataloguesAndRulesWorkspaceRoutingModule,
 
     ChartOfAccountsModule,
+    FinancialConceptsModule,
   ]
 
 })

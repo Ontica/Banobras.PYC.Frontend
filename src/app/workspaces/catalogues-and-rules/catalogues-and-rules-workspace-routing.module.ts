@@ -17,6 +17,10 @@ import {
   ChartOfAccountsMainPageComponent
 } from '@app/views/chart-of-accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
 
+import {
+  FinancialConceptsMainPageComponent
+} from '@app/views/financial-concepts/financial-concepts-main-page/financial-concepts-main-page.component';
+
 
 const routes: Routes = [
   {
@@ -27,7 +31,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.reglas_y_catalogos_agrupaciones.permission },
     path: ROUTES.reglas_y_catalogos_agrupaciones.path,
-    component: DefaultComponent,
+    component: FinancialConceptsMainPageComponent,
   },
   {
     data: { permission: ROUTES.reglas_y_catalogos_reglas_contables.permission },

@@ -37,6 +37,9 @@ export { SelectorType as CashLedgerStateSelector } from './cash-ledger.presentat
 import { SelectorType as CataloguesStateSelector } from './catalogues.presentation.handler';
 export { SelectorType as CataloguesStateSelector } from './catalogues.presentation.handler';
 
+import { SelectorType as FinancialConceptsStateSelector } from './financial-concepts.presentation.handler';
+export { SelectorType as FinancialConceptsStateSelector } from './financial-concepts.presentation.handler';
+
 import { SelectorType as FinancialProjectsStateSelector } from './financial-projects.presentation.handler';
 export { SelectorType as FinancialProjectsStateSelector } from './financial-projects.presentation.handler';
 
@@ -59,6 +62,7 @@ export type PYCSelectors = AccountsStateSelector |
                            CashFlowProjectionsStateSelector |
                            CashLedgerStateSelector |
                            CataloguesStateSelector |
+                           FinancialConceptsStateSelector |
                            FinancialProjectsStateSelector |
                            PaymentsStateSelector |
                            ProductsStateSelector |
