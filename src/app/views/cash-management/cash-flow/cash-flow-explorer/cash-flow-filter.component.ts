@@ -12,11 +12,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { combineLatest } from 'rxjs';
 
-import { EventInfo, Identifiable, isEmpty, Validate } from '@app/core';
+import { EventInfo, FlexibleIdentifiable, Identifiable, isEmpty, Validate } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CashFlowStateSelector, CataloguesStateSelector,
+import { CashFlowStateSelector, CataloguesStateSelector, FinancialConceptsStateSelector,
          FinancialProjectsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper, sendEvent, empExpandCollapse } from '@app/shared/utils';
@@ -36,6 +36,7 @@ interface CashFlowFilterFormModel extends FormGroup<{
   reportType: FormControl<CashFlowExplorerTypes>;
   datePeriod: FormControl<DateRange>;
   keywords: FormControl<string>;
+  classificationUID: FormControl<string>;
   operationTypeUID: FormControl<string>;
   partyUID: FormControl<string>;
   projectTypeUID: FormControl<string>;
@@ -73,15 +74,17 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   orgUnitsList: Identifiable[] = [];
 
+  classificationsList: FlexibleIdentifiable[] = [];
+
+  operationTypesList: Identifiable[] = [];
+
   projectTypesList: Identifiable[] = [];
+
+  sourcesList: Identifiable[] = [];
 
   programsList: Identifiable[] = [];
 
   subprogramsList: Identifiable[] = [];
-
-  sourcesList: Identifiable[] = [];
-
-  operationTypesList: Identifiable[] = [];
 
   projectsAPI = SearcherAPIS.cashFlowProjects;
 
@@ -132,12 +135,17 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
 
 
   onSearchClicked() {
-    if (FormHelper.isFormReadyAndInvalidate(this.form)) {
-      sendEvent(this.cashFlowFilterEvent, CashFlowFilterEventType.SEARCH_CLICKED, {
-        reportType: this.getReportType(),
-        query: this.getFormData(),
-      });
+    if (this.form.invalid) {
+      FormHelper.markFormControlsAsTouched(this.form);
+      return;
     }
+
+    const payload = {
+      reportType: this.getReportType(),
+      query: this.getFormData(),
+    };
+
+    sendEvent(this.cashFlowFilterEvent, CashFlowFilterEventType.SEARCH_CLICKED, payload);
   }
 
 
@@ -155,19 +163,21 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
+      this.helper.select<FlexibleIdentifiable[]>(FinancialConceptsStateSelector.CLASSIFICATIONS),
+      this.helper.select<Identifiable[]>(CashFlowStateSelector.OPERATION_TYPES),
       this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.PROJECT_TYPES),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.FINANCING_SOURCES),
-      this.helper.select<Identifiable[]>(CashFlowStateSelector.OPERATION_TYPES),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.PROGRAMS),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.SUBPROGRAMS),
     ])
-    .subscribe(([a, b, c, d, e, f]) => {
+    .subscribe(([a, b, c, d, e, f, g]) => {
       this.orgUnitsList = a;
-      this.projectTypesList = b;
-      this.sourcesList = c;
-      this.operationTypesList = d;
-      this.programsList = e;
-      this.subprogramsList = f;
+      this.classificationsList = b;
+      this.operationTypesList = c;
+      this.projectTypesList = d;
+      this.sourcesList = e;
+      this.programsList = f;
+      this.subprogramsList = g;
 
       this.isLoading = false;
     });
@@ -181,6 +191,7 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
       reportType: [CashFlowExplorerTypes.CashFlow, Validators.required],
       datePeriod: [EmptyDateRange, [Validators.required, Validate.periodRequired]],
       keywords: [null],
+      classificationUID: [null],
       operationTypeUID: [null],
       partyUID: [null],
       projectTypeUID: [null],
@@ -202,6 +213,7 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
       datePeriod,
       reportType: this.query.reportType,
       keywords: this.query.keywords,
+      classificationUID: this.query.classificationUID,
       operationTypeUID: this.query.operationTypeUID,
       partyUID: this.query.partyUID,
       projectTypeUID: this.query.projectTypeUID,
@@ -225,6 +237,7 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
       fromDate: this.form.value.datePeriod.fromDate ?? null,
       toDate: this.form.value.datePeriod.toDate ?? null,
       keywords: this.form.value.keywords ?? null,
+      classificationUID: this.form.value.classificationUID ?? null,
       operationTypeUID: this.form.value.operationTypeUID ?? null,
       partyUID: this.form.value.partyUID ?? null,
       projectTypeUID: this.form.value.projectTypeUID ?? null,

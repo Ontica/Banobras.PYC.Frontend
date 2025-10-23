@@ -4,30 +4,26 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-half fx-row-container">
+      <div class="fx-item-size" style="--size: calc(50% - 221px)">
 
-        <div class="fx-item-size" style="--size: calc(100% - 221px)">
+        <label class="nowrap">Tipo de reporte:</label>
 
-          <label class="nowrap">Tipo de reporte:</label>
+        <emp-ng-select
+          formControlName="reportType"
+          [items]="reportTypesList"
+          [showError]="formHelper.isControlInvalid(form.controls.reportType)">
+        </emp-ng-select>
 
-          <emp-ng-select
-            formControlName="reportType"
-            [items]="reportTypesList"
-            [showError]="formHelper.isControlInvalid(form.controls.reportType)">
-          </emp-ng-select>
+      </div>
 
-        </div>
+      <div class="fx-item-none">
 
-        <div class="fx-item-none">
+        <label>Fecha de afectación:</label>
 
-          <label>Fecha de afectación:</label>
-
-          <emp-ng-date-range-picker
-            formControlName="datePeriod"
-            [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
-          </emp-ng-date-range-picker>
-
-        </div>
+        <emp-ng-date-range-picker
+          formControlName="datePeriod"
+          [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
+        </emp-ng-date-range-picker>
 
       </div>
 
@@ -71,7 +67,22 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-half">
+      <div class="fx-item-size" style="--size: calc(50% - 221px)">
+
+        <label>Clasificación:</label>
+
+        <emp-ng-select
+          formControlName="classificationUID"
+          [config]="{clearable: true, showTooltip: true, searchableFields: ['name', 'fullName']}"
+          [items]="classificationsList"
+          [loading]="isLoading"
+          bindTooltip="fullName"
+          placeholder="Todas">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-size" style="--size: 221px">
 
         <label>Tipo de operación:</label>
 

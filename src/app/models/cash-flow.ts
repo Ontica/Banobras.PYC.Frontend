@@ -32,6 +32,7 @@ export interface CashFlowExplorerQuery {
   toDate: DateString;
   keywords: string;
   partyUID: string;
+  classificationUID: string;
   operationTypeUID: string;
   projectTypeUID: string;
   projectUID: string;
@@ -59,6 +60,7 @@ export const EmptyCashFlowExplorerQuery: CashFlowExplorerQuery = {
   fromDate: '',
   toDate: '',
   keywords: '',
+  classificationUID: '',
   operationTypeUID: '',
   partyUID: '',
   projectTypeUID: '',
