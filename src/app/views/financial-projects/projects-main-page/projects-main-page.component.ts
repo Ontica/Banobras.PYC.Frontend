@@ -27,7 +27,7 @@ import { ProjectTabbedViewEventType } from '../project-tabbed-view/project-tabbe
 
 
 @Component({
-  selector: 'emp-cf-project-main-page',
+  selector: 'emp-financial-project-main-page',
   templateUrl: './projects-main-page.component.html',
 })
 export class FinancialProjectsMainPageComponent {

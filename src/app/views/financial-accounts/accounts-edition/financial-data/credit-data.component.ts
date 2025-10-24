@@ -22,8 +22,8 @@ import { buildCreditFinancialData, CreditFinancialData, EmptyCreditFinancialData
 
 
 @Component({
-  selector: 'emp-cf-credit-financial-data',
-  templateUrl: './credit-financial-data.component.html',
+  selector: 'emp-financial-credit-data',
+  templateUrl: './credit-data.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -17,7 +17,7 @@ import { FinancialProjectGoals, EmptyFinancialProjectGoals, buildFinancialProjec
 
 
 @Component({
-  selector: 'emp-cf-project-goals',
+  selector: 'emp-financial-project-goals',
   templateUrl: './project-goals.component.html',
   standalone: true,
   imports: [

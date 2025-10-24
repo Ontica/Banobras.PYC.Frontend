@@ -35,14 +35,14 @@ interface FinancialConceptsFilterFormModel extends FormGroup<{
 
 
 @Component({
-  selector: 'emp-cf-financial-concepts-filter',
+  selector: 'emp-financial-concepts-filter',
   templateUrl: './financial-concepts-filter.component.html',
 })
 export class FinancialConceptsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() query: FinancialConceptsQuery = Object.assign({}, EmptyFinancialConceptsQuery);
 
-  @Output() financialConceptsFilterEvent = new EventEmitter<EventInfo>();
+  @Output() conceptsFilterEvent = new EventEmitter<EventInfo>();
 
   form: FinancialConceptsFilterFormModel;
 
@@ -85,7 +85,7 @@ export class FinancialConceptsFilterComponent implements OnChanges, OnInit, OnDe
         query: this.getFormData(),
       };
 
-      sendEvent(this.financialConceptsFilterEvent, FinancialConceptsFilterEventType.SEARCH_CLICKED, payload);
+      sendEvent(this.conceptsFilterEvent, FinancialConceptsFilterEventType.SEARCH_CLICKED, payload);
     }
   }
 

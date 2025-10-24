@@ -7,12 +7,12 @@
 
     <mat-tab label="Concepto">
 
-      <emp-cf-financial-concept-view
+      <emp-financial-concept-view
         [concept]="data.concept"
         [actions]="data.actions"
-        (financialConceptViewEvent)="onFinancialConceptViewEvent($event)">
+        (conceptViewEvent)="onConceptViewEvent($event)">
 
-      </emp-cf-financial-concept-view>
+      </emp-financial-concept-view>
 
     </mat-tab>
 

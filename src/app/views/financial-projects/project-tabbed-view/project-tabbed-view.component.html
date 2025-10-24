@@ -7,12 +7,12 @@
 
     <mat-tab label="Proyecto">
 
-      <emp-cf-project-editor
+      <emp-financial-project-editor
         [project]="data.project"
         [actions]="data.actions"
         (projectEditorEvent)="onProjectEditorEvent($event)">
 
-      </emp-cf-project-editor>
+      </emp-financial-project-editor>
 
     </mat-tab>
 
@@ -20,7 +20,7 @@
 
       <ng-template matTabContent>
 
-        <emp-cf-accounts-edition
+        <emp-financial-accounts-edition
           queryType="financial-project"
           [projectUID]="data.project.uid"
           [organizationalUnitUID]="data.project.baseOrgUnit.uid"
@@ -28,7 +28,7 @@
           [canUpdate]="data.actions.canUpdate"
           (accountsEditionEvent)="onAccountsEditionEvent($event)">
 
-        </emp-cf-accounts-edition>
+        </emp-financial-accounts-edition>
 
       </ng-template>
 

@@ -23,7 +23,7 @@ export enum OperationsTableEventType {
 }
 
 @Component({
-  selector: 'emp-cf-operations-table',
+  selector: 'emp-financial-operations-table',
   templateUrl: './operations-table.component.html',
 })
 export class FinancialAccountOperationsTableComponent implements OnChanges {

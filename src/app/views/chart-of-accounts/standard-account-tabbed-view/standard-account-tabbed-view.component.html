@@ -7,12 +7,12 @@
 
     <mat-tab label="Cuenta estándar">
 
-      <emp-cf-standard-account-view
+      <emp-financial-standard-account-view
         [standardAccount]="data.standardAccount"
         [actions]="data.actions"
         (standardAccountViewEvent)="onStandardAccountViewEvent($event)">
 
-      </emp-cf-standard-account-view>
+      </emp-financial-standard-account-view>
 
     </mat-tab>
 
@@ -20,13 +20,13 @@
 
       <ng-template matTabContent>
 
-        <emp-cf-accounts-edition
+        <emp-financial-accounts-edition
           queryType="standard-accounts"
           [accounts]="data.accounts"
           [canUpdate]="data.actions.canUpdate"
           (accountsEditionEvent)="onAccountsEditionEvent($event)">
 
-        </emp-cf-accounts-edition>
+        </emp-financial-accounts-edition>
 
       </ng-template>
 

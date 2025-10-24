@@ -16,7 +16,7 @@ import { AccountAttributes, buildCreditAttributes, CreditAttributes,
 
 
 @Component({
-  selector: 'emp-cf-credit-account-attributes',
+  selector: 'emp-financial-credit-account-attributes',
   templateUrl: './credit-account-attributes.component.html',
   providers: [
     {

@@ -28,7 +28,7 @@ export enum ChartOfAccountsListEventType {
 }
 
 @Component({
-  selector: 'emp-cf-chart-of-accounts-list',
+  selector: 'emp-financial-chart-of-accounts-list',
   templateUrl: './chart-of-accounts-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

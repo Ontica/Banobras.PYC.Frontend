@@ -28,7 +28,7 @@ export enum StandardAccountTabbedViewEventType {
 }
 
 @Component({
-  selector: 'emp-cf-standard-account-tabbed-view',
+  selector: 'emp-financial-standard-account-tabbed-view',
   templateUrl: './standard-account-tabbed-view.component.html',
 })
 export class StandardAccountTabbedViewComponent implements OnChanges {

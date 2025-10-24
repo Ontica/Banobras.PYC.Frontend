@@ -29,7 +29,7 @@ export enum ProjectsExplorerEventType {
 }
 
 @Component({
-  selector: 'emp-cf-projects-explorer',
+  selector: 'emp-financial-projects-explorer',
   templateUrl: './projects-explorer.component.html',
 })
 export class FinancialProjectsExplorerComponent implements OnChanges {

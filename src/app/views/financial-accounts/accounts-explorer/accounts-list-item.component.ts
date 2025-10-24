@@ -19,7 +19,7 @@ export enum AccountsListItemEventType {
 }
 
 @Component({
-  selector: 'emp-cf-accounts-list-item',
+  selector: 'emp-financial-accounts-list-item',
   templateUrl: './accounts-list-item.component.html',
   styleUrls: ['./accounts-list-item.component.scss'],
 })

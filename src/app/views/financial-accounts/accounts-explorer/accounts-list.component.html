@@ -8,9 +8,9 @@
   </emp-ng-list-controls>
 
 
-  <emp-cf-accounts-list-header class="fx-item-none">
+  <emp-financial-accounts-list-header class="fx-item-none">
 
-  </emp-cf-accounts-list-header>
+  </emp-financial-accounts-list-header>
 
 
   <div #listContainer class="fx-item">
@@ -23,12 +23,12 @@
 
           <div class="list-item-container">
 
-            <emp-cf-accounts-list-item
+            <emp-financial-accounts-list-item
               [item]="item"
               [selected]="item.uid === selectedUID"
               (accountsListItemEvent)="onAccountsListItemEvent($event)">
 
-            </emp-cf-accounts-list-item>
+            </emp-financial-accounts-list-item>
 
           </div>
 

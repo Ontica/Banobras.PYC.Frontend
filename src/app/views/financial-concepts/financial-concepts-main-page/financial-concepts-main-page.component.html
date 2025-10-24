@@ -4,7 +4,7 @@
 
 <div class="explorer">
 
-  <emp-cf-financial-concepts-explorer
+  <emp-financial-concepts-explorer
     class="primary"
     [class.std-hide]="displayTabbedView"
     [group]="group"
@@ -13,16 +13,16 @@
     [selectedUID]="selectedData.concept.uid"
     [isLoading]="isLoading"
     [queryExecuted]="queryExecuted"
-    (financialConceptsExplorerEvent)="onFinancialConceptsExplorerEvent($event)">
+    (conceptsExplorerEvent)="onFinancialConceptsExplorerEvent($event)">
 
-  </emp-cf-financial-concepts-explorer>
+  </emp-financial-concepts-explorer>
 
 
-  <emp-cf-financial-concept-tabbed-view *ngIf="displayTabbedView"
+  <emp-financial-concept-tabbed-view *ngIf="displayTabbedView"
     class="secondary priority std-stacked"
     [data]="selectedData"
-    (financialConceptTabbedViewEvent)="onFinancialConceptTabbedViewEvent($event)">
+    (conceptTabbedViewEvent)="onFinancialConceptTabbedViewEvent($event)">
 
-  </emp-cf-financial-concept-tabbed-view>
+  </emp-financial-concept-tabbed-view>
 
 </div>

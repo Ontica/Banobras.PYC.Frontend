@@ -4,21 +4,21 @@
 
   </emp-ng-spinner>
 
-  <emp-cf-operation-assigner *ngIf="canEdit"
+  <emp-financial-operation-assigner *ngIf="canEdit"
     [accountUID]="accountUID"
     [operations]="data.availableOperations"
     (operationAssignerEvent)="onOperationAssignerEvent($event)">
 
-  </emp-cf-operation-assigner>
+  </emp-financial-operation-assigner>
 
   <br>
 
-  <emp-cf-operations-table
+  <emp-financial-operations-table
     [accountUID]="accountUID"
     [operations]="data.currentOperations"
     [canEdit]="canEdit"
     (operationsTableEvent)="onOperationsTableEvent($event)">
 
-  </emp-cf-operations-table>
+  </emp-financial-operations-table>
 
 </div>

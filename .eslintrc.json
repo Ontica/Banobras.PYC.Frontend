@@ -26,6 +26,7 @@
             "type": "attribute",
             "prefix": [
               "empNg",
+              "empFinancial",
               "empBdg",
               "empPmt",
               "empCF",
@@ -41,6 +42,7 @@
             "type": "element",
             "prefix": [
               "emp-ng",
+              "emp-financial",
               "emp-bdg",
               "emp-pmt",
               "emp-cf",

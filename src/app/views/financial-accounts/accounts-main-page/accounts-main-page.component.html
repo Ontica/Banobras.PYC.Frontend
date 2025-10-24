@@ -4,7 +4,7 @@
 
 <div class="explorer">
 
-  <emp-cf-accounts-explorer
+  <emp-financial-accounts-explorer
     class="primary"
     [class.std-hide]="displayTabbedView"
     [query]="query"
@@ -14,14 +14,14 @@
     [queryExecuted]="queryExecuted"
     (accountsExplorerEvent)="onAccountsExplorerEvent($event)">
 
-  </emp-cf-accounts-explorer>
+  </emp-financial-accounts-explorer>
 
-  <emp-cf-account-tabbed-view *ngIf="displayTabbedView"
+  <emp-financial-account-tabbed-view *ngIf="displayTabbedView"
     class="secondary priority std-stacked"
     [data]="selectedData"
     (accountTabbedViewEvent)="onAccountTabbedViewEvent($event)">
 
-  </emp-cf-account-tabbed-view>
+  </emp-financial-account-tabbed-view>
 
 </div>
 

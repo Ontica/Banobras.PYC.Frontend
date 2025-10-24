@@ -36,7 +36,7 @@ export enum AccountsEditionEventType {
 }
 
 @Component({
-  selector: 'emp-cf-accounts-edition',
+  selector: 'emp-financial-accounts-edition',
   templateUrl: './accounts-edition.component.html',
 })
 export class FinancialAccountsEditionComponent implements OnChanges {

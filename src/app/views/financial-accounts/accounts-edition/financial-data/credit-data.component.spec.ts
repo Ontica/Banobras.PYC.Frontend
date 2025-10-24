@@ -7,7 +7,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreditFinancialDataComponent } from './credit-financial-data.component';
+import { CreditFinancialDataComponent } from './credit-data.component';
 
 
 describe('CreditFinancialDataComponent', () => {

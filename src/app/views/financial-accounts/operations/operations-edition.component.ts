@@ -27,7 +27,7 @@ export enum OperationsEditionEventType {
 }
 
 @Component({
-  selector: 'emp-cf-operations-edition',
+  selector: 'emp-financial-operations-edition',
   templateUrl: './operations-edition.component.html',
 })
 export class FinancialAccountOperationsEditionComponent {

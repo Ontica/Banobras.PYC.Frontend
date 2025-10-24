@@ -28,7 +28,7 @@ import {
 
 
 @Component({
-  selector: 'emp-cf-financial-concepts-main-page',
+  selector: 'emp-financial-concepts-main-page',
   templateUrl: './financial-concepts-main-page.component.html',
 })
 export class FinancialConceptsMainPageComponent {

@@ -37,22 +37,22 @@
 
       </emp-ng-spinner>
 
-      <emp-cf-chart-of-accounts-filter
+      <emp-financial-chart-of-accounts-filter
         class="fx-item-none"
         [query]="query"
         [(showFilters)]="showFilters"
         (chartOfAccountsFilterEvent)="onChartOfAccountsFilterEvent($event)">
 
-      </emp-cf-chart-of-accounts-filter>
+      </emp-financial-chart-of-accounts-filter>
 
 
-      <emp-cf-chart-of-accounts-list class="fx-item"
+      <emp-financial-chart-of-accounts-list class="fx-item"
         [data]="data"
         [selectedUID]="selectedUID"
         [queryExecuted]="queryExecuted"
         (chartOfAccountsListEvent)="onChartOfAccountsListEvent($event)">
 
-      </emp-cf-chart-of-accounts-list>
+      </emp-financial-chart-of-accounts-list>
 
     </div>
 

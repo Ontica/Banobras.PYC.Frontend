@@ -32,7 +32,7 @@ export enum ProjectTabbedViewEventType {
 }
 
 @Component({
-  selector: 'emp-cf-project-tabbed-view',
+  selector: 'emp-financial-project-tabbed-view',
   templateUrl: './project-tabbed-view.component.html',
 })
 export class FinancialProjectTabbedViewComponent implements OnChanges {

@@ -24,7 +24,7 @@ export enum OperationsModalEventType {
 }
 
 @Component({
-  selector: 'emp-cf-operations-modal',
+  selector: 'emp-financial-operations-modal',
   templateUrl: './operations-modal.component.html',
 })
 export class FinancialAccountOperationsModalComponent implements OnChanges {

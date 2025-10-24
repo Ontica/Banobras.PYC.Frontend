@@ -30,7 +30,7 @@ export enum ChartOfAccountsExplorerEventType {
 }
 
 @Component({
-  selector: 'emp-cf-chart-of-accounts-explorer',
+  selector: 'emp-financial-chart-of-accounts-explorer',
   templateUrl: './chart-of-accounts-explorer.component.html',
 })
 export class ChartOfAccountsExplorerComponent implements OnChanges {

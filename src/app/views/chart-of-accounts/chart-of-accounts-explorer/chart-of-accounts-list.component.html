@@ -9,11 +9,11 @@
   </emp-ng-list-controls>
 
 
-  <emp-cf-chart-of-accounts-list-header
+  <emp-financial-chart-of-accounts-list-header
     class="fx-item-none"
     [maxLevel]="maxLevel">
 
-  </emp-cf-chart-of-accounts-list-header>
+  </emp-financial-chart-of-accounts-list-header>
 
 
   <div #listContainer class="fx-item">
@@ -27,12 +27,12 @@
 
         <div class="list-item-container">
 
-          <emp-cf-chart-of-accounts-list-item
+          <emp-financial-chart-of-accounts-list-item
             [item]="item"
             [maxLevel]="maxLevel"
             (chartOfAccountsListItemEvent)="onChartOfAccountsListItemEvent($event)">
 
-          </emp-cf-chart-of-accounts-list-item>
+          </emp-financial-chart-of-accounts-list-item>
 
         </div>
 

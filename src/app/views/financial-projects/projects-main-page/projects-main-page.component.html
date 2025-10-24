@@ -4,7 +4,7 @@
 
 <div class="explorer">
 
-  <emp-cf-projects-explorer
+  <emp-financial-projects-explorer
     class="primary"
     [class.std-hide]="displayTabbedView"
     [query]="query"
@@ -14,19 +14,19 @@
     [queryExecuted]="queryExecuted"
     (projectsExplorerEvent)="onProjectsExplorerEvent($event)">
 
-  </emp-cf-projects-explorer>
+  </emp-financial-projects-explorer>
 
-  <emp-cf-project-tabbed-view *ngIf="displayTabbedView"
+  <emp-financial-project-tabbed-view *ngIf="displayTabbedView"
     class="secondary priority std-stacked"
     [data]="selectedData"
     (projectTabbedViewEvent)="onProjectTabbedViewEvent($event)">
 
-  </emp-cf-project-tabbed-view>
+  </emp-financial-project-tabbed-view>
 
 </div>
 
 
-<emp-cf-project-creator *ngIf="displayCreator"
+<emp-financial-project-creator *ngIf="displayCreator"
   (projectCreatorEvent)="onProjectCreatorEvent($event)">
 
-</emp-cf-project-creator>
+</emp-financial-project-creator>

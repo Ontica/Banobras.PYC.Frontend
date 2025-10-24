@@ -29,7 +29,7 @@ export enum ProjectsTableEventType {
 }
 
 @Component({
-  selector: 'emp-cf-projects-table',
+  selector: 'emp-financial-projects-table',
   templateUrl: './projects-table.component.html',
 })
 export class FinancialProjectsTableComponent implements OnChanges {

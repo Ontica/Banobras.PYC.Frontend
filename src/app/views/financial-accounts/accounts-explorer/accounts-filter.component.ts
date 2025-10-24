@@ -45,7 +45,7 @@ interface AccountsFilterFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-cf-accounts-filter',
+  selector: 'emp-financial-accounts-filter',
   templateUrl: './accounts-filter.component.html',
   animations: [empExpandCollapse],
 })

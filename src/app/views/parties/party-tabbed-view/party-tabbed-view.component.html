@@ -7,12 +7,12 @@
 
     <mat-tab [label]="config.nameSingular">
 
-      <emp-cf-party-view
+      <emp-ng-party-view
         [config]="config"
         [data]="party"
         [actions]="data.actions"
         (partyViewEvent)="onPartyViewEvent($event)">
-      </emp-cf-party-view>
+      </emp-ng-party-view>
 
     </mat-tab>
 

@@ -42,7 +42,7 @@ interface ChartOfAccountsFilterFormModel extends FormGroup<{
 
 
 @Component({
-  selector: 'emp-cf-chart-of-accounts-filter',
+  selector: 'emp-financial-chart-of-accounts-filter',
   templateUrl: './chart-of-accounts-filter.component.html',
   animations: [empExpandCollapse],
 })

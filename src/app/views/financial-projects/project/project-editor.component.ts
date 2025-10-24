@@ -29,7 +29,7 @@ export enum ProjectEditorEventType {
 }
 
 @Component({
-  selector: 'emp-cf-project-editor',
+  selector: 'emp-financial-project-editor',
   templateUrl: './project-editor.component.html',
   standalone: true,
   imports: [

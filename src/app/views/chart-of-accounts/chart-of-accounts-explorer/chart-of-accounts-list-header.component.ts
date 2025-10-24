@@ -8,7 +8,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'emp-cf-chart-of-accounts-list-header',
+  selector: 'emp-financial-chart-of-accounts-list-header',
   templateUrl: './chart-of-accounts-list-header.component.html',
   styleUrls: ['./chart-of-accounts-list-item.component.scss'],
 })

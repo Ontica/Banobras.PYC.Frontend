@@ -31,7 +31,7 @@ interface FinancialConceptFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-cf-financial-concept-view',
+  selector: 'emp-financial-concept-view',
   templateUrl: './financial-concept-view.component.html',
 })
 export class FinancialConceptViewComponent implements OnChanges {
@@ -40,7 +40,7 @@ export class FinancialConceptViewComponent implements OnChanges {
 
   @Input() actions: BaseActions = EmptyBaseActions;
 
-  @Output() financialConceptViewEvent = new EventEmitter<EventInfo>();
+  @Output() conceptViewEvent = new EventEmitter<EventInfo>();
 
   form: FinancialConceptFormModel;
 

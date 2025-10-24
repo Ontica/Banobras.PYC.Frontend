@@ -47,7 +47,7 @@ interface AccountFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-cf-account-header',
+  selector: 'emp-financial-account-header',
   templateUrl: './account-header.component.html',
 })
 export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDestroy {

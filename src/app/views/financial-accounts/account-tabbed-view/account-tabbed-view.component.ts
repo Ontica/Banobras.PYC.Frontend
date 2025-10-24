@@ -26,7 +26,7 @@ export enum AccountTabbedViewEventType {
 }
 
 @Component({
-  selector: 'emp-cf-account-tabbed-view',
+  selector: 'emp-financial-account-tabbed-view',
   templateUrl: './account-tabbed-view.component.html',
 })
 export class FinancialAccountTabbedViewComponent implements OnChanges {

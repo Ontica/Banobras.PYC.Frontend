@@ -23,12 +23,12 @@
 
       </emp-ng-spinner>
 
-      <emp-cf-financial-concepts-filter
+      <emp-financial-concepts-filter
         class="fx-item-none"
         [query]="query"
-        (financialConceptsFilterEvent)="onFinancialConceptsFilterEvent($event)">
+        (conceptsFilterEvent)="onFinancialConceptsFilterEvent($event)">
 
-      </emp-cf-financial-concepts-filter>
+      </emp-financial-concepts-filter>
 
       <emp-ng-data-table class="fx-item"
         [dataTable]="data"

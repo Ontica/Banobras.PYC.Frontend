@@ -26,7 +26,7 @@ export enum ProjectCreatorEventType {
 }
 
 @Component({
-  selector: 'emp-cf-project-creator',
+  selector: 'emp-financial-project-creator',
   templateUrl: './project-creator.component.html',
 })
 export class FinancialProjectCreatorComponent {

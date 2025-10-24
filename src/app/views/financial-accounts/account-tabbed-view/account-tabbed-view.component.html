@@ -7,35 +7,35 @@
 
     <mat-tab label="Cuenta">
 
-      <emp-cf-account-editor
+      <emp-financial-account-editor
         [account]="data.account"
         [projectUID]="data.account.project.uid">
 
-      </emp-cf-account-editor>
+      </emp-financial-account-editor>
 
     </mat-tab>
 
 
     <mat-tab label="Proyecto">
 
-      <emp-cf-project-editor
+      <emp-financial-project-editor
         [project]="data.project">
 
-      </emp-cf-project-editor>
+      </emp-financial-project-editor>
 
     </mat-tab>
 
 
     <mat-tab label="Operaciones">
 
-      <emp-cf-operations-edition
+      <emp-financial-operations-edition
         [projectUID]="data.account.project.uid"
         [accountUID]="data.account.uid"
         [data]="data.operationAccounts"
         [canEdit]="data.actions.canUpdate"
         (operationsEditionEvent)="onOperationsEditionEvent($event)">
 
-      </emp-cf-operations-edition>
+      </emp-financial-operations-edition>
 
     </mat-tab>
 

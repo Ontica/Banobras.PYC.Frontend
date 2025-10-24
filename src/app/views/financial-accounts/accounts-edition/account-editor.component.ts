@@ -19,7 +19,7 @@ export enum AccountEditorEventType {
 }
 
 @Component({
-  selector: 'emp-cf-account-editor',
+  selector: 'emp-financial-account-editor',
   templateUrl: './account-editor.component.html',
 })
 export class FinancialAccountEditorComponent {

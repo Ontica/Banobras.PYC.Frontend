@@ -33,21 +33,21 @@
 
       </emp-ng-spinner>
 
-      <emp-cf-projects-filter
+      <emp-financial-projects-filter
         class="fx-item-none"
         [query]="query"
         [(showFilters)]="showFilters"
         (projectsFilterEvent)="onProjectsFilterEvent($event)">
 
-      </emp-cf-projects-filter>
+      </emp-financial-projects-filter>
 
-      <emp-cf-projects-table class="fx-item"
+      <emp-financial-projects-table class="fx-item"
         [dataList]="dataList"
         [selectedUID]="selectedUID"
         [queryExecuted]="queryExecuted"
         (projectsTableEvent)="onProjectsTableEvent($event)">
 
-      </emp-cf-projects-table>
+      </emp-financial-projects-table>
 
     </div>
 

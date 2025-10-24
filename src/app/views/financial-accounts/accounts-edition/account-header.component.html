@@ -35,11 +35,11 @@
 
       </div>
 
-      <emp-cf-external-credit-searcher *ngIf="displayCreditAccountSearcher"
+      <emp-financial-external-credit-searcher *ngIf="displayCreditAccountSearcher"
         class="fx-item"
         (externalCreditSearcherEvent)="onExternalCreditSearcherEvent($event)">
 
-      </emp-cf-external-credit-searcher>
+      </emp-financial-external-credit-searcher>
 
     </div>
 
@@ -145,21 +145,21 @@
 
     </div>
 
-    <emp-cf-credit-account-attributes *ngIf="isCreditAccount"
+    <emp-financial-credit-account-attributes *ngIf="isCreditAccount"
       formControlName="attributes"
       [editionMode]="!isSaved || editionMode"
       [errors]="form.controls.attributes.errors"
       [showError]="formHelper.isControlInvalid(form.controls.attributes)">
 
-    </emp-cf-credit-account-attributes>
+    </emp-financial-credit-account-attributes>
 
-    <emp-cf-credit-financial-data *ngIf="isCreditAccount"
+    <emp-financial-credit-data *ngIf="isCreditAccount"
       formControlName="financialData"
       [editionMode]="!isSaved || editionMode"
       [errors]="form.controls.financialData.errors"
       [showError]="formHelper.isControlInvalid(form.controls.financialData)">
 
-    </emp-cf-credit-financial-data>
+    </emp-financial-credit-data>
 
   </div>
 

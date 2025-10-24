@@ -34,7 +34,7 @@ interface PartyFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-cf-party-view',
+  selector: 'emp-ng-party-view',
   templateUrl: './party-view.component.html',
 })
 export class PartyViewComponent implements OnChanges {

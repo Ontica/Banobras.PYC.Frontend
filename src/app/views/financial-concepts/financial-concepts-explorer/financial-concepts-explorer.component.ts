@@ -28,7 +28,7 @@ export enum FinancialConceptsExplorerEventType {
 }
 
 @Component({
-  selector: 'emp-cf-financial-concepts-explorer',
+  selector: 'emp-financial-concepts-explorer',
   templateUrl: './financial-concepts-explorer.component.html',
 })
 export class FinancialConceptsExplorerComponent implements OnChanges {
@@ -45,7 +45,7 @@ export class FinancialConceptsExplorerComponent implements OnChanges {
 
   @Input() queryExecuted = false;
 
-  @Output() financialConceptsExplorerEvent = new EventEmitter<EventInfo>();
+  @Output() conceptsExplorerEvent = new EventEmitter<EventInfo>();
 
   cardTitle = 'Reglas de agrupación';
 
@@ -63,7 +63,7 @@ export class FinancialConceptsExplorerComponent implements OnChanges {
     switch (event.type as FinancialConceptsFilterEventType) {
       case FinancialConceptsFilterEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        sendEvent(this.financialConceptsExplorerEvent, FinancialConceptsExplorerEventType.SEARCH_CLICKED,
+        sendEvent(this.conceptsExplorerEvent, FinancialConceptsExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
       default:
@@ -81,11 +81,11 @@ export class FinancialConceptsExplorerComponent implements OnChanges {
         return;
       case DataTableEventType.ENTRY_CLICKED:
         Assertion.assertValue(event.payload.entry, 'event.payload.entry');
-        sendEvent(this.financialConceptsExplorerEvent, FinancialConceptsExplorerEventType.SELECT_CLICKED,
+        sendEvent(this.conceptsExplorerEvent, FinancialConceptsExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
       case DataTableEventType.EXPORT_DATA:
-        sendEvent(this.financialConceptsExplorerEvent, FinancialConceptsExplorerEventType.EXPORT_CLICKED);
+        sendEvent(this.conceptsExplorerEvent, FinancialConceptsExplorerEventType.EXPORT_CLICKED);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

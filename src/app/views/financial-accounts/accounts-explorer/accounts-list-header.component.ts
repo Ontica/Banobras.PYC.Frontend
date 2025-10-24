@@ -8,7 +8,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'emp-cf-accounts-list-header',
+  selector: 'emp-financial-accounts-list-header',
   templateUrl: './accounts-list-header.component.html',
   styleUrls: ['./accounts-list-item.component.scss'],
 })

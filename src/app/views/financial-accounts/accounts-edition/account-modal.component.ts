@@ -25,7 +25,7 @@ export enum AccountModalEventType {
 }
 
 @Component({
-  selector: 'emp-cf-account-modal',
+  selector: 'emp-financial-account-modal',
   templateUrl: './account-modal.component.html',
 })
 export class FinancialAccountModalComponent {

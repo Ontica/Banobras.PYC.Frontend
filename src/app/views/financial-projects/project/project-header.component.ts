@@ -54,7 +54,7 @@ interface ProjectFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-cf-project-header',
+  selector: 'emp-financial-project-header',
   templateUrl: './project-header.component.html',
   standalone: true,
   imports: [

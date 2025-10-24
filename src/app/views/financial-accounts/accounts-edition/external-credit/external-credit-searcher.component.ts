@@ -23,7 +23,7 @@ export enum ExternalCreditSearcherEventType {
 }
 
 @Component({
-  selector: 'emp-cf-external-credit-searcher',
+  selector: 'emp-financial-external-credit-searcher',
   templateUrl: './external-credit-searcher.component.html',
 })
 export class ExternalCreditSearcherComponent {

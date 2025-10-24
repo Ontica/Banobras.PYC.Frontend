@@ -31,7 +31,7 @@ interface OperationAssignerFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-cf-operation-assigner',
+  selector: 'emp-financial-operation-assigner',
   templateUrl: './operation-assigner.component.html',
 })
 export class FinancialAccountOperationAssignerComponent implements OnChanges, OnInit, OnDestroy {

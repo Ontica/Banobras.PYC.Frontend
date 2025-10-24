@@ -30,7 +30,7 @@ import { FinancialAccountHeaderComponent } from './accounts-edition/account-head
 import { FinancialAccountEditorComponent } from './accounts-edition/account-editor.component';
 import { FinancialAccountModalComponent } from './accounts-edition/account-modal.component';
 import { CreditAccountAttributesComponent } from './accounts-edition/account-attributes/credit-account-attributes.component';
-import { CreditFinancialDataComponent } from './accounts-edition/financial-data/credit-financial-data.component';
+import { CreditFinancialDataComponent } from './accounts-edition/financial-data/credit-data.component';
 import { ExternalCreditSearcherComponent } from './accounts-edition/external-credit/external-credit-searcher.component';
 import { FinancialAccountOperationsEditionComponent } from './operations/operations-edition.component';
 import { FinancialAccountOperationsTableComponent } from './operations/operations-table.component';

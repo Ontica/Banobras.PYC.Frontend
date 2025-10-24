@@ -27,7 +27,7 @@ export enum AccountsListEventType {
 }
 
 @Component({
-  selector: 'emp-cf-accounts-list',
+  selector: 'emp-financial-accounts-list',
   templateUrl: './accounts-list.component.html',
 })
 export class FinancialAccountsListComponent implements OnChanges {

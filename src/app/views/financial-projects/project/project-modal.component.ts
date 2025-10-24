@@ -25,7 +25,7 @@ export enum ProjectModalEventType {
 }
 
 @Component({
-  selector: 'emp-cf-project-modal',
+  selector: 'emp-financial-project-modal',
   templateUrl: './project-modal.component.html',
   standalone: true,
   imports: [

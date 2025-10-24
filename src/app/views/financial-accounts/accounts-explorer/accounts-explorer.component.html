@@ -23,21 +23,21 @@
 
       </emp-ng-spinner>
 
-      <emp-cf-accounts-filter class="fx-item-none"
+      <emp-financial-accounts-filter class="fx-item-none"
         [query]="query"
         [(showFilters)]="showFilters"
         (accountsFilterEvent)="onAccountsFilterEvent($event)">
 
-      </emp-cf-accounts-filter>
+      </emp-financial-accounts-filter>
 
-      <emp-cf-accounts-list class="fx-item"
+      <emp-financial-accounts-list class="fx-item"
         [dataList]="dataList"
         [selectedUID]="selectedUID"
         [queryExecuted]="queryExecuted"
         [isLoading]="isLoading"
         (accountsListEvent)="onAccountsListEvent($event)">
 
-      </emp-cf-accounts-list>
+      </emp-financial-accounts-list>
 
     </div>
 

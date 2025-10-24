@@ -39,7 +39,7 @@ interface StandardAccountFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-cf-standard-account-view',
+  selector: 'emp-financial-standard-account-view',
   templateUrl: './standard-account-view.component.html',
 })
 export class StandardAccountViewComponent implements OnChanges {

@@ -20,7 +20,7 @@ export enum ChartOfAccountsListItemEventType {
 
 
 @Component({
-  selector: 'emp-cf-chart-of-accounts-list-item',
+  selector: 'emp-financial-chart-of-accounts-list-item',
   templateUrl: './chart-of-accounts-list-item.component.html',
   styleUrls: ['./chart-of-accounts-list-item.component.scss'],
 })

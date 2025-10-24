@@ -26,7 +26,7 @@ import {
 
 
 @Component({
-  selector: 'emp-cf-chart-of-accounts-main-page',
+  selector: 'emp-financial-chart-of-accounts-main-page',
   templateUrl: './chart-of-accounts-main-page.component.html',
 })
 export class ChartOfAccountsMainPageComponent {

@@ -7,7 +7,7 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { DateStringLibrary, EventInfo } from '@app/core';
+import { EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -24,14 +24,14 @@ export enum FinancialConceptTabbedViewEventType {
 }
 
 @Component({
-  selector: 'emp-cf-financial-concept-tabbed-view',
+  selector: 'emp-financial-concept-tabbed-view',
   templateUrl: './financial-concept-tabbed-view.component.html',
 })
 export class FinancialConceptTabbedViewComponent implements OnChanges {
 
   @Input() data: FinancialConceptHolder = EmptyFinancialConceptHolder;
 
-  @Output() financialConceptTabbedViewEvent = new EventEmitter<EventInfo>();
+  @Output() conceptTabbedViewEvent = new EventEmitter<EventInfo>();
 
   title = '';
 
@@ -46,11 +46,11 @@ export class FinancialConceptTabbedViewComponent implements OnChanges {
 
 
   onCloseButtonClicked() {
-    sendEvent(this.financialConceptTabbedViewEvent, FinancialConceptTabbedViewEventType.CLOSE_BUTTON_CLICKED);
+    sendEvent(this.conceptTabbedViewEvent, FinancialConceptTabbedViewEventType.CLOSE_BUTTON_CLICKED);
   }
 
 
-  onFinancialConceptViewEvent(event: EventInfo) {
+  onConceptViewEvent(event: EventInfo) {
     switch (event.type as FinancialConceptViewEventType) {
 
       default:

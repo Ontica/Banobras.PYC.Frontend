@@ -24,7 +24,7 @@ import { AccountTabbedViewEventType } from '../account-tabbed-view/account-tabbe
 
 
 @Component({
-  selector: 'emp-cf-account-main-page',
+  selector: 'emp-financial-account-main-page',
   templateUrl: './accounts-main-page.component.html',
 })
 export class FinancialAccountsMainPageComponent {

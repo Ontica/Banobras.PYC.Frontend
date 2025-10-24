@@ -40,7 +40,7 @@ interface ProjectsFilterFormModel extends FormGroup<{
 }> { }
 
 @Component({
-  selector: 'emp-cf-projects-filter',
+  selector: 'emp-financial-projects-filter',
   templateUrl: './projects-filter.component.html',
   animations: [empExpandCollapse],
 })
