@@ -16,8 +16,8 @@ import { EventInfo, FlexibleIdentifiable, Identifiable, isEmpty, Validate } from
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CashFlowStateSelector, CataloguesStateSelector, FinancialConceptsStateSelector,
-         FinancialProjectsStateSelector } from '@app/presentation/exported.presentation.types';
+import { CashFlowStateSelector, CataloguesStateSelector,
+         FinancialStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper, sendEvent, empExpandCollapse } from '@app/shared/utils';
 
@@ -163,9 +163,9 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
-      this.helper.select<FlexibleIdentifiable[]>(FinancialConceptsStateSelector.CLASSIFICATIONS),
+      this.helper.select<FlexibleIdentifiable[]>(FinancialStateSelector.CLASSIFICATIONS),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.OPERATION_TYPES),
-      this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.PROJECT_TYPES),
+      this.helper.select<Identifiable[]>(FinancialStateSelector.PROJECT_TYPES),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.FINANCING_SOURCES),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.PROGRAMS),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.SUBPROGRAMS),

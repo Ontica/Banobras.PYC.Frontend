@@ -22,8 +22,7 @@ import { CashFlowPresentationHandler } from './pyc/cash-flow.presentation.handle
 import { CashFlowProjectionsPresentationHandler } from './pyc/cash-flow-projections.presentation.handler';
 import { CashLedgerPresentationHandler } from './pyc/cash-ledger.presentation.handler';
 import { CataloguesPresentationHandler } from './pyc/catalogues.presentation.handler';
-import { FinancialConceptsPresentationHandler } from './pyc/financial-concepts.presentation.handler';
-import { FinancialProjectsPresentationHandler } from './pyc/financial-projects.presentation.handler';
+import { FinancialPresentationHandler } from './pyc/financial.presentation.handler';
 import { PaymentsPresentationHandler } from './pyc/payments.presentation.handler';
 import { ProductsPresentationHandler } from './pyc/products.presentation.handler';
 import { RequestsPresentationHandler } from './pyc/requests.presentation.handler';
@@ -43,8 +42,7 @@ import { SearchServicesPresentationHandler } from './pyc/search-services.present
     CashFlowProjectionsPresentationHandler,
     CashLedgerPresentationHandler,
     CataloguesPresentationHandler,
-    FinancialConceptsPresentationHandler,
-    FinancialProjectsPresentationHandler,
+    FinancialPresentationHandler,
     PaymentsPresentationHandler,
     ProductsPresentationHandler,
     RequestsPresentationHandler,
@@ -60,8 +58,7 @@ import { SearchServicesPresentationHandler } from './pyc/search-services.present
     { provide: STATE_HANDLERS, useExisting: CashFlowProjectionsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: CashLedgerPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: CataloguesPresentationHandler, multi: true },
-    { provide: STATE_HANDLERS, useExisting: FinancialConceptsPresentationHandler, multi: true },
-    { provide: STATE_HANDLERS, useExisting: FinancialProjectsPresentationHandler, multi: true },
+    { provide: STATE_HANDLERS, useExisting: FinancialPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: PaymentsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: ProductsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: RequestsPresentationHandler, multi: true },

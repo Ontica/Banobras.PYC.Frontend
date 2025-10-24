@@ -15,7 +15,8 @@ import { sendEvent } from '@app/shared/utils';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CashFlowStateSelector, CataloguesStateSelector, FinancialConceptsStateSelector } from '@app/presentation/exported.presentation.types';
+import { CashFlowStateSelector, CataloguesStateSelector,
+         FinancialStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { EmptyRecordSearchQuery, RecordSearchQuery, RecordQueryType, RecordQueryTypeList,
          RequestsList } from '@app/models';
@@ -139,7 +140,7 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<FlexibleIdentifiable[]>(FinancialConceptsStateSelector.CLASSIFICATIONS),
+      this.helper.select<FlexibleIdentifiable[]>(FinancialStateSelector.CLASSIFICATIONS),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.OPERATION_TYPES),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
     ])

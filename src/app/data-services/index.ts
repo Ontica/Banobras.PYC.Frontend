@@ -45,6 +45,8 @@ export * from './financial-concepts.data.service';
 
 export * from './financial-projects.data.service';
 
+export * from './financial-rules.data.service';
+
 export * from './orders.data.service';
 
 export * from './parties.data.service';

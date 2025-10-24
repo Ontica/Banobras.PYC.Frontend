@@ -17,7 +17,7 @@ import { EventInfo, FlexibleIdentifiable, Identifiable, isEmpty, Validate } from
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { CashLedgerStateSelector, CataloguesStateSelector,
-         FinancialProjectsStateSelector } from '@app/presentation/exported.presentation.types';
+         FinancialStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -171,7 +171,7 @@ export class CashLedgerFilterComponent implements OnChanges, OnInit, OnDestroy {
     combineLatest([
       this.helper.select<Identifiable[]>(CashLedgerStateSelector.ACCOUNTING_LEDGERS),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
-      this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.PROJECT_TYPES),
+      this.helper.select<Identifiable[]>(FinancialStateSelector.PROJECT_TYPES),
       this.helper.select<Identifiable[]>(CashLedgerStateSelector.TRANSACTION_SOURCES),
       this.helper.select<Identifiable[]>(CashLedgerStateSelector.TRANSACTION_TYPES),
       this.helper.select<Identifiable[]>(CashLedgerStateSelector.VOUCHER_TYPES),

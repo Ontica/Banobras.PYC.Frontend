@@ -17,7 +17,7 @@ import { EventInfo, Identifiable, isEmpty } from '@app/core';
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { AccountsStateSelector, CataloguesStateSelector,
-         FinancialProjectsStateSelector } from '@app/presentation/exported.presentation.types';
+         FinancialStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -139,7 +139,7 @@ export class FinancialAccountsFilterComponent implements OnChanges, OnInit, OnDe
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
-      this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.PROJECT_TYPES),
+      this.helper.select<Identifiable[]>(FinancialStateSelector.PROJECT_TYPES),
       this.helper.select<Identifiable[]>(AccountsStateSelector.STANDARD_ACCOUNTS),
       this.helper.select<Identifiable[]>(AccountsStateSelector.ACCOUNTS_TYPES),
     ])

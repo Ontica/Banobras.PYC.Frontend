@@ -19,7 +19,7 @@ import { FormHelper, sendEvent } from '@app/shared/utils';
 import { FinancialConceptsQuery, EmptyFinancialConceptsQuery, FinancialConceptGroupDescriptor,
          EmptyFinancialConceptGroupDescriptor } from '@app/models';
 
-import { FinancialConceptsStateSelector } from '@app/presentation/exported.presentation.types';
+import { FinancialStateSelector } from '@app/presentation/exported.presentation.types';
 
 
 export enum FinancialConceptsFilterEventType {
@@ -93,7 +93,7 @@ export class FinancialConceptsFilterComponent implements OnChanges, OnInit, OnDe
   private loadDataLists() {
     this.isLoading = true;
 
-    this.helper.select<FinancialConceptGroupDescriptor[]>(FinancialConceptsStateSelector.GROUPS)
+    this.helper.select<FinancialConceptGroupDescriptor[]>(FinancialStateSelector.GROUPS)
       .subscribe(x => {
         this.groupsList = x;
         this.isLoading = x.length === 0;

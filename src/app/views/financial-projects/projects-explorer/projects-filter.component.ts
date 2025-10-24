@@ -17,7 +17,7 @@ import { EventInfo, Identifiable } from '@app/core';
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { CataloguesStateSelector,
-         FinancialProjectsStateSelector } from '@app/presentation/exported.presentation.types';
+         FinancialStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -122,9 +122,9 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
-      this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.PROJECT_TYPES),
-      this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.PROGRAMS),
-      this.helper.select<Identifiable[]>(FinancialProjectsStateSelector.SUBPROGRAMS),
+      this.helper.select<Identifiable[]>(FinancialStateSelector.PROJECT_TYPES),
+      this.helper.select<Identifiable[]>(FinancialStateSelector.PROGRAMS),
+      this.helper.select<Identifiable[]>(FinancialStateSelector.SUBPROGRAMS),
     ])
     .subscribe(([a, b, c, d]) => {
       this.orgUnitsList = a;

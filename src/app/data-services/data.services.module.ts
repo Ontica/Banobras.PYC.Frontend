@@ -47,6 +47,8 @@ import { FinancialConceptsDataService } from './financial-concepts.data.service'
 
 import { FinancialProjectsDataService } from './financial-projects.data.service';
 
+import { FinancialRulesDataService } from './financial-rules.data.service';
+
 import { OrdersDataService } from './orders.data.service';
 
 import { PartiesDataService } from './parties.data.service';
@@ -89,6 +91,7 @@ import { SuppliersDataService } from './suppliers.data.service';
     FinancialAccountsDataService,
     FinancialConceptsDataService,
     FinancialProjectsDataService,
+    FinancialRulesDataService,
     OrdersDataService,
     PartiesDataService,
     PayablesDataService,
