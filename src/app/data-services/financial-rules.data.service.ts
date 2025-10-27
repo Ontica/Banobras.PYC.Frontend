@@ -7,7 +7,9 @@
 
 import { Injectable } from '@angular/core';
 
-import { EmpObservable, HttpService, Identifiable } from '@app/core';
+import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
+
+import { FinancialRulesQuery, FinancialRulesData } from '@app/models';
 
 
 @Injectable()
@@ -21,6 +23,16 @@ export class FinancialRulesDataService {
     const path = 'v3/financial-rules/categories';
 
     return this.http.get<Identifiable[]>(path);
+  }
+
+
+  searchRules(categoryUID: string, query: FinancialRulesQuery): EmpObservable<FinancialRulesData> {
+    Assertion.assertValue(categoryUID, 'categoryUID');
+    Assertion.assertValue(query, 'query');
+
+    const path = `v3/financial-rules/categories/${categoryUID}`;
+
+    return this.http.post<FinancialRulesData>(path, query);
   }
 
 }

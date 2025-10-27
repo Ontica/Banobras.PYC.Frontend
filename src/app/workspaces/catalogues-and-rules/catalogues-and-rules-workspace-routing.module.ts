@@ -11,8 +11,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ROUTES } from '@app/main-layout';
 
-import { DefaultComponent } from '@app/shared/components';
-
 import {
   ChartOfAccountsMainPageComponent
 } from '@app/views/chart-of-accounts/chart-of-accounts-main-page/chart-of-accounts-main-page.component';
@@ -20,6 +18,10 @@ import {
 import {
   FinancialConceptsMainPageComponent
 } from '@app/views/financial-concepts/financial-concepts-main-page/financial-concepts-main-page.component';
+
+import {
+  FinancialRulesMainPageComponent
+} from '@app/views/financial-rules/rules-main-page/rules-main-page.component';
 
 
 const routes: Routes = [
@@ -36,7 +38,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.reglas_y_catalogos_reglas_contables.permission },
     path: ROUTES.reglas_y_catalogos_reglas_contables.path,
-    component: DefaultComponent,
+    component: FinancialRulesMainPageComponent,
   },
   {
     path: '',

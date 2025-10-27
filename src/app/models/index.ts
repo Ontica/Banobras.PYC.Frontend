@@ -66,6 +66,8 @@ export * from './financial-concepts';
 
 export * from './financial-projects';
 
+export * from './financial-rules';
+
 export * from './history';
 
 export * from './import-budget-transactions';
