@@ -163,7 +163,7 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
 
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
-      this.helper.select<FlexibleIdentifiable[]>(FinancialStateSelector.CLASSIFICATIONS),
+      this.helper.select<FlexibleIdentifiable[]>(FinancialStateSelector.CONCEPTS_CLASSIFICATIONS),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.OPERATION_TYPES),
       this.helper.select<Identifiable[]>(FinancialStateSelector.PROJECT_TYPES),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.FINANCING_SOURCES),

@@ -7,13 +7,12 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
-import { Assertion, EventInfo } from '@app/core';
+import { Assertion, Empty, EventInfo, Identifiable } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
 import { FinancialConceptsQuery, EmptyFinancialConceptsQuery, FinancialConceptsData,
-         FinancialConceptGroupDescriptor, EmptyFinancialConceptsData,
-         EmptyFinancialConceptGroupDescriptor } from '@app/models';
+         EmptyFinancialConceptsData } from '@app/models';
 
 import { FinancialConceptsFilterEventType } from './financial-concepts-filter.component';
 
@@ -33,7 +32,7 @@ export enum FinancialConceptsExplorerEventType {
 })
 export class FinancialConceptsExplorerComponent implements OnChanges {
 
-  @Input() group: FinancialConceptGroupDescriptor = Object.assign({}, EmptyFinancialConceptGroupDescriptor);
+  @Input() group: Identifiable = Object.assign({}, Empty);
 
   @Input() query: FinancialConceptsQuery = Object.assign({}, EmptyFinancialConceptsQuery);
 

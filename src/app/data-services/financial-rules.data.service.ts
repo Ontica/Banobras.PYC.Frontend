@@ -17,8 +17,8 @@ export class FinancialRulesDataService {
   constructor(private http: HttpService) { }
 
 
-  getRulesTypes(): EmpObservable<Identifiable[]> {
-    const path = 'v3/financial-rules/types';
+  getCategories(): EmpObservable<Identifiable[]> {
+    const path = 'v3/financial-rules/categories';
 
     return this.http.get<Identifiable[]>(path);
   }

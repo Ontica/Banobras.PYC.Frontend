@@ -10,14 +10,13 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Assertion, DateString, EventInfo } from '@app/core';
+import { Assertion, DateString, Empty, EventInfo, Identifiable } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { FormHelper, sendEvent } from '@app/shared/utils';
 
-import { FinancialConceptsQuery, EmptyFinancialConceptsQuery, FinancialConceptGroupDescriptor,
-         EmptyFinancialConceptGroupDescriptor } from '@app/models';
+import { FinancialConceptsQuery, EmptyFinancialConceptsQuery } from '@app/models';
 
 import { FinancialStateSelector } from '@app/presentation/exported.presentation.types';
 
@@ -50,7 +49,7 @@ export class FinancialConceptsFilterComponent implements OnChanges, OnInit, OnDe
 
   isLoading = false;
 
-  groupsList: FinancialConceptGroupDescriptor[] = [];
+  groupsList: Identifiable[] = [];
 
   helper: SubscriptionHelper;
 
@@ -93,7 +92,7 @@ export class FinancialConceptsFilterComponent implements OnChanges, OnInit, OnDe
   private loadDataLists() {
     this.isLoading = true;
 
-    this.helper.select<FinancialConceptGroupDescriptor[]>(FinancialStateSelector.GROUPS)
+    this.helper.select<Identifiable[]>(FinancialStateSelector.CONCEPTS_GROUPS)
       .subscribe(x => {
         this.groupsList = x;
         this.isLoading = x.length === 0;
@@ -121,8 +120,8 @@ export class FinancialConceptsFilterComponent implements OnChanges, OnInit, OnDe
   }
 
 
-  private getGroup(): FinancialConceptGroupDescriptor {
-    return this.groupsList.find(x => x.uid === this.form.value.groupUID) ?? EmptyFinancialConceptGroupDescriptor;
+  private getGroup(): Identifiable {
+    return this.groupsList.find(x => x.uid === this.form.value.groupUID) ?? Empty;
   }
 
 

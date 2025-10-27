@@ -7,16 +7,15 @@
 
 import { Component } from '@angular/core';
 
-import { Assertion, EventInfo, isEmpty } from '@app/core';
+import { Assertion, Empty, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
 import { FinancialConceptsDataService } from '@app/data-services';
 
 import { FinancialConceptDescriptor, FinancialConceptsQuery, EmptyFinancialConceptsQuery,
-         FinancialConceptsData, FinancialConceptHolder, FinancialConceptGroupDescriptor,
-         EmptyFinancialConceptsData, EmptyFinancialConceptHolder,
-         EmptyFinancialConceptGroupDescriptor } from '@app/models';
+         FinancialConceptsData, FinancialConceptHolder, EmptyFinancialConceptsData,
+         EmptyFinancialConceptHolder } from '@app/models';
 
 import {
   FinancialConceptsExplorerEventType
@@ -33,7 +32,7 @@ import {
 })
 export class FinancialConceptsMainPageComponent {
 
-  group: FinancialConceptGroupDescriptor = Object.assign({}, EmptyFinancialConceptGroupDescriptor);
+  group: Identifiable = Object.assign({}, Empty);
 
   query: FinancialConceptsQuery = Object.assign({}, EmptyFinancialConceptsQuery);
 
@@ -116,7 +115,7 @@ export class FinancialConceptsMainPageComponent {
   }
 
 
-  private setQueryAndClearData(group: FinancialConceptGroupDescriptor,  query: FinancialConceptsQuery) {
+  private setQueryAndClearData(group: Identifiable,  query: FinancialConceptsQuery) {
     this.group = group;
     this.query = Object.assign({}, query);
     this.setData([], false);

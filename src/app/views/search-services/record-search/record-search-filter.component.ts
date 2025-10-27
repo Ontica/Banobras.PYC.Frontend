@@ -140,7 +140,7 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<FlexibleIdentifiable[]>(FinancialStateSelector.CLASSIFICATIONS),
+      this.helper.select<FlexibleIdentifiable[]>(FinancialStateSelector.CONCEPTS_CLASSIFICATIONS),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.OPERATION_TYPES),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
     ])
