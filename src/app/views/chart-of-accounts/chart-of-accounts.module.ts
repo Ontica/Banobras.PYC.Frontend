@@ -13,7 +13,7 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
-import { FinancialAccountsModule } from '@app/views/financial-accounts/financial-accounts.module';
+import { FinancialAccountsModule } from '@app/views/financial/accounts/financial-accounts.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 
 import { ChartOfAccountsMainPageComponent } from './chart-of-accounts-main-page/chart-of-accounts-main-page.component';

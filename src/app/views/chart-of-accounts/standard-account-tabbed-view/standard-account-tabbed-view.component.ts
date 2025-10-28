@@ -17,7 +17,7 @@ import { StandardAccountViewEventType } from './standard-account-view.component'
 
 import {
   AccountsEditionEventType
-} from '@app/views/financial-accounts/accounts-edition/accounts-edition.component';
+} from '@app/views/financial/accounts/accounts-edition/accounts-edition.component';
 
 
 export enum StandardAccountTabbedViewEventType {

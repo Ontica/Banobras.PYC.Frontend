@@ -28,7 +28,7 @@ import { AccountModalEventType } from './account-modal.component';
 
 import { OperationsModalEventType } from '../operations/operations-modal.component';
 
-import { ProjectModalEventType } from '@app/views/financial-projects/project/project-modal.component';
+import { ProjectModalEventType } from '@app/views/financial/projects/project/project-modal.component';
 
 
 export enum AccountsEditionEventType {

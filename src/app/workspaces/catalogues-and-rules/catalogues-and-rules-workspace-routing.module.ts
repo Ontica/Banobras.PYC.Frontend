@@ -17,11 +17,11 @@ import {
 
 import {
   FinancialConceptsMainPageComponent
-} from '@app/views/financial-concepts/financial-concepts-main-page/financial-concepts-main-page.component';
+} from '@app/views/financial/concepts/financial-concepts-main-page/financial-concepts-main-page.component';
 
 import {
   FinancialRulesMainPageComponent
-} from '@app/views/financial-rules/rules-main-page/rules-main-page.component';
+} from '@app/views/financial/rules/rules-main-page/rules-main-page.component';
 
 
 const routes: Routes = [

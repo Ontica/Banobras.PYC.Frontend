@@ -37,8 +37,8 @@ import { FinancialAccountOperationsTableComponent } from './operations/operation
 import { FinancialAccountOperationAssignerComponent } from './operations/operation-assigner.component';
 
 // imports of standalone component
-import { FinancialProjectModalComponent } from '../financial-projects/project/project-modal.component';
-import { FinancialProjectEditorComponent } from '../financial-projects/project/project-editor.component';
+import { FinancialProjectModalComponent } from '../../financial/projects/project/project-modal.component';
+import { FinancialProjectEditorComponent } from '../../financial/projects/project/project-editor.component';
 
 
 @NgModule({

@@ -14,8 +14,8 @@ import { CashFlowModule } from '@app/views/cash-management/cash-flow/cash-flow.m
 import { CashFlowProjectionsModule } from '@app/views/cash-management/cash-flow-projections/cash-flow-projections.module';
 import { CashFlowReportsModule } from '@app/views/cash-management/cash-flow-reports/cash-flow-reports.module';
 import { CashLedgerModule } from '@app/views/cash-management/cash-ledger/cash-ledger.module';
-import { FinancialAccountsModule } from '@app/views/financial-accounts/financial-accounts.module';
-import { FinancialProjectsModule } from '@app/views/financial-projects/financial-projects.module';
+import { FinancialAccountsModule } from '@app/views/financial/accounts/financial-accounts.module';
+import { FinancialProjectsModule } from '@app/views/financial/projects/financial-projects.module';
 
 
 @NgModule({

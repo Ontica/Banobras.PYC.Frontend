@@ -25,11 +25,11 @@ import {
 
 import {
   FinancialProjectsMainPageComponent
-} from '@app/views/financial-projects/projects-main-page/projects-main-page.component';
+} from '@app/views/financial/projects/projects-main-page/projects-main-page.component';
 
 import {
   FinancialAccountsMainPageComponent
-} from '@app/views/financial-accounts/accounts-main-page/accounts-main-page.component';
+} from '@app/views/financial/accounts/accounts-main-page/accounts-main-page.component';
 
 import {
   CashFlowReportMainPageComponent
