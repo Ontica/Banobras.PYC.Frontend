@@ -188,7 +188,7 @@ export class CashFlowFilterComponent implements OnChanges, OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      reportType: [CashFlowExplorerTypes.CashFlow, Validators.required],
+      reportType: [CashFlowExplorerTypes.CashFlowConceptsReport, Validators.required],
       datePeriod: [EmptyDateRange, [Validators.required, Validate.periodRequired]],
       keywords: [null],
       classificationUID: [null],

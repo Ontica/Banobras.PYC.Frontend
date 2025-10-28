@@ -11,18 +11,14 @@ import { DataTable, DataTableColumn, DataTableEntry } from './_data-table';
 
 
 export enum CashFlowExplorerTypes {
-  CashFlow      = 'CashFlow',
-  AccountTotals = 'AccountTotals',
-  ConceptTotals = 'ConceptTotals',
-  ProjectTotals = 'ProjectTotals',
+  CashFlowConceptsReport = 'CashFlowConceptsReport',
+  CashFlowReport         = 'CashFlowReport',
 }
 
 
 export const CashFlowExplorerTypesList: Identifiable<CashFlowExplorerTypes>[] = [
-  {uid: CashFlowExplorerTypes.CashFlow,        name: 'Flujo de efectivo'},
-  {uid: CashFlowExplorerTypes.AccountTotals,   name: 'Totales por cuenta'},
-  {uid: CashFlowExplorerTypes.ConceptTotals,   name: 'Totales por concepto'},
-  {uid: CashFlowExplorerTypes.ProjectTotals,   name: 'Totales por proyecto'},
+  { uid: CashFlowExplorerTypes.CashFlowConceptsReport, name: 'Flujo de efectivo'},
+  { uid: CashFlowExplorerTypes.CashFlowReport,         name: 'Reporte ejecutivo del flujo de efectivo' },
 ];
 
 
@@ -56,7 +52,7 @@ export interface CashFlowEntryDescriptor extends DataTableEntry {
 
 
 export const EmptyCashFlowExplorerQuery: CashFlowExplorerQuery = {
-  reportType: CashFlowExplorerTypes.CashFlow,
+  reportType: CashFlowExplorerTypes.CashFlowConceptsReport,
   fromDate: '',
   toDate: '',
   keywords: '',
