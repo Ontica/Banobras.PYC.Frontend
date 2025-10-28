@@ -24,6 +24,8 @@ export class ControlPanelMainPageComponent {
 
   displayTransactionsPlanningGeneratorModal = false;
 
+  displayPayrollsModal = false;
+
   controlPanelOptionList = ControlPanelOptionList;
 
 
@@ -40,6 +42,9 @@ export class ControlPanelMainPageComponent {
         return;
       case 'BudgetPlanningPeriods':
         this.displayTransactionsPlanningGeneratorModal = true;
+        return;
+      case 'PayrollsIntegration':
+        this.displayPayrollsModal = true;
         return;
       default:
         this.messageBox.showInDevelopment(option.title, option)

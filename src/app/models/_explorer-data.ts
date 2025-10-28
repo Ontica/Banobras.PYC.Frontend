@@ -29,6 +29,7 @@ export enum EntityStatus {
   OnReview     = 'OnReview',
   Suspended    = 'Suspended',
   Discontinued = 'Discontinued',
+  Closed       = 'Closed',
   Deleted      = 'Deleted',
 }
 

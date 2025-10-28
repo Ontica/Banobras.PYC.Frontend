@@ -10,7 +10,8 @@ import { PERMISSIONS } from '@app/main-layout';
 
 type ControlPanelOptionType = 'ChangePassword' |
                               'OperationsLog' |
-                              'BudgetPlanningPeriods';
+                              'BudgetPlanningPeriods' |
+                              'PayrollsIntegration';
 
 
 export interface ControlPanelOption {
@@ -43,5 +44,12 @@ export const ControlPanelOptionList: ControlPanelOption[] = [
     actionTitle: 'Generar',
     type: 'OperationsLog',
     permission: PERMISSIONS.FEATURE_BITACORAS_OPERACION,
+  },
+  {
+    title: 'Enlace con Nómina',
+    description: 'Herramienta para exportar nóminas a archivos Excel para actualizar el gasto corriente ejercido del Capitulo 1000.',
+    actionTitle: 'Exportar',
+    type: 'PayrollsIntegration',
+    permission: PERMISSIONS.FEATURE_NOMINAS_INTEGRACION_SIAL,
   },
 ];

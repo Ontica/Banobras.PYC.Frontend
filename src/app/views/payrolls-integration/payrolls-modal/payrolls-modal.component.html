@@ -1,0 +1,40 @@
+<emp-ng-modal-window [config]="{width:'960px'}">
+
+  <emp-ng-card
+    title="Enlace con Nóminas"
+    [hint]="isLoading ? 'Cargando...' : hint"
+    [showCardHeaderFlat]="true"
+    (cardClose)="onCloseButtonClicked()">
+
+    <div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+      <emp-ng-spinner #spinner [visible]="isLoading || submitted">
+
+      </emp-ng-spinner>
+
+      <emp-pyc-payrolls-filter class="fx-item-none"
+        (payrollsFilterEvent)="onPayrollsFilterEvent($event)">
+
+      </emp-pyc-payrolls-filter>
+
+      <emp-pyc-payrolls-table class="fx-item"
+        [dataList]="dataList"
+        [queryExecuted]="queryExecuted"
+        (payrollsTableEvent)="onPayrollsTableEvent($event)">
+
+      </emp-pyc-payrolls-table>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>
+
+
+<emp-ng-export-report-modal *ngIf="displayExportModal"
+  title="Exportar nómina"
+  [message]="'Se generará la exportación a Excel de la nómina <strong>(' + selectedData.payrollNo + ') ' + selectedData.description + '</strong>.'"
+  [fileUrl]="fileUrl"
+  (exportReportModalEvent)="onExportReportModalEvent($event)">
+
+</emp-ng-export-report-modal>

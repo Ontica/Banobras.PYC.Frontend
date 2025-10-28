@@ -88,6 +88,8 @@ export * from './payables';
 
 export * from './payments-orders';
 
+export * from './payrolls';
+
 export * from './products';
 
 export * from './record-search';

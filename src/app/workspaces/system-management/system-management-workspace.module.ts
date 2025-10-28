@@ -12,11 +12,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
+import { SystemManagementWorkspaceRoutingModule } from './system-management-workspace-routing.module';
+
 import { AccessControlModule } from '@app/views/_access-control/access-control.module';
 import { BudgetTransactionsModule } from '@app/views/budgeting/budgets-transactions/budget-transactions.module';
 import { PartiesModule } from '@app/views/parties/parties.module';
-
-import { SystemManagementWorkspaceRoutingModule } from './system-management-workspace-routing.module';
+import { PayrollsIntegrationModule } from '@app/views/payrolls-integration/payrolls-integration.module';
 
 import {
   AccessControlMainPageComponent
@@ -25,7 +26,6 @@ import {
 import {
   ControlPanelMainPageComponent
 } from './control-panel-main-page/control-panel-main-page.component';
-
 
 
 @NgModule({
@@ -38,11 +38,12 @@ import {
     AngularMaterialModule,
     SharedModule,
 
+    SystemManagementWorkspaceRoutingModule,
+
     AccessControlModule,
     BudgetTransactionsModule,
     PartiesModule,
-
-    SystemManagementWorkspaceRoutingModule,
+    PayrollsIntegrationModule,
   ],
 
   declarations: [

@@ -105,6 +105,7 @@ export enum PERMISSIONS {
   FEATURE_CAMBIAR_PASSWORD = 'feature-modificar-password',
   FEATURE_BITACORAS_OPERACION = 'feature-bitacoras-operacion',
   FEATURE_PERIODOS_DE_PLANEACION_PRESUPUESTAL = 'feature-periodos-de-planeacion-presupuestal',
+  FEATURE_NOMINAS_INTEGRACION_SIAL = 'feature-nominas-integracion-sial',
 
   // CONTROL DE ACCESOS
   ROUTE_CONTROL_DE_ACCESOS = 'route-control-de-accesos',
