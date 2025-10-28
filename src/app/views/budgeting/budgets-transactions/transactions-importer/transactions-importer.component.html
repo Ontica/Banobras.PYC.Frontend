@@ -116,6 +116,18 @@
 
           </div>
 
+          <div class="fx-row-container">
+
+            <div class="fx-item-one">
+              <label>Justificación:</label>
+              <textarea class="text-area" empNgTextareaAutoresize rows="1"
+                formControlName="justification"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.justification)">
+              </textarea>
+            </div>
+
+          </div>
+
           <ng-container *ngIf="executedDryRun">
 
             <div class="section-title">

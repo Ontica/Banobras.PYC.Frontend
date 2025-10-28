@@ -15,6 +15,7 @@ export interface ImportBudgetTransactionsCommand {
   budgetUID: string;
   operationSourceUID: string;
   applicationDate: DateString;
+  justification: string;
 }
 
 
@@ -52,4 +53,5 @@ export const EmptyImportBudgetTransactionsCommand: ImportBudgetTransactionsComma
   budgetUID: '',
   operationSourceUID: '',
   applicationDate: '',
+  justification: '',
 };

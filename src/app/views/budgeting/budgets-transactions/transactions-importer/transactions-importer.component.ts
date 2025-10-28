@@ -38,6 +38,7 @@ interface TransactionsImporterFormModel extends FormGroup<{
   transactionTypeUID: FormControl<string>;
   operationSourceUID: FormControl<string>;
   applicationDate: FormControl<DateString>;
+  justification: FormControl<string>;
 }> { }
 
 @Component({
@@ -188,6 +189,7 @@ export class BudgetTransactionsImporterComponent implements OnInit, OnDestroy {
       transactionTypeUID: ['', Validators.required],
       operationSourceUID: ['', Validators.required],
       applicationDate: [null as DateString, Validators.required],
+      justification: [''],
     });
 
     this.form.valueChanges.subscribe(v => this.resetImportResult());
@@ -264,6 +266,7 @@ export class BudgetTransactionsImporterComponent implements OnInit, OnDestroy {
       transactionTypeUID: formModel.transactionTypeUID,
       operationSourceUID: formModel.operationSourceUID,
       applicationDate: formModel.applicationDate,
+      justification: formModel.justification,
     };
 
     return data;
