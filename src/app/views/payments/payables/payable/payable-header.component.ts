@@ -132,7 +132,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (!this.form.getRawValue().payableTypeUID) {
-      return 'Seleccione el tipo de obligación...';
+      return 'Seleccione el tipo de solicitud...';
     }
 
     return 'Buscar documento...';
@@ -390,7 +390,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   private getConfirmTitle(eventType: PayableHeaderEventType): string {
     switch (eventType) {
-      case PayableHeaderEventType.DELETE_PAYABLE: return 'Eliminar obligación de pago';
+      case PayableHeaderEventType.DELETE_PAYABLE: return 'Eliminar solicitud de pago';
       case PayableHeaderEventType.GENERATE_PAYMENT_ORDER: return 'Generar orden de pago';
       default: return '';
     }
@@ -400,14 +400,14 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
   private getConfirmMessage(eventType: PayableHeaderEventType): string {
     switch (eventType) {
       case PayableHeaderEventType.DELETE_PAYABLE:
-        return `Esta operación eliminará la obligación de pago <strong>${this.payable.payableNo}</strong> ` +
+        return `Esta operación eliminará la solicitud de pago <strong>${this.payable.payableNo}</strong> ` +
                `solicitada por ${this.payable.requestedBy.name} con documento relacionado ` +
                `<strong>${this.payable.payableType.name}: ${this.payableEntity.entityNo}</strong>.` +
-               `<br><br>¿Elimino la obligación de pago?`;
+               `<br><br>¿Elimino la solicitud de pago?`;
 
       case PayableHeaderEventType.GENERATE_PAYMENT_ORDER:
         return `Esta operación generará la orden de pago ` +
-               `para la obligación de pago <strong>${this.payable.payableNo}</strong> ` +
+               `para la solicitud de pago <strong>${this.payable.payableNo}</strong> ` +
                `<br><br>¿Genero la orden de pago?`;
 
       default: return '';

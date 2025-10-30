@@ -46,7 +46,7 @@ export class PayablesExplorerComponent implements OnChanges {
 
   @Output() payablesExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Obligaciones de pago';
+  cardTitle = 'Solicitudes de pago';
 
   cardHint = 'Seleccionar los filtros';
 
