@@ -15,7 +15,7 @@ import {
   CataloguesAndRulesViews,
   StepsViews,
   BudgetViews,
-  CashFlowViews,
+  FinancialProgramViews,
   ProcurementViews,
   PaymentsViews,
   InventoryViews,
@@ -23,14 +23,14 @@ import {
 
 
 export type LAYOUT_TYPE = 'Unauthorized' | 'SystemManagement' | 'CataloguesAndRules' |
-                          'Steps' | 'Procurement' | 'Payments' | 'Budget' | 'Inventory' | 'CashFlow';
+                          'Steps' | 'Procurement' | 'Payments' | 'Budget' | 'Inventory' | 'FinancialProgram';
 
 
 export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
                                                           CataloguesAndRulesViews,
                                                           StepsViews,
                                                           BudgetViews,
-                                                          CashFlowViews,
+                                                          FinancialProgramViews,
                                                           ProcurementViews,
                                                           PaymentsViews,
                                                           InventoryViews);
@@ -48,10 +48,10 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
   {
     name: 'Procurement',
     views: ProcurementViews,
-    hint: 'Adquisiciones',
-    defaultTitle: 'Adquisiciones',
-    url: ROUTES.adquisiciones.fullpath,
-    permission: ROUTES.adquisiciones.permission,
+    hint: 'Gestión del gasto',
+    defaultTitle: 'Gestión del gasto',
+    url: ROUTES.gastos.fullpath,
+    permission: ROUTES.gastos.permission,
   },
   {
     name: 'Payments',
@@ -78,12 +78,12 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
     permission: ROUTES.inventarios.permission,
   },
   {
-    name: 'CashFlow',
-    views: CashFlowViews,
+    name: 'FinancialProgram',
+    views: FinancialProgramViews,
     hint: 'Programa financiero',
     defaultTitle: 'Programa financiero',
-    url: ROUTES.flujo_de_efectivo.fullpath,
-    permission: ROUTES.flujo_de_efectivo.permission,
+    url: ROUTES.programa_financiero.fullpath,
+    permission: ROUTES.programa_financiero.permission,
   },
   {
     name: 'CataloguesAndRules',

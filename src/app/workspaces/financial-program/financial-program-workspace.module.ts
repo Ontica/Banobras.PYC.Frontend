@@ -8,7 +8,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CashFlowWorkspaceRoutingModule } from './cash-flow-workspace-routing.module';
+import { FinancialProgramWorkspaceRoutingModule } from './financial-program-workspace-routing.module';
 
 import { CashFlowModule } from '@app/views/cash-management/cash-flow/cash-flow.module';
 import { CashFlowProjectionsModule } from '@app/views/cash-management/cash-flow-projections/cash-flow-projections.module';
@@ -23,7 +23,7 @@ import { FinancialProjectsModule } from '@app/views/financial/projects/financial
   imports: [
     CommonModule,
 
-    CashFlowWorkspaceRoutingModule,
+    FinancialProgramWorkspaceRoutingModule,
 
     CashFlowModule,
     CashFlowProjectionsModule,
@@ -34,4 +34,4 @@ import { FinancialProjectsModule } from '@app/views/financial/projects/financial
   ],
 
 })
-export class CashFlowWorkspaceModule { }
+export class FinancialProgramWorkspaceModule { }

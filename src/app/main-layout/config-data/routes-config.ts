@@ -19,11 +19,11 @@ export const ROUTES = {
     fullpath: '/tareas',
   },
 
-  adquisiciones: {
-    permission: PERMISSIONS.MODULE_ADQUISICIONES,
+  gastos: {
+    permission: PERMISSIONS.MODULE_GASTOS,
     parent: '',
-    path: 'adquisiciones',
-    fullpath: '/adquisiciones',
+    path: 'gestion-del-gasto',
+    fullpath: '/gestion-del-gasto',
   },
 
   pagos: {
@@ -47,11 +47,11 @@ export const ROUTES = {
     fullpath: '/inventarios',
   },
 
-  flujo_de_efectivo: {
-    permission: PERMISSIONS.MODULE_FLUJO_DE_EFECTIVO,
+  programa_financiero: {
+    permission: PERMISSIONS.MODULE_PROGRAMA_FINANCIERO,
     parent: '',
-    path: 'flujo-de-efectivo',
-    fullpath: '/flujo-de-efectivo',
+    path: 'programa-financiero',
+    fullpath: '/programa-financiero',
   },
 
   reglas_y_catalogos: {
@@ -113,46 +113,67 @@ export const ROUTES = {
 
   // #region procurement-routing module
 
-  adquisiciones_solicitudes: {
-    permission: PERMISSIONS.ROUTE_ADQUISICIONES_SOLICITUDES,
-    parent: 'adquisiciones',
+  gastos_solicitudes: {
+    permission: PERMISSIONS.ROUTE_GASTOS_SOLICITUDES,
+    parent: 'gestion-del-gasto',
     path: 'solicitudes',
-    fullpath: '/adquisiciones/solicitudes',
+    fullpath: '/gestion-del-gasto/solicitudes',
   },
 
-  adquisiciones_contratos: {
-    permission: PERMISSIONS.ROUTE_ADQUISICIONES_CONTRATOS,
-    parent: 'adquisiciones',
+  gastos_contratos: {
+    permission: PERMISSIONS.ROUTE_GASTOS_CONTRATOS,
+    parent: 'gestion-del-gasto',
     path: 'contratos',
-    fullpath: '/adquisiciones/contratos',
+    fullpath: '/gestion-del-gasto/contratos',
   },
 
-  adquisiciones_compras_menores: {
-    permission: PERMISSIONS.ROUTE_ADQUISICIONES_COMPRAS_MENORES,
-    parent: 'adquisiciones',
-    path: 'compras-menores',
-    fullpath: '/adquisiciones/compras-menores',
-  },
-
-  adquisiciones_entregas: {
-    permission: PERMISSIONS.ROUTE_ADQUISICIONES_ENTREGAS,
-    parent: 'adquisiciones',
+  gastos_entregas: {
+    permission: PERMISSIONS.ROUTE_GASTOS_ENTREGAS,
+    parent: 'gestion-del-gasto',
     path: 'entregas',
-    fullpath: '/adquisiciones/entregas',
+    fullpath: '/gestion-del-gasto/entregas',
   },
 
-  adquisiciones_productos: {
-    permission: PERMISSIONS.ROUTE_ADQUISICIONES_PRODUCTOS,
-    parent: 'adquisiciones',
-    path: 'productos',
-    fullpath: '/adquisiciones/productos',
+  gastos_compras_menores: {
+    permission: PERMISSIONS.ROUTE_GASTOS_COMPRAS_MENORES,
+    parent: 'gestion-del-gasto',
+    path: 'compras-menores',
+    fullpath: '/gestion-del-gasto/compras-menores',
   },
 
-  adquisiciones_reportes: {
-    permission: PERMISSIONS.ROUTE_ADQUISICIONES_REPORTES,
-    parent: 'adquisiciones',
+  gastos_gastos_y_reembolsos: {
+    permission: PERMISSIONS.ROUTE_GASTOS_GASTOS_Y_REEMBOLSOS,
+    parent: 'gestion-del-gasto',
+    path: 'gastos-y-reembolsos',
+    fullpath: '/gestion-del-gasto/gastos-y-reembolsos',
+  },
+
+  gastos_solicitudes_de_pago: {
+    permission: PERMISSIONS.ROUTE_GASTOS_SOLICITUDES_DE_PAGO,
+    parent: 'gestion-del-gasto',
+    path: 'solicitudes-de-pago',
+    fullpath: '/gestion-del-gasto/solicitudes-de-pago',
+  },
+
+  gastos_provisiones: {
+    permission: PERMISSIONS.ROUTE_GASTOS_PROVISIONES,
+    parent: 'gestion-del-gasto',
+    path: 'provisiones',
+    fullpath: '/gestion-del-gasto/provisiones',
+  },
+
+  gastos_solicitudes_presupuestales: {
+    permission: PERMISSIONS.ROUTE_GASTOS_SOLICITUDES_PRESUPUESTALES,
+    parent: 'gestion-del-gasto',
+    path: 'solicitudes-presupuestales',
+    fullpath: '/gestion-del-gasto/solicitudes-presupuestales',
+  },
+
+  gastos_reportes: {
+    permission: PERMISSIONS.ROUTE_GASTOS_REPORTES,
+    parent: 'gestion-del-gasto',
     path: 'reportes',
-    fullpath: '/adquisiciones/reportes',
+    fullpath: '/gestion-del-gasto/reportes',
   },
 
   //#endregion
@@ -166,11 +187,11 @@ export const ROUTES = {
     fullpath: '/pagos/solicitudes',
   },
 
-  pagos_obligaciones_de_pago: {
-    permission: PERMISSIONS.ROUTE_PAGOS_OBLIGACIONES_DE_PAGO,
+  pagos_solicitudes_de_pago: {
+    permission: PERMISSIONS.ROUTE_PAGOS_SOLICITUDES_DE_PAGO,
     parent: 'pagos',
-    path: 'obligaciones-de-pago',
-    fullpath: '/pagos/obligaciones-de-pago',
+    path: 'solicitudes-de-pago',
+    fullpath: '/pagos/solicitudes-de-pago',
   },
 
   pagos_ordenes_de_pago: {
@@ -180,11 +201,11 @@ export const ROUTES = {
     fullpath: '/pagos/ordenes-de-pago',
   },
 
-  pagos_gastos_y_reembolsos: {
-    permission: PERMISSIONS.ROUTE_PAGOS_GASTOS_Y_REEMBOLSOS,
+  pagos_explorador: {
+    permission: PERMISSIONS.ROUTE_PAGOS_EXPLORADOR,
     parent: 'pagos',
-    path: 'gastos-y-reembolsos',
-    fullpath: '/pagos/gastos-y-reembolsos',
+    path: 'explorador',
+    fullpath: '/pagos/explorador',
   },
 
   pagos_facturas: {
@@ -219,6 +240,34 @@ export const ROUTES = {
     fullpath: '/presupuesto/solicitudes',
   },
 
+  presupuesto_suficiencias: {
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_SUFICIENCIAS,
+    parent: 'presupuesto',
+    path: 'suficiencias',
+    fullpath: '/presupuesto/suficiencias',
+  },
+
+  presupuesto_solicitudes_de_pago: {
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_SOLICITUDES_DE_PAGO,
+    parent: 'presupuesto',
+    path: 'solicitudes-de-pago',
+    fullpath: '/presupuesto/solicitudes-de-pago',
+  },
+
+  presupuesto_provisiones: {
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_PROVISIONES,
+    parent: 'presupuesto',
+    path: 'provisiones',
+    fullpath: '/presupuesto/provisiones',
+  },
+
+  presupuesto_ejercicio: {
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_EJERCICIO,
+    parent: 'presupuesto',
+    path: 'ejercicio',
+    fullpath: '/presupuesto/ejercicio',
+  },
+
   presupuesto_transacciones: {
     permission: PERMISSIONS.ROUTE_PRESUPUESTO_TRANSACCIONES,
     parent: 'presupuesto',
@@ -231,13 +280,6 @@ export const ROUTES = {
     parent: 'presupuesto',
     path: 'explorador',
     fullpath: '/presupuesto/explorador',
-  },
-
-  presupuesto_configuracion: {
-    permission: PERMISSIONS.ROUTE_PRESUPUESTO_CONFIGURACION,
-    parent: 'presupuesto',
-    path: 'configuracion',
-    fullpath: '/presupuesto/configuracion',
   },
 
   presupuesto_reportes: {
@@ -288,48 +330,48 @@ export const ROUTES = {
 
   // #endregion
 
-  // #region cashflow-routing module
+  // #region financial-program-routing module
 
-  flujo_de_efectivo_proyecciones: {
-    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_PROYECCIONES,
-    parent: 'flujo-de-efectivo',
+  programa_financiero_proyecciones: {
+    permission: PERMISSIONS.ROUTE_PROGRAMA_FINANCIERO_PROYECCIONES,
+    parent: 'programa-financiero',
     path: 'proyecciones',
-    fullpath: '/flujo-de-efectivo/proyecciones',
+    fullpath: '/programa-financiero/proyecciones',
   },
 
-  flujo_de_efectivo_explorer: {
-    permission: PERMISSIONS.ROUTE_FLUJO_DE_EXPLORER,
-    parent: 'flujo-de-efectivo',
+  programa_financiero_explorer: {
+    permission: PERMISSIONS.ROUTE_PROGRAMA_FINANCIERO_EXPLORER,
+    parent: 'programa-financiero',
     path: 'explorer',
-    fullpath: '/flujo-de-efectivo/explorer',
+    fullpath: '/programa-financiero/explorer',
   },
 
-  flujo_de_efectivo_codificacion: {
-    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_CODIFICACION,
-    parent: 'flujo-de-efectivo',
+  programa_financiero_codificacion: {
+    permission: PERMISSIONS.ROUTE_PROGRAMA_FINANCIERO_CODIFICACION,
+    parent: 'programa-financiero',
     path: 'codificacion',
-    fullpath: '/flujo-de-efectivo/codificacion',
+    fullpath: '/programa-financiero/codificacion',
   },
 
-  flujo_de_efectivo_proyectos: {
-    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_PROYECTOS,
-    parent: 'flujo-de-efectivo',
+  programa_financiero_proyectos: {
+    permission: PERMISSIONS.ROUTE_PROGRAMA_FINANCIERO_PROYECTOS,
+    parent: 'programa-financiero',
     path: 'proyectos',
-    fullpath: '/flujo-de-efectivo/proyectos',
+    fullpath: '/programa-financiero/proyectos',
   },
 
-  flujo_de_efectivo_cuentas: {
-    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_CUENTAS,
-    parent: 'flujo-de-efectivo',
+  programa_financiero_cuentas: {
+    permission: PERMISSIONS.ROUTE_PROGRAMA_FINANCIERO_CUENTAS,
+    parent: 'programa-financiero',
     path: 'cuentas',
-    fullpath: '/flujo-de-efectivo/cuentas',
+    fullpath: '/programa-financiero/cuentas',
   },
 
-  flujo_de_efectivo_reportes: {
-    permission: PERMISSIONS.ROUTE_FLUJO_DE_EFECTIVO_REPORTES,
-    parent: 'flujo-de-efectivo',
+  programa_financiero_reportes: {
+    permission: PERMISSIONS.ROUTE_PROGRAMA_FINANCIERO_REPORTES,
+    parent: 'programa-financiero',
     path: 'reportes',
-    fullpath: '/flujo-de-efectivo/reportes',
+    fullpath: '/programa-financiero/reportes',
   },
 
   //#endregion
@@ -353,6 +395,13 @@ export const ROUTES = {
     parent: 'reglas-y-catalogos',
     path: 'reglas-contables',
     fullpath: '/reglas-y-catalogos/reglas-contables',
+  },
+
+  reglas_y_catalogos_productos: {
+    permission: PERMISSIONS.ROUTE_PRODUCTOS,
+    parent: 'reglas-y-catalogos',
+    path: 'productos',
+    fullpath: '/reglas-y-catalogos/productos',
   },
 
   // #endregion

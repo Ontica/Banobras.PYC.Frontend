@@ -23,45 +23,56 @@ import {
 
 import { OrdersMainPageComponent } from '@app/views/orders/orders-main-page/orders-main-page.component';
 
-import {
-  ProductsMainPageComponent
-} from '@app/views/products/products-main-page/products-main-page.component';
-
 
 const routes: Routes = [
   // {
-  //   data: { permission: ROUTES.adquisiciones_solicitudes.permission },
-  //   path: ROUTES.adquisiciones_solicitudes.path,
+  //   data: { permission: ROUTES.gastos_solicitudes.permission },
+  //   path: ROUTES.gastos_solicitudes.path,
   //   component: RequestsMainPageComponent,
   // },
   {
-    data: { permission: ROUTES.adquisiciones_contratos.permission },
-    path: ROUTES.adquisiciones_contratos.path,
+    data: { permission: ROUTES.gastos_contratos.permission },
+    path: ROUTES.gastos_contratos.path,
     component: ContractsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.adquisiciones_compras_menores.permission },
-    path: ROUTES.adquisiciones_compras_menores.path,
+    data: { permission: ROUTES.gastos_entregas.permission },
+    path: ROUTES.gastos_entregas.path,
     component: OrdersMainPageComponent,
   },
   {
-    data: { permission: ROUTES.adquisiciones_entregas.permission },
-    path: ROUTES.adquisiciones_entregas.path,
+    data: { permission: ROUTES.gastos_compras_menores.permission },
+    path: ROUTES.gastos_compras_menores.path,
     component: OrdersMainPageComponent,
   },
   {
-    data: { permission: ROUTES.adquisiciones_productos.permission },
-    path: ROUTES.adquisiciones_productos.path,
-    component: ProductsMainPageComponent,
+    data: { permission: ROUTES.gastos_gastos_y_reembolsos.permission },
+    path: ROUTES.gastos_gastos_y_reembolsos.path,
+    component: OrdersMainPageComponent,
   },
   {
-    data: { permission: ROUTES.adquisiciones_reportes.permission },
-    path: ROUTES.adquisiciones_reportes.path,
+    data: { permission: ROUTES.gastos_solicitudes_de_pago.permission },
+    path: ROUTES.gastos_solicitudes_de_pago.path,
+    component: DefaultComponent,
+  },
+  {
+    data: { permission: ROUTES.gastos_provisiones.permission },
+    path: ROUTES.gastos_provisiones.path,
+    component: DefaultComponent,
+  },
+  {
+    data: { permission: ROUTES.gastos_solicitudes_presupuestales.permission },
+    path: ROUTES.gastos_solicitudes_presupuestales.path,
+    component: DefaultComponent,
+  },
+  {
+    data: { permission: ROUTES.gastos_reportes.permission },
+    path: ROUTES.gastos_reportes.path,
     component: DefaultComponent,
   },
   {
     path: '',
-    redirectTo: ROUTES.adquisiciones_contratos.path,
+    redirectTo: ROUTES.gastos_contratos.path,
     pathMatch: 'full',
   },
 ];

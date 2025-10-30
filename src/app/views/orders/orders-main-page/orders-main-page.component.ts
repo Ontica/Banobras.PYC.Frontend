@@ -162,7 +162,7 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
       case 'Procurement.MinorPurchases':
         this.config = getOrderExplorerTypeConfig(ObjectTypes.PURCHASE_ORDER)
         return;
-      case 'Payments.ExpensesAndReimbursement':
+      case 'Procurement.ExpensesAndReimbursement':
         this.config = getOrderExplorerTypeConfig(ObjectTypes.EXPENSE)
         return;
       default:

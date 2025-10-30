@@ -15,8 +15,6 @@ import { DefaultComponent } from '@app/shared/components';
 
 import { BillsMainPageComponent } from '@app/views/billing/bills-main-page/bills-main-page.component';
 
-import { OrdersMainPageComponent } from '@app/views/orders/orders-main-page/orders-main-page.component';
-
 import { PartiesMainPageComponent } from '@app/views/parties/parties-main-page/parties-main-page.component';
 
 import {
@@ -39,8 +37,8 @@ const routes: Routes = [
   //   component: RequestsMainPageComponent,
   // },
   {
-    data: { permission: ROUTES.pagos_obligaciones_de_pago.permission },
-    path: ROUTES.pagos_obligaciones_de_pago.path,
+    data: { permission: ROUTES.pagos_solicitudes_de_pago.permission },
+    path: ROUTES.pagos_solicitudes_de_pago.path,
     component: PayablesMainPageComponent,
   },
   {
@@ -49,9 +47,9 @@ const routes: Routes = [
     component: PaymentsOrdersMainPageComponent,
   },
   {
-    data: { permission: ROUTES.pagos_gastos_y_reembolsos.permission },
-    path: ROUTES.pagos_gastos_y_reembolsos.path,
-    component: OrdersMainPageComponent,
+    data: { permission: ROUTES.pagos_explorador.permission },
+    path: ROUTES.pagos_explorador.path,
+    component: DefaultComponent,
   },
   {
     data: { permission: ROUTES.pagos_facturas.permission },
@@ -70,7 +68,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.pagos_obligaciones_de_pago.path,
+    redirectTo: ROUTES.pagos_solicitudes_de_pago.path,
     pathMatch: 'full',
   },
 ];

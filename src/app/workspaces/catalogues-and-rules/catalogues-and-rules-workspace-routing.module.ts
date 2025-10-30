@@ -23,6 +23,10 @@ import {
   FinancialRulesMainPageComponent
 } from '@app/views/financial/rules/rules-main-page/rules-main-page.component';
 
+import {
+  ProductsMainPageComponent
+} from '@app/views/products/products-main-page/products-main-page.component';
+
 
 const routes: Routes = [
   {
@@ -39,6 +43,11 @@ const routes: Routes = [
     data: { permission: ROUTES.reglas_y_catalogos_reglas_contables.permission },
     path: ROUTES.reglas_y_catalogos_reglas_contables.path,
     component: FinancialRulesMainPageComponent,
+  },
+  {
+    data: { permission: ROUTES.reglas_y_catalogos_productos.permission },
+    path: ROUTES.reglas_y_catalogos_productos.path,
+    component: ProductsMainPageComponent,
   },
   {
     path: '',

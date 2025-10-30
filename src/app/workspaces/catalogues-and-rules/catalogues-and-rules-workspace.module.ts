@@ -13,6 +13,7 @@ import { CataloguesAndRulesWorkspaceRoutingModule } from './catalogues-and-rules
 import { ChartOfAccountsModule } from '@app/views/chart-of-accounts/chart-of-accounts.module';
 import { FinancialConceptsModule } from '@app/views/financial/concepts/financial-concepts.module';
 import { FinancialRulesModule } from '@app/views/financial/rules/financial-rules.module';
+import { ProductsModule } from '@app/views/products/products.module';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { FinancialRulesModule } from '@app/views/financial/rules/financial-rules
     ChartOfAccountsModule,
     FinancialConceptsModule,
     FinancialRulesModule,
+    ProductsModule,
   ]
 
 })

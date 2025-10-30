@@ -12,7 +12,6 @@ import { ProcurementWorkspaceRoutingModule } from './procurement-workspace-routi
 
 import { ContractsModule } from '@app/views/contracts/contracts.module';
 import { OrdersModule } from '@app/views/orders/orders.module';
-import { ProductsModule } from '@app/views/products/products.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
 
 
@@ -25,7 +24,6 @@ import { RequestsModule } from '@app/views/requests/requests.module';
 
     ContractsModule,
     OrdersModule,
-    ProductsModule,
     RequestsModule,
   ],
 

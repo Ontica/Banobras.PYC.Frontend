@@ -24,8 +24,8 @@ const routes: Routes = [
   //     .then((m) => m.StepsWorkspaceModule)
   // },
   {
-    data: { permission: ROUTES.adquisiciones.permission },
-    path: ROUTES.adquisiciones.path,
+    data: { permission: ROUTES.gastos.permission },
+    path: ROUTES.gastos.path,
     component: MainLayoutComponent,
     canActivate: [ParentRouteGuard],
     canActivateChild: [ChildRouteGuard],
@@ -60,13 +60,13 @@ const routes: Routes = [
       .then((m) => m.InventoryWorkspaceModule)
   },
   {
-    data: { permission: ROUTES.flujo_de_efectivo.permission },
-    path: ROUTES.flujo_de_efectivo.path,
+    data: { permission: ROUTES.programa_financiero.permission },
+    path: ROUTES.programa_financiero.path,
     component: MainLayoutComponent,
     canActivate: [ParentRouteGuard],
     canActivateChild: [ChildRouteGuard],
-    loadChildren: () => import('./workspaces/cash-flow/cash-flow-workspace.module')
-      .then((m) => m.CashFlowWorkspaceModule)
+    loadChildren: () => import('./workspaces/financial-program/financial-program-workspace.module')
+      .then((m) => m.FinancialProgramWorkspaceModule)
   },
   {
     data: { permission: ROUTES.reglas_y_catalogos.permission },
