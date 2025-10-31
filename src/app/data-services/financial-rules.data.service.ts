@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { FinancialRulesQuery, FinancialRulesData } from '@app/models';
+import { FinancialRulesQuery, FinancialRulesData, FinancialRule, FinancialRuleFields } from '@app/models';
 
 
 @Injectable()
@@ -33,6 +33,44 @@ export class FinancialRulesDataService {
     const path = `v3/financial-rules/categories/${categoryUID}`;
 
     return this.http.post<FinancialRulesData>(path, query);
+  }
+
+
+  getRule(ruleUID: string): EmpObservable<FinancialRule> {
+    Assertion.assertValue(ruleUID, 'ruleUID');
+
+    const path = `v3/financial-rules/${ruleUID}`;
+
+    return this.http.get<FinancialRule>(path);
+  }
+
+
+  createRule(dataFields: FinancialRuleFields): EmpObservable<FinancialRule> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v3/financial-rules`;
+
+    return this.http.post<FinancialRule>(path, dataFields);
+  }
+
+
+  updateRule(ruleUID: string,
+            dataFields: FinancialRuleFields): EmpObservable<FinancialRule> {
+    Assertion.assertValue(ruleUID, 'ruleUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v3/financial-rules/${ruleUID}`;
+
+    return this.http.put<FinancialRule>(path, dataFields);
+  }
+
+
+  deleteRule(ruleUID: string): EmpObservable<void> {
+    Assertion.assertValue(ruleUID, 'ruleUID');
+
+    const path = `v3/financial-rules/${ruleUID}`;
+
+    return this.http.delete<void>(path);
   }
 
 }

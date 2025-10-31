@@ -1,0 +1,21 @@
+<emp-ng-card
+  [title]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Regla contable">
+
+      <emp-financial-rule-editor
+        [rule]="data"
+        [canUpdate]="true"
+        (ruleEditorEvent)="onRuleEditorEvent($event)">
+
+      </emp-financial-rule-editor>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

@@ -1,0 +1,169 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item">
+
+        <label>Categoría:</label>
+
+        <emp-ng-select
+          formControlName="categoryUID"
+          [config]="{showTooltip: true}"
+          [items]="categoriesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.categoryUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-none">
+        <label>Fecha de alta:</label>
+        <emp-ng-datepicker
+          formControlName="startDate"
+          [showError]="formHelper.isControlInvalid(form.controls.startDate)">
+        </emp-ng-datepicker>
+      </div>
+
+      <div class="fx-item-none">
+        <label>Fecha de baja:</label>
+        <emp-ng-datepicker
+          formControlName="endDate"
+          [showError]="formHelper.isControlInvalid(form.controls.endDate)">
+        </emp-ng-datepicker>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-quarter">
+
+        <label>Cuenta contable cargo:</label>
+
+        <input type="text" class="text-box"
+          formControlName="debitAccount"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.debitAccount)">
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Concepto cargo:</label>
+
+        <input type="text" class="text-box"
+          formControlName="debitConcept"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.debitConcept)">
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Cuenta contable abono:</label>
+
+        <input type="text" class="text-box"
+          formControlName="creditAccount"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.creditAccount)">
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Concepto abono:</label>
+
+        <input type="text" class="text-box"
+          formControlName="creditConcept"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.creditConcept)">
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="canUpdate"
+            type="button" class="btn-warning"
+            (click)="onDeleteButtonClicked()">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode && hasActions"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="canUpdate"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>

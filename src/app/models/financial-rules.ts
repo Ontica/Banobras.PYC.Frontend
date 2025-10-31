@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString } from '@app/core';
+import { DateString, Empty, Identifiable } from '@app/core';
 
 import { DataTable } from './_data-table';
 
@@ -19,6 +19,14 @@ export interface FinancialRulesQuery {
 
 export interface FinancialRuleDescriptor {
   uid: string;
+  debitAccount: string;
+  creditAccount: string;
+  debitConcept: string;
+  creditConcept: string;
+  description: string;
+  startDate: DateString;
+  endDate: DateString;
+  statusName: string;
 }
 
 
@@ -28,18 +36,29 @@ export interface FinancialRulesData extends DataTable {
 }
 
 
-export interface FinancialRuleHolder {
-  rule: FinancialRule;
-}
-
-
 export interface FinancialRule {
   uid: string;
+  category: Identifiable;
+  debitAccount: string;
+  creditAccount: string;
+  debitConcept: string;
+  creditConcept: string;
+  description: string;
+  startDate: DateString;
+  endDate: DateString;
+  status: Identifiable;
 }
 
 
-export interface FinancialRuleEntryDescriptor {
-  uid: string;
+export interface FinancialRuleFields {
+  categoryUID: string;
+  debitAccount: string;
+  creditAccount: string;
+  debitConcept: string;
+  creditConcept: string;
+  description: string;
+  startDate: DateString;
+  endDate: DateString;
 }
 
 
@@ -52,16 +71,28 @@ export const EmptyFinancialRulesQuery: FinancialRulesQuery = {
 
 export const EmptyFinancialRuleDescriptor: FinancialRuleDescriptor = {
   uid: '',
+  debitAccount: '',
+  creditAccount: '',
+  debitConcept: '',
+  creditConcept: '',
+  description: '',
+  startDate: '',
+  endDate: '',
+  statusName: '',
 };
 
 
 export const EmptyFinancialRule: FinancialRule = {
   uid: '',
-};
-
-
-export const EmptyFinancialRuleHolder: FinancialRuleHolder = {
-  rule: EmptyFinancialRule,
+  category: Empty,
+  debitAccount: '',
+  creditAccount: '',
+  debitConcept: '',
+  creditConcept: '',
+  description: '',
+  startDate: '',
+  endDate: '',
+  status: Empty,
 };
 
 

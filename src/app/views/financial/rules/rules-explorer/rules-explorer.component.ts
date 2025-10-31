@@ -9,17 +9,20 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
+import { PERMISSIONS } from '@app/main-layout';
+
 import { sendEvent } from '@app/shared/utils';
 
 import { FinancialRulesQuery, EmptyFinancialRulesQuery, FinancialRulesData,
          EmptyFinancialRulesData } from '@app/models';
 
-import { FinancialRulesFilterEventType } from './rules-filter.component';
-
 import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
+
+import { FinancialRulesFilterEventType } from './rules-filter.component';
 
 
 export enum FinancialRulesExplorerEventType {
+  CREATE_CLICKED = 'FinancialRulesExplorerComponent.Event.CreateClicked',
   SEARCH_CLICKED = 'FinancialRulesExplorerComponent.Event.SearchClicked',
   EXPORT_CLICKED = 'FinancialRulesExplorerComponent.Event.ExportClicked',
   SELECT_CLICKED = 'FinancialRulesExplorerComponent.Event.SelectClicked',
@@ -47,11 +50,18 @@ export class FinancialRulesExplorerComponent implements OnChanges {
 
   cardHint = 'Seleccionar los filtros';
 
+  PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.data) {
       this.setText();
     }
+  }
+
+
+  onCreateButtonClicked() {
+    sendEvent(this.rulesExplorerEvent, FinancialRulesExplorerEventType.CREATE_CLICKED);
   }
 
 

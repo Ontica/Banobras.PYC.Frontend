@@ -80,7 +80,6 @@ export class FinancialRulesFilterComponent implements OnChanges, OnInit, OnDestr
   onSearchClicked() {
     if (this.form.valid) {
       const payload = { query: this.getFormData() };
-
       sendEvent(this.rulesFilterEvent, FinancialRulesFilterEventType.SEARCH_CLICKED, payload);
     }
   }

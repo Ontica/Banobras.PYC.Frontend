@@ -9,11 +9,26 @@
     [class.std-hide]="displayTabbedView"
     [query]="query"
     [data]="data"
-    [selectedUID]="selectedData.rule?.uid ?? null"
+    [selectedUID]="selectedData?.uid ?? null"
     [isLoading]="isLoading"
     [queryExecuted]="queryExecuted"
     (rulesExplorerEvent)="onRulesExplorerEvent($event)">
 
   </emp-financial-rules-explorer>
 
+
+  <emp-financial-rule-tabbed-view *ngIf="displayTabbedView"
+    class="secondary priority std-stacked"
+    [data]="selectedData"
+    [dataIDField]="dataIDField"
+    (ruleTabbedViewEvent)="onRuleTabbedViewEvent($event)">
+
+  </emp-financial-rule-tabbed-view>
+
 </div>
+
+
+<emp-financial-rule-creator *ngIf="displayCreator"
+  (ruleCreatorEvent)="onRuleCreatorEvent($event)">
+
+</emp-financial-rule-creator>

@@ -17,6 +17,10 @@ import { ReportsControlsModule } from '@app/views/_reports-controls/reports-cont
 import { FinancialRulesMainPageComponent } from './rules-main-page/rules-main-page.component';
 import { FinancialRulesExplorerComponent } from './rules-explorer/rules-explorer.component';
 import { FinancialRulesFilterComponent } from './rules-explorer/rules-filter.component';
+import { FinancialRuleTabbedViewComponent } from './rule-tabbed-view/rule-tabbed-view.component';
+import { FinancialRuleHeaderComponent } from './rule/rule-header.component';
+import { FinancialRuleCreatorComponent } from './rule/rule-creator.component';
+import { FinancialRuleEditorComponent } from './rule/rule-editor.component';
 
 
 @NgModule({
@@ -34,6 +38,11 @@ import { FinancialRulesFilterComponent } from './rules-explorer/rules-filter.com
     FinancialRulesMainPageComponent,
     FinancialRulesExplorerComponent,
     FinancialRulesFilterComponent,
+    FinancialRuleTabbedViewComponent,
+
+    FinancialRuleHeaderComponent,
+    FinancialRuleCreatorComponent,
+    FinancialRuleEditorComponent,
   ],
   exports: [
     FinancialRulesMainPageComponent,
