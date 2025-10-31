@@ -23,16 +23,16 @@ import {
 
 
 export type LAYOUT_TYPE = 'Unauthorized' | 'SystemManagement' | 'CataloguesAndRules' |
-                          'Steps' | 'Procurement' | 'Payments' | 'Budget' | 'Inventory' | 'FinancialProgram';
+                          'Steps' | 'Procurement' | 'Payments' | 'Budget' | 'FinancialProgram' | 'Inventory';
 
 
 export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
                                                           CataloguesAndRulesViews,
                                                           StepsViews,
-                                                          BudgetViews,
-                                                          FinancialProgramViews,
                                                           ProcurementViews,
                                                           PaymentsViews,
+                                                          BudgetViews,
+                                                          FinancialProgramViews,
                                                           InventoryViews);
 
 
@@ -70,20 +70,20 @@ export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
     permission: ROUTES.presupuesto.permission,
   },
   {
-    name: 'Inventory',
-    views: InventoryViews,
-    hint: 'Inventarios',
-    defaultTitle: 'Inventarios',
-    url: ROUTES.inventarios.fullpath,
-    permission: ROUTES.inventarios.permission,
-  },
-  {
     name: 'FinancialProgram',
     views: FinancialProgramViews,
     hint: 'Programa financiero',
     defaultTitle: 'Programa financiero',
     url: ROUTES.programa_financiero.fullpath,
     permission: ROUTES.programa_financiero.permission,
+  },
+  {
+    name: 'Inventory',
+    views: InventoryViews,
+    hint: 'Inventarios',
+    defaultTitle: 'Inventarios',
+    url: ROUTES.inventarios.fullpath,
+    permission: ROUTES.inventarios.permission,
   },
   {
     name: 'CataloguesAndRules',

@@ -40,18 +40,18 @@ export const ROUTES = {
     fullpath: '/presupuesto',
   },
 
-  inventarios: {
-    permission: PERMISSIONS.MODULE_INVENTARIOS,
-    parent: '',
-    path: 'inventarios',
-    fullpath: '/inventarios',
-  },
-
   programa_financiero: {
     permission: PERMISSIONS.MODULE_PROGRAMA_FINANCIERO,
     parent: '',
     path: 'programa-financiero',
     fullpath: '/programa-financiero',
+  },
+
+  inventarios: {
+    permission: PERMISSIONS.MODULE_INVENTARIOS,
+    parent: '',
+    path: 'inventarios',
+    fullpath: '/inventarios',
   },
 
   reglas_y_catalogos: {
@@ -291,45 +291,6 @@ export const ROUTES = {
 
   // #endregion
 
-  // #region inventory-routing module
-
-  inventarios_solicitudes: {
-    permission: PERMISSIONS.ROUTE_INVENTARIOS_SOLICITUDES,
-    parent: 'inventarios',
-    path: 'solicitudes',
-    fullpath: '/inventarios/solicitudes',
-  },
-
-  inventarios_resguardos: {
-    permission: PERMISSIONS.ROUTE_INVENTARIOS_RESGUARDOS,
-    parent: 'inventarios',
-    path: 'resguardos',
-    fullpath: '/inventarios/resguardos',
-  },
-
-  inventarios_activo_fijo: {
-    permission: PERMISSIONS.ROUTE_INVENTARIOS_ACTIVO_FIJO,
-    parent: 'inventarios',
-    path: 'activo-fijo',
-    fullpath: '/inventarios/activo-fijo',
-  },
-
-  inventarios_transacciones: {
-    permission: PERMISSIONS.ROUTE_INVENTARIOS_TRANSACCIONES,
-    parent: 'inventarios',
-    path: 'transacciones',
-    fullpath: '/inventarios/transacciones',
-  },
-
-  inventarios_reportes: {
-    permission: PERMISSIONS.ROUTE_INVENTARIOS_REPORTES,
-    parent: 'inventarios',
-    path: 'reportes',
-    fullpath: '/inventarios/reportes',
-  },
-
-  // #endregion
-
   // #region financial-program-routing module
 
   programa_financiero_proyecciones: {
@@ -375,6 +336,45 @@ export const ROUTES = {
   },
 
   //#endregion
+
+  // #region inventory-routing module
+
+  inventarios_solicitudes: {
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_SOLICITUDES,
+    parent: 'inventarios',
+    path: 'solicitudes',
+    fullpath: '/inventarios/solicitudes',
+  },
+
+  inventarios_resguardos: {
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_RESGUARDOS,
+    parent: 'inventarios',
+    path: 'resguardos',
+    fullpath: '/inventarios/resguardos',
+  },
+
+  inventarios_activo_fijo: {
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_ACTIVO_FIJO,
+    parent: 'inventarios',
+    path: 'activo-fijo',
+    fullpath: '/inventarios/activo-fijo',
+  },
+
+  inventarios_transacciones: {
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_TRANSACCIONES,
+    parent: 'inventarios',
+    path: 'transacciones',
+    fullpath: '/inventarios/transacciones',
+  },
+
+  inventarios_reportes: {
+    permission: PERMISSIONS.ROUTE_INVENTARIOS_REPORTES,
+    parent: 'inventarios',
+    path: 'reportes',
+    fullpath: '/inventarios/reportes',
+  },
+
+  // #endregion
 
   // #region accounting-catalogues-and-rules-routing module
 

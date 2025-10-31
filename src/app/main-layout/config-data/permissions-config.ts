@@ -70,17 +70,6 @@ export enum PERMISSIONS {
   FEATURE_IMPORTACION_TRANSACCIONES_PRESUPUESTALES = 'feature-importacion-transacciones-presupuestales',
 
   //
-  // INVENTARIOS
-  //
-  MODULE_INVENTARIOS = 'module-inventarios',
-
-  ROUTE_INVENTARIOS_SOLICITUDES = 'route-inventarios-solicitudes',
-  ROUTE_INVENTARIOS_RESGUARDOS = 'route-inventarios-resguardos',
-  ROUTE_INVENTARIOS_ACTIVO_FIJO = 'route-inventarios-activo-fijo',
-  ROUTE_INVENTARIOS_TRANSACCIONES = 'route-inventarios-transacciones',
-  ROUTE_INVENTARIOS_REPORTES = 'route-inventarios-reportes',
-
-  //
   // PROGRAMA FINANCIERO
   //
   MODULE_PROGRAMA_FINANCIERO = 'module-programa-financiero',
@@ -91,6 +80,17 @@ export enum PERMISSIONS {
   ROUTE_PROGRAMA_FINANCIERO_PROYECTOS = 'route-programa-financiero-proyectos',
   ROUTE_PROGRAMA_FINANCIERO_CUENTAS = 'route-programa-financiero-cuentas',
   ROUTE_PROGRAMA_FINANCIERO_REPORTES = 'route-programa-financiero-reportes',
+
+  //
+  // INVENTARIOS
+  //
+  MODULE_INVENTARIOS = 'module-inventarios',
+
+  ROUTE_INVENTARIOS_SOLICITUDES = 'route-inventarios-solicitudes',
+  ROUTE_INVENTARIOS_RESGUARDOS = 'route-inventarios-resguardos',
+  ROUTE_INVENTARIOS_ACTIVO_FIJO = 'route-inventarios-activo-fijo',
+  ROUTE_INVENTARIOS_TRANSACCIONES = 'route-inventarios-transacciones',
+  ROUTE_INVENTARIOS_REPORTES = 'route-inventarios-reportes',
 
   //
   // REGLAS Y CATALOGOS

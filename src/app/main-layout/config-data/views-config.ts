@@ -222,45 +222,6 @@ export const BudgetViews: View[] = [
 ];
 
 
-export const InventoryViews: View[] = [
-  // {
-  //   name: 'Inventory.Requests',
-  //   title: 'Solicitudes',
-  //   menuTitle: 'Solicitudes',
-  //   url: ROUTES.inventarios_solicitudes.fullpath,
-  //   permission: ROUTES.inventarios_solicitudes.permission,
-  // },
-  {
-    name: 'Inventory.Assignments',
-    title: 'Resguardos',
-    menuTitle: 'Resguardos',
-    url: ROUTES.inventarios_resguardos.fullpath,
-    permission: ROUTES.inventarios_resguardos.permission,
-  },
-  {
-    name: 'Inventory.Assets',
-    title: 'Activo fijo',
-    menuTitle: 'Activo fijo',
-    url: ROUTES.inventarios_activo_fijo.fullpath,
-    permission: ROUTES.inventarios_activo_fijo.permission,
-  },
-  {
-    name: 'Inventory.Transactions',
-    title: 'Transacciones',
-    menuTitle: 'Transacciones',
-    url: ROUTES.inventarios_transacciones.fullpath,
-    permission: ROUTES.inventarios_transacciones.permission,
-  },
-  {
-    name: 'Inventory.Reporting',
-    title: 'Reportes',
-    menuTitle: 'Reportes',
-    url: ROUTES.inventarios_reportes.fullpath,
-    permission: ROUTES.inventarios_reportes.permission,
-  }
-];
-
-
 export const FinancialProgramViews: View[] = [
   {
     name: 'FinancialProgram.Projections',
@@ -304,6 +265,45 @@ export const FinancialProgramViews: View[] = [
     url: ROUTES.programa_financiero_reportes.fullpath,
     permission: ROUTES.programa_financiero_reportes.permission,
   },
+];
+
+
+export const InventoryViews: View[] = [
+  // {
+  //   name: 'Inventory.Requests',
+  //   title: 'Solicitudes',
+  //   menuTitle: 'Solicitudes',
+  //   url: ROUTES.inventarios_solicitudes.fullpath,
+  //   permission: ROUTES.inventarios_solicitudes.permission,
+  // },
+  {
+    name: 'Inventory.Assignments',
+    title: 'Resguardos',
+    menuTitle: 'Resguardos',
+    url: ROUTES.inventarios_resguardos.fullpath,
+    permission: ROUTES.inventarios_resguardos.permission,
+  },
+  {
+    name: 'Inventory.Assets',
+    title: 'Activo fijo',
+    menuTitle: 'Activo fijo',
+    url: ROUTES.inventarios_activo_fijo.fullpath,
+    permission: ROUTES.inventarios_activo_fijo.permission,
+  },
+  {
+    name: 'Inventory.Transactions',
+    title: 'Transacciones',
+    menuTitle: 'Transacciones',
+    url: ROUTES.inventarios_transacciones.fullpath,
+    permission: ROUTES.inventarios_transacciones.permission,
+  },
+  {
+    name: 'Inventory.Reporting',
+    title: 'Reportes',
+    menuTitle: 'Reportes',
+    url: ROUTES.inventarios_reportes.fullpath,
+    permission: ROUTES.inventarios_reportes.permission,
+  }
 ];
 
 
