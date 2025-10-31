@@ -45,10 +45,8 @@ export class FinancialAccountsTableComponent implements OnChanges {
 
   @Output() accountsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['accountNo', 'organizationalUnitName', 'financialAccountTypeName',
+  displayedColumns = ['accountNo', 'organizationalUnitName', 'financialAccountTypeName',
     'description', 'statusName', 'actionOperations'];
-
-  displayedColumns = [...this.displayedColumnsDefault];
 
   dataSource: TableVirtualScrollDataSource<FinancialAccountDescriptor>;
 
@@ -99,11 +97,12 @@ export class FinancialAccountsTableComponent implements OnChanges {
     const columns = [];
 
     if (this.displayProject) {
-      columns.push('projectNo');
+      columns.push('accountNo', 'organizationalUnitName', 'financialAccountTypeName', 'projectNo',
+        'description', 'statusName', 'actionOperations');
+    } else {
+      columns.push('accountNo', 'organizationalUnitName', 'financialAccountTypeName',
+        'description', 'statusName', 'actionOperations');
     }
-
-    columns.push('accountNo', 'organizationalUnitName', 'financialAccountTypeName', 'description',
-      'statusName', 'actionOperations');
 
     if (this.canEditAccounts) {
       columns.push('actionDelete');

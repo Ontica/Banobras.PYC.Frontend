@@ -18,8 +18,10 @@ import { MessageBoxService } from '@app/shared/services';
 import { StandardAccount, EmptyStandardAccount, EmptyStandardAccountActions,
          StandardAccountActions } from '@app/models';
 
-import { ConfirmSubmitModalEventType,
-         ConfirmSubmitType } from '@app/views/entity-records/confirm-submit-modal/confirm-submit-modal.component';
+import {
+  ConfirmSubmitModalEventType,
+  ConfirmSubmitType,
+} from '@app/views/entity-records/confirm-submit-modal/confirm-submit-modal.component';
 
 
 export enum StandardAccountViewEventType {
@@ -36,6 +38,7 @@ interface StandardAccountFormModel extends FormGroup<{
   type: FormControl<string>;
   debtorCreditorType: FormControl<string>;
   relatedAccount: FormControl<string>;
+  classificationUID: FormControl<string>;
 }> { }
 
 @Component({
@@ -103,6 +106,7 @@ export class StandardAccountViewComponent implements OnChanges {
       type: [null],
       debtorCreditorType: [null],
       relatedAccount: [null],
+      classificationUID: [null],
     });
   }
 
@@ -117,6 +121,7 @@ export class StandardAccountViewComponent implements OnChanges {
       type: this.standardAccount.type.name,
       debtorCreditorType: this.standardAccount.debtorCreditorType.name,
       relatedAccount: this.standardAccount.relatedAccount?.name ?? null,
+      classificationUID: this.standardAccount.classification?.name ?? null,
     });
 
     this.formHelper.setDisableForm(this.form, true);

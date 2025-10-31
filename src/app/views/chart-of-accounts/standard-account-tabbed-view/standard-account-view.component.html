@@ -72,6 +72,19 @@
 
     </div>
 
+    <div class="section-title"> Información del concepto de la agrupación principal </div>
+
+    <div class="fx-row-container sm-fx-column-container">
+
+      <div class="fx-item-two-third">
+        <label>Clasificación:</label>
+        <input type="text" class="text-box"
+          formControlName="classificationUID"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)">
+      </div>
+
+    </div>
+
     <ng-container *ngIf="actions.canActivate || actions.canSuspend">
 
       <mat-divider class="horizontal">

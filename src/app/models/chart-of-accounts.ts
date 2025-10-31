@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Empty, Identifiable } from '@app/core';
+import { DateString, Empty, FlexibleIdentifiable, Identifiable } from '@app/core';
 
 import { EntityStatus } from './_explorer-data';
 
@@ -63,6 +63,7 @@ export interface StandardAccountDescriptor {
   typeName: string;
   roleType: AccountRoleType;
   debtorCreditorType: DebtorCreditorType;
+  classificationName: string;
   level: number;
   isLastLevel: boolean;
   startDate: DateString;
@@ -88,6 +89,7 @@ export interface StandardAccount {
   roleType: Identifiable;
   debtorCreditorType: Identifiable;
   relatedAccount: Identifiable;
+  classification: FlexibleIdentifiable;
   level: number;
   isLastLevel: boolean;
   status: Identifiable;
@@ -131,6 +133,7 @@ export const EmptyStandardAccount: StandardAccount = {
   roleType: Empty,
   debtorCreditorType: Empty,
   relatedAccount: Empty,
+  classification: Empty,
   level: null,
   isLastLevel: false,
   status: Empty,
