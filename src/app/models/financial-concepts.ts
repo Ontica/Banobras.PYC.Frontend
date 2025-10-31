@@ -11,6 +11,8 @@ import { DataTable, DataTableColumn, DataTableColumnType } from './_data-table';
 
 import { BaseActions, EmptyBaseActions } from './_explorer-data';
 
+import { StandardAccountDescriptor } from './chart-of-accounts';
+
 
 export enum FinancialConceptType {
   CASH_FLOW = 'CASH_FLOW',
@@ -61,7 +63,7 @@ export interface FinancialConceptsData extends DataTable {
 
 export interface FinancialConceptHolder {
   concept: FinancialConcept;
-  integration: FinancialConceptEntryDescriptor[];
+  integration: StandardAccountDescriptor[];
   actions: BaseActions;
 }
 
@@ -78,16 +80,6 @@ export interface FinancialConcept {
   status: Identifiable;
   level: number;
   isLastLevel: boolean;
-}
-
-
-export enum FinancialConceptEntryType {
-  Account = 'Account',
-}
-
-
-export interface FinancialConceptEntryDescriptor {
-  uid: string;
 }
 
 

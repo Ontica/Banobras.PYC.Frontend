@@ -19,6 +19,7 @@ import { FinancialConceptsExplorerComponent } from './financial-concepts-explore
 import { FinancialConceptsFilterComponent } from './financial-concepts-explorer/financial-concepts-filter.component';
 import { FinancialConceptTabbedViewComponent } from './financial-concept-tabbed-view/financial-concept-tabbed-view.component';
 import { FinancialConceptViewComponent } from './financial-concept-tabbed-view/financial-concept-view.component';
+import { FinancialConceptIntegrationTableComponent } from './financial-concept-tabbed-view/financial-concept-integration-table.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { FinancialConceptViewComponent } from './financial-concept-tabbed-view/f
     FinancialConceptsFilterComponent,
     FinancialConceptTabbedViewComponent,
     FinancialConceptViewComponent,
+    FinancialConceptIntegrationTableComponent,
   ],
   exports: [
     FinancialConceptsMainPageComponent,

@@ -18,9 +18,11 @@
 
     <mat-tab label="Integración">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-financial-concept-integration-table
+        [integration]="data.integration"
+        (conceptIntegrationTableEvent)="onConceptIntegrationTableEvent($event)">
+
+      </emp-financial-concept-integration-table>
 
     </mat-tab>
 

@@ -15,6 +15,8 @@ import { FinancialConceptHolder, EmptyFinancialConceptHolder } from '@app/models
 
 import { FinancialConceptViewEventType } from './financial-concept-view.component';
 
+import { FinancialConceptIntegrationTableEventType } from './financial-concept-integration-table.component';
+
 
 export enum FinancialConceptTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'FinancialConceptTabbedViewComponent.Event.CloseButtonClicked',
@@ -52,6 +54,16 @@ export class FinancialConceptTabbedViewComponent implements OnChanges {
 
   onConceptViewEvent(event: EventInfo) {
     switch (event.type as FinancialConceptViewEventType) {
+
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onConceptIntegrationTableEvent(event: EventInfo) {
+    switch (event.type as FinancialConceptIntegrationTableEventType) {
 
       default:
         console.log(`Unhandled user interface event ${event.type}`);
