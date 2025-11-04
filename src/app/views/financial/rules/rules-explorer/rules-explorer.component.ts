@@ -13,7 +13,7 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { FinancialRulesQuery, EmptyFinancialRulesQuery, FinancialRulesData,
+import { buildExplorerHint, FinancialRulesQuery, EmptyFinancialRulesQuery, FinancialRulesData,
          EmptyFinancialRulesData } from '@app/models';
 
 import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
@@ -46,9 +46,7 @@ export class FinancialRulesExplorerComponent implements OnChanges {
 
   @Output() rulesExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Reglas contables';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
 
@@ -99,14 +97,7 @@ export class FinancialRulesExplorerComponent implements OnChanges {
 
 
   private setText(displayedEntriesMessage?: string) {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = displayedEntriesMessage ?
-      `${displayedEntriesMessage}` :
-      `${this.data.entries.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.data.entries.length, displayedEntriesMessage);
   }
 
 }

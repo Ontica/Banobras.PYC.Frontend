@@ -11,8 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyPartiesDataTable, EmptyPartiesQuery, EmptyPartyExplorerTypeConfig, ExplorerTypeConfig,
-         PartiesDataTable, PartiesQuery, PartyObjectTypes } from '@app/models';
+import { buildExplorerHint, EmptyPartiesDataTable, EmptyPartiesQuery, EmptyPartyExplorerTypeConfig,
+         ExplorerTypeConfig, PartiesDataTable, PartiesQuery, PartyObjectTypes } from '@app/models';
 
 import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
 
@@ -47,7 +47,7 @@ export class PartiesExplorerComponent implements OnChanges {
 
   @Output() partiesExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -102,12 +102,7 @@ export class PartiesExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.data.entries.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.data.entries.length);
   }
 
 }

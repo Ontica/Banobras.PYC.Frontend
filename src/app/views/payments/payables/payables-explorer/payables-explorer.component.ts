@@ -13,7 +13,7 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyPayablesQuery, PayableDescriptor, PayablesQuery } from '@app/models';
+import { EmptyPayablesQuery, PayableDescriptor, PayablesQuery, buildExplorerHint } from '@app/models';
 
 import { PayablesFilterEventType } from './payables-filter.component';
 
@@ -46,9 +46,7 @@ export class PayablesExplorerComponent implements OnChanges {
 
   @Output() payablesExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Solicitudes de pago';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -107,12 +105,7 @@ export class PayablesExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 }

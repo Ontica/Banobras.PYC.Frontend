@@ -13,7 +13,7 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyProductsQuery, ProductDescriptor, ProductsQuery } from '@app/models';
+import { buildExplorerHint, EmptyProductsQuery, ProductDescriptor, ProductsQuery } from '@app/models';
 
 import { ProductsFilterEventType } from './products-filter.component';
 
@@ -46,9 +46,7 @@ export class ProductsExplorerComponent implements OnChanges {
 
   @Output() productsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Explorador de productos';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -107,12 +105,7 @@ export class ProductsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 }

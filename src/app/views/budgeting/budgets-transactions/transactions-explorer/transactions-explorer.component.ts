@@ -14,7 +14,7 @@ import { PERMISSIONS } from '@app/main-layout';
 import { sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionDescriptor, BudgetTransactionsQuery, EmptyBudgetTransactionsQuery,
-         TransactionStages, TransactionStagesList } from '@app/models';
+         TransactionStages, TransactionStagesList, buildExplorerHint } from '@app/models';
 
 import { TransactionsFilterEventType } from './transactions-filter.component';
 
@@ -48,9 +48,7 @@ export class BudgetTransactionsExplorerComponent implements OnChanges {
 
   @Output() transactionsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Transacciones presupuestales';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -126,12 +124,7 @@ export class BudgetTransactionsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 }

@@ -13,7 +13,7 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { CashLedgerDescriptor, CashLedgerQuery, CashLedgerQueryType,
+import { buildExplorerHint, CashLedgerDescriptor, CashLedgerQuery, CashLedgerQueryType,
          EmptyCashLedgerQuery } from '@app/models';
 
 import { CashLedgerFilterEventType } from './cash-ledger-filter.component';
@@ -48,9 +48,7 @@ export class CashLedgerExplorerComponent implements OnChanges {
 
   @Output() cashLedgerExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Codificación';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -112,13 +110,8 @@ export class CashLedgerExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
     const queryType = this.queryType === CashLedgerQueryType.transactions ? 'pólizas' : 'movimientos';
-    this.cardHint = `${this.dataList.length} registros encontrados (${queryType})`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length, null, null, queryType);
   }
 
 }

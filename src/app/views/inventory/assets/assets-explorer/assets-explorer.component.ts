@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyAssetsQuery, AssetDescriptor, AssetsQuery } from '@app/models';
+import { EmptyAssetsQuery, AssetDescriptor, AssetsQuery, buildExplorerHint } from '@app/models';
 
 import { AssetsFilterEventType } from './assets-filter.component';
 
@@ -50,9 +50,7 @@ export class AssetsExplorerComponent implements OnChanges {
 
   @Output() assetsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Explorador de activos fijos';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -120,12 +118,7 @@ export class AssetsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 

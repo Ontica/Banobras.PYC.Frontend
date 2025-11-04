@@ -28,7 +28,7 @@ export class BudgetTransactionsPlanningGeneratorComponent {
 
   submitted = false;
 
-  titleText = 'Períodos de planeación presupuestal';
+  title = 'Períodos de planeación presupuestal';
 
 
   constructor(private transactionsData: BudgetTransactionsDataService,
@@ -58,7 +58,7 @@ export class BudgetTransactionsPlanningGeneratorComponent {
 
 
   private resolveGeneratePlanningTransactions(message: string) {
-    this.messageBox.show(message, this.titleText);
+    this.messageBox.show(message, this.title);
     setTimeout(() => this.onCloseButtonClicked());
   }
 

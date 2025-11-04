@@ -14,7 +14,7 @@ import { PERMISSIONS } from '@app/main-layout';
 import { sendEvent } from '@app/shared/utils';
 
 import { CashFlowProjectionDescriptor, CashFlowProjectionsQuery, CashFlowProjectionsStagesList,
-         EmptyCashFlowProjectionsQuery, TransactionStages } from '@app/models';
+         EmptyCashFlowProjectionsQuery, TransactionStages, buildExplorerHint } from '@app/models';
 
 import { ProjectionsFilterEventType } from './projections-filter.component';
 
@@ -47,9 +47,7 @@ export class CashFlowProjectionsExplorerComponent implements OnChanges {
 
   @Output() projectionsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Proyecciones de flujo de efectivo';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -118,12 +116,7 @@ export class CashFlowProjectionsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 }

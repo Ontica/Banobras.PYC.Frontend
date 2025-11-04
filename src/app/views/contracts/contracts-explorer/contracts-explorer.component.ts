@@ -13,7 +13,7 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { ContractDescriptor, ContractsQuery, EmptyContractsQuery } from '@app/models';
+import { ContractDescriptor, ContractsQuery, EmptyContractsQuery, buildExplorerHint } from '@app/models';
 
 import { ContractsFilterEventType } from './contracts-filter.component';
 
@@ -46,9 +46,7 @@ export class ContractsExplorerComponent implements OnChanges {
 
   @Output() contractsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Explorador de contratos';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -111,12 +109,7 @@ export class ContractsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 }

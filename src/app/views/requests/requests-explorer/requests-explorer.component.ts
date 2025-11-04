@@ -11,7 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { RequestsList, RequestQuery, EmptyRequestQuery, RequestDescriptor } from '@app/models';
+import { RequestsList, RequestQuery, EmptyRequestQuery, RequestDescriptor,
+         buildExplorerHint } from '@app/models';
 
 import { RequestsFilterEventType } from './requests-filter.component';
 
@@ -46,9 +47,7 @@ export class RequestsExplorerComponent implements OnChanges {
 
   @Output() requestsExplorerEvent = new EventEmitter<EventInfo>();
 
-  titleText = 'Solicitudes';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -109,12 +108,7 @@ export class RequestsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 }

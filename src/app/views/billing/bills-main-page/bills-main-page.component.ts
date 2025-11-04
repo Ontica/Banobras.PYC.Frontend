@@ -29,7 +29,7 @@ export class BillsMainPageComponent {
 
   query: BillsQuery = Object.assign({}, EmptyBillsQuery);
 
-  dataList: BillsDataTable = Object.assign({}, EmptyBillsDataTable);
+  data: BillsDataTable = Object.assign({}, EmptyBillsDataTable);
 
   selectedData: BillData = EmptyBillData;
 
@@ -94,7 +94,7 @@ export class BillsMainPageComponent {
 
     this.billsData.searchBills(query)
       .firstValue()
-      .then(x => this.setDataList(x, true))
+      .then(x => this.setData(x, true))
       .finally(() => this.isLoading = false);
   }
 
@@ -116,13 +116,13 @@ export class BillsMainPageComponent {
 
   private setQueryAndClearExplorerData(query: BillsQuery) {
     this.query = Object.assign({}, query);
-    this.setDataList([], false);
+    this.setData([], false);
     this.setSelectedData(EmptyBillData);
   }
 
 
-  private setDataList(data: BillDescriptor[], queryExecuted: boolean = true) {
-    this.dataList = Object.assign({}, this.dataList, { query: this.query, entries: data });
+  private setData(data: BillDescriptor[], queryExecuted: boolean = true) {
+    this.data = Object.assign({}, this.data, { query: this.query, entries: data });
     this.queryExecuted = queryExecuted;
   }
 

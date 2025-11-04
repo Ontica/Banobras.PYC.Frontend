@@ -42,10 +42,6 @@ export class DocumentUploaderComponent implements OnInit {
 
   @Output() documentUploaderEvent = new EventEmitter<EventInfo>();
 
-  titleText = 'Anexar documento';
-
-  hintText = 'Información del documento a anexar.';
-
   form: DocumentUploaderFormModel;
 
   formHelper = FormHelper;

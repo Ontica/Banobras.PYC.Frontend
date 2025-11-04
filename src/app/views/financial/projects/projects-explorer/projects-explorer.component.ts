@@ -13,7 +13,8 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyFinancialProjectsQuery, FinancialProjectDescriptor, FinancialProjectsQuery } from '@app/models';
+import { buildExplorerHint, EmptyFinancialProjectsQuery, FinancialProjectDescriptor,
+         FinancialProjectsQuery } from '@app/models';
 
 import { ProjectsFilterEventType } from './projects-filter.component';
 
@@ -46,7 +47,7 @@ export class FinancialProjectsExplorerComponent implements OnChanges {
 
   @Output() projectsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -104,12 +105,7 @@ export class FinancialProjectsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 }

@@ -11,7 +11,7 @@ import { Assertion, Empty, EventInfo, Identifiable } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { FinancialConceptsQuery, EmptyFinancialConceptsQuery, FinancialConceptsData,
+import { buildExplorerHint, FinancialConceptsQuery, EmptyFinancialConceptsQuery, FinancialConceptsData,
          EmptyFinancialConceptsData } from '@app/models';
 
 import { FinancialConceptsFilterEventType } from './financial-concepts-filter.component';
@@ -46,9 +46,7 @@ export class FinancialConceptsExplorerComponent implements OnChanges {
 
   @Output() conceptsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Reglas de agrupación';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -94,17 +92,8 @@ export class FinancialConceptsExplorerComponent implements OnChanges {
 
 
   private setText(displayedEntriesMessage?: string) {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    if (displayedEntriesMessage) {
-      this.cardHint = `${this.group.name} - ${displayedEntriesMessage}`;
-      return;
-    }
-
-    this.cardHint = `${this.group.name} - ${this.data.entries.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.data.entries.length, displayedEntriesMessage,
+      this.group.name);
   }
 
 }

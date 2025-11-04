@@ -72,7 +72,7 @@ export class AccessControlTabbedViewComponent implements OnInit, OnChanges {
   }
 
 
-  get titleText(): string {
+  get title(): string {
     switch (this.accessControlItem.type) {
       case AccessControlQueryType.Subjects:
         return `(${this.subject.userID}) ${this.subject.fullName}` +
@@ -85,7 +85,7 @@ export class AccessControlTabbedViewComponent implements OnInit, OnChanges {
   }
 
 
-  get hintText(): string {
+  get hint(): string {
     switch (this.accessControlItem.type) {
       case AccessControlQueryType.Subjects:
         const active = this.subject.status.uid === 'Active';

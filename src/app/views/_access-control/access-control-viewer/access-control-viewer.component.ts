@@ -19,7 +19,7 @@ import { AccessControlDataService } from '@app/data-services';
 
 import { AccessControlQueryType, Feature, Role, Subject, AccessControlSelectionData,
          DefaultAccessControlQueryType, AccessControlQuery, SubjectsQuery,
-         buildSubjectsQueryFromAccessControlQuery } from '@app/models';
+         buildSubjectsQueryFromAccessControlQuery, buildExplorerHint } from '@app/models';
 
 import { AccessControlControlsEventType } from './access-control-controls.component';
 
@@ -44,7 +44,7 @@ export class AccessControlViewerComponent implements OnInit {
 
   @Output() accessControlViewerEvent = new EventEmitter<EventInfo>();
 
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   query: AccessControlQuery = null;
 
@@ -252,17 +252,11 @@ export class AccessControlViewerComponent implements OnInit {
 
 
   private setText(totalResults?: number) {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
+    const displayedMessage = totalResults >= 0 ?
+      `Consulta de ${this.queryTypeName} - ${totalResults} registros encontrados` :
+      `Consulta de ${this.queryTypeName}`;
 
-    if (totalResults >= 0) {
-      this.cardHint = `Consulta de ${this.queryTypeName} - ${totalResults} registros encontrados`;
-      return;
-    }
-
-    this.cardHint = `Consulta de ${this.queryTypeName}`;
+    this.hint = buildExplorerHint(this.queryExecuted, totalResults, displayedMessage);
   }
 
 

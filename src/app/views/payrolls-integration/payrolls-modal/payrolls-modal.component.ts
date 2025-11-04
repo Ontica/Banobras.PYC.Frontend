@@ -17,7 +17,8 @@ import { SkipIf } from '@app/shared/decorators';
 
 import { PayrollsIntegrationDataService } from '@app/data-services';
 
-import { EmptyPayrollsQuery, EntityStatus, PayrollDescriptor, PayrollsQuery } from '@app/models';
+import { buildExplorerHint, EmptyPayrollsQuery, EntityStatus, PayrollDescriptor,
+         PayrollsQuery } from '@app/models';
 
 import {
   ExportReportModalEventType
@@ -179,8 +180,7 @@ export class PayrollsModalComponent {
 
 
   private setText() {
-    this.hint = !this.queryExecuted ? 'Seleccionar los filtros' :
-      `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 

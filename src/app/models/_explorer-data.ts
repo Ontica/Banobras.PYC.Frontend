@@ -104,6 +104,24 @@ export interface ExplorerDisplayedData {
 }
 
 
+export function buildExplorerHint(queryExecuted: boolean,
+                                  dataLength: number,
+                                  customMessage?: string,
+                                  queryType?: string,
+                                  context?: string): string {
+  if (!queryExecuted) {
+    return 'Seleccionar los filtros';
+  }
+
+  const prefix = queryType ? `${queryType} - ` : '';
+  const suffix = context ? ` (${context})` : '';
+
+  return customMessage ?
+    `${prefix}${customMessage}${suffix}` :
+    `${prefix}${dataLength ?? 0} registros encontrados${suffix}`;
+}
+
+
 export const EmptyExplorerBulkOperationData: ExplorerBulkOperationData = {
   operation: null,
   command: null,

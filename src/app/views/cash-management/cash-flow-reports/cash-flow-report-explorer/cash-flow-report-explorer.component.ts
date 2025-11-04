@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { CashFlowReport, CashFlowReportQuery, EmptyCashFlowReport,
+import { buildExplorerHint, CashFlowReport, CashFlowReportQuery, EmptyCashFlowReport,
          EmptyCashFlowReportQuery } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
@@ -43,9 +43,7 @@ export class CashFlowReportExplorerComponent implements OnChanges {
 
   @Output() reportExplorerEvent = new EventEmitter<EventInfo>();
 
-  titleText = 'Generación de reportes operativos';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -96,12 +94,7 @@ export class CashFlowReportExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.data.entries.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.data.entries.length);
   }
 
 }

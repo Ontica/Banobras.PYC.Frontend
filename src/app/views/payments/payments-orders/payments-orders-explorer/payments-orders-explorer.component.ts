@@ -13,7 +13,8 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyPaymentsOrdersQuery, PaymentOrderDescriptor, PaymentsOrdersQuery } from '@app/models';
+import { buildExplorerHint, EmptyPaymentsOrdersQuery, PaymentOrderDescriptor,
+         PaymentsOrdersQuery } from '@app/models';
 
 import { PaymentsOrdersFilterEventType } from './payments-orders-filter.component';
 
@@ -46,9 +47,7 @@ export class PaymentsOrdersExplorerComponent implements OnChanges {
 
   @Output() paymentsOrdersExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Ordenes de pago';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -75,13 +74,11 @@ export class PaymentsOrdersExplorerComponent implements OnChanges {
         sendEvent(this.paymentsOrdersExplorerEvent, PaymentsOrdersExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
-
       case PaymentsOrdersFilterEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.paymentsOrdersExplorerEvent, PaymentsOrdersExplorerEventType.CLEAR_CLICKED,
           event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -96,13 +93,11 @@ export class PaymentsOrdersExplorerComponent implements OnChanges {
         sendEvent(this.paymentsOrdersExplorerEvent, PaymentsOrdersExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
-
       case PaymentsOrdersListEventType.EXECUTE_OPERATION:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         sendEvent(this.paymentsOrdersExplorerEvent, PaymentsOrdersExplorerEventType.EXECUTE_OPERATION_CLICKED,
           event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -111,12 +106,7 @@ export class PaymentsOrdersExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 }

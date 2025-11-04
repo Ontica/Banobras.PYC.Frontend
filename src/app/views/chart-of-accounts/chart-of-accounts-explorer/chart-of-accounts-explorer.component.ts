@@ -13,7 +13,7 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { ChartOfAccounts, ChartOfAccountsQuery, EmptyChartOfAccounts,
+import { buildExplorerHint, ChartOfAccounts, ChartOfAccountsQuery, EmptyChartOfAccounts,
          EmptyChartOfAccountsQuery } from '@app/models';
 
 import { ChartOfAccountsFilterEventType } from './chart-of-accounts-filter.component';
@@ -49,9 +49,7 @@ export class ChartOfAccountsExplorerComponent implements OnChanges {
 
   permissions = PERMISSIONS;
 
-  cardTitle = 'Catálogo de cuentas';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -109,12 +107,7 @@ export class ChartOfAccountsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.data.accounts.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.data.accounts.length);
   }
 
 }

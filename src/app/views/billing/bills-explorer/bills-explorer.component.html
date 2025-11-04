@@ -3,11 +3,11 @@
   <div class="card-header card-header-flat">
 
     <div class="card-title">
-      {{ cardTitle }}
+      Explorador de facturas
 
       <div class="card-hint" empNgProgressText
         loadingText="Cargando"
-        [finalText]="cardHint"
+        [finalText]="hint"
         [isLoading]="isLoading">
       </div>
 
@@ -31,7 +31,7 @@
       </emp-ng-bills-filter>
 
       <emp-ng-data-table class="fx-item"
-        [dataTable]="dataList"
+        [dataTable]="data"
         [selectedUID]="selectedUID"
         [showExportButton]="false"
         [executed]="queryExecuted"

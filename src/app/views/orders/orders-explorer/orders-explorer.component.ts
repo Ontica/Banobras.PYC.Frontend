@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyOrdersQuery, EmptyOrderExplorerTypeConfig, OrderDescriptor, OrdersQuery,
+import { buildExplorerHint, EmptyOrdersQuery, EmptyOrderExplorerTypeConfig, OrderDescriptor, OrdersQuery,
          OrderExplorerTypeConfig, ObjectTypes } from '@app/models';
 
 import { OrdersFilterEventType } from './orders-filter.component';
@@ -46,7 +46,7 @@ export class OrdersExplorerComponent implements OnChanges {
 
   @Output() ordersExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -103,12 +103,7 @@ export class OrdersExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 }

@@ -11,7 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BillsDataTable, BillsQuery, EmptyBillsDataTable, EmptyBillsQuery } from '@app/models';
+import { BillsDataTable, BillsQuery, EmptyBillsDataTable, EmptyBillsQuery,
+         buildExplorerHint } from '@app/models';
 
 import { BillsFilterEventType } from './bills-filter.component';
 
@@ -32,7 +33,7 @@ export class BillsExplorerComponent implements OnChanges {
 
   @Input() query: BillsQuery = Object.assign({}, EmptyBillsQuery);
 
-  @Input() dataList: BillsDataTable = Object.assign({}, EmptyBillsDataTable);
+  @Input() data: BillsDataTable = Object.assign({}, EmptyBillsDataTable);
 
   @Input() selectedUID = null;
 
@@ -42,15 +43,13 @@ export class BillsExplorerComponent implements OnChanges {
 
   @Output() billsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Explorador de facturas';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.dataList) {
+    if (changes.data) {
       this.setText();
       this.showFilters = false;
     }
@@ -92,12 +91,7 @@ export class BillsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.entries.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.data.entries.length);
   }
 
 }

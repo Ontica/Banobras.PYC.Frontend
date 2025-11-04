@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyFinancialAccountsQuery, ExplorerDisplayedData, FinancialAccountDescriptor,
+import { buildExplorerHint, EmptyFinancialAccountsQuery, ExplorerDisplayedData, FinancialAccountDescriptor,
          FinancialAccountsQuery } from '@app/models';
 
 import { AccountsFilterEventType } from './accounts-filter.component';
@@ -44,7 +44,7 @@ export class FinancialAccountsExplorerComponent implements OnChanges {
 
   @Output() accountsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -100,17 +100,10 @@ export class FinancialAccountsExplorerComponent implements OnChanges {
 
 
   private setText(displayedData: ExplorerDisplayedData = null) {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
+    const displayedMessage = displayedData && displayedData.displayedCount !== displayedData.totalCount ?
+      `${displayedData.displayedCount} de ${displayedData.totalCount} registros encontrados` : null;
 
-    if (displayedData && displayedData.displayedCount !== displayedData.totalCount) {
-      this.cardHint = `${displayedData.displayedCount} de ${displayedData.totalCount} registros encontrados`;
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length, displayedMessage);
   }
 
 }

@@ -1,8 +1,8 @@
 <emp-ng-modal-window [config]="{width:'750px'}">
 
   <emp-ng-card
-    [title]="'Agregar ' + (itemTypeName | lowercase)"
-    hint="Seleccione el elemento a agregar."
+    [cardTitle]="'Agregar ' + (itemTypeName | lowercase)"
+    cardHint="Seleccione el elemento a agregar."
     (cardClose)="onCloseItemAssign()">
 
     <div class="card-body-padding" [empNgSpinnerHost]="spinner">

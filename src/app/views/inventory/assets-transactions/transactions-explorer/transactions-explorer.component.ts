@@ -13,8 +13,8 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyAssetsTransactionsQuery, AssetsTransactionDescriptor, AssetsTransactionsQuery, TransactionStages,
-         TransactionStagesList } from '@app/models';
+import { AssetsTransactionDescriptor, AssetsTransactionsQuery, EmptyAssetsTransactionsQuery,
+         TransactionStages, TransactionStagesList, buildExplorerHint } from '@app/models';
 
 import { TransactionsListEventType } from './transactions-list.component';
 
@@ -54,9 +54,7 @@ export class AssetsTransactionsExplorerComponent implements OnChanges {
 
   @Output() transactionsExplorerEvent = new EventEmitter<EventInfo>();
 
-  cardTitle = 'Transacciones de activo fijo';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -146,12 +144,7 @@ export class AssetsTransactionsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.dataList.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 
 

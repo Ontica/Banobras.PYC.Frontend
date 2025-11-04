@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { CashFlowExplorer, CashFlowExplorerQuery, EmptyCashFlowExplorer,
+import { buildExplorerHint, CashFlowExplorer, CashFlowExplorerQuery, EmptyCashFlowExplorer,
          EmptyCashFlowExplorerQuery } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
@@ -43,9 +43,7 @@ export class CashFlowExplorerComponent implements OnChanges {
 
   @Output() cashFlowExplorerEvent = new EventEmitter<EventInfo>();
 
-  titleText = 'Explorador del flujo de efectivo';
-
-  cardHint = 'Seleccionar los filtros';
+  hint = 'Seleccionar los filtros';
 
   showFilters = false;
 
@@ -96,12 +94,7 @@ export class CashFlowExplorerComponent implements OnChanges {
 
 
   private setText() {
-    if (!this.queryExecuted) {
-      this.cardHint = 'Seleccionar los filtros';
-      return;
-    }
-
-    this.cardHint = `${this.data.entries.length} registros encontrados`;
+    this.hint = buildExplorerHint(this.queryExecuted, this.data.entries.length);
   }
 
 }
