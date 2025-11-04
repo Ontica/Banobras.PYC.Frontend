@@ -31,6 +31,11 @@ const routes: Routes = [
   //   component: RequestsMainPageComponent,
   // },
   {
+    data: { permission: ROUTES.gastos_requisiciones.permission },
+    path: ROUTES.gastos_requisiciones.path,
+    component: DefaultComponent,
+  },
+  {
     data: { permission: ROUTES.gastos_contratos.permission },
     path: ROUTES.gastos_contratos.path,
     component: ContractsMainPageComponent,

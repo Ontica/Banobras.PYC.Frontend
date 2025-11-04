@@ -30,6 +30,7 @@ export enum PERMISSIONS {
   MODULE_GASTOS = 'module-gastos',
 
   ROUTE_GASTOS_SOLICITUDES = 'route-gastos-solicitudes',
+  ROUTE_GASTOS_REQUISICIONES = 'route-gastos-requisiciones',
   ROUTE_GASTOS_CONTRATOS = 'route-gastos-contratos',
   ROUTE_GASTOS_ENTREGAS = 'route-gastos-entregas',
   ROUTE_GASTOS_COMPRAS_MENORES = 'route-gastos-compras-menores',

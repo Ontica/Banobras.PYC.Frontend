@@ -120,6 +120,13 @@ export const ROUTES = {
     fullpath: '/gestion-del-gasto/solicitudes',
   },
 
+  gastos_requisiciones: {
+    permission: PERMISSIONS.ROUTE_GASTOS_REQUISICIONES,
+    parent: 'gestion-del-gasto',
+    path: 'requisiciones',
+    fullpath: '/gestion-del-gasto/requisiciones',
+  },
+
   gastos_contratos: {
     permission: PERMISSIONS.ROUTE_GASTOS_CONTRATOS,
     parent: 'gestion-del-gasto',

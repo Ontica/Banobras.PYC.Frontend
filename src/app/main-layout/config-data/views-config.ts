@@ -51,6 +51,13 @@ export const ProcurementViews: View[] = [
   //   permission: ROUTES.gastos_solicitudes.permission,
   // },
   {
+    name: 'Procurement.Requisitions',
+    title: 'Requisiciones',
+    menuTitle: 'Requisiciones',
+    url: ROUTES.gastos_requisiciones.fullpath,
+    permission: ROUTES.gastos_requisiciones.permission,
+  },
+  {
     name: 'Procurement.Contracts',
     title: 'Contratos',
     menuTitle: 'Contratos',
