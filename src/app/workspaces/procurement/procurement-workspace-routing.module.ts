@@ -77,7 +77,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.gastos_contratos.path,
+    redirectTo: ROUTES.gastos_requisiciones.path,
     pathMatch: 'full',
   },
 ];
