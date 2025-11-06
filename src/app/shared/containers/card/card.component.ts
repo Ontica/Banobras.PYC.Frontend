@@ -15,11 +15,11 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class CardComponent {
 
-  @Input() cardTitle = 'Card title';
+  @Input() heading = 'Card title';
 
-  @Input() cardHint = 'Card hint';
+  @Input() hint = 'Card hint';
 
-  @Input() showCardHint = true;
+  @Input() showHint = true;
 
   @Input() headerHighlight = false;
 

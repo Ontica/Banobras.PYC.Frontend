@@ -3,12 +3,12 @@
   <div class="card-header"
     [ngClass]="{'card-header-flat': showCardHeaderFlat,
                 'card-highlight': headerHighlight,
-                'no-hint': !showCardHint,}">
+                'no-hint': !showHint,}">
 
     <div class="card-title">
-      <span [innerHTML]="cardTitle | empSafeHtml"></span>
-      <div class="card-hint" *ngIf="showCardHint"
-        [innerHTML]="cardHint | empSafeHtml"></div>
+      <span [innerHTML]="heading | empSafeHtml"></span>
+      <div class="card-hint" *ngIf="showHint"
+        [innerHTML]="hint | empSafeHtml"></div>
     </div>
 
     <div *ngIf="!disableClose || showExpand" class="card-header-options">

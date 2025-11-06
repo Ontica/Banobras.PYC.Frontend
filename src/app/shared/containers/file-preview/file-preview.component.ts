@@ -21,7 +21,7 @@ import { FileType } from '@app/models';
 })
 export class FilePreviewComponent {
 
-  @Input() title: string;
+  @Input() heading: string;
 
   @Input() hint: string;
 

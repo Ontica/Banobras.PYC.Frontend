@@ -39,7 +39,7 @@
 
 
 <emp-ng-export-report-modal *ngIf="displayExportModal"
-  [title]="selectedExportData.title"
+  [heading]="selectedExportData.title"
   [message]=" selectedExportData.message"
   [fileUrl]="selectedExportData.fileUrl"
   (exportReportModalEvent)="onExportReportModalEvent($event)">

@@ -2,8 +2,8 @@
   [config]="{width:'80%', height: '90%', maxWidth: '960px'}">
 
   <emp-ng-card
-    [cardTitle]="title"
-    [cardHint]="hint"
+    [heading]="heading"
+    [hint]="hint"
     (cardClose)="onCloseClicked()">
 
     <div class="preview-container preview-padding" *ngIf="!hasError">

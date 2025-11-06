@@ -38,7 +38,7 @@ export enum ExportReportModalEventType {
 })
 export class ExportReportModalComponent implements OnInit, OnChanges {
 
-  @Input() title = 'Exportar';
+  @Input() heading = 'Exportar';
 
   @Input() message = null;
 

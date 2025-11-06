@@ -37,8 +37,6 @@ const DefaultModalDialogConfig: ModalDialogConfig = {
 })
 export class ModalWindowComponent {
 
-  @Input() title = '';
-
   @Input()
   get config() {
     return this.modalConfig;
