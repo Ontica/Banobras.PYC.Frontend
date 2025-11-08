@@ -16,40 +16,42 @@ import { HistoryEntry } from './history';
 import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem,
          OrderItemFields } from './orders';
 
+import { PaymentOrderDescriptor } from './payments-orders';
 
-export interface PayableOrderDescriptor extends OrderDescriptor {
+
+export interface RequisitionOrderDescriptor extends OrderDescriptor {
   budgetTypeName: string;
-  budgetName: string;
-  currencyName: string;
+  budgetsName: string;
   total: number;
 }
 
 
-export interface PayableOrderFields extends OrderFields {
-  budgetUID: string;
-  currencyUID: string;
+export interface RequisitionOrderFields extends OrderFields {
+  budgets: string[];
 }
 
 
-export interface PayableOrderHolder extends OrderHolder {
-  order: PayableOrder;
-  items: PayableOrderItem[];
+export interface RequisitionOrderHolder extends OrderHolder {
+  order: RequisitionOrder;
+  items: RequisitionOrderItem[];
+  budgetTransactions: BudgetTransactionDescriptor[];
+  payables: OrderDescriptor[];
+  invoices: Document[];
+  payments: PaymentOrderDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
-  budgetTransactions: BudgetTransactionDescriptor[];
-  actions: PayableOrderActions;
+  actions: RequisitionOrderActions;
 }
 
 
-export interface PayableOrder extends Order {
+export interface RequisitionOrder extends Order {
   budgetType: Identifiable;
-  budget: Identifiable;
-  currency: Identifiable;
+  budgets: Identifiable[];
   total: number;
 }
 
 
-export interface PayableOrderItem extends OrderItem {
+export interface RequisitionOrderItem extends OrderItem {
   budgetAccount: Identifiable;
   unitPrice: number;
   discount: number;
@@ -58,19 +60,19 @@ export interface PayableOrderItem extends OrderItem {
 }
 
 
-export interface PayableOrderActions extends OrderActions {
+export interface RequisitionOrderActions extends OrderActions {
 
 }
 
 
-export interface PayableOrderItemFields extends OrderItemFields {
+export interface RequisitionOrderItemFields extends OrderItemFields {
   budgetAccountUID: string;
   unitPrice: number;
   discount: number;
 }
 
 
-export function mapPayableOrderDescriptorFromPayableOrder(order: PayableOrder): PayableOrderDescriptor {
+export function mapRequisitionOrderDescriptorFromRequisitionOrder(order: RequisitionOrder): RequisitionOrderDescriptor {
   return {
     uid: order.uid,
     typeName: order.type.name,
@@ -91,8 +93,7 @@ export function mapPayableOrderDescriptorFromPayableOrder(order: PayableOrder): 
     closedByName: order.closedBy.name,
     statusName: order.status.name,
     budgetTypeName: order.budgetType?.name ?? '',
-    budgetName: order.budget?.name ?? '',
-    currencyName: order.currency?.name ?? '',
+    budgetsName: order.budgets?.map(x => x.name).join() ?? '',
     total: order.total ?? null,
   };
 }

@@ -33,7 +33,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.gastos_requisiciones.permission },
     path: ROUTES.gastos_requisiciones.path,
-    component: DefaultComponent,
+    component: OrdersMainPageComponent,
   },
   {
     data: { permission: ROUTES.gastos_contratos.permission },

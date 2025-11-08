@@ -55,66 +55,27 @@
         <ng-container matColumnDef="manager">
           <th mat-header-cell *matHeaderCellDef class="nowrap">
             Área beneficiaria <br>
-            Proveedor <br>
+            Área solicitante <br>
             Proyecto
           </th>
           <td mat-cell *matCellDef="let row">
             <div class="text-highlight">{{row.beneficiaryName}}</div>
-            <div class="bold-text">{{row.providerName}}</div>
+            <div class="bold-text">{{row.requestedByName}}</div>
             <div>{{row.projectName}}</div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="especif">
           <th mat-header-cell *matHeaderCellDef class="nowrap">
-
-            <container-element [ngSwitch]="config.type">
-
-              <ng-container *ngSwitchCase="OrderType.CONTRACT_ORDER">
-                Presupuesto <br>
-                Total <br>
-                Moneda
-              </ng-container>
-
-              <ng-container *ngSwitchCase="OrderType.PURCHASE_ORDER">
-
-              </ng-container>
-
-              <ng-container *ngSwitchCase="OrderType.EXPENSE">
-
-              </ng-container>
-
-              <ng-container *ngSwitchDefault>
-
-              </ng-container>
-
-            </container-element>
-
+            Proveedor <br>
+            Presupuesto <br>
+            Total / Moneda <br>
           </th>
+
           <td mat-cell *matCellDef="let row">
-
-            <container-element [ngSwitch]="config.type">
-
-              <ng-container *ngSwitchCase="OrderType.CONTRACT_ORDER">
-                <div class="text-highlight">{{row.budgetName}}</div>
-                <div class="bold-text">{{row.total | empDecimal}}</div>
-                <div>{{row.currencyName}}</div>
-              </ng-container>
-
-              <ng-container *ngSwitchCase="OrderType.PURCHASE_ORDER">
-
-              </ng-container>
-
-              <ng-container *ngSwitchCase="OrderType.EXPENSE">
-
-              </ng-container>
-
-              <ng-container *ngSwitchDefault>
-
-              </ng-container>
-
-            </container-element>
-
+            <div class="text-highlight">{{row.providerName}}</div>
+            <div class="bold-text">{{row.budgetName}}</div>
+            {{row.total | empDecimal}} ({{row.currencyName}})
           </td>
         </ng-container>
 

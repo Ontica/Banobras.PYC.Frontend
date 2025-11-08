@@ -24,7 +24,8 @@ import { OrdersDataService } from '@app/data-services';
 import { ObjectTypes, OrderExplorerTypeConfig, Order, PayableOrder, ContractOrder, OrderDescriptor,
          OrdersQuery, OrderHolder, EmptyOrderHolder, EmptyOrdersQuery, EmptyOrderExplorerTypeConfig,
          getOrderExplorerTypeConfig, mapOrderDescriptorFromOrder, mapPayableOrderDescriptorFromPayableOrder,
-         mapContractOrderDescriptorFromContractOrder } from '@app/models';
+         mapContractOrderDescriptorFromContractOrder, mapRequisitionOrderDescriptorFromRequisitionOrder,
+         RequisitionOrder } from '@app/models';
 
 import { OrderCreatorEventType } from '../order/order-creator.component';
 
@@ -159,11 +160,14 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
       case 'Procurement.ContractOrders':
         this.config = getOrderExplorerTypeConfig(ObjectTypes.CONTRACT_ORDER)
         return;
+      case 'Procurement.ExpensesAndReimbursement':
+        this.config = getOrderExplorerTypeConfig(ObjectTypes.EXPENSE)
+        return;
       case 'Procurement.MinorPurchases':
         this.config = getOrderExplorerTypeConfig(ObjectTypes.PURCHASE_ORDER)
         return;
-      case 'Procurement.ExpensesAndReimbursement':
-        this.config = getOrderExplorerTypeConfig(ObjectTypes.EXPENSE)
+      case 'Procurement.Requisitions':
+        this.config = getOrderExplorerTypeConfig(ObjectTypes.REQUISITION);
         return;
       default:
         this.config = getOrderExplorerTypeConfig(null);
@@ -254,9 +258,11 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
     switch (this.config.type) {
       case ObjectTypes.CONTRACT_ORDER:
         return mapContractOrderDescriptorFromContractOrder(order as ContractOrder);
-      case ObjectTypes.PURCHASE_ORDER:
       case ObjectTypes.EXPENSE:
+      case ObjectTypes.PURCHASE_ORDER:
         return mapPayableOrderDescriptorFromPayableOrder(order as PayableOrder);
+      case ObjectTypes.REQUISITION:
+        return mapRequisitionOrderDescriptorFromRequisitionOrder(order as RequisitionOrder);
       default:
         return mapOrderDescriptorFromOrder(order);
     }

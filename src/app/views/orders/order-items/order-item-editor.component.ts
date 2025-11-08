@@ -128,8 +128,9 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
 
   get payableFieldsRequired(): boolean {
-    return [ObjectTypes.PURCHASE_ORDER,
-            ObjectTypes.EXPENSE].includes(this.config.type);
+    return [ObjectTypes.EXPENSE,
+            ObjectTypes.PURCHASE_ORDER,
+            ObjectTypes.REQUISITION].includes(this.config.type);
   }
 
 
@@ -434,8 +435,9 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
     switch (this.config.type) {
       case ObjectTypes.CONTRACT_ORDER:
         return this.getContractOrderItemFields();
-      case ObjectTypes.PURCHASE_ORDER:
       case ObjectTypes.EXPENSE:
+      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.REQUISITION:
         return this.getPayableOrderItemFields();
       default:
         return this.getOrderItemFields();

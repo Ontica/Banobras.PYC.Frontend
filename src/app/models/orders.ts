@@ -54,6 +54,17 @@ export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerType
         requestsList: RequestsList.contracts,
         permissionToCreate: PERMISSIONS.NOT_REQUIRED,
       };
+    case ObjectTypes.EXPENSE:
+      return {
+        type,
+        nameSingular: 'gasto',
+        namePlural: 'gastos',
+        pronounSingular: 'el',
+        pronounPlural: 'los',
+        selectionMessage: 'seleccionados',
+        requestsList: RequestsList.payments,
+        permissionToCreate: PERMISSIONS.NOT_REQUIRED,
+      };
     case ObjectTypes.PURCHASE_ORDER:
       return {
         type,
@@ -65,15 +76,15 @@ export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerType
         requestsList: RequestsList.contracts,
         permissionToCreate: PERMISSIONS.NOT_REQUIRED,
       };
-    case ObjectTypes.EXPENSE:
+    case ObjectTypes.REQUISITION:
       return {
         type,
-        nameSingular: 'gasto',
-        namePlural: 'gastos',
-        pronounSingular: 'el',
-        pronounPlural: 'los',
-        selectionMessage: 'seleccionados',
-        requestsList: RequestsList.payments,
+        nameSingular: 'requisición',
+        namePlural: 'requisiciones',
+        pronounSingular: 'la',
+        pronounPlural: 'las',
+        selectionMessage: 'seleccionadas',
+        requestsList: RequestsList.contracts,
         permissionToCreate: PERMISSIONS.NOT_REQUIRED,
       };
     default: return EmptyOrderExplorerTypeConfig;
@@ -99,18 +110,19 @@ export interface OrderDescriptor {
   typeName: string;
   categoryName: string;
   orderNo: string;
+  description: string;
+  justification: string;
+  responsibleName: string;
+  requestedByName: string;
+  beneficiaryName: string;
   priorityUID: string;
   priorityName: string;
-  responsibleName: string;
-  beneficiaryName: string;
   providerName: string;
   projectName: string;
-  description: string;
-  requestedByName: string;
+  closedByName: string;
   authorizedByName: string;
   authorizationTime: DateString;
   closingTime: DateString;
-  closedByName: string;
   statusName: string;
 }
 
@@ -128,6 +140,7 @@ export interface OrderFields {
   identificators: string[];
   tags: string[];
   description: string;
+  justification: string;
 }
 
 
@@ -147,20 +160,21 @@ export interface Order {
   category: Identifiable;
   orderNo: string;
   description: string;
-  identificators: string[];
-  tags: string[];
+  justification: string;
   responsible: Identifiable;
   beneficiary: Identifiable;
-  isForMultipleBeneficiaries: boolean;
+  requestedBy: Identifiable;
+  authorizedBy: Identifiable;
   provider: Identifiable;
   providersGroup: Identifiable[];
-  requestedBy: Identifiable;
   project: Identifiable;
   priority: Identifiable<Priority>;
-  authorizationTime: DateString;
-  authorizedBy: Identifiable;
-  closingTime: DateString;
+  identificators: string[];
+  tags: string[];
+  isForMultipleBeneficiaries: boolean;
   closedBy: Identifiable;
+  authorizationTime: DateString;
+  closingTime: DateString;
   status: Identifiable<EntityStatus>;
 }
 
@@ -219,18 +233,19 @@ export const EmptyOrder: Order = {
   category: Empty,
   orderNo: '',
   description: '',
-  identificators: [],
-  tags: [],
+  justification: '',
   responsible: Empty,
   beneficiary: Empty,
-  isForMultipleBeneficiaries: false,
+  requestedBy: Empty,
+  authorizedBy: Empty,
   provider: Empty,
   providersGroup: [],
-  requestedBy: Empty,
   project: Empty,
   priority: Empty,
+  identificators: [],
+  tags: [],
+  isForMultipleBeneficiaries: false,
   authorizationTime: '',
-  authorizedBy: Empty,
   closingTime: '',
   closedBy: Empty,
   status: Empty,
@@ -295,17 +310,18 @@ export function mapOrderDescriptorFromOrder(order: Order): OrderDescriptor {
     categoryName: order.category.name,
     orderNo: order.orderNo,
     description: order.description,
+    justification: order.justification,
     responsibleName: order.responsible.name,
     beneficiaryName: order.beneficiary.name,
-    providerName: order.provider.name,
     requestedByName: order.requestedBy.name,
+    closedByName: order.closedBy.name,
+    providerName: order.provider.name,
     projectName: order.project.name,
     priorityUID: order.priority.uid,
     priorityName: order.priority.name,
     authorizationTime: order.authorizationTime,
     authorizedByName: order.authorizedBy.name,
     closingTime: order.closingTime,
-    closedByName: order.closedBy.name,
     statusName: order.status.name,
   };
 }

@@ -45,6 +45,7 @@ export function mapContractOrderDescriptorFromContractOrder(order: ContractOrder
     categoryName: order.category.name,
     orderNo: order.orderNo,
     description: order.description,
+    justification: order.justification,
     responsibleName: order.responsible.name,
     beneficiaryName: order.beneficiary.name,
     providerName: order.provider.name,

@@ -60,8 +60,9 @@ export class OrderItemsTableComponent implements OnChanges {
 
   get isPayableOrder(): boolean {
     return [ObjectTypes.CONTRACT_ORDER,
+            ObjectTypes.EXPENSE,
             ObjectTypes.PURCHASE_ORDER,
-            ObjectTypes.EXPENSE].includes(this.config.type);
+            ObjectTypes.REQUISITION].includes(this.config.type);
   }
 
 

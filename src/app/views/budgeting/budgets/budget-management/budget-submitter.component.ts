@@ -52,10 +52,12 @@ export class BudgetSubmitterComponent {
         return 'CONTRATO';
       case ObjectTypes.CONTRACT_ORDER:
         return 'ENTREGA';
-      case ObjectTypes.PURCHASE_ORDER:
-        return 'COMPRA MENOR';
       case ObjectTypes.EXPENSE:
         return 'GASTO O REEMBOLSO';
+      case ObjectTypes.PURCHASE_ORDER:
+        return 'COMPRA MENOR';
+      case ObjectTypes.REQUISITION:
+        return 'REQUISICIÓN';
       default:
         return 'OBJETO INDEFINIDO';
     }

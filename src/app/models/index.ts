@@ -98,6 +98,8 @@ export * from './reporting';
 
 export * from './requests';
 
+export * from './requisition-orders';
+
 export * from './steps';
 
 export * from './suppliers';

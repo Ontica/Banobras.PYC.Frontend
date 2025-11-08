@@ -18,7 +18,7 @@
 
       </div>
 
-      <div class="fx-item-half">
+      <div class="fx-item-half" *ngIf="!requisitionFieldsRequired">
 
         <label>Prioridad:</label>
 
@@ -125,6 +125,19 @@
 
     <div class="fx-row-container">
 
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+
+        </textarea>
+      </div>
+
+    </div>
+
+    <div class="fx-row-container" *ngIf="!requisitionFieldsRequired">
+
       <div class="fx-item-half">
 
         <label>Proveedor:</label>
@@ -197,7 +210,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-half" *ngIf="payableFieldsRequired">
+      <div class="fx-item-half" *ngIf="payableFieldsRequired || requisitionFieldsRequired">
 
         <label>Tipo de presupuesto:</label>
 
@@ -206,7 +219,6 @@
           [items]="budgetTypesList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
-          [placeholder]="contractFieldsRequired && form.controls.contractUID.invalid ? 'Seleccione el contrato' : 'Seleccionar'"
           (changes)="onBudgetTypeChanged($event)">
 
         </emp-ng-select>
@@ -214,16 +226,27 @@
       </div>
 
 
-      <div class="fx-item-half" *ngIf="payableFieldsRequired || contractFieldsRequired">
+      <div class="fx-item-half" *ngIf="payableFieldsRequired || contractFieldsRequired || requisitionFieldsRequired">
 
-        <label>Presupuesto:</label>
+        <label>{{requisitionFieldsRequired ? 'Años:' : 'Presupuesto:'}}</label>
 
-        <emp-ng-select
+        <emp-ng-select *ngIf="!requisitionFieldsRequired"
           formControlName="budgetUID"
           [items]="budgetsList"
           [loading]="isLoading"
           [placeholder]="budgetPlaceholder"
           [showError]="formHelper.isControlInvalid(form.controls.budgetUID)">
+
+        </emp-ng-select>
+
+        <emp-ng-select *ngIf="requisitionFieldsRequired"
+          formControlName="budgets"
+          bindLabel="year"
+          [config]="{multiple: true}"
+          [items]="budgetsList"
+          [loading]="isLoading"
+          [placeholder]="budgetPlaceholder"
+          [showError]="formHelper.isControlInvalid(form.controls.budgets)">
 
         </emp-ng-select>
 
@@ -261,10 +284,10 @@
     <div class="fx-row-container">
 
       <div class="fx-item-one">
-        <label>Descripción:</label>
+        <label>Justificación:</label>
         <textarea class="text-area" empNgTextareaAutoresize rows="1"
-          formControlName="description"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+          formControlName="justification"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.justification)">
 
         </textarea>
       </div>

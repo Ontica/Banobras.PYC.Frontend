@@ -11,6 +11,7 @@ export enum ObjectTypes {
   CONTRACT         = 'ObjectTypeInfo.Contract.Procurement',
   CREDIT_ACCOUNT   = 'ObjectTypeInfo.FinancialAccount.CreditAccount',
   CONTRACT_ORDER   = 'ObjectTypeInfo.Order.PayableOrder.ContractOrder',
-  PURCHASE_ORDER   = 'ObjectTypeInfo.Order.PayableOrder.PurchaseOrder',
   EXPENSE          = 'ObjectTypeInfo.Order.PayableOrder.Expenses',
+  PURCHASE_ORDER   = 'ObjectTypeInfo.Order.PayableOrder.PurchaseOrder',
+  REQUISITION      = 'ObjectTypeInfo.Order.PayableOrder.Requisition', // TODO: quitar PayableOrder
 }

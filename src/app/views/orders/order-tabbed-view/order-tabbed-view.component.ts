@@ -62,6 +62,11 @@ export class OrderTabbedViewComponent implements OnChanges {
   }
 
 
+  get showPayables(): boolean {
+    return this.config.type === ObjectTypes.REQUISITION;
+  }
+
+
   get orderTotal(): number {
     switch (this.config.type) {
       case ObjectTypes.CONTRACT_ORDER:
