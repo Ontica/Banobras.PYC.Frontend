@@ -59,9 +59,12 @@ export interface BudgetAccount {
 
 
 export interface BudgetAccountsForProductQuery {
-  budgetUID: string;
-  orgUnitUID: string;
-  productUID: string;
+  transactionUID?: string;
+  operationType?: string;
+  baseBudgetUID?: string;
+  basePartyUID?: string;
+  productUID?: string;
+  keywords?: string;
 }
 
 

@@ -18,7 +18,7 @@
 
   <div class="fx-item">
 
-    <cdk-virtual-scroll-viewport headerHeight="57" tvsItemSize="57">
+    <cdk-virtual-scroll-viewport headerHeight="57" tvsItemSize="65">
 
       <table mat-table [dataSource]="dataSource">
 
@@ -38,44 +38,45 @@
         </ng-container>
 
         <ng-container matColumnDef="order">
-          <th mat-header-cell *matHeaderCellDef>
+          <th mat-header-cell *matHeaderCellDef class="column-lg">
             No. de {{config.nameSingular}} <br>
             Categoría <br>
-            Área administradora
+            Área
           </th>
-          <td mat-cell *matCellDef="let row">
-            <a empNgStopPropagation class="link-highlight bold-text" (click)="onItemClicked(row)">
-              {{ !!row.orderNo ? row.orderNo : '-' }}
-            </a>
-            <div class="bold-text">{{ row.categoryName }}</div>
-            {{ row.responsibleName }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="manager">
-          <th mat-header-cell *matHeaderCellDef class="nowrap">
-            Área beneficiaria <br>
-            Área solicitante <br>
-            Proyecto
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <div class="text-highlight">{{row.beneficiaryName}}</div>
-            <div class="bold-text">{{row.requestedByName}}</div>
-            <div>{{row.projectName}}</div>
+          <td mat-cell *matCellDef="let row" class="column-lg">
+            <div [style.min-height.px]="48">
+              <a empNgStopPropagation class="link-highlight bold-text" (click)="onItemClicked(row)">
+                {{ !!row.orderNo ? row.orderNo : '-' }}
+              </a>
+              <div class="bold-text">{{ row.categoryName }}</div>
+              {{row.baseOrgUnitName}}
+            </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="especif">
-          <th mat-header-cell *matHeaderCellDef class="nowrap">
+          <th mat-header-cell *matHeaderCellDef class="nowrap column-md">
             Proveedor <br>
             Presupuesto <br>
-            Total / Moneda <br>
+            Total <br>
+          </th>
+
+          <td mat-cell *matCellDef="let row" class="column-md">
+            <div class="text-highlight">{{row.providerName}}</div>
+            <div class="bold-text">{{row.baseBudgetName}}</div>
+            {{row.total | empDecimal}} <span *ngIf="!!row.currencyName">({{row.currencyName}})</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>
+            Descripción
           </th>
 
           <td mat-cell *matCellDef="let row">
-            <div class="text-highlight">{{row.providerName}}</div>
-            <div class="bold-text">{{row.budgetName}}</div>
-            {{row.total | empDecimal}} ({{row.currencyName}})
+            <div empNgTextTruncateToggle [text]="row.description" [maxLines]="4">
+              {{row.description}}
+            </div>
           </td>
         </ng-container>
 
@@ -86,7 +87,7 @@
           </th>
           <td mat-cell *matCellDef="let row">
             <div *ngIf="!!row.priorityName"
-              class="fx-item-size" [style.--size.px]="50" >
+              class="fx-item-size" [style.--size.px]="50">
 
               <span class="tag tag-small" [style.margin]="0"
                 [ngClass]="{

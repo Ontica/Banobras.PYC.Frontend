@@ -46,7 +46,7 @@ export class OrdersDataComponent implements OnChanges {
 
   @Output() ordersDataEvent = new EventEmitter<EventInfo>();
 
-  displayedColumns: string[] = ['check', 'order', 'manager', 'status'];
+  displayedColumns: string[] = ['check', 'order', 'especif', 'description', 'status'];
 
   dataSource: TableVirtualScrollDataSource<OrderDescriptor>;
 
@@ -95,18 +95,6 @@ export class OrdersDataComponent implements OnChanges {
 
   private setDataSource() {
     this.dataSource = new TableVirtualScrollDataSource(this.dataList);
-    this.resetColumns();
-  }
-
-
-  private resetColumns() {
-    if ([ObjectTypes.CONTRACT_ORDER,
-         ObjectTypes.EXPENSE,
-         ObjectTypes.PURCHASE_ORDER].includes(this.config.type)) {
-      this.displayedColumns = ['check', 'order', 'manager', 'especif', 'status'];
-    } else {
-      this.displayedColumns = ['check', 'order', 'manager', 'status'];
-    }
   }
 
 

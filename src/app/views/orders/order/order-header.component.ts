@@ -160,23 +160,21 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   get budgetPlaceholder(): string {
+    if (this.isSaved && !this.editionMode) {
+      return 'No determinado';
+    }
+
     if (this.contractFieldsRequired) {
-      return this.form.controls.contractUID.invalid ? 'Seleccione el contrato' : 'Seleccionar'
+      return this.form.controls.contractUID.invalid ? 'Seleccione contrato' : 'Seleccionar'
     } else {
-      return this.form.controls.budgetTypeUID.invalid ? 'Seleccione el tipo de presupuesto' : 'Seleccionar'
+      return this.form.controls.budgetTypeUID.invalid ? 'Seleccione tipo de presupuesto' : 'Seleccionar'
     }
   }
 
 
   onContractChanges(item: Contract) {
-    if (!isEmpty(item)) {
-      this.form.controls.budgetTypeUID.reset(item.budgetType.uid ?? null);
-      this.form.controls.currencyUID.reset(item.currency.uid ?? null);
-    } else {
-      this.form.controls.budgetTypeUID.reset();
-      this.form.controls.currencyUID.reset();
-    }
-
+    this.form.controls.budgetTypeUID.reset(FormHelper.getUIDValueValid(item?.budgetType));
+    this.form.controls.currencyUID.reset(FormHelper.getUIDValueValid(item?.currency));
     this.form.controls.budgetUID.reset();
     this.form.controls.budgets.reset();
     this.budgetsList = item?.budgets ?? [];
@@ -240,6 +238,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       this.categoriesList = b;
       this.budgetTypesList = c;
       this.currenciesList = d;
+      this.validateInitDataList();
       this.validateSetBudgetsList();
       this.isLoading = false;
     });
@@ -273,9 +272,9 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     this.form = fb.group({
       categoryUID: ['', Validators.required],
       priority: [null],
-      responsibleUID: ['', Validators.required],
       requestedByUID: ['', Validators.required],
-      beneficiaryUID: ['', Validators.required],
+      responsibleUID: [''],
+      beneficiaryUID: [''],
       providerUID: [''],
       isForMultipleBeneficiaries: [false],
       projectUID: [''],
@@ -295,14 +294,14 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        categoryUID: isEmpty(this.order.category) ? null : this.order.category.uid,
-        priority: isEmpty(this.order.priority) ? null : this.order.priority.uid as Priority,
-        responsibleUID: isEmpty(this.order.responsible) ? null : this.order.responsible.uid,
-        requestedByUID: isEmpty(this.order.requestedBy) ? null : this.order.requestedBy.uid,
-        beneficiaryUID: isEmpty(this.order.beneficiary) ? null : this.order.beneficiary.uid,
-        providerUID: isEmpty(this.order.provider) ? null : this.order.provider.uid,
+        categoryUID: FormHelper.getUIDValueValid(this.order.category),
+        priority: FormHelper.getUIDValueValid(this.order.priority) as Priority,
+        responsibleUID: FormHelper.getUIDValueValid(this.order.responsible),
+        requestedByUID: FormHelper.getUIDValueValid(this.order.requestedBy),
+        beneficiaryUID: FormHelper.getUIDValueValid(this.order.beneficiary),
+        providerUID: FormHelper.getUIDValueValid(this.order.provider),
+        projectUID: FormHelper.getUIDValueValid(this.order.project),
         isForMultipleBeneficiaries: this.order.isForMultipleBeneficiaries,
-        projectUID: isEmpty(this.order.project) ? null : this.order.project.uid,
         identificators: this.order.identificators ?? null,
         tags: this.order.tags ?? null,
         description: this.order.description ?? null,
@@ -316,29 +315,31 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private validateSetOrderFields() {
-    if (this.contractFieldsRequired) {
-      const contractOrder = this.order as ContractOrder;
-      const contract = isEmpty(contractOrder.contract) ? null : contractOrder.contract;
-      this.setControlUIDValue(this.form.controls.contractUID, contract);
+    switch (this.config.type) {
+      case ObjectTypes.CONTRACT_ORDER: {
+        const order = this.order as ContractOrder;
+        const contract = isEmpty(order.contract) ? null : order.contract;
+        this.form.controls.contractUID.reset(FormHelper.getUIDValueValid(contract));
+        this.form.controls.budgetTypeUID.reset(FormHelper.getUIDValueValid(order.budgetType));
+        this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(order.budget));
+        this.form.controls.currencyUID.reset(FormHelper.getUIDValueValid(order.currency));
+        break;
+      }
+      case ObjectTypes.EXPENSE:
+      case ObjectTypes.PURCHASE_ORDER: {
+        const order = this.order as PayableOrder;
+        this.form.controls.budgetTypeUID.reset(FormHelper.getUIDValueValid(order.budgetType));
+        this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(order.budget));
+        this.form.controls.currencyUID.reset(FormHelper.getUIDValueValid(order.currency));
+        break;
+      }
+      case ObjectTypes.REQUISITION: {
+        const order = this.order as RequisitionOrder;
+        this.form.controls.budgetTypeUID.reset(FormHelper.getUIDValueValid(order.budgetType));
+        this.form.controls.budgets.reset(order.budgets?.map(x => x.uid) ?? []);
+        break;
+      }
     }
-
-    if (this.payableFieldsRequired || this.contractFieldsRequired) {
-      const payableOrder = this.order as PayableOrder;
-      this.setControlUIDValue(this.form.controls.budgetTypeUID, payableOrder.budgetType);
-      this.setControlUIDValue(this.form.controls.budgetUID, payableOrder.budget);
-      this.setControlUIDValue(this.form.controls.currencyUID, payableOrder.currency);
-    }
-
-    if (this.requisitionFieldsRequired) {
-      const requisitionOrder = this.order as RequisitionOrder;
-      this.setControlUIDValue(this.form.controls.budgetTypeUID, requisitionOrder.budgetType);
-      this.form.controls.budgets.reset(requisitionOrder.budgets?.map(x => x.uid) ?? []);
-    }
-  }
-
-
-  private setControlUIDValue(control: FormControl<any>, value: Identifiable) {
-    control.reset(isEmpty(value) ? null : value.uid);
   }
 
 
@@ -361,19 +362,14 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private validateFieldRequired(control: FormControl<any>, required: boolean) {
-    if (required) {
-      FormHelper.setControlValidators(control, [Validators.required]);
-    } else {
-      FormHelper.clearControlValidators(control);
-    }
+    if (required) FormHelper.setControlValidators(control, [Validators.required]);
+    else FormHelper.clearControlValidators(control);
   }
 
 
   private validateFormDisabled() {
     const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
     FormHelper.setDisableForm(this.form, disable);
-    FormHelper.setDisableControl(this.form.controls.budgetTypeUID, disable || this.contractFieldsRequired);
-    FormHelper.setDisableControl(this.form.controls.currencyUID, disable || this.contractFieldsRequired);
   }
 
 
@@ -393,8 +389,19 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private validateSetDataLists() {
+    this.validateInitDataList();
     this.validateGetContracts(true);
     this.validateSetBudgetsList();
+  }
+
+
+  private validateInitDataList() {
+    if (this.isSaved) {
+      this.categoriesList = ArrayLibrary.insertIfNotExist(this.categoriesList ?? [], this.order.category, 'uid');
+      this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.order.requestedBy, 'uid');
+      this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.order.beneficiary, 'uid');
+      this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.order.responsible, 'uid');
+    }
   }
 
 
@@ -413,19 +420,14 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     }
 
     if (this.contractFieldsRequired) {
-      const contractOrder = this.order as ContractOrder;
-      this.budgetsList = contractOrder?.contract.budgets ?? [];
+      const order = this.order as ContractOrder;
+      this.budgetsList = order?.contract.budgets ?? [];
     }
 
-    if (this.payableFieldsRequired) {
-      const payableOrder = this.order as PayableOrder;
-      const budgetType = this.budgetTypesList.find(x => x.uid === payableOrder.budgetType?.uid);
-      this.budgetsList = budgetType?.budgets ?? [];
-    }
-
-    if (this.requisitionFieldsRequired) {
-      const requisitionOrder = this.order as RequisitionOrder;
-      const budgetType = this.budgetTypesList.find(x => x.uid === requisitionOrder.budgetType?.uid);
+    if (this.payableFieldsRequired || this.requisitionFieldsRequired) {
+      const order = this.order as PayableOrder | RequisitionOrder;
+      const budgetType = this.budgetTypesList.find(x => x.uid === order.budgetType?.uid) ?? order.budgetType as BudgetType;
+      this.budgetTypesList = ArrayLibrary.insertIfNotExist(this.budgetTypesList ?? [], budgetType, 'uid');
       this.budgetsList = budgetType?.budgets ?? [];
     }
   }
@@ -545,22 +547,22 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     const orderTypeName = `${this.config.pronounSingular} ${this.config.nameSingular}`;
     const orderNo = !this.order.orderNo ? '' : `${this.order.orderNo}: `;
     const provider = isEmpty(this.order.provider) ? '' :
-      `del proveedor <strong>${this.order.provider.name}</strong>`;
+      ` del proveedor <strong>${this.order.provider.name}</strong>`;
 
     switch (eventType) {
       case OrderHeaderEventType.DELETE:
         return `Esta operación eliminará ${orderTypeName} <strong>${orderNo}</strong>
-                (${this.order.category.name}) ${provider}.
+                (${this.order.category.name})${provider}.
                 <br><br>¿Elimino ${orderTypeName}?`;
 
       case OrderHeaderEventType.SUSPEND:
         return `Esta operación suspenderá ${orderTypeName} <strong>${orderNo}</strong>
-                (${this.order.category.name}) ${provider}.
+                (${this.order.category.name})${provider}.
                 <br><br>¿Suspendo ${orderTypeName}?`;
 
       case OrderHeaderEventType.ACTIVATE:
         return `Esta operación reactivará ${orderTypeName} <strong>${orderNo}</strong>
-                (${this.order.category.name}) ${provider}.
+                (${this.order.category.name})${provider}.
                 <br><br>¿Reactivo ${orderTypeName}?`;
 
       default: return '';

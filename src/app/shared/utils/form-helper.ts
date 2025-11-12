@@ -6,6 +6,7 @@
  */
 
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { Identifiable, isEmpty } from '@app/core';
 
 
 export class FormHelper {
@@ -112,6 +113,16 @@ export class FormHelper {
     }
 
     return condition ? 'Buscar...' : `Seleccione ${fieldName}`;
+  }
+
+
+  static getUIDValueValid(value: Identifiable): string {
+    return isEmpty(value) ? null : value.uid;
+  }
+
+
+  static getNumberValueValid(value: number): number {
+    return value >= 0 ? value : null;
   }
 
 }

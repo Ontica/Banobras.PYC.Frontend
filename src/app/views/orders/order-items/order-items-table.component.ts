@@ -9,13 +9,14 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { MatTableDataSource } from '@angular/material/table';
 
-import { EventInfo } from '@app/core';
+import { EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
 import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
-import { EmptyOrderExplorerTypeConfig, ObjectTypes, OrderItem, OrderExplorerTypeConfig, PayableOrderItem } from '@app/models';
+import { EmptyOrderExplorerTypeConfig, ObjectTypes, OrderItem, OrderExplorerTypeConfig,
+         PayableOrderItem } from '@app/models';
 
 
 export enum OrderItemsTableEventType {
@@ -41,7 +42,7 @@ export class OrderItemsTableComponent implements OnChanges {
 
   @Output() orderItemsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['product', 'productUnit', 'quantity'];
+  displayedColumnsDefault: string[] = ['description', 'productUnit', 'quantity'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
@@ -55,14 +56,6 @@ export class OrderItemsTableComponent implements OnChanges {
     if (changes.items) {
       this.setDataTable();
     }
-  }
-
-
-  get isPayableOrder(): boolean {
-    return [ObjectTypes.CONTRACT_ORDER,
-            ObjectTypes.EXPENSE,
-            ObjectTypes.PURCHASE_ORDER,
-            ObjectTypes.REQUISITION].includes(this.config.type);
   }
 
 
@@ -97,10 +90,18 @@ export class OrderItemsTableComponent implements OnChanges {
   private resetColumns() {
     let columns = [];
 
-    if (this.isPayableOrder) {
-      columns = ['product', 'budgetAccount', 'productUnit', 'quantity', 'unitPrice', 'discount', 'total']
-    } else {
-      columns = ['product', 'productUnit', 'quantity']
+    switch (this.config.type) {
+      case ObjectTypes.CONTRACT_ORDER:
+      case ObjectTypes.EXPENSE:
+      case ObjectTypes.PURCHASE_ORDER:
+        columns = ['budgetAccount', 'description', 'productUnit', 'quantity', 'unitPrice', 'discount', 'total'];
+        break;
+      case ObjectTypes.REQUISITION:
+        columns = ['budgetAccount', 'description', 'productUnit', 'quantity', 'unitPrice', 'total'];
+        break;
+      default:
+        columns = ['description', 'productUnit', 'quantity', 'unitPrice', 'total']
+        break;
     }
 
     if (this.canDelete) columns.push('actionDelete');
@@ -110,38 +111,35 @@ export class OrderItemsTableComponent implements OnChanges {
 
 
   private getConfirmMessage(item: OrderItem): string {
+    let budgetAccountText = '';
+
+    if ([ObjectTypes.CONTRACT_ORDER,
+         ObjectTypes.EXPENSE,
+         ObjectTypes.PURCHASE_ORDER,
+         ObjectTypes.REQUISITION].includes(this.config.type)) {
+      const budgetAccount = (item as PayableOrderItem)?.budgetAccount?.name ?? 'N/D';
+      budgetAccountText = `<tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
+                             ${budgetAccount}
+                           </strong></td></tr>`;
+    }
+
     return `
       <table class='confirm-data'>
-        <tr><td class='nowrap'>Producto: </td><td><strong>
-          ${item.product.name} (${item.productUnit.name})
+        <tr><td class='nowrap'>Descripción: </td><td><strong>
+          ${isEmpty(item.product) ? item.description : item.product.name} (${item.productUnit.name})
         </strong></td></tr>
-        ${this.getConfirmMessageByOrderType(item)}
+        ${budgetAccountText}
+        <tr><td class='nowrap'>Cantidad: </td><td><strong>
+          ${FormatLibrary.numberWithCommas(item.quantity, '1.0-2')}
+        </strong></td></tr>
+        <tr><td class='nowrap'>Precio unitario: </td><td><strong>
+          ${FormatLibrary.numberWithCommas(item.unitPrice, '1.2-2')}
+        </strong></td></tr>
+        <tr><td class='nowrap'>Total: </td><td><strong>
+          ${FormatLibrary.numberWithCommas(item.total, '1.2-2')}
+        </strong></td></tr>
       </table>
     <br>¿Elimino el concepto?`;
-  }
-
-
-  private getConfirmMessageByOrderType(item: OrderItem): string {
-    if (this.isPayableOrder) {
-      const payableOrderItem = item as PayableOrderItem;
-
-      return `<tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
-                ${payableOrderItem.budgetAccount.name}
-              </strong></td></tr>
-              <tr><td class='nowrap'>Cantidad: </td><td><strong>
-                ${FormatLibrary.numberWithCommas(item.quantity, '1.0-2')}
-              </strong></td></tr>
-              <tr><td class='nowrap'>Precio unitario: </td><td><strong>
-                ${FormatLibrary.numberWithCommas(payableOrderItem.unitPrice, '1.2-2')}
-              </strong></td></tr>
-              <tr><td class='nowrap'>Total: </td><td><strong>
-                ${FormatLibrary.numberWithCommas(payableOrderItem.total, '1.2-2')}
-              </strong></td></tr>`;
-    } else {
-      return `<tr><td class='nowrap'>Cantidad: </td><td><strong>
-                ${FormatLibrary.numberWithCommas(item.quantity, '1.0-2')}
-              </strong></td></tr>`;
-    }
   }
 
 }

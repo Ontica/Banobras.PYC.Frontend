@@ -14,7 +14,7 @@ import { BudgetAccount, BudgetTransactionEntryByYear, BudgetTransactionEntryByYe
          BudgetTransactionFields, BudgetTransactionHolder, BudgetTransactionsQuery,
          BudgetTransactionRejectFields, BudgetTypeForEdition, FileReport, ExplorerOperationType,
          ExplorerOperationCommand, ExplorerOperationResult, ImportBudgetTransactionsCommand,
-         ImportBudgetTransactionsResult } from '@app/models';
+         ImportBudgetTransactionsResult, BudgetAccountsForProductQuery } from '@app/models';
 
 
 @Injectable()
@@ -48,6 +48,15 @@ export class BudgetTransactionsDataService {
     const path = 'v2/budgeting/transactions/operation-sources';
 
     return this.http.get<Identifiable[]>(path);
+  }
+
+
+  searchBudgetAccounts(query: BudgetAccountsForProductQuery): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(query, 'query');
+
+    const path = `v2/budgeting/transactions/accounts/search`;
+
+    return this.http.post<Identifiable[]>(path, query);
   }
   //#endregion CATALOGUES
 

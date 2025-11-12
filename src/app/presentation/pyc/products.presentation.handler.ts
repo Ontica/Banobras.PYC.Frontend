@@ -17,12 +17,14 @@ import { ProductsDataService } from '@app/data-services';
 export enum SelectorType {
   PRODUCT_TYPES      = 'PYC.Products.Selector.ProductTypes.List',
   PRODUCT_CATEGORIES = 'PYC.Products.Selector.ProductCategories.List',
+  PRODUCT_UNITS      = 'PYC.Products.Selector.ProductUnits.List',
 }
 
 
 const initialState: StateValues = [
   { key: SelectorType.PRODUCT_TYPES, value: [] },
   { key: SelectorType.PRODUCT_CATEGORIES, value: [] },
+  { key: SelectorType.PRODUCT_UNITS, value: [] },
 ];
 
 
@@ -49,6 +51,12 @@ export class ProductsPresentationHandler extends AbstractPresentationHandler {
 
       case SelectorType.PRODUCT_CATEGORIES: {
         const provider = () => this.data.getProductCategories();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.PRODUCT_UNITS: {
+        const provider = () => this.data.getProductUnits();
 
         return super.selectFirst<U>(selectorType, provider);
       }

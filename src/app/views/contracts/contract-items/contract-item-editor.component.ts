@@ -20,7 +20,7 @@ import { CataloguesStateSelector } from '@app/presentation/exported.presentation
 
 import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { ProductsDataService, SearcherAPIS } from '@app/data-services';
+import { BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services';
 
 import { Budget, BudgetAccountsForProductQuery, Contract, ContractItem, ContractItemFields, EmptyContract,
          EmptyContractItem, ProductSearch, RequestsList } from '@app/models';
@@ -95,7 +95,7 @@ export class ContractItemEditorComponent implements OnChanges, OnInit, OnDestroy
 
 
   constructor(private uiLayer: PresentationLayer,
-              private productsData: ProductsDataService) {
+              private budgetData: BudgetTransactionsDataService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
@@ -253,28 +253,26 @@ export class ContractItemEditorComponent implements OnChanges, OnInit, OnDestroy
 
 
   private validateSearchBudgetAccounts(budgetAccountsDefault?: Identifiable) {
-    const budgetUID = this.form.value.budgetUID;
-
-    const orgUnitUID = this.isOrgUnitRequired ?
+    const operationType = 'procurement';
+    const baseBudgetUID = this.form.value.budgetUID;
+    const basePartyUID = this.isOrgUnitRequired ?
       this.form.value.requesterOrgUnitUID : this.contract.managedByOrgUnit.uid;
-
     const productUID = this.form.value.productUID;
 
-    if (!!budgetUID && !!orgUnitUID && !!productUID) {
-      const query: BudgetAccountsForProductQuery = { budgetUID, orgUnitUID, productUID };
-      this.searchBudgetAccounts(productUID, query, budgetAccountsDefault);
+    if (!!baseBudgetUID && !!basePartyUID && !!productUID) {
+      const query: BudgetAccountsForProductQuery = { operationType, baseBudgetUID, basePartyUID, productUID };
+      this.searchBudgetAccounts(query, budgetAccountsDefault);
     } else {
       this.setBudgetAccountsList([], budgetAccountsDefault);
     }
   }
 
 
-  private searchBudgetAccounts(productUID: string,
-                               query: BudgetAccountsForProductQuery,
+  private searchBudgetAccounts(query: BudgetAccountsForProductQuery,
                                budgetAccountsDefault?: Identifiable) {
     this.isLoadingBudgetAccounts = true;
 
-    this.productsData.searchBudgetAccountsForProduct(productUID, query)
+    this.budgetData.searchBudgetAccounts(query)
     .firstValue()
       .then(x => this.setBudgetAccountsList(x, budgetAccountsDefault))
       .finally(() => this.isLoadingBudgetAccounts = false);

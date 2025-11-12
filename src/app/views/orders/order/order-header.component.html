@@ -50,14 +50,14 @@
 
       <div class="fx-item-half">
 
-        <label>Área administradora:</label>
+        <label>Área solicitante:</label>
 
         <emp-ng-select
-          formControlName="responsibleUID"
+          formControlName="requestedByUID"
           [config]="{virtualScroll: true, showTooltip: true}"
           [items]="orgUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.responsibleUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)">
 
         </emp-ng-select>
 
@@ -84,14 +84,14 @@
 
       <div class="fx-item-half">
 
-        <label>Área solicitante:</label>
+        <label>Área administradora:</label>
 
         <emp-ng-select
-          formControlName="requestedByUID"
+          formControlName="responsibleUID"
           [config]="{virtualScroll: true, showTooltip: true}"
           [items]="orgUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.responsibleUID)">
 
         </emp-ng-select>
 
@@ -162,7 +162,7 @@
           formControlName="currencyUID"
           [items]="currenciesList"
           [loading]="isLoading"
-          [placeholder]="contractFieldsRequired && form.controls.contractUID.invalid ? 'Seleccione el contrato' : 'Seleccionar'"
+          [placeholder]="formHelper.getSimplePlaceholder(!isSaved || editionMode)"
           [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
 
         </emp-ng-select>
@@ -178,7 +178,8 @@
           [config]="{showTooltip: true}"
           [items]="contractsList"
           [loading]="isContractsLoading"
-          [placeholder]="form.controls.providerUID.invalid ? 'Seleccione el proveedor' : 'Seleccionar'"
+          [placeholder]="formHelper.getConditionalPlaceholder(!isSaved || editionMode,
+            form.controls.providerUID.valid, 'proveedor')"
           [showError]="formHelper.isControlInvalid(form.controls.contractUID)"
           (changes)="onContractChanges($event)">
 

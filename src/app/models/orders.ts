@@ -94,7 +94,7 @@ export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerType
 
 export interface OrdersQuery {
   orderTypeUID: string;
-  responsibleUID: string;
+  requestedByUID: string;
   status: EntityStatus;
   keywords: string;
   categoryUID: string;
@@ -112,9 +112,9 @@ export interface OrderDescriptor {
   orderNo: string;
   description: string;
   justification: string;
-  responsibleName: string;
-  requestedByName: string;
-  beneficiaryName: string;
+  baseOrgUnitName: string;
+  baseBudgetName: string;
+  total: number;
   priorityUID: string;
   priorityName: string;
   providerName: string;
@@ -175,6 +175,9 @@ export interface Order {
   closedBy: Identifiable;
   authorizationTime: DateString;
   closingTime: DateString;
+  baseOrgUnitName: string;
+  baseBudgetName: string;
+  total: number;
   status: Identifiable<EntityStatus>;
 }
 
@@ -183,13 +186,16 @@ export interface OrderItem {
   uid: string;
   order: Identifiable;
   orderType: Identifiable<ObjectTypes>;
+  requestedBy: Identifiable;
+  project: Identifiable;
   product: Identifiable;
   productUnit: Identifiable;
   quantity: number;
+  unitPrice: number;
+  total: number;
   description: string;
+  justification: string;
   status: Identifiable;
-  requestedBy: Identifiable;
-  project: Identifiable;
 }
 
 
@@ -205,12 +211,15 @@ export interface OrderActions {
 
 
 export interface OrderItemFields {
+  requestedByUID: string;
   productUID: string;
   productUnitUID: string;
-  requestedByUID: string;
   projectUID: string;
   quantity: number;
+  unitPrice: number;
+  total: number;
   description: string;
+  justification: string;
 }
 
 
@@ -219,7 +228,7 @@ export const EmptyOrdersQuery: OrdersQuery = {
   orderNo: '',
   categoryUID: '',
   keywords: '',
-  responsibleUID: '',
+  requestedByUID: '',
   providerUID: '',
   projectUID: '',
   priority: null,
@@ -248,6 +257,9 @@ export const EmptyOrder: Order = {
   authorizationTime: '',
   closingTime: '',
   closedBy: Empty,
+  baseOrgUnitName: '',
+  baseBudgetName: '',
+  total: null,
   status: Empty,
 }
 
@@ -261,7 +273,10 @@ export const EmptyOrderItem: OrderItem = {
   project: Empty,
   requestedBy: Empty,
   quantity: null,
+  unitPrice: null,
+  total: null,
   description: '',
+  justification: '',
   status: Empty,
 }
 
@@ -311,9 +326,9 @@ export function mapOrderDescriptorFromOrder(order: Order): OrderDescriptor {
     orderNo: order.orderNo,
     description: order.description,
     justification: order.justification,
-    responsibleName: order.responsible.name,
-    beneficiaryName: order.beneficiary.name,
-    requestedByName: order.requestedBy.name,
+    baseOrgUnitName: order.baseOrgUnitName,
+    baseBudgetName: order.baseBudgetName,
+    total: order.total ?? null,
     closedByName: order.closedBy.name,
     providerName: order.provider.name,
     projectName: order.project.name,

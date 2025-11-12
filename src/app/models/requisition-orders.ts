@@ -13,8 +13,8 @@ import { Document } from './documents';
 
 import { HistoryEntry } from './history';
 
-import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem,
-         OrderItemFields } from './orders';
+import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem, OrderItemFields,
+         mapOrderDescriptorFromOrder } from './orders';
 
 import { PaymentOrderDescriptor } from './payments-orders';
 
@@ -22,7 +22,6 @@ import { PaymentOrderDescriptor } from './payments-orders';
 export interface RequisitionOrderDescriptor extends OrderDescriptor {
   budgetTypeName: string;
   budgetsName: string;
-  total: number;
 }
 
 
@@ -36,8 +35,8 @@ export interface RequisitionOrderHolder extends OrderHolder {
   items: RequisitionOrderItem[];
   budgetTransactions: BudgetTransactionDescriptor[];
   payables: OrderDescriptor[];
-  invoices: Document[];
-  payments: PaymentOrderDescriptor[];
+  bills: Document[];
+  paymentOrders: PaymentOrderDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
   actions: RequisitionOrderActions;
@@ -47,16 +46,12 @@ export interface RequisitionOrderHolder extends OrderHolder {
 export interface RequisitionOrder extends Order {
   budgetType: Identifiable;
   budgets: Identifiable[];
-  total: number;
 }
 
 
 export interface RequisitionOrderItem extends OrderItem {
+  budget: Identifiable;
   budgetAccount: Identifiable;
-  unitPrice: number;
-  discount: number;
-  currency: Identifiable;
-  total: number;
 }
 
 
@@ -66,34 +61,18 @@ export interface RequisitionOrderActions extends OrderActions {
 
 
 export interface RequisitionOrderItemFields extends OrderItemFields {
+  budgetUID: string;
   budgetAccountUID: string;
-  unitPrice: number;
-  discount: number;
 }
 
 
 export function mapRequisitionOrderDescriptorFromRequisitionOrder(order: RequisitionOrder): RequisitionOrderDescriptor {
   return {
-    uid: order.uid,
-    typeName: order.type.name,
-    categoryName: order.category.name,
-    orderNo: order.orderNo,
-    description: order.description,
-    justification: order.justification,
-    responsibleName: order.responsible.name,
-    beneficiaryName: order.beneficiary.name,
-    providerName: order.provider.name,
-    requestedByName: order.requestedBy.name,
-    projectName: order.project.name,
-    priorityUID: order.priority.uid,
-    priorityName: order.priority.name,
-    authorizationTime: order.authorizationTime,
-    authorizedByName: order.authorizedBy.name,
-    closingTime: order.closingTime,
-    closedByName: order.closedBy.name,
-    statusName: order.status.name,
-    budgetTypeName: order.budgetType?.name ?? '',
-    budgetsName: order.budgets?.map(x => x.name).join() ?? '',
-    total: order.total ?? null,
+    ...mapOrderDescriptorFromOrder(order),
+    ...
+    {
+      budgetTypeName: order.budgetType?.name ?? '',
+      budgetsName: order.budgets?.map(x => x.name).join() ?? '',
+    }
   };
 }

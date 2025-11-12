@@ -30,7 +30,7 @@ export enum OrdersFilterEventType {
 }
 
 interface OrdersFilterFormModel extends FormGroup<{
-  responsibleUID: FormControl<string>;
+  requestedByUID: FormControl<string>;
   status: FormControl<EntityStatus>;
   keywords: FormControl<string>;
   categoryUID: FormControl<string>;
@@ -161,7 +161,7 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      responsibleUID: [null],
+      requestedByUID: [null],
       status: [null],
       keywords: [null],
       categoryUID: [null],
@@ -175,7 +175,7 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
 
   private setFormData() {
     this.form.reset({
-      responsibleUID: this.query.responsibleUID,
+      requestedByUID: this.query.requestedByUID,
       status: this.query.status,
       keywords: this.query.keywords,
       categoryUID: this.query.categoryUID,
@@ -190,7 +190,7 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
   private getFormData(): OrdersQuery {
     const query: OrdersQuery = {
       orderTypeUID: this.config.type,
-      responsibleUID: this.form.value.responsibleUID ?? null,
+      requestedByUID: this.form.value.requestedByUID ?? null,
       status: this.form.value.status ?? null,
       keywords: this.form.value.keywords ?? null,
       categoryUID: this.form.value.categoryUID ?? null,

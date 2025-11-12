@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import {  ProductHolder, ProductDescriptor, ProductFields, ProductsQuery, ProductBudgetSegment,
-          ProductBudgetSegmentFields, BudgetAccountsForProductQuery } from '@app/models';
+          ProductBudgetSegmentFields } from '@app/models';
 
 
 @Injectable()
@@ -34,14 +34,10 @@ export class ProductsDataService {
   }
 
 
-  searchBudgetAccountsForProduct(productUID: string,
-                                 query: BudgetAccountsForProductQuery): EmpObservable<Identifiable[]> {
-    Assertion.assertValue(productUID, 'productUID');
-    Assertion.assertValue(query, 'query');
+  getProductUnits(): EmpObservable<Identifiable[]> {
+    const path = 'v8/product-management/product-units';
 
-    const path = `v8/product-management/products/${productUID}/budget-accounts`;
-
-    return this.http.post<Identifiable[]>(path, query);
+    return this.http.get<Identifiable[]>(path);
   }
 
 

@@ -6,14 +6,14 @@
 
       <div class="fx-item-half sm-fx-item">
 
-        <label>Área administradora:</label>
+        <label>Área solicitante:</label>
 
         <emp-ng-select
-          formControlName="responsibleUID"
+          formControlName="requestedByUID"
           [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
           [items]="orgUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.responsibleUID)"
+          [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)"
           placeholder="Todas">
         </emp-ng-select>
 
@@ -136,22 +136,6 @@
               [searcherAPI]="suppliersAPI"
               [initialValue]="selectedSupplier"
               (changes)="onSupplierChanges($event)"
-              placeholder="Todos">
-
-            </emp-ng-select-typeahead>
-
-          </div>
-
-          <div class="fx-item-half sm-fx-item">
-
-            <label>Proyecto:</label>
-
-            <emp-ng-select-typeahead
-              formControlName="projectUID"
-              [config]="{ clearable: true }"
-              [searcherAPI]="projectsAPI"
-              [initialValue]="selectedProject"
-              (changes)="onProjectChanges($event)"
               placeholder="Todos">
 
             </emp-ng-select-typeahead>

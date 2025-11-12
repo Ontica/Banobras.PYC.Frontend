@@ -48,8 +48,6 @@ export class OrderTabbedViewComponent implements OnChanges {
 
   title = '';
 
-  status = '';
-
   hint = '';
 
   selectedTabIndex = 0;
@@ -147,12 +145,12 @@ export class OrderTabbedViewComponent implements OnChanges {
 
     const entityName = this.getPayableEntityName() + '&nbsp; &nbsp; | &nbsp; &nbsp;';
 
-    this.status = this.data.order.status.name === 'Eliminado' ?
+    const status = this.data.order.status.name === 'Eliminado' ?
       `<span class="tag tag-error tag-small">${this.data.order.status.name}</span>` :
       `<span class="tag tag-small">${this.data.order.status.name}</span>`;
 
     this.title = `${!this.data.order.orderNo ? '' : (this.data.order.orderNo + ': ')}
-      ${this.data.order.category.name}`;
+      ${this.data.order.category.name} ${status}`;
 
     this.hint = `<strong>${this.data.order.provider.name} </strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
       `${entityName} ${authorizationTime}`;
