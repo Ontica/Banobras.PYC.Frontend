@@ -230,7 +230,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       this.setFormData();
     }
 
-    FormHelper.setDisableForm(this.form, !this.canUpdate);
+    this.validateFormDisabled();
   }
 
 
@@ -251,6 +251,12 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
+  private validateControlRequired(control, required: boolean) {
+    required ? FormHelper.setControlValidators(control, Validators.required) :
+      FormHelper.clearControlValidators(control);
+  }
+
+
   private validateDescriptionRequired() {
     const required = this.requisitionFieldsRequired && !this.form.getRawValue().productUID;
 
@@ -259,11 +265,8 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  private validateControlRequired(control, required: boolean) {
-    FormHelper.setDisableControl(control, !required);
-
-    required ? FormHelper.setControlValidators(control, Validators.required) :
-      FormHelper.clearControlValidators(control);
+  private validateFormDisabled() {
+    FormHelper.setDisableForm(this.form, !this.canUpdate);
   }
 
 

@@ -344,13 +344,13 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private validateFieldsRequired() {
-    this.validateFieldRequired(this.form.controls.priority, !this.requisitionFieldsRequired);
-    this.validateFieldRequired(this.form.controls.providerUID, !this.requisitionFieldsRequired);
-    this.validateFieldRequired(this.form.controls.contractUID, this.contractFieldsRequired);
-    this.validateFieldRequired(this.form.controls.budgetTypeUID, this.payableFieldsRequired || this.requisitionFieldsRequired);
-    this.validateFieldRequired(this.form.controls.budgetUID, this.payableFieldsRequired || this.contractFieldsRequired);
-    this.validateFieldRequired(this.form.controls.budgets, this.requisitionFieldsRequired);
-    this.validateFieldRequired(this.form.controls.currencyUID, this.payableFieldsRequired);
+    this.validateControlRequired(this.form.controls.priority, !this.requisitionFieldsRequired);
+    this.validateControlRequired(this.form.controls.providerUID, !this.requisitionFieldsRequired);
+    this.validateControlRequired(this.form.controls.contractUID, this.contractFieldsRequired);
+    this.validateControlRequired(this.form.controls.budgetTypeUID, this.payableFieldsRequired || this.requisitionFieldsRequired);
+    this.validateControlRequired(this.form.controls.budgetUID, this.payableFieldsRequired || this.contractFieldsRequired);
+    this.validateControlRequired(this.form.controls.budgets, this.requisitionFieldsRequired);
+    this.validateControlRequired(this.form.controls.currencyUID, this.payableFieldsRequired);
 
     this.validateFormDisabled();
 
@@ -361,9 +361,9 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  private validateFieldRequired(control: FormControl<any>, required: boolean) {
-    if (required) FormHelper.setControlValidators(control, [Validators.required]);
-    else FormHelper.clearControlValidators(control);
+  private validateControlRequired(control: FormControl<any>, required: boolean) {
+    required ? FormHelper.setControlValidators(control, [Validators.required]) :
+      FormHelper.clearControlValidators(control);
   }
 
 
