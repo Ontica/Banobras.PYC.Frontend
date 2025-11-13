@@ -100,7 +100,7 @@ export class PayableItemsTableComponent implements OnChanges {
           ${item.name}
         </strong></td></tr>
 
-        <tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
+        <tr><td class='nowrap'>Partida: </td><td><strong>
           ${item.budgetAccount.name}
         </strong></td></tr>
 

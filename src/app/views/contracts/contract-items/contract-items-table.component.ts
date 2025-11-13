@@ -106,7 +106,7 @@ export class ContractItemsTableComponent implements OnChanges {
         <tr><td class='nowrap'>Producto: </td><td><strong>
           ${item.product.name}
         </strong></td></tr>
-        <tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
+        <tr><td class='nowrap'>Partida: </td><td><strong>
           ${item.budgetAccount.name}
         </strong></td></tr>
         <tr><td class='nowrap'>Precio unitario: </td><td><strong>

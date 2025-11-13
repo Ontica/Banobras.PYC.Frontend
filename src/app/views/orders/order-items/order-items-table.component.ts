@@ -120,7 +120,7 @@ export class OrderItemsTableComponent implements OnChanges {
          ObjectTypes.PURCHASE_ORDER,
          ObjectTypes.REQUISITION].includes(this.config.type)) {
       const budgetAccount = (item as PayableOrderItem)?.budgetAccount?.name ?? 'N/D';
-      budgetAccountText = `<tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>
+      budgetAccountText = `<tr><td class='nowrap'>Partida: </td><td><strong>
                              ${budgetAccount}
                            </strong></td></tr>`;
     }

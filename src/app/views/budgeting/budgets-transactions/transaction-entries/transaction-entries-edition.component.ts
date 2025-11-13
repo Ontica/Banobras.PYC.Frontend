@@ -276,7 +276,7 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
     return `
       <table class='confirm-data'>
         <tr><td class='nowrap'>Movimiento: </td><td><strong>${entry.balanceColumn}</strong></td></tr>
-        <tr><td class='nowrap'>Cuenta presupuestal: </td><td><strong>${budgetAccount}</strong></td></tr>
+        <tr><td class='nowrap'>Partida: </td><td><strong>${budgetAccount}</strong></td></tr>
         <tr><td class='nowrap'>Importe: </td><td><strong>${total}</strong></td></tr>
       </table>
       <br>¿Elimino el movimiento?`;
