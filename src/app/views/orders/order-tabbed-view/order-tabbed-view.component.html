@@ -5,36 +5,28 @@
 
   <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
 
-    <mat-tab [label]="config.nameSingular">
+    <mat-tab *ngFor="let tab of tabs" [label]="tab.label">
 
-      <emp-ng-order-editor
-        [config]="config"
-        [order]="data.order"
-        [actions]="data.actions"
-        (orderEditorEvent)="onOrderEditorEvent($event)">
+      <ng-container [ngSwitch]="tab.tab">
 
-      </emp-ng-order-editor>
+        <emp-ng-order-editor *ngSwitchCase="TabType.order"
+          [config]="config"
+          [order]="data.order"
+          [actions]="data.actions"
+          (orderEditorEvent)="onOrderEditorEvent($event)">
 
-    </mat-tab>
+        </emp-ng-order-editor>
 
-    <mat-tab label="Conceptos">
+        <emp-ng-order-items-edition *ngSwitchCase="TabType.items"
+          [config]="config"
+          [order]="data.order"
+          [items]="data.items"
+          [canEdit]="data.actions.canEditItems"
+          (orderItemsEditionEvent)="onOrderItemsEditionEvent($event)">
 
-      <emp-ng-order-items-edition
-        [config]="config"
-        [order]="data.order"
-        [items]="data.items"
-        [canEdit]="data.actions.canEditItems"
-        (orderItemsEditionEvent)="onOrderItemsEditionEvent($event)">
+        </emp-ng-order-items-edition>
 
-      </emp-ng-order-items-edition>
-
-    </mat-tab>
-
-    <mat-tab label="Presupuesto">
-
-      <ng-template matTabContent>
-
-        <emp-bdg-budget-management
+        <emp-bdg-budget-management *ngSwitchCase="TabType.budgetTransactions"
           [baseObjectType]="config.type"
           [baseObjectUID]="data.order.uid"
           [baseObjectName]="title"
@@ -47,53 +39,33 @@
 
         </emp-bdg-budget-management>
 
-      </ng-template>
+        <div *ngSwitchCase="TabType.payables" class="instruction-text">
+          No se encontraron registros.
+        </div>
 
-    </mat-tab>
+        <div *ngSwitchCase="TabType.bills" class="instruction-text">
+          No se encontraron registros.
+        </div>
 
-    <mat-tab label="Adquisiciones" *ngIf="showPayables">
+        <div *ngSwitchCase="TabType.paymentOrders" class="instruction-text">
+          No se encontraron registros.
+        </div>
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+        <emp-ng-documents-edition *ngSwitchCase="TabType.documents"
+          entityType="orders"
+          [entityUID]="data.order.uid"
+          [documents]="data.documents"
+          [canEdit]="data.actions.canEditDocuments"
+          (documentsEditionEvent)="onDocumentsEditionEvent($event)">
 
-    </mat-tab>
+        </emp-ng-documents-edition>
 
-    <mat-tab label="Facturas">
+        <emp-ng-history-table *ngSwitchCase="TabType.history"
+          [history]="data.history">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+        </emp-ng-history-table>
 
-    </mat-tab>
-
-    <mat-tab label="Pagos">
-
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
-
-    </mat-tab>
-
-    <mat-tab label="Documentos">
-
-      <emp-ng-documents-edition
-        entityType="orders"
-        [entityUID]="data.order.uid"
-        [documents]="data.documents"
-        [canEdit]="data.actions.canEditDocuments"
-        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
-
-      </emp-ng-documents-edition>
-
-    </mat-tab>
-
-    <mat-tab label="Historial">
-
-      <emp-ng-history-table
-        [history]="data.history">
-
-      </emp-ng-history-table>
+      </ng-container>
 
     </mat-tab>
 

@@ -27,6 +27,23 @@ import {
 } from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 
+interface TabConfig {
+  label: string;
+  tab: TabType;
+}
+
+enum TabType {
+  order              = 'order',
+  items              = 'items',
+  budgetTransactions = 'budgetTransactions',
+  payables           = 'payables',
+  bills              = 'bills',
+  paymentOrders      = 'paymentOrders',
+  documents          = 'documents',
+  history            = 'history',
+}
+
+
 export enum OrderTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'OrderTabbedViewComponent.Event.CloseButtonClicked',
   DATA_UPDATED         = 'OrderTabbedViewComponent.Event.DataUpdated',
@@ -50,18 +67,21 @@ export class OrderTabbedViewComponent implements OnChanges {
 
   hint = '';
 
+  tabs: TabConfig[] = [];
+
+  TabType = TabType;
+
   selectedTabIndex = 0;
 
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.config) {
+      this.setTabs();
+    }
+
     if (changes.data) {
       this.setTitle();
     }
-  }
-
-
-  get showPayables(): boolean {
-    return this.config.type === ObjectTypes.REQUISITION;
   }
 
 
@@ -156,6 +176,44 @@ export class OrderTabbedViewComponent implements OnChanges {
     }
 
     return 'N/D';
+  }
+
+
+  private setTabs() {
+    const orderName = this.config.nameSingular;
+
+    const baseTabs: TabConfig[] = [
+      { label: orderName,       tab: TabType.order },
+      { label: 'Conceptos',     tab: TabType.items },
+      { label: 'Presupuesto',   tab: TabType.budgetTransactions },
+      { label: 'Adquisiciones', tab: TabType.payables },
+      { label: 'Facturas',      tab: TabType.bills },
+      { label: 'Pagos',         tab: TabType.paymentOrders },
+      { label: 'Documentos',    tab: TabType.documents },
+      { label: 'Historial',     tab: TabType.history },
+    ];
+
+    switch (this.config.type) {
+      case ObjectTypes.REQUISITION:
+        this.tabs = baseTabs;
+        break;
+      case ObjectTypes.EXPENSE:
+        this.tabs = [
+          baseTabs[0],
+          baseTabs[4],
+          baseTabs[1],
+          baseTabs[5],
+          baseTabs[2],
+          baseTabs[6],
+          baseTabs[7],
+        ];
+        break;
+      case ObjectTypes.CONTRACT_ORDER:
+      case ObjectTypes.PURCHASE_ORDER:
+      default:
+        this.tabs = baseTabs.filter(t => t.tab !== TabType.payables);
+        break;
+    }
   }
 
 }
