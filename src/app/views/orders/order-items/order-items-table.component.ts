@@ -42,7 +42,7 @@ export class OrderItemsTableComponent implements OnChanges {
 
   @Output() orderItemsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['description', 'productUnit', 'quantity'];
+  displayedColumnsDefault: string[] = ['cucop', 'description', 'productUnit', 'quantity'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
@@ -94,13 +94,15 @@ export class OrderItemsTableComponent implements OnChanges {
       case ObjectTypes.CONTRACT_ORDER:
       case ObjectTypes.EXPENSE:
       case ObjectTypes.PURCHASE_ORDER:
-        columns = ['budgetAccount', 'description', 'productUnit', 'quantity', 'unitPrice', 'discount', 'total'];
+        columns = ['budgetAccount', 'cucop', 'budgetControlNo', 'description', 'productUnit',
+                   'quantity', 'unitPrice', 'discount', 'total'];
         break;
       case ObjectTypes.REQUISITION:
-        columns = ['budgetAccount', 'description', 'productUnit', 'quantity', 'unitPrice', 'total'];
+        columns = ['budgetAccount', 'cucop', 'budgetControlNo', 'description', 'productUnit',
+                   'quantity', 'unitPrice', 'total'];
         break;
       default:
-        columns = ['description', 'productUnit', 'quantity', 'unitPrice', 'total']
+        columns = ['cucop', 'description', 'productUnit', 'quantity', 'unitPrice', 'total']
         break;
     }
 

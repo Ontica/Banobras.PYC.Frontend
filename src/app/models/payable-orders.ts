@@ -49,6 +49,7 @@ export interface PayableOrder extends Order {
 
 export interface PayableOrderItem extends OrderItem {
   budgetAccount: Identifiable;
+  budgetControlNo: string;
   discount: number;
   currency: Identifiable;
 }

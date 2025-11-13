@@ -185,10 +185,11 @@ export interface Order {
 export interface OrderItem {
   uid: string;
   order: Identifiable;
-  orderType: Identifiable<ObjectTypes>;
+  orderItemType: Identifiable;
   requestedBy: Identifiable;
   project: Identifiable;
   product: Identifiable;
+  productCode: string; // deberia ir dentro de product
   productUnit: Identifiable;
   quantity: number;
   unitPrice: number;
@@ -267,8 +268,9 @@ export const EmptyOrder: Order = {
 export const EmptyOrderItem: OrderItem = {
   uid: '',
   order: Empty,
-  orderType: Empty,
+  orderItemType: Empty,
   product: Empty,
+  productCode: '',
   productUnit: Empty,
   project: Empty,
   requestedBy: Empty,
