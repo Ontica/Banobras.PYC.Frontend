@@ -6,7 +6,8 @@
  */
 
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { Identifiable, isEmpty } from '@app/core';
+
+import { Entity, isEmpty } from '@app/core';
 
 
 export class FormHelper {
@@ -116,7 +117,7 @@ export class FormHelper {
   }
 
 
-  static getUIDValueValid(value: Identifiable): string {
+  static getUIDValueValid(value: Entity): string {
     return isEmpty(value) ? null : value.uid;
   }
 

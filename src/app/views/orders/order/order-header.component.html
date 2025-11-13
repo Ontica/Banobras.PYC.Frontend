@@ -2,7 +2,7 @@
 
   <div class="fx-column-container fx-gap-half">
 
-    <div class="fx-row-container">
+    <div class="fx-row-container" *ngIf="isRequisition || isContractOrder">
 
       <div class="fx-item-half">
 
@@ -18,7 +18,7 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="!requisitionFieldsRequired">
+      <div class="fx-item-half" *ngIf="isContractOrder">
 
         <label>Prioridad:</label>
 
@@ -57,13 +57,14 @@
           [config]="{virtualScroll: true, showTooltip: true}"
           [items]="orgUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)">
+          [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)"
+          (changes)="onRequestedByChanges($event)">
 
         </emp-ng-select>
 
       </div>
 
-      <div class="fx-item-half">
+      <div class="fx-item-half" *ngIf="isRequisition || isContractOrder">
 
         <label>Área beneficiaria:</label>
 
@@ -78,9 +79,52 @@
 
       </div>
 
+      <div class="fx-item-half" *ngIf="isPurchaseOrder || isExpense">
+
+        <label>Requisición:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="requisitionUID"
+          bindLabel="description"
+          [config]="{ showTooltip: true, searchByQuery: true }"
+          [searcherAPI]="requisitionsAPI"
+          [initQuery]="{ orderTypeUID: config.type, requestedByUID: form.value.requestedByUID, keywords: '' }"
+          [initialValue]="isSaved ? orderRequisitionLinked : null"
+          [showError]="formHelper.isControlInvalid(form.controls.requisitionUID)"
+          [placeholder]="formHelper.getConditionalPlaceholder(!isSaved || editionMode,
+            form.controls.requestedByUID.valid, 'área solicitante')"
+          (changes)="onRequisitionChanges($event)">
+
+          <ng-template #tLabelTemplate let-item="item">
+            {{item.orderNo}}: {{item?.description}}
+          </ng-template>
+
+          <ng-template #tOptionTemplate let-item="item">
+
+            <div class="item wrap">
+
+              <span class="item-highlight">
+                {{item.orderNo}}
+              </span> <br>
+              <span class="item-text-xs">
+                {{item?.description}}
+              </span>
+
+            </div>
+
+          </ng-template>
+
+        </emp-ng-select-typeahead>
+
+      </div>
+
     </div>
 
-    <div class="fx-row-container">
+    <mat-divider class="horizontal" *ngIf="isPurchaseOrder || isExpense">
+
+    </mat-divider>
+
+    <div class="fx-row-container" *ngIf="isRequisition || isContractOrder">
 
       <div class="fx-item-half">
 
@@ -136,9 +180,9 @@
 
     </div>
 
-    <div class="fx-row-container" *ngIf="!requisitionFieldsRequired">
+    <div class="fx-row-container" *ngIf="isPurchaseOrder || isContractOrder">
 
-      <div class="fx-item-half">
+      <div class="fx-item-half" *ngIf="isPurchaseOrder || isContractOrder">
 
         <label>Proveedor:</label>
 
@@ -154,7 +198,7 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="payableFieldsRequired">
+      <div class="fx-item-half" *ngIf="isPurchaseOrder">
 
         <label>Moneda:</label>
 
@@ -169,7 +213,7 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="contractFieldsRequired">
+      <div class="fx-item-half" *ngIf="isContractOrder">
 
         <label>Contrato:</label>
 
@@ -211,7 +255,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-half" *ngIf="payableFieldsRequired || requisitionFieldsRequired">
+      <div class="fx-item-half" *ngIf="isRequisition">
 
         <label>Tipo de presupuesto:</label>
 
@@ -226,12 +270,11 @@
 
       </div>
 
+      <div class="fx-item-half" *ngIf="isRequisition || isPurchaseOrder || isExpense || isContractOrder">
 
-      <div class="fx-item-half" *ngIf="payableFieldsRequired || contractFieldsRequired || requisitionFieldsRequired">
+        <label>{{isRequisition ? 'Años:' : 'Presupuesto:'}}</label>
 
-        <label>{{requisitionFieldsRequired ? 'Años:' : 'Presupuesto:'}}</label>
-
-        <emp-ng-select *ngIf="!requisitionFieldsRequired"
+        <emp-ng-select *ngIf="!isRequisition"
           formControlName="budgetUID"
           [items]="budgetsList"
           [loading]="isLoading"
@@ -240,7 +283,7 @@
 
         </emp-ng-select>
 
-        <emp-ng-select *ngIf="requisitionFieldsRequired"
+        <emp-ng-select *ngIf="isRequisition"
           formControlName="budgets"
           bindLabel="year"
           [config]="{multiple: true}"
@@ -248,6 +291,21 @@
           [loading]="isLoading"
           [placeholder]="budgetPlaceholder"
           [showError]="formHelper.isControlInvalid(form.controls.budgets)">
+
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half" *ngIf="isExpense">
+
+        <label>Moneda:</label>
+
+        <emp-ng-select
+          formControlName="currencyUID"
+          [items]="currenciesList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getSimplePlaceholder(!isSaved || editionMode)"
+          [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
 
         </emp-ng-select>
 

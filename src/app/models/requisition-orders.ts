@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Identifiable } from '@app/core';
+import { Entity, Identifiable } from '@app/core';
 
 import { BudgetTransactionDescriptor } from './budget-transactions';
 
@@ -18,6 +18,13 @@ import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderIt
 
 import { PaymentOrderDescriptor } from './payments-orders';
 
+
+export interface RequisitionOrderForEdition extends Entity {
+  uid:string;
+  orderNo: string;
+  description: string;
+  budgets: Identifiable[];
+}
 
 export interface RequisitionOrderDescriptor extends OrderDescriptor {
   budgetTypeName: string;

@@ -13,6 +13,8 @@ import { DataTableQuery } from '@app/models';
 
 
 export enum SearcherAPIS {
+  accountabilityResponsibles  = 'v8/human-resources/accountabilities/responsibles/search-available',
+  accountabilityCommissioners = 'v5/security/management/subjects/commissioners/search-available',
   assetsAssignees             = 'v2/assets/assignees',
   assetsTransactionsAssignees = 'v2/assets/transactions/assignees/',
   assetsTransactionsManagers  = 'v2/assets/transactions/managers/',
@@ -23,9 +25,8 @@ export enum SearcherAPIS {
   cashFlowAccounts            = 'v1/cash-flow/accounts/',
   cashFlowProjects            = 'v1/cash-flow/projects/',
   cashFlowProjectionsParties  = 'v1/cash-flow/projections/parties/',
+  requisitions                = 'v8/order-management/requisitions/available',
   payableEntities             = 'v2/payments-management/payable-entities/search',
-  accountabilityResponsibles  = 'v8/human-resources/accountabilities/responsibles/search-available',
-  accountabilityCommissioners = 'v5/security/management/subjects/commissioners/search-available',
   productBudgetSegments       = 'v8/product-management/budget-segments/available',
   productManagers             = 'v8/product-management/primary-party/product-managers/',
   products                    = 'v8/product-management/products/search',

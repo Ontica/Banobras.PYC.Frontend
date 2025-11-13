@@ -16,6 +16,8 @@ import { HistoryEntry } from './history';
 import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem, OrderItemFields,
          mapOrderDescriptorFromOrder } from './orders';
 
+import { RequisitionOrderForEdition } from './requisition-orders';
+
 
 export interface PayableOrderDescriptor extends OrderDescriptor {
   budgetTypeName: string;
@@ -27,6 +29,7 @@ export interface PayableOrderDescriptor extends OrderDescriptor {
 export interface PayableOrderFields extends OrderFields {
   budgetUID: string;
   currencyUID: string;
+  requisitionUID: string;
 }
 
 
@@ -44,6 +47,7 @@ export interface PayableOrder extends Order {
   budgetType: Identifiable;
   budget: Identifiable;
   currency: Identifiable;
+  requisition: RequisitionOrderForEdition;
 }
 
 
