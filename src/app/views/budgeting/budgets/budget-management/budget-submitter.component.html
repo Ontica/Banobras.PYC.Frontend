@@ -1,5 +1,5 @@
 <div *ngIf="canValidate || canRequest"
-  class="fx-row-container fx-gap fx-end"
+  class="fx-row-container fx-gap-half fx-end"
   [style.margin-bottom.px]="8">
 
   <div class="fx-item-none" *ngIf="canValidate">
@@ -18,6 +18,20 @@
       class="btn-action"
       (click)="onEventButtonClicked(eventType.REQUEST)">
       Solicitar suficiencia
+    </button>
+
+  </div>
+
+  <mat-divider vertical="true" *ngIf="canRequest && canRequestModification">
+
+  </mat-divider>
+
+  <div class="fx-item-none" *ngIf="canRequestModification">
+
+    <button type="button"
+      class="btn-action"
+      (click)="onEventButtonClicked(eventType.REQUEST_MODIFICATION)">
+      Solicitar modificación
     </button>
 
   </div>

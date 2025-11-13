@@ -12,7 +12,7 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 import { sendEvent } from '@app/shared/utils';
 
 import { OrderHolder, EmptyOrderHolder, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes,
-         PayableOrder, ContractOrder } from '@app/models';
+         ContractOrder } from '@app/models';
 
 import { OrderEditorEventType } from '../order/order-editor.component';
 
@@ -62,16 +62,6 @@ export class OrderTabbedViewComponent implements OnChanges {
 
   get showPayables(): boolean {
     return this.config.type === ObjectTypes.REQUISITION;
-  }
-
-
-  get orderTotal(): number {
-    switch (this.config.type) {
-      case ObjectTypes.CONTRACT_ORDER:
-        return (this.data.order as PayableOrder).total ?? null;
-      default:
-        return null;
-    }
   }
 
 

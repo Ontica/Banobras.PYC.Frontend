@@ -208,6 +208,8 @@ export interface OrderActions {
   canSuspend: boolean;
   canEditItems: boolean;
   canRequestBudget: boolean;
+  canRequestBudgetModification: boolean;
+  canValidateBudget: boolean;
 }
 
 
@@ -288,6 +290,8 @@ export const EmptyOrderActions: OrderActions = {
   canDelete: false,
   canEditItems: false,
   canRequestBudget: false,
+  canRequestBudgetModification: false,
+  canValidateBudget: false,
   canEditDocuments: false,
   canActivate: false,
   canSuspend: false,

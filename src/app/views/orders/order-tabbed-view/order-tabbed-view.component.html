@@ -38,9 +38,11 @@
           [baseObjectType]="config.type"
           [baseObjectUID]="data.order.uid"
           [baseObjectName]="title"
-          [budgetTotal]="orderTotal"
+          [budgetTotal]="data.order.total"
           [budgetTransactions]="data.budgetTransactions"
           [canRequest]="data.actions.canRequestBudget"
+          [canRequestModification]="data.actions.canRequestBudgetModification"
+          [canValidate]="data.actions.canValidateBudget"
           (budgetManagementEvent)="onBudgetManagementEvent($event)">
 
         </emp-bdg-budget-management>
