@@ -1,13 +1,13 @@
 <div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
 
-  <div class="fx-item-size check-column-size sm-fx-item-none">
+  <div class="fx-item-size check-column-size">
     <mat-checkbox empNgStopPropagation
       [checked]="selected"
       (change)="onCheckItemClicked()">
     </mat-checkbox>
   </div>
 
-  <div class="fx-item-size first-column-size sm-fx-item-none">
+  <div class="fx-item-size first-column-size">
     <div class="list-item-text-highlight nowrap"
       (click)="onItemClicked()">
       <a class="bold-text">{{!item.contractNo ? 'N/D' : item.contractNo}}</a>
@@ -16,7 +16,7 @@
     <div>{{item.name}}</div>
   </div>
 
-  <div class="fx-item-size second-column-size sm-fx-item-none">
+  <div class="fx-item-size second-column-size">
     <div class="list-item-text-highlight">{{item.managedByOrgUnit}}</div>
     <div class="bold-text">{{item.budgetType}}</div>
     <div>{{item.supplier}}</div>
@@ -30,7 +30,7 @@
       {{!item.toDate ? '' : (item.toDate | empDateTimeFormat)}}
   </div>
 
-  <div class="fx-item-size status-column-size sm-fx-item-none">
+  <div class="fx-item-size status-column-size">
     <span class="tag" *ngIf="item.statusName"
       [ngClass]="{'tag-base-error': isEntityStatusInWarning(item.statusName)}">
       {{item.statusName}}

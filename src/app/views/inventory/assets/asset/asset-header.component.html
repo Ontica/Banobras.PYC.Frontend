@@ -4,7 +4,7 @@
 
     <div class="section-title"> Información general </div>
 
-    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+    <div class="fx-row-container">
 
       <div class="fx-item-quarter">
         <label>No. inventario:</label>
@@ -13,7 +13,7 @@
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.assetNo)">
       </div>
 
-      <div class="fx-item-quarter sm-fx-item">
+      <div class="fx-item-quarter">
         <label>Tipo de activo fijo:</label>
         <emp-ng-select
           formControlName="assetTypeUID"
@@ -23,14 +23,14 @@
         </emp-ng-select>
       </div>
 
-      <div class="fx-item-size sm-fx-item" style="--size: calc(50% - 221px)">
+      <div class="fx-item-size" style="--size: calc(50% - 221px)">
         <label>Condición:</label>
         <input type="text" class="text-box"
           formControlName="currentCondition"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.currentCondition)">
       </div>
 
-      <div class="fx-item-none sm-fx-item">
+      <div class="fx-item-none">
         <label>Fecha inicio / Fecha fin:</label>
         <emp-ng-date-range-picker
           formControlName="datePeriod"
@@ -42,7 +42,7 @@
     </div>
 
 
-    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+    <div class="fx-row-container">
 
       <div class="fx-item">
         <label>Nombre:</label>
@@ -55,9 +55,9 @@
     </div>
 
 
-    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+    <div class="fx-row-container">
 
-      <div class="fx-item-half sm-fx-item">
+      <div class="fx-item-half">
         <label>Persona resguardataria:</label>
         <emp-ng-select
           formControlName="assignedToUID"
@@ -68,7 +68,7 @@
         </emp-ng-select>
       </div>
 
-      <div class="fx-item-half sm-fx-item">
+      <div class="fx-item-half">
         <label>Área de resguardo:</label>
         <emp-ng-select
           formControlName="assignedToOrgUnitUID"

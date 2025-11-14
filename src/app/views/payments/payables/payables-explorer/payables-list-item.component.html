@@ -1,13 +1,13 @@
 <div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
 
-  <div class="fx-item-size check-column-size sm-fx-item-none">
+  <div class="fx-item-size check-column-size">
     <mat-checkbox empNgStopPropagation
       [checked]="selected"
       (change)="onCheckClicked()">
     </mat-checkbox>
   </div>
 
-  <div class="fx-item-size first-column-size sm-fx-item-none">
+  <div class="fx-item-size first-column-size">
     <div class="list-item-text-highlight nowrap"
       (click)="onSelectClicked()">
       <a class="bold-text">{{payable.payableNo}}</a>
@@ -16,7 +16,7 @@
     <div>{{payable.payTo}}</div>
   </div>
 
-  <div class="fx-item-size second-column-size sm-fx-item-none">
+  <div class="fx-item-size second-column-size">
     <div class="list-item-text-highlight">{{payable.budgetTypeName}}</div>
     <div class="bold-text">{{payable.contractNo}}</div>
     <div>{{payable.total | empDecimal}} {{payable.currencyCode}}</div>
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div class="fx-item-size status-column-size sm-fx-item-none">
+  <div class="fx-item-size status-column-size">
     <span class="tag"
       [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(payable.statusName)}">
       {{payable.statusName}}

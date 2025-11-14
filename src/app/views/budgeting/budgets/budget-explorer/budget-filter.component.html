@@ -2,9 +2,9 @@
 
   <div class="fx-column-container fx-gap-half">
 
-    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+    <div class="fx-row-container">
 
-      <div class="fx-item-quarter sm-fx-item">
+      <div class="fx-item-quarter">
 
         <label>Tipo de presupuesto:</label>
 
@@ -19,7 +19,7 @@
 
       </div>
 
-      <div class="fx-item-quarter sm-fx-item">
+      <div class="fx-item-quarter">
 
         <label>Presupuesto:</label>
 
@@ -31,7 +31,7 @@
 
       </div>
 
-      <div class="fx-item sm-fx-item">
+      <div class="fx-item">
 
         <label>Agrupación:</label>
 
@@ -81,7 +81,7 @@
       <div class="fx-row-container fx-wrap">
 
         <div *ngFor="let segment of segmentsToDisplay"
-         class="fx-item-half sm-fx-item"
+         class="fx-item-half"
          [style.margin-bottom.rem]="0.5">
           <label>{{segment.label}}:</label>
 
@@ -104,7 +104,7 @@
 
         </mat-divider>
 
-        <div class="fx-row-container fx-end fx-items-end">
+        <div class="fx-row-container fx-end">
 
           <mat-divider vertical="true" class="vertical-inline">
 

@@ -1,6 +1,6 @@
-<div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
+<div class="fx-row-container fx-gap-size entry-gap-size  sm-fx-gap">
 
-  <div class="fx-item-size column-size-check sm-fx-item-none" *ngIf="displayControls">
+  <div class="fx-item-size column-size-check" *ngIf="displayControls">
     <mat-checkbox empNgStopPropagation
       [checked]="selected"
       (change)="onCheckClicked()">
@@ -11,7 +11,7 @@
 
     <ng-container *ngSwitchCase="CashLedgerQueryType.transactions">
 
-      <div class="fx-item column-size-sm sm-fx-item-none">
+      <div class="fx-item column-size-sm">
         <div class="list-item-text-highlight nowrap"
           (click)="onSelectClicked()">
           <a class="bold-text">{{transaction.number}}</a>
@@ -20,13 +20,13 @@
         <div>{{transaction.sourceName ?? 'N/D'}}</div>
       </div>
 
-      <div class="fx-item-size column-size-sm sm-fx-item-none">
+      <div class="fx-item-size column-size-sm">
         <div class="list-item-text-highlight">{{transaction.transactionTypeName ?? 'N/D'}}</div>
         <div class="bold-text">{{!transaction.recordingDate ? '-' : (transaction.recordingDate | empDateTimeFormat)}}</div>
         <div>{{transaction.elaboratedBy}}</div>
       </div>
 
-      <div class="fx-item-size column-size-sm sm-fx-item-none">
+      <div class="fx-item-size column-size-sm">
         <div class="list-item-text-highlight">{{transaction.voucherTypeName ?? 'N/D'}}</div>
         <div class="bold-text">
           {{!transaction.accountingDate ? '-' : (transaction.accountingDate | empDateTimeFormat)}}
@@ -46,7 +46,7 @@
 
     <ng-container *ngSwitchCase="CashLedgerQueryType.entries">
 
-      <div class="fx-item-size column-size-sm sm-fx-item-none">
+      <div class="fx-item-size column-size-sm">
         <div class="list-item-text-highlight nowrap"
           (click)="onSelectClicked()">
           <a class="bold-text">{{entry.transactionNumber}}</a>
@@ -58,25 +58,25 @@
         </div>
       </div>
 
-      <div class="fx-item column-size-sm sm-fx-item-none">
+      <div class="fx-item column-size-sm">
         <div empNgTextTruncateToggle [text]="entry.transactionConcept">
           {{!entry.transactionConcept ? '-' : entry.transactionConcept}}
         </div>
       </div>
 
-      <div class="fx-item-size column-size-sm sm-fx-item-none" [title]="entry.parentAccountFullName">
+      <div class="fx-item-size column-size-sm" [title]="entry.parentAccountFullName">
         <div class="list-item-text-highlight">{{entry.accountNumber}}</div>
         <div class="bold-text">{{entry.accountName}}</div>
         <div>{{entry.sectorCode}}</div>
       </div>
 
-      <div class="fx-item-size column-size-sm sm-fx-item-none">
+      <div class="fx-item-size column-size-sm">
         <div class="list-item-text-highlight">{{!entry.subledgerAccountNumber ? 'No aplica' : entry.subledgerAccountNumber}}</div>
         <div class="bold-text">{{!entry.subledgerAccountName ? 'No aplica' : entry.subledgerAccountName}}</div>
         <div>{{entry.verificationNumber}}</div>
       </div>
 
-      <div class="fx-item-size column-size-sm sm-fx-item-none">
+      <div class="fx-item-size column-size-sm">
         <div class="list-item-text-highlight">
           {{ (entry.debit > 0 ? entry.debit : entry.credit) | number : '1.2-2' }}
           {{entry.currencyName}}

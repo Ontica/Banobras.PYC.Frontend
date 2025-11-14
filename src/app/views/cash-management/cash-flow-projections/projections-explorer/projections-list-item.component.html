@@ -1,6 +1,6 @@
 <div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
 
-  <div class="fx-item-size column-size-check sm-fx-item-none" *ngIf="displayControls">
+  <div class="fx-item-size column-size-check" *ngIf="displayControls">
     <mat-checkbox empNgStopPropagation
       [checked]="selected"
       (change)="onCheckClicked()">
@@ -16,13 +16,13 @@
     <div>{{item.partyName ?? 'N/D'}}</div>
   </div>
 
-  <div class="fx-item-size column-size-md sm-fx-item-none">
+  <div class="fx-item-size column-size-md">
     <div class="list-item-text-highlight">{{item.projectionTypeName ?? 'N/D'}}</div>
     <div class="bold-text">{{item.projectTypeName ?? 'N/D'}}</div>
     <div>{{item.total | empDecimal}}</div>
   </div>
 
-  <div class="fx-item-size column-size-sm sm-fx-item-none">
+  <div class="fx-item-size column-size-sm">
     <div class="list-item-text-highlight">{{item.sourceName ?? 'N/D'}}</div>
     <div class="bold-text">
       {{!item.recordingTime ? '-' : (item.recordingTime | empDateTimeFormat)}}
@@ -30,7 +30,7 @@
     <div>{{!item.recordedByName ? '-' : item.recordedByName}}</div>
   </div>
 
-  <div class="fx-item-size column-size-sm sm-fx-item-none">
+  <div class="fx-item-size column-size-sm">
     <span class="tag" [style.font-size.px]="10"
       [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(item.statusName)}">
       {{item.statusName}}

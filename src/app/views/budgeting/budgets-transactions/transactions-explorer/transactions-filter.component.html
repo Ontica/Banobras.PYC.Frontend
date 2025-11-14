@@ -2,9 +2,9 @@
 
   <div class="fx-column-container fx-gap-half">
 
-    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+    <div class="fx-row-container">
 
-      <div class="fx-item-half sm-fx-item">
+      <div class="fx-item-half">
 
         <label>Área:</label>
 
@@ -19,7 +19,7 @@
 
       </div>
 
-      <div class="fx-item-sixth sm-fx-item">
+      <div class="fx-item-sixth">
 
         <label>Estado:</label>
 
@@ -33,7 +33,7 @@
 
       </div>
 
-      <div class="fx-item fx-items-end sm-fx-item">
+      <div class="fx-item fx-items-end">
 
         <div class="input-search-container">
 
@@ -72,9 +72,9 @@
 
     </div>
 
-    <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+    <div class="fx-row-container">
 
-      <div class="fx-item-quarter sm-fx-item">
+      <div class="fx-item-quarter">
 
         <label>Tipo de presupuesto:</label>
 
@@ -90,7 +90,7 @@
 
       </div>
 
-      <div class="fx-item-quarter sm-fx-item">
+      <div class="fx-item-quarter">
 
         <label>Presupuesto:</label>
 
@@ -106,7 +106,7 @@
       </div>
 
 
-      <div  class="fx-item-quarter sm-fx-item">
+      <div  class="fx-item-quarter">
 
         <label>Tipo de transacción:</label>
 
@@ -121,7 +121,7 @@
 
       </div>
 
-      <div class="fx-item-half sm-fx-item">
+      <div class="fx-item-quarter">
 
         <label>Fuente:</label>
 
@@ -146,9 +146,9 @@
 
         </mat-divider>
 
-        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half">
+        <div class="fx-row-container">
 
-          <div class="fx-item-quarter sm-fx-item">
+          <div class="fx-item-quarter">
 
             <label>No. transacciones:</label>
             <emp-ng-input-tags
@@ -159,7 +159,7 @@
 
           </div>
 
-          <div class="fx-item-quarter sm-fx-item">
+          <div class="fx-item-quarter">
 
             <label>Filtro por movimientos:</label>
             <input type="text" class="text-box"
@@ -168,7 +168,7 @@
 
           </div>
 
-          <div class="fx-item-half fx-row-container fx-items-end">
+          <div class="fx-item-half fx-row-container">
 
             <div class="fx-item-none">
 
@@ -182,7 +182,7 @@
 
             </div>
 
-            <div class="fx-item">
+            <div class="fx-item" [style.paddingTop.px]="10.5">
 
               <emp-ng-select
                 formControlName="dateType"
@@ -197,9 +197,9 @@
         </div>
 
 
-        <div class="fx-row-container sm-fx-column-container sm-fx-gap-half fx-items-end">
+        <div class="fx-row-container">
 
-          <div class="fx-item-quarter sm-fx-item">
+          <div class="fx-item-quarter">
 
             <label>Etiquetas:</label>
             <emp-ng-input-tags
@@ -210,7 +210,7 @@
 
           </div>
 
-          <div class="fx-item-size sm-fx-item" style="--size: 138px;">
+          <div class="fx-item-size" style="--size: 138px;" [style.paddingTop.px]="10.5">
 
             <emp-ng-select
               formControlName="partyType"
@@ -223,7 +223,7 @@
 
           </div>
 
-          <div class="fx-item-size sm-fx-item" style="--size: calc(75% - 138px);">
+          <div class="fx-item-size" style="--size: calc(75% - 138px);">
 
             <label>Persona o cuenta de acceso:</label>
 
@@ -247,7 +247,7 @@
 
         </mat-divider>
 
-        <div class="fx-row-container fx-end fx-items-end">
+        <div class="fx-row-container fx-end">
 
           <mat-divider vertical="true" class="vertical-inline">
 

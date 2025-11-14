@@ -1,6 +1,6 @@
 <div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
 
-  <div class="fx-item-size column-size-check sm-fx-item-none" *ngIf="displayControls">
+  <div class="fx-item-size column-size-check" *ngIf="displayControls">
     <mat-checkbox empNgStopPropagation
       [checked]="selected"
       (change)="onCheckClicked()">
@@ -16,13 +16,13 @@
     <div>{{transaction.basePartyName}}</div>
   </div>
 
-  <div class="fx-item-size column-size-sm sm-fx-item-none">
+  <div class="fx-item-size column-size-sm">
     <div class="list-item-text-highlight">{{transaction.budgetTypeName}}</div>
     <div class="bold-text">{{transaction.budgetName}}</div>
     <div>{{transaction.total | empDecimal}}</div>
   </div>
 
-  <div class="fx-item-size column-size-md sm-fx-item-none">
+  <div class="fx-item-size column-size-md">
     <div class="list-item-text-highlight">{{transaction.operationSourceName}}</div>
     <div class="bold-text">
       {{!transaction.recordingDate ? '-' : (transaction.recordingDate | empDateTimeFormat)}}
@@ -30,7 +30,7 @@
     <div>{{!transaction.recordedBy ? '-' : transaction.recordedBy}}</div>
   </div>
 
-  <div class="fx-item-size column-size-md sm-fx-item-none">
+  <div class="fx-item-size column-size-md">
     <span class="tag" [style.font-size.px]="10"
       [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(transaction.statusName)}">
       {{transaction.statusName}}
