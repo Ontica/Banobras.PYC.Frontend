@@ -18,7 +18,8 @@ $font-size-xsmall: 9pt;
 }
 
 .ng-dropdown-panel-items,
-.ng-select-container {
+.ng-select-container,
+.ng-value-container {
   .item {
     padding: 0.25rem 0;
     text-overflow: ellipsis;
@@ -65,6 +66,11 @@ $font-size-xsmall: 9pt;
 
 .ng-select.ng-select-single .ng-select-container {
   height: $control-height;
+}
+
+.emp-ng-select-tall .ng-select.ng-select-single .ng-select-container {
+  max-height: $control-tall-height;
+  height: $control-tall-height;
 }
 
 .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
