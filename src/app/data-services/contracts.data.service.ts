@@ -27,16 +27,6 @@ export class ContractsDataService {
   }
 
 
-  getContractItemsToOrder(contractUID: string, budgetUID: string): EmpObservable<ContractItem[]> {
-    Assertion.assertValue(contractUID, 'contractUID');
-    Assertion.assertValue(budgetUID, 'budgetUID');
-
-    const path = `v8/procurement/contracts/${contractUID}/items/to-order?budgetUID=${budgetUID}`;
-
-    return this.http.get<ContractItem[]>(path);
-  }
-
-
   searchContracts(query: ContractsQuery): EmpObservable<ContractDescriptor[]> {
     Assertion.assertValue(query, 'query');
 

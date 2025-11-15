@@ -94,6 +94,15 @@ export class OrdersDataService {
   }
 
 
+  getOrderAvailableItems(orderUID: string): EmpObservable<OrderItem[]> {
+    Assertion.assertValue(orderUID, 'orderUID');
+
+    const path = `v8/order-management/orders/${orderUID}/available-items`;
+
+    return this.http.get<OrderItem[]>(path);
+  }
+
+
   addOrderItem(orderUID: string,
                dataFields: OrderItemFields): EmpObservable<OrderItem> {
     Assertion.assertValue(orderUID, 'orderUID');

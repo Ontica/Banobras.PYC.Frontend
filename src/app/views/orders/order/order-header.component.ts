@@ -151,13 +151,13 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  get isPurchaseOrder(): boolean {
-    return [ObjectTypes.PURCHASE_ORDER].includes(this.config.type);
+  get isExpense(): boolean {
+    return [ObjectTypes.EXPENSE].includes(this.config.type);
   }
 
 
-  get isExpense(): boolean {
-    return [ObjectTypes.EXPENSE].includes(this.config.type);
+  get isPurchaseOrder(): boolean {
+    return [ObjectTypes.PURCHASE_ORDER].includes(this.config.type);
   }
 
 

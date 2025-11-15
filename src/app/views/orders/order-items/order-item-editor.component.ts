@@ -5,8 +5,8 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
-         SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges,
+         ViewChild } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -18,14 +18,16 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { CataloguesStateSelector, ProductsStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
 
-import { BudgetTransactionsDataService, ContractsDataService, SearcherAPIS } from '@app/data-services';
+import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+
+import { BudgetTransactionsDataService, OrdersDataService, SearcherAPIS } from '@app/data-services';
 
 import { BudgetAccountsForProductQuery, Order, OrderItem, OrderItemFields, EmptyOrder, EmptyOrderItem,
          ProductSearch, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrderItem,
-         ContractOrderItem, ContractOrderItemFields, PayableOrderItemFields, PayableOrder, ContractOrder,
-         ContractItem, RequisitionOrderItem, RequisitionOrder, RequisitionOrderItemFields } from '@app/models';
+         ContractOrderItem, ContractOrderItemFields, PayableOrderItemFields, PayableOrder,
+         RequisitionOrderItem, RequisitionOrder, RequisitionOrderItemFields } from '@app/models';
 
 
 export enum OrderItemEditorEventType {
@@ -35,7 +37,7 @@ export enum OrderItemEditorEventType {
 }
 
 interface OrderItemFormModel extends FormGroup<{
-  contractItemUID: FormControl<string>;
+  linkedItemUID: FormControl<string>;
   requestedByUID: FormControl<string>;
   description: FormControl<string>;
   productUID: FormControl<string>;
@@ -55,6 +57,8 @@ interface OrderItemFormModel extends FormGroup<{
   templateUrl: './order-item-editor.component.html',
 })
 export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
+
+  @ViewChild('productSearcher') productSearcher: SelectBoxTypeaheadComponent;
 
   @Input() config: OrderExplorerTypeConfig<ObjectTypes> = EmptyOrderExplorerTypeConfig;
 
@@ -82,7 +86,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
   orgUnitsList: Identifiable[] = [];
 
-  contractItemsList: ContractItem[] = [];
+  availableItemsList: OrderItem[] = [];
 
   productUnitsList: Identifiable[] = [];
 
@@ -96,8 +100,8 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
 
   constructor(private uiLayer: PresentationLayer,
-              private budgetData: BudgetTransactionsDataService,
-              private contractData: ContractsDataService) {
+              private ordersData: OrdersDataService,
+              private budgetData: BudgetTransactionsDataService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
@@ -105,7 +109,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadDataLists();
-    this.validateLoadContractItems();
+    this.validateLoadOrderAvailableItems();
     this.setBudgetsList();
   }
 
@@ -129,48 +133,44 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  get contractFieldsRequired(): boolean {
-    return [ObjectTypes.CONTRACT_ORDER].includes(this.config.type);
-  }
-
-
-  get payableFieldsRequired(): boolean {
-    return [ObjectTypes.EXPENSE,
-            ObjectTypes.PURCHASE_ORDER].includes(this.config.type);
-  }
-
-
-  get requisitionFieldsRequired(): boolean {
+  get isRequisition(): boolean {
     return [ObjectTypes.REQUISITION].includes(this.config.type);
   }
 
 
+  get isPurchaseOrder(): boolean {
+    return [ObjectTypes.PURCHASE_ORDER].includes(this.config.type);
+  }
+
+
+  get isExpense(): boolean {
+    return [ObjectTypes.EXPENSE].includes(this.config.type);
+  }
+
+  get isContractOrder(): boolean {
+    return [ObjectTypes.CONTRACT_ORDER].includes(this.config.type);
+  }
+
+
   get requestedByFieldRequired(): boolean {
-    return this.payableFieldsRequired || (this.requisitionFieldsRequired && this.order.isForMultipleBeneficiaries);
+    return this.isRequisition && this.order.isForMultipleBeneficiaries;
   }
 
 
   get title(): string {
-    if (!this.isSaved) return `Agregar concepto`;
-    return `${this.canUpdate ? 'Editar' : 'Detalle del '} concepto`;
+    const orderTypeName = `${this.config.pronounSingular} ${this.config.nameSingular}`;
+    if (!this.isSaved) return `Agregar concepto a ${orderTypeName}`;
+    return `${this.canUpdate ? 'Editar' : 'Detalle del '} concepto de ${orderTypeName}`;
   }
 
 
-  get budgetAccountPlaceholder(): string {
-    const requisitionText = this.requestedByFieldRequired && this.order.isForMultipleBeneficiaries ?
-      'área solicitante, presupuesto y/o producto' : 'presupuesto y/o producto';
-
-    return this.payableFieldsRequired ? 'área solicitante y/o producto' : requisitionText;
-  }
-
-
-  onContractItemChanges(item: ContractItem) {
-    this.form.controls.unitPrice.reset(FormHelper.getNumberValueValid(item?.unitPrice));
+  onAvailableItemChanges(item: OrderItem) {
     this.form.controls.productUID.reset(FormHelper.getUIDValueValid(item?.product));
+    this.form.controls.unitPrice.reset(FormHelper.getNumberValueValid(item?.unitPrice));
+    this.form.controls.quantity.reset(FormHelper.getNumberValueValid(item?.quantity));
     this.form.controls.productUnitUID.reset(FormHelper.getUIDValueValid(item?.productUnit));
-    this.form.controls.requestedByUID.reset(FormHelper.getUIDValueValid(item?.requesterOrgUnit));
-    this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item?.budgetAccount));
     this.onTotalChanges();
+    this.resetProductByItem(item?.product);
   }
 
 
@@ -236,16 +236,17 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
   private validateFieldsRequired() {
     if (!this.isSaved || (this.isSaved && this.canUpdate)) {
-      this.validateControlRequired(this.form.controls.contractItemUID, this.contractFieldsRequired);
+      this.validateControlRequired(this.form.controls.linkedItemUID, this.isPurchaseOrder || this.isExpense || this.isContractOrder);
       this.validateControlRequired(this.form.controls.requestedByUID, this.requestedByFieldRequired);
-      this.validateControlRequired(this.form.controls.productUID, this.payableFieldsRequired);
-      this.validateControlRequired(this.form.controls.productUnitUID, this.payableFieldsRequired || this.requisitionFieldsRequired);
-      this.validateControlRequired(this.form.controls.budgetAccountUID, this.payableFieldsRequired || this.requisitionFieldsRequired);
-      this.validateControlRequired(this.form.controls.budgetUID, this.requisitionFieldsRequired);
-      this.validateControlRequired(this.form.controls.unitPrice, this.payableFieldsRequired || this.requisitionFieldsRequired);
+      this.validateControlRequired(this.form.controls.productUID, this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+      this.validateControlRequired(this.form.controls.productUnitUID, this.isRequisition || this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+      this.validateControlRequired(this.form.controls.budgetAccountUID, this.isRequisition);
+      this.validateControlRequired(this.form.controls.budgetUID, this.isRequisition);
+      this.validateControlRequired(this.form.controls.unitPrice, this.isRequisition || this.isPurchaseOrder || this.isExpense || this.isContractOrder);
       this.validateDescriptionRequired();
 
-      FormHelper.setDisableControl(this.form.controls.unitPrice, this.contractFieldsRequired);
+      FormHelper.setDisableControl(this.form.controls.unitPrice, this.isContractOrder);
+      FormHelper.setDisableControl(this.form.controls.linkedItemUID, this.isSaved && !this.isRequisition);
       FormHelper.setDisableControl(this.form.controls.total);
     }
   }
@@ -258,7 +259,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private validateDescriptionRequired() {
-    const required = this.requisitionFieldsRequired && !this.form.getRawValue().productUID;
+    const required = this.isRequisition && !this.form.getRawValue().productUID;
 
     required ? FormHelper.setControlValidators(this.form.controls.description, Validators.required) :
       FormHelper.clearControlValidators(this.form.controls.description);
@@ -286,46 +287,34 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  private validateLoadContractItems() {
-    if (this.contractFieldsRequired && !this.isSaved) {
-      const order = this.order as ContractOrder;
-      this.getContractItemsToOrder(order.contract.uid, order.budget.uid);
+  private validateLoadOrderAvailableItems() {
+    if (!this.isSaved && (this.isPurchaseOrder || this.isExpense || this.isContractOrder)) {
+      this.getOrderAvailableItems(this.order.uid);
     }
   }
 
 
-  private getContractItemsToOrder(contractUID: string, budgetUID: string)  {
+  private getOrderAvailableItems(orderUID: string)  {
     this.isLoadingContractItems = true;
 
-    this.contractData.getContractItemsToOrder(contractUID, budgetUID)
+    this.ordersData.getOrderAvailableItems(orderUID)
       .firstValue()
-      .then(x => this.setContratItems(x))
+      .then(x => this.setAvailableItemsList(x))
       .finally(() => this.isLoadingContractItems = false);
   }
 
 
-  private setContratItems(items: ContractItem[]) {
-    items.forEach(x => x.name = this.returnContractItemName(x));
-    this.contractItemsList = items;
-  }
-
-
-  private returnContractItemName(item: ContractItem): string {
-    if (!!item.name) return item.name;
-
-    const total = FormatLibrary.numberWithCommas(item.unitPrice, '1.2-2');
-
-    return `${item.product?.name.toUpperCase()} (${item.productUnit?.name.toUpperCase()}) ` +
-           `${item.budgetAccount?.name} | ${item.periodicityType?.name} | ${total}`
+  private setAvailableItemsList(items: OrderItem[]) {
+    this.availableItemsList = items;
   }
 
 
   private validateSearchBudgetAccounts(budgetAccountsDefault?: Identifiable) {
-    if (this.payableFieldsRequired || this.requisitionFieldsRequired) {
+    if (this.isRequisition) {
       const { budgetUID = null, requestedByUID = null, productUID = null } = this.form.getRawValue();
       const order = this.order as PayableOrder;
       const operationType = 'procurement';
-      const baseBudgetUID = this.requisitionFieldsRequired ? budgetUID : order.budget.uid;
+      const baseBudgetUID = this.isRequisition ? budgetUID : order.budget.uid;
       const basePartyUID = this.requestedByFieldRequired ? requestedByUID : order.requestedBy.uid;
       if (!!baseBudgetUID && !!basePartyUID) {
         const query: BudgetAccountsForProductQuery = { operationType, baseBudgetUID, basePartyUID, productUID };
@@ -359,8 +348,8 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
+      linkedItemUID: [''],
       requestedByUID: [''],
-      contractItemUID: [''],
       description: [''],
       productUID: [''],
       budgetUID: [''],
@@ -412,7 +401,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
     switch (this.config.type) {
       case ObjectTypes.CONTRACT_ORDER: {
         const item = this.item as ContractOrderItem;
-        this.form.controls.contractItemUID.reset(FormHelper.getUIDValueValid(item.contractItem));
+        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.contractItem));
         this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
         this.form.controls.discount.reset(FormHelper.getNumberValueValid(item.discount));
         break;
@@ -420,6 +409,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       case ObjectTypes.EXPENSE:
       case ObjectTypes.PURCHASE_ORDER: {
         const item = this.item as PayableOrderItem;
+        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.requisitionItem));
         this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
         this.form.controls.discount.reset(FormHelper.getNumberValueValid(item.discount));
         break;
@@ -439,13 +429,14 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       case ObjectTypes.CONTRACT_ORDER: {
         const item = this.item as ContractOrderItem;
         const contractItem = isEmpty(item.contractItem) ? null : item.contractItem;
-        this.setContratItems(ArrayLibrary.insertIfNotExist(this.contractItemsList ?? [], contractItem, 'uid'));
+        this.setAvailableItemsList(ArrayLibrary.insertIfNotExist(this.availableItemsList ?? [], contractItem as any, 'uid'));
         this.setProductUnitsList(item.productUnit);
         break;
       }
       case ObjectTypes.EXPENSE:
       case ObjectTypes.PURCHASE_ORDER: {
         const item = this.item as PayableOrderItem;
+        this.setAvailableItemsList(ArrayLibrary.insertIfNotExist(this.availableItemsList ?? [], item.requisitionItem, 'uid'));
         this.setProductUnitsList(item.productUnit);
         break;
       }
@@ -459,8 +450,15 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
+  private resetProductByItem(product: Identifiable) {
+    if (!isEmpty(product)) {
+      this.productSearcher.resetListWithOption(product);
+    }
+  }
+
+
   private setBudgetsList() {
-    if (this.requisitionFieldsRequired) {
+    if (this.isRequisition) {
       const order = this.order as RequisitionOrder;
       this.budgetsList = order.budgets;
     }
@@ -512,7 +510,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       ...this.getPayableOrderItemFields(),
       ...
       {
-        contractItemUID: this.form.getRawValue().contractItemUID ?? null,
+        contractItemUID: this.form.getRawValue().linkedItemUID ?? null,
       }
     };
 
@@ -531,6 +529,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       {
         budgetAccountUID: formValues.budgetAccountUID ?? null,
         discount: formValues.discount ?? 0,
+        requisitionItemUID: formValues.linkedItemUID ?? null,
       }
     };
 

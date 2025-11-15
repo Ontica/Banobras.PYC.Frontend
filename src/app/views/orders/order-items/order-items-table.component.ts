@@ -127,10 +127,10 @@ export class OrderItemsTableComponent implements OnChanges {
 
     return `
       <table class='confirm-data'>
+        ${budgetAccountText}
         <tr><td class='nowrap'>Descripción: </td><td><strong>
           ${isEmpty(item.product) ? item.description : item.product.name} (${item.productUnit.name})
         </strong></td></tr>
-        ${budgetAccountText}
         <tr><td class='nowrap'>Cantidad: </td><td><strong>
           ${FormatLibrary.numberWithCommas(item.quantity, '1.0-2')}
         </strong></td></tr>
