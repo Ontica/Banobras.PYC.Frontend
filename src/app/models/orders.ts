@@ -130,6 +130,8 @@ export interface OrderDescriptor {
 export interface OrderFields {
   orderTypeUID: string;
   categoryUID: string;
+  startDate: DateString;
+  endDate: DateString;
   priority: Priority;
   responsibleUID: string;
   beneficiaryUID: string;
@@ -169,6 +171,8 @@ export interface Order {
   providersGroup: Identifiable[];
   project: Identifiable;
   priority: Identifiable<Priority>;
+  startDate: DateString;
+  endDate: DateString;
   identificators: string[];
   tags: string[];
   isForMultipleBeneficiaries: boolean;
@@ -196,6 +200,8 @@ export interface OrderItem {
   total: number;
   description: string;
   justification: string;
+  startDate: DateString;
+  endDate: DateString;
   status: Identifiable;
 }
 
@@ -223,6 +229,8 @@ export interface OrderItemFields {
   total: number;
   description: string;
   justification: string;
+  startDate: DateString;
+  endDate: DateString;
 }
 
 
@@ -254,6 +262,8 @@ export const EmptyOrder: Order = {
   providersGroup: [],
   project: Empty,
   priority: Empty,
+  startDate: null,
+  endDate: null,
   identificators: [],
   tags: [],
   isForMultipleBeneficiaries: false,
@@ -281,6 +291,8 @@ export const EmptyOrderItem: OrderItem = {
   total: null,
   description: '',
   justification: '',
+  startDate: null,
+  endDate: null,
   status: Empty,
 }
 

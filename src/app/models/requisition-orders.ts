@@ -34,6 +34,9 @@ export interface RequisitionOrderDescriptor extends OrderDescriptor {
 
 export interface RequisitionOrderFields extends OrderFields {
   budgets: string[];
+  observations: string;
+  guaranteeNotes: string;
+  deliveryNotes: string;
 }
 
 
@@ -53,6 +56,9 @@ export interface RequisitionOrderHolder extends OrderHolder {
 export interface RequisitionOrder extends Order {
   budgetType: Identifiable;
   budgets: Identifiable[];
+  observations: string;
+  guaranteeNotes: string;
+  deliveryNotes: string;
 }
 
 

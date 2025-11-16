@@ -84,7 +84,7 @@ export class ContractHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   currenciesList: Identifiable[] = [];
 
-  suppliersAPI = SearcherAPIS.suppliers;
+  suppliersAPI = SearcherAPIS.provider;
 
   multiyear = false;
 

@@ -133,9 +133,9 @@
             <emp-ng-select-typeahead
               formControlName="providerUID"
               [config]="{ clearable: true }"
-              [searcherAPI]="suppliersAPI"
-              [initialValue]="selectedSupplier"
-              (changes)="onSupplierChanges($event)"
+              [searcherAPI]="providersAPI"
+              [initialValue]="selectedProvider"
+              (changes)="onProviderChanges($event)"
               placeholder="Todos">
 
             </emp-ng-select-typeahead>

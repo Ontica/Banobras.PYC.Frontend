@@ -169,7 +169,7 @@
 
               </div>
 
-              <div class="fx-item-half">
+              <div class="fx-item-size" style="--size: calc(50% - 221px)">
 
                 <label>Unidad:</label>
 
@@ -187,6 +187,17 @@
 
                 </emp-ng-select>
 
+              </div>
+
+              <div class="fx-item-none">
+                <label>Vigencia:</label>
+                <emp-ng-date-range-picker
+                  formControlName="datePeriod"
+                  bindLabelStartDate="Fecha inicio"
+                  bindlabelEndDate="Fecha fin"
+                  [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
+
+                </emp-ng-date-range-picker>
               </div>
 
             </div>

@@ -86,7 +86,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
   linkedToAccount = false;
 
-  suppliersAPI = SearcherAPIS.suppliers;
+  providersAPI = SearcherAPIS.provider;
 
 
   constructor(private uiLayer: PresentationLayer,

@@ -72,7 +72,7 @@ export class ContractsFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   budgetTypesList: Identifiable[] = [];
 
-  suppliersAPI = SearcherAPIS.suppliers;
+  suppliersAPI = SearcherAPIS.provider;
 
   selectedSupplier: Identifiable = null;
 

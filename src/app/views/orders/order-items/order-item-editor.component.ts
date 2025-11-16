@@ -26,8 +26,8 @@ import { BudgetTransactionsDataService, OrdersDataService, SearcherAPIS } from '
 
 import { BudgetAccountsForProductQuery, Order, OrderItem, OrderItemFields, EmptyOrder, EmptyOrderItem,
          ProductSearch, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrderItem,
-         ContractOrderItem, ContractOrderItemFields, PayableOrderItemFields, PayableOrder,
-         RequisitionOrderItem, RequisitionOrder, RequisitionOrderItemFields } from '@app/models';
+         ContractOrderItem, ContractOrderItemFields, PayableOrderItemFields, PayableOrder, RequisitionOrder,
+         RequisitionOrderItem, RequisitionOrderItemFields, DateRange, EmptyDateRange } from '@app/models';
 
 
 export enum OrderItemEditorEventType {
@@ -39,6 +39,7 @@ export enum OrderItemEditorEventType {
 interface OrderItemFormModel extends FormGroup<{
   linkedItemUID: FormControl<string>;
   requestedByUID: FormControl<string>;
+  datePeriod: FormControl<DateRange>;
   description: FormControl<string>;
   productUID: FormControl<string>;
   budgetUID: FormControl<string>;
@@ -236,33 +237,33 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
   private validateFieldsRequired() {
     if (!this.isSaved || (this.isSaved && this.canUpdate)) {
-      this.validateControlRequired(this.form.controls.linkedItemUID, this.isPurchaseOrder || this.isExpense || this.isContractOrder);
-      this.validateControlRequired(this.form.controls.requestedByUID, this.requestedByFieldRequired);
-      this.validateControlRequired(this.form.controls.productUID, this.isPurchaseOrder || this.isExpense || this.isContractOrder);
-      this.validateControlRequired(this.form.controls.productUnitUID, this.isRequisition || this.isPurchaseOrder || this.isExpense || this.isContractOrder);
-      this.validateControlRequired(this.form.controls.budgetAccountUID, this.isRequisition);
-      this.validateControlRequired(this.form.controls.budgetUID, this.isRequisition);
-      this.validateControlRequired(this.form.controls.unitPrice, this.isRequisition || this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+      const controls = this.form.controls;
+
+      this.validateControlRequired(controls.linkedItemUID, this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+      this.validateControlRequired(controls.requestedByUID, this.requestedByFieldRequired);
+      this.validateControlRequired(controls.productUID, this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+      this.validateControlRequired(controls.productUnitUID, this.isRequisition || this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+      this.validateControlRequired(controls.budgetAccountUID, this.isRequisition);
+      this.validateControlRequired(controls.budgetUID, this.isRequisition);
+      this.validateControlRequired(controls.unitPrice, this.isRequisition || this.isPurchaseOrder || this.isExpense || this.isContractOrder);
       this.validateDescriptionRequired();
 
-      FormHelper.setDisableControl(this.form.controls.unitPrice, this.isContractOrder);
-      FormHelper.setDisableControl(this.form.controls.linkedItemUID, this.isSaved && !this.isRequisition);
-      FormHelper.setDisableControl(this.form.controls.total);
+      FormHelper.setDisableControl(controls.unitPrice, this.isContractOrder);
+      FormHelper.setDisableControl(controls.linkedItemUID, this.isSaved && !this.isRequisition);
+      FormHelper.setDisableControl(controls.total);
     }
   }
 
 
-  private validateControlRequired(control, required: boolean) {
-    required ? FormHelper.setControlValidators(control, Validators.required) :
+  private validateControlRequired(control, required: boolean, validators = [Validators.required]) {
+    required ? FormHelper.setControlValidators(control, validators) :
       FormHelper.clearControlValidators(control);
   }
 
 
   private validateDescriptionRequired() {
     const required = this.isRequisition && !this.form.getRawValue().productUID;
-
-    required ? FormHelper.setControlValidators(this.form.controls.description, Validators.required) :
-      FormHelper.clearControlValidators(this.form.controls.description);
+    this.validateControlRequired(this.form.controls.description, required);
   }
 
 
@@ -351,6 +352,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       linkedItemUID: [''],
       requestedByUID: [''],
       description: [''],
+      datePeriod: [EmptyDateRange],
       productUID: [''],
       budgetUID: [''],
       budgetAccountUID: [''],
@@ -376,6 +378,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
         unitPrice: FormHelper.getNumberValueValid(this.item.unitPrice),
         total: FormHelper.getNumberValueValid(this.item.total),
         description: this.item.description,
+        datePeriod: { fromDate: this.item.startDate ?? null, toDate: this.item.endDate ?? null },
         justification: this.item.justification,
       });
       this.validateSetOrderItemFields();
@@ -552,6 +555,8 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       total: formValues.total ?? 0,
       description: formValues.description ?? '',
       justification: formValues.justification ?? '',
+      startDate: !formValues.datePeriod.fromDate ? null : formValues.datePeriod.fromDate,
+      endDate: !formValues.datePeriod.toDate ? null : formValues.datePeriod.toDate,
     };
 
     return data;

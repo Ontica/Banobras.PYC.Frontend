@@ -71,11 +71,11 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
 
   categoriesList: Identifiable[] = [];
 
-  suppliersAPI = SearcherAPIS.suppliers;
+  providersAPI = SearcherAPIS.provider;
 
   projectsAPI = SearcherAPIS.projects;
 
-  selectedSupplier: Identifiable = null;
+  selectedProvider: Identifiable = null;
 
   selectedProject: Identifiable = null;
 
@@ -105,8 +105,8 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
   }
 
 
-  onSupplierChanges(supplier: Identifiable) {
-    this.selectedSupplier = supplier;
+  onProviderChanges(provider: Identifiable) {
+    this.selectedProvider = provider;
   }
 
 

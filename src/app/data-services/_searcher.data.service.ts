@@ -32,7 +32,7 @@ export enum SearcherAPIS {
   products                    = 'v8/product-management/products/search',
   productUnits                = 'v8/product-management/product-units/',
   projects                    = 'v8/projects/',
-  suppliers                   = 'v8/parties/primary-party/suppliers-list/',
+  provider                    = 'v8/parties/primary-party/suppliers-list/',
 }
 
 @Injectable()

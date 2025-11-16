@@ -39,7 +39,7 @@
         <emp-ng-select-typeahead
           formControlName="payToUID"
           [config]="{ showTooltip: true }"
-          [searcherAPI]="suppliersAPI"
+          [searcherAPI]="providersAPI"
           [initialValue]="isSaved ? paymentOrder.payTo : null"
           [showError]="formHelper.isControlInvalid(form.controls.payToUID)"
           (changes)="onPayToChanges($event)">

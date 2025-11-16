@@ -44,6 +44,17 @@
 
       </div>
 
+      <div class="fx-item-none" *ngIf="isRequisition">
+        <label>Vigencia:</label>
+        <emp-ng-date-range-picker
+          formControlName="datePeriod"
+          bindLabelStartDate="Fecha inicio"
+          bindlabelEndDate="Fecha fin"
+          [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
+
+        </emp-ng-date-range-picker>
+      </div>
+
     </div>
 
     <div class="fx-row-container">
@@ -84,13 +95,13 @@
         <label>Requisición:</label>
 
         <emp-ng-select-typeahead
-          formControlName="requisitionUID"
+          formControlName="linkedOrderUID"
           bindLabel="description"
           [config]="{ showTooltip: true, searchByQuery: true }"
           [searcherAPI]="requisitionsAPI"
           [initQuery]="{ orderTypeUID: config.type, requestedByUID: form.value.requestedByUID, keywords: '' }"
           [initialValue]="isSaved ? orderRequisitionLinked : null"
-          [showError]="formHelper.isControlInvalid(form.controls.requisitionUID)"
+          [showError]="formHelper.isControlInvalid(form.controls.linkedOrderUID)"
           [placeholder]="formHelper.getConditionalPlaceholder(!isSaved || editionMode,
             form.controls.requestedByUID.valid, 'área solicitante')"
           (changes)="onRequisitionChanges($event)">
@@ -218,13 +229,13 @@
         <label>Contrato:</label>
 
         <emp-ng-select
-          formControlName="contractUID"
+          formControlName="linkedOrderUID"
           [config]="{showTooltip: true}"
           [items]="contractsList"
           [loading]="isContractsLoading"
           [placeholder]="formHelper.getConditionalPlaceholder(!isSaved || editionMode,
             form.controls.providerUID.valid, 'proveedor')"
-          [showError]="formHelper.isControlInvalid(form.controls.contractUID)"
+          [showError]="formHelper.isControlInvalid(form.controls.linkedOrderUID)"
           (changes)="onContractChanges($event)">
 
           <ng-template #labelTemplate let-item="item">
@@ -272,7 +283,7 @@
 
       <div class="fx-item-half" *ngIf="isRequisition || isPurchaseOrder || isExpense || isContractOrder">
 
-        <label>{{isRequisition ? 'Años:' : 'Presupuesto:'}}</label>
+        <label>{{isRequisition ? 'Presupuestos:' : 'Presupuesto:'}}</label>
 
         <emp-ng-select *ngIf="!isRequisition"
           formControlName="budgetUID"
@@ -342,7 +353,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-one">
+      <div [ngClass]="isRequisition ? 'fx-item-quarter' : 'fx-item-one'">
         <label>Justificación:</label>
         <textarea class="text-area" empNgTextareaAutoresize rows="1"
           formControlName="justification"
@@ -350,6 +361,37 @@
 
         </textarea>
       </div>
+
+      <ng-container *ngIf="isRequisition">
+
+        <div class="fx-item-quarter">
+          <label>Observaciones:</label>
+          <textarea class="text-area" empNgTextareaAutoresize rows="1"
+            formControlName="observations"
+            [class.invalid-control]="formHelper.isControlInvalid(form.controls.observations)">
+
+          </textarea>
+        </div>
+
+        <div class="fx-item-quarter">
+          <label>Garantía:</label>
+          <textarea class="text-area" empNgTextareaAutoresize rows="1"
+            formControlName="guaranteeNotes"
+            [class.invalid-control]="formHelper.isControlInvalid(form.controls.guaranteeNotes)">
+
+          </textarea>
+        </div>
+
+        <div class="fx-item-quarter">
+          <label>Condiciones de entrega:</label>
+          <textarea class="text-area" empNgTextareaAutoresize rows="1"
+            formControlName="deliveryNotes"
+            [class.invalid-control]="formHelper.isControlInvalid(form.controls.deliveryNotes)">
+
+          </textarea>
+        </div>
+
+      </ng-container>
 
     </div>
 
