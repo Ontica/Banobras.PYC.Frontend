@@ -7,7 +7,7 @@
 
 import { DateString, Identifiable } from '@app/core';
 
-import { EntityStatus } from './_explorer-data';
+import { EntityStatus } from './base/explorer-data';
 
 
 export const PayrollsStatusList: Identifiable<EntityStatus>[] = [

@@ -7,9 +7,9 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { DataTable } from './_data-table';
+import { DataTable } from './base/data-table';
 
-import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
+import { ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
 
 import { Budget, BudgetSegmentType } from './budgets';
 

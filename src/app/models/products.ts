@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { EntityStatus, ExplorerOperation, ExplorerOperationType } from './_explorer-data';
+import { EntityStatus, ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
 
 
 export interface ProductsQuery {

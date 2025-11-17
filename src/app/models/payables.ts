@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
+import { ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
 
 import { Bill } from './bills';
 

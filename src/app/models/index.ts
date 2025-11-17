@@ -18,17 +18,33 @@
 // needed for external services interaction.
 //
 
-export * from './_access-control';
+export * from './base/access-control';
 
-export * from './_accountabilities';
+export * from './base/accountabilities';
 
-export * from './_data-table';
+export * from './base/data-table';
 
-export * from './_dynamic-form-fields'
+export * from './base/dynamic-form-fields'
 
-export * from './_explorer-data';
+export * from './base/explorer-data';
 
-export * from './_operations-log';
+export * from './base/operations-log';
+
+export * from './orders/contract-orders';
+
+export * from './orders/contracts';
+
+export * from './orders/base-orders';
+
+export * from './orders/payables';
+
+export * from './orders/requisitions';
+
+export * from './parties/organizational-units';
+
+export * from './parties/base-parties';
+
+export * from './parties/suppliers';
 
 export * from './assets';
 
@@ -52,10 +68,6 @@ export * from './cash-ledger';
 
 export * from './chart-of-accounts';
 
-export * from './contract-orders';
-
-export * from './contracts';
-
 export * from './documents';
 
 export * from './edition-command';
@@ -76,14 +88,6 @@ export * from './imported-data';
 
 export * from './object-types';
 
-export * from './orders';
-
-export * from './organizational-units';
-
-export * from './parties';
-
-export * from './payable-orders';
-
 export * from './payables';
 
 export * from './payments-orders';
@@ -98,11 +102,7 @@ export * from './reporting';
 
 export * from './requests';
 
-export * from './requisition-orders';
-
 export * from './steps';
-
-export * from './suppliers';
 
 export * from './transactions';
 

@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { BaseActions, EntityStatus, ExplorerOperation, ExplorerOperationType } from './_explorer-data';
+import { BaseActions, EntityStatus, ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
 
 import { Document } from './documents';
 

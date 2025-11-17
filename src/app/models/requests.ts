@@ -7,9 +7,9 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { DataField, InputData } from './_dynamic-form-fields';
+import { DataField, InputData } from './base/dynamic-form-fields';
 
-import { ExplorerOperation, ExplorerOperationType } from './_explorer-data';
+import { ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
 
 import { EmptyWorkflowActions, WorkflowActions, WorkflowInstance } from './workflows';
 

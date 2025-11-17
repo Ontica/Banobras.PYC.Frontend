@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable, isEmpty } from '@app/core';
 
-import { BaseActions, EmptyBaseActions, EntityStatus } from './_explorer-data';
+import { BaseActions, EmptyBaseActions, EntityStatus } from './base/explorer-data';
 
 import { EmptyFinancialProject, FinancialProject } from './financial-projects';
 

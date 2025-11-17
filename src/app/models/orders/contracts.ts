@@ -7,17 +7,17 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { EntityStatus, ExplorerOperation, ExplorerOperationType } from './_explorer-data';
+import { EntityStatus, ExplorerOperation, ExplorerOperationType } from '../base/explorer-data';
 
-import { EmptyBudgetType } from './budgets';
+import { EmptyBudgetType } from '../budgets';
 
-import { BudgetTransactionDescriptor } from './budget-transactions';
+import { BudgetTransactionDescriptor } from '../budget-transactions';
 
 import { ContractOrderDescriptor } from './contract-orders';
 
-import { Document } from './documents';
+import { Document } from '../documents';
 
-import { HistoryEntry } from './history';
+import { HistoryEntry } from '../history';
 
 
 export interface ContractsQuery {

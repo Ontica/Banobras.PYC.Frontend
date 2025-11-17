@@ -5,16 +5,16 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DataTableColumn, DataTableColumnType } from './_data-table';
-
-import { Document } from './documents';
-
-import { HistoryEntry } from './history';
+import { DataTableColumn, DataTableColumnType } from '../base/data-table';
 
 import { mapPartyDescriptorFromParty, PartiesQuery, Party, PartyActions, PartyDescriptor,
-         PartyHolder } from './parties';
+         PartyHolder } from './base-parties';
 
-import { PaymentAccount } from './payments-orders';
+import { Document } from '../documents';
+
+import { HistoryEntry } from '../history';
+
+import { PaymentAccount } from '../payments-orders';
 
 
 export interface SuppliersQuery extends PartiesQuery {

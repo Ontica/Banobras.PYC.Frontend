@@ -9,9 +9,9 @@ import { Empty, Identifiable } from '@app/core';
 
 import { PERMISSIONS } from '@app/main-layout';
 
-import { EntityStatus, ExplorerTypeConfig } from './_explorer-data';
+import { EntityStatus, ExplorerTypeConfig } from '../base/explorer-data';
 
-import { DataTable, DataTableColumn, DataTableColumnType } from './_data-table';
+import { DataTable, DataTableColumn, DataTableColumnType } from '../base/data-table';
 
 
 export const EmptyPartyExplorerTypeConfig: ExplorerTypeConfig<PartyObjectTypes> = {

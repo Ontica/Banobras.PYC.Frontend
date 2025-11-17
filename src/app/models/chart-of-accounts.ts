@@ -7,7 +7,7 @@
 
 import { DateString, Empty, FlexibleIdentifiable, Identifiable } from '@app/core';
 
-import { EntityStatus } from './_explorer-data';
+import { EntityStatus } from './base/explorer-data';
 
 import { FinancialAccountDescriptor } from './financial-accounts';
 

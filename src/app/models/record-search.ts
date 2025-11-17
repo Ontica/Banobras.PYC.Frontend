@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { DataTable, DataTableColumn, DataTableQuery } from './_data-table';
+import { DataTable, DataTableColumn, DataTableQuery } from './base/data-table';
 
 
 export enum RecordQueryType {

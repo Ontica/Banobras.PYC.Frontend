@@ -7,7 +7,7 @@
 
 import { DateString, Identifiable } from '@app/core';
 
-import { DataTable, DataTableColumn, DataTableEntry, DataTableQuery } from './_data-table';
+import { DataTable, DataTableColumn, DataTableEntry, DataTableQuery } from './base/data-table';
 
 
 export const DefaultEndDate: DateString = '2049-12-31';

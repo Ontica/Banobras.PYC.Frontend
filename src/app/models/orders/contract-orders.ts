@@ -8,7 +8,7 @@
 import { Contract, ContractItem } from './contracts';
 
 import { PayableOrder, PayableOrderDescriptor, PayableOrderFields, PayableOrderItem, PayableOrderItemFields,
-         mapPayableOrderDescriptorFromPayableOrder } from './payable-orders';
+         mapPayableOrderDescriptorFromPayableOrder } from './payables';
 
 
 export interface ContractOrderDescriptor extends PayableOrderDescriptor {

@@ -7,7 +7,7 @@
 
 import { DateString, Empty, FlexibleIdentifiable, Identifiable } from '@app/core';
 
-import { ExplorerOperation } from './_explorer-data';
+import { ExplorerOperation } from './base/explorer-data';
 
 import { TransactionStatus } from './transactions';
 

@@ -9,7 +9,7 @@ import { Identifiable } from '@app/core';
 
 import { PERMISSIONS } from '@app/main-layout';
 
-import { FileReport } from './reporting';
+import { FileReport } from '../reporting';
 
 
 export interface ExplorerTypeConfig<T> {

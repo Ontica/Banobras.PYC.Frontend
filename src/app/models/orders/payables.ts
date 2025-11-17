@@ -7,16 +7,16 @@
 
 import { Identifiable } from '@app/core';
 
-import { BudgetTransactionDescriptor } from './budget-transactions';
+import { BudgetTransactionDescriptor } from '../budget-transactions';
 
-import { Document } from './documents';
+import { Document } from '../documents';
 
-import { HistoryEntry } from './history';
+import { HistoryEntry } from '../history';
 
 import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem, OrderItemFields,
-         mapOrderDescriptorFromOrder } from './orders';
+         mapOrderDescriptorFromOrder } from './base-orders';
 
-import { RequisitionOrderForEdition } from './requisition-orders';
+import { RequisitionOrderForEdition } from './requisitions';
 
 
 export interface PayableOrderDescriptor extends OrderDescriptor {

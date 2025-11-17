@@ -7,9 +7,9 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { DataTable, DataTableColumn, DataTableColumnType } from './_data-table';
+import { DataTable, DataTableColumn, DataTableColumnType } from './base/data-table';
 
-import { BaseActions, EmptyBaseActions } from './_explorer-data';
+import { BaseActions, EmptyBaseActions } from './base/explorer-data';
 
 import { StandardAccountDescriptor } from './chart-of-accounts';
 

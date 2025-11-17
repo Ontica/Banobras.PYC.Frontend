@@ -9,19 +9,19 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { PERMISSIONS } from '@app/main-layout';
 
-import { EntityStatus, ExplorerOperation, ExplorerOperationType, ExplorerTypeConfig } from './_explorer-data';
+import { EntityStatus, ExplorerOperation, ExplorerOperationType, ExplorerTypeConfig } from '../base/explorer-data';
 
-import { BudgetTransactionDescriptor } from './budget-transactions';
+import { BudgetTransactionDescriptor } from '../budget-transactions';
 
-import { Document } from './documents';
+import { Document } from '../documents';
 
-import { HistoryEntry } from './history';
+import { HistoryEntry } from '../history';
 
-import { ObjectTypes } from './object-types';
+import { ObjectTypes } from '../object-types';
 
-import { Priority } from './steps';
+import { Priority } from '../steps';
 
-import { RequestsList } from './requests';
+import { RequestsList } from '../requests';
 
 
 export interface OrderExplorerTypeConfig<T> extends ExplorerTypeConfig<T> {
@@ -65,7 +65,7 @@ export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerType
         requestsList: RequestsList.payments,
         permissionToCreate: PERMISSIONS.NOT_REQUIRED,
       };
-    case ObjectTypes.PURCHASE_ORDER:
+    case ObjectTypes.PURCHASE:
       return {
         type,
         nameSingular: 'compra menor',

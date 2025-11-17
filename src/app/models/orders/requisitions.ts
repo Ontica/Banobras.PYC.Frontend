@@ -7,16 +7,16 @@
 
 import { Entity, Identifiable } from '@app/core';
 
-import { BudgetTransactionDescriptor } from './budget-transactions';
+import { BudgetTransactionDescriptor } from '../budget-transactions';
 
-import { Document } from './documents';
+import { Document } from '../documents';
 
-import { HistoryEntry } from './history';
+import { HistoryEntry } from '../history';
 
 import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem, OrderItemFields,
-         mapOrderDescriptorFromOrder } from './orders';
+         mapOrderDescriptorFromOrder } from './base-orders';
 
-import { PaymentOrderDescriptor } from './payments-orders';
+import { PaymentOrderDescriptor } from '../payments-orders';
 
 
 export interface RequisitionOrderForEdition extends Entity {

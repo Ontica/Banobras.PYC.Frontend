@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { DataTable } from './_data-table';
+import { DataTable } from './base/data-table';
 
 
 export interface FinancialRulesQuery {

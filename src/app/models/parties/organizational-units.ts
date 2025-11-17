@@ -7,14 +7,15 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { DataTableColumn, DataTableColumnType } from './_data-table';
-
-import { EntityStatus } from './_explorer-data';
-
-import { AccountabilityDescriptor } from './_accountabilities';
-
 import { mapPartyDescriptorFromParty, PartiesQuery, Party, PartyDescriptor, PartyHolder,
-         PartyActions } from './parties';
+         PartyActions } from './base-parties';
+
+import { DataTableColumn, DataTableColumnType } from '../base/data-table';
+
+import { EntityStatus } from '../base/explorer-data';
+
+import { AccountabilityDescriptor } from '../base/accountabilities';
+
 
 
 export interface OrgUnitsQuery extends PartiesQuery {
