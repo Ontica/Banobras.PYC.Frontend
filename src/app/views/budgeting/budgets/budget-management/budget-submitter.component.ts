@@ -57,7 +57,7 @@ export class BudgetSubmitterComponent {
         return 'ENTREGA';
       case ObjectTypes.EXPENSE:
         return 'GASTO O REEMBOLSO';
-      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.PURCHASE:
         return 'COMPRA MENOR';
       case ObjectTypes.REQUISITION:
         return 'REQUISICIÓN';

@@ -72,14 +72,14 @@ export const ProcurementViews: View[] = [
     permission: ROUTES.gastos_entregas.permission,
   },
   {
-    name: 'Procurement.MinorPurchases',
+    name: 'Procurement.Purchases',
     title: 'Compras menores',
     menuTitle: 'Compras menores',
     url: ROUTES.gastos_compras_menores.fullpath,
     permission: ROUTES.gastos_compras_menores.permission,
   },
   {
-    name: 'Procurement.ExpensesAndReimbursement',
+    name: 'Procurement.Expenses',
     title: 'Gastos y reembolsos',
     menuTitle: 'Gastos y reembolsos',
     url: ROUTES.gastos_gastos_y_reembolsos.fullpath,

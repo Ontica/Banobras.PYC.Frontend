@@ -13,7 +13,7 @@
 
           <div class="section-title"> Información del concepto </div>
 
-          <ng-container *ngIf="isPurchaseOrder || isExpense || isContractOrder">
+          <ng-container *ngIf="isPurchase || isExpense || isContractOrder">
 
             <div class="fx-row-container">
 
@@ -91,7 +91,7 @@
 
           </div>
 
-          <ng-container *ngIf="isRequisition || isPurchaseOrder || isExpense || isContractOrder">
+          <ng-container *ngIf="isRequisition || isPurchase || isExpense || isContractOrder">
 
             <div class="fx-row-container">
 
@@ -109,7 +109,7 @@
 
               </div>
 
-              <div class="fx-item-half" *ngIf="isRequisition || isPurchaseOrder || isExpense || isContractOrder">
+              <div class="fx-item-half" *ngIf="isRequisition || isPurchase || isExpense || isContractOrder">
 
                 <label>Producto:</label>
 
@@ -125,7 +125,7 @@
 
               </div>
 
-              <div class="fx-item-half" *ngIf="isPurchaseOrder || isExpense || isContractOrder">
+              <div class="fx-item-half" *ngIf="isPurchase || isExpense || isContractOrder">
 
                 <label>Unidad:</label>
 
@@ -251,7 +251,7 @@
 
             </div>
 
-            <div class="fx-item-quarter" *ngIf="isPurchaseOrder || isExpense || isContractOrder">
+            <div class="fx-item-quarter" *ngIf="isPurchase || isExpense || isContractOrder">
 
               <label>Descuento:</label>
 

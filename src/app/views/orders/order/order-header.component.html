@@ -90,7 +90,7 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="isPurchaseOrder || isExpense">
+      <div class="fx-item-half" *ngIf="isPurchase || isExpense">
 
         <label>Requisición:</label>
 
@@ -131,7 +131,7 @@
 
     </div>
 
-    <mat-divider class="horizontal" *ngIf="isPurchaseOrder || isExpense">
+    <mat-divider class="horizontal" *ngIf="isPurchase || isExpense">
 
     </mat-divider>
 
@@ -191,9 +191,9 @@
 
     </div>
 
-    <div class="fx-row-container" *ngIf="isPurchaseOrder || isContractOrder">
+    <div class="fx-row-container" *ngIf="isPurchase || isContractOrder">
 
-      <div class="fx-item-half" *ngIf="isPurchaseOrder || isContractOrder">
+      <div class="fx-item-half" *ngIf="isPurchase || isContractOrder">
 
         <label>Proveedor:</label>
 
@@ -209,7 +209,7 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="isPurchaseOrder">
+      <div class="fx-item-half" *ngIf="isPurchase">
 
         <label>Moneda:</label>
 
@@ -281,7 +281,7 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="isRequisition || isPurchaseOrder || isExpense || isContractOrder">
+      <div class="fx-item-half" *ngIf="isRequisition || isPurchase || isExpense || isContractOrder">
 
         <label>{{isRequisition ? 'Presupuestos:' : 'Presupuesto:'}}</label>
 

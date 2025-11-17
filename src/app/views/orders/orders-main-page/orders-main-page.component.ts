@@ -160,11 +160,11 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
       case 'Procurement.ContractOrders':
         this.config = getOrderExplorerTypeConfig(ObjectTypes.CONTRACT_ORDER)
         return;
-      case 'Procurement.ExpensesAndReimbursement':
+      case 'Procurement.Expenses':
         this.config = getOrderExplorerTypeConfig(ObjectTypes.EXPENSE)
         return;
-      case 'Procurement.MinorPurchases':
-        this.config = getOrderExplorerTypeConfig(ObjectTypes.PURCHASE_ORDER)
+      case 'Procurement.Purchases':
+        this.config = getOrderExplorerTypeConfig(ObjectTypes.PURCHASE)
         return;
       case 'Procurement.Requisitions':
         this.config = getOrderExplorerTypeConfig(ObjectTypes.REQUISITION);
@@ -259,7 +259,7 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
       case ObjectTypes.CONTRACT_ORDER:
         return mapContractOrderDescriptorFromContractOrder(order as ContractOrder);
       case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.PURCHASE:
         return mapPayableOrderDescriptorFromPayableOrder(order as PayableOrder);
       case ObjectTypes.REQUISITION:
         return mapRequisitionOrderDescriptorFromRequisitionOrder(order as RequisitionOrder);

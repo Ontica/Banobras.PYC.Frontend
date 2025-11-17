@@ -93,7 +93,7 @@ export class OrderItemsTableComponent implements OnChanges {
     switch (this.config.type) {
       case ObjectTypes.CONTRACT_ORDER:
       case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.PURCHASE:
         columns = ['budgetAccount', 'cucop', 'budgetControlNo', 'description', 'productUnit',
                    'quantity', 'unitPrice', 'discount', 'total'];
         break;
@@ -117,7 +117,7 @@ export class OrderItemsTableComponent implements OnChanges {
 
     if ([ObjectTypes.CONTRACT_ORDER,
          ObjectTypes.EXPENSE,
-         ObjectTypes.PURCHASE_ORDER,
+         ObjectTypes.PURCHASE,
          ObjectTypes.REQUISITION].includes(this.config.type)) {
       const budgetAccount = (item as PayableOrderItem)?.budgetAccount?.name ?? 'N/D';
       budgetAccountText = `<tr><td class='nowrap'>Partida: </td><td><strong>

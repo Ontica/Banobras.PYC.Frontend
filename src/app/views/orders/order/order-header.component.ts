@@ -159,8 +159,8 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  get isPurchaseOrder(): boolean {
-    return [ObjectTypes.PURCHASE_ORDER].includes(this.config.type);
+  get isPurchase(): boolean {
+    return [ObjectTypes.PURCHASE].includes(this.config.type);
   }
 
 
@@ -178,7 +178,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       case ObjectTypes.CONTRACT_ORDER:
         return !this.form.value.linkedOrderUID ? 'Seleccione contrato' : 'Seleccionar'
       case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.PURCHASE:
         return !this.form.value.linkedOrderUID ? 'Seleccione requisición' : 'Seleccionar'
       case ObjectTypes.REQUISITION:
         return !this.form.value.budgetTypeUID ? 'Seleccione tipo de presupuesto' : 'Seleccionar'
@@ -362,7 +362,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
         break;
       }
       case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE_ORDER: {
+      case ObjectTypes.PURCHASE: {
         const order = this.order as PayableOrder;
         this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValueValid(order.requisition));
         this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(order.budget));
@@ -385,14 +385,14 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   private validateFieldsRequired() {
     const controls = this.form.controls;
 
-    this.validateControlRequired(controls.linkedOrderUID, this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+    this.validateControlRequired(controls.linkedOrderUID, this.isPurchase || this.isExpense || this.isContractOrder);
     this.validateControlRequired(controls.categoryUID, this.isRequisition || this.isContractOrder);
     this.validateControlRequired(controls.priority, this.isContractOrder);
     this.validateControlRequired(controls.budgetTypeUID, this.isRequisition);
-    this.validateControlRequired(controls.budgetUID, this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+    this.validateControlRequired(controls.budgetUID, this.isPurchase || this.isExpense || this.isContractOrder);
     this.validateControlRequired(controls.budgets, this.isRequisition);
-    this.validateControlRequired(controls.providerUID, this.isPurchaseOrder || this.isContractOrder);
-    this.validateControlRequired(controls.currencyUID, this.isPurchaseOrder || this.isExpense);
+    this.validateControlRequired(controls.providerUID, this.isPurchase || this.isContractOrder);
+    this.validateControlRequired(controls.currencyUID, this.isPurchase || this.isExpense);
     this.validateControlRequired(controls.description, this.isRequisition || this.isContractOrder);
 
     this.validateFormDisabled();
@@ -420,7 +420,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private validateLinkedOrderFieldDisabled(formDisabled: boolean = false) {
-    if (this.isPurchaseOrder || this.isExpense) {
+    if (this.isPurchase || this.isExpense) {
       const disabled = formDisabled || !this.form.value.requestedByUID;
       FormHelper.setDisableControl(this.form.controls.linkedOrderUID, disabled);
     }
@@ -432,7 +432,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       case ObjectTypes.CONTRACT_ORDER:
         return this.getContractOrderFields();
       case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.PURCHASE:
         return this.getPayableOrderFields();
       case ObjectTypes.REQUISITION:
         return this.getRequisitionOrderFields();
@@ -480,7 +480,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
         break;
       }
       case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE_ORDER: {
+      case ObjectTypes.PURCHASE: {
         const order = this.order as PayableOrder;
         this.budgetsList = order.requisition?.budgets ?? [];
         break;

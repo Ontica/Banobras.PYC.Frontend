@@ -139,8 +139,8 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
-  get isPurchaseOrder(): boolean {
-    return [ObjectTypes.PURCHASE_ORDER].includes(this.config.type);
+  get isPurchase(): boolean {
+    return [ObjectTypes.PURCHASE].includes(this.config.type);
   }
 
 
@@ -239,13 +239,13 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
     if (!this.isSaved || (this.isSaved && this.canUpdate)) {
       const controls = this.form.controls;
 
-      this.validateControlRequired(controls.linkedItemUID, this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+      this.validateControlRequired(controls.linkedItemUID, this.isPurchase || this.isExpense || this.isContractOrder);
       this.validateControlRequired(controls.requestedByUID, this.requestedByFieldRequired);
-      this.validateControlRequired(controls.productUID, this.isPurchaseOrder || this.isExpense || this.isContractOrder);
-      this.validateControlRequired(controls.productUnitUID, this.isRequisition || this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+      this.validateControlRequired(controls.productUID, this.isPurchase || this.isExpense || this.isContractOrder);
+      this.validateControlRequired(controls.productUnitUID, this.isRequisition || this.isPurchase || this.isExpense || this.isContractOrder);
       this.validateControlRequired(controls.budgetAccountUID, this.isRequisition);
       this.validateControlRequired(controls.budgetUID, this.isRequisition);
-      this.validateControlRequired(controls.unitPrice, this.isRequisition || this.isPurchaseOrder || this.isExpense || this.isContractOrder);
+      this.validateControlRequired(controls.unitPrice, this.isRequisition || this.isPurchase || this.isExpense || this.isContractOrder);
       this.validateDescriptionRequired();
 
       FormHelper.setDisableControl(controls.unitPrice, this.isContractOrder);
@@ -289,7 +289,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private validateLoadOrderAvailableItems() {
-    if (!this.isSaved && (this.isPurchaseOrder || this.isExpense || this.isContractOrder)) {
+    if (!this.isSaved && (this.isPurchase || this.isExpense || this.isContractOrder)) {
       this.getOrderAvailableItems(this.order.uid);
     }
   }
@@ -391,7 +391,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   private getBudgetAccountDefault(): Identifiable {
     switch (this.config.type) {
       case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.PURCHASE:
       case ObjectTypes.REQUISITION:
         return (this.item as PayableOrderItem | RequisitionOrderItem)?.budgetAccount ?? null;
       default:
@@ -410,7 +410,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
         break;
       }
       case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE_ORDER: {
+      case ObjectTypes.PURCHASE: {
         const item = this.item as PayableOrderItem;
         this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.requisitionItem));
         this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
@@ -437,7 +437,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
         break;
       }
       case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE_ORDER: {
+      case ObjectTypes.PURCHASE: {
         const item = this.item as PayableOrderItem;
         this.setAvailableItemsList(ArrayLibrary.insertIfNotExist(this.availableItemsList ?? [], item.requisitionItem, 'uid'));
         this.setProductUnitsList(item.productUnit);
@@ -478,7 +478,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       case ObjectTypes.CONTRACT_ORDER:
         return this.getContractOrderItemFields();
       case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.PURCHASE:
         return this.getPayableOrderItemFields();
       case ObjectTypes.REQUISITION:
         return this.getRequisitionOrderItemFields();

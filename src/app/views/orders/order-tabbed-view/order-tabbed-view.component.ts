@@ -209,7 +209,7 @@ export class OrderTabbedViewComponent implements OnChanges {
         ];
         break;
       case ObjectTypes.CONTRACT_ORDER:
-      case ObjectTypes.PURCHASE_ORDER:
+      case ObjectTypes.PURCHASE:
       default:
         this.tabs = baseTabs.filter(t => t.tab !== TabType.payables);
         break;
