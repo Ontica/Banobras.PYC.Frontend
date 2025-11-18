@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DateString, Empty, Identifiable } from '@app/core';
+import { DateString, Empty, Entity, Identifiable } from '@app/core';
 
 import { PERMISSIONS } from '@app/main-layout';
 
@@ -43,6 +43,17 @@ export const EmptyOrderExplorerTypeConfig: OrderExplorerTypeConfig<ObjectTypes> 
 
 export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerTypeConfig<ObjectTypes> {
   switch (type) {
+    case ObjectTypes.CONTRACT:
+      return {
+        type,
+        nameSingular: 'contrato',
+        namePlural: 'contratos',
+        pronounSingular: 'el',
+        pronounPlural: 'los',
+        selectionMessage: 'seleccionados',
+        requestsList: RequestsList.contracts,
+        permissionToCreate: PERMISSIONS.NOT_REQUIRED,
+      };
     case ObjectTypes.CONTRACT_ORDER:
       return {
         type,
@@ -92,6 +103,15 @@ export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerType
 }
 
 
+export interface OrderForEdition extends Entity {
+  uid: string;
+  orderNo: string;
+  name: string;
+  description: string;
+  budgets: Identifiable[];
+}
+
+
 export interface OrdersQuery {
   orderTypeUID: string;
   requestedByUID: string;
@@ -99,6 +119,8 @@ export interface OrdersQuery {
   keywords: string;
   categoryUID: string;
   providerUID: string;
+  budgetTypeUID: string;
+  budgetUID: string;
   projectUID: string;
   orderNo: string;
   priority: Priority;
@@ -110,18 +132,22 @@ export interface OrderDescriptor {
   typeName: string;
   categoryName: string;
   orderNo: string;
+  name: string;
   description: string;
   justification: string;
   baseOrgUnitName: string;
   baseBudgetName: string;
+  currencyName: string;
   total: number;
-  priorityUID: string;
-  priorityName: string;
   providerName: string;
   projectName: string;
-  closedByName: string;
+  priorityUID: string;
+  priorityName: string;
+  startDate: DateString;
+  endDate: DateString;
   authorizedByName: string;
   authorizationTime: DateString;
+  closedByName: string;
   closingTime: DateString;
   statusName: string;
 }
@@ -130,6 +156,7 @@ export interface OrderDescriptor {
 export interface OrderFields {
   orderTypeUID: string;
   categoryUID: string;
+  name: string;
   startDate: DateString;
   endDate: DateString;
   priority: Priority;
@@ -137,6 +164,7 @@ export interface OrderFields {
   beneficiaryUID: string;
   requestedByUID: string;
   providerUID: string;
+  currencyUID: string;
   isForMultipleBeneficiaries: boolean;
   projectUID: string;
   identificators: string[];
@@ -161,12 +189,14 @@ export interface Order {
   type: Identifiable;
   category: Identifiable;
   orderNo: string;
+  name: string;
   description: string;
   justification: string;
   responsible: Identifiable;
   beneficiary: Identifiable;
   requestedBy: Identifiable;
   authorizedBy: Identifiable;
+  closedBy: Identifiable;
   provider: Identifiable;
   providersGroup: Identifiable[];
   project: Identifiable;
@@ -176,12 +206,12 @@ export interface Order {
   identificators: string[];
   tags: string[];
   isForMultipleBeneficiaries: boolean;
-  closedBy: Identifiable;
   authorizationTime: DateString;
   closingTime: DateString;
   baseOrgUnitName: string;
   baseBudgetName: string;
   total: number;
+  currency: Identifiable;
   status: Identifiable<EntityStatus>;
 }
 
@@ -193,11 +223,12 @@ export interface OrderItem {
   requestedBy: Identifiable;
   project: Identifiable;
   product: Identifiable;
-  productCode: string; // deberia ir dentro de product
+  productCode: string;
   productUnit: Identifiable;
   quantity: number;
   unitPrice: number;
   total: number;
+  currency: Identifiable;
   description: string;
   justification: string;
   startDate: DateString;
@@ -241,6 +272,8 @@ export const EmptyOrdersQuery: OrdersQuery = {
   keywords: '',
   requestedByUID: '',
   providerUID: '',
+  budgetTypeUID: '',
+  budgetUID: '',
   projectUID: '',
   priority: null,
   status: null,
@@ -252,6 +285,7 @@ export const EmptyOrder: Order = {
   type: Empty,
   category: Empty,
   orderNo: '',
+  name: '',
   description: '',
   justification: '',
   responsible: Empty,
@@ -273,6 +307,7 @@ export const EmptyOrder: Order = {
   baseOrgUnitName: '',
   baseBudgetName: '',
   total: null,
+  currency: Empty,
   status: Empty,
 }
 
@@ -289,6 +324,7 @@ export const EmptyOrderItem: OrderItem = {
   quantity: null,
   unitPrice: null,
   total: null,
+  currency: Empty,
   description: '',
   justification: '',
   startDate: null,
@@ -320,6 +356,34 @@ export const EmptyOrderHolder: OrderHolder = {
 }
 
 
+export function mapOrderDescriptorFromOrder(order: Order): OrderDescriptor {
+  return {
+    uid: order.uid,
+    typeName: order.type.name,
+    categoryName: order.category.name,
+    orderNo: order.orderNo,
+    name: order.name,
+    description: order.description,
+    justification: order.justification,
+    baseOrgUnitName: order.baseOrgUnitName,
+    baseBudgetName: order.baseBudgetName,
+    total: order.total ?? null,
+    currencyName: order.currency.name,
+    closedByName: order.closedBy.name,
+    providerName: order.provider.name,
+    projectName: order.project.name,
+    priorityUID: order.priority.uid,
+    priorityName: order.priority.name,
+    startDate: order.startDate,
+    endDate: order.endDate,
+    authorizationTime: order.authorizationTime,
+    authorizedByName: order.authorizedBy.name,
+    closingTime: order.closingTime,
+    statusName: order.status.name,
+  };
+}
+
+
 export const OrdersOperationsList: ExplorerOperation[] = [
   {
     uid: ExplorerOperationType.export,
@@ -334,27 +398,3 @@ export const OrdersOperationsList: ExplorerOperation[] = [
     confirmQuestionMessage: 'Elimino'
   },
 ];
-
-
-export function mapOrderDescriptorFromOrder(order: Order): OrderDescriptor {
-  return {
-    uid: order.uid,
-    typeName: order.type.name,
-    categoryName: order.category.name,
-    orderNo: order.orderNo,
-    description: order.description,
-    justification: order.justification,
-    baseOrgUnitName: order.baseOrgUnitName,
-    baseBudgetName: order.baseBudgetName,
-    total: order.total ?? null,
-    closedByName: order.closedBy.name,
-    providerName: order.provider.name,
-    projectName: order.project.name,
-    priorityUID: order.priority.uid,
-    priorityName: order.priority.name,
-    authorizationTime: order.authorizationTime,
-    authorizedByName: order.authorizedBy.name,
-    closingTime: order.closingTime,
-    statusName: order.status.name,
-  };
-}

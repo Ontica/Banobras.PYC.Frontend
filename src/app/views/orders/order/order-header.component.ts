@@ -11,7 +11,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { combineLatest } from 'rxjs';
 
-import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
+import { Assertion, DateString, EventInfo, Identifiable, Validate, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -22,12 +22,12 @@ import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { OrdersDataService, SearcherAPIS, SuppliersDataService } from '@app/data-services';
+import { OrdersDataService, SearcherAPIS } from '@app/data-services';
 
 import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, Priority, PriorityList,
          OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrder, PayableOrderFields,
          BudgetType, ContractOrder, ContractOrderFields, Contract, RequisitionOrderFields, RequisitionOrder,
-         RequisitionOrderForEdition, DateRange, EmptyDateRange } from '@app/models';
+         OrderForEdition, DateRange, EmptyDateRange, ContractFields } from '@app/models';
 
 
 export enum OrderHeaderEventType {
@@ -42,7 +42,10 @@ interface OrderFormModel extends FormGroup<{
   requestedByUID: FormControl<string>;
   linkedOrderUID: FormControl<string>;
   categoryUID: FormControl<string>;
+  contractNo: FormControl<string>;
+  name: FormControl<string>;
   datePeriod: FormControl<DateRange>;
+  signDate: FormControl<DateString>;
   priority: FormControl<Priority>;
   responsibleUID: FormControl<string>;
   beneficiaryUID: FormControl<string>;
@@ -90,8 +93,6 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   isLoading = false;
 
-  isContractsLoading = false;
-
   orgUnitsList: Identifiable[] = [];
 
   categoriesList: Identifiable[] = [];
@@ -104,8 +105,6 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   currenciesList: Identifiable[] = [];
 
-  contractsList: Contract[] = [];
-
   providersAPI = SearcherAPIS.provider;
 
   projectsAPI = SearcherAPIS.projects;
@@ -117,7 +116,6 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   constructor(private uiLayer: PresentationLayer,
               private ordersData: OrdersDataService,
-              private providersData: SuppliersDataService,
               private messageBox: MessageBoxService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
@@ -126,7 +124,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.config) {
+    if (changes.config && !!this.config.requestsList) {
       this.loadDataLists();
     }
 
@@ -149,13 +147,18 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  get isContractOrder(): boolean {
-    return [ObjectTypes.CONTRACT_ORDER].includes(this.config.type);
+  get isRequisition(): boolean {
+    return [ObjectTypes.REQUISITION].includes(this.config.type);
   }
 
 
-  get isExpense(): boolean {
-    return [ObjectTypes.EXPENSE].includes(this.config.type);
+  get isContract(): boolean {
+    return [ObjectTypes.CONTRACT].includes(this.config.type);
+  }
+
+
+  get isContractOrder(): boolean {
+    return [ObjectTypes.CONTRACT_ORDER].includes(this.config.type);
   }
 
 
@@ -164,8 +167,8 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  get isRequisition(): boolean {
-    return [ObjectTypes.REQUISITION].includes(this.config.type);
+  get isExpense(): boolean {
+    return [ObjectTypes.EXPENSE].includes(this.config.type);
   }
 
 
@@ -177,6 +180,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     switch (this.config.type) {
       case ObjectTypes.CONTRACT_ORDER:
         return !this.form.value.linkedOrderUID ? 'Seleccione contrato' : 'Seleccionar'
+      case ObjectTypes.CONTRACT:
       case ObjectTypes.EXPENSE:
       case ObjectTypes.PURCHASE:
         return !this.form.value.linkedOrderUID ? 'Seleccione requisición' : 'Seleccionar'
@@ -188,23 +192,19 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  get orderRequisitionLinked(): RequisitionOrderForEdition {
-    return (this.order as PayableOrder).requisition ?? null;
-  }
-
-
-  onContractChanges(item: Contract) {
-    this.form.controls.budgetTypeUID.reset(FormHelper.getUIDValueValid(item?.budgetType));
-    this.form.controls.currencyUID.reset(FormHelper.getUIDValueValid(item?.currency));
-    this.form.controls.budgetUID.reset();
-    this.form.controls.budgets.reset();
-    this.budgetsList = item?.budgets ?? [];
-  }
-
-
-  onRequisitionChanges(item: Contract) {
-    this.form.controls.budgetUID.reset();
-    this.budgetsList = item?.budgets ?? [];
+  get orderLinked(): OrderForEdition {
+    switch (this.config.type) {
+      case ObjectTypes.CONTRACT:
+        return (this.order as Contract).requisition ?? null;
+      case ObjectTypes.CONTRACT_ORDER:
+        return (this.order as ContractOrder).contract ?? null;
+      case ObjectTypes.EXPENSE:
+      case ObjectTypes.PURCHASE:
+        return (this.order as PayableOrder).requisition ?? null;
+      case ObjectTypes.REQUISITION:
+      default:
+        return null;
+    }
   }
 
 
@@ -213,18 +213,18 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
+  onRequisitionChanges(item: OrderForEdition) {
+    this.form.controls.budgetUID.reset();
+    this.form.controls.budgets.reset();
+    this.budgetsList = item?.budgets ?? [];
+  }
+
+
   onBudgetTypeChanged(budgetType: BudgetType) {
     this.form.controls.budgetUID.reset();
     this.form.controls.budgets.reset();
     this.budgetsList = budgetType?.budgets ?? [];
   }
-
-
-  onProviderChanges(provider: Identifiable) {
-    this.form.controls.linkedOrderUID.reset();
-    this.validateGetContracts();
-  }
-
 
   onSubmitButtonClicked() {
     if (FormHelper.isFormReadyAndInvalidate(this.form)) {
@@ -251,16 +251,10 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private loadDataLists() {
-    if (!this.config.requestsList) {
-      this.orgUnitsList = [];
-      return;
-    }
-
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
-        { requestsList: this.config.requestsList }),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: this.config.requestsList }),
       this.ordersData.getOrderCategories(this.config.type),
       this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
@@ -277,27 +271,6 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  private getContracts(providerUID: string, initData: boolean = false) {
-    this.isContractsLoading = true;
-    this.providersData.getSupplierContractsToOrder(providerUID)
-      .firstValue()
-      .then(x => this.setContractsList(x, initData))
-      .finally(() => this.isContractsLoading = false);
-  }
-
-
-  private setContractsList(data: Contract[], initData: boolean = false) {
-    if (initData) {
-      const contractOrder = this.order as ContractOrder;
-      const contract = isEmpty(contractOrder.contract) ? null : contractOrder.contract;
-      this.contractsList = ArrayLibrary.insertIfNotExist(data, contract, 'uid');
-      return;
-    }
-
-    this.contractsList = data;
-  }
-
-
   private initForm() {
     const fb = new FormBuilder();
 
@@ -305,7 +278,10 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       requestedByUID: ['', Validators.required],
       linkedOrderUID: [''],
       categoryUID: [''],
+      contractNo: [''],
+      name: ['', Validators.required],
       datePeriod: [EmptyDateRange],
+      signDate: [null],
       priority: [null],
       responsibleUID: [''],
       beneficiaryUID: [''],
@@ -331,6 +307,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     setTimeout(() => {
       this.form.reset({
         categoryUID: FormHelper.getUIDValueValid(this.order.category),
+        name: this.order.name ?? null,
         datePeriod: { fromDate: this.order.startDate ?? null, toDate: this.order.endDate ?? null },
         priority: FormHelper.getUIDValueValid(this.order.priority) as Priority,
         responsibleUID: FormHelper.getUIDValueValid(this.order.responsible),
@@ -338,6 +315,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
         beneficiaryUID: FormHelper.getUIDValueValid(this.order.beneficiary),
         providerUID: FormHelper.getUIDValueValid(this.order.provider),
         projectUID: FormHelper.getUIDValueValid(this.order.project),
+        currencyUID: FormHelper.getUIDValueValid(this.order.currency),
         isForMultipleBeneficiaries: this.order.isForMultipleBeneficiaries,
         identificators: this.order.identificators ?? null,
         tags: this.order.tags ?? null,
@@ -353,12 +331,19 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   private validateSetOrderFields() {
     switch (this.config.type) {
+      case ObjectTypes.CONTRACT: {
+        const order = this.order as Contract;
+        this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValueValid(order.requisition));
+        this.form.controls.budgets.reset(order.budgets?.map(x => x.uid) ?? []);
+        this.form.controls.signDate.reset(order.signDate);
+        this.form.controls.contractNo.reset(order.contractNo);
+        break;
+      }
       case ObjectTypes.CONTRACT_ORDER: {
         const order = this.order as ContractOrder;
         const contract = isEmpty(order.contract) ? null : order.contract;
         this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValueValid(contract));
         this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(order.budget));
-        this.form.controls.currencyUID.reset(FormHelper.getUIDValueValid(order.currency));
         break;
       }
       case ObjectTypes.EXPENSE:
@@ -366,7 +351,6 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
         const order = this.order as PayableOrder;
         this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValueValid(order.requisition));
         this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(order.budget));
-        this.form.controls.currencyUID.reset(FormHelper.getUIDValueValid(order.currency));
         break;
       }
       case ObjectTypes.REQUISITION: {
@@ -385,21 +369,20 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   private validateFieldsRequired() {
     const controls = this.form.controls;
 
-    this.validateControlRequired(controls.linkedOrderUID, this.isPurchase || this.isExpense || this.isContractOrder);
-    this.validateControlRequired(controls.categoryUID, this.isRequisition || this.isContractOrder);
-    this.validateControlRequired(controls.priority, this.isContractOrder);
+    this.validateControlRequired(controls.linkedOrderUID, this.isContract || this.isContractOrder || this.isPurchase || this.isExpense);
+    this.validateControlRequired(controls.categoryUID, this.isContract || this.isRequisition);
     this.validateControlRequired(controls.budgetTypeUID, this.isRequisition);
-    this.validateControlRequired(controls.budgetUID, this.isPurchase || this.isExpense || this.isContractOrder);
-    this.validateControlRequired(controls.budgets, this.isRequisition);
-    this.validateControlRequired(controls.providerUID, this.isPurchase || this.isContractOrder);
-    this.validateControlRequired(controls.currencyUID, this.isPurchase || this.isExpense);
-    this.validateControlRequired(controls.description, this.isRequisition || this.isContractOrder);
+    this.validateControlRequired(controls.budgetUID, this.isPurchase || this.isExpense);
+    this.validateControlRequired(controls.budgets, this.isRequisition || this.isContract);
+    this.validateControlRequired(controls.providerUID, this.isContract || this.isPurchase);
+    this.validateControlRequired(controls.currencyUID, this.isContract || this.isPurchase || this.isExpense);
+    this.validateControlRequired(controls.datePeriod, this.isContract, [Validators.required, Validate.periodRequired]);
 
     this.validateFormDisabled();
 
     setTimeout(() => {
-      FormHelper.markControlsAsUntouched(controls.providerUID);
       FormHelper.markControlsAsUntouched(controls.linkedOrderUID);
+      FormHelper.markControlsAsUntouched(controls.providerUID);
     });
   }
 
@@ -420,7 +403,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private validateLinkedOrderFieldDisabled(formDisabled: boolean = false) {
-    if (this.isPurchase || this.isExpense) {
+    if (this.isContract || this.isContractOrder || this.isPurchase || this.isExpense) {
       const disabled = formDisabled || !this.form.value.requestedByUID;
       FormHelper.setDisableControl(this.form.controls.linkedOrderUID, disabled);
     }
@@ -429,6 +412,8 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   private validateGetOrderFields(): OrderFields {
     switch (this.config.type) {
+      case ObjectTypes.CONTRACT:
+        return this.getContractFields();
       case ObjectTypes.CONTRACT_ORDER:
         return this.getContractOrderFields();
       case ObjectTypes.EXPENSE:
@@ -444,7 +429,6 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   private validateSetDataLists() {
     this.validateInitDataList();
-    this.validateGetContracts(true);
     this.validateSetBudgetsList();
   }
 
@@ -459,21 +443,17 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  private validateGetContracts(initData: boolean = false) {
-    if (this.isContractOrder && !!this.form.value.providerUID) {
-      this.getContracts(this.form.value.providerUID, initData);
-    } else {
-      this.contractsList = [];
-    }
-  }
-
-
   private validateSetBudgetsList() {
     if (!this.isSaved) {
       return;
     }
 
     switch (this.config.type) {
+      case ObjectTypes.CONTRACT: {
+        const order = this.order as Contract;
+        this.budgetsList = order?.requisition.budgets ?? [];
+        break;
+      }
       case ObjectTypes.CONTRACT_ORDER: {
         const order = this.order as ContractOrder;
         this.budgetsList = order?.contract.budgets ?? [];
@@ -493,23 +473,6 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
         break;
       }
     }
-  }
-
-
-  private getContractOrderFields(): ContractOrderFields {
-    Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
-
-    const formValues = this.form.getRawValue();
-
-    const data: ContractOrderFields = {
-      ...this.getPayableOrderFields(),
-      ...
-      {
-        contractUID: formValues.linkedOrderUID ?? null,
-      }
-    };
-
-    return data;
   }
 
 
@@ -533,6 +496,44 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
+  private getContractFields(): ContractFields {
+    Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
+
+    const formValues = this.form.getRawValue();
+
+    const data: ContractFields = {
+      ...this.getOrderFields(),
+      ...
+      {
+        requisitionUID: formValues.linkedOrderUID ?? null,
+        contractNo: formValues.contractNo ?? null,
+        budgets: formValues.budgets ?? [],
+        signDate: formValues.signDate ?? null,
+      }
+    };
+
+    return data;
+  }
+
+
+  private getContractOrderFields(): ContractOrderFields {
+    Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
+
+    const formValues = this.form.getRawValue();
+
+    const data: ContractOrderFields = {
+      ...this.getOrderFields(),
+      ...
+      {
+        contractUID: formValues.linkedOrderUID ?? null,
+        budgetUID: formValues.budgetUID ?? null,
+      }
+    };
+
+    return data;
+  }
+
+
   private getPayableOrderFields(): PayableOrderFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
@@ -544,7 +545,6 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       {
         requisitionUID: formValues.linkedOrderUID ?? null,
         budgetUID: formValues.budgetUID ?? null,
-        currencyUID: formValues.currencyUID ?? null,
       }
     };
 
@@ -560,6 +560,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     const data: OrderFields = {
       orderTypeUID: this.config.type,
       categoryUID: formValues.categoryUID ?? null,
+      name: formValues.name ?? null,
       startDate: !formValues.datePeriod.fromDate ? null : formValues.datePeriod.fromDate,
       endDate: !formValues.datePeriod.toDate ? null : formValues.datePeriod.toDate,
       priority: formValues.priority ?? null,
@@ -571,6 +572,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       beneficiaryUID: formValues.beneficiaryUID ?? null,
       isForMultipleBeneficiaries: formValues.isForMultipleBeneficiaries,
       providerUID: formValues.providerUID ?? null,
+      currencyUID: formValues.currencyUID ?? null,
       requestedByUID: formValues.requestedByUID ?? null,
       projectUID: formValues.projectUID ?? null,
     };

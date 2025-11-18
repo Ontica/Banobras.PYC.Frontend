@@ -80,11 +80,11 @@
 
         </mat-divider>
 
-        <div class="fx-row-container">
+        <div class="fx-row-container fx-wrap fx-wrap-gap-half">
 
-          <div class="fx-item-half">
+          <div class="fx-item-half" *ngIf="isRequisition || isContract">
 
-            <label>Categoría:</label>
+            <label> {{isContract ? 'Tipo de contrato: ' : 'Categoría:'}}</label>
 
             <emp-ng-select
               formControlName="categoryUID"
@@ -94,6 +94,50 @@
               [showError]="formHelper.isControlInvalid(form.controls.categoryUID)"
               placeholder="Todas">
             </emp-ng-select>
+
+          </div>
+
+          <div class="fx-item-quarter">
+
+            <label>Tipo de presupuesto:</label>
+
+            <emp-ng-select
+              formControlName="budgetTypeUID"
+              [items]="budgetTypesList"
+              [config]="{clearable: true}"
+              [loading]="isLoading"
+              [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
+              (changes)="onBudgetTypeChanged($event)">
+            </emp-ng-select>
+
+          </div>
+
+          <div class="fx-item-quarter">
+
+            <label>Presupuesto:</label>
+
+            <emp-ng-select
+              formControlName="budgetUID"
+              [config]="{clearable: true}"
+              [items]="budgetsList"
+              [showError]="formHelper.isControlInvalid(form.controls.budgetUID)">
+            </emp-ng-select>
+
+          </div>
+
+          <div class="fx-item-half" *ngIf="isContract || isContractOrder || isPurchase">
+
+            <label>Proveedor:</label>
+
+            <emp-ng-select-typeahead
+              formControlName="providerUID"
+              [config]="{ clearable: true }"
+              [searcherAPI]="providersAPI"
+              [initialValue]="selectedProvider"
+              (changes)="onProviderChanges($event)"
+              placeholder="Todos">
+
+            </emp-ng-select-typeahead>
 
           </div>
 
@@ -119,26 +163,6 @@
               [showError]="formHelper.isControlInvalid(form.controls.priority)"
               placeholder="Todas">
             </emp-ng-select>
-
-          </div>
-
-        </div>
-
-        <div class="fx-row-container">
-
-          <div class="fx-item-half">
-
-            <label>Proveedor:</label>
-
-            <emp-ng-select-typeahead
-              formControlName="providerUID"
-              [config]="{ clearable: true }"
-              [searcherAPI]="providersAPI"
-              [initialValue]="selectedProvider"
-              (changes)="onProviderChanges($event)"
-              placeholder="Todos">
-
-            </emp-ng-select-typeahead>
 
           </div>
 

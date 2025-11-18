@@ -7,28 +7,20 @@
 
 import { Entity, Identifiable } from '@app/core';
 
+import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem, OrderItemFields,
+         mapOrderDescriptorFromOrder } from './base-orders';
+
 import { BudgetTransactionDescriptor } from '../budget-transactions';
 
 import { Document } from '../documents';
 
 import { HistoryEntry } from '../history';
 
-import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem, OrderItemFields,
-         mapOrderDescriptorFromOrder } from './base-orders';
-
 import { PaymentOrderDescriptor } from '../payments-orders';
 
 
-export interface RequisitionOrderForEdition extends Entity {
-  uid:string;
-  orderNo: string;
-  description: string;
-  budgets: Identifiable[];
-}
-
 export interface RequisitionOrderDescriptor extends OrderDescriptor {
-  budgetTypeName: string;
-  budgetsName: string;
+
 }
 
 
@@ -49,7 +41,7 @@ export interface RequisitionOrderHolder extends OrderHolder {
   paymentOrders: PaymentOrderDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
-  actions: RequisitionOrderActions;
+  actions: OrderActions;
 }
 
 
@@ -69,11 +61,6 @@ export interface RequisitionOrderItem extends OrderItem {
 }
 
 
-export interface RequisitionOrderActions extends OrderActions {
-
-}
-
-
 export interface RequisitionOrderItemFields extends OrderItemFields {
   budgetUID: string;
   budgetAccountUID: string;
@@ -82,11 +69,6 @@ export interface RequisitionOrderItemFields extends OrderItemFields {
 
 export function mapRequisitionOrderDescriptorFromRequisitionOrder(order: RequisitionOrder): RequisitionOrderDescriptor {
   return {
-    ...mapOrderDescriptorFromOrder(order),
-    ...
-    {
-      budgetTypeName: order.budgetType?.name ?? '',
-      budgetsName: order.budgets?.map(x => x.name).join() ?? '',
-    }
+    ...mapOrderDescriptorFromOrder(order)
   };
 }

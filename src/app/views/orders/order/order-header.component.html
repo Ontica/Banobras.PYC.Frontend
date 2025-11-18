@@ -2,11 +2,11 @@
 
   <div class="fx-column-container fx-gap-half">
 
-    <div class="fx-row-container" *ngIf="isRequisition || isContractOrder">
+    <div class="fx-row-container fx-wrap fx-wrap-gap-half">
 
-      <div class="fx-item-half">
+      <div class="fx-item-half" *ngIf="isRequisition || isContract">
 
-        <label>Categoría:</label>
+        <label>{{isContract ? 'Tipo de contrato:' : 'Categoría:'}}</label>
 
         <emp-ng-select
           formControlName="categoryUID"
@@ -18,33 +18,43 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="isContractOrder">
+      <ng-container *ngIf="isContract">
 
-        <label>Prioridad:</label>
+        <div class="fx-item-quarter">
 
-        <emp-ng-select
-          formControlName="priority"
-          [items]="prioritiesList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.priority)">
+          <label>Proyecto:</label>
 
-          <ng-template #optionTemplate let-item="item">
+          <emp-ng-select-typeahead
+            formControlName="projectUID"
+            [config]="{ showTooltip: true }"
+            [searcherAPI]="projectsAPI"
+            [initialValue]="isSaved ? order.project : null"
+            [showError]="formHelper.isControlInvalid(form.controls.projectUID)">
 
-            <div [style.width.%]="100"
-              [ngClass]="{'Default':    item.uid === Priority.Low,
-                          'Verde':      item.uid === Priority.Normal,
-                          'Secundario': item.uid === Priority.High,
-                          'Terciario':  item.uid === Priority.Urgent}">
-              {{item.name}}
-            </div>
+          </emp-ng-select-typeahead>
 
-          </ng-template>
+        </div>
 
-        </emp-ng-select>
+        <div class="fx-item-quarter"
+          [style.margin-top.px]="12">
 
+          <mat-checkbox empNgStopPropagation
+            formControlName="isForMultipleBeneficiaries">
+            Sobre múltiples áreas
+          </mat-checkbox>
+
+        </div>
+
+      </ng-container>
+
+      <div class="fx-item-half" *ngIf="isContract">
+        <label>No. de contrato:</label>
+        <input type="text" class="text-box"
+          formControlName="contractNo"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.contractNo)">
       </div>
 
-      <div class="fx-item-none" *ngIf="isRequisition">
+      <div class="fx-item-none" *ngIf="isContract || isRequisition">
         <label>Vigencia:</label>
         <emp-ng-date-range-picker
           formControlName="datePeriod"
@@ -55,9 +65,31 @@
         </emp-ng-date-range-picker>
       </div>
 
+      <div class="fx-item-none" *ngIf="isContract">
+        <label>Fecha de firma:</label>
+        <emp-ng-datepicker
+          formControlName="signDate"
+          [showError]="formHelper.isControlInvalid(form.controls.signDate)">
+
+        </emp-ng-datepicker>
+      </div>
+
+      <div class="fx-item-one">
+        <label>Nombre:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="name"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+
+        </textarea>
+      </div>
+
     </div>
 
-    <div class="fx-row-container">
+    <mat-divider class="horizontal-md">
+
+    </mat-divider>
+
+    <div class="fx-row-container fx-wrap fx-wrap-gap-half">
 
       <div class="fx-item-half">
 
@@ -75,24 +107,9 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="isRequisition || isContractOrder">
+      <div class="fx-item-half" *ngIf=" isContract || isContractOrder || isPurchase || isExpense">
 
-        <label>Área beneficiaria:</label>
-
-        <emp-ng-select
-          formControlName="beneficiaryUID"
-          [config]="{virtualScroll: true, showTooltip: true}"
-          [items]="orgUnitsList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.beneficiaryUID)">
-
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-half" *ngIf="isPurchase || isExpense">
-
-        <label>Requisición:</label>
+        <label>{{isContractOrder ? 'Contrato:' : 'Requisición:'}}</label>
 
         <emp-ng-select-typeahead
           formControlName="linkedOrderUID"
@@ -100,7 +117,7 @@
           [config]="{ showTooltip: true, searchByQuery: true }"
           [searcherAPI]="requisitionsAPI"
           [initQuery]="{ orderTypeUID: config.type, requestedByUID: form.value.requestedByUID, keywords: '' }"
-          [initialValue]="isSaved ? orderRequisitionLinked : null"
+          [initialValue]="isSaved ? orderLinked : null"
           [showError]="formHelper.isControlInvalid(form.controls.linkedOrderUID)"
           [placeholder]="formHelper.getConditionalPlaceholder(!isSaved || editionMode,
             form.controls.requestedByUID.valid, 'área solicitante')"
@@ -117,7 +134,7 @@
               <span class="item-highlight">
                 {{item.orderNo}}
               </span> <br>
-              <span class="item-text-xs">
+              <span class="item-text-xs primary-text">
                 {{item?.description}}
               </span>
 
@@ -129,15 +146,22 @@
 
       </div>
 
-    </div>
+      <div class="fx-item-half" *ngIf="isRequisition || isContract">
 
-    <mat-divider class="horizontal" *ngIf="isPurchase || isExpense">
+        <label>Área beneficiaria:</label>
 
-    </mat-divider>
+        <emp-ng-select
+          formControlName="beneficiaryUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.beneficiaryUID)">
 
-    <div class="fx-row-container" *ngIf="isRequisition || isContractOrder">
+        </emp-ng-select>
 
-      <div class="fx-item-half">
+      </div>
+
+      <div class="fx-item-half" *ngIf="isRequisition || isContract">
 
         <label>Área administradora:</label>
 
@@ -152,48 +176,7 @@
 
       </div>
 
-      <div class="fx-item-quarter">
-
-        <label>Proyecto:</label>
-
-        <emp-ng-select-typeahead
-          formControlName="projectUID"
-          [config]="{ showTooltip: true }"
-          [searcherAPI]="projectsAPI"
-          [initialValue]="isSaved ? order.project : null"
-          [showError]="formHelper.isControlInvalid(form.controls.projectUID)">
-
-        </emp-ng-select-typeahead>
-
-      </div>
-
-      <div class="fx-item-quarter" [style.margin-top.px]="12">
-
-        <mat-checkbox empNgStopPropagation
-          formControlName="isForMultipleBeneficiaries">
-          Sobre múltiples áreas
-        </mat-checkbox>
-
-      </div>
-
-    </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-one">
-        <label>Descripción:</label>
-        <textarea class="text-area" empNgTextareaAutoresize rows="1"
-          formControlName="description"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
-
-        </textarea>
-      </div>
-
-    </div>
-
-    <div class="fx-row-container" *ngIf="isPurchase || isContractOrder">
-
-      <div class="fx-item-half" *ngIf="isPurchase || isContractOrder">
+      <div class="fx-item-half" *ngIf="isContract || isPurchase">
 
         <label>Proveedor:</label>
 
@@ -202,69 +185,40 @@
           [config]="{ showTooltip: true }"
           [searcherAPI]="providersAPI"
           [initialValue]="isSaved ? order.provider : null"
-          [showError]="formHelper.isControlInvalid(form.controls.providerUID)"
-          (changes)="onProviderChanges($event)">
+          [showError]="formHelper.isControlInvalid(form.controls.providerUID)">
 
         </emp-ng-select-typeahead>
 
       </div>
 
-      <div class="fx-item-half" *ngIf="isPurchase">
+      <ng-container *ngIf="isRequisition">
 
-        <label>Moneda:</label>
+        <div class="fx-item-quarter">
 
-        <emp-ng-select
-          formControlName="currencyUID"
-          [items]="currenciesList"
-          [loading]="isLoading"
-          [placeholder]="formHelper.getSimplePlaceholder(!isSaved || editionMode)"
-          [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+          <label>Proyecto:</label>
 
-        </emp-ng-select>
+          <emp-ng-select-typeahead
+            formControlName="projectUID"
+            [config]="{ showTooltip: true }"
+            [searcherAPI]="projectsAPI"
+            [initialValue]="isSaved ? order.project : null"
+            [showError]="formHelper.isControlInvalid(form.controls.projectUID)">
 
-      </div>
+          </emp-ng-select-typeahead>
 
-      <div class="fx-item-half" *ngIf="isContractOrder">
+        </div>
 
-        <label>Contrato:</label>
+        <div class="fx-item-quarter"
+          [style.margin-top.px]="12">
 
-        <emp-ng-select
-          formControlName="linkedOrderUID"
-          [config]="{showTooltip: true}"
-          [items]="contractsList"
-          [loading]="isContractsLoading"
-          [placeholder]="formHelper.getConditionalPlaceholder(!isSaved || editionMode,
-            form.controls.providerUID.valid, 'proveedor')"
-          [showError]="formHelper.isControlInvalid(form.controls.linkedOrderUID)"
-          (changes)="onContractChanges($event)">
+          <mat-checkbox empNgStopPropagation
+            formControlName="isForMultipleBeneficiaries">
+            Sobre múltiples áreas
+          </mat-checkbox>
 
-          <ng-template #labelTemplate let-item="item">
-            {{(!!item.contractNo ? item.contractNo : 'N/D') | uppercase}} | {{item.budgetType?.name}} | {{item.currency?.name}}
-          </ng-template>
+        </div>
 
-          <ng-template #optionTemplate let-item="item">
-
-            <div class="item wrap">
-
-              <span class="item-highlight">
-                {{(!!item.contractNo ? item.contractNo : 'N/D') | uppercase}} | {{item.budgetType?.name}} | {{item.currency?.name}}
-              </span> <br>
-
-              <span class="item-text-xs">
-                {{item.name}}
-              </span>
-
-            </div>
-
-          </ng-template>
-
-        </emp-ng-select>
-
-      </div>
-
-    </div>
-
-    <div class="fx-row-container">
+      </ng-container>
 
       <div class="fx-item-half" *ngIf="isRequisition">
 
@@ -281,11 +235,12 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="isRequisition || isPurchase || isExpense || isContractOrder">
+      <div *ngIf="isRequisition || isContract || isPurchase || isExpense"
+        [ngClass]="isRequisition || isExpense ? 'fx-item-half' : 'fx-item-quarter'">
 
-        <label>{{isRequisition ? 'Presupuestos:' : 'Presupuesto:'}}</label>
+        <label>{{isRequisition || isContract ? 'Presupuestos:' : 'Presupuesto:'}}</label>
 
-        <emp-ng-select *ngIf="!isRequisition"
+        <emp-ng-select *ngIf="!(isRequisition || isContract)"
           formControlName="budgetUID"
           [items]="budgetsList"
           [loading]="isLoading"
@@ -294,9 +249,8 @@
 
         </emp-ng-select>
 
-        <emp-ng-select *ngIf="isRequisition"
+        <emp-ng-select *ngIf="isRequisition || isContract"
           formControlName="budgets"
-          bindLabel="year"
           [config]="{multiple: true}"
           [items]="budgetsList"
           [loading]="isLoading"
@@ -307,7 +261,8 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="isExpense">
+      <div *ngIf="isContract || isPurchase || isExpense"
+        [ngClass]="isExpense ? 'fx-item-half' : 'fx-item-quarter'">
 
         <label>Moneda:</label>
 
@@ -324,6 +279,10 @@
 
     </div>
 
+    <mat-divider class="horizontal-md">
+
+    </mat-divider>
+
     <div class="fx-row-container">
 
       <div class="fx-item-half">
@@ -337,7 +296,6 @@
 
       </div>
 
-
       <div class="fx-item-half">
 
         <label>Palabras de búsqueda adicionales:</label>
@@ -347,6 +305,19 @@
 
         </emp-ng-input-tags>
 
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+
+        </textarea>
       </div>
 
     </div>

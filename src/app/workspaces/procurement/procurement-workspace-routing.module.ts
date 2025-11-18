@@ -17,10 +17,6 @@ import { DefaultComponent } from '@app/shared/components';
 //   RequestsMainPageComponent
 // } from '@app/views/requests/requests-main-page/requests-main-page.component';
 
-import {
-  ContractsMainPageComponent
-} from '@app/views/contracts/contracts-main-page/contracts-main-page.component';
-
 import { OrdersMainPageComponent } from '@app/views/orders/orders-main-page/orders-main-page.component';
 
 
@@ -38,7 +34,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.gastos_contratos.permission },
     path: ROUTES.gastos_contratos.path,
-    component: ContractsMainPageComponent,
+    component: OrdersMainPageComponent,
   },
   {
     data: { permission: ROUTES.gastos_entregas.permission },

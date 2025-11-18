@@ -193,6 +193,12 @@
 .fx-wrap {
   flex-wrap: wrap;
   align-items: stretch;
+
+  &.fx-wrap-gap-half {
+    > div {
+      margin-bottom: 0.5rem;
+    }
+  }
 }
 
 //

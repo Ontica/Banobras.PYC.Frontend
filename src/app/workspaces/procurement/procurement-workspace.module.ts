@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
 
 import { ProcurementWorkspaceRoutingModule } from './procurement-workspace-routing.module';
 
-import { ContractsModule } from '@app/views/contracts/contracts.module';
 import { OrdersModule } from '@app/views/orders/orders.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
 
@@ -22,7 +21,6 @@ import { RequestsModule } from '@app/views/requests/requests.module';
 
     ProcurementWorkspaceRoutingModule,
 
-    ContractsModule,
     OrdersModule,
     RequestsModule,
   ],

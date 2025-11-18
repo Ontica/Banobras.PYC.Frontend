@@ -70,6 +70,11 @@ export class OrdersDataComponent implements OnChanges {
   }
 
 
+  get isContract(): boolean {
+    return [ObjectTypes.CONTRACT].includes(this.config.type);
+  }
+
+
   onListControlsEvent(event: EventInfo) {
     switch (event.type as ListControlsEventType) {
       case ListControlsEventType.EXECUTE_OPERATION_CLICKED:

@@ -15,14 +15,15 @@ import { EventInfo, Identifiable } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
+import { BudgetingStateSelector,
+         CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { OrdersDataService, SearcherAPIS } from '@app/data-services';
 
 import { OrdersQuery, EntityStatus, EntityStatusList, EmptyOrdersQuery, Priority, OrderExplorerTypeConfig,
-         EmptyOrderExplorerTypeConfig, PriorityList, ObjectTypes } from '@app/models';
+         EmptyOrderExplorerTypeConfig, PriorityList, ObjectTypes, BudgetType } from '@app/models';
 
 export enum OrdersFilterEventType {
   SEARCH_CLICKED = 'OrdersFilterComponent.Event.SearchClicked',
@@ -37,6 +38,8 @@ interface OrdersFilterFormModel extends FormGroup<{
   orderNo: FormControl<string>;
   priority: FormControl<Priority>;
   providerUID: FormControl<string>;
+  budgetTypeUID: FormControl<string>;
+  budgetUID: FormControl<string>;
   projectUID: FormControl<string>;
 }> { }
 
@@ -70,6 +73,10 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
   orgUnitsList: Identifiable[] = [];
 
   categoriesList: Identifiable[] = [];
+
+  budgetTypesList: BudgetType[] = [];
+
+  budgetsList: Identifiable[] = [];
 
   providersAPI = SearcherAPIS.provider;
 
@@ -105,8 +112,39 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
   }
 
 
+  get isRequisition(): boolean {
+    return [ObjectTypes.REQUISITION].includes(this.config.type);
+  }
+
+
+  get isContract(): boolean {
+    return [ObjectTypes.CONTRACT].includes(this.config.type);
+  }
+
+
+  get isContractOrder(): boolean {
+    return [ObjectTypes.CONTRACT_ORDER].includes(this.config.type);
+  }
+
+
+  get isPurchase(): boolean {
+    return [ObjectTypes.PURCHASE].includes(this.config.type);
+  }
+
+
+  get isExpense(): boolean {
+    return [ObjectTypes.EXPENSE].includes(this.config.type);
+  }
+
+
   onProviderChanges(provider: Identifiable) {
     this.selectedProvider = provider;
+  }
+
+
+  onBudgetTypeChanged(type: BudgetType) {
+    this.budgetsList = type.budgets;
+    this.form.controls.budgetUID.reset();
   }
 
 
@@ -145,13 +183,14 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
-        { requestsList: this.config.requestsList }),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: this.config.requestsList }),
       this.ordersData.getOrderCategories(this.config.type),
+      this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
     ])
-    .subscribe(([a, b]) => {
+    .subscribe(([a, b, c]) => {
       this.orgUnitsList = a;
       this.categoriesList = b;
+      this.budgetTypesList = c;
       this.isLoading = false;
     });
   }
@@ -166,6 +205,8 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
       keywords: [null],
       categoryUID: [null],
       providerUID: [null],
+      budgetTypeUID: [null],
+      budgetUID: [null],
       projectUID: [null],
       orderNo: [null],
       priority: [null],
@@ -180,6 +221,8 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
       keywords: this.query.keywords,
       categoryUID: this.query.categoryUID,
       providerUID: this.query.providerUID,
+      budgetTypeUID: this.query.budgetTypeUID,
+      budgetUID: this.query.budgetUID,
       projectUID: this.query.projectUID,
       orderNo: this.query.orderNo,
       priority: this.query.priority,
@@ -195,6 +238,8 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
       keywords: this.form.value.keywords ?? null,
       categoryUID: this.form.value.categoryUID ?? null,
       providerUID: this.form.value.providerUID ?? null,
+      budgetTypeUID: this.form.value.budgetTypeUID ?? null,
+      budgetUID: this.form.value.budgetUID ?? null,
       projectUID: this.form.value.projectUID,
       orderNo: this.form.value.orderNo ?? null,
       priority: this.form.value.priority ?? null,

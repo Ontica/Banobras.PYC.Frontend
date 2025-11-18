@@ -10,7 +10,7 @@ export enum ObjectTypes {
   ASSETS_INVENTORY = 'ObjectTypeInfo.AssetTransaction.FixedAssetsInventory',
   CREDIT_ACCOUNT   = 'ObjectTypeInfo.FinancialAccount.CreditAccount',
   REQUISITION      = 'ObjectTypeInfo.Order.Requisition',
-  CONTRACT         = 'ObjectTypeInfo.Contract.Procurement',
+  CONTRACT         = 'ObjectTypeInfo.Order.Contract',
   CONTRACT_ORDER   = 'ObjectTypeInfo.Order.PayableOrder.ContractOrder',
   PURCHASE         = 'ObjectTypeInfo.Order.PayableOrder.PurchaseOrder',
   EXPENSE          = 'ObjectTypeInfo.Order.PayableOrder.Expenses',

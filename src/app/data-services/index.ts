@@ -35,8 +35,6 @@ export * from './catalogues.data.service';
 
 export * from './chart-of-accounts.service';
 
-export * from './contracts.data.service';
-
 export * from './documents.data.service';
 
 export * from './financial-accounts.data.service';

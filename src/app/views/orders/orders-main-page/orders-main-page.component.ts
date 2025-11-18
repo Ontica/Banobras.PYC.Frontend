@@ -21,11 +21,11 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { OrdersDataService } from '@app/data-services';
 
-import { ObjectTypes, OrderExplorerTypeConfig, Order, PayableOrder, ContractOrder, OrderDescriptor,
-         OrdersQuery, OrderHolder, EmptyOrderHolder, EmptyOrdersQuery, EmptyOrderExplorerTypeConfig,
-         getOrderExplorerTypeConfig, mapOrderDescriptorFromOrder, mapPayableOrderDescriptorFromPayableOrder,
-         mapContractOrderDescriptorFromContractOrder, mapRequisitionOrderDescriptorFromRequisitionOrder,
-         RequisitionOrder } from '@app/models';
+import { Contract, ContractOrder, EmptyOrderExplorerTypeConfig, EmptyOrderHolder, EmptyOrdersQuery,
+         ObjectTypes, Order, OrderDescriptor, OrderExplorerTypeConfig, OrderHolder, OrdersQuery, PayableOrder,
+         RequisitionOrder, getOrderExplorerTypeConfig, mapContractDescriptorFromContract,
+         mapContractOrderDescriptorFromContractOrder, mapPayableOrderDescriptorFromPayableOrder,
+         mapOrderDescriptorFromOrder, mapRequisitionOrderDescriptorFromRequisitionOrder } from '@app/models';
 
 import { OrderCreatorEventType } from '../order/order-creator.component';
 
@@ -157,6 +157,9 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
 
   private setExplorerConfigFromCurrentView(view: View) {
     switch (view.name) {
+      case 'Procurement.Contracts':
+        this.config = getOrderExplorerTypeConfig(ObjectTypes.CONTRACT);
+        return;
       case 'Procurement.ContractOrders':
         this.config = getOrderExplorerTypeConfig(ObjectTypes.CONTRACT_ORDER)
         return;
@@ -256,13 +259,15 @@ export class OrdersMainPageComponent implements OnInit, OnDestroy {
 
   private validateMapOrderDescriptorByType(order: Order): OrderDescriptor {
     switch (this.config.type) {
-      case ObjectTypes.CONTRACT_ORDER:
-        return mapContractOrderDescriptorFromContractOrder(order as ContractOrder);
-      case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE:
-        return mapPayableOrderDescriptorFromPayableOrder(order as PayableOrder);
       case ObjectTypes.REQUISITION:
         return mapRequisitionOrderDescriptorFromRequisitionOrder(order as RequisitionOrder);
+      case ObjectTypes.CONTRACT:
+        return mapContractDescriptorFromContract(order as Contract);
+      case ObjectTypes.CONTRACT_ORDER:
+        return mapContractOrderDescriptorFromContractOrder(order as ContractOrder);
+      case ObjectTypes.PURCHASE:
+      case ObjectTypes.EXPENSE:
+        return mapPayableOrderDescriptorFromPayableOrder(order as PayableOrder);
       default:
         return mapOrderDescriptorFromOrder(order);
     }

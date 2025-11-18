@@ -36,7 +36,7 @@ enum TabType {
   order              = 'order',
   items              = 'items',
   budgetTransactions = 'budgetTransactions',
-  payables           = 'payables',
+  orders             = 'orders',
   bills              = 'bills',
   paymentOrders      = 'paymentOrders',
   documents          = 'documents',
@@ -171,7 +171,7 @@ export class OrderTabbedViewComponent implements OnChanges {
     const isContractOrder = this.config.type === ObjectTypes.CONTRACT_ORDER;
     if (isContractOrder) {
       const order = this.data.order as ContractOrder;
-      const contractNo = order?.contract?.contractNo ?? '';
+      const contractNo = order?.contract?.orderNo ?? '';
       return contractNo;
     }
 
@@ -180,13 +180,14 @@ export class OrderTabbedViewComponent implements OnChanges {
 
 
   private setTabs() {
-    const orderName = this.config.nameSingular;
+    const orderTypeName = this.config.nameSingular;
+    const ordersName = this.config.type === ObjectTypes.CONTRACT ? 'Entregas' : 'Adquisiciones';
 
     const baseTabs: TabConfig[] = [
-      { label: orderName,       tab: TabType.order },
+      { label: orderTypeName,   tab: TabType.order },
       { label: 'Conceptos',     tab: TabType.items },
       { label: 'Presupuesto',   tab: TabType.budgetTransactions },
-      { label: 'Adquisiciones', tab: TabType.payables },
+      { label: ordersName,      tab: TabType.orders },
       { label: 'Facturas',      tab: TabType.bills },
       { label: 'Pagos',         tab: TabType.paymentOrders },
       { label: 'Documentos',    tab: TabType.documents },
@@ -195,6 +196,7 @@ export class OrderTabbedViewComponent implements OnChanges {
 
     switch (this.config.type) {
       case ObjectTypes.REQUISITION:
+      case ObjectTypes.CONTRACT:
         this.tabs = baseTabs;
         break;
       case ObjectTypes.EXPENSE:
@@ -211,7 +213,7 @@ export class OrderTabbedViewComponent implements OnChanges {
       case ObjectTypes.CONTRACT_ORDER:
       case ObjectTypes.PURCHASE:
       default:
-        this.tabs = baseTabs.filter(t => t.tab !== TabType.payables);
+        this.tabs = baseTabs.filter(t => t.tab !== TabType.orders);
         break;
     }
   }
