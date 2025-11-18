@@ -74,11 +74,8 @@ export interface ContractItem extends OrderItem {
 
 export interface ContractItemFields extends OrderItemFields {
   requisitionItemUID: string;
-  name: string;
-  providerUID: string;
-  budgets: string[];
+  budgetUID: string;
   budgetAccountUID: string;
-  periodicityTypeUID: string;
   minQuantity: number;
   maxQuantity: number;
   unitPrice: number;

@@ -13,7 +13,7 @@
 
           <div class="section-title"> Información del concepto </div>
 
-          <ng-container *ngIf="isPurchase || isExpense || isContractOrder">
+          <ng-container *ngIf="isContract || isContractOrder || isPurchase || isExpense">
 
             <div class="fx-row-container">
 
@@ -73,7 +73,7 @@
 
           <div class="fx-row-container" *ngIf="requestedByFieldRequired">
 
-            <div class="fx-item-one">
+            <div [ngClass]="isContract ? 'fx-item-half' : 'fx-item-one'">
 
               <label>Área solicitante:</label>
 
@@ -91,11 +91,11 @@
 
           </div>
 
-          <ng-container *ngIf="isRequisition || isPurchase || isExpense || isContractOrder">
+          <ng-container *ngIf="isRequisition || isContract || isContractOrder || isPurchase || isExpense">
 
-            <div class="fx-row-container">
+            <div class="fx-row-container fx-wrap fx-wrap-gap-half">
 
-              <div class="fx-item-half" *ngIf="isRequisition">
+              <div class="fx-item-half" *ngIf="isRequisition || isContract">
 
                 <label>Presupuesto:</label>
 
@@ -109,13 +109,13 @@
 
               </div>
 
-              <div class="fx-item-half" *ngIf="isRequisition || isPurchase || isExpense || isContractOrder">
+              <div class="fx-item-half" *ngIf="isRequisition || isContract || isContractOrder || isPurchase || isExpense">
 
                 <label>Producto:</label>
 
                 <emp-ng-select-typeahead #productSearcher
                   formControlName="productUID"
-                  [config]="{showTooltip: true, clearable: true,}"
+                  [config]="{showTooltip: true, clearable: true}"
                   [searcherAPI]="productsAPI"
                   [initialValue]="isSaved ? item.product : null"
                   [showError]="formHelper.isControlInvalid(form.controls.productUID)"
@@ -125,14 +125,13 @@
 
               </div>
 
-              <div class="fx-item-half" *ngIf="isPurchase || isExpense || isContractOrder">
+              <div class="fx-item-half" *ngIf="isContractOrder || isPurchase || isExpense">
 
                 <label>Unidad:</label>
 
                 <emp-ng-select
                   formControlName="productUnitUID"
                   [config]="{
-                              clearable: true,
                               notFoundText: form.controls.productUID.invalid ?
                                             'No se encontraron registros' :
                                             'El producto no tiene unidades'
@@ -147,7 +146,7 @@
 
             </div>
 
-            <div class="fx-row-container" *ngIf="isRequisition">
+            <div class="fx-row-container" *ngIf="isRequisition || isContract">
 
               <div class="fx-item-half">
 
@@ -176,7 +175,6 @@
                 <emp-ng-select
                   formControlName="productUnitUID"
                   [config]="{
-                              clearable: true,
                               notFoundText: form.controls.productUID.invalid ?
                                             'No se encontraron registros' :
                                             'El producto no tiene unidades'
@@ -189,7 +187,7 @@
 
               </div>
 
-              <div class="fx-item-none">
+              <div class="fx-item-none" *ngIf="isRequisition">
                 <label>Vigencia:</label>
                 <emp-ng-date-range-picker
                   formControlName="datePeriod"
@@ -223,7 +221,7 @@
 
           <div class="fx-row-container">
 
-            <div class="fx-item-quarter">
+            <div class="fx-item-quarter" *ngIf="!isContract">
 
               <label>Cantidad:</label>
 
@@ -238,6 +236,32 @@
 
             </div>
 
+            <ng-container *ngIf="isContract">
+
+              <div class="fx-item-quarter">
+
+                <label>Cantidad mínima:</label>
+
+                <input type="text" empNgCurrency
+                  class="text-box text-align-right"
+                  formControlName="minQuantity"
+                  [class.invalid-control]="formHelper.isControlInvalid(form.controls.minQuantity)">
+
+              </div>
+
+              <div class="fx-item-quarter">
+
+                <label>Cantidad máxima:</label>
+
+                <input type="text" empNgCurrency
+                  class="text-box text-align-right"
+                  formControlName="maxQuantity"
+                  [class.invalid-control]="formHelper.isControlInvalid(form.controls.maxQuantity)">
+
+              </div>
+
+            </ng-container>
+
             <div class="fx-item-quarter">
 
               <label>Precio unitario:</label>
@@ -251,7 +275,7 @@
 
             </div>
 
-            <div class="fx-item-quarter" *ngIf="isPurchase || isExpense || isContractOrder">
+            <div class="fx-item-quarter" *ngIf="isContractOrder || isPurchase || isExpense">
 
               <label>Descuento:</label>
 
@@ -264,7 +288,7 @@
 
             </div>
 
-            <div class="fx-item-quarter">
+            <div class="fx-item-quarter" *ngIf="!isContract">
 
               <label>Importe:</label>
 
