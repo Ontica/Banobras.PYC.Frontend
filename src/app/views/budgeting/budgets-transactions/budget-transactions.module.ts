@@ -14,6 +14,7 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
+import { TaxesModule } from '@app/views/taxes/taxes.module';
 
 import { BudgetTransactionsMainPageComponent } from './transactions-main-page/transactions-main-page.component';
 import { BudgetTransactionsExplorerComponent } from './transactions-explorer/transactions-explorer.component';
@@ -49,6 +50,7 @@ import { BudgetTransactionsPlanningGeneratorComponent } from './transactions-pla
 
     EntityRecordsModule,
     ReportsControlsModule,
+    TaxesModule,
   ],
   declarations: [
     BudgetTransactionsMainPageComponent,

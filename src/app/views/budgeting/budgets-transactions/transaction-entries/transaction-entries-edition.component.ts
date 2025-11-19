@@ -21,7 +21,8 @@ import { BudgetTransaction, BudgetTransactionEntryDescriptor, BudgetTransactionE
          EmptyBudgetTransaction, EmptyBudgetTransactionEntry, TransactionEntryType,
          BudgetTransactionEntryByYearFields, BudgetTransactionGroupedEntryData,
          EmptyBudgetTransactionGroupedEntryData, BudgetTransactionEntryBase, EmptyBudgetTransactionEntryBase,
-         BudgetTransactionEntryBaseDescriptor, BudgetTransactionEntryByYearDescriptor } from '@app/models';
+         BudgetTransactionEntryBaseDescriptor, BudgetTransactionEntryByYearDescriptor,
+         TaxEntry } from '@app/models';
 
 import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
 
@@ -30,6 +31,8 @@ import { TransactionEntriesControlsEventType } from './transaction-entries-contr
 import { TransactionEntriesTableEventType } from './transaction-entries-table.component';
 
 import { TransactionEntryEditorEventType } from './transaction-entry-editor.component';
+
+import { TaxesEditionEventType } from '@app/views/taxes/taxes-edition/taxes-edition.component';
 
 
 export enum TransactionEntriesEditionEventType {
@@ -48,19 +51,23 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
 
   @Input() groupedEntries: BudgetTransactionGroupedEntryData = Object.assign({}, EmptyBudgetTransactionGroupedEntryData);
 
+  @Input() taxes: TaxEntry[] = [];
+
   @Input() canEdit = false;
 
   @Output() transactionEntriesEditionEvent = new EventEmitter<EventInfo>();
 
   submitted = false;
 
+  displayAllEntries = false;
+
   displayEntryEditor = false;
+
+  displayTaxesViewer = false;
 
   selectedEntry: BudgetTransactionEntryBase = EmptyBudgetTransactionEntryBase;
 
   filter = '';
-
-  displayAllEntries = false;
 
 
   constructor(private transactionsData: BudgetTransactionsDataService,
@@ -83,6 +90,9 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
         return;
       case TransactionEntriesControlsEventType.AUTOMATIC_GENERATION_BUTTON_CLICKED:
         this.messageBox.showInDevelopment('Generación automática');
+        return;
+      case TransactionEntriesControlsEventType.TAXES_BUTTON_CLICKED:
+        this.displayTaxesViewer = true;
         return;
       case TransactionEntriesControlsEventType.CREATE_ENTRY_BUTTON_CLICKED:
         this.setSelectedEntry(EmptyBudgetTransactionEntry, true);
@@ -147,6 +157,19 @@ export class BudgetTransactionEntriesEditionComponent implements OnChanges {
         Assertion.assertValue(event.payload.entry.uid, 'event.payload.entry.uid');
         this.confirmRemoveEntry(TransactionEntryType.Annually,
           event.payload.entry as BudgetTransactionEntryBaseDescriptor);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  @SkipIf('submitted')
+  onTaxesEditionEvent(event: EventInfo) {
+    switch (event.type as TaxesEditionEventType) {
+      case TaxesEditionEventType.CLOSE_BUTTON_CLICKED:
+        this.displayTaxesViewer = false;
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

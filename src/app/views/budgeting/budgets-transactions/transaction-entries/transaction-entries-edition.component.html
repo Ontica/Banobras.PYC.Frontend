@@ -45,3 +45,10 @@
   (transactionEntryEditorEvent)="onEntryEditorEvent($event)">
 
 </emp-bdg-transaction-entry-editor>
+
+
+<emp-financial-taxes-edition *ngIf="displayTaxesViewer"
+  [taxes]="taxes"
+  (taxesEditionEvent)="onTaxesEditionEvent($event)">
+
+</emp-financial-taxes-edition>

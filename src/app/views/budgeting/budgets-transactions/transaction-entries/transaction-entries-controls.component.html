@@ -1,4 +1,4 @@
-  <div class="fx-row-container fx-space-between fx-items-center">
+  <div class="fx-row-container fx-space-between fx-items-center fx-gap-half">
 
     <div class="fx-item-quarter sm-fx-item-half">
 
@@ -26,22 +26,31 @@
 
     </div>
 
+    <button
+      class="btn"
+      title="Ver detalle de impuestos"
+      (click)="onTaxesButtonClicked()">
+      Impuestos
+    </button>
+
     <ng-container *ngIf="canEdit">
 
-      <button
-        class="btn"
-        (click)="onAutomaticGenerationButtonClicked()">
-        Generación automática
-      </button>
-
-      <mat-divider vertical="true" class="vertical-inline">
+      <mat-divider vertical="true" class="vertical-slim" [style.margin-right]="0">
 
       </mat-divider>
 
       <button
+        class="btn"
+        title="Generación automática"
+        (click)="onAutomaticGenerationButtonClicked()">
+        Auto generar
+      </button>
+
+      <button
         class="btn-action"
+        title="Agregar movimiento"
         (click)="onCreateEntryButtonClicked()">
-        Agregar movimiento
+        Agregar
       </button>
 
     </ng-container>

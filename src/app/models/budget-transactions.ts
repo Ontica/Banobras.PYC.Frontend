@@ -20,6 +20,8 @@ import { HistoryEntry } from './history';
 import { TransactionDateType, TransactionEntryItemType, TransactionEntryType, TransactionPartyType,
          TransactionStages, TransactionStatus } from './transactions';
 
+import { TaxEntry } from './taxes';
+
 
 export interface BudgetTypeForEdition {
   uid: string;
@@ -116,6 +118,7 @@ export interface BudgetTransactionHolder {
   transaction: BudgetTransaction,
   entries: BudgetTransactionEntryDescriptor[];
   groupedEntries: BudgetTransactionGroupedEntryData;
+  taxes: TaxEntry[];
   documents: Document[];
   history: HistoryEntry[];
   actions: BudgetTransactionActions;
@@ -389,6 +392,7 @@ export const EmptyBudgetTransactionHolder: BudgetTransactionHolder = {
   transaction: EmptyBudgetTransaction,
   entries: [],
   groupedEntries: EmptyBudgetTransactionGroupedEntryData,
+  taxes: [],
   documents: [],
   history: [],
   actions: EmptyBudgetTransactionActions,

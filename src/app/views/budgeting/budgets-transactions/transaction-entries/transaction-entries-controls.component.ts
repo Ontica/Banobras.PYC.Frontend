@@ -16,6 +16,7 @@ export enum TransactionEntriesControlsEventType {
   CHECK_ALL_ENTRIES_CHANGED           = 'BudgetTransactionEntriesControlsComponent.Event.CheckAllEntriesChanged',
   AUTOMATIC_GENERATION_BUTTON_CLICKED = 'BudgetTransactionEntriesControlsComponent.Event.AutomaticGenerationButtonClicked',
   CREATE_ENTRY_BUTTON_CLICKED         = 'BudgetTransactionEntriesControlsComponent.Event.CreateEntryButtonClicked',
+  TAXES_BUTTON_CLICKED                = 'BudgetTransactionEntriesControlsComponent.Event.TaxesButtonClicked',
 }
 
 @Component({
@@ -60,6 +61,12 @@ export class BudgetTransactionEntriesControlsComponent {
   onCreateEntryButtonClicked() {
     sendEvent(this.transactionEntriesControlsEvent,
       TransactionEntriesControlsEventType.CREATE_ENTRY_BUTTON_CLICKED);
+  }
+
+
+  onTaxesButtonClicked() {
+    sendEvent(this.transactionEntriesControlsEvent,
+      TransactionEntriesControlsEventType.TAXES_BUTTON_CLICKED);
   }
 
 }
