@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Entity, Identifiable } from '@app/core';
+import { Identifiable } from '@app/core';
 
 import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem, OrderItemFields,
          mapOrderDescriptorFromOrder } from './base-orders';
@@ -17,6 +17,8 @@ import { Document } from '../documents';
 import { HistoryEntry } from '../history';
 
 import { PaymentOrderDescriptor } from '../payments-orders';
+
+import { TaxEntry } from '../taxes';
 
 
 export interface RequisitionOrderDescriptor extends OrderDescriptor {
@@ -35,8 +37,9 @@ export interface RequisitionOrderFields extends OrderFields {
 export interface RequisitionOrderHolder extends OrderHolder {
   order: RequisitionOrder;
   items: RequisitionOrderItem[];
+  orders: OrderDescriptor[];
   budgetTransactions: BudgetTransactionDescriptor[];
-  payables: OrderDescriptor[];
+  taxes: TaxEntry[];
   bills: Document[];
   paymentOrders: PaymentOrderDescriptor[];
   documents: Document[];

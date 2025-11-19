@@ -104,6 +104,8 @@ export * from './requests';
 
 export * from './steps';
 
+export * from './taxes';
+
 export * from './transactions';
 
 export * from './workflows';

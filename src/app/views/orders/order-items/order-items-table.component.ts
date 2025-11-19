@@ -15,8 +15,8 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
-import { EmptyOrderExplorerTypeConfig, ObjectTypes, OrderItem, OrderExplorerTypeConfig,
-         PayableOrderItem } from '@app/models';
+import { EmptyOrderExplorerTypeConfig, ObjectTypes, OrderItem, OrderExplorerTypeConfig, PayableOrderItem,
+         TaxEntry } from '@app/models';
 
 
 export enum OrderItemsTableEventType {
@@ -34,6 +34,10 @@ export class OrderItemsTableComponent implements OnChanges {
 
   @Input() items: OrderItem[] = [];
 
+  @Input() taxes: TaxEntry[] = [];
+
+  @Input() orderTotal: number = 0;
+
   @Input() isForMultipleBeneficiaries = false;
 
   @Input() isMultipleProviders = false;
@@ -45,6 +49,8 @@ export class OrderItemsTableComponent implements OnChanges {
   displayedColumnsDefault: string[] = ['cucop', 'description', 'productUnit', 'quantity'];
 
   displayedColumns = [...this.displayedColumnsDefault];
+
+  displayedTotalColumns = ['tax', 'taxTotal'];
 
   dataSource: MatTableDataSource<OrderItem>;
 
@@ -84,6 +90,7 @@ export class OrderItemsTableComponent implements OnChanges {
   private setDataTable() {
     this.dataSource = new MatTableDataSource(this.items);
     this.resetColumns();
+    this.resetTaxesColumns();
   }
 
 
@@ -109,6 +116,13 @@ export class OrderItemsTableComponent implements OnChanges {
     if (this.canDelete) columns.push('actionDelete');
 
     this.displayedColumns = columns;
+  }
+
+
+  private resetTaxesColumns() {
+    let columns = ['tax', 'taxTotal'];
+    if (this.canDelete) columns.push('space');
+    this.displayedTotalColumns = columns;
   }
 
 

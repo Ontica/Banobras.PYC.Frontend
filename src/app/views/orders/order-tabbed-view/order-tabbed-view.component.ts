@@ -112,6 +112,7 @@ export class OrderTabbedViewComponent implements OnChanges {
   onOrderItemsEditionEvent(event: EventInfo) {
     switch (event.type as OrderItemsEditionEventType) {
       case OrderItemsEditionEventType.ITEMS_UPDATED:
+      case OrderItemsEditionEventType.TAXES_UPDATED:
         Assertion.assertValue(event.payload.orderUID, 'event.payload.orderUID');
         sendEvent(this.orderTabbedViewEvent, OrderTabbedViewEventType.REFRESH_DATA, event.payload);
         return;

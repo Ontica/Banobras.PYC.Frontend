@@ -23,6 +23,10 @@ import { Priority } from '../steps';
 
 import { RequestsList } from '../requests';
 
+import { TaxEntry } from '../taxes';
+
+import { PaymentOrderDescriptor } from '../payments-orders';
+
 
 export interface OrderExplorerTypeConfig<T> extends ExplorerTypeConfig<T> {
   requestsList: RequestsList;
@@ -177,6 +181,10 @@ export interface OrderFields {
 export interface OrderHolder {
   order: Order;
   items: OrderItem[];
+  taxes: TaxEntry[];
+  orders: OrderDescriptor[];
+  bills: Document[];
+  paymentOrders: PaymentOrderDescriptor[];
   budgetTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
@@ -350,6 +358,10 @@ export const EmptyOrderHolder: OrderHolder = {
   order: EmptyOrder,
   items: [],
   budgetTransactions: [],
+  taxes: [],
+  orders: [],
+  bills: [],
+  paymentOrders: [],
   documents: [],
   history: [],
   actions: EmptyOrderActions,

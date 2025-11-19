@@ -16,15 +16,18 @@ import { SkipIf } from '@app/shared/decorators';
 import { OrdersDataService } from '@app/data-services';
 
 import { OrderItem, EmptyOrderItem, OrderItemFields, Order, EmptyOrder, OrderExplorerTypeConfig,
-         EmptyOrderExplorerTypeConfig, ObjectTypes } from '@app/models';
+         EmptyOrderExplorerTypeConfig, ObjectTypes, TaxEntry } from '@app/models';
 
 import { OrderItemsTableEventType } from './order-items-table.component';
 
 import { OrderItemEditorEventType } from './order-item-editor.component';
 
+import { TaxesEditionEventType } from '@app/views/taxes/taxes-edition/taxes-edition.component';
+
 
 export enum OrderItemsEditionEventType {
   ITEMS_UPDATED = 'OrderItemsEditionComponent.Event.ItemsUpdated',
+  TAXES_UPDATED = 'OrderItemsEditionComponent.Event.TaxesUpdated',
 }
 
 @Component({
@@ -39,6 +42,8 @@ export class OrderItemsEditionComponent {
 
   @Input() items: OrderItem[] = [];
 
+  @Input() taxes: TaxEntry[] = [];
+
   @Input() canEdit = false;
 
   @Output() orderItemsEditionEvent = new EventEmitter<EventInfo>();
@@ -46,6 +51,8 @@ export class OrderItemsEditionComponent {
   submitted = false;
 
   displayItemEditor = false;
+
+  displayTaxesEdition = false;
 
   selectedItem = EmptyOrderItem;
 
@@ -55,6 +62,11 @@ export class OrderItemsEditionComponent {
 
   onAddItemButtonClicked() {
     this.setSelectedItem(EmptyOrderItem, true);
+  }
+
+
+  onEditTaxesButtonClicked() {
+    this.displayTaxesEdition = true;
   }
 
 
@@ -75,6 +87,23 @@ export class OrderItemsEditionComponent {
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.updateOrderItem(event.payload.orderUID, event.payload.orderItemUID,
           event.payload.dataFields);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  @SkipIf('submitted')
+  onTaxesEditionEvent(event: EventInfo) {
+    switch (event.type as TaxesEditionEventType) {
+      case TaxesEditionEventType.CLOSE_BUTTON_CLICKED:
+        this.displayTaxesEdition = false;
+        return;
+      case TaxesEditionEventType.UPDATED:
+        Assertion.assertValue(event.payload.orderUID, 'event.payload.orderUID');
+        this.resolveTaxesUpdated();
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -135,6 +164,12 @@ export class OrderItemsEditionComponent {
     const payload = { orderUID: this.order.uid };
     sendEvent(this.orderItemsEditionEvent, OrderItemsEditionEventType.ITEMS_UPDATED, payload);
     this.setSelectedItem(EmptyOrderItem);
+  }
+
+
+  private resolveTaxesUpdated() {
+    const payload = { orderUID: this.order.uid };
+    sendEvent(this.orderItemsEditionEvent, OrderItemsEditionEventType.TAXES_UPDATED, payload);
   }
 
 

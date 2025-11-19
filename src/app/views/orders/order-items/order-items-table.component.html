@@ -62,6 +62,40 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="tax">
+      <td mat-cell *matFooterCellDef class="text-align-right" [attr.colspan]="displayedColumns.length - 2">
+        <div class="fx-column-container fx-gap bold-text">
+          <div class="fx-item" *ngFor="let tax of taxes">
+              {{tax.taxType.name}}
+          </div>
+          <div class="fx-item">
+              Total
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="taxTotal">
+      <td mat-cell *matFooterCellDef class="text-align-right">
+
+        <div class="fx-column-container fx-gap">
+          <div *ngFor="let tax of taxes">
+              {{tax.total | empDecimal}}
+          </div>
+          <div class="fx-item">
+              {{orderTotal | empDecimal}}
+          </div>
+        </div>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="space">
+      <td mat-cell *matFooterCellDef>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="notFoundMessage">
       <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
         {{config.pronounSingular | titlecase}} {{config.nameSingular}} no tiene conceptos.
@@ -73,6 +107,7 @@
       class="selectable-row"></tr>
     <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
       [hidden]="dataSource.data.length > 0"></tr>
+    <tr mat-row *matFooterRowDef="displayedTotalColumns; sticky: true;" class="item-type-total"></tr>
 
   </table>
 

@@ -15,6 +15,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 import { BudgetsModule } from '@app/views/budgeting/budgets/budgets.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
+import { TaxesModule } from '@app/views/taxes/taxes.module';
 
 import { OrdersMainPageComponent } from './orders-main-page/orders-main-page.component';
 import { OrdersExplorerComponent } from './orders-explorer/orders-explorer.component';
@@ -41,6 +42,7 @@ import { OrderItemEditorComponent } from './order-items/order-item-editor.compon
     BudgetsModule,
     EntityRecordsModule,
     ReportsControlsModule,
+    TaxesModule,
   ],
   declarations: [
     OrdersMainPageComponent,

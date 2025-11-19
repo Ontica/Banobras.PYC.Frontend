@@ -4,7 +4,13 @@
 
   </emp-ng-spinner>
 
-  <div class="fx-row-container fx-end fx-items-center" *ngIf="canEdit">
+  <div class="fx-row-container fx-gap-half fx-end fx-items-center" *ngIf="canEdit">
+
+    <button
+      class="btn"
+      (click)="onEditTaxesButtonClicked()">
+      Editar impuestos
+    </button>
 
     <button
       class="btn-action"
@@ -17,6 +23,8 @@
   <emp-ng-order-items-table class="fx-item"
     [config]="config"
     [items]="items"
+    [taxes]="taxes"
+    [orderTotal]="order.total"
     [isForMultipleBeneficiaries]="order.isForMultipleBeneficiaries"
     [isMultipleProviders]="order.providersGroup.length > 0"
     [canDelete]="canEdit"
@@ -35,3 +43,12 @@
   (orderItemEditorEvent)="onOrderItemEditorEvent($event)">
 
 </emp-ng-order-item-editor>
+
+
+<emp-financial-taxes-edition *ngIf="displayTaxesEdition"
+  [orderUID]="order.uid"
+  [taxes]="taxes"
+  [canEdit]="canEdit"
+  (taxesEditionEvent)="onTaxesEditionEvent($event)">
+
+</emp-financial-taxes-edition>

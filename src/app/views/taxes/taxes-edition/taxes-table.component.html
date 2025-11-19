@@ -1,0 +1,87 @@
+<div class="fill-table-container" [style.height.vh]="40">
+
+  <table mat-table [dataSource]="dataSource" [style.max-height.vh]="40">
+
+    <ng-container matColumnDef="taxType">
+      <th mat-header-cell *matHeaderCellDef> Tipo de impuesto </th>
+      <td mat-cell *matCellDef="let row"> {{ row.taxType.name }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Total </th>
+      <td mat-cell *matCellDef="let row"
+        class="cell-total text-align-right"
+        [class.cell-total-enabled]="isRowInEdition(row.uid)">
+
+        <ng-container *ngIf="!isRowInEdition(row.uid)">
+          {{ row.total | empDecimal}}
+        </ng-container>
+        <ng-container *ngIf="isRowInEdition(row.uid)">
+          <emp-ng-input-numeric
+            [(ngModel)]="rowInEdition.totalEdit"
+            [showError]="!rowInEdition.totalEdit"
+            (keyup.escape)="rowInEdition.totalEdit = null"
+            (keyup.enter)="onUpdateClicked()">
+          </emp-ng-input-numeric>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let row" class="column-action">
+
+        <div class="fx-row-container fx-end" *ngIf="!isRowInEdition(row.uid)">
+
+          <button
+            mat-icon-button empNgStopPropagation
+            title="Editar impuesto"
+            (click)="onEditionClicked(row)">
+            <mat-icon> edit </mat-icon>
+          </button>
+
+          <button mat-icon-button empNgStopPropagation
+            title="Eliminar impuesto"
+            (click)="onRemoveClicked(row)">
+            <mat-icon>
+              delete
+            </mat-icon>
+          </button>
+
+        </div>
+
+        <div class="fx-row-container fx-end" *ngIf="isRowInEdition(row.uid)">
+
+          <button mat-icon-button empNgStopPropagation
+            title="Cancelar"
+            (click)="onCancelEditionClicked()">
+            <mat-icon> close </mat-icon>
+          </button>
+
+          <button mat-icon-button empNgStopPropagation
+            title="Guardar"
+            [color]="isEditionValid ? 'primary' : null"
+            [style.marginRight]="0"
+            [disabled]="!isEditionValid"
+            (click)="onUpdateClicked()">
+            <mat-icon [color]="isEditionValid ? 'primary' : null"> done </mat-icon>
+          </button>
+        </div>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="notFoundMessage">
+      <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+        No se encontraron impuestos.
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
+      [hidden]="dataSource.data.length > 0"></tr>
+
+  </table>
+
+</div>
