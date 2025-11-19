@@ -3,9 +3,43 @@
   <table mat-table [dataSource]="dataSource">
 
     <ng-container matColumnDef="budgetAccount">
-      <th mat-header-cell *matHeaderCellDef class="nowrap"> Partida </th>
-      <td mat-cell *matCellDef="let row" [style.min-width.px]="200" class="italic-text wrap">
-        {{ row.budgetAccountName }}
+      <th mat-header-cell *matHeaderCellDef
+        [class.sticky-start.sticky-start-width]="hasItems">
+        Partida
+      </th>
+      <td mat-cell *matCellDef="let row" class="sticky-start italic-text nowrapwrap"
+        [title]="row.budgetAccountName">
+        {{ row.budgetAccountCode }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="productCode">
+      <th mat-header-cell *matHeaderCellDef [class.sticky-padding]="hasItems">
+        CUCoP
+      </th>
+      <td mat-cell *matCellDef="let row" class="sticky-padding nowrap">
+        {{ !!row.productCode ? row.productCode : '-' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Descripción </th>
+      <td mat-cell *matCellDef="let row">
+        {{ !!row.description ? row.description : '-' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="controlNo">
+      <th mat-header-cell *matHeaderCellDef> Verif </th>
+      <td mat-cell *matCellDef="let row" class="nowrap">
+        {{ !!row.controlNo ? row.controlNo : '-' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="program">
+      <th mat-header-cell *matHeaderCellDef> Programa </th>
+      <td mat-cell *matCellDef="let row">
+        {{ !!row.program ? row.program : '-' }}
       </td>
     </ng-container>
 
@@ -14,7 +48,7 @@
       <td mat-cell *matCellDef="let row">{{ row.year }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="monthName">
+    <ng-container matColumnDef="month">
       <th mat-header-cell *matHeaderCellDef> Mes </th>
       <td mat-cell *matCellDef="let row">{{ row.monthName }}</td>
     </ng-container>
@@ -44,8 +78,8 @@
     </ng-container>
 
     <ng-container matColumnDef="actionDelete">
-      <th mat-header-cell *matHeaderCellDef> </th>
-      <td mat-cell *matCellDef="let row" class="column-action">
+      <th mat-header-cell *matHeaderCellDef [class.sticky-end]="hasItems"> </th>
+      <td mat-cell *matCellDef="let row" class="column-action sticky-end">
 
         <button mat-icon-button empNgStopPropagation *ngIf="!totalItemTypeList.includes(row.itemType)"
           title="Eliminar movimiento"

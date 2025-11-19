@@ -35,8 +35,8 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
   @Output() transactionEntriesTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['budgetAccount', 'year', 'monthName', 'day', 'balanceColumn',
-    'deposit', 'withdrawal'];
+  displayedColumnsDefault: string[] = ['budgetAccount', 'productCode', 'description', 'controlNo', 'program',
+    'year', 'month', 'day', 'balanceColumn', 'deposit', 'withdrawal'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
@@ -53,6 +53,11 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
     if (changes.filter) {
       this.applyFilter(this.filter);
     }
+  }
+
+
+  get hasItems(): boolean {
+    return !!this.dataSource && this.dataSource?.data.length > 0;
   }
 
 

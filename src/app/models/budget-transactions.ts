@@ -156,7 +156,12 @@ export interface BudgetTransactionEntryBaseDescriptor {
 
 export interface BudgetTransactionEntryDescriptor extends BudgetTransactionEntryBaseDescriptor {
   uid: string;
+  budgetAccountCode: string;
   budgetAccountName: string;
+  productCode: string;
+  controlNo: string;
+  description: string;
+  program: string;
   year: number;
   month: number;
   monthName: string;
