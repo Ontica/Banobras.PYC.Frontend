@@ -46,6 +46,7 @@ interface OrderFormModel extends FormGroup<{
   name: FormControl<string>;
   datePeriod: FormControl<DateRange>;
   signDate: FormControl<DateString>;
+  estimatedMonths: FormControl<number>;
   priority: FormControl<Priority>;
   responsibleUID: FormControl<string>;
   beneficiaryUID: FormControl<string>;
@@ -62,6 +63,7 @@ interface OrderFormModel extends FormGroup<{
   justification: FormControl<string>;
   observations: FormControl<string>;
   guaranteeNotes: FormControl<string>;
+  penaltyNotes: FormControl<string>;
   deliveryNotes: FormControl<string>;
 }> { }
 
@@ -282,6 +284,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       name: ['', Validators.required],
       datePeriod: [EmptyDateRange],
       signDate: [null],
+      estimatedMonths: [null],
       priority: [null],
       responsibleUID: [''],
       beneficiaryUID: [''],
@@ -298,6 +301,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       justification: [''],
       observations: [''],
       guaranteeNotes: [''],
+      penaltyNotes: [''],
       deliveryNotes: [''],
     });
   }
@@ -357,8 +361,10 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
         const order = this.order as RequisitionOrder;
         this.form.controls.budgetTypeUID.reset(FormHelper.getUIDValueValid(order.budgetType));
         this.form.controls.budgets.reset(order.budgets?.map(x => x.uid) ?? []);
+        this.form.controls.estimatedMonths.reset(FormHelper.getNumberValueValid(order.estimatedMonths));
         this.form.controls.observations.reset(order.observations);
         this.form.controls.guaranteeNotes.reset(order.guaranteeNotes);
+        this.form.controls.penaltyNotes.reset(order.penaltyNotes);
         this.form.controls.deliveryNotes.reset(order.deliveryNotes);
         break;
       }
@@ -376,7 +382,8 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     this.validateControlRequired(controls.budgets, this.isRequisition || this.isContract);
     this.validateControlRequired(controls.providerUID, this.isContract || this.isPurchase);
     this.validateControlRequired(controls.currencyUID, this.isContract || this.isPurchase || this.isExpense);
-    this.validateControlRequired(controls.datePeriod, this.isContract, [Validators.required, Validate.periodRequired]);
+    this.validateControlRequired(controls.datePeriod, this.isRequisition || this.isContract, [Validators.required, Validate.periodRequired]);
+    this.validateControlRequired(controls.justification, this.isRequisition);
 
     this.validateFormDisabled();
 
@@ -486,8 +493,10 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       ...
       {
         budgets: formValues.budgets ?? [],
+        estimatedMonths: formValues.estimatedMonths ?? null,
         observations: formValues.observations ?? '',
         guaranteeNotes: formValues.guaranteeNotes ?? '',
+        penaltyNotes: formValues.penaltyNotes ?? '',
         deliveryNotes: formValues.deliveryNotes ?? '',
       }
     };
