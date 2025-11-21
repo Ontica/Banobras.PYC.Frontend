@@ -29,6 +29,7 @@ import { OrderEditorComponent } from './order/order-editor.component';
 import { OrderItemsEditionComponent } from './order-items/order-items-edition.component';
 import { OrderItemsTableComponent } from './order-items/order-items-table.component';
 import { OrderItemEditorComponent } from './order-items/order-item-editor.component';
+import { OrderOrdersTableComponent } from './order-orders-table/order-orders-table.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { OrderItemEditorComponent } from './order-items/order-item-editor.compon
     OrderItemsEditionComponent,
     OrderItemsTableComponent,
     OrderItemEditorComponent,
+    OrderOrdersTableComponent,
   ],
   exports: [
     OrdersMainPageComponent,

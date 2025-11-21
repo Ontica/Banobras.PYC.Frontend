@@ -40,9 +40,11 @@
 
         </emp-bdg-budget-management>
 
-        <div *ngSwitchCase="TabType.orders" class="instruction-text">
-          No se encontraron registros.
-        </div>
+        <emp-ng-order-orders-table *ngSwitchCase="TabType.orders"
+          [orders]="data.orders"
+          [ordersName]="config.nameSingular">
+
+        </emp-ng-order-orders-table>
 
         <emp-ng-bills-edition *ngSwitchCase="TabType.bills"
           entityType="orders"
