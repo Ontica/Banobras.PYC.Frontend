@@ -11,6 +11,8 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
+import { MessageBoxService } from '@app/shared/services';
+
 import { OrderHolder, EmptyOrderHolder, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes,
          ContractOrder } from '@app/models';
 
@@ -74,6 +76,9 @@ export class OrderTabbedViewComponent implements OnChanges {
   TabType = TabType;
 
   selectedTabIndex = 0;
+
+
+  constructor(private messageBox: MessageBoxService) {}
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -162,6 +167,11 @@ export class OrderTabbedViewComponent implements OnChanges {
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  onRequestPaymentClicked() {
+    this.messageBox.showInDevelopment('Solicitar pago');
   }
 
 

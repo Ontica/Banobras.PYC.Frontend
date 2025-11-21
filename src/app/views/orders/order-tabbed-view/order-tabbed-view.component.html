@@ -55,8 +55,14 @@
 
         </emp-ng-bills-edition>
 
-        <div *ngSwitchCase="TabType.paymentOrders" class="instruction-text">
-          No se encontraron registros.
+        <div *ngSwitchCase="TabType.paymentOrders" class="fx-row-container fx-end">
+
+          <button type="button"
+            class="btn-action"
+            (click)="onRequestPaymentClicked()">
+            Solicitar pago
+          </button>
+
         </div>
 
         <emp-ng-documents-edition *ngSwitchCase="TabType.documents"
