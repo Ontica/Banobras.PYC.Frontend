@@ -62,9 +62,16 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="spaceLeft">
+      <td mat-cell *matFooterCellDef [attr.colspan]="displayedColumns.length - 3"></td>
+    </ng-container>
+
     <ng-container matColumnDef="tax">
-      <td mat-cell *matFooterCellDef class="text-align-right" [attr.colspan]="displayedColumns.length - 2">
+      <td mat-cell *matFooterCellDef class="text-align-right">
         <div class="fx-column-container fx-gap bold-text">
+          <div class="fx-item">
+              Subtotal
+          </div>
           <div class="fx-item" *ngFor="let tax of taxes">
               {{tax.taxType.name}}
           </div>
@@ -75,11 +82,12 @@
       </td>
     </ng-container>
 
-
     <ng-container matColumnDef="taxTotal">
       <td mat-cell *matFooterCellDef class="text-align-right">
-
         <div class="fx-column-container fx-gap">
+          <div class="fx-item">
+              {{orderSubtotal | empDecimal}}
+          </div>
           <div *ngFor="let tax of taxes">
               {{tax.total | empDecimal}}
           </div>
@@ -87,13 +95,11 @@
               {{orderTotal | empDecimal}}
           </div>
         </div>
-
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="space">
-      <td mat-cell *matFooterCellDef>
-      </td>
+    <ng-container matColumnDef="spaceRight">
+      <td mat-cell *matFooterCellDef></td>
     </ng-container>
 
     <ng-container matColumnDef="notFoundMessage">

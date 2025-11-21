@@ -218,6 +218,8 @@ export interface Order {
   closingTime: DateString;
   baseOrgUnitName: string;
   baseBudgetName: string;
+  subtotal: number;
+  taxes: number;
   total: number;
   currency: Identifiable;
   status: Identifiable<EntityStatus>;
@@ -314,6 +316,8 @@ export const EmptyOrder: Order = {
   closedBy: Empty,
   baseOrgUnitName: '',
   baseBudgetName: '',
+  subtotal: null,
+  taxes: null,
   total: null,
   currency: Empty,
   status: Empty,

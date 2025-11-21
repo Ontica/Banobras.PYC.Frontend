@@ -36,6 +36,8 @@ export class OrderItemsTableComponent implements OnChanges {
 
   @Input() taxes: TaxEntry[] = [];
 
+  @Input() orderSubtotal: number = 0;
+
   @Input() orderTotal: number = 0;
 
   @Input() isForMultipleBeneficiaries = false;
@@ -50,7 +52,7 @@ export class OrderItemsTableComponent implements OnChanges {
 
   displayedColumns = [...this.displayedColumnsDefault];
 
-  displayedTotalColumns = ['tax', 'taxTotal'];
+  displayedTotalColumns = ['spaceLeft', 'tax', 'taxTotal'];
 
   dataSource: MatTableDataSource<OrderItem>;
 
@@ -120,8 +122,8 @@ export class OrderItemsTableComponent implements OnChanges {
 
 
   private resetTaxesColumns() {
-    let columns = ['tax', 'taxTotal'];
-    if (this.canDelete) columns.push('space');
+    let columns = ['spaceLeft', 'tax', 'taxTotal'];
+    if (this.canDelete) columns.push('spaceRight');
     this.displayedTotalColumns = columns;
   }
 
