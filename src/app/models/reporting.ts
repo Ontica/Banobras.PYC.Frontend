@@ -43,10 +43,10 @@ export interface FileReport {
 
 export enum FileType {
   Excel = 'Excel',
-  Csv = 'Csv',
-  PDF = 'PDF',
-  Xml = 'Xml',
-  HTML = 'HTML',
+  Csv   = 'Csv',
+  PDF   = 'Pdf',
+  Xml   = 'Xml',
+  HTML  = 'HTML',
 }
 
 

@@ -22,7 +22,9 @@ import { BillTabbedViewComponent } from './bill-tabbed-view/bill-tabbed-view.com
 import { BillEditorComponent } from './bill/bill-editor.component';
 import { BillHeaderComponent } from './bill/bill-header.component';
 import { BillConceptsTableComponent } from './bill/bill-concepts-table.component';
-
+import { BillsEditionComponent } from './bills-edition/bills-edition.component';
+import { BillsTableComponent } from './bills-edition/bills-table.component';
+import { BillUploaderComponent } from './bills-edition/bill-uploader.component';
 
 @NgModule({
   imports: [
@@ -44,9 +46,13 @@ import { BillConceptsTableComponent } from './bill/bill-concepts-table.component
     BillEditorComponent,
     BillHeaderComponent,
     BillConceptsTableComponent,
+    BillsEditionComponent,
+    BillsTableComponent,
+    BillUploaderComponent,
   ],
   exports: [
     BillsMainPageComponent,
+    BillsEditionComponent,
   ]
 })
 export class BillingModule { }

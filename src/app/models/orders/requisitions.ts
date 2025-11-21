@@ -10,6 +10,8 @@ import { Identifiable } from '@app/core';
 import { Order, OrderActions, OrderDescriptor, OrderFields, OrderHolder, OrderItem, OrderItemFields,
          mapOrderDescriptorFromOrder } from './base-orders';
 
+import { Bill } from '../bills';
+
 import { BudgetTransactionDescriptor } from '../budget-transactions';
 
 import { Document } from '../documents';
@@ -42,7 +44,7 @@ export interface RequisitionOrderHolder extends OrderHolder {
   orders: OrderDescriptor[];
   budgetTransactions: BudgetTransactionDescriptor[];
   taxes: TaxEntry[];
-  bills: Document[];
+  bills: Bill[];
   paymentOrders: PaymentOrderDescriptor[];
   documents: Document[];
   history: HistoryEntry[];

@@ -15,6 +15,8 @@ import { Document } from './documents';
 
 import { HistoryEntry } from './history';
 
+import { FileReport } from './reporting';
+
 
 export enum BillsStatus {
   Pending   = 'Pending',
@@ -103,17 +105,19 @@ export interface BillData {
 
 export interface Bill {
   uid: string;
-  billNo: string;
-  managedBy: Identifiable;
-  category: Identifiable;
   billType: Identifiable;
-  issueDate: DateString;
-  issuedBy: Identifiable;
-  issuedTo: Identifiable;
+  billNo: string;
+  name: string;
   currencyCode: string;
   subtotal: number;
   discount: number;
   total: number;
+  files: FileReport[];
+  managedBy: Identifiable;
+  category: Identifiable;
+  issueDate: DateString;
+  issuedBy: Identifiable;
+  issuedTo: Identifiable;
   postedBy: Identifiable;
   postingTime: DateString;
   status: Identifiable;
@@ -175,17 +179,19 @@ export const EmptyBillsQuery: BillsQuery = {
 
 export const EmptyBill: Bill = {
   uid: '',
-  billNo: '',
-  managedBy: Empty,
   category: Empty,
   billType: Empty,
-  issueDate: '',
-  issuedBy: Empty,
-  issuedTo: Empty,
+  billNo: '',
+  name: '',
   currencyCode: '',
   subtotal: 0,
   discount: 0,
   total: 0,
+  files: [],
+  managedBy: Empty,
+  issueDate: '',
+  issuedBy: Empty,
+  issuedTo: Empty,
   postedBy: Empty,
   postingTime: '',
   status: Empty,

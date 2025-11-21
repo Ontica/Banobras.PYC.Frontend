@@ -44,9 +44,14 @@
           No se encontraron registros.
         </div>
 
-        <div *ngSwitchCase="TabType.bills" class="instruction-text">
-          No se encontraron registros.
-        </div>
+        <emp-ng-bills-edition *ngSwitchCase="TabType.bills"
+          entityType="orders"
+          [entityUID]="data.order.uid"
+          [bills]="data.bills"
+          [canEdit]="data.actions.canEditBills"
+          (billsEditionEvent)="onBillsEditionEvent($event)">
+
+        </emp-ng-bills-edition>
 
         <div *ngSwitchCase="TabType.paymentOrders" class="instruction-text">
           No se encontraron registros.

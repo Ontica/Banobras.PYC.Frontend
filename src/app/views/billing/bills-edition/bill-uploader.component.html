@@ -1,0 +1,103 @@
+<emp-ng-modal-window [config]="{width: '545px', maxHeight: '95vh'}">
+
+  <emp-ng-card
+    heading="Anexar factura"
+    hint="Información de la factura a anexar."
+    (cardClose)="onCloseButtonClicked()">
+
+    <div class="card-body-padding">
+
+      <form [formGroup]="form" [empNgSpinnerHost]="spinner" empNgFormKeyDownEnter
+        autocomplete="off" class="form-section">
+
+        <emp-ng-spinner #spinner [visible]="submitted">
+
+        </emp-ng-spinner>
+
+        <div class="fx-column-container-fill fx-gap-half">
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-one">
+              <label>Tipo de documento fiscal:</label>
+              <emp-ng-select
+                formControlName="documentProductUID"
+                [items]="documentProductsList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.documentProductUID)">
+              </emp-ng-select>
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-one">
+              <label>Descripción del documento:</label>
+              <input type="text" class="text-box"
+                  formControlName="name"
+                  [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+            </div>
+
+          </div>
+
+          <div class="section-title"> Archivos a anexar </div>
+
+          <div class="fx-column-container fx-gap-half" [style.min-height.px]="63">
+
+            <div class="fx-item-one">
+
+                <label>Archivo XML (CFDI):</label>
+                <emp-ng-file-control
+                  [(fileControl)]="xmlFile"
+                  [config]="{autoUpload: true,
+                            filesTypes: ['xml'],
+                            placeholder: 'Elegir o arrastrar el archivo XML.' }"
+                  [showError]="isFormInvalidated && !xmlFile">
+
+                </emp-ng-file-control>
+
+              </div>
+
+              <div class="fx-item-one">
+
+                <label>Archivo PDF (CFDI):</label>
+                <emp-ng-file-control
+                  [(fileControl)]="pdfFile"
+                  [config]="{autoUpload: true,
+                            filesTypes: ['pdf'],
+                            placeholder: 'Elegir o arrastrar el archivo PDF.' }">
+
+                </emp-ng-file-control>
+
+            </div>
+
+          </div>
+
+
+          <mat-divider class="horizontal-slim"></mat-divider>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item fx-end fx-items-center">
+
+              <button
+                [class.btn]="!isFormReady"
+                [class.btn-action]="isFormReady"
+                (click)="onSubmitButtonClicked()">
+                Anexar documentos
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

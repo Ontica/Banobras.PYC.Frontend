@@ -11,6 +11,8 @@ import { PERMISSIONS } from '@app/main-layout';
 
 import { EntityStatus, ExplorerOperation, ExplorerOperationType, ExplorerTypeConfig } from '../base/explorer-data';
 
+import { Bill } from '../bills';
+
 import { BudgetTransactionDescriptor } from '../budget-transactions';
 
 import { Document } from '../documents';
@@ -183,7 +185,7 @@ export interface OrderHolder {
   items: OrderItem[];
   taxes: TaxEntry[];
   orders: OrderDescriptor[];
-  bills: Document[];
+  bills: Bill[];
   paymentOrders: PaymentOrderDescriptor[];
   budgetTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
@@ -250,6 +252,7 @@ export interface OrderItem {
 export interface OrderActions {
   canUpdate: boolean;
   canEditDocuments: boolean;
+  canEditBills: boolean;
   canDelete: boolean;
   canActivate: boolean;
   canSuspend: boolean;
@@ -352,6 +355,7 @@ export const EmptyOrderActions: OrderActions = {
   canRequestBudget: false,
   canRequestBudgetModification: false,
   canValidateBudget: false,
+  canEditBills: false,
   canEditDocuments: false,
   canActivate: false,
   canSuspend: false,

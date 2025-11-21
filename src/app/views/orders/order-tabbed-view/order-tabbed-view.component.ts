@@ -18,6 +18,8 @@ import { OrderEditorEventType } from '../order/order-editor.component';
 
 import { OrderItemsEditionEventType } from '../order-items/order-items-edition.component';
 
+import { BillsEditionEventType } from '@app/views/billing/bills-edition/bills-edition.component';
+
 import {
   BudgetManagementEventType
 } from '@app/views/budgeting/budgets/budget-management/budget-management.component';
@@ -129,6 +131,19 @@ export class OrderTabbedViewComponent implements OnChanges {
         Assertion.assertValue(event.payload.baseObjectUID, 'event.payload.baseObjectUID');
         sendEvent(this.orderTabbedViewEvent,
           OrderTabbedViewEventType.REFRESH_DATA, { orderUID: event.payload.baseObjectUID });
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onBillsEditionEvent(event: EventInfo) {
+    switch (event.type as BillsEditionEventType) {
+      case BillsEditionEventType.UPDATED:
+        const payload = { orderUID: this.data.order.uid };
+        sendEvent(this.orderTabbedViewEvent, OrderTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

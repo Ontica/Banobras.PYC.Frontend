@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { OrderHolder, OrderDescriptor, OrderFields, OrderItem, OrderItemFields, OrdersQuery,
-         ObjectTypes } from '@app/models';
+         ObjectTypes, Bill, DocumentFields } from '@app/models';
 
 
 @Injectable()
@@ -133,6 +133,43 @@ export class OrdersDataService {
     Assertion.assertValue(orderItemUID, 'orderItemUID');
 
     const path = `v8/order-management/orders/${orderUID}/items/${orderItemUID}`;
+
+    return this.http.delete<void>(path);
+  }
+
+
+  getOrdersBillTypes(): EmpObservable<Identifiable[]> {
+    const path = `v8/order-management/orders/bill-types`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  upploadBill(orderUID: string,
+              dataFields: DocumentFields,
+              xmlFile: File,
+              pdfFile: File): EmpObservable<Bill> {
+    Assertion.assertValue(orderUID, 'orderUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+    Assertion.assertValue(xmlFile, 'xmlFile');
+
+    const formData: FormData = new FormData();
+    formData.append('document', JSON.stringify(dataFields));
+    formData.append('xml', xmlFile);
+    formData.append('pdf', pdfFile);
+
+    const path = `v8/order-management/orders/${orderUID}/bills`;
+
+    return this.http.post<Bill>(path, formData);
+  }
+
+
+  deleteBill(orderUID: string,
+             billUID: string): EmpObservable<void> {
+    Assertion.assertValue(orderUID, 'orderUID');
+    Assertion.assertValue(billUID, 'billUID');
+
+    const path = `v8/order-management/orders/${orderUID}/bills/${billUID}`;
 
     return this.http.delete<void>(path);
   }
