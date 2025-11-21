@@ -19,19 +19,10 @@ export class CataloguesDataService {
   constructor(private http: HttpService) { }
 
 
-  getOrganizationalUnits(requestsList: RequestsList): EmpObservable<Identifiable[]> {
-    Assertion.assertValue(requestsList, 'requestsList');
-
-    const path = `v4/requests/catalogues/organizational-units/?requestsList=${requestsList}`;
+  getCountries(): EmpObservable<Identifiable[]> {
+    const path = 'v8/locations/countries';
 
     return this.http.get<Identifiable[]>(path);
-  }
-
-
-  getPaymentMethods(): EmpObservable<PaymentMethod[]> {
-    const path = 'v8/financial/payment-methods';
-
-    return this.http.get<PaymentMethod[]>(path);
   }
 
 
@@ -49,15 +40,31 @@ export class CataloguesDataService {
   }
 
 
-  getTaxTypes(): EmpObservable<Identifiable[]> {
-    const path = 'v8/financial/tax-types';
+  getOrganizationalUnits(requestsList: RequestsList): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(requestsList, 'requestsList');
+
+    const path = `v4/requests/catalogues/organizational-units/?requestsList=${requestsList}`;
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
+  getPaymentMethods(): EmpObservable<PaymentMethod[]> {
+    const path = 'v8/financial/payment-methods';
+
+    return this.http.get<PaymentMethod[]>(path);
+  }
+
+
   getPeriodicityTypes(): EmpObservable<Identifiable[]> {
     const path = 'v8/time/periodicity-types';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getTaxTypes(): EmpObservable<Identifiable[]> {
+    const path = 'v8/financial/tax-types';
 
     return this.http.get<Identifiable[]>(path);
   }

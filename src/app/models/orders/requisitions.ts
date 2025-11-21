@@ -64,6 +64,7 @@ export interface RequisitionOrder extends Order {
 export interface RequisitionOrderItem extends OrderItem {
   budget: Identifiable;
   budgetAccount: Identifiable;
+  originCountry: Identifiable;
   budgetControlNo: string;
 }
 
@@ -71,6 +72,7 @@ export interface RequisitionOrderItem extends OrderItem {
 export interface RequisitionOrderItemFields extends OrderItemFields {
   budgetUID: string;
   budgetAccountUID: string;
+  originCountryUID: string;
 }
 
 

@@ -300,6 +300,20 @@
 
             </div>
 
+            <div class="fx-item-quarter" *ngIf="isRequisition">
+
+              <label>País de origen:</label>
+
+              <emp-ng-select
+                formControlName="originCountryUID"
+                [config]="{clearable: true}"
+                [items]="countriesList"
+                [showError]="formHelper.isControlInvalid(form.controls.originCountryUID)">
+
+              </emp-ng-select>
+
+            </div>
+
           </div>
 
           <div class="fx-row-container">

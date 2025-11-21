@@ -17,6 +17,7 @@ import { RequestsList } from '@app/models';
 
 
 export enum SelectorType {
+  COUNTRIES            = 'PYC.Catalogues.Selector.Countries.List',
   CURRENCIES           = 'PYC.Catalogues.Selector.Currencies.List',
   INTEREST_RATE_TYPES  = 'PYC.Catalogues.Selector.InterestRateTypes.List',
   ORGANIZATIONAL_UNITS = 'PYC.Catalogues.Selector.OrganizationalUnits.List',
@@ -27,6 +28,7 @@ export enum SelectorType {
 
 
 const initialState: StateValues = [
+  { key: SelectorType.COUNTRIES, value: [] },
   { key: SelectorType.CURRENCIES, value: [] },
   { key: SelectorType.INTEREST_RATE_TYPES, value: [] },
   { key: SelectorType.ORGANIZATIONAL_UNITS, value: new Cache<Identifiable[]>() },
@@ -50,6 +52,12 @@ export class CataloguesPresentationHandler extends AbstractPresentationHandler {
   select<U>(selectorType: SelectorType, params?: any): EmpObservable<U> {
 
     switch (selectorType) {
+
+      case SelectorType.COUNTRIES: {
+        const provider = () => this.data.getCountries();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
 
       case SelectorType.CURRENCIES: {
         const provider = () => this.data.getCurrencies();

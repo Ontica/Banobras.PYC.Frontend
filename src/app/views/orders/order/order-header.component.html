@@ -55,7 +55,7 @@
       </div>
 
       <div class="fx-item-none" *ngIf="isContract || isRequisition">
-        <label>Vigencia estimada:</label>
+        <label>{{isRequisition ? 'Vigencia estimada:': 'Vigencia:'}}</label>
         <emp-ng-date-range-picker
           formControlName="datePeriod"
           bindLabelStartDate="Fecha inicio"

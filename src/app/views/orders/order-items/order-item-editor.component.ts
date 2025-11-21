@@ -46,6 +46,7 @@ interface OrderItemFormModel extends FormGroup<{
   budgetUID: FormControl<string>;
   budgetAccountUID: FormControl<string>;
   productUnitUID: FormControl<string>;
+  originCountryUID: FormControl<string>;
   unitPrice: FormControl<number>;
   quantity: FormControl<number>;
   minQuantity: FormControl<number>;
@@ -97,6 +98,8 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   budgetsList: Identifiable[] = [];
 
   budgetAccountsList: Identifiable[] = [];
+
+  countriesList: Identifiable[] = [];
 
   productsAPI = SearcherAPIS.products;
 
@@ -306,10 +309,12 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: this.config.requestsList }),
       this.helper.select<Identifiable[]>(ProductsStateSelector.PRODUCT_UNITS),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.COUNTRIES),
     ])
-    .subscribe(([a, b]) => {
+    .subscribe(([a, b, c]) => {
       this.orgUnitsList = a;
       this.productUnitsList = b;
+      this.countriesList = c;
       this.isLoading = false;
     });
   }
@@ -384,6 +389,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       budgetUID: [''],
       budgetAccountUID: [''],
       productUnitUID: [''],
+      originCountryUID: [''],
       unitPrice: [null as number],
       quantity: [null as number],
       minQuantity: [null as number],
@@ -433,6 +439,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
         const item = this.item as RequisitionOrderItem;
         this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(item.budget));
         this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
+        this.form.controls.originCountryUID.reset(FormHelper.getUIDValueValid(item.originCountry));
         break;
       }
       case ObjectTypes.CONTRACT: {
@@ -544,6 +551,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       {
         budgetUID: formValues.budgetUID ?? null,
         budgetAccountUID: formValues.budgetAccountUID ?? null,
+        originCountryUID: formValues.originCountryUID ?? null,
       }
     };
 

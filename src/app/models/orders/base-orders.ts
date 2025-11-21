@@ -262,9 +262,9 @@ export interface OrderActions {
 
 export interface OrderItemFields {
   requestedByUID: string;
+  projectUID: string;
   productUID: string;
   productUnitUID: string;
-  projectUID: string;
   quantity: number;
   unitPrice: number;
   total: number;
