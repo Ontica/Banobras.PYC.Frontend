@@ -267,7 +267,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
       this.validateControlRequired(controls.linkedItemUID, this.isContract || this.isContractOrder || this.isPurchase || this.isExpense);
       this.validateControlRequired(controls.requestedByUID, this.requestedByFieldRequired);
-      this.validateControlRequired(controls.productUID, this.isContract || this.isContractOrder || this.isPurchase || this.isExpense);
+      this.validateControlRequired(controls.productUID, this.isContractOrder || this.isPurchase || this.isExpense);
       this.validateControlRequired(controls.productUnitUID, this.isRequisition || this.isContract || this.isContractOrder || this.isPurchase || this.isExpense);
       this.validateControlRequired(controls.budgetAccountUID, this.isRequisition || this.isContract);
       this.validateControlRequired(controls.budgetUID, this.isRequisition || this.isContract);
