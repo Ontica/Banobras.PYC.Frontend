@@ -46,6 +46,8 @@ export class BudgetManagementComponent {
 
   @Input() canRequestModification = false;
 
+  @Input() canExecuteBudget = false;
+
   @Input() canValidate = false;
 
   @Output() budgetManagementEvent = new EventEmitter<EventInfo>();

@@ -4,8 +4,6 @@
 
   </emp-ng-spinner>
 
-  <div class="section-title"> Solicitud de suficiencia presupuestal </div>
-
   <emp-bdg-budget-submitter class="fx-item-none"
     [baseObjectType]="baseObjectType"
     [baseObjectUID]="baseObjectUID"
@@ -13,6 +11,7 @@
     [budgetTotal]="budgetTotal"
     [canRequest]="canRequest"
     [canRequestModification]="canRequestModification"
+    [canExecuteBudget]="canExecuteBudget"
     [canValidate]="canValidate"
     (budgetSubmitterEvent)=" onBudgetSubmitterEvent($event)">
 

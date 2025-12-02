@@ -2,6 +2,16 @@
   class="fx-row-container fx-gap-half fx-end"
   [style.margin-bottom.px]="8">
 
+  <div class="fx-item-none" *ngIf="canExecuteBudget">
+
+    <button type="button"
+      class="btn"
+      (click)="onEventButtonClicked(eventType.EXECUTE_BUDGET)">
+      Ejercer presupuesto
+    </button>
+
+  </div>
+
   <div class="fx-item-none" *ngIf="canValidate">
 
     <button type="button"
@@ -22,7 +32,7 @@
 
   </div>
 
-  <mat-divider vertical="true" *ngIf="canRequest && canRequestModification">
+  <mat-divider vertical="true" *ngIf="(canExecuteBudget || canValidate || canRequest) && canRequestModification">
 
   </mat-divider>
 
