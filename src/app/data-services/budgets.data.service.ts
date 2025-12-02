@@ -60,4 +60,13 @@ export class BudgetsDataService {
     return this.http.post<BudgetValidationResult>(path, dataFields);
   }
 
+
+  exerciseBudget(dataFields: BudgetRequestFields): EmpObservable<BudgetTransactionDescriptor> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/procurement/exercise`;
+
+    return this.http.post<BudgetTransactionDescriptor>(path, dataFields);
+  }
+
 }

@@ -199,7 +199,7 @@ export const BudgetViews: View[] = [
     permission: ROUTES.presupuesto_provisiones.permission,
   },
   {
-    name: 'Budget.Executed',
+    name: 'Budget.Exercise',
     title: 'Ejercicio',
     menuTitle: 'Ejercicio',
     url: ROUTES.presupuesto_ejercicio.fullpath,

@@ -36,7 +36,7 @@
         [budgetTotal]="data.payable.total"
         [budgetTransactions]="data.budgetTransactions"
         [canRequest]="data.actions.canRequestBudget"
-        [canExecuteBudget]="true"
+        [canExerciseBudget]="data.actions.canExerciseBudget"
         (budgetManagementEvent)="onBudgetManagementEvent($event)">
 
       </emp-bdg-budget-management>

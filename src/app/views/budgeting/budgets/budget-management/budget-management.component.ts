@@ -46,7 +46,7 @@ export class BudgetManagementComponent {
 
   @Input() canRequestModification = false;
 
-  @Input() canExecuteBudget = false;
+  @Input() canExerciseBudget = false;
 
   @Input() canValidate = false;
 
@@ -66,10 +66,13 @@ export class BudgetManagementComponent {
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.requestBudget(event.payload.dataFields as BudgetRequestFields);
         return;
-
       case BudgetSubmitterEventType.VALIDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.validateAvaibleBudget(event.payload.dataFields as BudgetRequestFields);
+        return
+      case BudgetSubmitterEventType.EXERCISE:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.exerciseBudget(event.payload.dataFields as BudgetRequestFields);
         return
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -95,6 +98,16 @@ export class BudgetManagementComponent {
     this.budgetsData.validateAvaibleBudget(dataFields)
       .firstValue()
       .then(x => this.resolveValidateAvaibleBudget(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private exerciseBudget(dataFields: BudgetRequestFields) {
+    this.submitted = true;
+
+    this.budgetsData.exerciseBudget(dataFields)
+      .firstValue()
+      .then(x => this.resolveBudgetUpdated())
       .finally(() => this.submitted = false);
   }
 
