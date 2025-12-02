@@ -56,6 +56,9 @@
         </emp-ng-bills-edition>
 
         <emp-pmt-payments-orders-edition *ngSwitchCase="TabType.paymentOrders"
+          [orderUID]="data.order.uid"
+          [orderName]="config.pronounSingular + ' ' + config.nameSingular"
+          [orderTotal]="data.order.total"
           [paymentsOrders]="data.paymentOrders"
           [displayType]="isRequisition || isContract"
           [canEdit]="data.actions.canRequestPayment"

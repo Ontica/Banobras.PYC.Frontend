@@ -57,21 +57,21 @@ export class PaymentsOrdersTableComponent implements OnChanges {
   }
 
 
-  onSelectItemClicked(paymentOrder: PaymentOrderDescriptor) {
+  onSelectItemClicked(data: PaymentOrderDescriptor) {
     if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.paymentsOrdersTableEvent, PaymentsOrdersTableEventType.SELECT_CLICKED, { paymentOrder });
+      sendEvent(this.paymentsOrdersTableEvent, PaymentsOrdersTableEventType.SELECT_CLICKED, { data });
     }
   }
 
 
-  onRemoveItemClicked(paymentOrder: PaymentOrderDescriptor) {
-    const message = this.getConfirmMessage(paymentOrder);
+  onRemoveItemClicked(data: PaymentOrderDescriptor) {
+    const message = this.getConfirmMessage(data);
 
     this.messageBox.confirm(message, 'Cancelar pago', 'DeleteCancel')
       .firstValue()
       .then(x => {
         if (x) {
-          sendEvent(this.paymentsOrdersTableEvent, PaymentsOrdersTableEventType.REMOVE_CLICKED, { paymentOrder });
+          sendEvent(this.paymentsOrdersTableEvent, PaymentsOrdersTableEventType.REMOVE_CLICKED, { data });
         }
       });
   }
@@ -95,31 +95,31 @@ export class PaymentsOrdersTableComponent implements OnChanges {
   }
 
 
-  private getConfirmMessage(paymentOrder: PaymentOrderDescriptor): string {
-    const total = !paymentOrder.total ? '-' : FormatLibrary.numberWithCommas(paymentOrder.total, '1.2-2');
+  private getConfirmMessage(data: PaymentOrderDescriptor): string {
+    const total = !data.total ? '-' : FormatLibrary.numberWithCommas(data.total, '1.2-2');
 
     return `
       Esta operacion cancelara el pago<br><br>
 
       <table class='confirm-data'>
         <tr><td class='nowrap'>Pago: </td><td><strong>
-          ${paymentOrder.paymentOrderNo}
+          ${data.paymentOrderNo}
         </strong></td></tr>
 
         <tr><td class='nowrap'>Pagar a: </td><td><strong>
-          ${paymentOrder.payTo}
+          ${data.payTo}
         </strong></td></tr>
 
         <tr><td class='nowrap'>Cuenta: </td><td><strong>
-          ${paymentOrder.paymentAccount}
+          ${data.paymentAccount}
         </strong></td></tr>
 
         <tr><td class='nowrap'>Método de pago: </td><td><strong>
-          ${paymentOrder.paymentMethod}
+          ${data.paymentMethod}
         </strong></td></tr>
 
         <tr><td class='nowrap'>Total: </td><td><strong>
-          ${total} (${paymentOrder.currencyCode})
+          ${total} (${data.currencyCode})
         </strong></td></tr>
       </table> <br>
 

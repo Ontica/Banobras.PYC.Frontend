@@ -11,9 +11,13 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { SkipIf } from '@app/shared/decorators';
 
+import { FormatLibrary, sendEvent } from '@app/shared/utils';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { PaymentOrderDescriptor } from '@app/models';
+
+import { OrdersDataService } from '@app/data-services';
 
 import { PaymentsOrdersTableEventType } from './payments-orders-table.component';
 
@@ -28,6 +32,12 @@ export enum PaymentsOrdersEditionEventType {
 })
 export class PaymentsOrdersEditionComponent {
 
+  @Input() orderUID: string = null;
+
+  @Input() orderName = 'la orden';
+
+  @Input() orderTotal: number = 0;
+
   @Input() paymentsOrders: PaymentOrderDescriptor[] = [];
 
   @Input() displayType = false;
@@ -39,12 +49,13 @@ export class PaymentsOrdersEditionComponent {
   submitted = false;
 
 
-  constructor(private messageBox: MessageBoxService) { }
+  constructor(private ordersData: OrdersDataService,
+              private messageBox: MessageBoxService) { }
 
 
   @SkipIf('submitted')
   onRequestPaymentClicked() {
-    this.messageBox.showInDevelopment('Solicitar pago');
+    this.showConfirmMessage();
   }
 
 
@@ -52,16 +63,39 @@ export class PaymentsOrdersEditionComponent {
   onPaymentsOrdersTableEvent(event: EventInfo) {
     switch (event.type as PaymentsOrdersTableEventType) {
       case PaymentsOrdersTableEventType.SELECT_CLICKED:
-        Assertion.assertValue(event.payload.payment.uid, 'event.payload.paymentOrder.uid');
+        Assertion.assertValue(event.payload.data.uid, 'event.payload.data.uid');
         return;
       case PaymentsOrdersTableEventType.REMOVE_CLICKED:
-        Assertion.assertValue(event.payload.paymentOrder.uid, 'event.payload.paymentOrder.uid');
-        this.messageBox.showInDevelopment('Cancelar pago', event.payload.paymentOrder);
+        Assertion.assertValue(event.payload.data.uid, 'event.payload.data.uid');
+        this.messageBox.showInDevelopment('Cancelar pago', event.payload.data);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private requestPayment(dataUID: string) {
+    this.submitted = true;
+
+    this.ordersData.requestPayment(dataUID)
+      .firstValue()
+      .then(x =>
+        sendEvent(this.paymentsOrdersEditionEvent, PaymentsOrdersEditionEventType.UPDATED, {data: x})
+      )
+      .finally(() => this.submitted = false);
+  }
+
+
+  private showConfirmMessage() {
+    const message = `Esta operación solicitará el pago de ${this.orderName.toLowerCase()} por un total de ` +
+                    `<strong>${FormatLibrary.numberWithCommas(this.orderTotal, '1.2-2') }</strong>.
+                    <br><br>¿Solicito el pago?`;
+
+    this.messageBox.confirm(message, 'Solicitar pago')
+      .firstValue()
+      .then(x => this.requestPayment(this.orderUID));
   }
 
 }
