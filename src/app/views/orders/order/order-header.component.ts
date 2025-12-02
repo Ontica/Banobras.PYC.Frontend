@@ -376,7 +376,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     const controls = this.form.controls;
 
     this.validateControlRequired(controls.linkedOrderUID, this.isContract || this.isContractOrder || this.isPurchase || this.isExpense);
-    this.validateControlRequired(controls.categoryUID, this.isContract || this.isRequisition);
+    this.validateControlRequired(controls.categoryUID, this.isRequisition || this.isContract || this.isExpense);
     this.validateControlRequired(controls.budgetTypeUID, this.isRequisition);
     this.validateControlRequired(controls.budgetUID, this.isPurchase || this.isExpense);
     this.validateControlRequired(controls.budgets, this.isRequisition || this.isContract);
