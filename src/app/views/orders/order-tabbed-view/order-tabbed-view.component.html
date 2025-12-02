@@ -42,7 +42,7 @@
 
         <emp-ng-order-orders-table *ngSwitchCase="TabType.orders"
           [orders]="data.orders"
-          [ordersName]="config.nameSingular">
+          [ordersName]="tab.label">
 
         </emp-ng-order-orders-table>
 
@@ -55,15 +55,13 @@
 
         </emp-ng-bills-edition>
 
-        <div *ngSwitchCase="TabType.paymentOrders" class="fx-row-container fx-end">
+        <emp-pmt-payments-orders-edition *ngSwitchCase="TabType.paymentOrders"
+          [paymentsOrders]="data.paymentOrders"
+          [displayType]="isRequisition || isContract"
+          [canEdit]="data.actions.canRequestPayment"
+          (paymentsOrdersEditionEvent)="onPaymentsOrdersEditionEvent($event)">
 
-          <button type="button"
-            class="btn-action"
-            (click)="onRequestPaymentClicked()">
-            Solicitar pago
-          </button>
-
-        </div>
+        </emp-pmt-payments-orders-edition>
 
         <emp-ng-documents-edition *ngSwitchCase="TabType.documents"
           entityType="orders"

@@ -11,8 +11,6 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { OrderHolder, EmptyOrderHolder, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes,
          ContractOrder } from '@app/models';
 
@@ -25,6 +23,10 @@ import { BillsEditionEventType } from '@app/views/billing/bills-edition/bills-ed
 import {
   BudgetManagementEventType
 } from '@app/views/budgeting/budgets/budget-management/budget-management.component';
+
+import {
+  PaymentsOrdersEditionEventType
+} from '@app/views/payments/payments-orders/payments-orders-edition/payments-orders-edition.component';
 
 import {
   DocumentsEditionEventType
@@ -78,9 +80,6 @@ export class OrderTabbedViewComponent implements OnChanges {
   selectedTabIndex = 0;
 
 
-  constructor(private messageBox: MessageBoxService) {}
-
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.config) {
       this.setTabs();
@@ -89,6 +88,16 @@ export class OrderTabbedViewComponent implements OnChanges {
     if (changes.data) {
       this.setTitle();
     }
+  }
+
+
+  get isRequisition(): boolean {
+    return [ObjectTypes.REQUISITION].includes(this.config.type);
+  }
+
+
+  get isContract(): boolean {
+    return [ObjectTypes.CONTRACT].includes(this.config.type);
   }
 
 
@@ -157,9 +166,9 @@ export class OrderTabbedViewComponent implements OnChanges {
   }
 
 
-  onDocumentsEditionEvent(event: EventInfo) {
-    switch (event.type as DocumentsEditionEventType) {
-      case DocumentsEditionEventType.DOCUMENTS_UPDATED:
+  onPaymentsOrdersEditionEvent(event: EventInfo) {
+    switch (event.type as PaymentsOrdersEditionEventType) {
+      case PaymentsOrdersEditionEventType.UPDATED:
         const payload = { orderUID: this.data.order.uid };
         sendEvent(this.orderTabbedViewEvent, OrderTabbedViewEventType.REFRESH_DATA, payload);
         return;
@@ -170,8 +179,16 @@ export class OrderTabbedViewComponent implements OnChanges {
   }
 
 
-  onRequestPaymentClicked() {
-    this.messageBox.showInDevelopment('Solicitar pago');
+  onDocumentsEditionEvent(event: EventInfo) {
+    switch (event.type as DocumentsEditionEventType) {
+      case DocumentsEditionEventType.DOCUMENTS_UPDATED:
+        const payload = { orderUID: this.data.order.uid };
+        sendEvent(this.orderTabbedViewEvent, OrderTabbedViewEventType.REFRESH_DATA, payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 

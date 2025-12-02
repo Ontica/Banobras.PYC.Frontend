@@ -55,7 +55,7 @@
 
     <ng-container matColumnDef="notFoundMessage">
       <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
-        Este contrato no tiene entregas.
+        No se encontraron {{ordersName | lowercase}}.
       </td>
     </ng-container>
 
