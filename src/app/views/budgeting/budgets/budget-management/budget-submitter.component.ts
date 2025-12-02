@@ -11,7 +11,7 @@ import { EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { FormatLibrary, sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEventIf } from '@app/shared/utils';
 
 import { ObjectTypes, BudgetRequestFields } from '@app/models';
 
@@ -51,18 +51,13 @@ export class BudgetSubmitterComponent {
 
   get baseObjectTypeName(): string {
     switch (this.baseObjectType) {
-      case ObjectTypes.CONTRACT:
-        return 'CONTRATO';
-      case ObjectTypes.CONTRACT_ORDER:
-        return 'ENTREGA';
-      case ObjectTypes.EXPENSE:
-        return 'GASTO O REEMBOLSO';
-      case ObjectTypes.PURCHASE:
-        return 'COMPRA MENOR';
-      case ObjectTypes.REQUISITION:
-        return 'REQUISICIÓN';
-      default:
-        return 'OBJETO INDEFINIDO';
+      case ObjectTypes.REQUISITION: return 'REQUISICIÓN';
+      case ObjectTypes.CONTRACT: return 'CONTRATO';
+      case ObjectTypes.CONTRACT_ORDER: return 'ENTREGA';
+      case ObjectTypes.EXPENSE: return 'GASTO O REEMBOLSO';
+      case ObjectTypes.PURCHASE: return 'COMPRA MENOR';
+      case ObjectTypes.PAYMENT_ORDER: return 'ORDEN DE PAGO';
+      default: return 'OBJETO INDEFINIDO';
     }
   }
 
@@ -79,7 +74,7 @@ export class BudgetSubmitterComponent {
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => this.validateExecuteOperation(x, eventType));
+      .then(x => sendEventIf(x, this.budgetSubmitterEvent, eventType, { dataFields: this.getDataFields() }));
   }
 
 
@@ -122,13 +117,6 @@ export class BudgetSubmitterComponent {
                 <strong>(${this.baseObjectTypeName}) ${this.baseObjectName}</strong>${totalText}.
                 <br><br>¿Realizo la verificación?`;
       default: return '';
-    }
-  }
-
-
-  private validateExecuteOperation(send: boolean, eventType: BudgetSubmitterEventType) {
-    if (send) {
-      sendEvent(this.budgetSubmitterEvent, eventType, { dataFields: this.getDataFields() });
     }
   }
 

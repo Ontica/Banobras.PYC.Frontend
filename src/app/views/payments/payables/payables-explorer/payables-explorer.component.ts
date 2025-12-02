@@ -88,7 +88,7 @@ export class PayablesExplorerComponent implements OnChanges {
   onPayablesListEvent(event: EventInfo) {
     switch (event.type as PayablesListEventType) {
       case PayablesListEventType.SELECT_CLICKED:
-        Assertion.assertValue(event.payload.payable, 'event.payload.payable');
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
         sendEvent(this.payablesExplorerEvent, PayablesExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;

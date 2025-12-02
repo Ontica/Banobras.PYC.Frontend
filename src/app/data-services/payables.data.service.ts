@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { PayableData, PayableDescriptor, PayableFields, PayablesQuery } from '@app/models';
+import { PayableHolder, PayableDescriptor, PayableFields, PayablesQuery } from '@app/models';
 
 @Injectable()
 export class PayablesDataService {
@@ -34,32 +34,32 @@ export class PayablesDataService {
   }
 
 
-  getPayableData(payableUID: string): EmpObservable<PayableData> {
+  getPayable(payableUID: string): EmpObservable<PayableHolder> {
     Assertion.assertValue(payableUID, 'payableUID');
 
     const path = `v2/payments-management/payables/${payableUID}`;
 
-    return this.http.get<PayableData>(path);
+    return this.http.get<PayableHolder>(path);
   }
 
 
-  createPayable(dataFields: PayableFields): EmpObservable<PayableData> {
+  createPayable(dataFields: PayableFields): EmpObservable<PayableHolder> {
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v2/payments-management/payables`;
 
-    return this.http.post<PayableData>(path, dataFields);
+    return this.http.post<PayableHolder>(path, dataFields);
   }
 
 
   updatePayable(payableUID: string,
-                dataFields: PayableFields): EmpObservable<PayableData> {
+                dataFields: PayableFields): EmpObservable<PayableHolder> {
     Assertion.assertValue(payableUID, 'payableUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v2/payments-management/payables/${payableUID}`;
 
-    return this.http.put<PayableData>(path, dataFields);
+    return this.http.put<PayableHolder>(path, dataFields);
   }
 
 
@@ -72,12 +72,12 @@ export class PayablesDataService {
   }
 
 
-  generatePaymentOrder(payableUID: string): EmpObservable<PayableData> {
+  generatePaymentOrder(payableUID: string): EmpObservable<PayableHolder> {
     Assertion.assertValue(payableUID, 'payableUID');
 
     const path = `v2/payments-management/payables/${payableUID}/payment-instruction`;
 
-    return this.http.post<PayableData>(path);
+    return this.http.post<PayableHolder>(path);
   }
 
 }

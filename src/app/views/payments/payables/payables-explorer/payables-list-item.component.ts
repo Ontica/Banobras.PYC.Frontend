@@ -34,14 +34,12 @@ export class PayablesListItemComponent {
 
 
   onSelectClicked() {
-    sendEvent(this.payablesListItemEvent, PayablesListItemEventType.SELECT_CLICKED,
-      { payable: this.payable });
+    sendEvent(this.payablesListItemEvent, PayablesListItemEventType.SELECT_CLICKED, { data: this.payable });
   }
 
 
   onCheckClicked() {
-    sendEvent(this.payablesListItemEvent, PayablesListItemEventType.CHECK_CLICKED,
-      { payable: this.payable });
+    sendEvent(this.payablesListItemEvent, PayablesListItemEventType.CHECK_CLICKED, { data: this.payable });
   }
 
 }

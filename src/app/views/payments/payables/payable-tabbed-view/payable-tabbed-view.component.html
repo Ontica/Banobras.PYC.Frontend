@@ -17,6 +17,31 @@
 
     </mat-tab>
 
+
+    <mat-tab label="Facturas">
+
+      <emp-ng-bills-edition
+        [bills]="data.bills">
+
+      </emp-ng-bills-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Presupuesto">
+
+      <emp-bdg-budget-management
+        [baseObjectType]="ObjectTypes.PAYMENT_ORDER"
+        [baseObjectUID]="data.payable.uid"
+        [baseObjectName]="data.payable.payableNo"
+        [budgetTotal]="data.payable.total"
+        [budgetTransactions]="data.budgetTransactions"
+        [canRequest]="data.actions.canRequestBudget"
+        (budgetManagementEvent)="onBudgetManagementEvent($event)">
+
+      </emp-bdg-budget-management>
+
+    </mat-tab>
+
     <mat-tab label="Conceptos">
 
       <emp-pmt-payable-items-edition

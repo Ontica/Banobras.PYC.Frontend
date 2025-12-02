@@ -15,7 +15,7 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { PayablesDataService } from '@app/data-services';
 
-import { EmptyPayableData, EmptyPayablesQuery, mapPayableDescriptorFromPayable, PayableData,
+import { EmptyPayableHolder, EmptyPayablesQuery, mapPayableDescriptorFromPayable, PayableHolder,
          PayableDescriptor, PayablesQuery } from '@app/models';
 
 import { PayableCreatorEventType } from '../payable/payable-creator.component';
@@ -34,7 +34,7 @@ export class PayablesMainPageComponent {
 
   dataList: PayableDescriptor[] = [];
 
-  selectedData: PayableData = EmptyPayableData;
+  selectedData: PayableHolder = EmptyPayableHolder;
 
   displayTabbedView = false;
 
@@ -56,10 +56,10 @@ export class PayablesMainPageComponent {
       case PayableCreatorEventType.CLOSE_MODAL_CLICKED:
         this.displayCreator = false;
         return;
-      case PayableCreatorEventType.PAYABLE_CREATED:
+      case PayableCreatorEventType.CREATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         this.displayCreator = false;
-        this.insertItemToList(event.payload.data as PayableData);
+        this.insertItemToList(event.payload.data as PayableHolder);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -83,9 +83,9 @@ export class PayablesMainPageComponent {
         this.setQueryAndClearExplorerData(event.payload.query as PayablesQuery);
         return;
       case PayablesExplorerEventType.SELECT_CLICKED:
-        Assertion.assertValue(event.payload.payable, ' event.payload.payable');
-        Assertion.assertValue(event.payload.payable.uid, 'event.payload.payable.uid');
-        this.getPayableData(event.payload.payable.uid);
+        Assertion.assertValue(event.payload.data, ' event.payload.data');
+        Assertion.assertValue(event.payload.data.uid, 'event.payload.data.uid');
+        this.getPayable(event.payload.data.uid);
         return;
       case PayablesExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
@@ -101,19 +101,19 @@ export class PayablesMainPageComponent {
   onPayableTabbedViewEvent(event: EventInfo) {
     switch (event.type as PayableTabbedViewEventType) {
       case PayableTabbedViewEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedData(EmptyPayableData);
+        this.setSelectedData(EmptyPayableHolder);
         return;
       case PayableTabbedViewEventType.DATA_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
-        this.insertItemToList(event.payload.data as PayableData);
+        this.insertItemToList(event.payload.data as PayableHolder);
         return;
       case PayableTabbedViewEventType.DATA_DELETED:
-        Assertion.assertValue(event.payload.payableUID, 'event.payload.payableUID');
-        this.removeItemFromList(event.payload.payableUID);
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        this.removeItemFromList(event.payload.dataUID);
         return;
       case PayableTabbedViewEventType.REFRESH_DATA:
-        Assertion.assertValue(event.payload.payableUID, 'event.payload.payableUID');
-        this.refreshSelectedData(event.payload.payableUID);
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        this.refreshSelectedData(event.payload.dataUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -132,25 +132,25 @@ export class PayablesMainPageComponent {
   }
 
 
-  private getPayableData(payableUID: string) {
+  private getPayable(dataUID: string) {
     this.isLoadingSelection = true;
 
-    this.payablesData.getPayableData(payableUID)
+    this.payablesData.getPayable(dataUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
   }
 
 
-  private refreshSelectedData(payableUID: string) {
-    this.getPayableData(payableUID);
+  private refreshSelectedData(dataUID: string) {
+    this.getPayable(dataUID);
   }
 
 
   private setQueryAndClearExplorerData(query: PayablesQuery) {
     this.query = Object.assign({}, query);
     this.setDataList([], false);
-    this.setSelectedData(EmptyPayableData);
+    this.setSelectedData(EmptyPayableHolder);
   }
 
 
@@ -160,13 +160,13 @@ export class PayablesMainPageComponent {
   }
 
 
-  private setSelectedData(data: PayableData) {
+  private setSelectedData(data: PayableHolder) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.payable);
   }
 
 
-  private insertItemToList(data: PayableData) {
+  private insertItemToList(data: PayableHolder) {
     const dataToInsert = mapPayableDescriptorFromPayable(data);
     const dataListNew = ArrayLibrary.insertItemTop(this.dataList, dataToInsert, 'uid');
     this.setDataList(dataListNew);
@@ -174,10 +174,10 @@ export class PayablesMainPageComponent {
   }
 
 
-  private removeItemFromList(payableUID: string) {
-    const dataListNew = this.dataList.filter(x => x.uid !== payableUID);
+  private removeItemFromList(dataUID: string) {
+    const dataListNew = this.dataList.filter(x => x.uid !== dataUID);
     this.setDataList(dataListNew);
-    this.setSelectedData(EmptyPayableData);
+    this.setSelectedData(EmptyPayableHolder);
   }
 
 }

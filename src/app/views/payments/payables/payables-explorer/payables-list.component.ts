@@ -71,11 +71,12 @@ export class PayablesListComponent implements OnChanges {
   onPayablesListItemEvent(event: EventInfo) {
     switch (event.type as PayablesListItemEventType) {
       case PayablesListItemEventType.SELECT_CLICKED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
         sendEvent(this.payablesListEvent, PayablesListEventType.SELECT_CLICKED, event.payload);
         return;
       case PayablesListItemEventType.CHECK_CLICKED:
-        Assertion.assertValue(event.payload.payable, 'event.payload.payable');
-        this.selection.toggle(event.payload.payable);
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.selection.toggle(event.payload.data);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

@@ -15,14 +15,14 @@ import { SkipIf } from '@app/shared/decorators';
 
 import { PayablesDataService } from '@app/data-services';
 
-import { PayableData, PayableFields } from '@app/models';
+import { PayableHolder, PayableFields } from '@app/models';
 
 import { PayableHeaderEventType } from './payable-header.component';
 
 
 export enum PayableCreatorEventType {
   CLOSE_MODAL_CLICKED = 'PayableCreatorComponent.Event.CloseModalClicked',
-  PAYABLE_CREATED     = 'PayableCreatorComponent.Event.PayableCreated',
+  CREATED             = 'PayableCreatorComponent.Event.Created',
 }
 
 @Component({
@@ -47,9 +47,9 @@ export class PayableCreatorComponent {
   @SkipIf('submitted')
   onPayableHeaderEvent(event: EventInfo) {
     switch (event.type as PayableHeaderEventType) {
-      case PayableHeaderEventType.CREATE_PAYABLE:
-        Assertion.assertValue(event.payload.payableFields, 'event.payload.payableFields');
-        this.createPayable(event.payload.payableFields as PayableFields);
+      case PayableHeaderEventType.CREATE:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.createPayable(event.payload.dataFields as PayableFields);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -58,18 +58,18 @@ export class PayableCreatorComponent {
   }
 
 
-  private createPayable(payableFields: PayableFields) {
+  private createPayable(dataFields: PayableFields) {
     this.submitted = true;
 
-    this.payablesData.createPayable(payableFields)
+    this.payablesData.createPayable(dataFields)
       .firstValue()
-      .then(x => this.resolveCreatePayable(x))
+      .then(x => this.resolvePayableCreated(x))
       .finally(() => this.submitted = false);
   }
 
 
-  private resolveCreatePayable(data: PayableData) {
-    sendEvent(this.payableCreatorEvent, PayableCreatorEventType.PAYABLE_CREATED, { data });
+  private resolvePayableCreated(data: PayableHolder) {
+    sendEvent(this.payableCreatorEvent, PayableCreatorEventType.CREATED, { data });
   }
 
 }

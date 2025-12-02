@@ -15,15 +15,15 @@ import { SkipIf } from '@app/shared/decorators';
 
 import { PayablesDataService } from '@app/data-services';
 
-import { EmptyPayable, EmptyPayableActions, EmptyPayableEntity, Payable, PayableActions, PayableData,
+import { EmptyPayable, EmptyPayableActions, EmptyPayableEntity, Payable, PayableActions, PayableHolder,
          PayableEntity, PayableFields } from '@app/models';
 
 import { PayableHeaderEventType } from './payable-header.component';
 
 
 export enum PayableEditorEventType {
-  PAYABLE_UPDATED = 'PayableEditorComponent.Event.PayableUpdated',
-  PAYABLE_DELETED = 'PayableEditorComponent.Event.PayableDeleted',
+  UPDATED = 'PayableEditorComponent.Event.Updated',
+  DELETED = 'PayableEditorComponent.Event.Deleted',
 }
 
 @Component({
@@ -43,7 +43,7 @@ export class PayableEditorComponent {
   submitted = false;
 
 
-  constructor(private payableData: PayablesDataService) { }
+  constructor(private payablesData: PayablesDataService) { }
 
 
   get isSaved(): boolean {
@@ -54,11 +54,11 @@ export class PayableEditorComponent {
   @SkipIf('submitted')
   onPayableHeaderEvent(event: EventInfo) {
     switch (event.type as PayableHeaderEventType) {
-      case PayableHeaderEventType.UPDATE_PAYABLE:
-        Assertion.assertValue(event.payload.payableFields, 'event.payload.payableFields');
-        this.updatePayable(this.payable.uid, event.payload.payableFields as PayableFields);
+      case PayableHeaderEventType.UPDATE:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.updatePayable(this.payable.uid, event.payload.dataFields as PayableFields);
         return;
-      case PayableHeaderEventType.DELETE_PAYABLE:
+      case PayableHeaderEventType.DELETE:
         this.deletePayable(this.payable.uid);
         return;
       case PayableHeaderEventType.GENERATE_PAYMENT_ORDER:
@@ -71,43 +71,43 @@ export class PayableEditorComponent {
   }
 
 
-  private updatePayable(payableUID: string, payableFields: PayableFields) {
+  private updatePayable(dataUID: string, dataFields: PayableFields) {
     this.submitted = true;
 
-    this.payableData.updatePayable(payableUID, payableFields)
+    this.payablesData.updatePayable(dataUID, dataFields)
       .firstValue()
       .then(x => this.resolvePayableUpdated(x))
       .finally(() => this.submitted = false);
   }
 
 
-  private deletePayable(payableUID: string) {
+  private deletePayable(dataUID: string) {
     this.submitted = true;
 
-    this.payableData.deletePayable(payableUID)
+    this.payablesData.deletePayable(dataUID)
       .firstValue()
-      .then(() => this.resolvePayableDeleted(payableUID))
+      .then(() => this.resolvePayableDeleted(dataUID))
       .finally(() => this.submitted = false);
   }
 
 
-  private generatePaymentOrder(payableUID: string) {
+  private generatePaymentOrder(dataUID: string) {
     this.submitted = true;
 
-    this.payableData.generatePaymentOrder(payableUID)
+    this.payablesData.generatePaymentOrder(dataUID)
       .firstValue()
       .then(x => this.resolvePayableUpdated(x))
       .finally(() => this.submitted = false);
   }
 
 
-  private resolvePayableUpdated(data: PayableData) {
-    sendEvent(this.payableEditorEvent, PayableEditorEventType.PAYABLE_UPDATED, { data });
+  private resolvePayableUpdated(data: PayableHolder) {
+    sendEvent(this.payableEditorEvent, PayableEditorEventType.UPDATED, { data });
   }
 
 
-  private resolvePayableDeleted(payableUID: string) {
-    sendEvent(this.payableEditorEvent, PayableEditorEventType.PAYABLE_DELETED, { payableUID });
+  private resolvePayableDeleted(dataUID: string) {
+    sendEvent(this.payableEditorEvent, PayableEditorEventType.DELETED, { dataUID });
   }
 
 }

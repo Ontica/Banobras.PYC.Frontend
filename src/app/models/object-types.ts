@@ -14,4 +14,5 @@ export enum ObjectTypes {
   CONTRACT_ORDER   = 'ObjectTypeInfo.Order.PayableOrder.ContractOrder',
   PURCHASE         = 'ObjectTypeInfo.Order.PayableOrder.PurchaseOrder',
   EXPENSE          = 'ObjectTypeInfo.Order.PayableOrder.Expenses',
+  PAYMENT_ORDER    = 'ObjectTypeInfo.PaymentOrder',
 }

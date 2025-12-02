@@ -11,9 +11,11 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyPayableData, PayableData } from '@app/models';
+import { EmptyPayableHolder, ObjectTypes, PayableHolder } from '@app/models';
 
 import { PayableEditorEventType } from '../payable/payable-editor.component';
+
+import { BudgetManagementEventType } from '@app/views/budgeting/budgets/budget-management/budget-management.component';
 
 import { PayableItemsEditionEventType } from '../payable-items/payable-items-edition.component';
 
@@ -33,7 +35,7 @@ export enum PayableTabbedViewEventType {
 })
 export class PayableTabbedViewComponent implements OnChanges{
 
-  @Input() data: PayableData = EmptyPayableData;
+  @Input() data: PayableHolder = EmptyPayableHolder;
 
   @Output() payableTabbedViewEvent = new EventEmitter<EventInfo>();
 
@@ -42,6 +44,8 @@ export class PayableTabbedViewComponent implements OnChanges{
   hint = '';
 
   selectedTabIndex = 0;
+
+  ObjectTypes = ObjectTypes;
 
 
   ngOnChanges() {
@@ -56,13 +60,27 @@ export class PayableTabbedViewComponent implements OnChanges{
 
   onPayableEditorEvent(event: EventInfo) {
     switch (event.type as PayableEditorEventType) {
-      case PayableEditorEventType.PAYABLE_UPDATED:
+      case PayableEditorEventType.UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.DATA_UPDATED, event.payload);
         return;
-      case PayableEditorEventType.PAYABLE_DELETED:
-        Assertion.assertValue(event.payload.payableUID, 'event.payload.payableUID');
+      case PayableEditorEventType.DELETED:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
         sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onBudgetManagementEvent(event: EventInfo) {
+    switch (event.type as BudgetManagementEventType) {
+      case BudgetManagementEventType.UPDATED:
+        Assertion.assertValue(event.payload.baseObjectUID, 'event.payload.baseObjectUID');
+        sendEvent(this.payableTabbedViewEvent,
+          PayableTabbedViewEventType.REFRESH_DATA, { dataUID: event.payload.baseObjectUID });
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -87,7 +105,7 @@ export class PayableTabbedViewComponent implements OnChanges{
   onDocumentsEditionEvent(event: EventInfo) {
     switch (event.type as DocumentsEditionEventType) {
       case DocumentsEditionEventType.DOCUMENTS_UPDATED:
-        const payload = { payableUID: this.data.payable.uid };
+        const payload = { dataUID: this.data.payable.uid };
         sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:

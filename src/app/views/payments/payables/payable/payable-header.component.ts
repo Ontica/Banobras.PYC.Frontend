@@ -20,7 +20,7 @@ import { CataloguesStateSelector, PaymentsStateSelector } from '@app/presentatio
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
@@ -29,9 +29,9 @@ import { BudgetType, EmptyPayable, EmptyPayableActions, EmptyPayableEntity, Paya
 
 
 export enum PayableHeaderEventType {
-  CREATE_PAYABLE         = 'PayableHeaderComponent.Event.CreatePayable',
-  UPDATE_PAYABLE         = 'PayableHeaderComponent.Event.UpdatePayable',
-  DELETE_PAYABLE         = 'PayableHeaderComponent.Event.DeletePayable',
+  CREATE                 = 'PayableHeaderComponent.Event.Create',
+  UPDATE                 = 'PayableHeaderComponent.Event.Update',
+  DELETE                 = 'PayableHeaderComponent.Event.Delete',
   GENERATE_PAYMENT_ORDER = 'PayableHeaderComponent.Event.GeneratePaymentOrder',
 }
 
@@ -199,13 +199,8 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   onSubmitButtonClicked() {
     if (this.formHelper.isFormReadyAndInvalidate(this.form)) {
-      let eventType = PayableHeaderEventType.CREATE_PAYABLE;
-
-      if (this.isSaved) {
-        eventType = PayableHeaderEventType.UPDATE_PAYABLE;
-      }
-
-      sendEvent(this.payableHeaderEvent, eventType, { payableFields: this.getFormData() });
+      const eventType = this.isSaved ? PayableHeaderEventType.UPDATE : PayableHeaderEventType.CREATE;
+      sendEvent(this.payableHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
   }
 
@@ -374,13 +369,13 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => this.validateAndSendEvent(eventType, x));
+      .then(x => sendEventIf(x, this.payableHeaderEvent, eventType, { dataUID: this.payable.uid }));
   }
 
 
   private getConfirmType(eventType: PayableHeaderEventType): 'AcceptCancel' | 'DeleteCancel' {
     switch (eventType) {
-      case PayableHeaderEventType.DELETE_PAYABLE:
+      case PayableHeaderEventType.DELETE:
         return 'DeleteCancel';
       default:
         return 'AcceptCancel';
@@ -390,7 +385,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   private getConfirmTitle(eventType: PayableHeaderEventType): string {
     switch (eventType) {
-      case PayableHeaderEventType.DELETE_PAYABLE: return 'Eliminar solicitud de pago';
+      case PayableHeaderEventType.DELETE: return 'Eliminar solicitud de pago';
       case PayableHeaderEventType.GENERATE_PAYMENT_ORDER: return 'Generar orden de pago';
       default: return '';
     }
@@ -399,7 +394,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   private getConfirmMessage(eventType: PayableHeaderEventType): string {
     switch (eventType) {
-      case PayableHeaderEventType.DELETE_PAYABLE:
+      case PayableHeaderEventType.DELETE:
         return `Esta operación eliminará la solicitud de pago <strong>${this.payable.payableNo}</strong> ` +
                `solicitada por ${this.payable.requestedBy.name} con documento relacionado ` +
                `<strong>${this.payable.payableType.name}: ${this.payableEntity.entityNo}</strong>.` +
@@ -411,13 +406,6 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
                `<br><br>¿Genero la orden de pago?`;
 
       default: return '';
-    }
-  }
-
-
-  private validateAndSendEvent(eventType: PayableHeaderEventType, send: boolean) {
-    if (send) {
-      sendEvent(this.payableHeaderEvent, eventType, { payableUID: this.payable.uid });
     }
   }
 

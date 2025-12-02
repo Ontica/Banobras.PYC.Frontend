@@ -11,6 +11,8 @@ import { ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
 
 import { Bill } from './bills';
 
+import { BudgetTransactionDescriptor } from './budget-transactions';
+
 import { Document } from './documents';
 
 import { HistoryEntry } from './history';
@@ -83,11 +85,12 @@ export interface PayableFields {
 }
 
 
-export interface PayableData {
+export interface PayableHolder {
   payable: Payable;
   payableEntity: PayableEntity;
   items: PayableItem[];
   bills: Bill[];
+  budgetTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
   actions: PayableActions;
@@ -147,6 +150,7 @@ export interface PayableActions {
   canDelete: boolean;
   canEditDocuments: boolean;
   canGeneratePaymentOrder: boolean;
+  canRequestBudget: boolean;
 }
 
 
@@ -183,6 +187,7 @@ export const EmptyPayableActions: PayableActions = {
   canDelete: false,
   canEditDocuments: false,
   canGeneratePaymentOrder: false,
+  canRequestBudget: false,
 }
 
 
@@ -222,18 +227,19 @@ export const EmptyPayable: Payable = {
 }
 
 
-export const EmptyPayableData: PayableData = {
+export const EmptyPayableHolder: PayableHolder = {
   payable: EmptyPayable,
   payableEntity: EmptyPayableEntity,
-  items: [],
   bills: [],
+  budgetTransactions: [],
+  items: [],
   documents: [],
   history: [],
   actions: EmptyPayableActions,
 }
 
 
-export function mapPayableDescriptorFromPayable(data: PayableData): PayableDescriptor {
+export function mapPayableDescriptorFromPayable(data: PayableHolder): PayableDescriptor {
   return {
     uid: data.payable.uid,
     payableTypeName: data.payable.payableType.name,
