@@ -26,6 +26,8 @@ import { PaymentOrderEditorComponent } from './payments-orders/payment-order/pay
 import { PaymentOrderCreatorComponent } from './payments-orders/payment-order/payment-order-creator.component';
 import { PaymentOrderHeaderComponent } from './payments-orders/payment-order/payment-order-header.component';
 import { InstructionLogTableComponent } from './payments-orders/instruction-log/instruction-log-table.component';
+import { PaymentsOrdersEditionComponent } from './payments-orders/payments-orders-edition/payments-orders-edition.component';
+import { PaymentsOrdersTableComponent } from './payments-orders/payments-orders-edition/payments-orders-table.component';
 
 import { PayablesMainPageComponent } from './payables/payables-main-page/payables-main-page.component';
 import { PayablesExplorerComponent } from './payables/payables-explorer/payables-explorer.component';
@@ -65,6 +67,8 @@ import { PayableItemsTableComponent } from './payables/payable-items/payable-ite
     PaymentOrderCreatorComponent,
     PaymentOrderHeaderComponent,
     InstructionLogTableComponent,
+    PaymentsOrdersEditionComponent,
+    PaymentsOrdersTableComponent,
 
     PayablesMainPageComponent,
     PayablesExplorerComponent,
@@ -82,6 +86,7 @@ import { PayableItemsTableComponent } from './payables/payable-items/payable-ite
   exports: [
     PaymentsOrdersMainPageComponent,
     PayablesMainPageComponent,
+    PaymentsOrdersEditionComponent,
   ],
 })
 export class PaymentsModule { }

@@ -1,0 +1,27 @@
+<div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="fx-row-container fx-end" *ngIf="canEdit">
+
+    <button type="button"
+      class="btn-action"
+      (click)="onRequestPaymentClicked()">
+      Solicitar pago
+    </button>
+
+    <br><br>
+
+  </div>
+
+  <emp-pmt-payments-orders-table class="fx-item"
+    [paymentsOrders]="paymentsOrders"
+    [displayType]="displayType"
+    [canEdit]="canEdit"
+    (paymentsOrdersTableEvent)="onPaymentsOrdersTableEvent($event)">
+
+  </emp-pmt-payments-orders-table>
+
+</div>

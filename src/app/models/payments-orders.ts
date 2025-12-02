@@ -76,10 +76,12 @@ export interface PaymentOrderDescriptor {
   uid: string;
   paymentOrderTypeName: string;
   paymentOrderNo: string;
+  payableTypeName: string;
   payTo: string;
   paymentMethod: string;
+  paymentAccount: string;
   total: number;
-  currency: string;
+  currencyCode: string;
   requestedDate: DateString;
   dueTime: DateString;
   requestedBy: string;
@@ -248,13 +250,15 @@ export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrder): P
     uid: data.uid,
     paymentOrderNo: data.orderNo,
     payTo: data.payTo.name,
+    payableTypeName: null, // todo definir aqui
     total: data.total,
     requestedDate: data.requestedDate,
     requestedBy: data.requestedBy.name,
     statusName: data.status.name,
     paymentOrderTypeName: data.paymentOrderType.name,
-    currency: data.currency.name,
+    currencyCode: data.currency.name,
     paymentMethod: data.paymentMethod.name,
     dueTime: data.dueTime,
+    paymentAccount: data.paymentAccount.accountNo,
   };
 }
