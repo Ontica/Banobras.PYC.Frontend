@@ -201,11 +201,11 @@ export const ROUTES = {
     fullpath: '/pagos/solicitudes-de-pago',
   },
 
-  pagos_ordenes_de_pago: {
-    permission: PERMISSIONS.ROUTE_PAGOS_ORDENES_DE_PAGO,
+  pagos_instrucciones_de_pago: {
+    permission: PERMISSIONS.ROUTE_PAGOS_INSTRUCCIONES_DE_PAGO,
     parent: 'pagos',
-    path: 'ordenes-de-pago',
-    fullpath: '/pagos/ordenes-de-pago',
+    path: 'instrucciones-de-pago',
+    fullpath: '/pagos/instrucciones-de-pago',
   },
 
   pagos_explorador: {

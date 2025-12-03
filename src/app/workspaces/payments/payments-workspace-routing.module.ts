@@ -42,8 +42,8 @@ const routes: Routes = [
     component: PayablesMainPageComponent,
   },
   {
-    data: { permission: ROUTES.pagos_ordenes_de_pago.permission },
-    path: ROUTES.pagos_ordenes_de_pago.path,
+    data: { permission: ROUTES.pagos_instrucciones_de_pago.permission },
+    path: ROUTES.pagos_instrucciones_de_pago.path,
     component: PaymentsOrdersMainPageComponent,
   },
   {

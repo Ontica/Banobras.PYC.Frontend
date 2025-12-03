@@ -47,7 +47,7 @@ export enum PERMISSIONS {
 
   ROUTE_PAGOS_SOLICITUDES = 'route-pagos-solicitudes',
   ROUTE_PAGOS_SOLICITUDES_DE_PAGO = 'route-pagos-solicitudes-de-pago',
-  ROUTE_PAGOS_ORDENES_DE_PAGO = 'route-pagos-ordenes-de-pago',
+  ROUTE_PAGOS_INSTRUCCIONES_DE_PAGO = 'route-pagos-instrucciones-de-pago',
   ROUTE_PAGOS_EXPLORADOR = 'route-pagos-explorador',
   ROUTE_PAGOS_FACTURAS = 'route-pagos-facturas',
   ROUTE_PAGOS_PROVEEDORES = 'route-pagos-proveedores',

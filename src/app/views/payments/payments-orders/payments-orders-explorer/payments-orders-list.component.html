@@ -2,7 +2,7 @@
 
   <emp-ng-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
     class="fx-item-none"
-    [config]="{itemsPronouns: 'las', itemsName: 'ordenes de pago', selectionMessage: 'seleccionadas'}"
+    [config]="{itemsPronouns: 'las', itemsName: 'instrucciones de pago', selectionMessage: 'seleccionadas'}"
     [selection]="selection"
     [operationsList]="operationsList"
     (listControlsEvent)="onListControlsEvent($event)">
@@ -40,8 +40,8 @@
 
         <div *ngIf="dataList.length === 0" class="text-not-found">
           {{ queryExecuted ?
-             'No se encontraron ordenes de pago con el filtro proporcionado.' :
-             'No se ha invocado la búsqueda de ordenes de pago.' }}
+             'No se encontraron instrucciones de pago con el filtro proporcionado.' :
+             'No se ha invocado la búsqueda de instrucciones de pago.' }}
         </div>
 
     </cdk-virtual-scroll-viewport>

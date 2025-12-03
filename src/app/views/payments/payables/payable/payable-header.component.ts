@@ -386,7 +386,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
   private getConfirmTitle(eventType: PayableHeaderEventType): string {
     switch (eventType) {
       case PayableHeaderEventType.DELETE: return 'Eliminar solicitud de pago';
-      case PayableHeaderEventType.GENERATE_PAYMENT_ORDER: return 'Generar orden de pago';
+      case PayableHeaderEventType.GENERATE_PAYMENT_ORDER: return 'Generar instrucción de pago';
       default: return '';
     }
   }
@@ -401,9 +401,9 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
                `<br><br>¿Elimino la solicitud de pago?`;
 
       case PayableHeaderEventType.GENERATE_PAYMENT_ORDER:
-        return `Esta operación generará la orden de pago ` +
+        return `Esta operación generará la instrucción de pago ` +
                `para la solicitud de pago <strong>${this.payable.payableNo}</strong> ` +
-               `<br><br>¿Genero la orden de pago?`;
+               `<br><br>¿Genero la instrucción de pago?`;
 
       default: return '';
     }

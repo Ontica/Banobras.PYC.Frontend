@@ -59,7 +59,7 @@ export class BudgetSubmitterComponent {
       case ObjectTypes.CONTRACT_ORDER: return 'ENTREGA';
       case ObjectTypes.EXPENSE: return 'GASTO O REEMBOLSO';
       case ObjectTypes.PURCHASE: return 'COMPRA MENOR';
-      case ObjectTypes.PAYMENT_ORDER: return 'ORDEN DE PAGO';
+      case ObjectTypes.PAYMENT_ORDER: return 'INSTRUCCIÓN DE PAGO';
       default: return 'OBJETO INDEFINIDO';
     }
   }

@@ -370,7 +370,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
   private getConfirmTitle(eventType: PaymentOrderHeaderEventType): string {
     switch (eventType) {
       case PaymentOrderHeaderEventType.SEND_TO_PAY: return 'Enviar a pagar';
-      case PaymentOrderHeaderEventType.DELETE: return 'Eliminar orden de pago';
+      case PaymentOrderHeaderEventType.DELETE: return 'Eliminar instrucción de pago';
       default: return '';
     }
   }
@@ -380,19 +380,16 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
     switch (eventType) {
       case PaymentOrderHeaderEventType.SEND_TO_PAY:
         const total = FormatLibrary.numberWithCommas(this.paymentOrder.total, '1.2-2');
-        return `Esta operación enviará la orden de pago
+        return `Esta operación enviará la instrucción de pago
                 <strong>${this.paymentOrder.orderNo}: ${this.paymentOrder.paymentOrderType.name}</strong>
                 a pagar a <strong>${this.paymentOrder.payTo.name}</strong>
                 por un total de <strong>${total}</strong>.
-
-                <br><br>¿Envio a pagar la orden de pago?`;
+                <br><br>¿Envio a pagar la instrucción de pago?`;
       case PaymentOrderHeaderEventType.DELETE:
-        return `Esta operación eliminará la orden de pago
+        return `Esta operación eliminará la instrucción de pago
                 <strong>${this.paymentOrder.orderNo}: ${this.paymentOrder.paymentOrderType.name}</strong>
                 de <strong>${this.paymentOrder.payTo.name}</strong>.
-
-                <br><br>¿Elimino la orden de pago?`;
-
+                <br><br>¿Elimino la instrucción de pago?`;
       default: return '';
     }
   }

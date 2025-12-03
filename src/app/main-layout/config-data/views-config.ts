@@ -133,10 +133,10 @@ export const PaymentsViews: View[] = [
   },
   {
     name: 'Payments.PaymentsOrders',
-    title: 'Ordenes de pago',
-    menuTitle: 'Ordenes de pago',
-    url: ROUTES.pagos_ordenes_de_pago.fullpath,
-    permission: ROUTES.pagos_ordenes_de_pago.permission,
+    title: 'Instrucciones de pago',
+    menuTitle: 'Instrucciones de pago',
+    url: ROUTES.pagos_instrucciones_de_pago.fullpath,
+    permission: ROUTES.pagos_instrucciones_de_pago.permission,
   },
   {
     name: 'Payments.Explorer',
