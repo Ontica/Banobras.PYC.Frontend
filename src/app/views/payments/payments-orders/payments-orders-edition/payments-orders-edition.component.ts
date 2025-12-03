@@ -17,7 +17,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { PaymentOrderDescriptor } from '@app/models';
 
-import { OrdersDataService } from '@app/data-services';
+import { OrdersDataService, PayablesDataService } from '@app/data-services';
 
 import { PaymentsOrdersTableEventType } from './payments-orders-table.component';
 
@@ -32,17 +32,19 @@ export enum PaymentsOrdersEditionEventType {
 })
 export class PaymentsOrdersEditionComponent {
 
-  @Input() orderUID: string = null;
+  @Input() entityUID: string = null;
 
-  @Input() orderName = 'la orden';
+  @Input() entityName = 'la orden';
 
-  @Input() orderTotal: number = 0;
+  @Input() entityTotal: number = 0;
 
   @Input() paymentsOrders: PaymentOrderDescriptor[] = [];
 
   @Input() displayType = false;
 
-  @Input() canEdit = false;
+  @Input() canRequestPayment = false;
+
+  @Input() canSendToPay = false;
 
   @Output() paymentsOrdersEditionEvent = new EventEmitter<EventInfo>();
 
@@ -50,12 +52,19 @@ export class PaymentsOrdersEditionComponent {
 
 
   constructor(private ordersData: OrdersDataService,
+              private payablesData: PayablesDataService,
               private messageBox: MessageBoxService) { }
 
 
   @SkipIf('submitted')
   onRequestPaymentClicked() {
-    this.showConfirmMessage();
+    this.showConfirmRequestPaymentMessage();
+  }
+
+
+  @SkipIf('submitted')
+  onSendToPayClicked() {
+    this.showConfirmSendToPayMessage();
   }
 
 
@@ -88,14 +97,41 @@ export class PaymentsOrdersEditionComponent {
   }
 
 
-  private showConfirmMessage() {
-    const message = `Esta operación solicitará el pago de ${this.orderName.toLowerCase()} por un total de ` +
-                    `<strong>${FormatLibrary.numberWithCommas(this.orderTotal, '1.2-2') }</strong>.
-                    <br><br>¿Solicito el pago?`;
+  private sendToPay(dataUID: string) {
+    this.submitted = true;
+
+    this.payablesData.sendToPay(dataUID)
+      .firstValue()
+      .then(x =>
+        sendEvent(this.paymentsOrdersEditionEvent, PaymentsOrdersEditionEventType.UPDATED, { data: x })
+      )
+      .finally(() => this.submitted = false);
+  }
+
+
+  private showConfirmRequestPaymentMessage() {
+    const total = FormatLibrary.numberWithCommas(this.entityTotal, '1.2-2');
+
+    const message = `Esta operación solicitará el pago de ${this.entityName.toLowerCase()} ` +
+                    `por un total de <strong>${total}</strong>.<br><br>` +
+                    `¿Solicito el pago?`;
 
     this.messageBox.confirm(message, 'Solicitar pago')
       .firstValue()
-      .then(x => this.requestPayment(this.orderUID));
+      .then(x => this.requestPayment(this.entityUID));
+  }
+
+
+  private showConfirmSendToPayMessage() {
+    const total = FormatLibrary.numberWithCommas(this.entityTotal, '1.2-2');
+
+    const message = `Esta operación enviará al sistema de pagos ${this.entityName.toLowerCase()} ` +
+                    `por un total de <strong>${total}</strong>.<br><br>` +
+                    `¿Envio al sistema de pagos?`;
+
+    this.messageBox.confirm(message, 'Enviar a sistema de pagos')
+      .firstValue()
+      .then(x => this.sendToPay(this.entityUID));
   }
 
 }

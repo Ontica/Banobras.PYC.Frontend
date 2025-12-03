@@ -31,7 +31,9 @@ export class PaymentsOrdersTableComponent implements OnChanges {
 
   @Input() paymentsOrders: PaymentOrderDescriptor[] = [];
 
-  @Input() canEdit = false;
+  @Input() canRequestPayment = false;
+
+  @Input() canSendToPay = false;
 
   @Input() displayType = false;
 
@@ -87,7 +89,7 @@ export class PaymentsOrdersTableComponent implements OnChanges {
     let columns = this.displayType ? ['type', ...this.displayedColumnsDefault] :
       [...this.displayedColumnsDefault];
 
-    if (this.canEdit) {
+    if (this.canRequestPayment) {
       columns.push('action');
     }
 
@@ -97,12 +99,13 @@ export class PaymentsOrdersTableComponent implements OnChanges {
 
   private getConfirmMessage(data: PaymentOrderDescriptor): string {
     const total = !data.total ? '-' : FormatLibrary.numberWithCommas(data.total, '1.2-2');
+    const paymentOrderNoName = this.canSendToPay ? 'Instrucción de pago' : 'No. pago';
 
     return `
       Esta operacion cancelara el pago<br><br>
 
       <table class='confirm-data'>
-        <tr><td class='nowrap'>Pago: </td><td><strong>
+        <tr><td class='nowrap'>${paymentOrderNoName}: </td><td><strong>
           ${data.paymentOrderNo}
         </strong></td></tr>
 

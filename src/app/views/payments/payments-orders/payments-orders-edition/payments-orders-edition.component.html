@@ -4,22 +4,28 @@
 
   </emp-ng-spinner>
 
-  <div class="fx-row-container fx-end" *ngIf="canEdit">
+  <div class="fx-row-container fx-end" *ngIf="canRequestPayment || canSendToPay"
+    [style.margin-bottom.px]="8">
 
-    <button type="button"
+    <button type="button" *ngIf="canRequestPayment"
       class="btn-action"
       (click)="onRequestPaymentClicked()">
       Solicitar pago
     </button>
 
-    <br><br>
+    <button type="button" *ngIf="canSendToPay"
+      class="btn-action"
+      (click)="onSendToPayClicked()">
+      Enviar a sistema de pagos
+    </button>
 
   </div>
 
   <emp-pmt-payments-orders-table class="fx-item"
     [paymentsOrders]="paymentsOrders"
     [displayType]="displayType"
-    [canEdit]="canEdit"
+    [canRequestPayment]="canRequestPayment"
+    [canSendToPay]="canSendToPay"
     (paymentsOrdersTableEvent)="onPaymentsOrdersTableEvent($event)">
 
   </emp-pmt-payments-orders-table>

@@ -80,4 +80,13 @@ export class PayablesDataService {
     return this.http.post<PayableHolder>(path);
   }
 
+
+  sendToPay(payableUID: string): EmpObservable<PayableHolder> {
+    Assertion.assertValue(payableUID, 'payableUID');
+
+    const path = `v8/payments-management/payables/${payableUID}/send-to-pay`;
+
+    return this.http.post<PayableHolder>(path);
+  }
+
 }

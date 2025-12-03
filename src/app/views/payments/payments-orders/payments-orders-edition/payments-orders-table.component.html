@@ -10,7 +10,7 @@
     </ng-container>
 
     <ng-container matColumnDef="paymentOrderNo">
-      <th mat-header-cell *matHeaderCellDef> Pago </th>
+      <th mat-header-cell *matHeaderCellDef> No. pago </th>
       <td mat-cell *matCellDef="let row" class="nowrap">
         {{ row.paymentOrderNo }}
       </td>
@@ -72,7 +72,7 @@
 
     <ng-container matColumnDef="notFoundMessage">
       <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
-        No se encontraron pagos.
+        No se encontraron {{canSendToPay ? 'instrucciones de pago' : 'pagos'}}.
       </td>
     </ng-container>
 

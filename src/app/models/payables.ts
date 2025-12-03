@@ -17,7 +17,7 @@ import { Document } from './documents';
 
 import { HistoryEntry } from './history';
 
-import { EmptyPaymentMethod, PaymentAccount, PaymentMethod } from './payments-orders';
+import { EmptyPaymentMethod, PaymentAccount, PaymentMethod, PaymentOrderDescriptor } from './payments-orders';
 
 
 export interface PayablesQuery {
@@ -91,6 +91,7 @@ export interface PayableHolder {
   items: PayableItem[];
   bills: Bill[];
   budgetTransactions: BudgetTransactionDescriptor[];
+  paymentInstructions: PaymentOrderDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
   actions: PayableActions;
@@ -150,6 +151,7 @@ export interface PayableActions {
   canDelete: boolean;
   canEditDocuments: boolean;
   canGeneratePaymentOrder: boolean;
+  canSendToPay: boolean;
   canRequestBudget: boolean;
   canExerciseBudget: boolean;
 }
@@ -188,6 +190,7 @@ export const EmptyPayableActions: PayableActions = {
   canDelete: false,
   canEditDocuments: false,
   canGeneratePaymentOrder: false,
+  canSendToPay: false,
   canRequestBudget: false,
   canExerciseBudget: false,
 }
@@ -234,6 +237,7 @@ export const EmptyPayableHolder: PayableHolder = {
   payableEntity: EmptyPayableEntity,
   bills: [],
   budgetTransactions: [],
+  paymentInstructions: [],
   items: [],
   documents: [],
   history: [],

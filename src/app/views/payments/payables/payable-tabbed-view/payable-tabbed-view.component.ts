@@ -13,13 +13,15 @@ import { sendEvent } from '@app/shared/utils';
 
 import { EmptyPayableHolder, ObjectTypes, PayableHolder } from '@app/models';
 
-import { PayableEditorEventType } from '../payable/payable-editor.component';
-
 import { BudgetManagementEventType } from '@app/views/budgeting/budgets/budget-management/budget-management.component';
+
+import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
+
+import { PayableEditorEventType } from '../payable/payable-editor.component';
 
 import { PayableItemsEditionEventType } from '../payable-items/payable-items-edition.component';
 
-import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
+import { PaymentsOrdersEditionEventType } from '../../payments-orders/payments-orders-edition/payments-orders-edition.component';
 
 
 export enum PayableTabbedViewEventType {
@@ -94,6 +96,19 @@ export class PayableTabbedViewComponent implements OnChanges{
       case PayableItemsEditionEventType.ITEMS_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.DATA_UPDATED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onPaymentsOrdersEditionEvent(event: EventInfo) {
+    switch (event.type as PaymentsOrdersEditionEventType) {
+      case PaymentsOrdersEditionEventType.UPDATED:
+        const payload = { dataUID: this.data.payable.uid };
+        sendEvent(this.payableTabbedViewEvent, PayableTabbedViewEventType.REFRESH_DATA, payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

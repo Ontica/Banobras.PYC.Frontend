@@ -56,6 +56,17 @@
 
     <mat-tab label="Instrucción de pago">
 
+      <emp-pmt-payments-orders-edition
+        entityName="la solicitud de pago"
+        [entityUID]="data.payable.uid"
+        [entityTotal]="data.payable.total"
+        [paymentsOrders]="data.paymentInstructions"
+        [displayType]="true"
+        [canSendToPay]="data.actions.canSendToPay"
+        (paymentsOrdersEditionEvent)="onPaymentsOrdersEditionEvent($event)">
+
+      </emp-pmt-payments-orders-edition>
+
     </mat-tab>
 
     <mat-tab label="Documentos">

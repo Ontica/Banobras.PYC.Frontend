@@ -56,12 +56,12 @@
         </emp-ng-bills-edition>
 
         <emp-pmt-payments-orders-edition *ngSwitchCase="TabType.paymentOrders"
-          [orderUID]="data.order.uid"
-          [orderName]="config.pronounSingular + ' ' + config.nameSingular"
-          [orderTotal]="data.order.total"
+          [entityUID]="data.order.uid"
+          [entityName]="config.pronounSingular + ' ' + config.nameSingular"
+          [entityTotal]="data.order.total"
           [paymentsOrders]="data.paymentOrders"
           [displayType]="isRequisition || isContract"
-          [canEdit]="data.actions.canRequestPayment"
+          [canRequestPayment]="data.actions.canRequestPayment"
           (paymentsOrdersEditionEvent)="onPaymentsOrdersEditionEvent($event)">
 
         </emp-pmt-payments-orders-edition>
