@@ -13,6 +13,7 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { AccountabilitiesModule } from '@app/views/_accountabilities/accountabilities.module';
+import { BillingModule } from '../billing/billing.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 
@@ -37,6 +38,7 @@ import { PaymentAccountsTableComponent } from './supplier/payment-accounts-table
     SharedModule,
 
     AccountabilitiesModule,
+    BillingModule,
     EntityRecordsModule,
     ReportsControlsModule,
 

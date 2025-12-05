@@ -51,6 +51,15 @@
 
     </mat-tab>
 
+    <mat-tab label="Facturas">
+
+      <emp-ng-bills-edition *ngIf="displaySupplierData"
+        [bills]="supplierHolder.bills">
+
+      </emp-ng-bills-edition>
+
+    </mat-tab>
+
     <mat-tab label="Documentos" *ngIf="displaySupplierData">
 
       <emp-ng-documents-edition

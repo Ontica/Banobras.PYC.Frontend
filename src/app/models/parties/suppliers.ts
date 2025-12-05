@@ -14,6 +14,8 @@ import { EntityStatus } from '../base/explorer-data';
 
 import { DataTableColumn, DataTableColumnType } from '../base/data-table';
 
+import { Bill } from '../bills';
+
 import { Document } from '../documents';
 
 import { HistoryEntry } from '../history';
@@ -62,6 +64,7 @@ export interface SupplierFields extends PartyFields {
 export interface SupplierHolder extends PartyHolder {
   supplier: Supplier;
   paymentAccounts: PaymentAccount[];
+  bills: Bill[];
   documents: Document[]
   history: HistoryEntry[];
   actions: SupplierActions;
