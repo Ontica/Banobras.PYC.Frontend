@@ -68,7 +68,9 @@
                         'spacing-level': column.hasLevel,
                         'shadow-cell': column.showShadow,
                         'column-xs': column.size === 'xs',
-                        'column-sm': column.size === 'sm'}">
+                        'column-sm': column.size === 'sm',
+                        'column-md': column.size === 'md',
+                        'column-lg': column.size === 'lg'}">
 
             <ng-container [ngSwitch]="column.type">
               <ng-container *ngSwitchCase="dataTableColumnType.decimal">
