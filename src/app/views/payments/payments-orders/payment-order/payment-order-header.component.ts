@@ -84,7 +84,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
   paymentAccountsList: PaymentAccount[] = [];
 
-  linkedToAccount = false;
+  accountRelated = false;
 
   providersAPI = SearcherAPIS.provider;
 
@@ -124,14 +124,14 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
   get paymentAccountPlaceholder(): string {
     if (!this.editionMode) {
-      return this.linkedToAccount ? 'No determinado' : 'No aplica';
+      return this.accountRelated ? 'No determinado' : 'No aplica';
     }
 
     if (!this.form.getRawValue().paymentMethodUID) {
       return 'Seleccione método de pago...';
     }
 
-    if (this.linkedToAccount) {
+    if (this.accountRelated) {
       return !this.form.getRawValue().payToUID ? 'Seleccione pagar a...' : 'Seleccionar';
     } else {
       return 'No aplica';
@@ -141,14 +141,14 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
   get referenceNumberPlaceholder(): string {
     if (!this.editionMode) {
-      return this.linkedToAccount ? 'No determinado' : 'No aplica';
+      return this.accountRelated ? 'No determinado' : 'No aplica';
     }
 
     if (!this.form.getRawValue().paymentMethodUID) {
       return 'Seleccione método de pago...';
     }
 
-    return this.linkedToAccount ? '' : 'No aplica';
+    return this.accountRelated ? '' : 'No aplica';
   }
 
 
@@ -158,7 +158,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
 
   onPaymentMethodChanges(paymentMethod: PaymentMethod) {
-    this.setLinkedToAccount(paymentMethod);
+    this.setAccountRelated(paymentMethod);
     this.resetPaymentAccountControl();
     this.validatePaymentAccountControlsRequired();
     this.validatePaymentAccountControlsDisabled();
@@ -227,7 +227,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
 
   private validateGetPaymentAccounts() {
-    if (this.form.controls.paymentMethodUID.valid && this.linkedToAccount && this.form.controls.payToUID.valid) {
+    if (this.form.controls.paymentMethodUID.valid && this.accountRelated && this.form.controls.payToUID.valid) {
       const partyUID = this.form.value.payToUID;
       this.getPaymentAccouts(partyUID)
       return;
@@ -277,7 +277,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
       });
     });
 
-    this.setLinkedToAccount(this.paymentOrder.paymentMethod);
+    this.setAccountRelated(this.paymentOrder.paymentMethod);
     this.validatePaymentAccountControlsRequired();
   }
 
@@ -294,8 +294,8 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
   }
 
 
-  private setLinkedToAccount(paymentMethod: PaymentMethod) {
-    this.linkedToAccount = isEmpty(paymentMethod) ? false : paymentMethod.linkedToAccount;
+  private setAccountRelated(paymentMethod: PaymentMethod) {
+    this.accountRelated = isEmpty(paymentMethod) ? false : paymentMethod.accountRelated;
   }
 
 
@@ -306,7 +306,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
 
   private validatePaymentAccountControlsRequired() {
-    const payableAccountNotRequired = !this.linkedToAccount;
+    const payableAccountNotRequired = !this.accountRelated;
 
     if (payableAccountNotRequired) {
       FormHelper.clearControlValidators(this.form.controls.paymentAccountUID);
@@ -319,7 +319,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
 
   private validatePaymentAccountControlsDisabled() {
-    const payableAccountDisabled = !this.linkedToAccount || !this.editionMode;
+    const payableAccountDisabled = !this.accountRelated || !this.editionMode;
     FormHelper.setDisableControl(this.form.controls.paymentAccountUID, payableAccountDisabled);
     FormHelper.setDisableControl(this.form.controls.referenceNumber, payableAccountDisabled);
   }

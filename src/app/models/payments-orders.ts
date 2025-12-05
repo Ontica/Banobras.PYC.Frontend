@@ -68,7 +68,7 @@ export interface PaymentAccount {
 export interface PaymentMethod {
   uid: string;
   name: string;
-  linkedToAccount: boolean;
+  accountRelated: boolean;
 }
 
 
@@ -191,7 +191,7 @@ export const EmptyPaymentsOrdersQuery: PaymentsOrdersQuery = {
 export const EmptyPaymentMethod: PaymentMethod = {
   uid: '',
   name: '',
-  linkedToAccount: false,
+  accountRelated: false,
 };
 
 

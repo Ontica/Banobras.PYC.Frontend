@@ -85,7 +85,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   selectedPayableEntity: PayableEntity = null;
 
-  linkedToAccount = false;
+  accountRelated = false;
 
   payableEntitiesAPI = SearcherAPIS.payableEntities;
 
@@ -164,7 +164,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   get paymentAccountPlaceholder(): string {
     if (!this.editionMode) {
-      return this.linkedToAccount ? 'No determinado' : 'No aplica';
+      return this.accountRelated ? 'No determinado' : 'No aplica';
     }
 
     if (!this.form.getRawValue().payableEntityUID) {
@@ -175,7 +175,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
       return 'Seleccione el método de pago...'
     }
 
-    return this.linkedToAccount ? 'Seleccionar' : 'No aplica';
+    return this.accountRelated ? 'Seleccionar' : 'No aplica';
   }
 
 
@@ -191,7 +191,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
 
   onPaymentMethodChanges(paymentMethod: PaymentMethod) {
-    this.linkedToAccount = isEmpty(paymentMethod) ? false : paymentMethod.linkedToAccount;
+    this.accountRelated = isEmpty(paymentMethod) ? false : paymentMethod.accountRelated;
     this.form.controls.paymentAccountUID.reset();
     this.validatePaymentAccountData();
   }
@@ -273,8 +273,8 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
       });
 
       this.selectedPayableEntity = isEmpty(this.payableEntity) ? null : this.payableEntity;
-      this.linkedToAccount = isEmpty(this.payable.paymentMethod) ? false :
-        this.payable.paymentMethod.linkedToAccount;
+      this.accountRelated = isEmpty(this.payable.paymentMethod) ? false :
+        this.payable.paymentMethod.accountRelated;
 
       this.validatePaymentMethodsData();
       this.validatePaymentAccountData();
@@ -314,7 +314,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
   private validatePayableEntityData(entity: PayableEntity) {
     const isEmptyEntity = isEmpty(entity);
     this.selectedPayableEntity = isEmptyEntity ? null : entity;
-    this.linkedToAccount = false;
+    this.accountRelated = false;
 
     this.form.controls.payToUID.reset(isEmptyEntity ? null : this.selectedPayableEntity.payTo.uid);
     this.form.controls.budgetUID.reset(isEmptyEntity ? null : this.selectedPayableEntity.budget.uid);
@@ -332,7 +332,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
   private validatePayableEntityDisabled() {
     const entityNotReady = !this.form.value.payableTypeUID || !this.form.value.organizationalUnitUID;
     const payableEntityInvalid = isEmpty(this.selectedPayableEntity);
-    const payableAccountNotRequired = payableEntityInvalid || !this.linkedToAccount;
+    const payableAccountNotRequired = payableEntityInvalid || !this.accountRelated;
 
     FormHelper.setDisableControl(this.form.controls.payableEntityUID, entityNotReady);
 
@@ -354,7 +354,7 @@ export class PayableHeaderComponent implements OnInit, OnChanges, OnDestroy {
   private validatePaymentAccountData() {
     const paymentMethodUID = this.form.getRawValue().paymentMethodUID;
 
-    this.paymentAccountsList = this.linkedToAccount ?
+    this.paymentAccountsList = this.accountRelated ?
       this.selectedPayableEntity?.paymentAccounts?.filter(x => x.paymentMethod.uid === paymentMethodUID) : [];
 
     this.validatePayableEntityDisabled();
