@@ -49,17 +49,25 @@
 
     <mat-tab label="Documentos" *ngIf="displaySupplierData">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-documents-edition
+        entityType="suppliers"
+        [entityUID]="supplierHolder.supplier.uid"
+        [documents]="supplierHolder.documents"
+        [canEdit]="supplierHolder.actions?.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+      </emp-ng-documents-edition>
 
     </mat-tab>
 
     <mat-tab label="Historial" *ngIf="displaySupplierData">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <ng-template matTabContent>
+
+        <emp-ng-history-table
+          [history]="supplierHolder.history">
+        </emp-ng-history-table>
+
+      </ng-template>
 
     </mat-tab>
 

@@ -42,7 +42,7 @@ export interface SupplierHolder extends PartyHolder {
   supplier: Supplier;
   paymentAccounts: PaymentAccount[];
   documents: Document[]
-  history: HistoryEntry;
+  history: HistoryEntry[];
   actions: PartyActions;
 }
 
