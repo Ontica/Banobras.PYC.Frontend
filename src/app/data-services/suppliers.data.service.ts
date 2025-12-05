@@ -7,7 +7,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { Assertion, EmpObservable, FlexibleIdentifiable, HttpService, Identifiable } from '@app/core';
+import { Assertion, EmpObservable, FlexibleIdentifiable, HttpService } from '@app/core';
 
 import { MatchSubledgerAccountFields, SupplierFields, SupplierHolder } from '@app/models';
 

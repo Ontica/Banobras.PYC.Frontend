@@ -89,8 +89,8 @@
       <div class="fx-item fx-end fx-items-center">
 
         <button
-          [class.btn]="!formHelper.isFormReady(form)"
-          [class.btn-action]="formHelper.isFormReady(form)"
+            [class.btn]="!form.valid"
+            [class.btn-action]="form.valid"
           (click)="onSubmitButtonClicked()">
           Agregar
         </button>
@@ -130,8 +130,8 @@
         <ng-container *ngIf="editionMode">
 
           <button *ngIf="canUpdate"
-            [class.btn]="!formHelper.isFormReady(form)"
-            [class.btn-action]="formHelper.isFormReady(form)"
+            [class.btn]="!form.valid"
+            [class.btn-action]="form.valid"
             (click)="onSubmitButtonClicked()">
             Guardar
           </button>

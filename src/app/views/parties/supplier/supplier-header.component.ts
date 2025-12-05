@@ -109,7 +109,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
 
   get displayMatchSubledgerAccount() {
-    return this.editionMode && !this.form.getRawValue().subledgerAccount;
+    return (!this.isSaved || (this.isSaved && this.canUpdate)) && !this.form.getRawValue().subledgerAccount;
   }
 
 
@@ -134,18 +134,20 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
       };
 
       this.getMatchSubledgerAccount(command);
-    } else {
-      this.formHelper.isFormReadyAndInvalidate(this.form)
     }
+
+    this.formHelper.markFormControlsAsTouched(this.form);
   }
 
 
   @SkipIf('isLoading')
   onSubmitButtonClicked() {
-    if (this.formHelper.isFormReadyAndInvalidate(this.form)) {
+    if (this.form.valid) {
       const eventType = this.isSaved ? SupplierHeaderEventType.UPDATE : SupplierHeaderEventType.CREATE;
       sendEvent(this.supplierHeaderEvent, eventType, { dataFields: this.getFormData() });
     }
+
+    this.formHelper.markFormControlsAsTouched(this.form);
   }
 
 
@@ -224,7 +226,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   private validateFormDisabled() {
     setTimeout(() => {
-      const disable = this.isSaved && (!this.editionMode);
+      const disable = this.isSaved && (!this.editionMode || !this.canUpdate);
       this.formHelper.setDisableForm(this.form, disable);
       FormHelper.setDisableControl(this.form.controls.subledgerAccount);
     });
@@ -254,7 +256,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => sendEventIf(x, this.supplierHeaderEvent, eventType, { contractUID: this.supplier.uid }));
+      .then(x => sendEventIf(x, this.supplierHeaderEvent, eventType, { dataUID: this.supplier.uid }));
   }
 
 

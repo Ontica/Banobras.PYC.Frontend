@@ -99,6 +99,7 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
         return;
       case SupplierCreatorEventType.CREATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.displayCreator = false;
         this.insertItemToList(event.payload.data as PartyHolder);
         return;
       default:
