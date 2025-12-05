@@ -7,11 +7,15 @@
 
     <mat-tab [label]="config.nameSingular">
 
-      <emp-ng-party-view
-        [config]="config"
-        [data]="party"
+      <emp-ng-supplier-editor *ngIf="displaySupplierData"
+        [supplier]="supplierHolder.supplier"
         [actions]="data.actions"
-        (partyViewEvent)="onPartyViewEvent($event)">
+        (supplierEditorEvent)="onSupplierEditorEvent($event)">
+      </emp-ng-supplier-editor>
+
+      <emp-ng-party-view *ngIf="!displaySupplierData"
+        [config]="config"
+        [data]="party">
       </emp-ng-party-view>
 
     </mat-tab>
@@ -41,9 +45,9 @@
 
     <mat-tab label="Cuentas" *ngIf="displaySupplierData">
 
-      <div class="instruction-text">
-        No se encontraron registros.
-      </div>
+      <emp-ng-payment-accounts-table
+        [paymentAccounts]="supplierHolder.paymentAccounts">
+      </emp-ng-payment-accounts-table>
 
     </mat-tab>
 

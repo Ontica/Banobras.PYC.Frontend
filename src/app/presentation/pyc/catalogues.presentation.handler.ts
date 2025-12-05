@@ -24,6 +24,7 @@ export enum SelectorType {
   PAYMENTS_METHODS     = 'PYC.Catalogues.Selector.PaymentsMethods.List',
   PERIODICITY_TYPES    = 'PYC.Catalogues.Selector.PeriodicityTypes.List',
   TAX_TYPES            = 'PYC.Catalogues.Selector.TaxTypes.List',
+  SUPPLIER_TYPES       = 'PYC.Catalogues.Selector.SupplierTypes.List',
 }
 
 
@@ -35,6 +36,7 @@ const initialState: StateValues = [
   { key: SelectorType.PAYMENTS_METHODS, value: [] },
   { key: SelectorType.PERIODICITY_TYPES, value: [] },
   { key: SelectorType.TAX_TYPES, value: [] },
+  { key: SelectorType.SUPPLIER_TYPES, value: [] },
 ];
 
 
@@ -94,6 +96,12 @@ export class CataloguesPresentationHandler extends AbstractPresentationHandler {
 
       case SelectorType.TAX_TYPES: {
         const provider = () => this.data.getTaxTypes();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.SUPPLIER_TYPES: {
+        const provider = () => this.data.getSupplierTypes();
 
         return super.selectFirst<U>(selectorType, provider);
       }

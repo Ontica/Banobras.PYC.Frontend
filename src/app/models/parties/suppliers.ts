@@ -5,10 +5,14 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { DataTableColumn, DataTableColumnType } from '../base/data-table';
+import { Empty, Identifiable } from '@app/core';
 
 import { mapPartyDescriptorFromParty, PartiesQuery, Party, PartyActions, PartyDescriptor,
-         PartyHolder } from './base-parties';
+         PartyFields, PartyHolder } from './base-parties';
+
+import { EntityStatus } from '../base/explorer-data';
+
+import { DataTableColumn, DataTableColumnType } from '../base/data-table';
 
 import { Document } from '../documents';
 
@@ -23,18 +27,35 @@ export interface SuppliersQuery extends PartiesQuery {
 
 
 export interface SupplierDescriptor extends PartyDescriptor {
-  commonName: string;
+  uid: string;
+  typeName: string;
+  name: string;
   taxCode: string;
-  taxEntityName: string;
-  taxZipCode: string;
+  subledgerAccount: string;
+  statusName: string;
 }
 
 
-export interface Supplier extends Party {
-  commonName: string;
+export interface SupplierFields extends PartyFields {
+  typeUID: string;
+  name: string;
   taxCode: string;
-  taxEntityName: string;
-  taxZipCode: string;
+  subledgerAccount: string;
+}
+
+
+export interface MatchSubledgerAccountFields {
+  uid: string;
+  name: string;
+  taxCode: string;
+}
+
+
+export interface SupplierFields extends PartyFields {
+  typeUID: string;
+  name: string;
+  taxCode: string;
+  subledgerAccount: string;
 }
 
 
@@ -43,17 +64,41 @@ export interface SupplierHolder extends PartyHolder {
   paymentAccounts: PaymentAccount[];
   documents: Document[]
   history: HistoryEntry[];
-  actions: PartyActions;
+  actions: SupplierActions;
+}
+
+
+export interface Supplier extends Party {
+  uid: string;
+  type: Identifiable;
+  name: string;
+  taxCode: string;
+  subledgerAccount: string;
+  status: Identifiable<EntityStatus>;
+}
+
+export interface SupplierActions extends PartyActions {
+  canUpdate: boolean;
+  canDelete: boolean;
+  canEditDocuments: boolean;
+}
+
+
+export const EmptySupplier: Supplier = {
+  uid: '',
+  type: Empty,
+  name: '',
+  taxCode: '',
+  subledgerAccount: '',
+  status: Empty,
 }
 
 
 export function mapSupplierDescriptorFromSupplier(data: SupplierHolder): SupplierDescriptor {
   return {
     ...mapPartyDescriptorFromParty(data.supplier),
-    commonName: data.supplier.commonName,
     taxCode: data.supplier.taxCode,
-    taxZipCode: data.supplier.taxZipCode,
-    taxEntityName: data.supplier.taxEntityName,
+    subledgerAccount: data.supplier.subledgerAccount,
   };
 }
 
@@ -62,12 +107,13 @@ export const DefaultSuppliersColumns: DataTableColumn[] = [
   {
     field: 'name',
     title: 'Proveedor',
-    type: DataTableColumnType.text_link,
+    type: DataTableColumnType.text,
+    size: 'lg'
   },
   {
-    field: 'commonName',
-    title: 'Nombre común',
-    type: DataTableColumnType.text,
+    field: 'taxCode',
+    title: 'RFC',
+    type: DataTableColumnType.text_link,
   },
   {
     field: 'typeName',
@@ -75,18 +121,8 @@ export const DefaultSuppliersColumns: DataTableColumn[] = [
     type: DataTableColumnType.text,
   },
   {
-    field: 'taxCode',
-    title: 'RFC',
-    type: DataTableColumnType.text,
-  },
-  {
-    field: 'taxEntityName',
-    title: 'Razón social',
-    type: DataTableColumnType.text,
-  },
-  {
-    field: 'taxZipCode',
-    title: 'Código postal',
+    field: 'subledgerAccount',
+    title: 'Auxiliar',
     type: DataTableColumnType.text,
   },
   {

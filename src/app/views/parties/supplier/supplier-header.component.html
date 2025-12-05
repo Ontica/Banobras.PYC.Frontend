@@ -1,0 +1,153 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Tipo de proveedor:</label>
+
+        <emp-ng-select
+          formControlName="typeUID"
+          [config]="{showTooltip: true}"
+          [items]="typesList"
+          [loading]="isLoadingDataLists"
+          [showError]="formHelper.isControlInvalid(form.controls.typeUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>RFC:</label>
+
+        <input type="text" class="text-box"
+          formControlName="taxCode"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.taxCode)"
+          (change)="onSubledgerAccountReset()">
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+
+        <label>Nombre:</label>
+
+        <input type="text" class="text-box"
+          formControlName="name"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)"
+          (change)="onSubledgerAccountReset()">
+
+      </div>
+
+    </div>
+
+    <div class="section-title"> Información contable </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-size" [style.--size]="displayMatchSubledgerAccount ? 'calc(100% - 36px)' : '100%'">
+
+        <label>Auxiliar:</label>
+
+        <input type="text" class="text-box"
+          formControlName="subledgerAccount"
+          [placeholder]="editionMode ? 'Ingrese RFC y nombre' : 'No determinado'"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.subledgerAccount)">
+
+      </div>
+
+      <div class="fx-item-none fx-items-end" [style.paddingBottom.px]="2" *ngIf="displayMatchSubledgerAccount">
+
+        <button title="Vincular auxiliar"
+          [class.spinner]="isLoading"
+          [class.btn-icon-action]="isReadytoMatchSubledgerAccount"
+          [class.btn-icon]="!isReadytoMatchSubledgerAccount"
+          (click)="onSubledgerAccountSearch()">
+          <mat-icon>search</mat-icon>
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="canDelete"
+            type="button" class="btn-warning"
+            (click)="onDeleteButtonClicked()">
+            Eliminar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode && hasActions"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="canUpdate"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>

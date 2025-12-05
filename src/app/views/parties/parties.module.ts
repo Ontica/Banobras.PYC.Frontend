@@ -20,7 +20,11 @@ import { PartiesMainPageComponent } from './parties-main-page/parties-main-page.
 import { PartiesExplorerComponent } from './parties-explorer/parties-explorer.component';
 import { PartiesFilterComponent } from './parties-explorer/parties-filter.component';
 import { PartyTabbedViewComponent } from './party-tabbed-view/party-tabbed-view.component';
-import { PartyViewComponent } from './party-tabbed-view/party-view.component';
+import { PartyViewComponent } from './party/party-view.component';
+
+import { SupplierCreatorComponent } from "./supplier/supplier-creator.component";
+import { SupplierEditorComponent } from './supplier/supplier-editor.component';
+import { PaymentAccountsTableComponent } from './supplier/payment-accounts-table.component';
 
 
 @NgModule({
@@ -35,7 +39,11 @@ import { PartyViewComponent } from './party-tabbed-view/party-view.component';
     AccountabilitiesModule,
     EntityRecordsModule,
     ReportsControlsModule,
-  ],
+
+    SupplierCreatorComponent,
+    SupplierEditorComponent,
+    PaymentAccountsTableComponent,
+],
   declarations: [
     PartiesMainPageComponent,
     PartiesExplorerComponent,

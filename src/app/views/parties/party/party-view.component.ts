@@ -43,8 +43,6 @@ export class PartyViewComponent implements OnChanges {
 
   @Input() data: Party = EmptyParty;
 
-  @Input() actions: PartyActions = EmptyPartyActions;
-
   @Output() partyViewEvent = new EventEmitter<EventInfo>();
 
   form: PartyFormModel;

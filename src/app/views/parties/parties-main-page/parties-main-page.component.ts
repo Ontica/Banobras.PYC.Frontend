@@ -27,6 +27,8 @@ import { DataTableColumn, DefaultOrgUnitsColumns, DefaultPartiesColumns, Default
          mapPartyDescriptorFromParty, mapSupplierDescriptorFromSupplier, OrgUnitHolder, PartiesDataTable,
          PartiesQuery, PartyDescriptor, PartyHolder, PartyObjectTypes, SupplierHolder } from '@app/models';
 
+import { SupplierCreatorEventType } from '../supplier/supplier-creator.component';
+
 import {
   PartiesExplorerEventType
 } from '@app/views/parties/parties-explorer/parties-explorer.component';
@@ -49,6 +51,8 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
   data: PartiesDataTable = Object.assign({}, EmptyPartiesDataTable);
 
   selectedData: PartyHolder = EmptyPartyHolder;
+
+  displayCreator = false;
 
   displayTabbedView = false;
 
@@ -88,10 +92,26 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
   }
 
 
+  onPartyCreatorEvent(event: EventInfo) {
+    switch (event.type as SupplierCreatorEventType) {
+      case SupplierCreatorEventType.CLOSE_MODAL_CLICKED:
+        this.displayCreator = false;
+        return;
+      case SupplierCreatorEventType.CREATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.insertItemToList(event.payload.data as PartyHolder);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   onPartiesExplorerEvent(event: EventInfo) {
     switch (event.type as PartiesExplorerEventType) {
       case PartiesExplorerEventType.CREATE_CLICKED:
-        this.messageBox.showInDevelopment('Agregar ' + this.config.nameSingular.toLowerCase());
+        this.validateDisplayCreator();
         return;
       case PartiesExplorerEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
@@ -124,6 +144,14 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
       case PartyTabbedViewEventType.DATA_UPDATED:
         Assertion.assertValue(event.payload.data, 'event.payload.data');
         this.insertItemToList(event.payload.data as PartyHolder);
+        return;
+      case PartyTabbedViewEventType.DATA_DELETED:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        this.removeItemFromList(event.payload.dataUID);
+        return;
+      case PartyTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        this.validateGetParty(event.payload.dataUID);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -257,6 +285,13 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
   }
 
 
+  private removeItemFromList(dataUID: string) {
+    const dataListNew = this.data.entries.filter(x => x.uid !== dataUID);
+    this.setData(dataListNew);
+    this.setSelectedData(EmptyPartyHolder, false);
+  }
+
+
   private mapPartyDescriptorFromPartyType(data: PartyHolder): PartyDescriptor {
     switch (this.config.type) {
       case PartyObjectTypes.SUPPLIER:
@@ -265,6 +300,19 @@ export class PartiesMainPageComponent implements OnInit, OnDestroy {
         return mapOrgUnitDescriptorFromOrgUnit(data as OrgUnitHolder);
       default:
         return mapPartyDescriptorFromParty(data.party);
+    }
+  }
+
+
+  private validateDisplayCreator() {
+    switch (this.config.type) {
+      case PartyObjectTypes.SUPPLIER:
+        this.displayCreator = true;
+        return;
+      case PartyObjectTypes.ORGANIZATIONAL_UNITS:
+      default:
+        this.messageBox.showInDevelopment('Agregar ' + this.config.nameSingular.toLowerCase());
+        return;
     }
   }
 

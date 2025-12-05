@@ -25,3 +25,9 @@
   </emp-ng-party-tabbed-view>
 
 </div>
+
+
+<emp-ng-supplier-creator *ngIf="displayCreator"
+  (supplierCreatorEvent)="onPartyCreatorEvent($event)">
+
+</emp-ng-supplier-creator>

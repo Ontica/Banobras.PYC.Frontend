@@ -12,13 +12,17 @@ import { Assertion, DateStringLibrary, EventInfo, isEmpty } from '@app/core';
 import { sendEvent } from '@app/shared/utils';
 
 import { EmptyPartyExplorerTypeConfig, EmptyPartyHolder, ExplorerTypeConfig, OrgUnit, OrgUnitHolder,
-         Party, PartyHolder, PartyObjectTypes, SupplierHolder } from '@app/models';
+         Party, PartyHolder, PartyObjectTypes, Supplier, SupplierHolder } from '@app/models';
 
-import { PartyViewEventType } from './party-view.component';
+import { SupplierEditorEventType } from '../supplier/supplier-editor.component';
 
 import {
   CommisionerAccountabilitiesEditionEventType
 } from '@app/views/_accountabilities/commissioner-accountabilities/commissioner-accountabilities-edition.component';
+
+import {
+  DocumentsEditionEventType
+} from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 
 export enum PartyTabbedViewEventType {
@@ -86,8 +90,16 @@ export class PartyTabbedViewComponent implements OnChanges {
   }
 
 
-  onPartyViewEvent(event: EventInfo) {
-    switch (event.type as PartyViewEventType) {
+  onSupplierEditorEvent(event: EventInfo) {
+    switch (event.type as SupplierEditorEventType) {
+      case SupplierEditorEventType.UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        sendEvent(this.partyTabbedViewEvent, PartyTabbedViewEventType.DATA_UPDATED, event.payload);
+        return;
+      case SupplierEditorEventType.DELETED:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        sendEvent(this.partyTabbedViewEvent, PartyTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -108,10 +120,23 @@ export class PartyTabbedViewComponent implements OnChanges {
   }
 
 
+  onDocumentsEditionEvent(event: EventInfo) {
+    switch (event.type as DocumentsEditionEventType) {
+      case DocumentsEditionEventType.DOCUMENTS_UPDATED:
+        const payload = { dataUID: this.supplierHolder.supplier.uid };
+        sendEvent(this.partyTabbedViewEvent, PartyTabbedViewEventType.REFRESH_DATA, payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   private validateSetTitle() {
     switch (this.config.type) {
       case PartyObjectTypes.SUPPLIER:
-        return this.setPartyTitle(this.supplierHolder.supplier);
+        return this.setSupplierTitle(this.supplierHolder.supplier);
       case PartyObjectTypes.ORGANIZATIONAL_UNITS:
         return this.setOrgUnitTitle(this.orgUnitHolder.organizationalUnit);
       default:
@@ -129,7 +154,6 @@ export class PartyTabbedViewComponent implements OnChanges {
     );
 
     this.title = `${data.name} ${status}`;
-
     this.hint = `<strong>${type}</strong>`;
   }
 
@@ -144,10 +168,23 @@ export class PartyTabbedViewComponent implements OnChanges {
     );
 
     this.title = `${data.code}: ${data.name} ${status}`;
-
     this.hint = `<strong>${data.type.name} &nbsp; &nbsp; | &nbsp; &nbsp; </strong>` +
       `${data.responsible.name} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${startDate}`;
+  }
+
+
+  private setSupplierTitle(data: Supplier) {
+    const status = isEmpty(data.status) ? '' : (
+      data.status.name === 'Eliminada' ?
+        `<span class="tag tag-error tag-small">${data.status.name}</span>` :
+        `<span class="tag tag-small">${data.status.name}</span>`
+    );
+
+    this.title = `${data.name} ${status}`;
+    this.hint = `<strong>${data.type.name} &nbsp; &nbsp; | &nbsp; &nbsp; </strong>` +
+      `${data.taxCode} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${!data.subledgerAccount ? 'N/D' : data.subledgerAccount}`;
   }
 
 }

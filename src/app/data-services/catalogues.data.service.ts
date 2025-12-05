@@ -69,4 +69,11 @@ export class CataloguesDataService {
     return this.http.get<Identifiable[]>(path);
   }
 
+
+  getSupplierTypes(): EmpObservable<Identifiable[]> {
+    const path = 'v8/procurement/suppliers/types';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
 }

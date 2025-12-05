@@ -7,9 +7,9 @@
 
 import { Injectable } from '@angular/core';
 
-import { Assertion, EmpObservable, HttpService } from '@app/core';
+import { Assertion, EmpObservable, FlexibleIdentifiable, HttpService, Identifiable } from '@app/core';
 
-import { Contract } from '@app/models';
+import { MatchSubledgerAccountFields, SupplierFields, SupplierHolder } from '@app/models';
 
 
 @Injectable()
@@ -19,12 +19,41 @@ export class SuppliersDataService {
   constructor(private http: HttpService) { }
 
 
-  getSupplierContractsToOrder(supplierUID: string): EmpObservable<Contract[]> {
+  getMatchSubledgerAccount(dataFields: MatchSubledgerAccountFields): EmpObservable<FlexibleIdentifiable> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/procurement/suppliers/match-subledger-account`;
+
+    return this.http.post<FlexibleIdentifiable>(path, dataFields);
+  }
+
+
+  createSupplier(dataFields: SupplierFields): EmpObservable<SupplierHolder> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/procurement/suppliers`;
+
+    return this.http.post<SupplierHolder>(path, dataFields);
+  }
+
+
+  updateSupplier(supplierUID: string,
+                 dataFields: SupplierFields): EmpObservable<SupplierHolder> {
+    Assertion.assertValue(supplierUID, 'supplierUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v8/procurement/suppliers/${supplierUID}`;
+
+    return this.http.put<SupplierHolder>(path, dataFields);
+  }
+
+
+  deleteSupplier(supplierUID: string): EmpObservable<void> {
     Assertion.assertValue(supplierUID, 'supplierUID');
 
-    const path = `v8/procurement/suppliers/${supplierUID}/contracts/to-order`;
+    const path = `v8/procurement/suppliers/${supplierUID}`;
 
-    return this.http.get<Contract[]>(path);
+    return this.http.delete<void>(path);
   }
 
 }
