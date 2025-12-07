@@ -63,7 +63,6 @@ export function getEntityModule(entityType: DocumentsEntityTypes): string {
     case 'budget-transactions': return 'v2/budgeting/transactions';
     case 'cash-flow': return 'v1/cash-flow/projections';
     case 'cash-transactions': return 'v1/cash-flow/cash-ledger/transactions';
-    case 'contracts': return 'v8/procurement/contracts';
     case 'financial-accounts': return 'v2/financial-accounts';
     case 'financial-projects': return 'v1/financial-projects';
     case 'orders': return 'v8/order-management/orders';

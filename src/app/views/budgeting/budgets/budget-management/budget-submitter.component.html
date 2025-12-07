@@ -2,10 +2,20 @@
   class="fx-row-container fx-gap-half fx-end"
   [style.margin-bottom.px]="8">
 
-  <div class="fx-item-none" *ngIf="canExerciseBudget">
+  <div class="fx-item-none" *ngIf="canCommit">
 
     <button type="button"
-      class="btn"
+      class="btn-action"
+      (click)="onEventButtonClicked(eventType.COMMIT)">
+      Solicitar compromiso presupuestal
+    </button>
+
+  </div>
+
+  <div class="fx-item-none" *ngIf="canExercise">
+
+    <button type="button"
+      class="btn-action"
       (click)="onEventButtonClicked(eventType.EXERCISE)">
       Ejercer presupuesto
     </button>
@@ -32,7 +42,8 @@
 
   </div>
 
-  <mat-divider vertical="true" *ngIf="(canExerciseBudget || canValidate || canRequest) && canRequestModification">
+
+  <mat-divider vertical="true" *ngIf="(canCommit || canExercise || canRequest || canValidate ) && canRequestModification">
 
   </mat-divider>
 

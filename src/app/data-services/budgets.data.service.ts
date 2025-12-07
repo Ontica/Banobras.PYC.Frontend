@@ -46,7 +46,16 @@ export class BudgetsDataService {
   requestBudget(dataFields: BudgetRequestFields): EmpObservable<BudgetTransactionDescriptor> {
     Assertion.assertValue(dataFields, 'dataFields');
 
-    const path = `v2/budgeting/procurement/requests`;
+    const path = `v2/budgeting/procurement/request`;
+
+    return this.http.post<BudgetTransactionDescriptor>(path, dataFields);
+  }
+
+
+  commitBudget(dataFields: BudgetRequestFields): EmpObservable<BudgetTransactionDescriptor> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/procurement/commit`;
 
     return this.http.post<BudgetTransactionDescriptor>(path, dataFields);
   }

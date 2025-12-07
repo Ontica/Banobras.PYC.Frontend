@@ -16,10 +16,11 @@ import { FormatLibrary, sendEventIf } from '@app/shared/utils';
 import { ObjectTypes, BudgetRequestFields } from '@app/models';
 
 export enum BudgetSubmitterEventType {
+  COMMIT               = 'BudgetSubmitterComponent.Event.CommitClicked',
+  EXERCISE             = 'BudgetSubmitterComponent.Event.ExerciseClicked',
   REQUEST              = 'BudgetSubmitterComponent.Event.RequestClicked',
   REQUEST_MODIFICATION = 'BudgetSubmitterComponent.Event.RequestModificationClicked',
   VALIDATE             = 'BudgetSubmitterComponent.Event.ValidateClicked',
-  EXERCISE             = 'BudgetSubmitterComponent.Event.ExerciseClicked',
 }
 
 @Component({
@@ -36,13 +37,15 @@ export class BudgetSubmitterComponent {
 
   @Input() budgetTotal: number = null;
 
+  @Input() canCommit = false;
+
+  @Input() canExercise = false;
+
   @Input() canRequest = false;
 
   @Input() canRequestModification = false;
 
   @Input() canValidate = false;
-
-  @Input() canExerciseBudget = false;
 
   @Output() budgetSubmitterEvent = new EventEmitter<EventInfo>();
 
@@ -83,9 +86,10 @@ export class BudgetSubmitterComponent {
 
   private getConfirmType(eventType: BudgetSubmitterEventType): 'AcceptCancel' | 'DeleteCancel' {
     switch (eventType) {
+      case BudgetSubmitterEventType.COMMIT:
+      case BudgetSubmitterEventType.EXERCISE:
       case BudgetSubmitterEventType.REQUEST:
       case BudgetSubmitterEventType.REQUEST_MODIFICATION:
-      case BudgetSubmitterEventType.EXERCISE:
       case BudgetSubmitterEventType.VALIDATE:
       default:
         return 'AcceptCancel';
@@ -95,9 +99,10 @@ export class BudgetSubmitterComponent {
 
   private getConfirmTitle(eventType: BudgetSubmitterEventType): string {
     switch (eventType) {
+      case BudgetSubmitterEventType.COMMIT: return 'Solicitar compromiso presupuestal';
+      case BudgetSubmitterEventType.EXERCISE: return 'Ejercer presupuesto';
       case BudgetSubmitterEventType.REQUEST: return 'Solicitar suficiencia presupuestal';
       case BudgetSubmitterEventType.REQUEST_MODIFICATION: return 'Solicitar modificación presupuestal';
-      case BudgetSubmitterEventType.EXERCISE: return 'Ejercer presupuesto';
       case BudgetSubmitterEventType.VALIDATE: return 'Validar suficiencia';
       default: return '';
     }
@@ -109,6 +114,14 @@ export class BudgetSubmitterComponent {
       ` por un total de <strong>${FormatLibrary.numberWithCommas(this.budgetTotal, '1.2-2') }</strong>` : '';
 
     switch (eventType) {
+      case BudgetSubmitterEventType.COMMIT:
+        return `Esta operación solicitará el compromiso presupuestal para
+                <strong>(${this.baseObjectTypeName}) ${this.baseObjectName}</strong>${totalText}.
+                <br><br>¿Envio la solicitud?`;
+      case BudgetSubmitterEventType.EXERCISE:
+        return `Esta operación ejercerá el presupuesto para
+                <strong>(${this.baseObjectTypeName}) ${this.baseObjectName}</strong>${totalText}.
+                <br><br>¿Ejerzo el presupuesto?`;
       case BudgetSubmitterEventType.REQUEST:
         return `Esta operación solicitará el presupuesto para
                 <strong>(${this.baseObjectTypeName}) ${this.baseObjectName}</strong>${totalText}.
@@ -117,10 +130,6 @@ export class BudgetSubmitterComponent {
         return `Esta operación solicitará la modificación presupuestal para
                 <strong>(${this.baseObjectTypeName}) ${this.baseObjectName}</strong>${totalText}.
                 <br><br>¿Solicitó la modificación presupuestal?`;
-      case BudgetSubmitterEventType.EXERCISE:
-        return `Esta operación ejercerá el presupuesto para
-                <strong>(${this.baseObjectTypeName}) ${this.baseObjectName}</strong>${totalText}.
-                <br><br>¿Ejerzo el presupuesto?`;
       case BudgetSubmitterEventType.VALIDATE:
         return `Esta operación verificará la disponibilidad de presupuesto para
                 <strong>(${this.baseObjectTypeName}) ${this.baseObjectName}</strong>${totalText}.

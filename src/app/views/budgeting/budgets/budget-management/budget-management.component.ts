@@ -42,11 +42,13 @@ export class BudgetManagementComponent {
 
   @Input() budgetTransactions: BudgetTransactionDescriptor[] = [];
 
+  @Input() canCommit = false;
+
+  @Input() canExercise = false;
+
   @Input() canRequest = false;
 
   @Input() canRequestModification = false;
-
-  @Input() canExerciseBudget = false;
 
   @Input() canValidate = false;
 
@@ -62,6 +64,14 @@ export class BudgetManagementComponent {
   @SkipIf('submitted')
   onBudgetSubmitterEvent(event: EventInfo) {
     switch (event.type as BudgetSubmitterEventType) {
+      case BudgetSubmitterEventType.COMMIT:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.commitBudget(event.payload.dataFields as BudgetRequestFields);
+        return;
+      case BudgetSubmitterEventType.EXERCISE:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.exerciseBudget(event.payload.dataFields as BudgetRequestFields);
+        return;
       case BudgetSubmitterEventType.REQUEST:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.requestBudget(event.payload.dataFields as BudgetRequestFields);
@@ -69,16 +79,32 @@ export class BudgetManagementComponent {
       case BudgetSubmitterEventType.VALIDATE:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.validateAvaibleBudget(event.payload.dataFields as BudgetRequestFields);
-        return
-      case BudgetSubmitterEventType.EXERCISE:
-        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.exerciseBudget(event.payload.dataFields as BudgetRequestFields);
-        return
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
 
+  }
+
+
+  private commitBudget(dataFields: BudgetRequestFields) {
+    this.submitted = true;
+
+    this.budgetsData.commitBudget(dataFields)
+      .firstValue()
+      .then(x => this.resolveBudgetUpdated())
+      .finally(() => this.submitted = false);
+  }
+
+
+  private exerciseBudget(dataFields: BudgetRequestFields) {
+    this.submitted = true;
+
+    this.budgetsData.exerciseBudget(dataFields)
+      .firstValue()
+      .then(x => this.resolveBudgetUpdated())
+      .finally(() => this.submitted = false);
   }
 
 
@@ -98,16 +124,6 @@ export class BudgetManagementComponent {
     this.budgetsData.validateAvaibleBudget(dataFields)
       .firstValue()
       .then(x => this.resolveValidateAvaibleBudget(x))
-      .finally(() => this.submitted = false);
-  }
-
-
-  private exerciseBudget(dataFields: BudgetRequestFields) {
-    this.submitted = true;
-
-    this.budgetsData.exerciseBudget(dataFields)
-      .firstValue()
-      .then(x => this.resolveBudgetUpdated())
       .finally(() => this.submitted = false);
   }
 
