@@ -246,8 +246,7 @@
 
       </div>
 
-      <div *ngIf="isRequisition || isContract || isPurchase || isExpense"
-        [ngClass]="isRequisition || isExpense ? 'fx-item-half' : 'fx-item-quarter'">
+      <div [ngClass]="isRequisition || isContractOrder || isExpense ? 'fx-item-half' : 'fx-item-quarter'">
 
         <label>{{isRequisition || isContract ? 'Presupuestos:' : 'Presupuesto:'}}</label>
 
