@@ -43,9 +43,9 @@ interface OrderItemFormModel extends FormGroup<{
   datePeriod: FormControl<DateRange>;
   description: FormControl<string>;
   productUID: FormControl<string>;
+  productUnitUID: FormControl<string>;
   budgetUID: FormControl<string>;
   budgetAccountUID: FormControl<string>;
-  productUnitUID: FormControl<string>;
   originCountryUID: FormControl<string>;
   unitPrice: FormControl<number>;
   quantity: FormControl<number>;
@@ -267,11 +267,8 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
       this.validateControlRequired(controls.linkedItemUID, this.isContract || this.isContractOrder || this.isPurchase || this.isExpense);
       this.validateControlRequired(controls.requestedByUID, this.requestedByFieldRequired);
-      this.validateControlRequired(controls.productUID, this.isContractOrder || this.isPurchase || this.isExpense);
-      this.validateControlRequired(controls.productUnitUID, this.isRequisition || this.isContract || this.isContractOrder || this.isPurchase || this.isExpense);
       this.validateControlRequired(controls.budgetAccountUID, this.isRequisition || this.isContract);
       this.validateControlRequired(controls.budgetUID, this.isRequisition || this.isContract);
-      this.validateControlRequired(controls.unitPrice, this.isRequisition || this.isContract || this.isContractOrder || this.isPurchase || this.isExpense);
       this.validateControlRequired(controls.quantity, this.isRequisition || this.isContractOrder || this.isPurchase || this.isExpense);
       this.validateControlRequired(controls.minQuantity, this.isContract);
       this.validateControlRequired(controls.maxQuantity, this.isContract);
@@ -292,7 +289,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private validateDescriptionRequired() {
-    const required = this.isRequisition && !this.form.getRawValue().productUID;
+    const required = !this.form.getRawValue().productUID;
     this.validateControlRequired(this.form.controls.description, required);
   }
 
@@ -385,12 +382,12 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       requestedByUID: [''],
       description: [''],
       datePeriod: [EmptyDateRange],
-      productUID: [''],
       budgetUID: [''],
       budgetAccountUID: [''],
-      productUnitUID: [''],
       originCountryUID: [''],
-      unitPrice: [null as number],
+      productUID: [''],
+      productUnitUID: ['', Validators.required],
+      unitPrice: [null as number, Validators.required],
       quantity: [null as number],
       minQuantity: [null as number],
       maxQuantity: [null as number],
