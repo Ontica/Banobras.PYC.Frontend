@@ -133,6 +133,12 @@ export interface OrdersQuery {
 }
 
 
+export interface OrdersAvailableQuery {
+  orderTypeUID: string;
+  requestedByUID: string;
+}
+
+
 export interface OrderDescriptor {
   uid: string;
   typeName: string;

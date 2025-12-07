@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { OrderHolder, OrderDescriptor, OrderFields, OrderItem, OrderItemFields, OrdersQuery,
-         ObjectTypes, Bill, DocumentFields } from '@app/models';
+         ObjectTypes, Bill, DocumentFields, OrdersAvailableQuery, OrderForEdition } from '@app/models';
 
 
 @Injectable()
@@ -35,6 +35,15 @@ export class OrdersDataService {
     const path = 'v8/order-management/orders/search';
 
     return this.http.post<OrderDescriptor[]>(path, query);
+  }
+
+
+  getOrdersAvailable(query: OrdersAvailableQuery): EmpObservable<OrderForEdition[]> {
+    Assertion.assertValue(query, 'query');
+
+    const path = 'v8/order-management/orders/available';
+
+    return this.http.post<OrderForEdition[]>(path, query);
   }
 
 

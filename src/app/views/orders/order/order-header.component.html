@@ -122,38 +122,33 @@
 
         <label>{{isContractOrder ? 'Contrato:' : 'Requisición:'}}</label>
 
-        <emp-ng-select-typeahead
+        <emp-ng-select
           formControlName="linkedOrderUID"
-          bindLabel="description"
-          [config]="{ showTooltip: true, searchByQuery: true }"
-          [searcherAPI]="requisitionsAPI"
-          [initQuery]="{ orderTypeUID: config.type, requestedByUID: form.value.requestedByUID, keywords: '' }"
-          [initialValue]="isSaved ? orderLinked : null"
+          bindTooltip="description"
+          [config]="{ showTooltip: true, virtualScroll: true }"
+          [items]="ordersAvailableList"
+          [loading]="isLoadingOrdersAvailable"
           [showError]="formHelper.isControlInvalid(form.controls.linkedOrderUID)"
           [placeholder]="formHelper.getConditionalPlaceholder(!isSaved || editionMode,
             form.controls.requestedByUID.valid, 'área solicitante')"
-          (changes)="onRequisitionChanges($event)">
+          (changes)="onOrderAvailableChanges($event)">
 
-          <ng-template #tLabelTemplate let-item="item">
+          <ng-template #labelTemplate let-item="item">
             {{item.orderNo}}: {{item?.name}}
           </ng-template>
 
-          <ng-template #tOptionTemplate let-item="item">
-
+          <ng-template #optionTemplate let-item="item">
             <div class="item wrap">
-
               <span class="item-highlight">
                 {{item.orderNo}}
               </span> <br>
               <span class="item-text-xs primary-text">
                 {{item?.name}}
               </span>
-
             </div>
-
           </ng-template>
 
-        </emp-ng-select-typeahead>
+        </emp-ng-select>
 
       </div>
 

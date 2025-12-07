@@ -27,7 +27,7 @@ import { OrdersDataService, SearcherAPIS } from '@app/data-services';
 import { OrderActions, Order, OrderFields, EmptyOrderActions, EmptyOrder, Priority, PriorityList,
          OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrder, PayableOrderFields,
          BudgetType, ContractOrder, ContractOrderFields, Contract, RequisitionOrderFields, RequisitionOrder,
-         OrderForEdition, DateRange, EmptyDateRange, ContractFields } from '@app/models';
+         OrderForEdition, DateRange, EmptyDateRange, ContractFields, OrdersAvailableQuery } from '@app/models';
 
 
 export enum OrderHeaderEventType {
@@ -95,11 +95,15 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
   isLoading = false;
 
+  isLoadingOrdersAvailable = false;
+
   orgUnitsList: Identifiable[] = [];
 
   categoriesList: Identifiable[] = [];
 
   prioritiesList: Identifiable[] = PriorityList;
+
+  ordersAvailableList: OrderForEdition[] = [];
 
   budgetTypesList: BudgetType[] = [];
 
@@ -110,8 +114,6 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   providersAPI = SearcherAPIS.provider;
 
   projectsAPI = SearcherAPIS.projects;
-
-  requisitionsAPI = SearcherAPIS.requisitions;
 
   Priority = Priority;
 
@@ -194,28 +196,13 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
-  get orderLinked(): OrderForEdition {
-    switch (this.config.type) {
-      case ObjectTypes.CONTRACT:
-        return (this.order as Contract).requisition ?? null;
-      case ObjectTypes.CONTRACT_ORDER:
-        return (this.order as ContractOrder).contract ?? null;
-      case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE:
-        return (this.order as PayableOrder).requisition ?? null;
-      case ObjectTypes.REQUISITION:
-      default:
-        return null;
-    }
-  }
-
-
   onRequestedByChanges(item: Identifiable) {
-    this.validateLinkedOrderFieldDisabled();
+    this.form.controls.linkedOrderUID.reset();
+    this.validateGetOrdersAvailable();
   }
 
 
-  onRequisitionChanges(item: OrderForEdition) {
+  onOrderAvailableChanges(item: OrderForEdition) {
     this.form.controls.budgetUID.reset();
     this.form.controls.budgets.reset();
     this.budgetsList = item?.budgets ?? [];
@@ -270,6 +257,21 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       this.validateSetBudgetsList();
       this.isLoading = false;
     });
+  }
+
+
+  private getOrdersAvailable(query: OrdersAvailableQuery) {
+    this.isLoadingOrdersAvailable = true;
+
+    this.ordersData.getOrdersAvailable(query)
+      .firstValue()
+      .then(x => this.setOrdersAvailableList(x))
+      .finally(() => this.isLoadingOrdersAvailable = false);
+  }
+
+
+  private setOrdersAvailableList(orders: OrderForEdition[]) {
+    this.ordersAvailableList = orders;
   }
 
 
@@ -404,16 +406,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     setTimeout(() => {
       const disable = this.isSaved && (!this.editionMode || !this.actions.canUpdate);
       FormHelper.setDisableForm(this.form, disable);
-      this.validateLinkedOrderFieldDisabled(disable);
     });
-  }
-
-
-  private validateLinkedOrderFieldDisabled(formDisabled: boolean = false) {
-    if (this.isContract || this.isContractOrder || this.isPurchase || this.isExpense) {
-      const disabled = formDisabled || !this.form.value.requestedByUID;
-      FormHelper.setDisableControl(this.form.controls.linkedOrderUID, disabled);
-    }
   }
 
 
@@ -446,6 +439,36 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.order.requestedBy, 'uid');
       this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.order.beneficiary, 'uid');
       this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.order.responsible, 'uid');
+      this.ordersAvailableList = ArrayLibrary.insertIfNotExist([], this.getOrderLinked(), 'uid');
+    }
+  }
+
+
+  private getOrderLinked(): OrderForEdition {
+    switch (this.config.type) {
+      case ObjectTypes.CONTRACT:
+        return (this.order as Contract).requisition ?? null;
+      case ObjectTypes.CONTRACT_ORDER:
+        return (this.order as ContractOrder).contract ?? null;
+      case ObjectTypes.EXPENSE:
+      case ObjectTypes.PURCHASE:
+        return (this.order as PayableOrder).requisition ?? null;
+      case ObjectTypes.REQUISITION:
+      default:
+        return null;
+    }
+  }
+
+
+  private validateGetOrdersAvailable() {
+    if (!!this.config.type && !!this.form.value.requestedByUID) {
+      const query: OrdersAvailableQuery = {
+        orderTypeUID: this.config.type,
+        requestedByUID: this.form.value.requestedByUID,
+      };
+      this.getOrdersAvailable(query);
+    } else {
+      this.ordersAvailableList = [];
     }
   }
 
