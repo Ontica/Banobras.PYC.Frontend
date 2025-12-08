@@ -100,15 +100,16 @@ export class OrderItemsTableComponent implements OnChanges {
       case ObjectTypes.CONTRACT_ORDER:
       case ObjectTypes.EXPENSE:
       case ObjectTypes.PURCHASE:
-        columns = ['budgetAccount', 'cucop', 'budgetControlNo', 'description', 'productUnit',
+        columns = ['budgetAccount', 'budget', 'cucop', 'budgetControlNo', 'description', 'productUnit',
                    'quantity', 'unitPrice', 'discount', 'total'];
         break;
       case ObjectTypes.REQUISITION:
-        columns = ['budgetAccount', 'cucop', 'budgetControlNo', 'description', 'productUnit',
+      case ObjectTypes.CONTRACT:
+        columns = ['budgetAccount', 'budget', 'cucop', 'budgetControlNo', 'description', 'productUnit',
                    'quantity', 'unitPrice', 'total'];
         break;
       default:
-        columns = ['cucop', 'description', 'productUnit', 'quantity', 'unitPrice', 'total']
+        columns = ['budgetAccount', 'cucop', 'description', 'productUnit', 'quantity', 'unitPrice', 'total']
         break;
     }
 

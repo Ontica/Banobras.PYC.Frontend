@@ -7,6 +7,11 @@
       <td mat-cell *matCellDef="let row">{{ row.budgetAccount.name }}</td>
     </ng-container>
 
+    <ng-contain er matColumnDef="budget">
+      <th mat-header-cell *matHeaderCellDef> Presupuesto </th>
+      <td mat-cell *matCellDef="let row">{{ row.budget.name }}</td>
+    </ng-contain>
+
     <ng-container matColumnDef="cucop">
       <th mat-header-cell *matHeaderCellDef> CUCoP </th>
       <td mat-cell *matCellDef="let row" class="nowrap">{{ !!row.productCode ? row.productCode : '-' }}</td>
