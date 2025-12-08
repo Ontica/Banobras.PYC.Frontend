@@ -1,4 +1,4 @@
-<div *ngIf="canValidate || canRequest"
+<div *ngIf="canCommit || canExercise || canValidate || canRequest || canRequestModification"
   class="fx-row-container fx-gap-half fx-end"
   [style.margin-bottom.px]="8">
 
@@ -41,7 +41,6 @@
     </button>
 
   </div>
-
 
   <mat-divider vertical="true" *ngIf="(canCommit || canExercise || canRequest || canValidate ) && canRequestModification">
 
