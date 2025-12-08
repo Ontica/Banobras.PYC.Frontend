@@ -176,6 +176,11 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   }
 
 
+  get isOrdersAvailableRequired(): boolean {
+    return this.isContract || this.isContractOrder || this.isPurchase || this.isExpense;
+  }
+
+
   get budgetPlaceholder(): string {
     if (this.isSaved && !this.editionMode) {
       return 'No determinado';
@@ -377,7 +382,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   private validateFieldsRequired() {
     const controls = this.form.controls;
 
-    this.validateControlRequired(controls.linkedOrderUID, this.isContract || this.isContractOrder || this.isPurchase || this.isExpense);
+    this.validateControlRequired(controls.linkedOrderUID, this.isOrdersAvailableRequired);
     this.validateControlRequired(controls.categoryUID, this.isRequisition || this.isContract || this.isExpense);
     this.validateControlRequired(controls.budgetTypeUID, this.isRequisition);
     this.validateControlRequired(controls.budgetUID, this.isContractOrder || this.isPurchase || this.isExpense);
@@ -461,11 +466,14 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
 
   private validateGetOrdersAvailable() {
-    if (!!this.config.type && !!this.form.value.requestedByUID) {
+    if (this.isOrdersAvailableRequired && !!this.form.value.requestedByUID) {
+      const orderTypeUID = this.isContractOrder ? ObjectTypes.CONTRACT : ObjectTypes.REQUISITION;
+
       const query: OrdersAvailableQuery = {
-        orderTypeUID: this.config.type,
+        orderTypeUID,
         requestedByUID: this.form.value.requestedByUID,
       };
+
       this.getOrdersAvailable(query);
     } else {
       this.ordersAvailableList = [];

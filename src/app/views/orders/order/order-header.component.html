@@ -118,7 +118,7 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf=" isContract || isContractOrder || isPurchase || isExpense">
+      <div class="fx-item-half" *ngIf="isOrdersAvailableRequired">
 
         <label>{{isContractOrder ? 'Contrato:' : 'Requisición:'}}</label>
 
