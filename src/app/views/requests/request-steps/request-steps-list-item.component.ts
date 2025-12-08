@@ -11,7 +11,7 @@ import { EventInfo, Identifiable } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { sendEvent } from '@app/shared/utils';
+import { sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { EmptyStep, Priority, Step, StepStatus } from '@app/models';
 
@@ -99,12 +99,9 @@ export class RequestStepsListItemComponent implements OnInit {
 
     this.messageBox.confirm(message, 'Eliminar tarea', 'DeleteCancel')
       .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.requestStepsListItemEvent,
-            RequestStepsListItemEventType.REMOVE_STEP_CLICKED, { step });
-        }
-      });
+      .then(x =>
+        sendEventIf(x, this.requestStepsListItemEvent, RequestStepsListItemEventType.REMOVE_STEP_CLICKED, {step})
+      );
   }
 
 }

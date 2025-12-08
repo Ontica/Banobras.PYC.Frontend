@@ -18,7 +18,7 @@ import { ProductsStateSelector } from '@app/presentation/exported.presentation.t
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { FormHelper, sendEvent } from '@app/shared/utils';
+import { FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
@@ -208,7 +208,7 @@ export class ProductHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => this.validateAndSendEvent(eventType, x));
+      .then(x => sendEventIf(x, this.productHeaderEvent, eventType, { productUID: this.product.uid }));
   }
 
 
@@ -255,13 +255,6 @@ export class ProductHeaderComponent implements OnInit, OnChanges, OnDestroy {
                 <br><br>¿Reactivo el producto?`;
 
       default: return '';
-    }
-  }
-
-
-  private validateAndSendEvent(eventType: ProductHeaderEventType, send: boolean) {
-    if (send) {
-      sendEvent(this.productHeaderEvent, eventType, { productUID: this.product.uid });
     }
   }
 

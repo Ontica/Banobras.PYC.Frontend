@@ -20,7 +20,7 @@ import { CataloguesStateSelector } from '@app/presentation/exported.presentation
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { PaymentOrdersDataService, SearcherAPIS } from '@app/data-services';
 
@@ -352,7 +352,9 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => this.validateAndSendEvent(eventType, x));
+      .then(x =>
+        sendEventIf(x, this.paymentOrderHeaderEvent, eventType, { paymentOrderUID: this.paymentOrder.uid })
+      );
   }
 
 
@@ -391,13 +393,6 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
                 de <strong>${this.paymentOrder.payTo.name}</strong>.
                 <br><br>¿Elimino la instrucción de pago?`;
       default: return '';
-    }
-  }
-
-
-  private validateAndSendEvent(eventType: PaymentOrderHeaderEventType, send: boolean) {
-    if (send) {
-      sendEvent(this.paymentOrderHeaderEvent, eventType, { paymentOrderUID: this.paymentOrder.uid });
     }
   }
 

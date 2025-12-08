@@ -161,11 +161,7 @@ export class ListControlsComponent {
 
     this.messageBox.confirm(this.getConfirmMessage(), this.getConfirmTitle(), type)
       .firstValue()
-      .then(x => {
-        if (x) {
-          this.emitExecuteOperation();
-        }
-      });
+      .then(x => x ? this.emitExecuteOperation() : null);
   }
 
 

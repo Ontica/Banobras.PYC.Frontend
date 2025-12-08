@@ -13,7 +13,7 @@ import { EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { sendEvent } from '@app/shared/utils';
+import { sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { STANDALONE_IMPORTS } from '@app/shared/standalone-imports';
 
@@ -63,11 +63,9 @@ export class PaymentAccountsTableComponent implements OnChanges {
 
     this.messageBox.confirm(message, 'Eliminar cuenta', 'DeleteCancel')
       .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.paymentAccountsTableEvent, PaymentAccountsTableEventType.REMOVE_CLICKED, { paymentAccount });
-        }
-      });
+      .then(x =>
+        sendEventIf(x, this.paymentAccountsTableEvent, PaymentAccountsTableEventType.REMOVE_CLICKED, {paymentAccount})
+      );
   }
 
 

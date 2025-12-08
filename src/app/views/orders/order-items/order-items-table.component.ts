@@ -13,7 +13,7 @@ import { EventInfo, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { FormatLibrary, sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { EmptyOrderExplorerTypeConfig, ObjectTypes, OrderItem, OrderExplorerTypeConfig, PayableOrderItem,
          TaxEntry } from '@app/models';
@@ -80,12 +80,9 @@ export class OrderItemsTableComponent implements OnChanges {
 
     this.messageBox.confirm(message, 'Eliminar concepto', 'DeleteCancel')
       .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.orderItemsTableEvent, OrderItemsTableEventType.REMOVE_ITEM_CLICKED,
-            { item });
-        }
-      });
+      .then(x =>
+        sendEventIf(x, this.orderItemsTableEvent, OrderItemsTableEventType.REMOVE_ITEM_CLICKED, { item })
+      );
   }
 
 

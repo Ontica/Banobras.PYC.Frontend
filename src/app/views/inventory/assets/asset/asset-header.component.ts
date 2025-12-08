@@ -13,7 +13,7 @@ import { Assertion, DateString, EventInfo, Identifiable, isEmpty } from '@app/co
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { Asset, AssetFields, DateRange, EmptyAsset, EmptyDateRange, BaseActions, EmptyBaseActions,
          LocationSelection, EmptyLocationSelection, buildLocationSelection } from '@app/models';
@@ -258,7 +258,7 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => this.validateAndSendEvent(eventType, x));
+      .then(x => sendEventIf(x, this.assetHeaderEvent, eventType, { assetUID: this.asset.uid }));
   }
 
 
@@ -293,13 +293,6 @@ export class AssetHeaderComponent implements OnInit, OnChanges {
                 <br><br>¿Elimino el activo fijo?`;
 
       default: return '';
-    }
-  }
-
-
-  private validateAndSendEvent(eventType: AssetHeaderEventType, send: boolean) {
-    if (send) {
-      sendEvent(this.assetHeaderEvent, eventType, { assetUID: this.asset.uid });
     }
   }
 

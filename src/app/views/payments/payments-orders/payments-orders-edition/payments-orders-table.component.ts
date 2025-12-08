@@ -13,7 +13,7 @@ import { EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { FormatLibrary, sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { PaymentOrderDescriptor } from '@app/models';
 
@@ -71,11 +71,9 @@ export class PaymentsOrdersTableComponent implements OnChanges {
 
     this.messageBox.confirm(message, 'Cancelar pago', 'DeleteCancel')
       .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.paymentsOrdersTableEvent, PaymentsOrdersTableEventType.REMOVE_CLICKED, { data });
-        }
-      });
+      .then(x =>
+        sendEventIf(x, this.paymentsOrdersTableEvent, PaymentsOrdersTableEventType.REMOVE_CLICKED, { data })
+      );
   }
 
 

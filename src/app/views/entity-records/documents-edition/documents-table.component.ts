@@ -13,7 +13,7 @@ import { EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { sendEvent } from '@app/shared/utils';
+import { sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { Document } from '@app/models';
 
@@ -73,11 +73,9 @@ export class DocumentsTableComponent implements OnChanges {
 
     this.messageBox.confirm(message, 'Eliminar documento', 'DeleteCancel')
       .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.documentsTableEvent, DocumentsTableEventType.REMOVE_DOCUMENT_CLICKED, { document });
-        }
-      });
+      .then(x =>
+        sendEventIf(x, this.documentsTableEvent, DocumentsTableEventType.REMOVE_DOCUMENT_CLICKED, {document})
+      );
   }
 
 

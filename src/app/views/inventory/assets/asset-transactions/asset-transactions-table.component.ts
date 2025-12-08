@@ -13,7 +13,7 @@ import { EventInfo, isEmpty, StringLibrary } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { sendEvent } from '@app/shared/utils';
+import { sendEventIf } from '@app/shared/utils';
 
 import { FilePreviewComponent } from '@app/shared/containers';
 
@@ -72,11 +72,9 @@ export class AssetTransactionsTableComponent implements OnChanges {
 
     this.messageBox.confirm(message, 'Eliminar transacción', 'DeleteCancel')
       .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.transactionsTableEvent, TransactionsTableEventType.REMOVE_CLICKED, { transaction });
-        }
-      });
+      .then(x =>
+        sendEventIf(x, this.transactionsTableEvent, TransactionsTableEventType.REMOVE_CLICKED, {transaction})
+      );
   }
 
 

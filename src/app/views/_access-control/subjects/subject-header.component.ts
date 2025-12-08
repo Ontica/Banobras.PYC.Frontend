@@ -18,7 +18,7 @@ import { AccessControlStateSelector } from '@app/presentation/exported.presentat
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { EmptySubject, Subject, SubjectFields} from '@app/models';
 
@@ -220,11 +220,7 @@ export class SubjectHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.subjectHeaderEvent, eventType, {subject: this.subject});
-        }
-      });
+      .then(x => sendEventIf(x, this.subjectHeaderEvent, eventType, {subject: this.subject}));
   }
 
 

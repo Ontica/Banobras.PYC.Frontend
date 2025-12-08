@@ -118,7 +118,7 @@ export class PaymentsOrdersEditionComponent {
 
     this.messageBox.confirm(message, 'Solicitar pago')
       .firstValue()
-      .then(x => this.requestPayment(this.entityUID));
+      .then(x => x ? this.requestPayment(this.entityUID) : null);
   }
 
 
@@ -131,7 +131,7 @@ export class PaymentsOrdersEditionComponent {
 
     this.messageBox.confirm(message, 'Enviar a sistema de pagos')
       .firstValue()
-      .then(x => this.sendToPay(this.entityUID));
+      .then(x => x ? this.sendToPay(this.entityUID) : null);
   }
 
 }

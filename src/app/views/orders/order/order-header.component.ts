@@ -18,7 +18,7 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 import { BudgetingStateSelector,
          CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/services';
 
@@ -628,7 +628,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => this.validateAndSendEvent(eventType, x));
+      .then(x => sendEventIf(x, this.orderHeaderEvent, eventType, { orderUID: this.order.uid }));
   }
 
 
@@ -674,13 +674,6 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
                 (${this.order.category.name})${provider}.
                 <br><br>¿Reactivo ${orderTypeName}?`;
       default: return '';
-    }
-  }
-
-
-  private validateAndSendEvent(eventType: OrderHeaderEventType, send: boolean) {
-    if (send) {
-      sendEvent(this.orderHeaderEvent, eventType, { orderUID: this.order.uid });
     }
   }
 

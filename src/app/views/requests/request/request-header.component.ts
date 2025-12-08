@@ -18,7 +18,7 @@ import { CataloguesStateSelector } from '@app/presentation/exported.presentation
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { ArrayLibrary, DynamicFormHelper, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, DynamicFormHelper, FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { RequestsDataService } from '@app/data-services';
 
@@ -264,7 +264,7 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => this.validateAndSendEvent(eventType, x));
+      .then(x => sendEventIf(x, this.requestHeaderEvent, eventType, { requestUID: this.request.uid }));
   }
 
 
@@ -336,13 +336,6 @@ export class RequestHeaderComponent implements OnChanges, OnInit, OnDestroy {
                 <br><br>¿Cierro la solicitud?`;
 
       default: return '';
-    }
-  }
-
-
-  private validateAndSendEvent(eventType: RequestHeaderEventType, send: boolean) {
-    if (send) {
-      sendEvent(this.requestHeaderEvent, eventType, { requestUID: this.request.uid });
     }
   }
 

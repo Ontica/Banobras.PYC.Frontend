@@ -13,7 +13,7 @@ import { EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { FormatLibrary, sendEvent } from '@app/shared/utils';
+import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { PayableItem } from '@app/models';
 
@@ -66,11 +66,9 @@ export class PayableItemsTableComponent implements OnChanges {
 
     this.messageBox.confirm(message, 'Eliminar concepto', 'DeleteCancel')
       .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.payableItemsTableEvent, PayableItemsTableEventType.REMOVE_ITEM_CLICKED, { item });
-        }
-      });
+      .then(x =>
+        sendEventIf(x, this.payableItemsTableEvent, PayableItemsTableEventType.REMOVE_ITEM_CLICKED, { item })
+      );
   }
 
 

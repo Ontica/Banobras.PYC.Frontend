@@ -13,7 +13,7 @@ import { EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { sendEvent } from '@app/shared/utils';
+import { sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { ProductBudgetSegment } from '@app/models';
 
@@ -65,12 +65,10 @@ export class ProductBudgetSegmentsTableComponent implements OnChanges {
 
     this.messageBox.confirm(message, 'Eliminar partida', 'DeleteCancel')
       .firstValue()
-      .then(x => {
-        if (x) {
-          sendEvent(this.productBudgetSegmentsTableEvent, ProductBudgetSegmentsTableEventType.REMOVE_ITEM_CLICKED,
-            { item });
-        }
-      });
+      .then(x =>
+        sendEventIf(x, this.productBudgetSegmentsTableEvent,
+          ProductBudgetSegmentsTableEventType.REMOVE_ITEM_CLICKED, { item })
+      );
   }
 
 

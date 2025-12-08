@@ -13,7 +13,7 @@ import { Assertion, DateString, EventInfo, Identifiable, isEmpty } from '@app/co
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent } from '@app/shared/utils';
+import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { Bill, EmptyBill, BaseActions, EmptyBaseActions, BillFields } from '@app/models';
 
@@ -96,12 +96,7 @@ export class BillHeaderComponent implements OnInit, OnChanges {
 
   onSubmitButtonClicked() {
     if (FormHelper.isFormReadyAndInvalidate(this.form)) {
-      let eventType = BillHeaderEventType.CREATE;
-
-      if (this.isSaved) {
-        eventType = BillHeaderEventType.UPDATE;
-      }
-
+      const eventType = this.isSaved ? BillHeaderEventType.UPDATE : BillHeaderEventType.CREATE;
       sendEvent(this.billHeaderEvent, eventType, { billFields: this.getFormData() });
     }
   }
@@ -198,7 +193,7 @@ export class BillHeaderComponent implements OnInit, OnChanges {
 
     this.messageBox.confirm(message, title, confirmType)
       .firstValue()
-      .then(x => this.validateAndSendEvent(eventType, x));
+      .then(x => sendEventIf(x, this.billHeaderEvent, eventType, { billUID: this.bill.uid }));
   }
 
 
@@ -232,13 +227,6 @@ export class BillHeaderComponent implements OnInit, OnChanges {
                 <br><br>¿Elimino la factura?`;
 
       default: return '';
-    }
-  }
-
-
-  private validateAndSendEvent(eventType: BillHeaderEventType, send: boolean) {
-    if (send) {
-      sendEvent(this.billHeaderEvent, eventType, { billUID: this.bill.uid });
     }
   }
 
