@@ -565,6 +565,10 @@ i.disabled {
   width: fit-content;
   white-space: nowrap;
 
+  &.tag-pointer {
+    cursor: pointer;
+  }
+
   &.tag-base {
     background-color: $white;
     color: $tag-default-color;

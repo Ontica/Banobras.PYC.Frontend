@@ -95,6 +95,7 @@ export interface BudgetTransactionDescriptor {
   recordingDate: DateString;
   authorizationDate : DateString;
   total: number;
+  rejectedReason: string;
   statusName: string;
 }
 
@@ -148,6 +149,7 @@ export interface BudgetTransaction {
   applicationDate: DateString;
   recordingDate: DateString;
   total: number;
+  rejectedReason: string;
   status: Identifiable;
 }
 
@@ -368,6 +370,7 @@ export const EmptyBudgetTransaction: BudgetTransaction = {
   applicationDate: '',
   recordingDate: '',
   total: null,
+  rejectedReason: '',
   status: Empty,
 }
 
@@ -473,6 +476,7 @@ export function mapBudgetTransactionDescriptorFromTransaction(data: BudgetTransa
     recordingDate: data.recordingDate,
     authorizationDate: data.authorizationDate,
     total: data.total,
+    rejectedReason: data.rejectedReason,
     statusName: data.status.name,
   };
 }
