@@ -11,7 +11,8 @@ import { PERMISSIONS } from '@app/main-layout';
 type ControlPanelOptionType = 'ChangePassword' |
                               'OperationsLog' |
                               'BudgetPlanningPeriods' |
-                              'PayrollsIntegration';
+                              'PayrollsIntegration' |
+                              'CUCoP';
 
 
 export interface ControlPanelOption {
@@ -51,5 +52,12 @@ export const ControlPanelOptionList: ControlPanelOption[] = [
     actionTitle: 'Exportar',
     type: 'PayrollsIntegration',
     permission: PERMISSIONS.FEATURE_NOMINAS_INTEGRACION_SIAL,
+  },
+  {
+    title: 'Actualizar catálogo CUCoP',
+    description: 'Herramienta para actualizar el catálogo CUCoP utilizando el archivo Excel de la Secretaría de Hacienda.',
+    actionTitle: 'Actualizar',
+    type: 'CUCoP',
+    permission: PERMISSIONS.FEATURE_IMPORTACION_CATALOGO_CUCOP,
   },
 ];

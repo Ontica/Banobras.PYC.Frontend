@@ -114,6 +114,7 @@ export enum PERMISSIONS {
   FEATURE_BITACORAS_OPERACION = 'feature-bitacoras-operacion',
   FEATURE_PERIODOS_DE_PLANEACION_PRESUPUESTAL = 'feature-periodos-de-planeacion-presupuestal',
   FEATURE_NOMINAS_INTEGRACION_SIAL = 'feature-nominas-integracion-sial',
+  FEATURE_IMPORTACION_CATALOGO_CUCOP = 'feature-importacion-catalogo-cucop',
 
   // CONTROL DE ACCESOS
   ROUTE_CONTROL_DE_ACCESOS = 'route-control-de-accesos',
