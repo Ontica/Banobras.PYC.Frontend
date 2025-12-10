@@ -47,6 +47,18 @@
 
     </mat-tab>
 
+
+    <mat-tab label="Facturas">
+
+      <emp-ng-bills-edition
+        entityType="budget-transactions"
+        [entityUID]="data.transaction.uid"
+        [bills]="data.bills">
+
+      </emp-ng-bills-edition>
+
+    </mat-tab>
+
     <mat-tab label="Documentos">
 
       <emp-ng-documents-edition
