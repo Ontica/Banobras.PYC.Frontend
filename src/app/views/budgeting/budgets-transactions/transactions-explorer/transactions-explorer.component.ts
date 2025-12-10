@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { Assertion, EventInfo, Identifiable } from '@app/core';
 
@@ -34,7 +34,7 @@ export enum TransactionsExplorerEventType {
   selector: 'emp-bdg-transactions-explorer',
   templateUrl: './transactions-explorer.component.html',
 })
-export class BudgetTransactionsExplorerComponent implements OnChanges {
+export class BudgetTransactionsExplorerComponent implements OnChanges, OnInit {
 
   @Input() query: BudgetTransactionsQuery = Object.assign({}, EmptyBudgetTransactionsQuery);
 
@@ -47,6 +47,8 @@ export class BudgetTransactionsExplorerComponent implements OnChanges {
   @Input() queryExecuted = false;
 
   @Output() transactionsExplorerEvent = new EventEmitter<EventInfo>();
+
+  title = 'Transacciones presupuestales';
 
   hint = 'Seleccionar los filtros';
 
@@ -66,6 +68,12 @@ export class BudgetTransactionsExplorerComponent implements OnChanges {
       this.setText();
       this.showFilters = false;
     }
+  }
+
+
+  ngOnInit() {
+    this.stage = this.query.stage;
+    this.setText();
   }
 
 
@@ -124,6 +132,8 @@ export class BudgetTransactionsExplorerComponent implements OnChanges {
 
 
   private setText() {
+    this.title = this.query.stage === TransactionStages.ControlDesk ?
+      'Mesa de control' : 'Transacciones presupuestales'
     this.hint = buildExplorerHint(this.queryExecuted, this.dataList.length);
   }
 

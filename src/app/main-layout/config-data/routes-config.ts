@@ -247,18 +247,33 @@ export const ROUTES = {
     fullpath: '/presupuesto/solicitudes',
   },
 
-  presupuesto_suficiencias: {
-    permission: PERMISSIONS.ROUTE_PRESUPUESTO_SUFICIENCIAS,
-    parent: 'presupuesto',
-    path: 'suficiencias',
-    fullpath: '/presupuesto/suficiencias',
-  },
 
   presupuesto_solicitudes_de_pago: {
     permission: PERMISSIONS.ROUTE_PRESUPUESTO_SOLICITUDES_DE_PAGO,
     parent: 'presupuesto',
     path: 'solicitudes-de-pago',
     fullpath: '/presupuesto/solicitudes-de-pago',
+  },
+
+  presupuesto_transacciones: {
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_TRANSACCIONES,
+    parent: 'presupuesto',
+    path: 'transacciones',
+    fullpath: '/presupuesto/transacciones',
+  },
+
+  presupuesto_mesa_de_control: {
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_MESA_DE_CONTROL,
+    parent: 'presupuesto',
+    path: 'mesa-de-control',
+    fullpath: '/presupuesto/mesa-de-control',
+  },
+
+  presupuesto_suficiencias: {
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_SUFICIENCIAS,
+    parent: 'presupuesto',
+    path: 'suficiencias',
+    fullpath: '/presupuesto/suficiencias',
   },
 
   presupuesto_provisiones: {
@@ -273,13 +288,6 @@ export const ROUTES = {
     parent: 'presupuesto',
     path: 'ejercicio',
     fullpath: '/presupuesto/ejercicio',
-  },
-
-  presupuesto_transacciones: {
-    permission: PERMISSIONS.ROUTE_PRESUPUESTO_TRANSACCIONES,
-    parent: 'presupuesto',
-    path: 'transacciones',
-    fullpath: '/presupuesto/transacciones',
   },
 
   presupuesto_explorador: {

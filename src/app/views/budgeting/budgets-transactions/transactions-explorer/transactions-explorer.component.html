@@ -3,7 +3,7 @@
   <div class="card-header card-header-flat">
 
     <div class="card-title">
-      Transacciones presupuestales
+      {{title}}
 
       <div class="card-hint" empNgProgressText
         loadingText="Cargando"
@@ -17,7 +17,7 @@
 
       <div class="fx-row-container fx-space-between fx-items-center fx-gap-half">
 
-        <emp-ng-select
+        <!-- <emp-ng-select
           [(ngModel)]="stage"
           [items]="stagesList"
           [required]="true"
@@ -25,13 +25,13 @@
           [style.width.px]="160"
           [style.min-width.px]="160"
           (changes)="onStageChanged()">
-        </emp-ng-select>
+        </emp-ng-select> -->
 
         <ng-container *empNgHasPermission="[PERMISSION_TO_IMPORT, PERMISSION_TO_CREATE]">
 
-          <mat-divider vertical="true" class="vertical-slim">
+          <!-- <mat-divider vertical="true" class="vertical-slim">
 
-          </mat-divider>
+          </mat-divider> -->
 
           <button *empNgHasPermission="PERMISSION_TO_IMPORT"
             class="btn"

@@ -178,11 +178,18 @@ export const BudgetViews: View[] = [
   //   permission: ROUTES.presupuesto_solicitudes.permission,
   // },
   {
-    name: 'Budget.Availability',
-    title: 'Suficiencias',
-    menuTitle: 'Suficiencias',
-    url: ROUTES.presupuesto_suficiencias.fullpath,
-    permission: ROUTES.presupuesto_suficiencias.permission,
+    name: 'Budget.Transactions',
+    title: 'Transacciones',
+    menuTitle: 'Transacciones',
+    url: ROUTES.presupuesto_transacciones.fullpath,
+    permission: ROUTES.presupuesto_transacciones.permission,
+  },
+  {
+    name: 'Budget.ControlDesk',
+    title: 'Mesa de control',
+    menuTitle: 'Mesa de control',
+    url: ROUTES.presupuesto_mesa_de_control.fullpath,
+    permission: ROUTES.presupuesto_mesa_de_control.permission,
   },
   {
     name: 'Budget.Payables',
@@ -190,6 +197,13 @@ export const BudgetViews: View[] = [
     menuTitle: 'Solicitudes de pago',
     url: ROUTES.presupuesto_solicitudes_de_pago.fullpath,
     permission: ROUTES.presupuesto_solicitudes_de_pago.permission,
+  },
+  {
+    name: 'Budget.Availability',
+    title: 'Suficiencias',
+    menuTitle: 'Suficiencias',
+    url: ROUTES.presupuesto_suficiencias.fullpath,
+    permission: ROUTES.presupuesto_suficiencias.permission,
   },
   {
     name: 'Budget.Provisions',
@@ -204,13 +218,6 @@ export const BudgetViews: View[] = [
     menuTitle: 'Ejercicio',
     url: ROUTES.presupuesto_ejercicio.fullpath,
     permission: ROUTES.presupuesto_ejercicio.permission,
-  },
-  {
-    name: 'Budget.Transactions',
-    title: 'Transacciones',
-    menuTitle: 'Transacciones',
-    url: ROUTES.presupuesto_transacciones.fullpath,
-    permission: ROUTES.presupuesto_transacciones.permission,
   },
   {
     name: 'Budget.Explorer',

@@ -5,9 +5,15 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
+
+import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
+
+import { MainUIStateSelector } from '@app/presentation/exported.presentation.types';
+
+import { View } from '@app/main-layout';
 
 import { ArrayLibrary } from '@app/shared/utils';
 
@@ -16,7 +22,7 @@ import { BudgetTransactionsDataService } from '@app/data-services';
 import { BudgetTransactionDescriptor, BudgetTransactionHolder, BudgetTransactionsQuery,
          EmptyBudgetTransactionHolder, EmptyBudgetTransactionsQuery, EmptyExplorerBulkOperationData,
          ExplorerBulkOperationData, ExplorerOperationCommand, ExplorerOperationResult, ExplorerOperationType,
-         mapBudgetTransactionDescriptorFromTransaction } from '@app/models';
+         mapBudgetTransactionDescriptorFromTransaction, TransactionStages } from '@app/models';
 
 import {
   ExportReportModalEventType
@@ -35,7 +41,9 @@ import { TransactionTabbedViewEventType } from '../transaction-tabbed-view/trans
   selector: 'emp-bdg-transactions-main-page',
   templateUrl: './transactions-main-page.component.html',
 })
-export class BudgetTransactionsMainPageComponent {
+export class BudgetTransactionsMainPageComponent implements OnInit,OnDestroy {
+
+  helper: SubscriptionHelper;
 
   query: BudgetTransactionsQuery = Object.assign({}, EmptyBudgetTransactionsQuery);
 
@@ -60,8 +68,20 @@ export class BudgetTransactionsMainPageComponent {
   selectedExportData: ExplorerBulkOperationData = Object.assign({}, EmptyExplorerBulkOperationData);
 
 
-  constructor(private transactionsData: BudgetTransactionsDataService) { }
+  constructor(private uiLayer: PresentationLayer,
+              private transactionsData: BudgetTransactionsDataService) {
+    this.helper = uiLayer.createSubscriptionHelper();
+  }
 
+
+  ngOnInit() {
+    this.subscribeToCurrentViewChanges();
+  }
+
+
+  ngOnDestroy() {
+    this.helper.destroy();
+  }
 
   onTransactionsImporterEvent(event: EventInfo) {
     switch (event.type as TransactionsImporterEventType) {
@@ -167,6 +187,30 @@ export class BudgetTransactionsMainPageComponent {
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private subscribeToCurrentViewChanges() {
+    this.helper.select<View>(MainUIStateSelector.CURRENT_VIEW)
+      .subscribe(x => this.setTransactionStageFromCurrentView(x));
+  }
+
+
+  private setTransactionStageFromCurrentView(view: View) {
+    switch (view.name) {
+      case 'Budget.ControlDesk':
+        this.setInitQueryStage(TransactionStages.ControlDesk);
+        return;
+      case 'Budget.Transactions':
+      default:
+        this.setInitQueryStage(TransactionStages.MyInbox);
+        return;
+    }
+  }
+
+
+  private setInitQueryStage(stage: TransactionStages) {
+    this.query = Object.assign({}, this.query, { stage });
   }
 
 

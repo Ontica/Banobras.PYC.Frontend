@@ -33,6 +33,16 @@ const routes: Routes = [
   //   component: RequestsMainPageComponent,
   // },
   {
+    data: { permission: ROUTES.presupuesto_transacciones.permission },
+    path: ROUTES.presupuesto_transacciones.path,
+    component: BudgetTransactionsMainPageComponent,
+  },
+  {
+    data: { permission: ROUTES.presupuesto_mesa_de_control.permission },
+    path: ROUTES.presupuesto_mesa_de_control.path,
+    component: BudgetTransactionsMainPageComponent,
+  },
+  {
     data: { permission: ROUTES.presupuesto_suficiencias.permission },
     path: ROUTES.presupuesto_suficiencias.path,
     component: DefaultComponent,
@@ -52,12 +62,6 @@ const routes: Routes = [
     path: ROUTES.presupuesto_ejercicio.path,
     component: DefaultComponent,
   },
-
-  {
-    data: { permission: ROUTES.presupuesto_transacciones.permission },
-    path: ROUTES.presupuesto_transacciones.path,
-    component: BudgetTransactionsMainPageComponent,
-  },
   {
     data: { permission: ROUTES.presupuesto_explorador.permission },
     path: ROUTES.presupuesto_explorador.path,
@@ -70,7 +74,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.presupuesto_suficiencias.path,
+    redirectTo: ROUTES.presupuesto_transacciones.path,
     pathMatch: 'full',
   },
 ];

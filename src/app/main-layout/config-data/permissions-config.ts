@@ -61,9 +61,10 @@ export enum PERMISSIONS {
   ROUTE_PRESUPUESTO_SOLICITUDES = 'route-presupuesto-solicitudes',
   ROUTE_PRESUPUESTO_SUFICIENCIAS = 'route-presupuesto-suficiencias',
   ROUTE_PRESUPUESTO_SOLICITUDES_DE_PAGO = 'route-presupuesto-solicitudes-de-pago',
+  ROUTE_PRESUPUESTO_TRANSACCIONES = 'route-presupuesto-transacciones',
+  ROUTE_PRESUPUESTO_MESA_DE_CONTROL = 'route-presupuesto-mesa-de-control',
   ROUTE_PRESUPUESTO_PROVISIONES = 'route-presupuesto-provisiones',
   ROUTE_PRESUPUESTO_EJERCICIO = 'route-presupuesto-ejercicio',
-  ROUTE_PRESUPUESTO_TRANSACCIONES = 'route-presupuesto-transacciones',
   ROUTE_PRESUPUESTO_EXPLORADOR = 'route-presupuesto-explorador',
   ROUTE_PRESUPUESTO_REPORTES = 'route-presupuesto-reportes',
 
