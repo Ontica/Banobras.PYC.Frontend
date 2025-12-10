@@ -58,6 +58,7 @@
 
         <emp-pmt-payments-orders-edition *ngSwitchCase="TabType.paymentOrders"
           [entityUID]="data.order.uid"
+          [supplierUID]="data.order.provider.uid"
           [entityName]="config.pronounSingular + ' ' + config.nameSingular"
           [entityTotal]="data.order.total"
           [paymentsOrders]="data.paymentOrders"

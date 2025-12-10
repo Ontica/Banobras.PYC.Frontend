@@ -103,6 +103,14 @@ export interface PaymentOrderFields {
 }
 
 
+export interface PaymentOrderRequestFields {
+  dueTime: DateString;
+  paymentMethodUID: string;
+  paymentAccountUID: string;
+  description: string;
+}
+
+
  export interface PaymentOrderHolder {
   paymentOrder: PaymentOrder;
   items: any[];

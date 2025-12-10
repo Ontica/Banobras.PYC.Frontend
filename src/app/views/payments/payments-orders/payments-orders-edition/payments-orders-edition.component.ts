@@ -15,9 +15,11 @@ import { FormatLibrary, sendEvent } from '@app/shared/utils';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { PaymentOrderDescriptor } from '@app/models';
+import { OrderHolder, PaymentOrderDescriptor, PaymentOrderRequestFields } from '@app/models';
 
 import { OrdersDataService, PayablesDataService } from '@app/data-services';
+
+import { PaymentOrderRequestEventType } from './payment-order-request.component';
 
 import { PaymentsOrdersTableEventType } from './payments-orders-table.component';
 
@@ -34,9 +36,11 @@ export class PaymentsOrdersEditionComponent {
 
   @Input() entityUID: string = null;
 
-  @Input() entityName = 'la orden';
+  @Input() entityName: string = 'la orden';
 
   @Input() entityTotal: number = 0;
+
+  @Input() supplierUID: string = null;
 
   @Input() paymentsOrders: PaymentOrderDescriptor[] = [];
 
@@ -48,6 +52,8 @@ export class PaymentsOrdersEditionComponent {
 
   @Output() paymentsOrdersEditionEvent = new EventEmitter<EventInfo>();
 
+  displayPaymentRequest = false;
+
   submitted = false;
 
 
@@ -58,7 +64,7 @@ export class PaymentsOrdersEditionComponent {
 
   @SkipIf('submitted')
   onRequestPaymentClicked() {
-    this.showConfirmRequestPaymentMessage();
+    this.displayPaymentRequest = true;
   }
 
 
@@ -85,15 +91,37 @@ export class PaymentsOrdersEditionComponent {
   }
 
 
-  private requestPayment(dataUID: string) {
+  @SkipIf('submitted')
+  onPaymentOrderRequestEvent(event: EventInfo) {
+    switch (event.type as PaymentOrderRequestEventType) {
+      case PaymentOrderRequestEventType.CLOSE_MODAL_CLICKED:
+        this.displayPaymentRequest = false;
+        return;
+      case PaymentOrderRequestEventType.REQUEST_CLICKED:
+        Assertion.assertValue(event.payload.entityUID, 'event.payload.entityUID');
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.requestPayment(event.payload.entityUID, event.payload.dataFields as PaymentOrderRequestFields);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  private requestPayment(dataUID: string, dataFields: PaymentOrderRequestFields) {
     this.submitted = true;
 
-    this.ordersData.requestPayment(dataUID)
+    this.ordersData.requestPayment(dataUID, dataFields)
       .firstValue()
-      .then(x =>
-        sendEvent(this.paymentsOrdersEditionEvent, PaymentsOrdersEditionEventType.UPDATED, {data: x})
-      )
+      .then(x => this.resolveRequestPayment(x))
       .finally(() => this.submitted = false);
+  }
+
+
+  private resolveRequestPayment(data: OrderHolder) {
+    sendEvent(this.paymentsOrdersEditionEvent, PaymentsOrdersEditionEventType.UPDATED, { data })
+    this.displayPaymentRequest = false;
   }
 
 
@@ -106,19 +134,6 @@ export class PaymentsOrdersEditionComponent {
         sendEvent(this.paymentsOrdersEditionEvent, PaymentsOrdersEditionEventType.UPDATED, { data: x })
       )
       .finally(() => this.submitted = false);
-  }
-
-
-  private showConfirmRequestPaymentMessage() {
-    const total = FormatLibrary.numberWithCommas(this.entityTotal, '1.2-2');
-
-    const message = `Esta operación solicitará el pago de ${this.entityName.toLowerCase()} ` +
-                    `por un total de <strong>${total}</strong>.<br><br>` +
-                    `¿Solicito el pago?`;
-
-    this.messageBox.confirm(message, 'Solicitar pago')
-      .firstValue()
-      .then(x => x ? this.requestPayment(this.entityUID) : null);
   }
 
 

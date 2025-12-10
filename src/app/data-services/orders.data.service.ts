@@ -9,8 +9,9 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { OrderHolder, OrderDescriptor, OrderFields, OrderItem, OrderItemFields, OrdersQuery,
-         ObjectTypes, Bill, DocumentFields, OrdersAvailableQuery, OrderForEdition } from '@app/models';
+import { Bill, DocumentFields,OrderHolder, OrderDescriptor, OrderFields, OrderItem, OrderItemFields,
+         OrdersQuery, ObjectTypes, OrdersAvailableQuery, OrderForEdition,
+         PaymentOrderRequestFields } from '@app/models';
 
 
 @Injectable()
@@ -103,12 +104,14 @@ export class OrdersDataService {
   }
 
 
-  requestPayment(orderUID: string): EmpObservable<OrderHolder> {
+  requestPayment(orderUID: string,
+                 dataFields: PaymentOrderRequestFields): EmpObservable<OrderHolder> {
     Assertion.assertValue(orderUID, 'orderUID');
+    Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v8/order-management/orders/${orderUID}/request-payment`;
 
-    return this.http.post<OrderHolder>(path);
+    return this.http.post<OrderHolder>(path, dataFields);
   }
 
 

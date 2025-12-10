@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, FlexibleIdentifiable, HttpService } from '@app/core';
 
-import { MatchSubledgerAccountFields, SupplierFields, SupplierHolder } from '@app/models';
+import { MatchSubledgerAccountFields, PaymentAccount, SupplierFields, SupplierHolder } from '@app/models';
 
 
 @Injectable()
@@ -25,6 +25,15 @@ export class SuppliersDataService {
     const path = `v8/procurement/suppliers/match-subledger-account`;
 
     return this.http.post<FlexibleIdentifiable>(path, dataFields);
+  }
+
+
+  getSupplierPaymentAccounts(supplierUID: string): EmpObservable<PaymentAccount[]> {
+    Assertion.assertValue(supplierUID, 'supplierUID');
+
+    const path = `v8/procurement/suppliers/${supplierUID}/payment-accounts`;
+
+    return this.http.get<PaymentAccount[]>(path);
   }
 
 

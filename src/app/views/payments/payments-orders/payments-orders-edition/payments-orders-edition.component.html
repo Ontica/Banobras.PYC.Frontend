@@ -31,3 +31,11 @@
   </emp-pmt-payments-orders-table>
 
 </div>
+
+
+<emp-pmt-payment-order-request *ngIf="displayPaymentRequest"
+  [entityUID]="entityUID"
+  [supplierUID]="supplierUID"
+  (paymentOrderRequestEvent)="onPaymentOrderRequestEvent($event)">
+
+</emp-pmt-payment-order-request>
