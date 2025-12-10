@@ -41,4 +41,12 @@
     <div>{{!transaction.authorizedBy ? '-' : transaction.authorizedBy}}</div>
   </div>
 
+  <div class="fx-item-size column-size-action" *ngIf="displayFile">
+    <mat-icon
+      svgIcon="emp-pdf-file"
+      title="Descargar PDF"
+      (click)="onShowFileClicked()">
+    </mat-icon>
+  </div>
+
 </div>

@@ -15,8 +15,9 @@ import { BudgetTransactionDescriptor } from '@app/models';
 
 
 export enum TransactionsListItemEventType {
-  SELECT_CLICKED = 'BudgetTransactionsListItemComponent.Event.SelectClicked',
-  CHECK_CLICKED  = 'BudgetTransactionsListItemComponent.Event.CheckClicked',
+  SELECT_CLICKED     = 'BudgetTransactionsListItemComponent.Event.SelectClicked',
+  SHOW_FILE_CLICKED  = 'BudgetTransactionsListItemComponent.Event.ShowFileClicked',
+  CHECK_CLICKED      = 'BudgetTransactionsListItemComponent.Event.CheckClicked',
 }
 
 @Component({
@@ -32,6 +33,8 @@ export class BudgetTransactionsListItemComponent {
 
   @Input() displayControls = true;
 
+  @Input() displayFile = false;
+
   @Output() transactionsListItemEvent = new EventEmitter<EventInfo>();
 
 
@@ -43,6 +46,12 @@ export class BudgetTransactionsListItemComponent {
 
   onCheckClicked() {
     sendEvent(this.transactionsListItemEvent, TransactionsListItemEventType.CHECK_CLICKED,
+      { transaction: this.transaction });
+  }
+
+
+  onShowFileClicked() {
+    sendEvent(this.transactionsListItemEvent, TransactionsListItemEventType.SHOW_FILE_CLICKED,
       { transaction: this.transaction });
   }
 

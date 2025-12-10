@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 import { Assertion, EventInfo } from '@app/core';
 
@@ -15,12 +15,18 @@ import { SkipIf } from '@app/shared/decorators';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { BudgetsDataService } from '@app/data-services';
+import { FilePreviewComponent } from '@app/shared/containers';
 
-import { ObjectTypes, BudgetRequestFields, BudgetTransactionDescriptor,
-         BudgetValidationResult } from '@app/models';
+import { BudgetTransactionsDataService, BudgetsDataService } from '@app/data-services';
+
+import { ObjectTypes, BudgetRequestFields, BudgetTransactionDescriptor, BudgetValidationResult,
+         FileReport } from '@app/models';
 
 import { BudgetSubmitterEventType } from './budget-submitter.component';
+
+import {
+  TransactionsListEventType
+} from '../../budgets-transactions/transactions-explorer/transactions-list.component';
 
 export enum BudgetManagementEventType {
   UPDATED = 'BudgetManagementComponent.Event.Updated',
@@ -31,6 +37,8 @@ export enum BudgetManagementEventType {
   templateUrl: './budget-management.component.html',
 })
 export class BudgetManagementComponent {
+
+  @ViewChild('filePreview', { static: true }) filePreview: FilePreviewComponent;
 
   @Input() baseObjectType: ObjectTypes = null;
 
@@ -56,8 +64,11 @@ export class BudgetManagementComponent {
 
   submitted = false;
 
+  isLoading = false;
+
 
   constructor(private budgetsData: BudgetsDataService,
+              private transactionsData: BudgetTransactionsDataService ,
               private messageBox: MessageBoxService) { }
 
 
@@ -84,7 +95,20 @@ export class BudgetManagementComponent {
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
 
+
+  onTransactionsListEvent(event: EventInfo) {
+    switch (event.type as TransactionsListEventType) {
+      case TransactionsListEventType.SHOW_FILE_CLICKED:
+        Assertion.assertValue(event.payload.transaction, 'event.payload.transaction');
+        Assertion.assertValue(event.payload.transaction.uid, 'event.payload.transaction.uid');
+        this.getTransactionForPrint(event.payload.transaction.uid);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 
@@ -128,6 +152,16 @@ export class BudgetManagementComponent {
   }
 
 
+  private getTransactionForPrint(transactionUID: string) {
+    this.isLoading = true;
+
+    this.transactionsData.getTransactionForPrint(transactionUID)
+      .firstValue()
+      .then(x => this.openFilePreview(x))
+      .finally(() => this.isLoading = false);
+  }
+
+
   private resolveBudgetUpdated() {
     const payload = { baseObjectUID: this.baseObjectUID };
     sendEvent(this.budgetManagementEvent, BudgetManagementEventType.UPDATED, payload);
@@ -136,6 +170,11 @@ export class BudgetManagementComponent {
 
   private resolveValidateAvaibleBudget(response: BudgetValidationResult) {
     this.messageBox.show(response.result, 'Validar suficiencia')
+  }
+
+
+  private openFilePreview(file: FileReport) {
+    this.filePreview.open(file.url, file.type);
   }
 
 }

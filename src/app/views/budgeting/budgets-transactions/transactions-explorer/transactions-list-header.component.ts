@@ -24,4 +24,6 @@ export class BudgetTransactionsListHeaderComponent {
 
   @Input() displayControls = true;
 
+  @Input() displayFile = false;
+
 }

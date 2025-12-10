@@ -14,7 +14,8 @@
     class="fx-item-none"
     [dataList]="dataList"
     [selection]="selection"
-    [displayControls]="displayControls">
+    [displayControls]="displayControls"
+    [displayFile]="displayFile">
 
   </emp-bdg-transactions-list-header>
 
@@ -33,6 +34,7 @@
               [transaction]="item"
               [selected]="selection.isSelected(item)"
               [displayControls]="displayControls"
+              [displayFile]="displayFile"
               (transactionsListItemEvent)="onTransactionsListItemEvent($event)">
 
             </emp-bdg-transactions-list-item>

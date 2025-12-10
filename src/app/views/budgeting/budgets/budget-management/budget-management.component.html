@@ -1,6 +1,6 @@
 <div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
 
-  <emp-ng-spinner #spinner [visible]="submitted">
+  <emp-ng-spinner #spinner [visible]="submitted || isLoading">
 
   </emp-ng-spinner>
 
@@ -21,8 +21,17 @@
   <emp-bdg-transactions-list  class="fx-item"
     [dataList]="budgetTransactions"
     [queryExecuted]="true"
-    [displayControls]="false">
+    [displayControls]="false"
+    [displayFile]="true"
+    (transactionsListEvent)="onTransactionsListEvent($event)">
 
   </emp-bdg-transactions-list>
 
 </div>
+
+
+<emp-ng-file-preview #filePreview
+  heading="Visor de cédula"
+  hint="Información de la transacción presupuestal">
+
+</emp-ng-file-preview>

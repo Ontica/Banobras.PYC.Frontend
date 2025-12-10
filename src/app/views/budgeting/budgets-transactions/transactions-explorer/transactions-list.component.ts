@@ -23,6 +23,7 @@ import { TransactionsListItemEventType } from './transactions-list-item.componen
 
 export enum TransactionsListEventType {
   SELECT_CLICKED            = 'BudgetTransactionsListComponent.Event.SelectClicked',
+  SHOW_FILE_CLICKED         = 'BudgetTransactionsListComponent.Event.ShowFileClicked',
   EXECUTE_OPERATION_CLICKED = 'BudgetTransactionsListComponent.Event.ExecuteOperationClicked',
 }
 
@@ -41,6 +42,8 @@ export class BudgetTransactionsListComponent implements OnChanges {
   @Input() queryExecuted = false;
 
   @Input() displayControls = true;
+
+  @Input() displayFile = false;
 
   @Output() transactionsListEvent = new EventEmitter<EventInfo>();
 
@@ -76,6 +79,9 @@ export class BudgetTransactionsListComponent implements OnChanges {
     switch (event.type as TransactionsListItemEventType) {
       case TransactionsListItemEventType.SELECT_CLICKED:
         sendEvent(this.transactionsListEvent, TransactionsListEventType.SELECT_CLICKED, event.payload);
+        return;
+      case TransactionsListItemEventType.SHOW_FILE_CLICKED:
+        sendEvent(this.transactionsListEvent, TransactionsListEventType.SHOW_FILE_CLICKED, event.payload);
         return;
       case TransactionsListItemEventType.CHECK_CLICKED:
         Assertion.assertValue(event.payload.transaction, 'event.payload.transaction');
