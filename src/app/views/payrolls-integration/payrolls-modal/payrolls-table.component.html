@@ -22,7 +22,8 @@
     <ng-container matColumnDef="statusName">
       <th mat-header-cell *matHeaderCellDef> Estado </th>
       <td mat-cell *matCellDef="let row">
-        <span class="tag" [ngClass]="{'tag-base-error': row.statusName === 'Eliminado'}">
+        <span class="tag"
+          [ngClass]="{'tag-base-error': row.statusName | empIsErrorStatus}">
           {{row.statusName}}
         </span>
       </td>

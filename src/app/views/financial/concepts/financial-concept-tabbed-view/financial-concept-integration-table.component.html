@@ -44,7 +44,7 @@
       <th mat-header-cell *matHeaderCellDef> Estado </th>
       <td mat-cell *matCellDef="let row">
         <span class="tag" [style.font-size.px]="10"
-          [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(row.statusName)}">
+          [ngClass]="{'tag-base-error': row.statusName | empIsErrorStatus}">
           {{row.statusName}}
         </span>
       </td>

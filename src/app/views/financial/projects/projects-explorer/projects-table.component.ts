@@ -15,8 +15,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { FinancialProjectDescriptor, FinancialProjectsOperationsList,
-         isEntityStatusInWarning } from '@app/models';
+import { FinancialProjectDescriptor, FinancialProjectsOperationsList } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -51,8 +50,6 @@ export class FinancialProjectsTableComponent implements OnChanges {
   selection = new SelectionModel<FinancialProjectDescriptor>(true, []);
 
   operationsList = FinancialProjectsOperationsList;
-
-  isEntityStatusInWarning = isEntityStatusInWarning;
 
 
   ngOnChanges(changes: SimpleChanges) {

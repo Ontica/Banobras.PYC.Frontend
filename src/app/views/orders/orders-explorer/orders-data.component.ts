@@ -15,8 +15,8 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { EmptyOrderExplorerTypeConfig, isEntityStatusInWarning, OrderDescriptor, OrdersOperationsList,
-         OrderExplorerTypeConfig, ObjectTypes, Priority } from '@app/models';
+import { EmptyOrderExplorerTypeConfig, OrderDescriptor, OrdersOperationsList, OrderExplorerTypeConfig,
+         ObjectTypes, Priority } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -53,8 +53,6 @@ export class OrdersDataComponent implements OnChanges {
   selection = new SelectionModel<OrderDescriptor>(true, []);
 
   operationsList = OrdersOperationsList;
-
-  isEntityStatusInWarning = isEntityStatusInWarning;
 
   Priority = Priority;
 

@@ -15,7 +15,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { AssetsTransactionEntry, AssetsAssignmentsOperationsList, isEntityStatusInWarning } from '@app/models';
+import { AssetsTransactionEntry, AssetsAssignmentsOperationsList } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -48,8 +48,6 @@ export class AssetsAssignmentEntriesTableComponent implements OnChanges {
   selection = new SelectionModel<AssetsTransactionEntry>(true, []);
 
   operationsList = AssetsAssignmentsOperationsList;
-
-  isEntityStatusInWarning = isEntityStatusInWarning;
 
 
   ngOnChanges(changes: SimpleChanges) {

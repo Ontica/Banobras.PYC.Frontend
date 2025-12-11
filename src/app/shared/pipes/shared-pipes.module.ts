@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 
 import { DateTimeFormatPipe } from './date-time-format.pipe';
 import { DecimalFormatPipe } from './decimal-format.pipe';
+import { IsErrorStatusPipe } from './is-error-status.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { SafeUrlPipe } from './safe-url.pipe';
 import { TimeFormatPipe } from './time-format.pipe';
@@ -24,17 +25,19 @@ import { TimeFormatPipe } from './time-format.pipe';
   declarations: [
     DateTimeFormatPipe,
     DecimalFormatPipe,
+    IsErrorStatusPipe,
     SafeHtmlPipe,
     SafeUrlPipe,
-    TimeFormatPipe
+    TimeFormatPipe,
   ],
 
   exports: [
     DateTimeFormatPipe,
     DecimalFormatPipe,
+    IsErrorStatusPipe,
     SafeHtmlPipe,
     SafeUrlPipe,
-    TimeFormatPipe
+    TimeFormatPipe,
   ],
 
 

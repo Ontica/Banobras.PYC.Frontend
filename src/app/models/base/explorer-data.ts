@@ -44,12 +44,26 @@ export const EntityStatusList: Identifiable<EntityStatus>[] = [
 ];
 
 
-export function isEntityStatusInWarning(statusName: string): boolean {
-  const status = EntityStatusList.find(x => x.name === statusName)?.uid as EntityStatus;
+const WarningStatus = [
+  'Descontinuada',
+  'Eliminada',
+  'Fallida',
+  'Rechazada o fallida',
+  'Rechazada',
+  'Suspendida',
 
-  return [EntityStatus.Deleted,
-          EntityStatus.Discontinued,
-          EntityStatus.Suspended].includes(status);
+  'Descontinuado',
+  'Eliminado',
+  'Fallido',
+  'Rechazado o fallido',
+  'Rechazado',
+  'Suspendido',
+];
+
+
+export function isErrorStatus(statusName: string): boolean {
+  if (!statusName) return false;
+  return WarningStatus.includes(statusName.trim());
 }
 
 

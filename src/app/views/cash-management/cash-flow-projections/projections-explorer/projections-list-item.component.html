@@ -32,7 +32,7 @@
 
   <div class="fx-item-size column-size-sm">
     <span class="tag" [style.font-size.px]="10"
-      [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(item.statusName)}">
+      [ngClass]="{'tag-base-error': item.statusName | empIsErrorStatus}">
       {{item.statusName}}
     </span>
     <div class="bold-text" [style.padding-top.rem]="0.25">

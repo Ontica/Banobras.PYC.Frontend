@@ -18,7 +18,7 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { AssetsStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { AssetsTransactionEntry, AssetsTransactionEntryFields, isEntityStatusInWarning } from '@app/models';
+import { AssetsTransactionEntry, AssetsTransactionEntryFields } from '@app/models';
 
 import { sendEvent, sendEventIf } from '@app/shared/utils';
 
@@ -89,8 +89,6 @@ export class AssetsTransactionEntriesTableComponent implements OnChanges, OnInit
   displayedColumns = [...this.displayedColumnsDefault];
 
   dataSource: TableVirtualScrollDataSource<AssetsTransactionEntry>;
-
-  isEntityStatusInWarning = isEntityStatusInWarning;
 
   conditionsList: Identifiable[] = [];
 

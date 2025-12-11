@@ -13,7 +13,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { AssetDescriptor, isEntityStatusInWarning } from '@app/models';
+import { AssetDescriptor } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -44,8 +44,6 @@ export class AssetsTableComponent implements OnChanges {
   displayedColumns = ['asset', 'location', 'assignedTo'];
 
   dataSource: TableVirtualScrollDataSource<AssetDescriptor>;
-
-  isEntityStatusInWarning = isEntityStatusInWarning;
 
 
   ngOnChanges(changes: SimpleChanges) {

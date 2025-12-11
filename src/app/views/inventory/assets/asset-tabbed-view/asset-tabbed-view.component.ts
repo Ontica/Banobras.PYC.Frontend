@@ -11,7 +11,7 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyAssetHolder, AssetHolder, isEntityStatusInWarning } from '@app/models';
+import { EmptyAssetHolder, AssetHolder, isErrorStatus } from '@app/models';
 
 import { AssetEditorEventType } from '../asset/asset-editor.component';
 
@@ -85,7 +85,7 @@ export class AssetTabbedViewComponent implements OnChanges {
 
 
   private setTitle() {
-    const status = isEntityStatusInWarning(this.data.asset.status.name) ?
+    const status = isErrorStatus(this.data.asset.status.name) ?
       `<span class="tag tag-error tag-small">${this.data.asset.status.name}</span>` :
       `<span class="tag tag-small">${this.data.asset.status.name}</span>`;
 

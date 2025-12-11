@@ -34,7 +34,7 @@
 
   <div class="fx-item-size status-column-size">
     <span class="tag"
-      [ngClass]="{'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(payable.statusName)}">
+      [ngClass]="{'tag-base-error': payable.statusName | empIsErrorStatus}">
       {{payable.statusName}}
     </span>
   </div>
