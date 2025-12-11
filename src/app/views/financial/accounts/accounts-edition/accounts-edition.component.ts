@@ -49,7 +49,8 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
   @Input() canUpdate = false;
 
-  @Input() queryType: 'financial-project' | 'standard-accounts' = null;
+  @Input() queryType: 'financial-project' | 'standard-accounts-with-project' |
+                      'standard-accounts-without-project' = null;
 
   @Output() accountsEditionEvent = new EventEmitter<EventInfo>();
 
@@ -80,7 +81,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
 
   get displayProject(): boolean {
-    return this.queryType === 'standard-accounts';
+    return this.queryType === 'standard-accounts-with-project';
   }
 
 
@@ -90,7 +91,8 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
 
   get canEditOperations(): boolean {
-    return this.queryType === 'standard-accounts' && this.canUpdate;
+    return ['standard-accounts-with-project', 'standard-accounts-without-project'].includes(this.queryType) &&
+           this.canUpdate;
   }
 
 

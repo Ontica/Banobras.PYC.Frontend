@@ -92,6 +92,7 @@ export interface StandardAccount {
   classification: FlexibleIdentifiable;
   level: number;
   isLastLevel: boolean;
+  isProjectRelated: boolean;
   status: Identifiable;
   startDate: DateString;
   endDate: DateString;
@@ -136,6 +137,7 @@ export const EmptyStandardAccount: StandardAccount = {
   classification: Empty,
   level: null,
   isLastLevel: false,
+  isProjectRelated: false,
   status: Empty,
   startDate: '',
   endDate: '',
