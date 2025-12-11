@@ -35,9 +35,8 @@
         [baseObjectName]="data.payable.payableNo"
         [budgetTotal]="data.payable.total"
         [budgetTransactions]="data.budgetTransactions"
-        [canCommit]="data.actions.canCommitBudget"
+        [canAprove]="data.actions.canAprovePayment"
         [canExercise]="data.actions.canExerciseBudget"
-        [canRequest]="data.actions.canRequestBudget"
         (budgetManagementEvent)="onBudgetManagementEvent($event)">
 
       </emp-bdg-budget-management>

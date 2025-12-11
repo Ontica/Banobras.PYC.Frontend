@@ -1,29 +1,30 @@
-<div *ngIf="canCommit || canExercise || canValidate || canRequest"
+<div *ngIf="canCommit || canExercise || canValidate || canRequest || canAprove"
   class="fx-row-container fx-gap-half fx-end"
   [style.margin-bottom.px]="8">
 
-  <div class="fx-item-none" *ngIf="canCommit">
-
+  <div class="fx-item-none" *ngIf="canExercise">
+    <!-- payment -->
     <button type="button"
-      class="btn-action"
-      (click)="onEventButtonClicked(eventType.COMMIT)">
-      Solicitar compromiso
+      title="Funcionalidad temporal"
+      class="btn"
+      (click)="onEventButtonClicked(eventType.EXERCISE)">
+      Ejercer
     </button>
 
   </div>
 
-  <div class="fx-item-none" *ngIf="canExercise">
-
+  <div class="fx-item-none" *ngIf="canAprove">
+    <!-- payment -->
     <button type="button"
       class="btn-action"
-      (click)="onEventButtonClicked(eventType.EXERCISE)">
-      Ejercer presupuesto
+      (click)="onEventButtonClicked(eventType.APROVE)">
+      Solicitar aprobación
     </button>
 
   </div>
 
   <div class="fx-item-none" *ngIf="canValidate">
-
+    <!-- requisition -->
     <button type="button"
       class="btn"
       (click)="onEventButtonClicked(eventType.VALIDATE)">
@@ -33,7 +34,7 @@
   </div>
 
   <div class="fx-item-none" *ngIf="canRequest">
-
+    <!-- requisition -->
     <button type="button"
       class="btn-action"
       (click)="onEventButtonClicked(eventType.REQUEST)">
@@ -42,20 +43,14 @@
 
   </div>
 
-</div>
-
-<!-- || canRequestModification -->
-
-  <!-- <mat-divider vertical="true" *ngIf="(canCommit || canExercise || canRequest || canValidate ) && canRequestModification">
-
-  </mat-divider>
-
-  <div class="fx-item-none" *ngIf="canRequestModification">
-
+  <div class="fx-item-none" *ngIf="canCommit">
+    <!-- contract, contract-order, expense, purchase -->
     <button type="button"
       class="btn-action"
-      (click)="onEventButtonClicked(eventType.REQUEST_MODIFICATION)">
-      Solicitar modificación
+      (click)="onEventButtonClicked(eventType.COMMIT)">
+      Solicitar compromiso
     </button>
 
-  </div> -->
+  </div>
+
+</div>

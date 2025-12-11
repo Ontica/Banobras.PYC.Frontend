@@ -152,9 +152,8 @@ export interface PayableActions {
   canEditDocuments: boolean;
   canGeneratePaymentOrder: boolean;
   canSendToPay: boolean;
-  canCommitBudget: boolean;
+  canAprovePayment: boolean;
   canExerciseBudget: boolean;
-  canRequestBudget: boolean;
 }
 
 
@@ -192,9 +191,8 @@ export const EmptyPayableActions: PayableActions = {
   canEditDocuments: false,
   canGeneratePaymentOrder: false,
   canSendToPay: false,
-  canCommitBudget: false,
+  canAprovePayment: false,
   canExerciseBudget: false,
-  canRequestBudget: false,
 }
 
 

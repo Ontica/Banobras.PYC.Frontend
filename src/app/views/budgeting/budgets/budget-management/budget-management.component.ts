@@ -50,13 +50,13 @@ export class BudgetManagementComponent {
 
   @Input() budgetTransactions: BudgetTransactionDescriptor[] = [];
 
+  @Input() canAprove = false;
+
   @Input() canCommit = false;
 
   @Input() canExercise = false;
 
   @Input() canRequest = false;
-
-  @Input() canRequestModification = false;
 
   @Input() canValidate = false;
 
