@@ -15,7 +15,7 @@ import { FormHelper, sendEvent } from '@app/shared/utils';
 
 import { OrdersDataService } from '@app/data-services';
 
-import { BillFields, DocumentFields, DocumentsEntityTypes } from '@app/models';
+import { BillFields, DocumentFields, DocumentProduct, DocumentsEntityTypes } from '@app/models';
 
 
 export enum BillUploaderEventType {
@@ -26,6 +26,7 @@ export enum BillUploaderEventType {
 interface BillUploaderFormModel extends FormGroup<{
   documentProductUID: FormControl<string>;
   name: FormControl<string>;
+  total: FormControl<number>;
 }> { }
 
 @Component({
@@ -54,7 +55,9 @@ export class BillUploaderComponent implements OnInit {
 
   submitted = false;
 
-  documentProductsList: Identifiable[] = [];
+  documentProductsList: DocumentProduct[] = [];
+
+  isCFDI = true;
 
 
   constructor(private ordersData: OrdersDataService) {
@@ -68,7 +71,15 @@ export class BillUploaderComponent implements OnInit {
 
 
   get isFormReady(): boolean {
-    return FormHelper.isFormReady(this.form) && !!this.xmlFile && !!this.xmlFile.file;
+    const xmlValid = this.isCFDI && !!this.xmlFile?.file;
+    const pdfValid = !this.isCFDI && !!this.pdfFile?.file;
+    return FormHelper.isFormReady(this.form) && (xmlValid || pdfValid)
+  }
+
+
+  onDocumentProductChanges(documentProduct: DocumentProduct) {
+    this.isCFDI = documentProduct.isCFDI;
+    this.validateFieldsRequired();
   }
 
 
@@ -85,7 +96,7 @@ export class BillUploaderComponent implements OnInit {
         entityType: this.entityType,
         entityUID: this.entityUID,
         dataFields: this.getFormData(),
-        xmlFile: this.xmlFile?.file ?? null,
+        xmlFile: this.isCFDI ? (this.xmlFile?.file ?? null) : null,
         pdfFile: this.pdfFile?.file ?? null,
       };
 
@@ -110,7 +121,17 @@ export class BillUploaderComponent implements OnInit {
     this.form = fb.group({
       documentProductUID: ['', Validators.required],
       name: ['', Validators.required],
+      total: [null],
     });
+  }
+
+
+  private validateFieldsRequired() {
+    if (this.isCFDI) {
+      this.formHelper.clearControlValidators(this.form.controls.total);
+    } else {
+      this.formHelper.setControlValidators(this.form.controls.total, [Validators.required]);
+    }
   }
 
 
@@ -123,6 +144,7 @@ export class BillUploaderComponent implements OnInit {
     const data: DocumentFields = {
       documentProductUID: formModel.documentProductUID,
       name: formModel.name,
+      total: this.isCFDI ? null : formModel.total,
     };
 
     return data;

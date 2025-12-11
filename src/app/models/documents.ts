@@ -18,24 +18,25 @@ export type DocumentsEntityTypes = 'asset-assignments' | 'asset-transactions' | 
 
 
 export interface Document {
-    uid: string;
-    name: string;
-    documentNo: string;
-    documentCategory: Identifiable;
-    documentProduct: Identifiable;
-    documentDate: DateString;
-    description: string;
-    postingTime: DateString;
-    lastUpdateTime: DateString;
-    tags: string[];
-    file: FileReport;
-    status: Identifiable;
+  uid: string;
+  name: string;
+  documentNo: string;
+  documentCategory: Identifiable;
+  documentProduct: Identifiable;
+  documentDate: DateString;
+  description: string;
+  postingTime: DateString;
+  lastUpdateTime: DateString;
+  tags: string[];
+  file: FileReport;
+  status: Identifiable;
 }
 
 
 export interface DocumentFields {
   documentProductUID: string;
   name: string;
+  total?: number;
 }
 
 
@@ -51,6 +52,7 @@ export interface DocumentProduct {
   name: string;
   fileType: FileType;
   appplicationContentType: string;
+  isCFDI: boolean;
 }
 
 

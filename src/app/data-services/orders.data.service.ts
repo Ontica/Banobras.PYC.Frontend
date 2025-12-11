@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { Bill, DocumentFields,OrderHolder, OrderDescriptor, OrderFields, OrderItem, OrderItemFields,
-         OrdersQuery, ObjectTypes, OrdersAvailableQuery, OrderForEdition,
+import { Bill, DocumentFields, DocumentProduct ,OrderHolder, OrderDescriptor, OrderFields, OrderItem,
+         OrderItemFields, OrdersQuery, ObjectTypes, OrdersAvailableQuery, OrderForEdition,
          PaymentOrderRequestFields } from '@app/models';
 
 
@@ -159,10 +159,10 @@ export class OrdersDataService {
   }
 
 
-  getOrdersBillTypes(): EmpObservable<Identifiable[]> {
+  getOrdersBillTypes(): EmpObservable<DocumentProduct[]> {
     const path = `v8/order-management/orders/bill-types`;
 
-    return this.http.get<Identifiable[]>(path);
+    return this.http.get<DocumentProduct[]>(path);
   }
 
 
@@ -172,7 +172,7 @@ export class OrdersDataService {
               pdfFile: File): EmpObservable<Bill> {
     Assertion.assertValue(orderUID, 'orderUID');
     Assertion.assertValue(dataFields, 'dataFields');
-    Assertion.assertValue(xmlFile, 'xmlFile');
+    Assertion.assertValue(xmlFile || pdfFile, 'xmlFile || pdfFile');
 
     const formData: FormData = new FormData();
     formData.append('document', JSON.stringify(dataFields));

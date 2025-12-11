@@ -77,7 +77,7 @@ export class BillsTableComponent implements OnChanges {
   onRemoveClicked(bill: Bill) {
     const message = this.getConfirmMessage(bill);
 
-    this.messageBox.confirm(message, 'Eliminar factura', 'DeleteCancel')
+    this.messageBox.confirm(message, 'Eliminar comprobante', 'DeleteCancel')
       .firstValue()
       .then(x =>
           sendEventIf(x, this.billsTableEvent, BillsTableEventType.REMOVE_CLICKED, {
@@ -106,13 +106,13 @@ export class BillsTableComponent implements OnChanges {
 
   private getConfirmMessage(bill: Bill): string {
     return `
-      Esta operación eliminará la factura: <br><br>
+      Esta operación eliminará el comprobante: <br><br>
       <table class='confirm-data'>
-        <tr><td class='nowrap'>Tipo de documento fiscal: </td><td><strong>
+        <tr><td class='nowrap'>Tipo de comprobante: </td><td><strong>
           ${bill.billType.name}
         </strong></td></tr>
 
-        <tr><td class='nowrap'>Documento: </td><td><strong>
+        <tr><td class='nowrap'>Comprobante: </td><td><strong>
           (${bill.billNo}) ${bill.name}
         </strong></td></tr>
 
@@ -121,7 +121,7 @@ export class BillsTableComponent implements OnChanges {
         </strong></td></tr>
       </table>
 
-     <br>¿Elimino la factura?`;
+     <br>¿Elimino el comprobante?`;
   }
 
 }

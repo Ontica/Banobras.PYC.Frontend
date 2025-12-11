@@ -231,7 +231,7 @@ export class OrderTabbedViewComponent implements OnChanges {
       { label: 'Conceptos',     tab: TabType.items },
       { label: 'Presupuesto',   tab: TabType.budgetTransactions },
       { label: ordersName,      tab: TabType.orders },
-      { label: 'Facturas',      tab: TabType.bills },
+      { label: 'Comprobantes',  tab: TabType.bills },
       { label: 'Pagos',         tab: TabType.paymentOrders },
       { label: 'Documentos',    tab: TabType.documents },
       { label: 'Historial',     tab: TabType.history },

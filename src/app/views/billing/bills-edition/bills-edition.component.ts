@@ -69,7 +69,7 @@ export class BillsEditionComponent {
         Assertion.assertValue(event.payload.entityType, 'event.payload.entityType');
         Assertion.assertValue(event.payload.entityUID, 'event.payload.entityUID');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        Assertion.assertValue(event.payload.xmlFile, 'event.payload.xmlFile');
+        Assertion.assertValue(event.payload.xmlFile || event.payload.pdfFile, 'event.payload.xmlFile || event.payload.pdfFile');
         this.upploadBill(
           event.payload.entityUID,
           event.payload.dataFields as DocumentFields,

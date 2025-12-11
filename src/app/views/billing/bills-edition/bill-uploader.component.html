@@ -1,8 +1,8 @@
 <emp-ng-modal-window [config]="{width: '545px', maxHeight: '95vh'}">
 
   <emp-ng-card
-    heading="Anexar factura"
-    hint="Información de la factura a anexar."
+    heading="Anexar comprobante"
+    hint="Información del comprobante o factura a anexar."
     (cardClose)="onCloseButtonClicked()">
 
     <div class="card-body-padding">
@@ -18,13 +18,14 @@
 
           <div class="fx-row-container">
 
-            <div class="fx-item-one">
-              <label>Tipo de documento fiscal:</label>
+            <div class="fx-item-one" >
+              <label>Tipo de comprobante:</label>
               <emp-ng-select
                 formControlName="documentProductUID"
                 [items]="documentProductsList"
                 [loading]="isLoading"
-                [showError]="formHelper.isControlInvalid(form.controls.documentProductUID)">
+                [showError]="formHelper.isControlInvalid(form.controls.documentProductUID)"
+                (changes)="onDocumentProductChanges($event)">
               </emp-ng-select>
             </div>
 
@@ -32,11 +33,22 @@
 
           <div class="fx-row-container">
 
-            <div class="fx-item-one">
-              <label>Descripción del documento:</label>
+            <div [class]="isCFDI ? 'fx-item-one' : 'fx-item-three-quarter'">
+              <label>Descripción del comprobante:</label>
               <input type="text" class="text-box"
                   formControlName="name"
                   [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+            </div>
+
+            <div class="fx-item-quarter" *ngIf="!isCFDI">
+
+              <label>Importe:</label>
+
+              <emp-ng-input-numeric
+                formControlName="total"
+                [showError]="formHelper.isControlInvalid(form.controls.total)">
+              </emp-ng-input-numeric>
+
             </div>
 
           </div>
@@ -45,7 +57,17 @@
 
           <div class="fx-column-container fx-gap-half" [style.min-height.px]="63">
 
-            <div class="fx-item-one">
+            <ng-container *ngIf="form.controls.documentProductUID.invalid">
+
+              <div class="instruction-text">
+                Seleccionar el tipo de comprobante.
+              </div>
+
+            </ng-container>
+
+            <ng-container *ngIf="form.controls.documentProductUID.valid">
+
+              <div class="fx-item-one" *ngIf="isCFDI">
 
                 <label>Archivo XML (CFDI):</label>
                 <emp-ng-file-control
@@ -61,16 +83,19 @@
 
               <div class="fx-item-one">
 
-                <label>Archivo PDF (CFDI):</label>
+                <label>Archivo PDF{{isCFDI ? ' (CFDI)' : ''}}:</label>
                 <emp-ng-file-control
                   [(fileControl)]="pdfFile"
                   [config]="{autoUpload: true,
-                            filesTypes: ['pdf'],
-                            placeholder: 'Elegir o arrastrar el archivo PDF.' }">
+                             filesTypes: ['pdf'],
+                             placeholder: 'Elegir o arrastrar el archivo PDF.' }"
+                  [showError]="isFormInvalidated && !isCFDI && !pdfFile">
 
                 </emp-ng-file-control>
 
-            </div>
+              </div>
+
+            </ng-container>
 
           </div>
 
@@ -85,7 +110,7 @@
                 [class.btn]="!isFormReady"
                 [class.btn-action]="isFormReady"
                 (click)="onSubmitButtonClicked()">
-                Anexar documentos
+                Anexar comprobante
               </button>
 
             </div>
