@@ -18,7 +18,7 @@ import { ObjectTypes, BudgetRequestFields } from '@app/models';
 export enum BudgetSubmitterEventType {
   COMMIT   = 'BudgetSubmitterComponent.Event.CommitClicked',
   EXERCISE = 'BudgetSubmitterComponent.Event.ExerciseClicked',
-  APROVE   = 'BudgetSubmitterComponent.Event.AproveClicked',
+  APPROVE   = 'BudgetSubmitterComponent.Event.ApproveClicked',
   REQUEST  = 'BudgetSubmitterComponent.Event.RequestClicked',
   VALIDATE = 'BudgetSubmitterComponent.Event.ValidateClicked',
 }
@@ -37,7 +37,7 @@ export class BudgetSubmitterComponent {
 
   @Input() budgetTotal: number = null;
 
-  @Input() canAprove = false;
+  @Input() canApprove = false;
 
   @Input() canCommit = false;
 
@@ -89,7 +89,7 @@ export class BudgetSubmitterComponent {
       case BudgetSubmitterEventType.COMMIT:
       case BudgetSubmitterEventType.EXERCISE:
       case BudgetSubmitterEventType.REQUEST:
-      case BudgetSubmitterEventType.APROVE:
+      case BudgetSubmitterEventType.APPROVE:
       case BudgetSubmitterEventType.VALIDATE:
       default:
         return 'AcceptCancel';
@@ -99,7 +99,7 @@ export class BudgetSubmitterComponent {
 
   private getConfirmTitle(eventType: BudgetSubmitterEventType): string {
     switch (eventType) {
-      case BudgetSubmitterEventType.APROVE:   return 'Solicitar aprobación';
+      case BudgetSubmitterEventType.APPROVE:   return 'Solicitar aprobación';
       case BudgetSubmitterEventType.EXERCISE: return 'Ejercer presupuesto';
       case BudgetSubmitterEventType.COMMIT:   return 'Solicitar compromiso presupuestal';
       case BudgetSubmitterEventType.REQUEST:  return 'Solicitar suficiencia presupuestal';
@@ -114,7 +114,7 @@ export class BudgetSubmitterComponent {
       ` por un total de <strong>${FormatLibrary.numberWithCommas(this.budgetTotal, '1.2-2') }</strong>` : '';
 
     switch (eventType) {
-      case BudgetSubmitterEventType.APROVE:
+      case BudgetSubmitterEventType.APPROVE:
         return `Esta operación solicitará la aprobación para
                 <strong>(${this.baseObjectTypeName}) ${this.baseObjectName}</strong>${totalText}.
                 <br><br>¿Solicito la aprobación?`;

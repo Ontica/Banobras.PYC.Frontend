@@ -1,4 +1,4 @@
-<div *ngIf="canCommit || canExercise || canValidate || canRequest || canAprove"
+<div *ngIf="canCommit || canExercise || canValidate || canRequest || canApprove"
   class="fx-row-container fx-gap-half fx-end"
   [style.margin-bottom.px]="8">
 
@@ -13,11 +13,11 @@
 
   </div>
 
-  <div class="fx-item-none" *ngIf="canAprove">
+  <div class="fx-item-none" *ngIf="canApprove">
     <!-- payment -->
     <button type="button"
       class="btn-action"
-      (click)="onEventButtonClicked(eventType.APROVE)">
+      (click)="onEventButtonClicked(eventType.APPROVE)">
       Solicitar aprobación
     </button>
 

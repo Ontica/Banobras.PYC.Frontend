@@ -43,10 +43,10 @@ export class BudgetsDataService {
   }
 
 
-  requestBudget(dataFields: BudgetRequestFields): EmpObservable<BudgetTransactionDescriptor> {
+  approvePayment(dataFields: BudgetRequestFields): EmpObservable<BudgetTransactionDescriptor> {
     Assertion.assertValue(dataFields, 'dataFields');
 
-    const path = `v2/budgeting/procurement/request`;
+    const path = `v2/budgeting/procurement/approve-payment`;
 
     return this.http.post<BudgetTransactionDescriptor>(path, dataFields);
   }
@@ -61,21 +61,30 @@ export class BudgetsDataService {
   }
 
 
-  validateAvaibleBudget(dataFields: BudgetRequestFields): EmpObservable<BudgetValidationResult> {
-    Assertion.assertValue(dataFields, 'dataFields');
-
-    const path = `v2/budgeting/procurement/validate-budget`;
-
-    return this.http.post<BudgetValidationResult>(path, dataFields);
-  }
-
-
   exerciseBudget(dataFields: BudgetRequestFields): EmpObservable<BudgetTransactionDescriptor> {
     Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v2/budgeting/procurement/exercise`;
 
     return this.http.post<BudgetTransactionDescriptor>(path, dataFields);
+  }
+
+
+  requestBudget(dataFields: BudgetRequestFields): EmpObservable<BudgetTransactionDescriptor> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/procurement/request`;
+
+    return this.http.post<BudgetTransactionDescriptor>(path, dataFields);
+  }
+
+
+  validateAvaibleBudget(dataFields: BudgetRequestFields): EmpObservable<BudgetValidationResult> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/procurement/validate-budget`;
+
+    return this.http.post<BudgetValidationResult>(path, dataFields);
   }
 
 }

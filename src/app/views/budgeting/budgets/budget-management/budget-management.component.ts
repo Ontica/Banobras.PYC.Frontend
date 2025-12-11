@@ -50,7 +50,7 @@ export class BudgetManagementComponent {
 
   @Input() budgetTransactions: BudgetTransactionDescriptor[] = [];
 
-  @Input() canAprove = false;
+  @Input() canApprove = false;
 
   @Input() canCommit = false;
 
@@ -75,6 +75,10 @@ export class BudgetManagementComponent {
   @SkipIf('submitted')
   onBudgetSubmitterEvent(event: EventInfo) {
     switch (event.type as BudgetSubmitterEventType) {
+      case BudgetSubmitterEventType.APPROVE:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.approvePayment(event.payload.dataFields as BudgetRequestFields);
+        return;
       case BudgetSubmitterEventType.COMMIT:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.commitBudget(event.payload.dataFields as BudgetRequestFields);
@@ -109,6 +113,16 @@ export class BudgetManagementComponent {
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }
+  }
+
+
+  private approvePayment(dataFields: BudgetRequestFields) {
+    this.submitted = true;
+
+    this.budgetsData.approvePayment(dataFields)
+      .firstValue()
+      .then(x => this.resolveBudgetUpdated())
+      .finally(() => this.submitted = false);
   }
 
 
