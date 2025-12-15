@@ -51,9 +51,9 @@ import { OrdersDataService } from './orders.data.service';
 
 import { PartiesDataService } from './parties.data.service';
 
-import { PayablesDataService } from './payables.data.service';
-
 import { PaymentOrdersDataService } from './payment-orders.data.service';
+
+import { PaymentInstructionsDataService } from './payment-instructions.data.service';
 
 import { PayrollsIntegrationDataService } from './payrolls-integration.data.service';
 
@@ -95,8 +95,8 @@ import { TaxesDataService } from './taxes.data.service';
     FinancialRulesDataService,
     OrdersDataService,
     PartiesDataService,
-    PayablesDataService,
     PaymentOrdersDataService,
+    PaymentInstructionsDataService,
     PayrollsIntegrationDataService,
     ProductsDataService,
     RequestsDataService,

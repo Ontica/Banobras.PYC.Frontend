@@ -1,0 +1,251 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item">
+
+        <label>Área solicitante:</label>
+
+        <emp-ng-select
+          formControlName="requestedByUID"
+          [config]="{virtualScroll: true, showTooltip: true}"
+          [items]="organizationalUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-none">
+
+        <label>Fecha límite:</label>
+        <emp-ng-datepicker
+          formControlName="dueTime"
+          [showError]="formHelper.isControlInvalid(form.controls.dueTime)">
+        </emp-ng-datepicker>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+
+        <label>Pagar a:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="payToUID"
+          [config]="{ showTooltip: true }"
+          [searcherAPI]="providersAPI"
+          [initialValue]="isSaved ? instruction.payTo : null"
+          [showError]="formHelper.isControlInvalid(form.controls.payToUID)"
+          (changes)="onPayToChanges($event)">
+
+        </emp-ng-select-typeahead>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Método de pago:</label>
+
+        <emp-ng-select
+          formControlName="paymentMethodUID"
+          [items]="paymentMethodsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.paymentMethodUID)"
+          (changes)="onPaymentMethodChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Total:</label>
+
+        <emp-ng-input-numeric
+          formControlName="total"
+          [showError]="formHelper.isControlInvalid(form.controls.total)"
+          [placeholder]="!editionMode ? 'No determinado' : ''">
+
+        </emp-ng-input-numeric>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Moneda:</label>
+
+        <emp-ng-select
+          formControlName="currencyUID"
+          [items]="currenciesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+        </emp-ng-select>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item">
+
+        <label>Cuenta:</label>
+
+        <emp-ng-select
+          formControlName="paymentAccountUID"
+          [items]="paymentAccountsList"
+          [placeholder]="paymentAccountPlaceholder"
+          [loading]="isLoadingPaymentAccounts"
+          [showError]="formHelper.isControlInvalid(form.controls.paymentAccountUID)">
+
+          <ng-template #labelTemplate let-item="item">
+             {{item.institution?.name}} | {{!!item.accountNo ? item.accountNo : 'N/D'}}
+          </ng-template>
+
+          <ng-template #optionTemplate let-item="item">
+
+            <div class="item wrap">
+
+              <span class="item-highlight">
+                {{item.institution?.name}} | Cuenta: {{!!item.accountNo ? item.accountNo : 'N/D'}}
+              </span> <br>
+
+              <span class="item-text-xs">
+                CLABE: {{item.clabe}} | Titular: {{item.holderName}}
+              </span>
+
+            </div>
+
+          </ng-template>
+
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Referencia:</label>
+
+        <input type="text" class="text-box"
+          formControlName="referenceNumber"
+          [placeholder]="referenceNumberPlaceholder"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.referenceNumber)">
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Descripción:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="description"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+        </textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal" *ngIf="!isSaved || hasActions">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <ng-container *ngIf="!isSaved">
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button
+          [class.btn]="!formHelper.isFormReady(form)"
+          [class.btn-action]="formHelper.isFormReady(form)"
+          (click)="onSubmitButtonClicked()">
+          Agregar
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isSaved">
+
+      <div class="fx-item fx-items-center">
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canCancel"
+            type="button" class="btn-warning"
+            (click)="onEventButtonClicked(eventTypes.CANCEL)">
+            Cancelar
+          </button>
+
+        </ng-container>
+
+        <ng-container *ngIf="!editionMode">
+
+          <button *ngIf="actions.canSuspend"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventTypes.SUSPEND)">
+            Suspender
+          </button>
+
+          <button *ngIf="actions.canRequestPayment"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventTypes.REQUEST_PAYMENT)">
+            Enviar pago
+          </button>
+
+          <button *ngIf="actions.canCancelPaymentRequest"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventTypes.CANCEL_PAYMENT_REQUEST)">
+            Cancelar envío de pago
+          </button>
+
+        </ng-container>
+
+      </div>
+
+      <div class="fx-item fx-end fx-items-center">
+
+        <button *ngIf="!editionMode && (actions.canCancel || actions.canUpdate)"
+          class="btn-action"
+          (click)="enableEditor(true)">
+          Editar
+        </button>
+
+        <ng-container *ngIf="editionMode">
+
+          <button *ngIf="actions.canUpdate"
+            [class.btn]="!formHelper.isFormReady(form)"
+            [class.btn-action]="formHelper.isFormReady(form)"
+            (click)="onSubmitButtonClicked()">
+            Guardar
+          </button>
+
+          <button
+            class="btn-base uppercase"
+            (click)="enableEditor(false)">
+            Descartar Cambios
+          </button>
+
+        </ng-container>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</form>

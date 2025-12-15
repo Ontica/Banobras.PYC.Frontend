@@ -86,7 +86,7 @@ export const ProcurementViews: View[] = [
     permission: ROUTES.gastos_gastos_y_reembolsos.permission,
   },
   {
-    name: 'Procurement.Payables',
+    name: 'Procurement.PaymentOrders',
     title: 'Solicitudes de pago',
     menuTitle: 'Solicitudes de pago',
     url: ROUTES.gastos_solicitudes_de_pago.fullpath,
@@ -125,14 +125,14 @@ export const PaymentsViews: View[] = [
   //   permission: ROUTES.pagos_solicitudes.permission,
   // },
   {
-    name: 'Payments.Payables',
+    name: 'Payments.PaymentOrders',
     title: 'Solicitudes de pago',
     menuTitle: 'Solicitudes de pago',
     url: ROUTES.pagos_solicitudes_de_pago.fullpath,
     permission: ROUTES.pagos_solicitudes_de_pago.permission,
   },
   {
-    name: 'Payments.PaymentsOrders',
+    name: 'Payments.PaymentInstructions',
     title: 'Instrucciones de pago',
     menuTitle: 'Instrucciones de pago',
     url: ROUTES.pagos_instrucciones_de_pago.fullpath,
@@ -192,7 +192,7 @@ export const BudgetViews: View[] = [
     permission: ROUTES.presupuesto_mesa_de_control.permission,
   },
   {
-    name: 'Budget.Payables',
+    name: 'Budget.PaymentOrders',
     title: 'Solicitudes de pago',
     menuTitle: 'Solicitudes de pago',
     url: ROUTES.presupuesto_solicitudes_de_pago.fullpath,

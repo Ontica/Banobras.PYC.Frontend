@@ -1,0 +1,23 @@
+<emp-ng-modal-window [config]="{width:'1024px'}">
+
+  <emp-ng-card
+    heading="Agregar solicitud de pago"
+    hint='Información de la solicitud de pago.'
+    (cardClose)="onCloseModalClicked()">
+
+      <div class="card-body-padding" [empNgSpinnerHost]="spinner">
+
+        <emp-ng-spinner #spinner [visible]="submitted">
+
+        </emp-ng-spinner>
+
+        <emp-pmt-payment-order-header
+          (paymentOrderHeaderEvent)="onPaymentOrderHeaderEvent($event)">
+
+        </emp-pmt-payment-order-header>
+
+      </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

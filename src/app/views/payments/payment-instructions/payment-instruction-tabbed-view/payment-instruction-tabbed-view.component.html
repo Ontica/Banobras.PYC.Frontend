@@ -1,0 +1,52 @@
+<emp-ng-card
+  [heading]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Instrucción de pago">
+
+      <emp-pmt-payment-instruction-editor
+        [instruction]="data.paymentInstruction"
+        [actions]="data.actions"
+        (paymentInstructionEditorEvent)="onPaymentInstructionEditorEvent($event)">
+
+      </emp-pmt-payment-instruction-editor>
+
+    </mat-tab>
+
+    <mat-tab label="Bitácora">
+
+      <emp-pmt-instruction-log-table
+        [log]="data.log">
+
+      </emp-pmt-instruction-log-table>
+
+    </mat-tab>
+
+    <mat-tab label="Documentos">
+
+      <emp-ng-documents-edition
+        entityType="payment-instructions"
+        [entityUID]="data.paymentInstruction.uid"
+        [documents]="data.documents"
+        [canEdit]="data.actions.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+
+      </emp-ng-documents-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Historial">
+
+      <emp-ng-history-table
+        [history]="data.history">
+
+      </emp-ng-history-table>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

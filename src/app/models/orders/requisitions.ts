@@ -18,7 +18,7 @@ import { Document } from '../documents';
 
 import { HistoryEntry } from '../history';
 
-import { PaymentOrderDescriptor } from '../payments-orders';
+import { PaymentInstructionDescriptor } from '../payment-instructions';
 
 import { TaxEntry } from '../taxes';
 
@@ -45,7 +45,7 @@ export interface RequisitionOrderHolder extends OrderHolder {
   budgetTransactions: BudgetTransactionDescriptor[];
   taxes: TaxEntry[];
   bills: Bill[];
-  paymentOrders: PaymentOrderDescriptor[];
+  paymentOrders: PaymentInstructionDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
   actions: OrderActions;

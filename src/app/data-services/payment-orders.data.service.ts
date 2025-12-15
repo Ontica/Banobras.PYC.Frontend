@@ -9,9 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { PaymentOrderHolder, PaymentOrderDescriptor, PaymentOrderFields, PaymentsOrdersQuery,
-         PaymentAccount } from '@app/models';
-
+import { PaymentOrderHolder, PaymentOrderDescriptor, PaymentOrderFields,
+         PaymentOrdersQuery } from '@app/models';
 
 @Injectable()
 export class PaymentOrdersDataService {
@@ -27,16 +26,7 @@ export class PaymentOrdersDataService {
   }
 
 
-  getPartyPaymentAccouts(partyUID: string): EmpObservable<PaymentAccount[]> {
-    Assertion.assertValue(partyUID, 'partyUID');
-
-    const path = `v8/financial/parties/${partyUID}/payment-accounts`;
-
-    return this.http.get<PaymentAccount[]>(path);
-  }
-
-
-  searchPaymentsOrders(query: PaymentsOrdersQuery): EmpObservable<PaymentOrderDescriptor[]> {
+  searchPaymentOrders(query: PaymentOrdersQuery): EmpObservable<PaymentOrderDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
     const path = 'v2/payments-management/payment-orders/search';
@@ -57,13 +47,14 @@ export class PaymentOrdersDataService {
   createPaymentOrder(dataFields: PaymentOrderFields): EmpObservable<PaymentOrderHolder> {
     Assertion.assertValue(dataFields, 'dataFields');
 
-    const path = `v2/payments-management/payment-orders/`;
+    const path = `v2/payments-management/payment-orders`;
 
     return this.http.post<PaymentOrderHolder>(path, dataFields);
   }
 
 
-  updatePaymentOrder(paymentOrderUID: string, dataFields: PaymentOrderFields): EmpObservable<PaymentOrderHolder> {
+  updatePaymentOrder(paymentOrderUID: string,
+                     dataFields: PaymentOrderFields): EmpObservable<PaymentOrderHolder> {
     Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
     Assertion.assertValue(dataFields, 'dataFields');
 
@@ -73,19 +64,37 @@ export class PaymentOrdersDataService {
   }
 
 
-  deletePaymentOrder(paymentOrderUID: string): EmpObservable<void> {
+  suspendPaymentOrder(paymentOrderUID: string): EmpObservable<PaymentOrderHolder> {
     Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
 
-    const path = `v2/payments-management/payment-orders/${paymentOrderUID}`;
+    const path = `v2/payments-management/payment-orders/${paymentOrderUID}/suspend`;
 
-    return this.http.delete<void>(path);
+    return this.http.post<PaymentOrderHolder>(path);
   }
 
 
-  sentToPay(paymentOrderUID: string): EmpObservable<PaymentOrderHolder> {
+  resetPaymentOrder(paymentOrderUID: string): EmpObservable<PaymentOrderHolder> {
     Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
 
-    const path = `v2/payments-management/payment-orders/${paymentOrderUID}/pay`;
+    const path = `v2/payments-management/payment-orders/${paymentOrderUID}/reset`;
+
+    return this.http.post<PaymentOrderHolder>(path);
+  }
+
+
+  cancelPaymentOrder(paymentOrderUID: string): EmpObservable<PaymentOrderHolder> {
+    Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
+
+    const path = `v2/payments-management/payment-orders/${paymentOrderUID}/cancel`;
+
+    return this.http.delete<PaymentOrderHolder>(path);
+  }
+
+
+  generatePaymentInstruction(paymentOrderUID: string): EmpObservable<PaymentOrderHolder> {
+    Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
+
+    const path = `v2/payments-management/payment-orders/${paymentOrderUID}/payment-instruction`;
 
     return this.http.post<PaymentOrderHolder>(path);
   }

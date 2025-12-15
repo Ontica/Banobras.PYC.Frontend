@@ -1,0 +1,45 @@
+<div class="card card-border">
+
+  <div class="card-header card-header-flat">
+
+    <div class="card-title">
+      Instrucciones de pago
+
+      <div class="card-hint" empNgProgressText
+        loadingText="Cargando"
+        [finalText]="hint"
+        [isLoading]="isLoading">
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card-body" [empNgSpinnerHost]="spinner">
+
+    <div class="fx-column-container-fill">
+
+      <emp-ng-spinner #spinner [visible]="isLoading">
+
+      </emp-ng-spinner>
+
+      <emp-pmt-payment-instructions-filter class="fx-item-none"
+        [query]="query"
+        [(showFilters)]="showFilters"
+        (paymentInstructionsFilterEvent)="onPaymentInstructionsFilterEvent($event)">
+
+      </emp-pmt-payment-instructions-filter>
+
+      <emp-pmt-payment-instructions-list class="fx-item"
+        [dataList]="dataList"
+        [selectedUID]="selectedUID"
+        [queryExecuted]="queryExecuted"
+        (paymentInstructionsListEvent)="onPaymentInstructionsListEvent($event)">
+
+      </emp-pmt-payment-instructions-list>
+
+    </div>
+
+  </div>
+
+</div>

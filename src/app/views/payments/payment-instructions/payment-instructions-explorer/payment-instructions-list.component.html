@@ -1,0 +1,51 @@
+<div class="fx-column-container-fill">
+
+  <emp-ng-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
+    class="fx-item-none"
+    [config]="{itemsPronouns: 'las', itemsName: 'instrucciones de pago', selectionMessage: 'seleccionadas'}"
+    [selection]="selection"
+    [operationsList]="operationsList"
+    (listControlsEvent)="onListControlsEvent($event)">
+
+  </emp-ng-list-controls>
+
+
+  <emp-pmt-payment-instructions-list-header class="fx-item-none"
+    [dataList]="dataList"
+    [selection]="selection">
+
+  </emp-pmt-payment-instructions-list-header>
+
+
+  <div #listContainer class="fx-item">
+
+    <cdk-virtual-scroll-viewport itemSize="61">
+
+        <div *cdkVirtualFor="let item of dataList"
+          class="list-item"
+          [class.list-item-selected]="item.uid === selectedUID">
+
+          <div class="list-item-container">
+
+            <emp-pmt-payment-instructions-list-item
+              [item]="item"
+              [selected]="selection.isSelected(item)"
+              (paymentInstructionsListItemEvent)="onPaymentInstructionsListItemEvent($event)">
+
+            </emp-pmt-payment-instructions-list-item>
+
+          </div>
+
+        </div>
+
+        <div *ngIf="dataList.length === 0" class="text-not-found">
+          {{ queryExecuted ?
+             'No se encontraron instrucciones de pago con el filtro proporcionado.' :
+             'No se ha invocado la búsqueda de instrucciones de pago.' }}
+        </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

@@ -88,9 +88,9 @@ export * from './imported-data';
 
 export * from './object-types';
 
-export * from './payables';
+export * from './payment-orders';
 
-export * from './payments-orders';
+export * from './payment-instructions';
 
 export * from './payrolls';
 

@@ -17,33 +17,32 @@ import { BudgetsModule } from '@app/views/budgeting/budgets/budgets.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 
-import { PaymentsOrdersMainPageComponent } from './payments-orders/payments-orders-main-page/payments-orders-main-page.component';
-import { PaymentsOrdersExplorerComponent } from './payments-orders/payments-orders-explorer/payments-orders-explorer.component';
-import { PaymentsOrdersFilterComponent } from './payments-orders/payments-orders-explorer/payments-orders-filter.component';
-import { PaymentsOrdersListComponent } from './payments-orders/payments-orders-explorer/payments-orders-list.component';
-import { PaymentsOrdersListItemComponent } from './payments-orders/payments-orders-explorer/payments-orders-list-item.component';
-import { PaymentsOrdersListHeaderComponent } from './payments-orders/payments-orders-explorer/payments-orders-list-header.component';
-import { PaymentOrderTabbedViewComponent } from './payments-orders/payment-order-tabbed-view/payment-order-tabbed-view.component';
-import { PaymentOrderEditorComponent } from './payments-orders/payment-order/payment-order-editor.component';
-import { PaymentOrderCreatorComponent } from './payments-orders/payment-order/payment-order-creator.component';
-import { PaymentOrderHeaderComponent } from './payments-orders/payment-order/payment-order-header.component';
-import { InstructionLogTableComponent } from './payments-orders/instruction-log/instruction-log-table.component';
-import { PaymentsOrdersEditionComponent } from './payments-orders/payments-orders-edition/payments-orders-edition.component';
-import { PaymentOrderRequestComponent } from './payments-orders/payments-orders-edition/payment-order-request.component';
-import { PaymentsOrdersTableComponent } from './payments-orders/payments-orders-edition/payments-orders-table.component';
+import { PaymentInstructionsMainPageComponent } from './payment-instructions/payment-instructions-main-page/payment-instructions-main-page.component';
+import { PaymentInstructionsExplorerComponent } from './payment-instructions/payment-instructions-explorer/payment-instructions-explorer.component';
+import { PaymentInstructionsFilterComponent } from './payment-instructions/payment-instructions-explorer/payment-instructions-filter.component';
+import { PaymentInstructionsListComponent } from './payment-instructions/payment-instructions-explorer/payment-instructions-list.component';
+import { PaymentInstructionsListItemComponent } from './payment-instructions/payment-instructions-explorer/payment-instructions-list-item.component';
+import { PaymentInstructionsListHeaderComponent } from './payment-instructions/payment-instructions-explorer/payment-instructions-list-header.component';
+import { PaymentInstructionTabbedViewComponent } from './payment-instructions/payment-instruction-tabbed-view/payment-instruction-tabbed-view.component';
+import { PaymentInstructionEditorComponent } from './payment-instructions/payment-instruction/payment-instruction-editor.component';
+import { PaymentInstructionHeaderComponent } from './payment-instructions/payment-instruction/payment-instruction-header.component';
+import { InstructionLogTableComponent } from './payment-instructions/instruction-log/instruction-log-table.component';
+import { PaymentOrdersEditionComponent } from './payment-orders/payment-orders-edition/payment-orders-edition.component';
+import { PaymentOrderRequestComponent } from './payment-orders/payment-orders-edition/payment-order-request.component';
+import { PaymentOrdersTableComponent } from './payment-orders/payment-orders-edition/payment-orders-table.component';
 
-import { PayablesMainPageComponent } from './payables/payables-main-page/payables-main-page.component';
-import { PayablesExplorerComponent } from './payables/payables-explorer/payables-explorer.component';
-import { PayablesFilterComponent } from './payables/payables-explorer/payables-filter.component';
-import { PayablesListComponent } from './payables/payables-explorer/payables-list.component';
-import { PayablesListHeaderComponent } from './payables/payables-explorer/payables-list-header.component';
-import { PayablesListItemComponent } from './payables/payables-explorer/payables-list-item.component';
-import { PayableTabbedViewComponent } from './payables/payable-tabbed-view/payable-tabbed-view.component';
-import { PayableEditorComponent } from './payables/payable/payable-editor.component';
-import { PayableCreatorComponent } from './payables/payable/payable-creator.component';
-import { PayableHeaderComponent } from './payables/payable/payable-header.component';
-import { PayableItemsEditionComponent } from './payables/payable-items/payable-items-edition.component';
-import { PayableItemsTableComponent } from './payables/payable-items/payable-items-table.component';
+import { PaymentOrdersMainPageComponent } from './payment-orders/payment-orders-main-page/payment-orders-main-page.component';
+import { PaymentOrdersExplorerComponent } from './payment-orders/payment-orders-explorer/payment-orders-explorer.component';
+import { PaymentOrdersFilterComponent } from './payment-orders/payment-orders-explorer/payment-orders-filter.component';
+import { PaymentOrdersListComponent } from './payment-orders/payment-orders-explorer/payment-orders-list.component';
+import { PaymentOrdersListHeaderComponent } from './payment-orders/payment-orders-explorer/payment-orders-list-header.component';
+import { PaymentOrdersListItemComponent } from './payment-orders/payment-orders-explorer/payment-orders-list-item.component';
+import { PaymentOrderTabbedViewComponent } from './payment-orders/payment-order-tabbed-view/payment-order-tabbed-view.component';
+import { PaymentOrderEditorComponent } from './payment-orders/payment-order/payment-order-editor.component';
+import { PaymentOrderCreatorComponent } from './payment-orders/payment-order/payment-order-creator.component';
+import { PaymentOrderHeaderComponent } from './payment-orders/payment-order/payment-order-header.component';
+import { PaymentOrderItemsEditionComponent } from './payment-orders/payment-order-items/payment-order-items-edition.component';
+import { PaymentOrderItemsTableComponent } from './payment-orders/payment-order-items/payment-order-items-table.component';
 
 
 @NgModule({
@@ -61,38 +60,38 @@ import { PayableItemsTableComponent } from './payables/payable-items/payable-ite
     ReportsControlsModule,
   ],
   declarations: [
-    PaymentsOrdersMainPageComponent,
-    PaymentsOrdersExplorerComponent,
-    PaymentsOrdersFilterComponent,
-    PaymentsOrdersListComponent,
-    PaymentsOrdersListItemComponent,
-    PaymentsOrdersListHeaderComponent,
+    PaymentInstructionsMainPageComponent,
+    PaymentInstructionsExplorerComponent,
+    PaymentInstructionsFilterComponent,
+    PaymentInstructionsListComponent,
+    PaymentInstructionsListItemComponent,
+    PaymentInstructionsListHeaderComponent,
+    PaymentInstructionTabbedViewComponent,
+    PaymentInstructionEditorComponent,
+    PaymentInstructionHeaderComponent,
+    InstructionLogTableComponent,
+
+    PaymentOrdersMainPageComponent,
+    PaymentOrdersExplorerComponent,
+    PaymentOrdersFilterComponent,
+    PaymentOrdersListComponent,
+    PaymentOrdersListHeaderComponent,
+    PaymentOrdersListItemComponent,
     PaymentOrderTabbedViewComponent,
     PaymentOrderEditorComponent,
     PaymentOrderCreatorComponent,
     PaymentOrderHeaderComponent,
-    InstructionLogTableComponent,
-    PaymentsOrdersEditionComponent,
-    PaymentOrderRequestComponent,
-    PaymentsOrdersTableComponent,
+    PaymentOrderItemsEditionComponent,
+    PaymentOrderItemsTableComponent,
 
-    PayablesMainPageComponent,
-    PayablesExplorerComponent,
-    PayablesFilterComponent,
-    PayablesListComponent,
-    PayablesListHeaderComponent,
-    PayablesListItemComponent,
-    PayableTabbedViewComponent,
-    PayableEditorComponent,
-    PayableCreatorComponent,
-    PayableHeaderComponent,
-    PayableItemsEditionComponent,
-    PayableItemsTableComponent,
+    PaymentOrdersEditionComponent,
+    PaymentOrderRequestComponent,
+    PaymentOrdersTableComponent,
   ],
   exports: [
-    PaymentsOrdersMainPageComponent,
-    PayablesMainPageComponent,
-    PaymentsOrdersEditionComponent,
+    PaymentInstructionsMainPageComponent,
+    PaymentOrdersMainPageComponent,
+    PaymentOrdersEditionComponent,
   ],
 })
 export class PaymentsModule { }

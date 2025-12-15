@@ -25,8 +25,8 @@ import {
 } from '@app/views/budgeting/budgets/budget-management/budget-management.component';
 
 import {
-  PaymentsOrdersEditionEventType
-} from '@app/views/payments/payments-orders/payments-orders-edition/payments-orders-edition.component';
+  PaymentOrdersEditionEventType
+} from '@app/views/payments/payment-orders/payment-orders-edition/payment-orders-edition.component';
 
 import {
   DocumentsEditionEventType
@@ -166,9 +166,9 @@ export class OrderTabbedViewComponent implements OnChanges {
   }
 
 
-  onPaymentsOrdersEditionEvent(event: EventInfo) {
-    switch (event.type as PaymentsOrdersEditionEventType) {
-      case PaymentsOrdersEditionEventType.UPDATED:
+  onPaymentOrdersEditionEvent(event: EventInfo) {
+    switch (event.type as PaymentOrdersEditionEventType) {
+      case PaymentOrdersEditionEventType.UPDATED:
         const payload = { orderUID: this.data.order.uid };
         sendEvent(this.orderTabbedViewEvent, OrderTabbedViewEventType.REFRESH_DATA, payload);
         return;
@@ -196,7 +196,7 @@ export class OrderTabbedViewComponent implements OnChanges {
     const authorizationTime = !this.data.order.authorizationTime ?
       'N/D' : DateStringLibrary.format(this.data.order.authorizationTime);
 
-    const entityName = this.getPayableEntityName() + '&nbsp; &nbsp; | &nbsp; &nbsp;';
+    const entityName = this.getEntityName() + '&nbsp; &nbsp; | &nbsp; &nbsp;';
 
     const status = this.data.order.status.name === 'Eliminado' ?
       `<span class="tag tag-error tag-small">${this.data.order.status.name}</span>` :
@@ -210,7 +210,7 @@ export class OrderTabbedViewComponent implements OnChanges {
   }
 
 
-  private getPayableEntityName(): string {
+  private getEntityName(): string {
     const isContractOrder = this.config.type === ObjectTypes.CONTRACT_ORDER;
     if (isContractOrder) {
       const order = this.data.order as ContractOrder;

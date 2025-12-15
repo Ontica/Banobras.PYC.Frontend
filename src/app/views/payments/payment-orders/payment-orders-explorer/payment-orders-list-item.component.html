@@ -1,0 +1,48 @@
+<div class="fx-row-container fx-gap-size entry-gap-size sm-fx-gap">
+
+  <div class="fx-item-size check-column-size">
+    <mat-checkbox empNgStopPropagation
+      [checked]="selected"
+      (change)="onCheckClicked()">
+    </mat-checkbox>
+  </div>
+
+  <div class="fx-item-size first-column-size">
+    <div class="list-item-text-highlight nowrap"
+      (click)="onSelectClicked()">
+      <a class="bold-text">{{item.paymentOrderNo}}</a>
+    </div>
+    <div class="bold-text">{{item.paymentOrderTypeName}}</div>
+    <div empNgTextTruncateToggle [text]="item.payTo" [maxLines]="2">
+      {{item.payTo}}
+    </div>
+  </div>
+
+  <div class="fx-item-size second-column-size">
+    <div class="list-item-text-highlight">{{item.budgetName}}</div>
+    <div class="bold-text" [title]="item.payableName">
+      ({{!item.payableTypeName ? '-' : item.payableTypeName }}) {{!item.payableNo ? '-' : item.payableNo }}
+    </div>
+    <div>{{item.total | empDecimal}} {{item.currencyCode}}</div>
+  </div>
+
+  <div class="fx-item">
+    <div class="list-item-text-highlight">
+      {{!item.requestedBy ? '-' : item.requestedBy}}
+    </div>
+    <div class="bold-text">
+      {{!item.requestedTime ? '-' : (item.requestedTime | empDateTimeFormat: 'DMY HH:mm')}}
+    </div>
+    <div>
+      {{!item.dueTime ? '-' : (item.dueTime | empDateTimeFormat: 'DMY HH:mm')}}
+    </div>
+  </div>
+
+  <div class="fx-item-size status-column-size">
+    <span class="tag"
+      [ngClass]="{'tag-base-error': item.statusName | empIsErrorStatus}">
+      {{item.statusName}}
+    </span>
+  </div>
+
+</div>

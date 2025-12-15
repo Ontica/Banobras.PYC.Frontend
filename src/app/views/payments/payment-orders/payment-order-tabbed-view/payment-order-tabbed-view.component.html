@@ -1,0 +1,96 @@
+<emp-ng-card
+  [heading]="title"
+  [hint]="hint"
+  (cardClose)="onCloseButtonClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
+
+    <mat-tab label="Solicitud">
+
+      <emp-pmt-payment-order-editor
+        [paymentOrder]="data.paymentOrder"
+        [payableEntity]="data.payableEntity"
+        [actions]="data.actions"
+        (paymentOrderEditorEvent)="onPaymentOrderEditorEvent($event)">
+
+      </emp-pmt-payment-order-editor>
+
+    </mat-tab>
+
+
+    <mat-tab label="Comprobantes">
+
+      <emp-ng-bills-edition
+        [bills]="data.bills">
+
+      </emp-ng-bills-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Presupuesto">
+
+      <emp-bdg-budget-management
+        [baseObjectType]="ObjectTypes.PAYMENT_ORDER"
+        [baseObjectUID]="data.paymentOrder.uid"
+        [baseObjectName]="data.paymentOrder.paymentOrderNo"
+        [budgetTotal]="data.paymentOrder.total"
+        [budgetTransactions]="data.budgetTransactions"
+        [canApprove]="data.actions?.canApprovePayment"
+        [canExercise]="data.actions?.canExerciseBudget"
+        (budgetManagementEvent)="onBudgetManagementEvent($event)">
+
+      </emp-bdg-budget-management>
+
+    </mat-tab>
+
+    <mat-tab label="Conceptos">
+
+      <emp-pmt-payment-order-items-edition
+        [items]="data.items"
+        [actions]="data.actions"
+        (paymentOrderItemsEditionEvent)="onPaymentOrderItemsEditionEvent($event)">
+
+      </emp-pmt-payment-order-items-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Instrucción de pago">
+
+      <emp-pmt-payment-orders-edition
+        entityName="la solicitud de pago"
+        [entityUID]="data.paymentOrder.uid"
+        [entityTotal]="data.paymentOrder.total"
+        [items]="data.paymentInstructions"
+        [canGeneratePaymentInstruction]="data.actions.canGeneratePaymentInstruction"
+        [displayType]="true"
+        (paymentOrdersEditionEvent)="onPaymentOrdersEditionEvent($event)">
+
+      </emp-pmt-payment-orders-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Documentos">
+
+      <emp-ng-documents-edition
+        entityType="payment-orders"
+        [entityUID]="data.paymentOrder.uid"
+        [documents]="data.documents"
+        [canEdit]="data.actions?.canEditDocuments"
+        (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+
+      </emp-ng-documents-edition>
+
+    </mat-tab>
+
+    <mat-tab label="Historial">
+
+      <emp-ng-history-table
+        [history]="data.history">
+
+      </emp-ng-history-table>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

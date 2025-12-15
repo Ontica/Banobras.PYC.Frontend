@@ -27,7 +27,7 @@ import { RequestsList } from '../requests';
 
 import { TaxEntry } from '../taxes';
 
-import { PaymentOrderDescriptor } from '../payments-orders';
+import { PaymentInstructionDescriptor } from '../payment-instructions';
 
 
 export interface OrderExplorerTypeConfig<T> extends ExplorerTypeConfig<T> {
@@ -192,7 +192,7 @@ export interface OrderHolder {
   taxes: TaxEntry[];
   orders: OrderDescriptor[];
   bills: Bill[];
-  paymentOrders: PaymentOrderDescriptor[];
+  paymentOrders: PaymentInstructionDescriptor[];
   budgetTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
   history: HistoryEntry[];

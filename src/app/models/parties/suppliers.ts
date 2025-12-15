@@ -20,7 +20,7 @@ import { Document } from '../documents';
 
 import { HistoryEntry } from '../history';
 
-import { PaymentAccount } from '../payments-orders';
+import { PaymentAccount } from '../payment-instructions';
 
 
 export interface SuppliersQuery extends PartiesQuery {

@@ -55,17 +55,17 @@
 
         </emp-ng-bills-edition>
 
-        <emp-pmt-payments-orders-edition *ngSwitchCase="TabType.paymentOrders"
+        <emp-pmt-payment-orders-edition *ngSwitchCase="TabType.paymentOrders"
           [entityUID]="data.order.uid"
           [supplierUID]="data.order.provider.uid"
           [entityName]="config.pronounSingular + ' ' + config.nameSingular"
           [entityTotal]="data.order.total"
-          [paymentsOrders]="data.paymentOrders"
+          [items]="data.paymentOrders"
           [displayType]="isRequisition || isContract"
           [canRequestPayment]="data.actions.canRequestPayment"
-          (paymentsOrdersEditionEvent)="onPaymentsOrdersEditionEvent($event)">
+          (paymentOrdersEditionEvent)="onPaymentOrdersEditionEvent($event)">
 
-        </emp-pmt-payments-orders-edition>
+        </emp-pmt-payment-orders-edition>
 
         <emp-ng-documents-edition *ngSwitchCase="TabType.documents"
           entityType="orders"

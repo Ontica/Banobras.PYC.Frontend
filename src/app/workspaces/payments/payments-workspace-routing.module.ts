@@ -18,12 +18,12 @@ import { BillsMainPageComponent } from '@app/views/billing/bills-main-page/bills
 import { PartiesMainPageComponent } from '@app/views/parties/parties-main-page/parties-main-page.component';
 
 import {
-  PayablesMainPageComponent
-} from '@app/views/payments/payables/payables-main-page/payables-main-page.component';
+  PaymentOrdersMainPageComponent
+} from '@app/views/payments/payment-orders/payment-orders-main-page/payment-orders-main-page.component';
 
 import {
-  PaymentsOrdersMainPageComponent
-} from '@app/views/payments/payments-orders/payments-orders-main-page/payments-orders-main-page.component';
+  PaymentInstructionsMainPageComponent
+} from '@app/views/payments/payment-instructions/payment-instructions-main-page/payment-instructions-main-page.component';
 
 // import {
 //   RequestsMainPageComponent
@@ -39,12 +39,12 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.pagos_solicitudes_de_pago.permission },
     path: ROUTES.pagos_solicitudes_de_pago.path,
-    component: PayablesMainPageComponent,
+    component: PaymentOrdersMainPageComponent,
   },
   {
     data: { permission: ROUTES.pagos_instrucciones_de_pago.permission },
     path: ROUTES.pagos_instrucciones_de_pago.path,
-    component: PaymentsOrdersMainPageComponent,
+    component: PaymentInstructionsMainPageComponent,
   },
   {
     data: { permission: ROUTES.pagos_explorador.permission },
