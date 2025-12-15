@@ -40,7 +40,7 @@ export class PaymentOrdersTableComponent implements OnChanges {
   @Output() paymentOrdersTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumnsDefault: string[] = ['paymentOrderNo', 'payTo', 'paymentAccount', 'paymentMethod',
-                                       'requestedDate', 'requestedBy', 'dueTime', 'total',];
+                                       'requestedTime', 'requestedBy', 'dueTime', 'total',];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
