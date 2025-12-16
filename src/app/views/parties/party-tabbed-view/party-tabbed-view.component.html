@@ -51,9 +51,9 @@
 
     </mat-tab>
 
-    <mat-tab label="Comprobantes">
+    <mat-tab label="Comprobantes" *ngIf="displaySupplierData">
 
-      <emp-ng-bills-edition *ngIf="displaySupplierData"
+      <emp-ng-bills-edition
         [bills]="supplierHolder.bills">
 
       </emp-ng-bills-edition>
