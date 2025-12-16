@@ -423,8 +423,8 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
   private getConfirmTitle(eventType: PaymentOrderHeaderEventType): string {
     switch (eventType) {
-      case PaymentOrderHeaderEventType.CANCEL: return 'Cancelar solicitud de pago';
-      case PaymentOrderHeaderEventType.RESET: return 'Dejar pendiente solicitud de pago';
+      case PaymentOrderHeaderEventType.CANCEL:  return 'Cancelar solicitud de pago';
+      case PaymentOrderHeaderEventType.RESET:   return 'Activar solicitud de pago';
       case PaymentOrderHeaderEventType.SUSPEND: return 'Suspender solicitud de pago';
       default: return '';
     }
@@ -432,22 +432,17 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
 
   private getConfirmMessage(eventType: PaymentOrderHeaderEventType): string {
+    const paymentName = `la solicitud de pago <strong class=nowrap>${this.paymentOrder.paymentOrderNo}</strong> ` +
+      `solicitada por ${this.paymentOrder.requestedBy.name} con documento relacionado ` +
+      `<strong>(${this.paymentOrder.paymentOrderType.name}) ${this.payableEntity.entityNo}</strong>.`
+
     switch (eventType) {
       case PaymentOrderHeaderEventType.CANCEL:
-        return `Esta operación cancelará la solicitud de pago <strong>${this.paymentOrder.paymentOrderNo}</strong> ` +
-               `solicitada por ${this.paymentOrder.requestedBy.name} con documento relacionado ` +
-               `<strong>(${this.paymentOrder.paymentOrderType.name}) ${this.payableEntity.entityNo}</strong>.` +
-               `<br><br>¿Cancelo la solicitud de pago?`;
+        return `Esta operación cancelará ${paymentName}<br><br>¿Cancelo la solicitud de pago?`;
       case PaymentOrderHeaderEventType.RESET:
-        return `Esta operación dejará pendiente la solicitud de pago <strong>${this.paymentOrder.paymentOrderNo}</strong> ` +
-          `solicitada por ${this.paymentOrder.requestedBy.name} con documento relacionado ` +
-          `<strong>(${this.paymentOrder.paymentOrderType.name}) ${this.payableEntity.entityNo}</strong>.` +
-          `<br><br>¿Dejo pendiente la solicitud de pago?`;
+        return `Esta operación activará ${paymentName}<br><br>¿Activo la solicitud de pago?`;
       case PaymentOrderHeaderEventType.SUSPEND:
-        return `Esta operación suspenderá la solicitud de pago <strong>${this.paymentOrder.paymentOrderNo}</strong> ` +
-          `solicitada por ${this.paymentOrder.requestedBy.name} con documento relacionado ` +
-          `<strong>(${this.paymentOrder.paymentOrderType.name}) ${this.payableEntity.entityNo}</strong>.` +
-          `<br><br>¿Suspendo la solicitud de pago?`;
+        return `Esta operación suspenderá ${paymentName}<br><br>¿Suspendo la solicitud de pago?`;
       default: return '';
     }
   }
