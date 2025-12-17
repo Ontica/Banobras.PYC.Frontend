@@ -124,7 +124,7 @@
           [showError]="formHelper.isControlInvalid(form.controls.baseEntityUID)">
 
           <ng-template #tLabelTemplate let-item="item">
-            {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | Cuenta: {{!item?.name ? 'N/D' : item?.name}}
+            {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | {{!item?.name ? 'N/D' : item?.name}}
           </ng-template>
 
           <ng-template #tOptionTemplate let-item="item">
@@ -132,10 +132,11 @@
             <div class="item wrap">
 
               <span class="item-highlight">
-                {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}}  | {{item.payTo?.name}} | {{item.budget?.name}} | {{item.total ?? 0 | empDecimal}} | {{item.currency?.name}}
+                {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | {{!item?.name ? 'N/D' : item?.name}}
+
               </span> <br>
-              <span class="item-text-xs">
-                {{!item?.name ? 'N/D' : item?.name}}
+              <span class="item-text-xs primary-text">
+                {{!!item.payTo?.name ? item.payTo?.name : 'N/D'}} | {{item.budget?.name}} | {{item.total ?? 0 | empDecimal}} | {{item.currency?.name}}
               </span>
 
             </div>
