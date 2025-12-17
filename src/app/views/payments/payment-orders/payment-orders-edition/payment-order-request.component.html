@@ -15,12 +15,41 @@
 
             <div class="fx-item-half">
 
+              <label>Método de pago:</label>
+
+              <emp-ng-select
+                formControlName="paymentMethodUID"
+                [items]="paymentMethodsList"
+                [showError]="formHelper.isControlInvalid(form.controls.paymentMethodUID)"
+                (changes)="onPaymentMethodChanges($event)">
+
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-none">
+
+              <label>Fecha límite:</label>
+              <emp-ng-datepicker
+                formControlName="dueTime"
+                [showError]="formHelper.isControlInvalid(form.controls.dueTime)">
+              </emp-ng-datepicker>
+
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
               <label>Cuenta:</label>
 
               <emp-ng-select
                 formControlName="paymentAccountUID"
                 [items]="paymentAccountsList"
                 [loading]="isLoading"
+                [placeholder]="paymentAccountPlaceholder"
                 [showError]="formHelper.isControlInvalid(form.controls.paymentAccountUID)"
                 (changes)="onPaymentAccountChanges($event)">
 
@@ -48,26 +77,14 @@
 
             </div>
 
-            <div class="fx-item-size" style="--size: calc(50% - 126px)">
+            <div class="fx-item-half">
 
-              <label>Método de pago:</label>
+              <label>Referencia:</label>
 
-              <emp-ng-select
-                formControlName="paymentMethodUID"
-                [items]="paymentMethodsList"
-                [showError]="formHelper.isControlInvalid(form.controls.paymentMethodUID)">
-
-              </emp-ng-select>
-
-            </div>
-
-            <div class="fx-item-none">
-
-              <label>Fecha límite:</label>
-              <emp-ng-datepicker
-                formControlName="dueTime"
-                [showError]="formHelper.isControlInvalid(form.controls.dueTime)">
-              </emp-ng-datepicker>
+              <input type="text" class="text-box"
+                formControlName="referenceNumber"
+                [placeholder]="referenceNumberPlaceholder"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.referenceNumber)">
 
             </div>
 

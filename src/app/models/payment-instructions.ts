@@ -25,6 +25,7 @@ export interface PaymentAccount {
   currency: Identifiable;
   institution: Identifiable;
   accountNo: string;
+  referenceNumber: string;
   holderName: string;
   clabe: string;
 }
@@ -202,6 +203,7 @@ export const EmptyPaymentAccount: PaymentAccount = {
   currency: Empty,
   institution: Empty,
   accountNo: '',
+  referenceNumber: '',
   holderName: '',
   clabe: '',
 }
