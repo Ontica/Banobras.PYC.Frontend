@@ -6,7 +6,7 @@
 
   <div class="fx-row-container fx-gap-half fx-end fx-items-center" *ngIf="canEdit">
 
-    <button
+    <button *ngIf="isRequisition"
       class="btn"
       (click)="onEditTaxesButtonClicked()">
       Editar impuestos

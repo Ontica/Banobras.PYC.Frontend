@@ -60,6 +60,11 @@ export class OrderItemsEditionComponent {
   constructor(private ordersData: OrdersDataService) { }
 
 
+  get isRequisition(): boolean {
+    return [ObjectTypes.REQUISITION].includes(this.config.type);
+  }
+
+
   onAddItemButtonClicked() {
     this.setSelectedItem(EmptyOrderItem, true);
   }
