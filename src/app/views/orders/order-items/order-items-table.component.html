@@ -63,7 +63,7 @@
     </ng-container>
 
     <ng-container matColumnDef="spaceLeft">
-      <td mat-cell *matFooterCellDef [attr.colspan]="displayedColumns.length - 3"></td>
+      <td mat-cell *matFooterCellDef [attr.colspan]="displayedColumns.length - (canDelete ? 3 : 2)"></td>
     </ng-container>
 
     <ng-container matColumnDef="tax">
