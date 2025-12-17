@@ -51,7 +51,7 @@ export class PaymentOrdersExplorerComponent implements OnChanges {
 
   showFilters = false;
 
-  PERMISSION_TO_CREATE = PERMISSIONS.NOT_REQUIRED;
+  PERMISSION_TO_CREATE = PERMISSIONS.FEATURE_EDICION_SOLICITUDES_DE_PAGO;
 
 
   ngOnChanges(changes: SimpleChanges) {

@@ -53,6 +53,8 @@ export enum PERMISSIONS {
   ROUTE_PAGOS_PROVEEDORES = 'route-pagos-proveedores',
   ROUTE_PAGOS_REPORTES = 'route-pagos-reportes',
 
+  FEATURE_EDICION_SOLICITUDES_DE_PAGO = 'feature-edicion-solicitudes-de-pago',
+
   //
   // PRESUPUESTO
   //
