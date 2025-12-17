@@ -34,6 +34,11 @@ export const PriorityList: Identifiable[] = [
 ];
 
 
+export function getPriorityName(priority: Priority): string {
+  return PriorityList.find(x => x.uid === priority)?.name ?? '';
+}
+
+
 export interface Step {
   uid: string;
   workflowInstance: Identifiable;

@@ -49,7 +49,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-three-quarter">
+      <div class="fx-item-half">
 
         <label>Documento relacionado:</label>
 
@@ -68,7 +68,7 @@
           (changes)="onPayableEntityChanges($event)">
 
           <ng-template #tLabelTemplate let-item="item">
-            {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | Cuenta: {{!item?.name ? 'N/D' : item?.name}}
+            {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}}: {{!item?.name ? 'N/D' : item?.name}}
           </ng-template>
 
           <ng-template #tOptionTemplate let-item="item">
@@ -76,10 +76,10 @@
             <div class="item wrap">
 
               <span class="item-highlight">
-                {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}}  | {{item.payTo?.name}} | {{item.budget?.name}} | {{item.total ?? 0 | empDecimal}} | {{item.currency?.name}}
+                {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}}: {{!item?.name ? 'N/D' : item?.name}}
               </span> <br>
-              <span class="item-text-xs">
-                {{!item?.name ? 'N/D' : item?.name}}
+              <span class="item-text-xs primary-text">
+                {{item.payTo?.name}} | {{item.budget?.name}} | {{item.total ?? 0 | empDecimal}} | {{item.currency?.name}}
               </span>
 
             </div>
@@ -87,6 +87,27 @@
           </ng-template>
 
         </emp-ng-select-typeahead>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Prioridad:</label>
+
+        <emp-ng-select
+          formControlName="priority"
+          [items]="priorityList"
+          [showError]="formHelper.isControlInvalid(form.controls.priority)">
+
+          <ng-template #optionTemplate let-item="item">
+            <div [style.width.%]="100"
+              [ngClass]="{'Default': item.uid === Priority.Normal,
+                          'Terciario': item.uid === Priority.Urgent}">
+              {{item.name}}
+            </div>
+          </ng-template>
+
+        </emp-ng-select>
 
       </div>
 
@@ -199,10 +220,10 @@
             <div class="item wrap">
 
               <span class="item-highlight">
-                {{item.institution?.name}} | Cuenta: {{!!item.accountNo ? item.accountNo : 'N/D'}}
+                {{item.institution?.name}} | {{!!item.accountNo ? item.accountNo : 'N/D'}}
               </span> <br>
 
-              <span class="item-text-xs">
+              <span class="item-text-xs primary-text">
                 CLABE: {{item.clabe}} | Titular: {{item.holderName}}
               </span>
 

@@ -11,7 +11,7 @@ import { EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { PaymentOrderDescriptor } from '@app/models';
+import { PaymentOrderDescriptor, Priority } from '@app/models';
 
 
 export enum PaymentOrdersListItemEventType {
@@ -31,6 +31,8 @@ export class PaymentOrdersListItemComponent {
   @Input() selected = false;
 
   @Output() paymentOrdersListItemEvent = new EventEmitter<EventInfo>();
+
+  Priority = Priority;
 
 
   onSelectClicked() {

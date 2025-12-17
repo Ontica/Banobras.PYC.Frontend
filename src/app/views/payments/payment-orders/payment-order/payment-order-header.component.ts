@@ -25,8 +25,8 @@ import { ArrayLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/ut
 import { SearcherAPIS } from '@app/data-services';
 
 import { BudgetType, EmptyPaymentOrder, EmptyPaymentOrderActions, EmptyPayableEntity, PaymentOrder,
-         PaymentOrderActions, PayableEntity, PaymentOrderFields, PaymentAccount, PaymentMethod,
-         RequestsList } from '@app/models';
+         PaymentOrderActions, PayableEntity, PaymentOrderFields, PaymentAccount, PaymentMethod, RequestsList,
+         Priority, PaymentOrderPriorityList } from '@app/models';
 
 
 export enum PaymentOrderHeaderEventType {
@@ -48,6 +48,7 @@ interface PayableFormModel extends FormGroup<{
   paymentMethodUID: FormControl<string>;
   paymentAccountUID: FormControl<string>;
   referenceNumber: FormControl<string>;
+  priority: FormControl<Priority>;
   description: FormControl<string>;
   observations: FormControl<string>;
   dueTime: FormControl<DateString>;
@@ -87,6 +88,8 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
   paymentAccountsList: PaymentAccount[] = [];
 
+  priorityList = PaymentOrderPriorityList;
+
   selectedPayableEntity: PayableEntity = null;
 
   accountRelated = false;
@@ -94,6 +97,8 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
   payableEntitiesAPI = SearcherAPIS.payableEntities;
 
   eventTypes = PaymentOrderHeaderEventType;
+
+  Priority = Priority;
 
 
   constructor(private uiLayer: PresentationLayer,
@@ -278,6 +283,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
       paymentAccountUID: ['', Validators.required],
       currencyUID: ['', Validators.required],
       referenceNumber: [''],
+      priority: [Priority.Normal, Validators.required],
       description: [''],
       observations: [''],
       dueTime: [null as DateString, Validators.required],
@@ -298,6 +304,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
         paymentAccountUID: FormHelper.getUIDValueValid(this.paymentOrder.paymentAccount),
         currencyUID: FormHelper.getUIDValueValid(this.paymentOrder.currency),
         referenceNumber: this.paymentOrder.referenceNumber ?? '',
+        priority: this.paymentOrder.priority ?? null,
         description: this.paymentOrder.description ?? '',
         observations: this.paymentOrder.observations ?? '',
         dueTime: this.paymentOrder.dueTime ?? null,
@@ -326,6 +333,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
       paymentAccountUID: this.form.value.paymentAccountUID ?? '',
       description: this.form.value.description ?? '',
       referenceNumber: this.form.value.referenceNumber ?? '',
+      priority: this.form.value.priority ?? null,
       observations: this.form.value.observations ?? '',
     };
 

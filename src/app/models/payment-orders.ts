@@ -20,6 +20,8 @@ import { HistoryEntry } from './history';
 import { EmptyPaymentMethod, PaymentAccount, PaymentMethod, PaymentInstructionDescriptor,
          EmptyPaymentAccount } from './payment-instructions';
 
+import { Priority, getPriorityName } from './steps';
+
 
 export interface PaymentOrdersQuery {
   status: PaymentOrderStatus;
@@ -66,6 +68,12 @@ export const PaymentOrderStatusList: Identifiable<PaymentOrderStatus>[] = [
 ];
 
 
+export const PaymentOrderPriorityList: Identifiable[] = [
+  { uid: Priority.Normal, name: 'Normal' },
+  { uid: Priority.Urgent, name: 'Urgente' },
+];
+
+
 export interface BasePaymentDescriptor {
   uid: string;
   paymentOrderNo: string;
@@ -93,6 +101,7 @@ export interface PaymentOrderDescriptor extends BasePaymentDescriptor {
   dueTime: DateString;
   requestedBy: string;
   requestedTime: DateString;
+  priorityName: string;
   statusName: string;
   payableNo: string;
   payableTypeName: string;
@@ -118,6 +127,7 @@ export interface PaymentOrderFields {
   paymentMethodUID: string;
   paymentAccountUID: string;
   description: string;
+  priority: string;
   observations: string;
 }
 
@@ -152,6 +162,7 @@ export interface PaymentOrder {
   total: number;
   referenceNumber: string;
   observations: string;
+  priority: Priority;
   status: Identifiable;
 }
 
@@ -274,6 +285,7 @@ export const EmptyPaymentOrder: PaymentOrder = {
   dueTime: '',
   referenceNumber: '',
   observations: '',
+  priority: null,
   status: Empty,
 }
 
@@ -304,6 +316,7 @@ export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderHold
     dueTime: data.paymentOrder.dueTime,
     requestedBy: data.paymentOrder.requestedBy.name,
     requestedTime: data.paymentOrder.requestedDate,
+    priorityName: getPriorityName(data.paymentOrder.priority),
     statusName: data.paymentOrder.status.name,
     payableNo: data.payableEntity.entityNo,
     payableName: data.payableEntity.name,

@@ -43,6 +43,9 @@
       [ngClass]="{'tag-base-error': item.statusName | empIsErrorStatus}">
       {{item.statusName}}
     </span>
+    <div [style.margin-top.rem]="0.5">
+      {{item.priorityName}}
+    </div>
   </div>
 
 </div>
