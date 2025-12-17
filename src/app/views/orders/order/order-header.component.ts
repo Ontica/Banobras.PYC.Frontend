@@ -42,6 +42,7 @@ interface OrderFormModel extends FormGroup<{
   requestedByUID: FormControl<string>;
   linkedOrderUID: FormControl<string>;
   categoryUID: FormControl<string>;
+  expenseTypeUID: FormControl<string>;
   contractNo: FormControl<string>;
   name: FormControl<string>;
   datePeriod: FormControl<DateRange>;
@@ -100,6 +101,8 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   orgUnitsList: Identifiable[] = [];
 
   categoriesList: Identifiable[] = [];
+
+  expenseTypesList: Identifiable[] = [];
 
   prioritiesList: Identifiable[] = PriorityList;
 
@@ -250,14 +253,16 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: this.config.requestsList }),
       this.ordersData.getOrderCategories(this.config.type),
+      this.ordersData.getExpensesTypes(),
       this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
     ])
-    .subscribe(([a, b, c, d]) => {
+    .subscribe(([a, b, c, d, e]) => {
       this.orgUnitsList = a;
       this.categoriesList = b;
-      this.budgetTypesList = c;
-      this.currenciesList = d;
+      this.expenseTypesList = c;
+      this.budgetTypesList = d;
+      this.currenciesList = e;
       this.validateInitDataList();
       this.validateSetBudgetsList();
       this.isLoading = false;
@@ -287,6 +292,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       requestedByUID: ['', Validators.required],
       linkedOrderUID: [''],
       categoryUID: [''],
+      expenseTypeUID: [''],
       contractNo: [''],
       name: ['', Validators.required],
       datePeriod: [EmptyDateRange],
@@ -360,6 +366,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       case ObjectTypes.EXPENSE:
       case ObjectTypes.PURCHASE: {
         const order = this.order as PayableOrder;
+        this.form.controls.expenseTypeUID.reset(FormHelper.getUIDValueValid(order.expenseType));
         this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValueValid(order.requisition));
         this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(order.budget));
         break;
@@ -384,6 +391,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
 
     this.validateControlRequired(controls.linkedOrderUID, this.isOrdersAvailableRequired);
     this.validateControlRequired(controls.categoryUID, this.isRequisition || this.isContract || this.isExpense);
+    this.validateControlRequired(controls.expenseTypeUID, this.isExpense);
     this.validateControlRequired(controls.budgetTypeUID, this.isRequisition);
     this.validateControlRequired(controls.budgetUID, this.isContractOrder || this.isPurchase || this.isExpense);
     this.validateControlRequired(controls.budgets, this.isRequisition || this.isContract);
@@ -445,6 +453,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.order.beneficiary, 'uid');
       this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.order.responsible, 'uid');
       this.ordersAvailableList = ArrayLibrary.insertIfNotExist([], this.getOrderLinked(), 'uid');
+      this.expenseTypesList = ArrayLibrary.insertIfNotExist(this.expenseTypesList ?? [], this.getExpenseType(), 'uid');
     }
   }
 
@@ -462,6 +471,11 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       default:
         return null;
     }
+  }
+
+
+  private getExpenseType(): Identifiable {
+    return this.isExpense ? (this.order as PayableOrder).expenseType ?? null : null;
   }
 
 
@@ -585,6 +599,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       {
         requisitionUID: formValues.linkedOrderUID ?? null,
         budgetUID: formValues.budgetUID ?? null,
+        expenseTypeUID: this.isExpense ? formValues.expenseTypeUID ?? null : null,
       }
     };
 

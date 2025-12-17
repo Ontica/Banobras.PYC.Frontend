@@ -30,6 +30,13 @@ export class OrdersDataService {
   }
 
 
+  getExpensesTypes(): EmpObservable<Identifiable[]> {
+    const path = `v8/order-management/expenses-types`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   searchOrders(query: OrdersQuery): EmpObservable<OrderDescriptor[]> {
     Assertion.assertValue(query, 'query');
 

@@ -18,6 +18,20 @@
 
       </div>
 
+      <div class="fx-item-half" *ngIf="isExpense">
+
+        <label>Tipo de gasto:</label>
+
+        <emp-ng-select
+          formControlName="expenseTypeUID"
+          [items]="expenseTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.expenseTypeUID)">
+
+        </emp-ng-select>
+
+      </div>
+
       <ng-container *ngIf="isContract">
 
         <div class="fx-item-quarter">
@@ -45,14 +59,14 @@
 
         </div>
 
-      </ng-container>
+        <div class="fx-item-half">
+          <label>No. de contrato:</label>
+          <input type="text" class="text-box"
+            formControlName="contractNo"
+            [class.invalid-control]="formHelper.isControlInvalid(form.controls.contractNo)">
+        </div>
 
-      <div class="fx-item-half" *ngIf="isContract">
-        <label>No. de contrato:</label>
-        <input type="text" class="text-box"
-          formControlName="contractNo"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.contractNo)">
-      </div>
+      </ng-container>
 
       <div class="fx-item-none" *ngIf="isContract || isRequisition">
         <label>{{isRequisition ? 'Vigencia estimada:': 'Vigencia:'}}</label>

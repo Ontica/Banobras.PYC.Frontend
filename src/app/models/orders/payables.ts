@@ -25,6 +25,7 @@ export interface PayableOrderDescriptor extends OrderDescriptor {
 export interface PayableOrderFields extends OrderFields {
   requisitionUID: string;
   budgetUID: string;
+  expenseTypeUID: string;
 }
 
 
@@ -42,6 +43,7 @@ export interface PayableOrder extends Order {
   budgetType: Identifiable;
   budget: Identifiable;
   requisition: OrderForEdition;
+  expenseType: Identifiable;
 }
 
 
