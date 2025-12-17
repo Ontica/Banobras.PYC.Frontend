@@ -44,6 +44,9 @@ import { PaymentOrderHeaderComponent } from './payment-orders/payment-order/paym
 import { PaymentOrderItemsEditionComponent } from './payment-orders/payment-order-items/payment-order-items-edition.component';
 import { PaymentOrderItemsTableComponent } from './payment-orders/payment-order-items/payment-order-items-table.component';
 
+import { PaymentTimeControlModalComponent } from './payment-time-control/time-control-modal.component';
+import { PaymentTimeWindowSelectorComponent } from './payment-time-control/time-window-selector.component';
+
 
 @NgModule({
   imports: [
@@ -87,11 +90,15 @@ import { PaymentOrderItemsTableComponent } from './payment-orders/payment-order-
     PaymentOrdersEditionComponent,
     PaymentOrderRequestComponent,
     PaymentOrdersTableComponent,
+
+    PaymentTimeControlModalComponent,
+    PaymentTimeWindowSelectorComponent,
   ],
   exports: [
     PaymentInstructionsMainPageComponent,
     PaymentOrdersMainPageComponent,
     PaymentOrdersEditionComponent,
+    PaymentTimeControlModalComponent,
   ],
 })
 export class PaymentsModule { }

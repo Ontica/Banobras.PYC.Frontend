@@ -12,7 +12,8 @@ type ControlPanelOptionType = 'ChangePassword' |
                               'OperationsLog' |
                               'BudgetPlanningPeriods' |
                               'PayrollsIntegration' |
-                              'CUCoP';
+                              'CUCoP' |
+                              'PaymentsTimeControl';
 
 
 export interface ControlPanelOption {
@@ -59,5 +60,12 @@ export const ControlPanelOptionList: ControlPanelOption[] = [
     actionTitle: 'Actualizar',
     type: 'CUCoP',
     permission: PERMISSIONS.FEATURE_IMPORTACION_CATALOGO_CUCOP,
+  },
+  {
+    title: 'Control de horario de pagos',
+    description: 'Herramienta para actualizar el horario de envío de pagos a SIMEFIN.',
+    actionTitle: 'Administrar',
+    type: 'PaymentsTimeControl',
+    permission: PERMISSIONS.FEATURE_CONTROL_DE_HORARIO_DE_PAGOS,
   },
 ];

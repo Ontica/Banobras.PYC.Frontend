@@ -92,6 +92,8 @@ export * from './payment-orders';
 
 export * from './payment-instructions';
 
+export * from './payment-time-control';
+
 export * from './payrolls';
 
 export * from './products';

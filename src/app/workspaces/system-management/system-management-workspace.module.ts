@@ -17,6 +17,7 @@ import { SystemManagementWorkspaceRoutingModule } from './system-management-work
 import { AccessControlModule } from '@app/views/_access-control/access-control.module';
 import { BudgetTransactionsModule } from '@app/views/budgeting/budgets-transactions/budget-transactions.module';
 import { PartiesModule } from '@app/views/parties/parties.module';
+import { PaymentsModule } from '@app/views/payments/payments.module';
 import { PayrollsIntegrationModule } from '@app/views/payrolls-integration/payrolls-integration.module';
 
 import {
@@ -43,6 +44,7 @@ import {
     AccessControlModule,
     BudgetTransactionsModule,
     PartiesModule,
+    PaymentsModule,
     PayrollsIntegrationModule,
   ],
 

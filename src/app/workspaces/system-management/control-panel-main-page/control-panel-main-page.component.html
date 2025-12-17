@@ -15,7 +15,7 @@
 
             <div *empNgHasPermission="option.permission"
               class="card-info
-                     fx-row-container fx-space-around fx-items-center
+                     fx-row-container fx-space-around fx-items-center fx-gap-quarter
                      fx-item-half-margin sm-fx-item">
 
               <div class="fx-item">
@@ -59,6 +59,12 @@
   (closeEvent)="displayTransactionsPlanningGeneratorModal = false">
 
 </emp-bdg-transactions-planning-generator>
+
+
+<emp-pmt-time-control-modal *ngIf="displayPaymentTimeControlModal"
+  (closeEvent)="displayPaymentTimeControlModal = false">
+
+</emp-pmt-time-control-modal>
 
 
 <emp-pyc-payrolls-modal *ngIf="displayPayrollsModal"

@@ -1,0 +1,53 @@
+<form [formGroup]="form" [empNgSpinnerHost]="spinner" empNgFormKeyDownEnter
+  autocomplete="off" class="form-section">
+
+  <emp-ng-spinner #spinner [visible]="submitted">
+
+  </emp-ng-spinner>
+
+  <div class="fx-row-container fx-gap-half">
+
+    <div class="fx-item-half">
+
+      <label>Hora de inicio:</label>
+
+        <input type="text" class="text-box text-align-right"
+          formControlName="startTime"
+          placeholder="HH:mm"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.startTime)">
+
+    </div>
+
+    <div class="fx-item-half">
+
+      <label>Hora de fin:</label>
+
+      <input type="text" class="text-box text-align-right"
+        formControlName="endTime"
+        placeholder="HH:mm"
+        [class.invalid-control]="formHelper.isControlInvalid(form.controls.endTime)">
+
+    </div>
+
+  </div>
+
+  <mat-divider class="horizontal">
+
+  </mat-divider>
+
+  <div #rowFooter class="fx-row-container">
+
+    <div class="fx-item fx-end fx-items-center">
+
+      <button
+        [class.btn]="!formHelper.isFormReady(form)"
+        [class.btn-action]="formHelper.isFormReady(form)"
+        (click)="onSubmitButtonClicked()">
+        Guardar
+      </button>
+
+    </div>
+
+  </div>
+
+</form>
