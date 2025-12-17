@@ -32,6 +32,7 @@ export enum PaymentInstructionHeaderEventType {
   UPDATE                 = 'PaymentInstructionHeaderComponent.Event.Update',
   CANCEL                 = 'PaymentInstructionHeaderComponent.Event.Cancel',
   SUSPEND                = 'PaymentInstructionHeaderComponent.Event.Suspend',
+  RESET                  = 'PaymentInstructionHeaderComponent.Event.Reset',
   REQUEST_PAYMENT        = 'PaymentInstructionHeaderComponent.Event.RequestPayment',
   CANCEL_PAYMENT_REQUEST = 'PaymentInstructionHeaderComponent.Event.CancelPaymentRequest',
 }
@@ -118,7 +119,8 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
 
 
   get hasActions(): boolean {
-    return this.actions.canUpdate || this.actions.canCancel || this.actions.canRequestPayment;
+    return this.actions.canUpdate || this.actions.canCancel || this.actions.canReset ||
+      this.actions.canSuspend || this.actions.canRequestPayment || this.actions.canCancelPaymentRequest;
   }
 
 
@@ -345,6 +347,7 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
     switch (eventType) {
       case PaymentInstructionHeaderEventType.CANCEL:
         return 'DeleteCancel';
+      case PaymentInstructionHeaderEventType.RESET:
       case PaymentInstructionHeaderEventType.SUSPEND:
       case PaymentInstructionHeaderEventType.REQUEST_PAYMENT:
       case PaymentInstructionHeaderEventType.CANCEL_PAYMENT_REQUEST:
@@ -357,42 +360,34 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
   private getConfirmTitle(eventType: PaymentInstructionHeaderEventType): string {
     switch (eventType) {
       case PaymentInstructionHeaderEventType.CANCEL: return 'Cancelar instrucción de pago';
+      case PaymentInstructionHeaderEventType.RESET: return 'Activar instrucción de pago';
       case PaymentInstructionHeaderEventType.SUSPEND: return 'Suspender instrucción de pago';
       case PaymentInstructionHeaderEventType.REQUEST_PAYMENT: return 'Enviar pago';
-      case PaymentInstructionHeaderEventType.CANCEL_PAYMENT_REQUEST: return 'Cancelar envió de pago';
+      case PaymentInstructionHeaderEventType.CANCEL_PAYMENT_REQUEST: return 'Cancelar envío de pago';
       default: return '';
     }
   }
 
 
   private getConfirmMessage(eventType: PaymentInstructionHeaderEventType): string {
+    const instructionName = `la instrucción de pago <strong>(${this.instruction.paymentInstructionType.name}) ` +
+      `${this.instruction.paymentInstructionNo}</strong>`;
+    const payToName = `<strong>${this.instruction.payTo.name}</strong>`;
+    const total = FormatLibrary.numberWithCommas(this.instruction.total, '1.2-2');
+
     switch (eventType) {
       case PaymentInstructionHeaderEventType.CANCEL:
-        return `Esta operación cancelará la instrucción de pago
-                <strong>${this.instruction.paymentInstructionNo}: ${this.instruction.paymentInstructionType.name}</strong>
-                de <strong>${this.instruction.payTo.name}</strong>.
-                <br><br>¿Cancelo la instrucción de pago?`;
+        return `Esta operación cancelará ${instructionName} de ${payToName}.<br><br>¿Cancelo la instrucción de pago?`;
+      case PaymentInstructionHeaderEventType.RESET:
+        return `Esta operación activará ${instructionName} de ${payToName}.<br><br>¿Activo la solicitud de pago?`;
       case PaymentInstructionHeaderEventType.SUSPEND:
-        return `Esta operación suspenderá la instrucción de pago
-                <strong>${this.instruction.paymentInstructionNo}: ${this.instruction.paymentInstructionType.name}</strong>
-                de <strong>${this.instruction.payTo.name}</strong>.
-                <br><br>¿Suspendo la instrucción de pago?`;
-      case PaymentInstructionHeaderEventType.REQUEST_PAYMENT: {
-        const total = FormatLibrary.numberWithCommas(this.instruction.total, '1.2-2');
-        return `Esta operación enviará el pago
-                <strong>${this.instruction.paymentInstructionNo}: ${this.instruction.paymentInstructionType.name}</strong>
-                a pagar a <strong>${this.instruction.payTo.name}</strong>
-                por un total de <strong>${total}</strong>.
+        return `Esta operación suspenderá ${instructionName} de ${payToName}.<br><br>¿Suspendo la instrucción de pago?`;
+      case PaymentInstructionHeaderEventType.REQUEST_PAYMENT:
+        return `Esta operación enviará a pagar ${instructionName} de ${payToName} por un total de <strong>${total}</strong>.
                 <br><br>¿Envio el pago?`;
-      }
-      case PaymentInstructionHeaderEventType.CANCEL_PAYMENT_REQUEST: {
-        const total = FormatLibrary.numberWithCommas(this.instruction.total, '1.2-2');
-        return `Esta operación cancelará el envio del pago
-                <strong>${this.instruction.paymentInstructionNo}: ${this.instruction.paymentInstructionType.name}</strong>
-                a pagar a <strong>${this.instruction.payTo.name}</strong>
-                por un total de <strong>${total}</strong>.
-                <br><br>¿Cancelo el envio del pago?`;
-      }
+      case PaymentInstructionHeaderEventType.CANCEL_PAYMENT_REQUEST:
+        return `Esta operación cancelará el envío de ${instructionName} a pagar a ${payToName}
+                por un total de <strong>${total}</strong>.<br><br>¿Cancelo el envío del pago?`;
       default: return '';
     }
   }

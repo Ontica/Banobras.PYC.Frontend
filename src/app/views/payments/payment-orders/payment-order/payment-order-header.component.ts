@@ -35,7 +35,6 @@ export enum PaymentOrderHeaderEventType {
   CANCEL  = 'PaymentOrderHeaderComponent.Event.Cancel',
   SUSPEND = 'PaymentOrderHeaderComponent.Event.Suspend',
   RESET   = 'PaymentOrderHeaderComponent.Event.Reset',
-
 }
 
 interface PayableFormModel extends FormGroup<{
@@ -123,7 +122,8 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
 
   get hasActions(): boolean {
-    return this.actions.canUpdate || this.actions.canCancel || this.actions.canGeneratePaymentInstruction;
+    return this.actions.canUpdate || this.actions.canCancel || this.actions.canReset ||
+      this.actions.canSuspend;
   }
 
 

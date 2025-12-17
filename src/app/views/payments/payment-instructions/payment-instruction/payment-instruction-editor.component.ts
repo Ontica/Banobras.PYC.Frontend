@@ -61,6 +61,9 @@ export class PaymentInstructionEditorComponent {
       case PaymentInstructionHeaderEventType.SUSPEND:
         this.suspendPaymentInstruction(this.instruction.uid);
         return;
+      case PaymentInstructionHeaderEventType.RESET:
+        this.resetPaymentInstruction(this.instruction.uid);
+        return;
       case PaymentInstructionHeaderEventType.REQUEST_PAYMENT:
         this.requestPayment(this.instruction.uid);
         return;
@@ -99,6 +102,16 @@ export class PaymentInstructionEditorComponent {
     this.submitted = true;
 
     this.paymentInstructionsData.suspendPaymentInstruction(dataUID)
+      .firstValue()
+      .then(x => this.resolveDataUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private resetPaymentInstruction(dataUID: string) {
+    this.submitted = true;
+
+    this.paymentInstructionsData.resetPaymentInstruction(dataUID)
       .firstValue()
       .then(x => this.resolveDataUpdated(x))
       .finally(() => this.submitted = false);

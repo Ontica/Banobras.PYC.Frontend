@@ -67,10 +67,19 @@ export class PaymentInstructionsDataService {
   }
 
 
-  suspendPaymentInstruction(paymentOrderUID: string): EmpObservable<PaymentInstructionHolder> {
-    Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
+  suspendPaymentInstruction(paymentInstructionUID: string): EmpObservable<PaymentInstructionHolder> {
+    Assertion.assertValue(paymentInstructionUID, 'paymentInstructionUID');
 
-    const path = `v2/payments-management/payment-instructions/${paymentOrderUID}/suspend`;
+    const path = `v2/payments-management/payment-instructions/${paymentInstructionUID}/suspend`;
+
+    return this.http.post<PaymentInstructionHolder>(path);
+  }
+
+
+  resetPaymentInstruction(paymentInstructionUID: string): EmpObservable<PaymentInstructionHolder> {
+    Assertion.assertValue(paymentInstructionUID, 'paymentInstructionUID');
+
+    const path = `v2/payments-management/payment-instructions/${paymentInstructionUID}/reset`;
 
     return this.http.post<PaymentInstructionHolder>(path);
   }

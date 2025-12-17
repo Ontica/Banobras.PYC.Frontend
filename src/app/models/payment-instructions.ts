@@ -147,6 +147,7 @@ export interface PaymentInstructionActions {
   canUpdate: boolean;
   canCancel: boolean;
   canSuspend: boolean;
+  canReset: boolean;
   canRequestPayment: boolean;
   canCancelPaymentRequest: boolean;
   canEditDocuments: boolean;
@@ -231,6 +232,7 @@ export const EmptyPaymentInstructionActions: PaymentInstructionActions = {
   canUpdate: false,
   canCancel: false,
   canSuspend: false,
+  canReset: false,
   canRequestPayment: false,
   canCancelPaymentRequest: false,
   canEditDocuments: false,

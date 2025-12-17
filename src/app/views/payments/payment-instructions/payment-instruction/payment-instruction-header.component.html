@@ -201,6 +201,12 @@
             Suspender
           </button>
 
+          <button *ngIf="actions.canReset"
+            type="button" class="btn"
+            (click)="onEventButtonClicked(eventTypes.RESET)">
+            Activar
+          </button>
+
           <button *ngIf="actions.canRequestPayment"
             type="button" class="btn"
             (click)="onEventButtonClicked(eventTypes.REQUEST_PAYMENT)">
