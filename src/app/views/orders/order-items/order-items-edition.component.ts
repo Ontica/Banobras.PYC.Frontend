@@ -46,6 +46,8 @@ export class OrderItemsEditionComponent {
 
   @Input() canEdit = false;
 
+  @Input() displayTaxes = false;
+
   @Output() orderItemsEditionEvent = new EventEmitter<EventInfo>();
 
   submitted = false;
@@ -58,11 +60,6 @@ export class OrderItemsEditionComponent {
 
 
   constructor(private ordersData: OrdersDataService) { }
-
-
-  get isRequisition(): boolean {
-    return [ObjectTypes.REQUISITION].includes(this.config.type);
-  }
 
 
   onAddItemButtonClicked() {

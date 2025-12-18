@@ -6,7 +6,7 @@
 
   <div class="fx-row-container fx-gap-half fx-end fx-items-center" *ngIf="canEdit">
 
-    <button *ngIf="isRequisition"
+    <button *ngIf="displayTaxes"
       class="btn"
       (click)="onEditTaxesButtonClicked()">
       Editar impuestos
@@ -28,6 +28,7 @@
     [orderSubtotal]="order.subtotal"
     [isForMultipleBeneficiaries]="order.isForMultipleBeneficiaries"
     [isMultipleProviders]="order.providersGroup.length > 0"
+    [displayTaxes]="displayTaxes"
     [canDelete]="canEdit"
     (orderItemsTableEvent)="onOrderItemsTableEvent($event)">
 

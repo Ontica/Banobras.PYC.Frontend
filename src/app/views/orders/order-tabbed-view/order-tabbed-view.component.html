@@ -23,6 +23,7 @@
           [items]="data.items"
           [taxes]="data.taxes"
           [canEdit]="data.actions.canEditItems"
+          [displayTaxes]="isRequisition"
           (orderItemsEditionEvent)="onOrderItemsEditionEvent($event)">
 
         </emp-ng-order-items-edition>

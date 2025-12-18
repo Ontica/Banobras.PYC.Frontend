@@ -72,12 +72,14 @@
           <div class="fx-item">
               Subtotal
           </div>
-          <div class="fx-item nowrap" *ngFor="let tax of taxes">
-              {{tax.taxType.name}}
-          </div>
-          <div class="fx-item">
-              Total
-          </div>
+          <ng-container *ngIf="displayTaxes">
+            <div class="fx-item nowrap" *ngFor="let tax of taxes">
+                {{tax.taxType.name}}
+            </div>
+            <div class="fx-item">
+                Total
+            </div>
+          </ng-container>
         </div>
       </td>
     </ng-container>
@@ -88,12 +90,14 @@
           <div class="fx-item">
               {{orderSubtotal | empDecimal}}
           </div>
-          <div *ngFor="let tax of taxes">
-              {{tax.total | empDecimal}}
-          </div>
-          <div class="fx-item">
-              {{orderTotal | empDecimal}}
-          </div>
+          <ng-container *ngIf="displayTaxes">
+            <div *ngFor="let tax of taxes">
+                {{tax.total | empDecimal}}
+            </div>
+            <div class="fx-item">
+                {{orderTotal | empDecimal}}
+            </div>
+          </ng-container>
         </div>
       </td>
     </ng-container>

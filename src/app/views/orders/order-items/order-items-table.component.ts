@@ -46,6 +46,8 @@ export class OrderItemsTableComponent implements OnChanges {
 
   @Input() canDelete = false;
 
+  @Input() displayTaxes = false;
+
   @Output() orderItemsTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumnsDefault: string[] = ['cucop', 'description', 'productUnit', 'quantity'];
