@@ -2,9 +2,9 @@
 
   <table mat-table [dataSource]="dataSource">
 
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef class="nowrap"> Cuenta </th>
-      <td mat-cell *matCellDef="let row">{{ !row.name ? '-' : row.name }}</td>
+    <ng-container matColumnDef="accountType">
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Tipo </th>
+      <td mat-cell *matCellDef="let row">{{ row.accountType.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="institution">
@@ -17,14 +17,14 @@
       <td mat-cell *matCellDef="let row">{{ row.accountNo }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="clabe">
-      <th mat-header-cell *matHeaderCellDef> CLABE </th>
-      <td mat-cell *matCellDef="let row">{{ row.clabe }}</td>
+    <ng-container matColumnDef="referenceNumber">
+      <th mat-header-cell *matHeaderCellDef> Referencia </th>
+      <td mat-cell *matCellDef="let row">{{ !row.referenceNumber ? '-' : row.referenceNumber }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="paymentMethod">
-      <th mat-header-cell *matHeaderCellDef> Método de pago </th>
-      <td mat-cell *matCellDef="let row">{{ row.paymentMethod.name }}</td>
+    <ng-container matColumnDef="holderName">
+      <th mat-header-cell *matHeaderCellDef> Beneficiario </th>
+      <td mat-cell *matCellDef="let row">{{ row.holderName }}</td>
     </ng-container>
 
     <ng-container matColumnDef="currency">

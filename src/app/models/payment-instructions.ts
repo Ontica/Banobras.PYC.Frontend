@@ -21,13 +21,14 @@ import { BasePaymentDescriptor } from './payment-orders';
 export interface PaymentAccount {
   uid: string;
   name: string;
+  accountNo: string;
+  holderName: string;
+  referenceNumber: string;
+  accountType: Identifiable;
+  institution: Identifiable;
   paymentMethod: PaymentMethod;
   currency: Identifiable;
-  institution: Identifiable;
-  accountNo: string;
-  referenceNumber: string;
-  holderName: string;
-  clabe: string;
+  askForReferenceNumber: boolean;
 }
 
 
@@ -199,13 +200,14 @@ export const EmptyPaymentMethod: PaymentMethod = {
 export const EmptyPaymentAccount: PaymentAccount = {
   uid: '',
   name: '',
-  paymentMethod: EmptyPaymentMethod,
-  currency: Empty,
-  institution: Empty,
   accountNo: '',
   referenceNumber: '',
   holderName: '',
-  clabe: '',
+  accountType: Empty,
+  paymentMethod: EmptyPaymentMethod,
+  currency: Empty,
+  institution: Empty,
+  askForReferenceNumber: false,
 }
 
 

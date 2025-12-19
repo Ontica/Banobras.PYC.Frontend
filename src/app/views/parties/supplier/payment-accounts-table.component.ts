@@ -40,8 +40,8 @@ export class PaymentAccountsTableComponent implements OnChanges {
 
   @Output() paymentAccountsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['name', 'institution', 'accountNo', 'clabe',
-                                       'paymentMethod', 'currency'];
+  displayedColumnsDefault: string[] = ['accountType', 'institution', 'accountNo', 'referenceNumber',
+                                       'holderName', 'currency'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 
