@@ -63,18 +63,15 @@ export class FinancialAccountModalComponent {
   onAccountHeaderEvent(event: EventInfo) {
     switch (event.type as AccountHeaderEventType) {
       case AccountHeaderEventType.CREATE_CLICKED:
-        Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         sendEvent(this.accountModalEvent, AccountModalEventType.CREATE_CLICKED, event.payload);
         return;
       case AccountHeaderEventType.UPDATE_CLICKED:
-        Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
         Assertion.assertValue(event.payload.accountUID, 'event.payload.accountUID');
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         sendEvent(this.accountModalEvent, AccountModalEventType.UPDATE_CLICKED, event.payload);
         return;
       case AccountHeaderEventType.CREATE_EXTERNAL_CLICKED:
-        Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
         Assertion.assertValue(event.payload.dataFields.attributes.externalCreditNo, 'event.payload.dataFields.attributes.externalCreditNo');
         sendEvent(this.accountModalEvent, AccountModalEventType.CREATE_EXTERNAL_CLICKED, event.payload);
         return;

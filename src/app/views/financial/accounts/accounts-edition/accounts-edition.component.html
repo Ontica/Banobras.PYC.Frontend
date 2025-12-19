@@ -6,7 +6,7 @@
 
   <emp-financial-accounts-controls
     [filter]="filter"
-    [canEdit]="canEditAccounts"
+    [canEdit]="canUpdate"
     (accountsControlsEvent)="onAccountsControlsEvent($event)">
 
   </emp-financial-accounts-controls>
@@ -15,8 +15,11 @@
     class="fx-item"
     [accounts]="accounts"
     [filter]="filter"
-    [displayProject]="displayProject"
-    [canEditAccounts]="canEditAccounts"
+    [showProject]="showProject"
+    [showOperations]="showOperations"
+    [canDelete]="canDelete"
+    [canSuspend]="canSuspend"
+    [canActivate]="canActivate"
     [canEditOperations]="canEditOperations"
     (accountsTableEvent)="onAccountsTableEvent($event)">
 
@@ -29,7 +32,7 @@
   [projectUID]="createAccountMode ? projectUID : selectedAccount.project.uid"
   [organizationalUnitUID]="organizationalUnitUID"
   [account]="selectedAccount"
-  [canUpdate]="canEditAccounts"
+  [canUpdate]="canUpdate"
   (accountModalEvent)="onAccountModalEvent($event)">
 
 </emp-financial-account-modal>

@@ -13,7 +13,9 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { sendEvent } from '@app/shared/utils';
+import { sendEvent, sendEventIf } from '@app/shared/utils';
+
+import { MessageBoxService } from '@app/shared/services';
 
 import { FinancialAccountDescriptor } from '@app/models';
 
@@ -23,6 +25,8 @@ export enum AccountsTableEventType {
   PROJECT_CLICKED    = 'FinancialAccountsTableComponent.Event.ProjectClicked',
   OPERATIONS_CLICKED = 'FinancialAccountsTableComponent.Event.OperationsClicked',
   REMOVE_CLICKED     = 'FinancialAccountsTableComponent.Event.RemoveClicked',
+  SUSPEND_CLICKED    = 'FinancialAccountsTableComponent.Event.SuspendClicked',
+  ACTIVATE_CLICKED     = 'FinancialAccountsTableComponent.Event.ActivateClicked',
 }
 
 @Component({
@@ -37,9 +41,15 @@ export class FinancialAccountsTableComponent implements OnChanges {
 
   @Input() filter = '';
 
-  @Input() displayProject = false;
+  @Input() showProject = false;
 
-  @Input() canEditAccounts = false;
+  @Input() showOperations = false;
+
+  @Input() canDelete = false;
+
+  @Input() canSuspend = false;
+
+  @Input() canActivate = false;
 
   @Input() canEditOperations = false;
 
@@ -49,6 +59,9 @@ export class FinancialAccountsTableComponent implements OnChanges {
     'description', 'statusName', 'actionOperations'];
 
   dataSource: TableVirtualScrollDataSource<FinancialAccountDescriptor>;
+
+
+  constructor(private messageBox: MessageBoxService) { }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -82,8 +95,18 @@ export class FinancialAccountsTableComponent implements OnChanges {
   }
 
 
+  onActivateAccountClicked(account: FinancialAccountDescriptor) {
+    this.showConfirmMessage(AccountsTableEventType.ACTIVATE_CLICKED, account);
+  }
+
+
+  onSuspendAccountClicked(account: FinancialAccountDescriptor) {
+    this.showConfirmMessage(AccountsTableEventType.SUSPEND_CLICKED, account);
+  }
+
+
   onRemoveAccountClicked(account: FinancialAccountDescriptor) {
-    sendEvent(this.accountsTableEvent, AccountsTableEventType.REMOVE_CLICKED, { account });
+    this.showConfirmMessage(AccountsTableEventType.REMOVE_CLICKED, account);
   }
 
 
@@ -96,17 +119,17 @@ export class FinancialAccountsTableComponent implements OnChanges {
   private resetColumns() {
     const columns = [];
 
-    if (this.displayProject) {
+    if (this.showProject) {
       columns.push('accountNo', 'organizationalUnitName', 'financialAccountTypeName', 'projectNo',
-        'description', 'statusName', 'actionOperations');
+        'description', 'statusName');
     } else {
       columns.push('accountNo', 'organizationalUnitName', 'financialAccountTypeName',
-        'description', 'statusName', 'actionOperations');
+        'description', 'statusName');
     }
 
-    if (this.canEditAccounts) {
-      columns.push('actionDelete');
-    }
+    if (this.canSuspend || this.canActivate) columns.push('actionStatus');
+    if (this.showOperations) columns.push('actionOperations');
+    if (this.canDelete) columns.push('actionDelete');
 
     this.displayedColumns = [...[], ...columns];
   }
@@ -121,6 +144,60 @@ export class FinancialAccountsTableComponent implements OnChanges {
 
   private applyFilter(value: string) {
     this.dataSource.filter = value.trim().toLowerCase();
+  }
+
+
+  private showConfirmMessage(eventType: AccountsTableEventType, account: FinancialAccountDescriptor) {
+    const confirmType = this.getConfirmType(eventType);
+    const title = this.getConfirmTitle(eventType);
+    const message = this.getConfirmMessage(eventType, account);
+
+    this.messageBox.confirm(message, title, confirmType)
+      .firstValue()
+      .then(x => sendEventIf(x, this.accountsTableEvent, eventType, { account }));
+  }
+
+
+  private getConfirmType(eventType: AccountsTableEventType): 'AcceptCancel' | 'DeleteCancel' {
+    switch (eventType) {
+      case AccountsTableEventType.REMOVE_CLICKED:
+      case AccountsTableEventType.SUSPEND_CLICKED:
+        return 'DeleteCancel';
+      default:
+        return 'AcceptCancel';
+    }
+  }
+
+
+  private getConfirmTitle(eventType: AccountsTableEventType): string {
+    switch (eventType) {
+      case AccountsTableEventType.REMOVE_CLICKED:   return 'Eliminar cuenta';
+      case AccountsTableEventType.SUSPEND_CLICKED:  return 'Suspender cuenta';
+      case AccountsTableEventType.ACTIVATE_CLICKED: return 'Activar cuenta';
+      default: return '';
+    }
+  }
+
+
+  private getConfirmMessage(eventType: AccountsTableEventType, account: FinancialAccountDescriptor): string {
+    const accountData = `<br><br>
+      <table class='confirm-data'>
+        <tr><td class='nowrap'>No. cuenta: </td><td><strong>${account.accountNo}</strong></td></tr>
+        <tr><td class='nowrap'>Área: </td><td><strong>${account.organizationalUnitName}</strong></td></tr>
+        <tr><td class='nowrap'>Tipo: </td><td><strong>${account.financialAccountTypeName}</strong></td></tr>
+        <tr><td class='nowrap'>Descripción: </td><td><strong>${account.description}</strong></td></tr>
+      </table><br>`;
+
+    switch (eventType) {
+      case AccountsTableEventType.REMOVE_CLICKED:
+        return 'Esta operación eliminará la cuenta:' + accountData + '¿Elimino la cuenta?';
+      case AccountsTableEventType.ACTIVATE_CLICKED:
+        return 'Esta operación activará la cuenta:' + accountData + '¿Activo la cuenta?';
+      case AccountsTableEventType.SUSPEND_CLICKED:
+        return 'Esta operación suspenderá la cuenta:' + accountData + '¿Suspendo la cuenta?';
+      default:
+        return '';
+    }
   }
 
 }

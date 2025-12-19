@@ -80,9 +80,9 @@ export class FinancialProjectTabbedViewComponent implements OnChanges {
   onAccountsEditionEvent(event: EventInfo) {
     switch (event.type as AccountsEditionEventType) {
       case AccountsEditionEventType.UPDATED:
-        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
         sendEvent(this.projectTabbedViewEvent,
-          ProjectTabbedViewEventType.REFRESH_DATA, event.payload);
+          ProjectTabbedViewEventType.REFRESH_DATA, { dataUID: event.payload.projectUID });
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

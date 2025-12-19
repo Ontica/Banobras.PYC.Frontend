@@ -26,6 +26,8 @@
           [organizationalUnitUID]="data.project.baseOrgUnit.uid"
           [accounts]="data.accounts"
           [canUpdate]="data.actions.canUpdate"
+          [canDelete]="data.actions.canUpdate"
+          [showOperations]="true"
           (accountsEditionEvent)="onAccountsEditionEvent($event)">
 
         </emp-financial-accounts-edition>

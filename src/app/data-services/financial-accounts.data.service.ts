@@ -9,6 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
+import { map } from 'rxjs';
+
 import { ExternalAccountFields, FileReport, FinancialAccount, FinancialAccountDescriptor,
          FinancialAccountFields, FinancialAccountHolder, FinancialAccountOperationFields,
          FinancialAccountOperationsStructure, FinancialAccountsQuery } from '@app/models';
@@ -55,6 +57,17 @@ export class FinancialAccountsDataService {
     return this.http.get<FinancialAccountHolder>(path);
   }
 
+  // TODO: define this
+  getAccountPlain(accountUID: string): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/${accountUID}`;
+
+    return new EmpObservable<FinancialAccount>(
+      this.http.get<FinancialAccountHolder>(path).pipe(map(x => x.account))
+    );
+  }
+
 
   getProjectAccount(projectUID: string,
                     accountUID: string): EmpObservable<FinancialAccount> {
@@ -88,6 +101,26 @@ export class FinancialAccountsDataService {
     const path = `v1/financial-projects/${projectUID}/accounts/${accountUID}`;
 
     return this.http.put<FinancialAccount>(path, dataFields);
+  }
+
+
+  // TODO: define this
+  activateAccount(accountUID: string): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/${accountUID}/activate`;
+
+    return this.http.post<FinancialAccount>(path);
+  }
+
+
+  // TODO: define this
+  suspendAccount(accountUID: string): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/${accountUID}/suspend`;
+
+    return this.http.post<FinancialAccount>(path);
   }
 
 

@@ -243,10 +243,16 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
 
 
   private validateDataLists(account: FinancialAccount) {
+    const financialAccountType = isEmpty(account.financialAccountType) ? null : account.financialAccountType;
+    const organizationalUnit = isEmpty(account.organizationalUnit) ? null : account.organizationalUnit;
+    const standardAccount = isEmpty(account.standardAccount) ? null : account.standardAccount;
+
+    this.accountTypesList =
+      ArrayLibrary.insertIfNotExist(this.accountTypesList ?? [], financialAccountType, 'uid');
     this.orgUnitsList =
-      ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], account.organizationalUnit, 'uid');
+      ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], organizationalUnit, 'uid');
     this.standardAccountsList =
-      ArrayLibrary.insertIfNotExist(this.standardAccountsList ?? [], account.standardAccount, 'uid');
+      ArrayLibrary.insertIfNotExist(this.standardAccountsList ?? [], standardAccount, 'uid');
   }
 
 

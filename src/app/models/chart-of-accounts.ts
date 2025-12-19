@@ -100,9 +100,11 @@ export interface StandardAccount {
 
 
 export interface StandardAccountActions {
+  canUpdate: boolean;
   canActivate: boolean;
   canSuspend: boolean;
-  canUpdate: boolean;
+  canEditOperations: boolean;
+  showOperations: boolean;
 }
 
 
@@ -145,9 +147,11 @@ export const EmptyStandardAccount: StandardAccount = {
 
 
 export const EmptyStandardAccountActions: StandardAccountActions = {
+  canUpdate: false,
   canActivate: false,
   canSuspend: false,
-  canUpdate: false,
+  canEditOperations: false,
+  showOperations: false,
 }
 
 

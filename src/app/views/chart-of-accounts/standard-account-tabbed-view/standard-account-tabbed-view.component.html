@@ -24,6 +24,10 @@
           [queryType]="data.standardAccount.isProjectRelated ? 'standard-accounts-with-project' : 'standard-accounts-without-project'"
           [accounts]="data.accounts"
           [canUpdate]="data.actions.canUpdate"
+          [canActivate]="data.actions.canActivate"
+          [canSuspend]="data.actions.canSuspend"
+          [canEditOperations]="data.actions.canEditOperations"
+          [showOperations]="data.actions.showOperations"
           (accountsEditionEvent)="onAccountsEditionEvent($event)">
 
         </emp-financial-accounts-edition>
