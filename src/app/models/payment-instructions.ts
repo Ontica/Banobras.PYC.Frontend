@@ -20,15 +20,28 @@ import { BasePaymentDescriptor } from './payment-orders';
 
 export interface PaymentAccount {
   uid: string;
-  name: string;
-  accountNo: string;
-  holderName: string;
-  referenceNumber: string;
   accountType: Identifiable;
   institution: Identifiable;
+  accountNo: string;
+  holderName: string;
   paymentMethod: PaymentMethod;
   currency: Identifiable;
+  referenceNumber: string;
   askForReferenceNumber: boolean;
+  name: string;
+}
+
+
+export interface PaymentAccountFields {
+  accountTypeUID: string;
+  institutionUID: string;
+  accountNo: string;
+  holderName: string;
+  paymentMethodUID: string;
+  currencyUID: string;
+  referenceNumber: string;
+  askForReferenceNumber: boolean;
+  name: string;
 }
 
 

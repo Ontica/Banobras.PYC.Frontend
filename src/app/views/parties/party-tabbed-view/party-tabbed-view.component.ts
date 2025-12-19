@@ -14,7 +14,11 @@ import { sendEvent } from '@app/shared/utils';
 import { EmptyPartyExplorerTypeConfig, EmptyPartyHolder, ExplorerTypeConfig, OrgUnit, OrgUnitHolder,
          Party, PartyHolder, PartyObjectTypes, Supplier, SupplierHolder } from '@app/models';
 
-import { SupplierEditorEventType } from '../supplier/supplier-editor.component';
+import { SupplierEditorEventType } from '../suppliers/supplier/supplier-editor.component';
+
+import {
+  PaymentAccountsEditionEventType
+} from '../suppliers/payment-accounts/payment-accounts-edition.component';
 
 import {
   CommisionerAccountabilitiesEditionEventType
@@ -99,6 +103,19 @@ export class PartyTabbedViewComponent implements OnChanges {
       case SupplierEditorEventType.DELETED:
         Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
         sendEvent(this.partyTabbedViewEvent, PartyTabbedViewEventType.DATA_DELETED, event.payload);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onPaymentAccountsEditionEvent(event: EventInfo) {
+    switch (event.type as PaymentAccountsEditionEventType) {
+      case PaymentAccountsEditionEventType.UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        sendEvent(this.partyTabbedViewEvent, PartyTabbedViewEventType.DATA_UPDATED, event.payload);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

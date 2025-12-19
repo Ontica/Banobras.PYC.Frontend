@@ -53,14 +53,6 @@ export interface MatchSubledgerAccountFields {
 }
 
 
-export interface SupplierFields extends PartyFields {
-  typeUID: string;
-  name: string;
-  taxCode: string;
-  subledgerAccount: string;
-}
-
-
 export interface SupplierHolder extends PartyHolder {
   supplier: Supplier;
   paymentAccounts: PaymentAccount[];
@@ -79,6 +71,7 @@ export interface Supplier extends Party {
   subledgerAccount: string;
   status: Identifiable<EntityStatus>;
 }
+
 
 export interface SupplierActions extends PartyActions {
   canUpdate: boolean;

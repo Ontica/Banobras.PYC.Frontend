@@ -23,9 +23,11 @@ import { PartiesFilterComponent } from './parties-explorer/parties-filter.compon
 import { PartyTabbedViewComponent } from './party-tabbed-view/party-tabbed-view.component';
 import { PartyViewComponent } from './party/party-view.component';
 
-import { SupplierCreatorComponent } from "./supplier/supplier-creator.component";
-import { SupplierEditorComponent } from './supplier/supplier-editor.component';
-import { PaymentAccountsTableComponent } from './supplier/payment-accounts-table.component';
+import { SupplierCreatorComponent } from "./suppliers/supplier/supplier-creator.component";
+import { SupplierEditorComponent } from './suppliers/supplier/supplier-editor.component';
+import { PaymentAccountsEditionComponent } from './suppliers/payment-accounts/payment-accounts-edition.component';
+import { PaymentAccountsTableComponent } from './suppliers/payment-accounts/payment-accounts-table.component';
+import { PaymentAccountEditorComponent } from './suppliers/payment-accounts/payment-account-editor.component';
 
 
 @NgModule({
@@ -44,7 +46,6 @@ import { PaymentAccountsTableComponent } from './supplier/payment-accounts-table
 
     SupplierCreatorComponent,
     SupplierEditorComponent,
-    PaymentAccountsTableComponent,
 ],
   declarations: [
     PartiesMainPageComponent,
@@ -52,6 +53,10 @@ import { PaymentAccountsTableComponent } from './supplier/payment-accounts-table
     PartiesFilterComponent,
     PartyTabbedViewComponent,
     PartyViewComponent,
+
+    PaymentAccountsEditionComponent,
+    PaymentAccountsTableComponent,
+    PaymentAccountEditorComponent,
   ],
   exports: [
     PartiesMainPageComponent,

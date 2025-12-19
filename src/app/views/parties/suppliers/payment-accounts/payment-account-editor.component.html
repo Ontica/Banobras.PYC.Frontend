@@ -1,0 +1,162 @@
+<emp-ng-modal-window [config]="{width:'900px'}">
+
+  <emp-ng-card
+    [heading]="title"
+    hint='Información de la cuenta'
+    (cardClose)="onCloseButtonClicked()">
+
+    <div class="card-body-padding">
+
+      <form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section">
+
+        <div class="fx-column-container fx-gap-half">
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Tipo de cuenta:</label>
+
+              <emp-ng-select
+                formControlName="accountTypeUID"
+                [items]="accountTypesList"
+                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+                [showError]="formHelper.isControlInvalid(form.controls.accountTypeUID)">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>Institución:</label>
+
+              <emp-ng-select
+                formControlName="institutionUID"
+                [items]="institutionsList"
+                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+                [showError]="formHelper.isControlInvalid(form.controls.institutionUID)">
+              </emp-ng-select>
+
+            </div>
+
+          </div>
+
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>No. cuenta:</label>
+
+              <input type="text" class="text-box"
+                formControlName="accountNo"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.accountNo)">
+
+            </div>
+
+
+            <div class="fx-item-half">
+
+              <label>Beneficiario:</label>
+
+              <input type="text" class="text-box"
+                formControlName="holderName"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.holderName)">
+
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-quarter">
+
+              <label>Método de pago:</label>
+
+              <emp-ng-select
+                formControlName="paymentMethodUID"
+                [items]="paymentMethodsList"
+                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+                [showError]="formHelper.isControlInvalid(form.controls.paymentMethodUID)">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-quarter">
+
+              <label>Moneda:</label>
+
+              <emp-ng-select
+                formControlName="currencyUID"
+                [items]="currenciesList"
+                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+                [showError]="formHelper.isControlInvalid(form.controls.currencyUID)">
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-quarter"
+              [style.margin-top.px]="12">
+
+              <mat-checkbox empNgStopPropagation
+                formControlName="askForReferenceNumber">
+                Solicitar referencia
+              </mat-checkbox>
+
+            </div>
+
+            <div class="fx-item-quarter">
+
+              <label>Referencia:</label>
+
+              <input type="text" class="text-box"
+                formControlName="referenceNumber"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.referenceNumber)">
+
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-one">
+              <label>Nombre:</label>
+              <input type="text" class="text-box"
+                formControlName="name"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+            </div>
+
+          </div>
+
+        </div>
+
+        <ng-container *ngIf="!isSaved || (isSaved && canUpdate)">
+
+          <mat-divider class="horizontal">
+
+          </mat-divider>
+
+          <div #rowFooter class="fx-row-container">
+
+             <div class="fx-item fx-end fx-items-center">
+
+                <button
+                  [class.btn]="!formHelper.isFormReady(form)"
+                  [class.btn-action]="formHelper.isFormReady(form)"
+                  (click)="onSubmitButtonClicked()">
+                  {{!isSaved ? 'Agregar' : 'Guardar'}}
+                </button>
+
+              </div>
+
+          </div>
+
+        </ng-container>
+
+      </form>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

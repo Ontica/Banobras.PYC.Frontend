@@ -15,22 +15,17 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent, sendEventIf } from '@app/shared/utils';
 
-import { STANDALONE_IMPORTS } from '@app/shared/standalone-imports';
-
 import { PaymentAccount } from '@app/models';
 
 
 export enum PaymentAccountsTableEventType {
+  SELECT_CLICKED = 'PaymentAccountsTableComponent.Event.SelectClicked',
   REMOVE_CLICKED = 'PaymentAccountsTableComponent.Event.RemoveClicked',
 }
 
 @Component({
   selector: 'emp-ng-payment-accounts-table',
   templateUrl: './payment-accounts-table.component.html',
-  standalone: true,
-  imports: [
-    ...STANDALONE_IMPORTS,
-  ],
 })
 export class PaymentAccountsTableComponent implements OnChanges {
 
@@ -58,13 +53,20 @@ export class PaymentAccountsTableComponent implements OnChanges {
   }
 
 
-  onRemoveClicked(paymentAccount: PaymentAccount) {
-    const message = this.getConfirmMessage(paymentAccount);
+  onSelectAccountClicked(item: PaymentAccount) {
+    if (window.getSelection().toString().length <= 0) {
+      sendEvent(this.paymentAccountsTableEvent, PaymentAccountsTableEventType.SELECT_CLICKED, { item });
+    }
+  }
+
+
+  onRemoveClicked(item: PaymentAccount) {
+    const message = this.getConfirmMessage(item);
 
     this.messageBox.confirm(message, 'Eliminar cuenta', 'DeleteCancel')
       .firstValue()
       .then(x =>
-        sendEventIf(x, this.paymentAccountsTableEvent, PaymentAccountsTableEventType.REMOVE_CLICKED, {paymentAccount})
+        sendEventIf(x, this.paymentAccountsTableEvent, PaymentAccountsTableEventType.REMOVE_CLICKED, { item })
       );
   }
 
@@ -84,15 +86,14 @@ export class PaymentAccountsTableComponent implements OnChanges {
   }
 
 
-  private getConfirmMessage(paymentAccount: PaymentAccount): string {
-    return `
+  private getConfirmMessage(item: PaymentAccount): string {
+    return `Esta operación eliminará la cuenta:<br><br>
       <table class='confirm-data'>
-        <tr><td class='nowrap'>Cuenta: </td><td><strong>${paymentAccount.name}</strong></td></tr>
-        <tr><td class='nowrap'>Número: </td><td><strong>${paymentAccount.accountNo}</strong></td></tr>
-        <tr><td class='nowrap'>Método de pago: </td><td><strong>${paymentAccount.paymentMethod}</strong></td></tr>
-        <tr><td class='nowrap'>Moneda: </td><td><strong>${paymentAccount.currency}</strong></td></tr>
+        <tr><td class='nowrap'>Tipo: </td><td><strong>${item.accountType.name}</strong></td></tr>
+        <tr><td class='nowrap'>Institución: </td><td><strong>${item.institution.name}</strong></td></tr>
+        <tr><td class='nowrap'>No. cuenta: </td><td><strong>${item.accountNo}</strong></td></tr>
+        <tr><td class='nowrap'>Beneficiario: </td><td><strong>${item.holderName}</strong></td></tr>
       </table>
-
      <br>¿Elimino la cuenta?`;
   }
 

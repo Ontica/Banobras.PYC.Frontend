@@ -27,7 +27,7 @@ import { DataTableColumn, DefaultOrgUnitsColumns, DefaultPartiesColumns, Default
          mapPartyDescriptorFromParty, mapSupplierDescriptorFromSupplier, OrgUnitHolder, PartiesDataTable,
          PartiesQuery, PartyDescriptor, PartyHolder, PartyObjectTypes, SupplierHolder } from '@app/models';
 
-import { SupplierCreatorEventType } from '../supplier/supplier-creator.component';
+import { SupplierCreatorEventType } from '../suppliers/supplier/supplier-creator.component';
 
 import {
   PartiesExplorerEventType

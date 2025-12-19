@@ -45,9 +45,12 @@
 
     <mat-tab label="Cuentas" *ngIf="displaySupplierData">
 
-      <emp-ng-payment-accounts-table
-        [paymentAccounts]="supplierHolder.paymentAccounts">
-      </emp-ng-payment-accounts-table>
+      <emp-ng-payment-accounts-edition
+        [supplierUID]="supplierHolder.supplier.uid"
+        [paymentAccounts]="supplierHolder.paymentAccounts"
+        [canEdit]="supplierHolder.actions.canUpdate"
+        (paymentAccountsEditionEvent)="onPaymentAccountsEditionEvent($event)">
+      </emp-ng-payment-accounts-edition>
 
     </mat-tab>
 
