@@ -178,18 +178,18 @@ export const BudgetViews: View[] = [
   //   permission: ROUTES.presupuesto_solicitudes.permission,
   // },
   {
-    name: 'Budget.Transactions',
-    title: 'Transacciones',
-    menuTitle: 'Transacciones',
-    url: ROUTES.presupuesto_transacciones.fullpath,
-    permission: ROUTES.presupuesto_transacciones.permission,
-  },
-  {
     name: 'Budget.ControlDesk',
     title: 'Mesa de control',
     menuTitle: 'Mesa de control',
     url: ROUTES.presupuesto_mesa_de_control.fullpath,
     permission: ROUTES.presupuesto_mesa_de_control.permission,
+  },
+  {
+    name: 'Budget.Transactions',
+    title: 'Transacciones',
+    menuTitle: 'Transacciones',
+    url: ROUTES.presupuesto_transacciones.fullpath,
+    permission: ROUTES.presupuesto_transacciones.permission,
   },
   {
     name: 'Budget.PaymentOrders',

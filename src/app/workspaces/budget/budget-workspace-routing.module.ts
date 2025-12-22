@@ -33,13 +33,13 @@ const routes: Routes = [
   //   component: RequestsMainPageComponent,
   // },
   {
-    data: { permission: ROUTES.presupuesto_transacciones.permission },
-    path: ROUTES.presupuesto_transacciones.path,
+    data: { permission: ROUTES.presupuesto_mesa_de_control.permission },
+    path: ROUTES.presupuesto_mesa_de_control.path,
     component: BudgetTransactionsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.presupuesto_mesa_de_control.permission },
-    path: ROUTES.presupuesto_mesa_de_control.path,
+    data: { permission: ROUTES.presupuesto_transacciones.permission },
+    path: ROUTES.presupuesto_transacciones.path,
     component: BudgetTransactionsMainPageComponent,
   },
   {
@@ -74,7 +74,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: ROUTES.presupuesto_transacciones.path,
+    redirectTo: ROUTES.presupuesto_mesa_de_control.path,
     pathMatch: 'full',
   },
 ];

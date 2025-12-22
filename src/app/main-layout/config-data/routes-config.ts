@@ -255,18 +255,18 @@ export const ROUTES = {
     fullpath: '/presupuesto/solicitudes-de-pago',
   },
 
-  presupuesto_transacciones: {
-    permission: PERMISSIONS.ROUTE_PRESUPUESTO_TRANSACCIONES,
-    parent: 'presupuesto',
-    path: 'transacciones',
-    fullpath: '/presupuesto/transacciones',
-  },
-
   presupuesto_mesa_de_control: {
     permission: PERMISSIONS.ROUTE_PRESUPUESTO_MESA_DE_CONTROL,
     parent: 'presupuesto',
     path: 'mesa-de-control',
     fullpath: '/presupuesto/mesa-de-control',
+  },
+
+  presupuesto_transacciones: {
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_TRANSACCIONES,
+    parent: 'presupuesto',
+    path: 'transacciones',
+    fullpath: '/presupuesto/transacciones',
   },
 
   presupuesto_suficiencias: {
