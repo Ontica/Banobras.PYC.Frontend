@@ -197,9 +197,9 @@
 
       </div>
 
-      <div class="fx-item-half" *ngIf="isContract || isPurchase">
+      <div class="fx-item-half" *ngIf="isContract || isPurchase || isExpense">
 
-        <label>Proveedor:</label>
+        <label>{{isExpense ? 'Pagar a:' : 'Proveedor:'}}</label>
 
         <emp-ng-select-typeahead
           formControlName="providerUID"
@@ -256,7 +256,7 @@
 
       </div>
 
-      <div [ngClass]="isRequisition || isContractOrder || isExpense ? 'fx-item-half' : 'fx-item-quarter'">
+      <div [ngClass]="isRequisition || isContractOrder ? 'fx-item-half' : 'fx-item-quarter'">
 
         <label>{{isRequisition || isContract ? 'Presupuestos:' : 'Presupuesto:'}}</label>
 
@@ -282,7 +282,7 @@
       </div>
 
       <div *ngIf="isContract || isPurchase || isExpense"
-        [ngClass]="isExpense ? 'fx-item-half' : 'fx-item-quarter'">
+        class="fx-item-quarter">
 
         <label>Moneda:</label>
 

@@ -395,7 +395,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     this.validateControlRequired(controls.budgetTypeUID, this.isRequisition);
     this.validateControlRequired(controls.budgetUID, this.isContractOrder || this.isPurchase || this.isExpense);
     this.validateControlRequired(controls.budgets, this.isRequisition || this.isContract);
-    this.validateControlRequired(controls.providerUID, this.isContract || this.isPurchase);
+    this.validateControlRequired(controls.providerUID, this.isContract || this.isPurchase || this.isExpense);
     this.validateControlRequired(controls.currencyUID, this.isContract || this.isPurchase || this.isExpense);
     this.validateControlRequired(controls.datePeriod, this.isRequisition || this.isContract, [Validators.required, Validate.periodRequired]);
     this.validateControlRequired(controls.justification, this.isRequisition);
