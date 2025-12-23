@@ -17,7 +17,8 @@ import { FilePreviewComponent } from '@app/shared/containers';
 
 import { OrdersDataService } from '@app/data-services';
 
-import { Bill, DocumentFields, DocumentsEntityTypes, FileReport } from '@app/models';
+import { BillsStructure, DocumentFields, DocumentsEntityTypes, EmptyBillsStructure,
+         FileReport } from '@app/models';
 
 import { BillsTableEventType } from './bills-table.component';
 
@@ -40,7 +41,7 @@ export class BillsEditionComponent {
 
   @Input() entityUID: string = null;
 
-  @Input() bills: Bill[] = [];
+  @Input() data: BillsStructure = EmptyBillsStructure;
 
   @Input() canEdit = false;
 

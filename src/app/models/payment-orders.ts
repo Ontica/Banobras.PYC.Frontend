@@ -9,7 +9,7 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
 
-import { Bill } from './bills';
+import { BillsStructure, EmptyBillsStructure } from './bills';
 
 import { BudgetTransactionDescriptor } from './budget-transactions';
 
@@ -137,7 +137,7 @@ export interface PaymentOrderHolder {
   paymentOrder: PaymentOrder;
   payableEntity: PayableEntity;
   items: PaymentOrderItem[];
-  bills: Bill[];
+  bills: BillsStructure;
   budgetTransactions: BudgetTransactionDescriptor[];
   paymentInstructions: PaymentInstructionDescriptor[];
   documents: Document[];
@@ -294,7 +294,7 @@ export const EmptyPaymentOrder: PaymentOrder = {
 export const EmptyPaymentOrderHolder: PaymentOrderHolder = {
   paymentOrder: EmptyPaymentOrder,
   payableEntity: EmptyPayableEntity,
-  bills: [],
+  bills: EmptyBillsStructure,
   budgetTransactions: [],
   paymentInstructions: [],
   items: [],

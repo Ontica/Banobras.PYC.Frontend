@@ -9,7 +9,7 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
 
-import { Bill } from './bills';
+import { BillsStructure, EmptyBillsStructure } from './bills';
 
 import { Document } from './documents';
 
@@ -117,7 +117,7 @@ export interface PaymentInstructionFields {
 export interface PaymentInstructionHolder {
   paymentInstruction: PaymentInstruction;
   log: PaymentInstructionLog[];
-  bills: Bill[];
+  bills: BillsStructure;
   documents: Document[];
   history: HistoryEntry[];
   actions: PaymentInstructionActions;
@@ -259,7 +259,7 @@ export const EmptyPaymentInstructionActions: PaymentInstructionActions = {
 export const EmptyPaymentInstructionHolder: PaymentInstructionHolder = {
   paymentInstruction: EmptyPaymentInstruction,
   log: [],
-  bills: [],
+  bills: EmptyBillsStructure,
   documents: [],
   history: [],
   actions: EmptyPaymentInstructionActions,

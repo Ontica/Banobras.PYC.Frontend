@@ -12,7 +12,7 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 import { sendEvent } from '@app/shared/utils';
 
 import { OrderHolder, EmptyOrderHolder, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes,
-         ContractOrder } from '@app/models';
+         ContractOrder, RequisitionOrderHolder, TaxEntry } from '@app/models';
 
 import { OrderEditorEventType } from '../order/order-editor.component';
 
@@ -98,6 +98,11 @@ export class OrderTabbedViewComponent implements OnChanges {
 
   get isContract(): boolean {
     return [ObjectTypes.CONTRACT].includes(this.config.type);
+  }
+
+
+  get taxes(): TaxEntry[] {
+    return this.isRequisition ? (this.data as RequisitionOrderHolder).taxes ?? [] : [];
   }
 
 

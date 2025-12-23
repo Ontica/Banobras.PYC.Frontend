@@ -9,9 +9,10 @@ import { DateString, Empty, Entity, Identifiable } from '@app/core';
 
 import { PERMISSIONS } from '@app/main-layout';
 
-import { EntityStatus, ExplorerOperation, ExplorerOperationType, ExplorerTypeConfig } from '../base/explorer-data';
+import { EntityStatus, ExplorerOperation, ExplorerOperationType,
+         ExplorerTypeConfig } from '../base/explorer-data';
 
-import { Bill } from '../bills';
+import { BillsStructure, EmptyBillsStructure } from '../bills';
 
 import { BudgetTransactionDescriptor } from '../budget-transactions';
 
@@ -24,8 +25,6 @@ import { ObjectTypes } from '../object-types';
 import { Priority } from '../steps';
 
 import { RequestsList } from '../requests';
-
-import { TaxEntry } from '../taxes';
 
 import { PaymentInstructionDescriptor } from '../payment-instructions';
 
@@ -189,9 +188,8 @@ export interface OrderFields {
 export interface OrderHolder {
   order: Order;
   items: OrderItem[];
-  taxes: TaxEntry[];
   orders: OrderDescriptor[];
-  bills: Bill[];
+  bills: BillsStructure;
   paymentOrders: PaymentInstructionDescriptor[];
   budgetTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
@@ -376,9 +374,8 @@ export const EmptyOrderHolder: OrderHolder = {
   order: EmptyOrder,
   items: [],
   budgetTransactions: [],
-  taxes: [],
   orders: [],
-  bills: [],
+  bills: EmptyBillsStructure,
   paymentOrders: [],
   documents: [],
   history: [],

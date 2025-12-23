@@ -11,7 +11,7 @@ import { DataTable } from './base/data-table';
 
 import { ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
 
-import { Bill } from './bills';
+import { BillsStructure, EmptyBillsStructure } from './bills';
 
 import { Budget, BudgetSegmentType } from './budgets';
 
@@ -122,7 +122,7 @@ export interface BudgetTransactionHolder {
   entries: BudgetTransactionEntryDescriptor[];
   groupedEntries: BudgetTransactionGroupedEntryData;
   taxes: TaxEntry[];
-  bills: Bill[];
+  bills: BillsStructure;
   documents: Document[];
   history: HistoryEntry[];
   actions: BudgetTransactionActions;
@@ -399,7 +399,7 @@ export const EmptyBudgetTransactionHolder: BudgetTransactionHolder = {
   entries: [],
   groupedEntries: EmptyBudgetTransactionGroupedEntryData,
   taxes: [],
-  bills: [],
+  bills: EmptyBillsStructure,
   documents: [],
   history: [],
   actions: EmptyBudgetTransactionActions,

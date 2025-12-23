@@ -15,7 +15,8 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
 
-import { Bill, DocumentsEntityTypes, FileReport, FileType } from '@app/models';
+import { Bill, BillsStructure, DocumentsEntityTypes, EmptyBillsStructure, FileReport,
+         FileType } from '@app/models';
 
 
 export enum BillsTableEventType {
@@ -34,7 +35,7 @@ export class BillsTableComponent implements OnChanges {
 
   @Input() entityUID: string = null;
 
-  @Input() bills: Bill[] = [];
+  @Input() data: BillsStructure = EmptyBillsStructure;
 
   @Input() canEdit = false;
 
@@ -44,6 +45,8 @@ export class BillsTableComponent implements OnChanges {
                                        'subtotal', 'discount', 'total', 'actionShow'];
 
   displayedColumns = [...this.displayedColumnsDefault];
+
+  displayedTotalColumns = ['spaceLeft', 'tax', 'taxTotal'];
 
   dataSource: MatTableDataSource<Bill>;
 
@@ -56,7 +59,7 @@ export class BillsTableComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.bills) {
+    if (changes.data) {
       this.setDataTable();
     }
   }
@@ -90,18 +93,24 @@ export class BillsTableComponent implements OnChanges {
 
 
   private setDataTable() {
-    this.dataSource = new MatTableDataSource(this.bills);
+    this.dataSource = new MatTableDataSource(this.data.bills);
     this.resetColumns();
+    this.resetTaxesColumns();
   }
 
 
   private resetColumns() {
-    this.displayedColumns = [...this.displayedColumnsDefault];
-
-    if (this.canEdit) {
-      this.displayedColumns.push('actionDelete');
-    }
+    let columns = [...this.displayedColumnsDefault];
+    if (this.canEdit) columns.push('actionDelete');
+    this.displayedColumns = columns;
   }
+
+
+  private resetTaxesColumns() {
+    let columns = ['spaceLeft', 'tax', 'taxTotal', 'spaceRight'];
+    this.displayedTotalColumns = columns;
+  }
+
 
 
   private getConfirmMessage(bill: Bill): string {

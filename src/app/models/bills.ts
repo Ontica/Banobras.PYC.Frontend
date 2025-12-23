@@ -17,6 +17,8 @@ import { HistoryEntry } from './history';
 
 import { FileReport } from './reporting';
 
+import { TaxEntry } from './taxes';
+
 
 export enum BillsStatus {
   Pending   = 'Pending',
@@ -124,6 +126,14 @@ export interface Bill {
 }
 
 
+export interface BillsStructure {
+  bills: Bill[],
+  taxes: TaxEntry[];
+  subtotal: number;
+  total: number;
+}
+
+
 export interface BillConcept {
   uid: string;
   product: Identifiable;
@@ -195,6 +205,14 @@ export const EmptyBill: Bill = {
   postedBy: Empty,
   postingTime: '',
   status: Empty,
+};
+
+
+export const EmptyBillsStructure: BillsStructure = {
+  bills: [],
+  taxes: [],
+  subtotal: null,
+  total: null,
 };
 
 
