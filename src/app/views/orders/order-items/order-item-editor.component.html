@@ -127,14 +127,14 @@
 
               <div class="fx-item-half" *ngIf="isContractOrder || isPurchase || isExpense">
 
-                <label>Unidad:</label>
+                <label>Unidad de medida:</label>
 
                 <emp-ng-select
                   formControlName="productUnitUID"
                   [config]="{
                               notFoundText: form.controls.productUID.invalid ?
                                             'No se encontraron registros' :
-                                            'El producto no tiene unidades'
+                                            'El producto no tiene unidades de medida'
                             }"
                   [items]="productUnitsList"
                   [placeholder]="formHelper.getSimplePlaceholder(!isSaved || editionMode)"
@@ -170,14 +170,14 @@
 
               <div class="fx-item-size" style="--size: calc(50% - 221px)">
 
-                <label>Unidad:</label>
+                <label>Unidad de medida:</label>
 
                 <emp-ng-select
                   formControlName="productUnitUID"
                   [config]="{
                               notFoundText: form.controls.productUID.invalid ?
                                             'No se encontraron registros' :
-                                            'El producto no tiene unidades'
+                                            'El producto no tiene unidades de medida'
                             }"
                   [items]="productUnitsList"
                   [placeholder]="formHelper.getSimplePlaceholder(!isSaved || editionMode)"

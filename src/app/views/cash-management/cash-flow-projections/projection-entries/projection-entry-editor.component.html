@@ -224,12 +224,12 @@
                 </div>
 
                 <div class="fx-item-quarter">
-                  <label>Unidad:</label>
+                  <label>Unidad de medida:</label>
                   <emp-ng-select
                     formControlName="productUnitUID"
                     [config]="{autoSelect: !isSaved,
                                notFoundText: form.controls.productUID.invalid ?
-                              'No se encontraron registros' : 'El producto no tiene unidades'}"
+                              'No se encontraron registros' : 'El producto no tiene unidades de medida'}"
                     [items]="productUnitsList"
                     [placeholder]="productUnitPlaceholder"
                     [showError]="formHelper.isControlInvalid(form.controls.productUnitUID)">
