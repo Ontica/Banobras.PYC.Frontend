@@ -35,8 +35,8 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
 
   @Output() transactionEntriesTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumnsDefault: string[] = ['budgetAccount', 'productCode', 'description', 'controlNo', 'program',
-    'year', 'month', 'day', 'balanceColumn', 'deposit', 'withdrawal'];
+  displayedColumnsDefault: string[] = ['party', 'budgetAccount', 'productCode', 'description', 'controlNo',
+    'program', 'year', 'month', 'day', 'balanceColumn', 'deposit', 'withdrawal'];
 
   displayedColumns = [...this.displayedColumnsDefault];
 

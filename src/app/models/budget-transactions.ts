@@ -51,6 +51,7 @@ export interface BudgetTransactionType {
 export interface BudgetTransactionEntriesRules {
   balanceColumns: Identifiable[];
   selectProduct: ProductRule;
+  selectParty: boolean;
   years: number[];
 }
 
@@ -157,6 +158,7 @@ export interface BudgetTransaction {
 export interface BudgetTransactionEntryBaseDescriptor {
   uid: string;
   balanceColumn: string;
+  partyName: string;
   budgetAccountName: string;
   itemType: TransactionEntryItemType;
 }
@@ -164,6 +166,7 @@ export interface BudgetTransactionEntryBaseDescriptor {
 
 export interface BudgetTransactionEntryDescriptor extends BudgetTransactionEntryBaseDescriptor {
   uid: string;
+  partyName: string;
   budgetAccountCode: string;
   budgetAccountName: string;
   productCode: string;
@@ -184,6 +187,7 @@ export interface BudgetTransactionEntryDescriptor extends BudgetTransactionEntry
 export interface BudgetTransactionEntryByYearDescriptor extends BudgetTransactionEntryBaseDescriptor {
   uid: string;
   balanceColumn: string;
+  partyName: string;
   budgetAccount: string;
   total: number;
   itemType: TransactionEntryItemType;
@@ -200,6 +204,7 @@ export interface BudgetTransactionEntryBase {
   entryType: TransactionEntryType;
   transactionUID: string;
   balanceColumn: Identifiable;
+  party: Identifiable;
   budgetAccount: Identifiable;
   product: Identifiable;
   productUnit: Identifiable;
@@ -215,12 +220,12 @@ export interface BudgetTransactionEntry extends BudgetTransactionEntryBase {
   entryType: TransactionEntryType;
   transactionUID: string;
   balanceColumn: Identifiable;
+  party: Identifiable;
   budgetAccount: Identifiable;
   product: Identifiable;
   productUnit: Identifiable;
   productQty: number;
   project: Identifiable;
-  party: Identifiable;
   year: number;
   month: Identifiable;
   day: number;
@@ -239,6 +244,7 @@ export interface BudgetTransactionEntryByYear extends BudgetTransactionEntryBase
   entryType: TransactionEntryType;
   transactionUID: string;
   balanceColumn: Identifiable;
+  party: Identifiable;
   budgetAccount: Identifiable;
   project: Identifiable;
   product: Identifiable;
@@ -345,6 +351,7 @@ export const EmptyBudgetTransactionType: BudgetTransactionType = {
   entriesRules: {
     balanceColumns: [],
     selectProduct: ProductRule.NoRequerido,
+    selectParty: false,
     years: [],
   },
 }
@@ -411,6 +418,7 @@ export const EmptyBudgetTransactionEntryBase: BudgetTransactionEntryBase = {
   entryType: null,
   transactionUID: '',
   balanceColumn: Empty,
+  party: Empty,
   budgetAccount: Empty,
   product: Empty,
   productUnit: Empty,
@@ -426,6 +434,7 @@ export const EmptyBudgetTransactionEntryByYear: BudgetTransactionEntryByYear = {
   entryType: null,
   transactionUID: '',
   balanceColumn: Empty,
+  party: Empty,
   budgetAccount: Empty,
   project: Empty,
   product: Empty,
@@ -443,12 +452,12 @@ export const EmptyBudgetTransactionEntry: BudgetTransactionEntry = {
   entryType: null,
   transactionUID: '',
   balanceColumn: Empty,
+  party: Empty,
   budgetAccount: Empty,
   product: Empty,
   productUnit: Empty,
   productQty: null,
   project: Empty,
-  party: Empty,
   year: null,
   month: Empty,
   day: null,

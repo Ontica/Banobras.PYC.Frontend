@@ -57,12 +57,36 @@
 
           <div class="fx-row-container">
 
-            <div [ngClass]="isMonthlyType ? 'fx-item-one' : 'fx-item-half'">
+            <div class="fx-item-half" *ngIf="transaction?.transactionType?.entriesRules?.selectParty">
+
+              <label>Área:</label>
+
+              <emp-ng-select
+                formControlName="partyUID"
+                [config]="{virtualScroll: true, showTooltip: true, autoSelect: !isSaved}"
+                [items]="orgUnitsList"
+                [loading]="isLoadingOrgUnits"
+                [showError]="formHelper.isControlInvalid(form.controls.partyUID)"
+                (changes)="onOrgUnitsChanges($event)">
+              </emp-ng-select>
+
+            </div>
+
+            <div [ngClass]="{
+              'fx-item-one': isMonthlyType && !transaction?.transactionType?.entriesRules?.selectParty,
+              'fx-item-half': (isMonthlyType && transaction?.transactionType?.entriesRules?.selectParty) ||
+                              (!isMonthlyType && !transaction?.transactionType?.entriesRules?.selectParty),
+              'fx-item-quarter': !isMonthlyType && transaction?.transactionType?.entriesRules?.selectParty,
+            }">
               <label>Partida presupuestal:</label>
               <emp-ng-select-typeahead #budgetAccountSearcher
                 formControlName="budgetAccountUID"
                 [config]="{searchByQuery: true, clearable: true, minTermLength: 2, showTooltip: true}"
-                [initQuery]="{transactionUID: transaction.uid, keywords: ''}"
+                [initQuery]="{
+                  transactionUID: transaction.uid,
+                  baseParty: form.value.partyUID,
+                  keywords: ''
+                }"
                 [searcherAPI]="accountsAPI"
                 [initialValue]="isSaved && !isFormDataReady ? entry.budgetAccount : null"
                 [showError]="formHelper.isControlInvalid(form.controls.budgetAccountUID)"
@@ -260,7 +284,7 @@
                           [(ngModel)]="monthsFields[i - 1].amount"
                           [ngModelOptions]="{standalone: true}"
                           [noMargin]="true"
-                          [disabled]="!this.canUpdate"
+                          [disabled]="!canUpdate"
                           (valueChange)="onMonthChanges()">
 
                         </emp-ng-input-numeric>
@@ -273,6 +297,7 @@
                           [(ngModel)]="monthsFields[i - 1].productQty"
                           [ngModelOptions]="{standalone: true}"
                           [noMargin]="true"
+                          [disabled]="!canUpdate"
                           (valueChange)="onMonthChanges()">
 
                         </emp-ng-input-numeric>

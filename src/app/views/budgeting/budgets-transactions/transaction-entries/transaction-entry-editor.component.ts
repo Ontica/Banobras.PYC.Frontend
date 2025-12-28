@@ -37,6 +37,7 @@ export enum TransactionEntryEditorEventType {
 
 interface TransactionEntryFormModel extends FormGroup<{  balanceColumnUID: FormControl<string>;
   projectUID: FormControl<string>;
+  partyUID: FormControl<string>;
   budgetAccountUID: FormControl<string>;
   year: FormControl<number>;
   month: FormControl<string>;
@@ -73,6 +74,8 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   isLoading = false;
 
+  isLoadingOrgUnits = false;
+
   isMonthsInvalidated = false;
 
   EntryType = TransactionEntryType;
@@ -86,6 +89,8 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   productsAPI = SearcherAPIS.products;
 
   balanceColumnsList: Identifiable[] = [];
+
+  orgUnitsList: Identifiable[] = [];
 
   monthsList: FlexibleIdentifiable[] = MONTHS_LIST;
 
@@ -117,6 +122,8 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       this.setProductControlFields();
       this.setBalanceColumnsList();
       this.buildDataTable();
+      this.getOrgUnitsByQuery()
+      this.setPartyDefault();
     }
 
     if (this.isSaved && changes.entry) {
@@ -178,6 +185,11 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   onEntryTypeChanges() {
     this.validateMonthyTypeFieldsRequired();
+  }
+
+
+  onOrgUnitsChanges(orgUnit: Identifiable) {
+    this.budgetAccountSearcher.resetListAndClearValue();
   }
 
 
@@ -248,6 +260,19 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
+  private getOrgUnitsByQuery() {
+    this.isLoadingOrgUnits = true;
+
+    this.transactionsData.getOrganizationalUnitsForTransactionEdition(this.transaction.budget?.uid,
+                                                                      this.transaction.transactionType?.uid)
+      .firstValue()
+      .then(x => {
+        this.orgUnitsList = x ?? [];
+        this.isLoadingOrgUnits = false;
+      });
+  }
+
+
   private requestBudgetAccount(segmentUID: string) {
     this.isLoading = true;
 
@@ -279,6 +304,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
     this.form = fb.group({
       balanceColumnUID: ['', Validators.required],
+      partyUID: [''],
       budgetAccountUID: ['', Validators.required],
       year: [null as number, Validators.required],
       month: [''],
@@ -324,6 +350,11 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
+  private setPartyDefault() {
+    this.form.controls.partyUID.reset(this.transaction.baseParty.uid);
+  }
+
+
   private setFormData() {
     this.isFormDataReady = false;
 
@@ -348,6 +379,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
     this.form.reset({
       balanceColumnUID: entry.balanceColumn.uid,
       projectUID: entry.project.uid,
+      partyUID: entry.party?.uid,
       budgetAccountUID: entry.budgetAccount.uid,
       year: entry.year,
       month: entry.month.uid,
@@ -367,6 +399,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
     this.form.reset({
       balanceColumnUID: entry.balanceColumn.uid,
       projectUID: entry.project.uid,
+      partyUID: entry.party?.uid,
       budgetAccountUID: entry.budgetAccount.uid,
       year: entry.year,
       productUID: entry.product.uid,
