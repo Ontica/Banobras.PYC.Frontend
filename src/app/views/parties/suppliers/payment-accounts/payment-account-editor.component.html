@@ -26,49 +26,6 @@
 
             </div>
 
-            <div class="fx-item-half">
-
-              <label>Institución:</label>
-
-              <emp-ng-select
-                formControlName="institutionUID"
-                [items]="institutionsList"
-                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
-                [showError]="formHelper.isControlInvalid(form.controls.institutionUID)">
-              </emp-ng-select>
-
-            </div>
-
-          </div>
-
-
-          <div class="fx-row-container">
-
-            <div class="fx-item-half">
-
-              <label>No. cuenta:</label>
-
-              <input type="text" class="text-box"
-                formControlName="accountNo"
-                [class.invalid-control]="formHelper.isControlInvalid(form.controls.accountNo)">
-
-            </div>
-
-
-            <div class="fx-item-half">
-
-              <label>Beneficiario:</label>
-
-              <input type="text" class="text-box"
-                formControlName="holderName"
-                [class.invalid-control]="formHelper.isControlInvalid(form.controls.holderName)">
-
-            </div>
-
-          </div>
-
-          <div class="fx-row-container">
-
             <div class="fx-item-quarter">
 
               <label>Método de pago:</label>
@@ -95,6 +52,46 @@
 
             </div>
 
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>No. cuenta:</label>
+
+              <input type="text" class="text-box"
+                formControlName="accountNo"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.accountNo)">
+
+            </div>
+
+
+            <div class="fx-item-one">
+              <label>Identificador de la cuenta:</label>
+              <input type="text" class="text-box"
+                formControlName="name"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Institución:</label>
+
+              <emp-ng-select
+                formControlName="institutionUID"
+                [config]="{virtualScroll: true, showTooltip: true}"
+                [items]="institutionsList"
+                [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+                [showError]="formHelper.isControlInvalid(form.controls.institutionUID)">
+              </emp-ng-select>
+
+            </div>
+
             <div class="fx-item-quarter"
               [style.margin-top.px]="12">
 
@@ -105,7 +102,7 @@
 
             </div>
 
-            <div class="fx-item-quarter">
+            <div class="fx-item-quarter" *ngIf="!form.value.askForReferenceNumber">
 
               <label>Referencia:</label>
 
@@ -120,10 +117,13 @@
           <div class="fx-row-container">
 
             <div class="fx-item-one">
-              <label>Nombre:</label>
+
+              <label>Beneficiario:</label>
+
               <input type="text" class="text-box"
-                formControlName="name"
-                [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+                formControlName="holderName"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.holderName)">
+
             </div>
 
           </div>

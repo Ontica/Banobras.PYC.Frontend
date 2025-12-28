@@ -151,12 +151,16 @@ export class PaymentAccountEditorComponent implements OnChanges, OnInit, OnDestr
     this.isLoading = true;
 
     combineLatest([
-      this.helper.select<PaymentMethod[]>(CataloguesStateSelector.PAYMENTS_METHODS),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.FINANCIAL_INSTITUTIONS),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.PAYMENT_ACCOUNT_TYPES),
+      this.helper.select<PaymentMethod[]>(CataloguesStateSelector.PAYMENTS_METHODS),
     ])
-    .subscribe(([a, b]) => {
-      this.paymentMethodsList = a;
-      this.currenciesList = b;
+    .subscribe(([a, b, c, d]) => {
+      this.currenciesList = a;
+      this.institutionsList = b;
+      this.accountTypesList = c;
+      this.paymentMethodsList = d;
       this.validateDataLists();
       this.isLoading = false;
     });
@@ -181,15 +185,15 @@ export class PaymentAccountEditorComponent implements OnChanges, OnInit, OnDestr
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      name: ['', Validators.required],
-      accountNo: ['', Validators.required],
-      holderName: ['', Validators.required],
-      referenceNumber: ['', Validators.required],
       accountTypeUID: ['', Validators.required],
-      institutionUID: ['', Validators.required],
       paymentMethodUID: ['', Validators.required],
       currencyUID: ['', Validators.required],
+      accountNo: [''],
+      name: [''],
+      institutionUID: [''],
+      holderName: [''],
       askForReferenceNumber: [false],
+      referenceNumber: [''],
     });
   }
 
@@ -230,12 +234,12 @@ export class PaymentAccountEditorComponent implements OnChanges, OnInit, OnDestr
       name: formModel.name ?? '',
       accountNo: formModel.accountNo ?? '',
       holderName: formModel.holderName ?? '',
-      referenceNumber: formModel.referenceNumber ?? '',
       accountTypeUID: formModel.accountTypeUID ?? '',
       institutionUID: formModel.institutionUID ?? '',
       paymentMethodUID: formModel.paymentMethodUID ?? '',
       currencyUID: formModel.currencyUID ?? '',
       askForReferenceNumber: formModel.askForReferenceNumber,
+      referenceNumber: formModel.askForReferenceNumber ? '' : formModel.referenceNumber ?? '',
     };
 
     return data;

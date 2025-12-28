@@ -55,6 +55,19 @@ export class CataloguesDataService {
     return this.http.get<PaymentMethod[]>(path);
   }
 
+  getPaymentAccountTypes(): EmpObservable<Identifiable[]> {
+    const path = 'v8/financial/payment-account-types';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getFinancialInstitutions(): EmpObservable<Identifiable[]> {
+    const path = 'v8/financial/financial-institutions';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
 
   getPeriodicityTypes(): EmpObservable<Identifiable[]> {
     const path = 'v8/time/periodicity-types';
