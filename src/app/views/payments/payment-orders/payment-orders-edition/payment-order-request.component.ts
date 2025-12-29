@@ -11,11 +11,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { combineLatest } from 'rxjs';
 
-import { Assertion, DateString, EventInfo, isEmpty } from '@app/core';
+import { Assertion, DateString, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
+import { CataloguesStateSelector, PaymentsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -30,6 +30,7 @@ export enum  PaymentOrderRequestEventType {
 }
 
 interface  PaymentOrderFormModel extends FormGroup<{
+  paymentTypeUID: FormControl<string>;
   paymentMethodUID: FormControl<string>;
   paymentAccountUID: FormControl<string>;
   referenceNumber: FormControl<string>;
@@ -56,6 +57,8 @@ export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
   formHelper = FormHelper;
 
   isLoading = false;
+
+  paymentTypesList: Identifiable[] = [];
 
   allPaymentAccountsList: PaymentAccount[] = [];
 
@@ -141,12 +144,14 @@ export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     combineLatest([
+      this.helper.select<PaymentMethod[]>(PaymentsStateSelector.PAYMENT_TYPES),
       this.helper.select<PaymentMethod[]>(CataloguesStateSelector.PAYMENTS_METHODS),
       this.suppliersData.getSupplierPaymentAccounts(this.supplierUID),
     ])
-    .subscribe(([a, b]) => {
-      this.paymentMethodsList = a;
-      this.allPaymentAccountsList = b;
+    .subscribe(([a, b, c]) => {
+      this.paymentTypesList = a;
+      this.paymentMethodsList = b;
+      this.allPaymentAccountsList = c;
       this.isLoading = false;
     });
   }
@@ -156,6 +161,7 @@ export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
+      paymentTypeUID: ['', Validators.required],
       paymentMethodUID: ['', Validators.required],
       paymentAccountUID: ['', Validators.required],
       referenceNumber: ['', Validators.required],
@@ -173,6 +179,7 @@ export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
     const formData = this.form.getRawValue();
 
     const data: PaymentOrderRequestFields = {
+      paymentTypeUID: formData.paymentTypeUID ?? '',
       paymentMethodUID: formData.paymentMethodUID ?? '',
       paymentAccountUID: formData.paymentAccountUID ?? '',
       referenceNumber: formData.referenceNumber ?? '',

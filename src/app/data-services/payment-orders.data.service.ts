@@ -19,6 +19,13 @@ export class PaymentOrdersDataService {
   constructor(private http: HttpService) { }
 
 
+  getPaymentTypes(): EmpObservable<Identifiable[]> {
+    const path = 'v2/payments-management/payment-types';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   getPaymentOrderTypes(): EmpObservable<Identifiable[]> {
     const path = 'v2/payments-management/payment-order-types';
 

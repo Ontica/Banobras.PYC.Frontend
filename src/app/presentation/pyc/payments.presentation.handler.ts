@@ -15,13 +15,15 @@ import { BillsDataService, PaymentOrdersDataService } from '@app/data-services';
 
 
 export enum SelectorType {
-  PAYMENT_ORDER_TYPES       = 'PYC.Payments.Selector.PaymentOrder.List',
-  BILL_TYPES                = 'PYC.Payments.Selector.BillTypes.List',
-  BILL_CATEGORIES           = 'PYC.Payments.Selector.BillCategories.List',
+  PAYMENT_TYPES       = 'PYC.Payments.Selector.PaymentTypes.List',
+  PAYMENT_ORDER_TYPES = 'PYC.Payments.Selector.PaymentOrderTypes.List',
+  BILL_TYPES          = 'PYC.Payments.Selector.BillTypes.List',
+  BILL_CATEGORIES     = 'PYC.Payments.Selector.BillCategories.List',
 }
 
 
 const initialState: StateValues = [
+  { key: SelectorType.PAYMENT_TYPES, value: [] },
   { key: SelectorType.PAYMENT_ORDER_TYPES, value: [] },
   { key: SelectorType.BILL_TYPES, value: [] },
   { key: SelectorType.BILL_CATEGORIES, value: [] },
@@ -43,6 +45,12 @@ export class PaymentsPresentationHandler extends AbstractPresentationHandler {
   select<U>(selectorType: SelectorType, params?: any): EmpObservable<U> {
 
     switch (selectorType) {
+
+      case SelectorType.PAYMENT_TYPES: {
+        const provider = () => this.paymentOrdersData.getPaymentTypes();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
 
       case SelectorType.PAYMENT_ORDER_TYPES: {
         const provider = () => this.paymentOrdersData.getPaymentOrderTypes();

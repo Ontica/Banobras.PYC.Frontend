@@ -15,11 +15,26 @@
 
             <div class="fx-item-half">
 
+              <label>Tipo de pago:</label>
+
+              <emp-ng-select
+                formControlName="paymentTypeUID"
+                [items]="paymentTypesList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.paymentTypeUID)">
+
+              </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-size" style="--size: calc(50% - 126px)">
+
               <label>Método de pago:</label>
 
               <emp-ng-select
                 formControlName="paymentMethodUID"
                 [items]="paymentMethodsList"
+                [loading]="isLoading"
                 [showError]="formHelper.isControlInvalid(form.controls.paymentMethodUID)"
                 (changes)="onPaymentMethodChanges($event)">
 
