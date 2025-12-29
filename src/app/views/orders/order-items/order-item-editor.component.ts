@@ -52,6 +52,7 @@ interface OrderItemFormModel extends FormGroup<{
   minQuantity: FormControl<number>;
   maxQuantity: FormControl<number>;
   discount: FormControl<number>;
+  penaltyDiscount: FormControl<number>;
   total: FormControl<number>;
   projectUID: FormControl<string>;
   justification: FormControl<string>;
@@ -177,6 +178,11 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
+  get numericFieldSize(): string {
+    return this.isContractOrder || this.isPurchase ? 'fx-item-fifth' : 'fx-item-quarter';
+  }
+
+
   onAvailableItemChanges(item: OrderItem) {
     this.form.controls.productUID.reset(FormHelper.getUIDValueValid(item?.product));
     this.form.controls.productUnitUID.reset(FormHelper.getUIDValueValid(item?.productUnit));
@@ -201,8 +207,8 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
   onTotalChanges() {
     if (!this.isContract) {
-      const { quantity = 0, unitPrice = 0, discount = 0 } = this.form.getRawValue();
-      const total = quantity * unitPrice - discount;
+      const { quantity = 0, unitPrice = 0, discount = 0, penaltyDiscount = 0 } = this.form.getRawValue();
+      const total = quantity * unitPrice - discount - penaltyDiscount;
       this.form.controls.total.reset(total);
     }
   }
@@ -392,6 +398,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       minQuantity: [null as number],
       maxQuantity: [null as number],
       discount: [null as number],
+      penaltyDiscount: [null as number],
       total: [null as number],
       projectUID: [''],
       justification: [''],
@@ -453,6 +460,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
         this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.contractItem));
         this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
         this.form.controls.discount.reset(FormHelper.getNumberValueValid(item.discount));
+        this.form.controls.penaltyDiscount.reset(FormHelper.getNumberValueValid(item.penaltyDiscount));
         break;
       }
       case ObjectTypes.EXPENSE:
@@ -461,6 +469,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
         this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.requisitionItem));
         this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
         this.form.controls.discount.reset(FormHelper.getNumberValueValid(item.discount));
+        this.form.controls.penaltyDiscount.reset(FormHelper.getNumberValueValid(item.penaltyDiscount));
         break;
       }
     }
@@ -590,6 +599,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
         contractItemUID: formValues.linkedItemUID ?? null,
         budgetAccountUID: formValues.budgetAccountUID ?? null,
         discount: formValues.discount ?? 0,
+        penaltyDiscount: formValues.penaltyDiscount ?? 0,
       }
     };
 
@@ -609,6 +619,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
         requisitionItemUID: formValues.linkedItemUID ?? null,
         budgetAccountUID: formValues.budgetAccountUID ?? null,
         discount: formValues.discount ?? 0,
+        penaltyDiscount: formValues.penaltyDiscount ?? 0,
       }
     };
 

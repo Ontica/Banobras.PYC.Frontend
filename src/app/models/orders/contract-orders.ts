@@ -52,6 +52,7 @@ export interface ContractOrderItem extends OrderItem {
   budgetAccount: Identifiable;
   budgetControlNo: string;
   discount: number;
+  penaltyDiscount: number;
 }
 
 
@@ -59,6 +60,7 @@ export interface ContractOrderItemFields extends OrderItemFields {
   contractItemUID: string;
   budgetAccountUID: string;
   discount: number;
+  penaltyDiscount: number;
 }
 
 

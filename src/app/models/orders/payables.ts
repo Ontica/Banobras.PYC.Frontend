@@ -51,6 +51,7 @@ export interface PayableOrderItem extends OrderItem {
   budgetAccount: Identifiable;
   budgetControlNo: string;
   discount: number;
+  penaltyDiscount: number;
   requisitionItem: OrderItem;
 }
 
@@ -58,6 +59,7 @@ export interface PayableOrderItem extends OrderItem {
 export interface PayableOrderItemFields extends OrderItemFields {
   budgetAccountUID: string;
   discount: number;
+  penaltyDiscount: number;
   requisitionItemUID: string;
 }
 
