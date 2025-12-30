@@ -10,6 +10,18 @@ import { Identifiable } from '@app/core';
 import { DataTable, DataTableColumn, DataTableEntry } from './base/data-table';
 
 
+export enum BudgetExplorerReportTypes {
+  ByColumn            = 'ByColumn',
+  MonthlyAvailability = 'MonthlyAvailability',
+}
+
+
+export const BudgetExplorerReportTypesList: Identifiable<BudgetExplorerReportTypes>[] = [
+  { uid: BudgetExplorerReportTypes.ByColumn,             name: 'Por columna' },
+  { uid: BudgetExplorerReportTypes.MonthlyAvailability,  name: 'Disponible mensual' },
+];
+
+
 export interface BudgetType {
   uid: string;
   name: string;
@@ -74,9 +86,11 @@ export enum BudgetQueryType {
 
 
 export interface BudgetQuery {
+  reportType: BudgetExplorerReportTypes;
   queryType: BudgetQueryType;
   budgetTypeUID: string;
   budgetUID: string;
+  basePartyUID: string;
   groupBy: string[];
   filterBy: BudgetSegmentQuery[];
 }
@@ -122,9 +136,11 @@ export const EmptyBudgetType: BudgetType = {
 
 
 export const EmptyBudgetQuery: BudgetQuery = {
+  reportType: BudgetExplorerReportTypes.ByColumn,
   queryType: null,
   budgetTypeUID: '',
   budgetUID: '',
+  basePartyUID: '',
   groupBy: [],
   filterBy: [],
 };

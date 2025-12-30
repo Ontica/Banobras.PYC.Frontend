@@ -6,6 +6,18 @@
 
       <div class="fx-item-quarter">
 
+        <label class="nowrap">Tipo de reporte:</label>
+
+        <emp-ng-select
+          formControlName="reportType"
+          [items]="reportTypesList"
+          [showError]="formHelper.isControlInvalid(form.controls.reportType)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
         <label>Tipo de presupuesto:</label>
 
         <emp-ng-select
@@ -19,7 +31,7 @@
 
       </div>
 
-      <div class="fx-item-quarter">
+      <div class="fx-item-size" style="--size: calc(50% - 161px)">
 
         <label>Presupuesto:</label>
 
@@ -27,19 +39,6 @@
           formControlName="budgetUID"
           [items]="budgetsList"
           [showError]="formHelper.isControlInvalid(form.controls.budgetUID)">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item">
-
-        <label>Agrupación:</label>
-
-        <emp-ng-select
-          formControlName="groupBy"
-          [config]="{multiple: true, clearable: true}"
-          [items]="segmentsForGroupByList"
-          [showError]="formHelper.isControlInvalid(form.controls.groupBy)">
         </emp-ng-select>
 
       </div>
@@ -63,6 +62,38 @@
           (click)="onShowFiltersClicked()" >
           {{showFilters ? 'Ocultar' :'Mostrar'}} <mat-icon>filter_list</mat-icon>
         </button>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Agrupación:</label>
+
+        <emp-ng-select
+          formControlName="groupBy"
+          [config]="{multiple: true, clearable: true}"
+          [items]="segmentsForGroupByList"
+          [showError]="formHelper.isControlInvalid(form.controls.groupBy)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Área:</label>
+
+        <emp-ng-select
+          formControlName="basePartyUID"
+          [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
+          [items]="orgUnitsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)"
+          placeholder="Todas">
+        </emp-ng-select>
 
       </div>
 

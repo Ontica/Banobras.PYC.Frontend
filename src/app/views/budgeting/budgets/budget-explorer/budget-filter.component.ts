@@ -9,16 +9,19 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { EventInfo } from '@app/core';
+import { combineLatest } from 'rxjs';
+
+import { EventInfo, Identifiable } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { BudgetingStateSelector } from '@app/presentation/exported.presentation.types';
+import { BudgetingStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper, sendEvent, empExpandCollapse } from '@app/shared/utils';
 
-import { Budget, BudgetQuery, BudgetQueryType, BudgetSegmentQuery, BudgetSegmentType,
-         BudgetType, FormFieldData, FormFieldDataType } from '@app/models';
+import { Budget, BudgetExplorerReportTypes, BudgetExplorerReportTypesList, BudgetQuery, BudgetQueryType,
+         BudgetSegmentQuery, BudgetSegmentType, BudgetType, FormFieldData, FormFieldDataType,
+         RequestsList } from '@app/models';
 
 
 export enum BudgetFilterEventType {
@@ -27,8 +30,10 @@ export enum BudgetFilterEventType {
 }
 
 interface BudgetFilterFormModel extends FormGroup<{
+  reportType: FormControl<BudgetExplorerReportTypes>;
   budgetTypeUID: FormControl<string>;
   budgetUID: FormControl<string>;
+  basePartyUID: FormControl<string>;
   groupBy: FormControl<string[]>;
 }> { }
 
@@ -53,9 +58,13 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
   isLoading = false;
 
+  reportTypesList = BudgetExplorerReportTypesList;
+
   budgetTypesList: BudgetType[] = [];
 
   budgetsList: Budget[] = [];
+
+  orgUnitsList: Identifiable[] = [];
 
   segmentsForGroupByList: BudgetSegmentType[] = [];
 
@@ -85,6 +94,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
     this.segmentsForGroupByList = budgetType.segmentTypes;
 
     this.form.controls.budgetUID.reset();
+    this.form.controls.basePartyUID.reset();
     this.form.controls.groupBy.reset([]);
 
     this.setAndBuildSegmentsFormControls(budgetType.segmentTypes);
@@ -125,8 +135,10 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
+      reportType: [BudgetExplorerReportTypes.ByColumn, Validators.required],
       budgetTypeUID: ['', Validators.required],
       budgetUID: ['', Validators.required],
+      basePartyUID: [''],
       groupBy: [[] as string[], Validators.required],
     });
   }
@@ -135,11 +147,15 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
   private loadDataLists() {
     this.isLoading = true;
 
-    this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES)
-      .subscribe(x => {
-        this.budgetTypesList = x;
-        this.isLoading = x.length === 0;
-      });
+    combineLatest([
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, {requestsList: RequestsList.budgeting}),
+      this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES)
+    ])
+    .subscribe(([a, b]) => {
+      this.orgUnitsList = a;
+      this.budgetTypesList = b;
+      this.isLoading = false;
+    });
   }
 
 
@@ -175,6 +191,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
   private clearFilters() {
     this.form.controls.budgetUID.reset('');
+    this.form.controls.basePartyUID.reset('');
     this.form.controls.groupBy.reset([]);
     this.segmentsToDisplay.forEach(x => this.form.controls[x.field].reset(x.multiple ? [] : ''));
   }
@@ -184,9 +201,11 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
     const filterBy = this.segmentsToDisplay.map(x => this.buildBudgetSegmentQuery(x)) ?? [];
 
     const query: BudgetQuery = {
+      reportType: this.form.value.reportType ?? null,
       queryType: this.queryType,
       budgetTypeUID: this.form.value.budgetTypeUID ?? '',
       budgetUID: this.form.value.budgetUID ?? '',
+      basePartyUID: this.form.value.basePartyUID ?? '',
       groupBy: this.form.value.groupBy ?? [],
       filterBy,
     };
