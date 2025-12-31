@@ -37,6 +37,7 @@ export interface DocumentFields {
   documentProductUID: string;
   name: string;
   total?: number;
+  documentNumber?: string;
 }
 
 

@@ -33,14 +33,25 @@
 
           <div class="fx-row-container">
 
-            <div [class]="isCFDI ? 'fx-item-one' : 'fx-item-three-quarter'">
+            <div class="fx-item-one">
               <label>Descripción del comprobante:</label>
               <input type="text" class="text-box"
                   formControlName="name"
                   [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
             </div>
 
-            <div class="fx-item-quarter" *ngIf="!isCFDI">
+          </div>
+
+          <div class="fx-row-container" *ngIf="!isCFDI">
+
+            <div class="fx-item-three-quarter">
+              <label>Número de oficio o documento:</label>
+              <input type="text" class="text-box"
+                  formControlName="documentNumber"
+                  [class.invalid-control]="formHelper.isControlInvalid(form.controls.documentNumber)">
+            </div>
+
+            <div class="fx-item-quarter">
 
               <label>Importe:</label>
 

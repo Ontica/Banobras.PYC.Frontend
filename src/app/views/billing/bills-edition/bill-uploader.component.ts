@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Assertion, EventInfo, Identifiable } from '@app/core';
+import { Assertion, EventInfo, Validate } from '@app/core';
 
 import { FormHelper, sendEvent } from '@app/shared/utils';
 
@@ -26,6 +26,7 @@ export enum BillUploaderEventType {
 interface BillUploaderFormModel extends FormGroup<{
   documentProductUID: FormControl<string>;
   name: FormControl<string>;
+  documentNumber: FormControl<string>;
   total: FormControl<number>;
 }> { }
 
@@ -121,6 +122,7 @@ export class BillUploaderComponent implements OnInit {
     this.form = fb.group({
       documentProductUID: ['', Validators.required],
       name: ['', Validators.required],
+      documentNumber: [''],
       total: [null],
     });
   }
@@ -128,9 +130,11 @@ export class BillUploaderComponent implements OnInit {
 
   private validateFieldsRequired() {
     if (this.isCFDI) {
+      this.formHelper.clearControlValidators(this.form.controls.documentNumber);
       this.formHelper.clearControlValidators(this.form.controls.total);
     } else {
-      this.formHelper.setControlValidators(this.form.controls.total, [Validators.required]);
+      this.formHelper.setControlValidators(this.form.controls.documentNumber, [Validators.required]);
+      this.formHelper.setControlValidators(this.form.controls.total, [Validators.required, Validate.isPositive]);
     }
   }
 
@@ -144,6 +148,7 @@ export class BillUploaderComponent implements OnInit {
     const data: DocumentFields = {
       documentProductUID: formModel.documentProductUID,
       name: formModel.name,
+      documentNumber: this.isCFDI ? '' : formModel.documentNumber,
       total: this.isCFDI ? null : formModel.total,
     };
 
