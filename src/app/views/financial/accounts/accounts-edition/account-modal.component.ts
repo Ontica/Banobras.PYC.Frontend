@@ -7,7 +7,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Assertion, EventInfo, isEmpty } from '@app/core';
+import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -30,11 +30,15 @@ export enum AccountModalEventType {
 })
 export class FinancialAccountModalComponent {
 
+  @Input() chartOfAccountsUID = '';
+
   @Input() projectUID = '';
 
   @Input() organizationalUnitUID = '';
 
   @Input() account: FinancialAccount = EmptyFinancialAccount;
+
+  @Input() accountTypesList: Identifiable[] = [];
 
   @Input() canUpdate = false;
 

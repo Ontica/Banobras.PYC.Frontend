@@ -7,9 +7,7 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { Assertion, EventInfo, isEmpty } from '@app/core';
-
-import { MessageBoxService } from '@app/shared/services';
+import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { SkipIf } from '@app/shared/decorators';
 
@@ -41,11 +39,15 @@ export enum AccountsEditionEventType {
 })
 export class FinancialAccountsEditionComponent implements OnChanges {
 
+  @Input() chartOfAccountsUID = '';
+
   @Input() projectUID = '';
 
   @Input() organizationalUnitUID = '';
 
   @Input() accounts: FinancialAccountDescriptor[] = [];
+
+  @Input() accountTypesList: Identifiable[] = [];
 
   @Input() canUpdate = false;
 
@@ -83,12 +85,16 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   createAccountMode = false;
 
 
-  constructor(private accountsData: FinancialAccountsDataService,
-              private messageBox: MessageBoxService) { }
+  constructor(private accountsData: FinancialAccountsDataService) { }
 
 
   ngOnChanges() {
     this.filter = '';
+  }
+
+
+  get isFinancialProject(): boolean {
+    return this.queryType === 'financial-project';
   }
 
 
@@ -153,9 +159,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
     switch (event.type as AccountsTableEventType) {
       case AccountsTableEventType.ACCOUNT_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        const projectUID = isEmpty({ uid: event.payload.account.projectUID }) ? null :
-          event.payload.account.projectUID;
-        this.getAccount(projectUID, event.payload.account.uid);
+        this.getAccount(event.payload.account.uid);
         return;
       case AccountsTableEventType.PROJECT_CLICKED:
         Assertion.assertValue(event.payload.account.projectUID, 'event.payload.account.projectUID');
@@ -172,7 +176,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
         return;
       case AccountsTableEventType.REMOVE_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        this.removeAccount(event.payload.account.projectUID ?? null, event.payload.account.uid);
+        this.removeAccount(event.payload.account.uid);
         return;
       case AccountsTableEventType.OPERATIONS_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
@@ -211,89 +215,79 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  private getAccount(projectUID: string, accountUID: string) {
-      const observable = !!projectUID ?
-        this.accountsData.getProjectAccount(projectUID, accountUID) :
-        this.accountsData.getAccountPlain(accountUID);
+  private getAccount(accountUID: string) {
+    const observable = this.isFinancialProject ?
+      this.accountsData.getProjectAccount(this.projectUID, accountUID) :
+      this.accountsData.getAccount(accountUID);
 
-      this.submitted = true;
+    this.submitted = true;
 
-      observable
-        .firstValue()
-        .then(x => this.setSelectedAccount(x))
-        .finally(() => this.submitted = false);
+    observable
+      .firstValue()
+      .then(x => this.setSelectedAccount(x))
+      .finally(() => this.submitted = false);
   }
 
 
   private createAccount(dataFields: FinancialAccountFields) {
-    if (!!this.projectUID) {
-      const observable = this.accountsData.createProjectAccount(this.projectUID, dataFields);
+    const observable = this.isFinancialProject ?
+      this.accountsData.createProjectAccount(this.projectUID, dataFields) :
+      this.accountsData.createAccount(dataFields);
 
-      this.submitted = true;
+    this.submitted = true;
 
-      observable
-        .firstValue()
-        .then(x => this.resolveAccountUpdated(this.projectUID, x.uid, x))
-        .finally(() => this.submitted = false);
-    } else {
-      this.messageBox.showInDevelopment('Agregar cuenta', dataFields);
-    }
+    observable
+      .firstValue()
+      .then(x => this.resolveAccountUpdated(this.projectUID, x.uid, x))
+      .finally(() => this.submitted = false);
   }
 
 
   private updateAccount(accountUID: string, dataFields: FinancialAccountFields) {
-    if (!!this.projectUID) {
-      const observable = this.accountsData.updateProjectAccount(this.projectUID, accountUID, dataFields);
+    const observable = this.isFinancialProject ?
+      this.accountsData.updateProjectAccount(this.projectUID, accountUID, dataFields) :
+      this.accountsData.updateAccount(accountUID, dataFields);
 
-      this.submitted = true;
+    this.submitted = true;
 
-      observable
-        .firstValue()
-        .then(x => this.resolveAccountUpdated(this.projectUID, x.uid, x))
-        .finally(() => this.submitted = false);
-    } else {
-      this.messageBox.showInDevelopment('Actualizar cuenta', dataFields);
-    }
+    observable
+      .firstValue()
+      .then(x => this.resolveAccountUpdated(this.projectUID, x.uid, x))
+      .finally(() => this.submitted = false);
   }
 
 
-  // TODO: remove catch
+  private removeAccount(accountUID: string) {
+    const observable = this.isFinancialProject ?
+      this.accountsData.removeProjectAccount(this.projectUID, accountUID) :
+      this.accountsData.removeAccount(accountUID);
+
+    this.submitted = true;
+
+    observable
+      .firstValue()
+      .then(x => this.resolveAccountUpdated(this.projectUID, accountUID, x))
+      .finally(() => this.submitted = false);
+  }
+
+
   private activateAccount(accountUID: string) {
     this.submitted = true;
 
     this.accountsData.activateAccount(accountUID)
       .firstValue()
       .then(x => this.resolveAccountUpdated(x.project.uid, accountUID))
-      .catch(e => this.messageBox.showInDevelopment('Activar cuenta', accountUID))
       .finally(() => this.submitted = false);
   }
 
 
-  // TODO: remove catch
   private suspendAccount(accountUID: string) {
     this.submitted = true;
 
     this.accountsData.suspendAccount(accountUID)
       .firstValue()
       .then(x => this.resolveAccountUpdated(x.project.uid, accountUID))
-      .catch(e => this.messageBox.showInDevelopment('Suspender cuenta', accountUID))
       .finally(() => this.submitted = false);
-  }
-
-
-  private removeAccount(projectUID: string, accountUID: string) {
-    if (!!projectUID) {
-      const observable = this.accountsData.removeProjectAccount(projectUID, accountUID);
-
-      this.submitted = true;
-
-      observable
-        .firstValue()
-        .then(x => this.resolveAccountUpdated(projectUID, accountUID, x))
-        .finally(() => this.submitted = false);
-    } else {
-      this.messageBox.showInDevelopment('Eliminar cuenta', { projectUID, accountUID });
-    }
   }
 
 

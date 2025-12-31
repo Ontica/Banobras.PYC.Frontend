@@ -53,8 +53,9 @@
           formControlName="standardAccountUID"
           [config]="{showTooltip: true, autoSelect: !isSaved}"
           [items]="standardAccountsList"
-          [loading]="isLoading"
-          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+          [loading]="isLoading || isLoadingStandardAccounts"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode,
+            hasProject || (!hasProject && form.controls.financialAccountTypeUID.valid), 'tipo de cuenta')"
           [showError]="formHelper.isControlInvalid(form.controls.standardAccountUID)">
         </emp-ng-select>
 
@@ -83,8 +84,9 @@
           formControlName="standardAccountUID"
           [config]="{showTooltip: true, autoSelect: !isSaved}"
           [items]="standardAccountsList"
-          [loading]="isLoading"
-          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+          [loading]="isLoading || isLoadingStandardAccounts"
+          [placeholder]="formHelper.getConditionalPlaceholder(editionMode,
+            hasProject || (!hasProject && form.controls.financialAccountTypeUID.valid), 'tipo de cuenta')"
           [showError]="formHelper.isControlInvalid(form.controls.standardAccountUID)">
         </emp-ng-select>
 

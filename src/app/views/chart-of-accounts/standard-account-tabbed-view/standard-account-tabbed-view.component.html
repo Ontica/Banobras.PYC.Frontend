@@ -22,7 +22,9 @@
 
         <emp-financial-accounts-edition
           [queryType]="data.standardAccount.isProjectRelated ? 'standard-accounts-with-project' : 'standard-accounts-without-project'"
+          [chartOfAccountsUID]="chartOfAccountsUID"
           [accounts]="data.accounts"
+          [accountTypesList]="data.standardAccountTypes"
           [canUpdate]="data.actions.canUpdate"
           [canActivate]="data.actions.canActivate"
           [canSuspend]="data.actions.canSuspend"

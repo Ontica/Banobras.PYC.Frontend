@@ -33,6 +33,8 @@ export enum StandardAccountTabbedViewEventType {
 })
 export class StandardAccountTabbedViewComponent implements OnChanges {
 
+  @Input() chartOfAccountsUID = '';
+
   @Input() data: StandardAccountHolder = EmptyStandardAccountHolder;
 
   @Output() standardAccountTabbedViewEvent = new EventEmitter<EventInfo>();

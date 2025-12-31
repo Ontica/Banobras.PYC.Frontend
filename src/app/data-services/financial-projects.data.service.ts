@@ -7,9 +7,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { Assertion, EmpObservable, HttpService, Identifiable, isEmpty } from '@app/core';
-
-import { of } from 'rxjs';
+import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { FinancialProjectDescriptor, FinancialProjectFields, FinancialProjectHolder, FinancialProjectsQuery,
          FinancialProjectStructureForEdit, FinancialProject } from '@app/models';
@@ -58,18 +56,6 @@ export class FinancialProjectsDataService {
     const path = `v1/financial-projects/organizational-units/${orgUnitUID}/assignees`;
 
     return this.http.get<Identifiable[]>(path);
-  }
-
-
-  // TODO: Fix this
-  getStandardAccounts(projectUID: string): EmpObservable<Identifiable[]> {
-    // Assertion.assertValue(projectUID, 'projectUID');
-
-    const path = `v1/financial-projects/${projectUID}/standard-accounts`;
-
-    return isEmpty({uid: projectUID}) ?
-      new EmpObservable<Identifiable[]>(of([])) :
-      this.http.get<Identifiable[]>(path);
   }
 
 

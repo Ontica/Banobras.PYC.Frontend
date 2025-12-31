@@ -57,7 +57,8 @@ export class AccountsPresentationHandler extends AbstractPresentationHandler {
       }
 
       case SelectorType.ACCOUNTS_TYPES: {
-        const provider = () => this.accountsData.getAccountsTypes();
+        // TODO: revisar que el endpoint al que llama sea el correcto
+        const provider = () => this.chartOfAccountsData.getAccountsTypes();
 
         return super.selectFirst<U>(selectorType, provider);
       }

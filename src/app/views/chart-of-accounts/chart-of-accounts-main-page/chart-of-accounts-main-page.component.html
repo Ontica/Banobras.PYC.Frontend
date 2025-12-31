@@ -19,6 +19,7 @@
 
   <emp-financial-standard-account-tabbed-view *ngIf="displayTabbedView"
     class="secondary priority std-stacked"
+    [chartOfAccountsUID]="query.chartOfAccountsUID"
     [data]="selectedData"
     (standardAccountTabbedViewEvent)="onStandardAccountTabbedViewEvent($event)">
 

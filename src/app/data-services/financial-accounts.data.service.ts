@@ -23,49 +23,20 @@ export class FinancialAccountsDataService {
   constructor(private http: HttpService) { }
 
 
-  getAccountsTypes(): EmpObservable<Identifiable[]> {
-
+  //#region FINANCIAL PROJECTS ACCOUNTS
+  getProjectAccountsTypes(): EmpObservable<Identifiable[]> {
     const path = `v1/financial-projects/financial-accounts-types`;
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
-  searchAccounts(query: FinancialAccountsQuery): EmpObservable<FinancialAccountDescriptor[]> {
-    Assertion.assertValue(query, 'query');
+  getProjectStandardAccounts(projectUID: string): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(projectUID, 'projectUID');
 
-    const path = `v2/financial-accounts/search`;
+    const path = `v1/financial-projects/${projectUID}/standard-accounts`;
 
-    return this.http.post<FinancialAccountDescriptor[]>(path, query);
-  }
-
-
-  exportAccounts(query: FinancialAccountsQuery): EmpObservable<FileReport> {
-    Assertion.assertValue(query, 'query');
-
-    const path = `v2/financial-accounts/export`;
-
-    return this.http.post<FileReport>(path, query);
-  }
-
-
-  getAccount(accountUID: string): EmpObservable<FinancialAccountHolder> {
-    Assertion.assertValue(accountUID, 'accountUID');
-
-    const path = `v2/financial-accounts/${accountUID}`;
-
-    return this.http.get<FinancialAccountHolder>(path);
-  }
-
-  // TODO: define this
-  getAccountPlain(accountUID: string): EmpObservable<FinancialAccount> {
-    Assertion.assertValue(accountUID, 'accountUID');
-
-    const path = `v2/financial-accounts/${accountUID}`;
-
-    return new EmpObservable<FinancialAccount>(
-      this.http.get<FinancialAccountHolder>(path).pipe(map(x => x.account))
-    );
+    return this.http.get<Identifiable[]>(path);
   }
 
 
@@ -104,26 +75,6 @@ export class FinancialAccountsDataService {
   }
 
 
-  // TODO: define this
-  activateAccount(accountUID: string): EmpObservable<FinancialAccount> {
-    Assertion.assertValue(accountUID, 'accountUID');
-
-    const path = `v2/financial-accounts/${accountUID}/activate`;
-
-    return this.http.post<FinancialAccount>(path);
-  }
-
-
-  // TODO: define this
-  suspendAccount(accountUID: string): EmpObservable<FinancialAccount> {
-    Assertion.assertValue(accountUID, 'accountUID');
-
-    const path = `v2/financial-accounts/${accountUID}/suspend`;
-
-    return this.http.post<FinancialAccount>(path);
-  }
-
-
   removeProjectAccount(projectUID: string,
                        accountUID: string): EmpObservable<void> {
     Assertion.assertValue(projectUID, 'projectUID');
@@ -133,8 +84,110 @@ export class FinancialAccountsDataService {
 
     return this.http.delete<void>(path);
   }
+  //#endregion
 
 
+  //#region FINANCIAL-ACCOUNTS
+  searchAccounts(query: FinancialAccountsQuery): EmpObservable<FinancialAccountDescriptor[]> {
+    Assertion.assertValue(query, 'query');
+
+    const path = `v2/financial-accounts/search`;
+
+    return this.http.post<FinancialAccountDescriptor[]>(path, query);
+  }
+
+
+  exportAccounts(query: FinancialAccountsQuery): EmpObservable<FileReport> {
+    Assertion.assertValue(query, 'query');
+
+    const path = `v2/financial-accounts/export`;
+
+    return this.http.post<FileReport>(path, query);
+  }
+
+
+  getAccountData(accountUID: string): EmpObservable<FinancialAccountHolder> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/${accountUID}`;
+
+    return this.http.get<FinancialAccountHolder>(path);
+  }
+  //#endregion
+
+
+  //#region FINANCIAL-ACCOUNTS CRUD
+  getStandardAccounts(chartOfAccountsUID: string,
+                      accountTypeUID: string): EmpObservable<Identifiable[]> {
+    Assertion.assertValue(chartOfAccountsUID, 'chartOfAccountsUID');
+    Assertion.assertValue(accountTypeUID, 'accountTypeUID');
+
+    const path = `v3/charts-of-accounts/${chartOfAccountsUID}/standard-accounts/types/${accountTypeUID}`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getAccount(accountUID: string): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/${accountUID}`;
+
+    return new EmpObservable<FinancialAccount>(
+      this.http.get<FinancialAccountHolder>(path).pipe(map(x => x.account))
+    );
+  }
+
+
+  createAccount(dataFields: FinancialAccountFields): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/financial-accounts`;
+
+    return this.http.post<FinancialAccount>(path, dataFields);
+  }
+
+
+  updateAccount(accountUID: string,
+                dataFields: FinancialAccountFields): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(accountUID, 'accountUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/financial-accounts/${accountUID}`;
+
+    return this.http.put<FinancialAccount>(path, dataFields);
+  }
+
+
+  removeAccount(accountUID: string): EmpObservable<void> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/${accountUID}`;
+
+    return this.http.delete<void>(path);
+  }
+
+
+  activateAccount(accountUID: string): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/${accountUID}/activate`;
+
+    return this.http.post<FinancialAccount>(path);
+  }
+
+
+  suspendAccount(accountUID: string): EmpObservable<FinancialAccount> {
+    Assertion.assertValue(accountUID, 'accountUID');
+
+    const path = `v2/financial-accounts/${accountUID}/suspend`;
+
+    return this.http.post<FinancialAccount>(path);
+  }
+  //#endregion
+
+
+  //#region EXTERNAL-SYSTEMS
   getAccountFromCreditSystem(accountNo: string): EmpObservable<FinancialAccount> {
     Assertion.assertValue(accountNo, 'accountNo');
 
@@ -161,8 +214,10 @@ export class FinancialAccountsDataService {
 
     return this.http.put<FinancialAccount>(path, null);
   }
+  //#endregion
 
 
+  //#region OPERATIONS
   getProjectAccountOperations(projectUID: string,
                               accountUID: string): EmpObservable<FinancialAccountOperationsStructure> {
     Assertion.assertValue(projectUID, 'projectUID');
@@ -203,5 +258,6 @@ export class FinancialAccountsDataService {
 
     return this.http.delete<FinancialAccountOperationsStructure>(path);
   }
+  //#endregion
 
 }

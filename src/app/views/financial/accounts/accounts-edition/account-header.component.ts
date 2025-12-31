@@ -10,17 +10,17 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { combineLatest } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 
 import { EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { AccountsStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
+import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { FinancialProjectsDataService } from '@app/data-services';
+import { FinancialAccountsDataService } from '@app/data-services';
 
 import { AccountAttributes, CreditAttributes, EmptyFinancialAccount, FinancialAccount, FinancialAccountFields,
          FinancialData, ObjectTypes, RequestsList } from '@app/models';
@@ -52,6 +52,8 @@ interface AccountFormModel extends FormGroup<{
 })
 export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDestroy {
 
+  @Input() chartOfAccountsUID = '';
+
   @Input() projectUID = '';
 
   @Input() organizationalUnitUID = '';
@@ -59,6 +61,8 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
   @Input() account: FinancialAccount = EmptyFinancialAccount;
 
   @Input() canUpdate = false;
+
+  @Input() initAccountTypesList: Identifiable[] = [];
 
   @Output() accountHeaderEvent = new EventEmitter<EventInfo>();
 
@@ -72,6 +76,8 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
 
   isLoading = false;
 
+  isLoadingStandardAccounts = false;
+
   orgUnitsList: Identifiable[] = [];
 
   accountTypesList: Identifiable[] = [];
@@ -84,7 +90,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
 
 
   constructor(private uiLayer: PresentationLayer,
-              private projectsData: FinancialProjectsDataService) {
+              private accountsData: FinancialAccountsDataService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
   }
@@ -96,6 +102,9 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
 
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.initAccountTypesList) {
+      this.setAccountTypesList(this.initAccountTypesList);
+    }
     if (!this.isSaved) {
       this.enableCreateMode();
     }
@@ -122,6 +131,11 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
 
   get isSaved(): boolean {
     return !isEmpty(this.account);
+  }
+
+
+  get hasProject(): boolean {
+    return !!this.projectUID;
   }
 
 
@@ -155,9 +169,10 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
   }
 
 
-  onFinancialAccountTypeChanges(type: Identifiable) {
+  onFinancialAccountTypeChanges(accountType: Identifiable) {
     this.resetCreditData(EmptyFinancialAccount);
     this.validateDisabledControls();
+    this.validateGetStandardAccounts(accountType.uid);
   }
 
 
@@ -228,17 +243,43 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.CURRENCIES),
-      this.helper.select<Identifiable[]>(AccountsStateSelector.ACCOUNTS_TYPES),
-      this.projectsData.getStandardAccounts(this.projectUID),
+      this.hasProject ? this.accountsData.getProjectAccountsTypes() : of([]),
+      this.hasProject ? this.accountsData.getProjectStandardAccounts(this.projectUID) : of([]),
     ])
     .subscribe(([a, b, c, d]) => {
       this.orgUnitsList = a;
       this.currenciesList = b;
-      this.accountTypesList = c;
-      this.standardAccountsList = d;
+      if (this.hasProject) {
+        this.setAccountTypesList(c);
+        this.setStandardAccountsList(d);
+      }
       this.validateDataLists(this.account);
       this.isLoading = false;
     });
+  }
+
+
+  private validateGetStandardAccounts(accountTypeUID: string) {
+    if (this.hasProject) {
+      return;
+    }
+
+    this.isLoadingStandardAccounts = true;
+
+    this.accountsData.getStandardAccounts(this.chartOfAccountsUID, accountTypeUID)
+      .firstValue()
+      .then(x => this.setStandardAccountsList(x))
+      .finally(() => this.isLoadingStandardAccounts = false);
+  }
+
+
+  private setAccountTypesList(accountTypes: Identifiable[]) {
+    this.accountTypesList = accountTypes;
+  }
+
+
+  private setStandardAccountsList(accounts: Identifiable[]) {
+    this.standardAccountsList = accounts;
   }
 
 
@@ -324,10 +365,11 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
 
 
   private validateFormDisabled() {
-    setTimeout(() => {
-      if (this.isCreditAccount) FormHelper.setDisableForm(this.form);
-      else FormHelper.setDisableForm(this.form, !this.canUpdate);
-    })
+    setTimeout(() =>
+      this.isCreditAccount ?
+      FormHelper.setDisableForm(this.form) :
+      FormHelper.setDisableForm(this.form, !this.canUpdate)
+    );
   }
 
 

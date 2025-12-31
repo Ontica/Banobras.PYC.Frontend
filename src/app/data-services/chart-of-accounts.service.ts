@@ -33,6 +33,13 @@ export class ChartOfAccountsDataService {
   }
 
 
+  getAccountsTypes(): EmpObservable<Identifiable[]> {
+    const path = `v1/financial-projects/financial-accounts-types`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   searchChartOfAccounts(query: ChartOfAccountsQuery): EmpObservable<ChartOfAccounts> {
     Assertion.assertValue(query, 'query');
     Assertion.assertValue(query.chartOfAccountsUID, 'query.chartOfAccountsUID');

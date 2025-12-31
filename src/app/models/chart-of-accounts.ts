@@ -76,6 +76,7 @@ export interface StandardAccountDescriptor {
 export interface StandardAccountHolder {
   standardAccount: StandardAccount;
   accounts: FinancialAccountDescriptor[];
+  standardAccountTypes: Identifiable[];
   actions: StandardAccountActions;
 }
 
@@ -158,6 +159,7 @@ export const EmptyStandardAccountActions: StandardAccountActions = {
 export const EmptyStandardAccountHolder: StandardAccountHolder = {
   standardAccount: EmptyStandardAccount,
   accounts: [],
+  standardAccountTypes: [],
   actions: EmptyStandardAccountActions,
 }
 

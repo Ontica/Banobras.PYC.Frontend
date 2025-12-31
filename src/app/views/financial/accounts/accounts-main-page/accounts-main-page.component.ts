@@ -130,7 +130,7 @@ export class FinancialAccountsMainPageComponent {
   private getAccount(accountUID: string) {
     this.isLoadingSelection = true;
 
-    this.accountsData.getAccount(accountUID)
+    this.accountsData.getAccountData(accountUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .catch(e => this.setSelectedData(EmptyFinancialAccountHolder))

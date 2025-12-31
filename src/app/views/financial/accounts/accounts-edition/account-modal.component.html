@@ -8,9 +8,11 @@
     <div class="card-body-padding">
 
       <emp-financial-account-header
+        [chartOfAccountsUID]="chartOfAccountsUID"
         [projectUID]="projectUID"
         [organizationalUnitUID]="organizationalUnitUID"
         [account]="account"
+        [initAccountTypesList]="accountTypesList"
         [canUpdate]="canUpdate"
         (accountHeaderEvent)="onAccountHeaderEvent($event)">
 
