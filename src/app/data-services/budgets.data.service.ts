@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
 import { BudgetData, BudgetQuery, BudgetRequestFields, BudgetSegmentItem, BudgetTransactionDescriptor,
-         BudgetType, BudgetValidationResult } from '@app/models';
+         BudgetType, BudgetValidationResult, FileReport } from '@app/models';
 
 @Injectable()
 export class BudgetsDataService {
@@ -35,11 +35,19 @@ export class BudgetsDataService {
 
   searchBudgetData(query: BudgetQuery): EmpObservable<BudgetData> {
     Assertion.assertValue(query, 'query');
-    Assertion.assertValue(query.queryType, 'query.queryType');
 
-    const path = `v2/budgeting/budget-explorer/${query.queryType}`;
+    const path = `v2/budgeting/budget-explorer/search`;
 
     return this.http.post<BudgetData>(path, query);
+  }
+
+
+  exportBudgetData(query: BudgetQuery): EmpObservable<FileReport> {
+    Assertion.assertValue(query, 'query');
+
+    const path = `v2/budgeting/budget-explorer/export`;
+
+    return this.http.post<FileReport>(path, query);
   }
 
 

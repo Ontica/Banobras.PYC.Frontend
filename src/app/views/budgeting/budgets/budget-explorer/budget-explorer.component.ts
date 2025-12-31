@@ -9,8 +9,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { BudgetData, BudgetEntryDescriptor, BudgetQueryType, EmptyBudgetData,
-         buildExplorerHint } from '@app/models';
+import { BudgetData, BudgetEntryDescriptor, EmptyBudgetData, buildExplorerHint } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -30,8 +29,6 @@ export enum BudgetExplorerEventType {
   templateUrl: './budget-explorer.component.html',
 })
 export class BudgetExplorerComponent implements OnChanges {
-
-  @Input() queryType: BudgetQueryType = BudgetQueryType.planning;
 
   @Input() data: BudgetData = Object.assign({}, EmptyBudgetData);
 

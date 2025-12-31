@@ -80,14 +80,8 @@ export interface BudgetAccountsForProductQuery {
 }
 
 
-export enum BudgetQueryType {
-  planning = 'planning',
-};
-
-
 export interface BudgetQuery {
   reportType: BudgetExplorerReportTypes;
-  queryType: BudgetQueryType;
   budgetTypeUID: string;
   budgetUID: string;
   basePartyUID: string;
@@ -137,7 +131,6 @@ export const EmptyBudgetType: BudgetType = {
 
 export const EmptyBudgetQuery: BudgetQuery = {
   reportType: BudgetExplorerReportTypes.ByColumn,
-  queryType: null,
   budgetTypeUID: '',
   budgetUID: '',
   basePartyUID: '',

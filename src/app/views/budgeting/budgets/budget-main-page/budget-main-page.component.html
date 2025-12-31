@@ -7,7 +7,6 @@
   <emp-bdg-budget-explorer
     class="primary priority"
     [class.std-hide]="displayTabbedView"
-    [queryType]="queryType"
     [data]="data"
     [entrySelected]="entrySelected"
     [isLoading]="isLoading"
@@ -21,3 +20,11 @@
   </div>
 
 </div>
+
+
+<emp-ng-export-report-modal *ngIf="displayExportModal"
+  heading="Exportar presupuesto"
+  [fileUrl]="fileUrl"
+  (exportReportModalEvent)="onExportReportModalEvent($event)">
+
+</emp-ng-export-report-modal>

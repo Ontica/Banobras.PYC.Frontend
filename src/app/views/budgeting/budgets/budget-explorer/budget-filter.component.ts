@@ -19,9 +19,8 @@ import { BudgetingStateSelector, CataloguesStateSelector } from '@app/presentati
 
 import { FormHelper, sendEvent, empExpandCollapse } from '@app/shared/utils';
 
-import { Budget, BudgetExplorerReportTypes, BudgetExplorerReportTypesList, BudgetQuery, BudgetQueryType,
-         BudgetSegmentQuery, BudgetSegmentType, BudgetType, FormFieldData, FormFieldDataType,
-         RequestsList } from '@app/models';
+import { Budget, BudgetExplorerReportTypes, BudgetExplorerReportTypesList, BudgetQuery, BudgetSegmentQuery,
+         BudgetSegmentType, BudgetType, FormFieldData, FormFieldDataType, RequestsList } from '@app/models';
 
 
 export enum BudgetFilterEventType {
@@ -43,8 +42,6 @@ interface BudgetFilterFormModel extends FormGroup<{
   animations: [empExpandCollapse],
 })
 export class BudgetFilterComponent implements OnInit, OnDestroy {
-
-  @Input() queryType: BudgetQueryType = BudgetQueryType.planning;
 
   @Input() showFilters = false;
 
@@ -202,7 +199,6 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
     const query: BudgetQuery = {
       reportType: this.form.value.reportType ?? null,
-      queryType: this.queryType,
       budgetTypeUID: this.form.value.budgetTypeUID ?? '',
       budgetUID: this.form.value.budgetUID ?? '',
       basePartyUID: this.form.value.basePartyUID ?? '',
