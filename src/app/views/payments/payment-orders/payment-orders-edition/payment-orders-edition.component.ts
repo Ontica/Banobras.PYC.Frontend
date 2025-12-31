@@ -42,6 +42,8 @@ export class PaymentOrdersEditionComponent {
 
   @Input() supplierUID: string = null;
 
+  @Input() totalRequired = false;
+
   @Input() items: BasePaymentDescriptor[] = [];
 
   @Input() displayType = false;

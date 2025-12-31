@@ -101,6 +101,11 @@ export class OrderTabbedViewComponent implements OnChanges {
   }
 
 
+  get isExpense(): boolean {
+    return [ObjectTypes.EXPENSE].includes(this.config.type);
+  }
+
+
   get taxes(): TaxEntry[] {
     return this.isRequisition ? (this.data as RequisitionOrderHolder).taxes ?? [] : [];
   }

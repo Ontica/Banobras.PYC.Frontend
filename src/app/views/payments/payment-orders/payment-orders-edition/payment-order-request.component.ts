@@ -5,13 +5,14 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
+         SimpleChanges } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { combineLatest } from 'rxjs';
 
-import { Assertion, DateString, EventInfo, Identifiable, isEmpty } from '@app/core';
+import { Assertion, DateString, EventInfo, Identifiable, Validate, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -34,6 +35,7 @@ interface  PaymentOrderFormModel extends FormGroup<{
   paymentMethodUID: FormControl<string>;
   paymentAccountUID: FormControl<string>;
   referenceNumber: FormControl<string>;
+  total: FormControl<number>;
   dueTime: FormControl<DateString>;
   description: FormControl<string>;
 }> { }
@@ -42,11 +44,15 @@ interface  PaymentOrderFormModel extends FormGroup<{
   selector: 'emp-pmt-payment-order-request',
   templateUrl: './payment-order-request.component.html',
 })
-export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
+export class PaymentOrderRequestComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() entityUID = null;
 
+  @Input() entityTotal: number = 0;
+
   @Input() supplierUID = null;
+
+  @Input() totalRequired = false;
 
   @Output() paymentOrderRequestEvent = new EventEmitter<EventInfo>();
 
@@ -68,11 +74,20 @@ export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
 
   accountRelated = false;
 
+  askForReferenceNumber = false;
+
 
   constructor(private uiLayer: PresentationLayer,
               private suppliersData: SuppliersDataService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
+  }
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.entityTotal) {
+      this.validateTotalField();
+    }
   }
 
 
@@ -104,7 +119,7 @@ export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
       return 'Seleccione cuenta';
     }
 
-    return this.accountRelated ? '' : 'No aplica';
+    return this.askForReferenceNumber ? '' : 'No aplica';
   }
 
 
@@ -116,15 +131,19 @@ export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
   onPaymentMethodChanges(paymentMethod: PaymentMethod) {
     this.form.controls.paymentAccountUID.reset();
     this.form.controls.referenceNumber.reset();
+
     this.setAccountRelated(paymentMethod);
+    this.setAskForReferenceNumber(null);
     this.setPaymentAccountsValid(paymentMethod);
-    this.validateFieldsDisable();
+    this.validatePaymentFields();
   }
 
 
   onPaymentAccountChanges(account: PaymentAccount) {
     this.form.controls.referenceNumber.reset(account?.referenceNumber ?? null);
-    this.validateFieldsDisable();
+
+    this.setAskForReferenceNumber(account);
+    this.validatePaymentFields();
   }
 
 
@@ -165,11 +184,14 @@ export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
       paymentMethodUID: ['', Validators.required],
       paymentAccountUID: ['', Validators.required],
       referenceNumber: ['', Validators.required],
+      total: [null as number, [Validators.required, Validate.isPositive]],
       dueTime: [null as DateString],
       description: [''],
     });
 
-    this.validateFieldsDisable();
+    this.setAccountRelated(null);
+    this.setAskForReferenceNumber(null);
+    this.validatePaymentFields();
   }
 
 
@@ -183,6 +205,7 @@ export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
       paymentMethodUID: formData.paymentMethodUID ?? '',
       paymentAccountUID: formData.paymentAccountUID ?? '',
       referenceNumber: formData.referenceNumber ?? '',
+      total: this.totalRequired ? formData.total : null,
       dueTime: formData.dueTime ?? '',
       description: formData.description ?? '',
     };
@@ -191,15 +214,30 @@ export class PaymentOrderRequestComponent implements OnInit, OnDestroy {
   }
 
 
-  private validateFieldsDisable() {
-    const disabled = !this.form.controls.paymentAccountUID.valid || !!this.form.getRawValue().referenceNumber;
-    FormHelper.setDisableControl(this.form.controls.referenceNumber, disabled);
+  private validateTotalField() {
+    if (this.totalRequired) {
+      this.form.controls.total.reset(this.entityTotal > 0 ? this.entityTotal : null);
+      FormHelper.setDisableControl(this.form.controls.total, this.entityTotal > 0);
+      FormHelper.setControlValidators(this.form.controls.total, [Validators.required, Validate.isPositive]);
+    } else {
+      FormHelper.clearControlValidators(this.form.controls.total);
+    }
+  }
+
+
+  private validatePaymentFields() {
     FormHelper.setDisableControl(this.form.controls.paymentAccountUID, !this.accountRelated);
+    FormHelper.setDisableControl(this.form.controls.referenceNumber, !this.askForReferenceNumber);
   }
 
 
   private setAccountRelated(paymentMethod: PaymentMethod) {
     this.accountRelated = isEmpty(paymentMethod) ? false : paymentMethod.accountRelated;
+  }
+
+
+  private setAskForReferenceNumber(account: PaymentAccount) {
+    this.askForReferenceNumber = isEmpty(account) ? false : account?.askForReferenceNumber;
   }
 
 

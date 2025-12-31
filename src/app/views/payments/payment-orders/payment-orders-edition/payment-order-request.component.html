@@ -92,7 +92,7 @@
 
             </div>
 
-            <div class="fx-item-half">
+            <div [ngClass]="totalRequired ? 'fx-item-quarter' : 'fx-item-half'">
 
               <label>Referencia:</label>
 
@@ -100,6 +100,18 @@
                 formControlName="referenceNumber"
                 [placeholder]="referenceNumberPlaceholder"
                 [class.invalid-control]="formHelper.isControlInvalid(form.controls.referenceNumber)">
+
+            </div>
+
+            <div class="fx-item-quarter" *ngIf="totalRequired">
+
+              <label>Importe:</label>
+
+              <emp-ng-input-numeric
+                formControlName="total"
+                [showError]="formHelper.isControlInvalid(form.controls.total)">
+
+              </emp-ng-input-numeric>
 
             </div>
 

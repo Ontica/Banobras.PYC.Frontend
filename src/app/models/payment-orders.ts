@@ -116,6 +116,7 @@ export interface PaymentOrderRequestFields {
   dueTime: DateString;
   paymentAccountUID: string;
   referenceNumber: string;
+  total: number;
   description: string;
 }
 

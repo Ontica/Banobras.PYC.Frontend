@@ -35,7 +35,9 @@
 
 <emp-pmt-payment-order-request *ngIf="displayPaymentRequest"
   [entityUID]="entityUID"
+  [entityTotal]="entityTotal"
   [supplierUID]="supplierUID"
+  [totalRequired]="totalRequired"
   (paymentOrderRequestEvent)="onPaymentOrderRequestEvent($event)">
 
 </emp-pmt-payment-order-request>
