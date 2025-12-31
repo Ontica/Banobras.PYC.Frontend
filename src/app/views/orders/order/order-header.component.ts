@@ -483,8 +483,11 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     if (this.isOrdersAvailableRequired && !!this.form.value.requestedByUID) {
       const orderTypeUID = this.isContractOrder ? ObjectTypes.CONTRACT : ObjectTypes.REQUISITION;
 
+      const forUseInOrderTypeUID = this.config.type;
+
       const query: OrdersAvailableQuery = {
         orderTypeUID,
+        forUseInOrderTypeUID,
         requestedByUID: this.form.value.requestedByUID,
       };
 

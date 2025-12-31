@@ -134,6 +134,7 @@ export interface OrdersQuery {
 
 export interface OrdersAvailableQuery {
   orderTypeUID: string;
+  forUseInOrderTypeUID: string;
   requestedByUID: string;
 }
 
