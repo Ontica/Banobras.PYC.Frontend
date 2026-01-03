@@ -58,7 +58,11 @@ export class StandardAccountTabbedViewComponent implements OnChanges {
 
   onStandardAccountViewEvent(event: EventInfo) {
     switch (event.type as StandardAccountViewEventType) {
-
+      case StandardAccountViewEventType.UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        sendEvent(this.standardAccountTabbedViewEvent,
+          StandardAccountTabbedViewEventType.DATA_UPDATED, event.payload);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

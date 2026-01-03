@@ -11,12 +11,14 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { DateString, DateStringLibrary, EventInfo } from '@app/core';
 
-import { FormHelper } from '@app/shared/utils';
+import { FormHelper, sendEvent } from '@app/shared/utils';
 
-import { MessageBoxService } from '@app/shared/services';
+import { SkipIf } from '@app/shared/decorators';
+
+import { ChartOfAccountsDataService } from '@app/data-services';
 
 import { StandardAccount, EmptyStandardAccount, EmptyStandardAccountActions,
-         StandardAccountActions } from '@app/models';
+         StandardAccountActions, StandardAccountHolder } from '@app/models';
 
 import {
   ConfirmSubmitModalEventType,
@@ -25,7 +27,7 @@ import {
 
 
 export enum StandardAccountViewEventType {
-  ACCOUNT_UPDATED = 'StandardAccountViewComponent.Event.AccountUpdated',
+  UPDATED = 'StandardAccountViewComponent.Event.Updated',
 }
 
 
@@ -47,6 +49,8 @@ interface StandardAccountFormModel extends FormGroup<{
 })
 export class StandardAccountViewComponent implements OnChanges {
 
+  @Input() chartOfAccountsUID = '';
+
   @Input() standardAccount: StandardAccount = EmptyStandardAccount;
 
   @Input() actions: StandardAccountActions = EmptyStandardAccountActions;
@@ -61,8 +65,10 @@ export class StandardAccountViewComponent implements OnChanges {
 
   confirmModalMode: ConfirmSubmitType = null;
 
+  submitted = false;
 
-  constructor(private messageBox: MessageBoxService) {
+
+  constructor(private chartOfAccountsData: ChartOfAccountsDataService) {
     this.initForm();
   }
 
@@ -72,19 +78,20 @@ export class StandardAccountViewComponent implements OnChanges {
   }
 
 
+  @SkipIf('submitted')
   onEventButtonClicked(mode: ConfirmSubmitType) {
     this.confirmModalMode = mode;
   }
 
 
+  @SkipIf('submitted')
   onConfirmSubmitModalEvent(event: EventInfo) {
     switch (event.type as ConfirmSubmitModalEventType) {
       case ConfirmSubmitModalEventType.CLOSE_BUTTON_CLICKED:
         this.confirmModalMode = null;
         return;
       case ConfirmSubmitModalEventType.SUBMIT_BUTTON_CLICKED:
-        const dataFields: any = { message: event.payload.notes ?? null };
-        this.validateActionConfirmedToEmit(dataFields);
+        this.validateActionConfirmedToExecute();
         this.confirmModalMode = null;
         return;
       default:
@@ -128,18 +135,44 @@ export class StandardAccountViewComponent implements OnChanges {
   }
 
 
-  private validateActionConfirmedToEmit(dataFields: any) {
+  private validateActionConfirmedToExecute() {
     switch (this.confirmModalMode) {
       case 'Activate':
-        this.messageBox.showInDevelopment('Activar cuenta estándar');
+        this.activateStandardAccount();
         return;
       case 'Suspend':
-        this.messageBox.showInDevelopment('Suspender cuenta estándar');
+        this.suspendStandardAccount();
         return;
       default:
         console.log(`Unhandled user interface action ${this.confirmModalMode}`);
         return;
     }
+  }
+
+
+  private activateStandardAccount() {
+    this.submitted = true;
+
+    this.chartOfAccountsData.activateStandardAccount(this.chartOfAccountsUID, this.standardAccount.uid)
+      .firstValue()
+      .then(x => this.resolveDataUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private suspendStandardAccount() {
+    this.submitted = true;
+
+    this.chartOfAccountsData.suspendStandardAccount(this.chartOfAccountsUID, this.standardAccount.uid)
+      .firstValue()
+      .then(x => this.resolveDataUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private resolveDataUpdated(data: StandardAccountHolder) {
+    const payload = { data };
+    sendEvent(this.standardAccountViewEvent, StandardAccountViewEventType.UPDATED, payload);
   }
 
 }

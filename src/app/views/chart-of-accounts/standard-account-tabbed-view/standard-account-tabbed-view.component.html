@@ -8,6 +8,7 @@
     <mat-tab label="Cuenta estándar">
 
       <emp-financial-standard-account-view
+        [chartOfAccountsUID]="chartOfAccountsUID"
         [standardAccount]="data.standardAccount"
         [actions]="data.actions"
         (standardAccountViewEvent)="onStandardAccountViewEvent($event)">

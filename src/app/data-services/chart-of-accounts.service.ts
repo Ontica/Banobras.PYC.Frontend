@@ -60,4 +60,26 @@ export class ChartOfAccountsDataService {
     return this.http.get<StandardAccountHolder>(path);
   }
 
+
+  suspendStandardAccount(chartOfAccountsUID: string,
+                         stdAccountUID: string): EmpObservable<StandardAccountHolder> {
+    Assertion.assertValue(chartOfAccountsUID, 'chartOfAccountsUID');
+    Assertion.assertValue(stdAccountUID, 'stdAccountUID');
+
+    const path = `v3/charts-of-accounts/${chartOfAccountsUID}/standard-accounts/${stdAccountUID}/suspend`;
+
+    return this.http.post<StandardAccountHolder>(path);
+  }
+
+
+  activateStandardAccount(chartOfAccountsUID: string,
+                          stdAccountUID: string): EmpObservable<StandardAccountHolder> {
+    Assertion.assertValue(chartOfAccountsUID, 'chartOfAccountsUID');
+    Assertion.assertValue(stdAccountUID, 'stdAccountUID');
+
+    const path = `v3/charts-of-accounts/${chartOfAccountsUID}/standard-accounts/${stdAccountUID}/activate`;
+
+    return this.http.post<StandardAccountHolder>(path);
+  }
+
 }

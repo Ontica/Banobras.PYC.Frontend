@@ -87,6 +87,10 @@ export class ChartOfAccountsMainPageComponent {
       case StandardAccountTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedData(EmptyStandardAccountHolder);
         return;
+      case StandardAccountTabbedViewEventType.DATA_UPDATED:
+        Assertion.assertValue(event.payload.data, 'event.payload.data');
+        this.resolveDataUpdated(event.payload.data as StandardAccountHolder);
+        return;
       case StandardAccountTabbedViewEventType.REFRESH_DATA:
         Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
         this.refreshSelectedData(event.payload.dataUID);
@@ -121,10 +125,6 @@ export class ChartOfAccountsMainPageComponent {
 
   private resolveGetStandardAccount(data: StandardAccountHolder, refresh: boolean = false) {
     this.setSelectedData(data);
-
-    if (refresh) {
-
-    }
   }
 
 
@@ -150,6 +150,12 @@ export class ChartOfAccountsMainPageComponent {
 
   private refreshSelectedData(accountUID: string) {
     this.getStandardAccount(this.data.uid, accountUID, true);
+  }
+
+
+  private resolveDataUpdated(data: StandardAccountHolder) {
+    this.setSelectedData(data);
+    this.searchData(this.query);
   }
 
 }
