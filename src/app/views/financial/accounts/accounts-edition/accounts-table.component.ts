@@ -47,9 +47,7 @@ export class FinancialAccountsTableComponent implements OnChanges {
 
   @Input() canDelete = false;
 
-  @Input() canSuspend = false;
-
-  @Input() canActivate = false;
+  @Input() canEditStatus = false;
 
   @Input() canEditOperations = false;
 
@@ -127,7 +125,7 @@ export class FinancialAccountsTableComponent implements OnChanges {
         'description', 'statusName');
     }
 
-    if (this.canSuspend || this.canActivate) columns.push('actionStatus');
+    if (this.canEditStatus) columns.push('actionStatus');
     if (this.showOperations) columns.push('actionOperations');
     if (this.canDelete) columns.push('actionDelete');
 

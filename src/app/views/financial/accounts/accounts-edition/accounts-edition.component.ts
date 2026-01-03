@@ -53,9 +53,7 @@ export class FinancialAccountsEditionComponent implements OnChanges {
 
   @Input() canDelete = false;
 
-  @Input() canSuspend = false;
-
-  @Input() canActivate = false;
+  @Input() canEditStatus = false;
 
   @Input() canEditOperations = false;
 

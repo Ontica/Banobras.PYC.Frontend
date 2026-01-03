@@ -26,8 +26,7 @@
           [accounts]="data.accounts"
           [accountTypesList]="data.standardAccountTypes"
           [canUpdate]="data.actions.canUpdate"
-          [canActivate]="data.actions.canActivate"
-          [canSuspend]="data.actions.canSuspend"
+          [canEditStatus]="data.actions.canUpdate"
           [canEditOperations]="data.actions.canEditOperations"
           [showOperations]="data.actions.showOperations"
           (accountsEditionEvent)="onAccountsEditionEvent($event)">

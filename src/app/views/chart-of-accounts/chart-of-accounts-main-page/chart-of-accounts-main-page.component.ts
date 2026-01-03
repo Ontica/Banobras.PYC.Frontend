@@ -87,6 +87,10 @@ export class ChartOfAccountsMainPageComponent {
       case StandardAccountTabbedViewEventType.CLOSE_BUTTON_CLICKED:
         this.setSelectedData(EmptyStandardAccountHolder);
         return;
+      case StandardAccountTabbedViewEventType.REFRESH_DATA:
+        Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
+        this.refreshSelectedData(event.payload.dataUID);
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -104,14 +108,23 @@ export class ChartOfAccountsMainPageComponent {
   }
 
 
-  private getStandardAccount(chartOfAccountsUID: string, stdAccountUID: string) {
+  private getStandardAccount(chartOfAccountsUID: string, stdAccountUID: string, refresh: boolean = false) {
     this.isLoadingSelection = true;
 
     this.chartOfAccountsData.getStandardAccount(chartOfAccountsUID, stdAccountUID)
       .firstValue()
-      .then(x => this.setSelectedData(x))
+      .then(x => this.resolveGetStandardAccount(x, refresh))
       .catch(e => this.setSelectedData(EmptyStandardAccountHolder))
       .finally(() => this.isLoadingSelection = false);
+  }
+
+
+  private resolveGetStandardAccount(data: StandardAccountHolder, refresh: boolean = false) {
+    this.setSelectedData(data);
+
+    if (refresh) {
+
+    }
   }
 
 
@@ -132,6 +145,11 @@ export class ChartOfAccountsMainPageComponent {
   private setSelectedData(data: StandardAccountHolder) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.standardAccount);
+  }
+
+
+  private refreshSelectedData(accountUID: string) {
+    this.getStandardAccount(this.data.uid, accountUID, true);
   }
 
 }

@@ -7,7 +7,7 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { DateStringLibrary, EventInfo } from '@app/core';
+import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -68,8 +68,10 @@ export class StandardAccountTabbedViewComponent implements OnChanges {
 
   onAccountsEditionEvent(event: EventInfo) {
     switch (event.type as AccountsEditionEventType) {
-
-      default:
+      case AccountsEditionEventType.UPDATED:
+        Assertion.assertValue(event.payload.projectUID, 'event.payload.projectUID');
+        sendEvent(this.standardAccountTabbedViewEvent,
+          StandardAccountTabbedViewEventType.REFRESH_DATA, { dataUID: this.data.standardAccount.uid });
         console.log(`Unhandled user interface event ${event.type}`);
         return;
     }

@@ -69,13 +69,13 @@
           <th mat-header-cell *matHeaderCellDef> </th>
           <td mat-cell *matCellDef="let row">
 
-            <a *ngIf="canSuspend"
+            <a *ngIf="row.statusName === 'Activo'"
               class="item-link"
               (click)="onSuspendAccountClicked(row)">
               Suspender
             </a>
 
-            <a *ngIf="canActivate"
+            <a *ngIf="row.statusName === 'Suspendido'"
               class="item-link"
               (click)="onActivateAccountClicked(row)">
               Activar
