@@ -91,6 +91,27 @@
 
           </div>
 
+
+          <div class="fx-row-container" *ngIf="beneficiaryFieldRequired">
+
+            <div class="fx-item-half">
+
+              <label>Área beneficiaria:</label>
+
+              <emp-ng-select
+                formControlName="beneficiaryUID"
+                [config]="{virtualScroll: true, showTooltip: true}"
+                [items]="orgUnitsList"
+                [loading]="isLoading"
+                [showError]="formHelper.isControlInvalid(form.controls.beneficiaryUID)"
+                (changes)="onRequestedByChanges($event)">
+
+              </emp-ng-select>
+
+            </div>
+
+          </div>
+
           <ng-container *ngIf="isRequisition || isContract || isContractOrder || isPurchase || isExpense">
 
             <div class="fx-row-container fx-wrap fx-wrap-gap-half">

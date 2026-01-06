@@ -40,6 +40,7 @@ export enum OrderItemEditorEventType {
 interface OrderItemFormModel extends FormGroup<{
   linkedItemUID: FormControl<string>;
   requestedByUID: FormControl<string>;
+  beneficiaryUID: FormControl<string>;
   datePeriod: FormControl<DateRange>;
   description: FormControl<string>;
   productUID: FormControl<string>;
@@ -171,6 +172,11 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
+  get beneficiaryFieldRequired(): boolean {
+    return this.isContractOrder && this.order.isForMultipleBeneficiaries;
+  }
+
+
   get title(): string {
     const orderTypeName = `${this.config.pronounSingular} ${this.config.nameSingular}`;
     if (!this.isSaved) return `Agregar concepto a ${orderTypeName}`;
@@ -273,6 +279,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
       this.validateControlRequired(controls.linkedItemUID, this.isContract || this.isContractOrder || this.isPurchase || this.isExpense);
       this.validateControlRequired(controls.requestedByUID, this.requestedByFieldRequired);
+      this.validateControlRequired(controls.beneficiaryUID, this.beneficiaryFieldRequired);
       this.validateControlRequired(controls.budgetAccountUID, this.isRequisition || this.isContract);
       this.validateControlRequired(controls.budgetUID, this.isRequisition || this.isContract);
       this.validateControlRequired(controls.quantity, this.isRequisition || this.isContractOrder || this.isPurchase || this.isExpense);
@@ -386,6 +393,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
     this.form = fb.group({
       linkedItemUID: [''],
       requestedByUID: [''],
+      beneficiaryUID: [''],
       description: [''],
       datePeriod: [EmptyDateRange],
       budgetUID: [''],
@@ -458,6 +466,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       case ObjectTypes.CONTRACT_ORDER: {
         const item = this.item as ContractOrderItem;
         this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.contractItem));
+        this.form.controls.beneficiaryUID.reset(FormHelper.getUIDValueValid(item.beneficiary));
         this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
         this.form.controls.discount.reset(FormHelper.getNumberValueValid(item.discount));
         this.form.controls.penaltyDiscount.reset(FormHelper.getNumberValueValid(item.penaltyDiscount));
@@ -597,6 +606,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       ...
       {
         contractItemUID: formValues.linkedItemUID ?? null,
+        beneficiaryUID: formValues.beneficiaryUID ?? null,
         budgetAccountUID: formValues.budgetAccountUID ?? null,
         discount: formValues.discount ?? 0,
         penaltyDiscount: formValues.penaltyDiscount ?? 0,
