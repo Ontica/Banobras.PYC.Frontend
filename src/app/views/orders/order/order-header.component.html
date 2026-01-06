@@ -281,6 +281,17 @@
 
       </div>
 
+      <div *ngIf="isContractOrder"
+        class="fx-item-quarter"
+        [style.margin-top.px]="12">
+
+        <mat-checkbox empNgStopPropagation
+          formControlName="isForMultipleBeneficiaries">
+          Sobre múltiples áreas
+        </mat-checkbox>
+
+      </div>
+
       <div *ngIf="isContract || isPurchase || isExpense"
         class="fx-item-quarter">
 
