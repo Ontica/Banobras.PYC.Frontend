@@ -237,7 +237,7 @@ export interface OrderItem {
   uid: string;
   order: Identifiable;
   orderItemType: Identifiable;
-  requestedBy: Identifiable;
+  beneficiary: Identifiable;
   project: Identifiable;
   product: Identifiable;
   productCode: string;
@@ -271,7 +271,7 @@ export interface OrderActions {
 
 
 export interface OrderItemFields {
-  requestedByUID: string;
+  beneficiaryUID: string;
   projectUID: string;
   productUID: string;
   productUnitUID: string;
@@ -342,7 +342,7 @@ export const EmptyOrderItem: OrderItem = {
   productCode: '',
   productUnit: Empty,
   project: Empty,
-  requestedBy: Empty,
+  beneficiary: Empty,
   quantity: null,
   unitPrice: null,
   total: null,

@@ -71,27 +71,6 @@
 
           </ng-container>
 
-          <div class="fx-row-container" *ngIf="requestedByFieldRequired">
-
-            <div [ngClass]="isContract ? 'fx-item-half' : 'fx-item-one'">
-
-              <label>Área solicitante:</label>
-
-              <emp-ng-select
-                formControlName="requestedByUID"
-                [config]="{virtualScroll: true, showTooltip: true}"
-                [items]="orgUnitsList"
-                [loading]="isLoading"
-                [showError]="formHelper.isControlInvalid(form.controls.requestedByUID)"
-                (changes)="onRequestedByChanges($event)">
-
-              </emp-ng-select>
-
-            </div>
-
-          </div>
-
-
           <div class="fx-row-container" *ngIf="beneficiaryFieldRequired">
 
             <div class="fx-item-half">
@@ -104,7 +83,7 @@
                 [items]="orgUnitsList"
                 [loading]="isLoading"
                 [showError]="formHelper.isControlInvalid(form.controls.beneficiaryUID)"
-                (changes)="onRequestedByChanges($event)">
+                (changes)="onBeneficiaryChanges($event)">
 
               </emp-ng-select>
 
@@ -180,8 +159,8 @@
                   [loading]="isLoadingBudgetAccounts"
                   [placeholder]="formHelper.getConditionalPlaceholder(
                     !isSaved || editionMode,
-                    requestedByFieldRequired ? !!form.value.requestedByUID && !!form.value.budgetUID : !!form.value.budgetUID,
-                    requestedByFieldRequired ? 'área solicitante, presupuesto y/o producto'          : 'presupuesto y/o producto'
+                    beneficiaryFieldRequired ? !!form.value.beneficiaryUID && !!form.value.budgetUID : !!form.value.budgetUID,
+                    beneficiaryFieldRequired ? 'área beneficiaria, presupuesto y/o producto'          : 'presupuesto y/o producto'
                   )"
                   [showError]="formHelper.isControlInvalid(form.controls.budgetAccountUID)">
 
@@ -324,7 +303,7 @@
 
             <div [ngClass]="numericFieldSize" *ngIf="!isContract">
 
-              <label>Importe:</label>
+              <label>Importe (antes de impuestos):</label>
 
               <emp-ng-input-numeric
                 formControlName="total"

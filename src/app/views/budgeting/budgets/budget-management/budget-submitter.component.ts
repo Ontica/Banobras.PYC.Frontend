@@ -111,7 +111,7 @@ export class BudgetSubmitterComponent {
 
   private getConfirmMessage(eventType: BudgetSubmitterEventType): string {
     const totalText = !!this.budgetTotal ?
-      ` por un total de <strong>${FormatLibrary.numberWithCommas(this.budgetTotal, '1.2-2') }</strong>` : '';
+      ` por un importe antes de impuestos de <strong>${FormatLibrary.numberWithCommas(this.budgetTotal, '1.2-2') }</strong>` : '';
 
     switch (eventType) {
       case BudgetSubmitterEventType.APPROVE:

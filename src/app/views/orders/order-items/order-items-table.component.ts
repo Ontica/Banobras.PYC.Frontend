@@ -98,23 +98,21 @@ export class OrderItemsTableComponent implements OnChanges {
   private resetColumns() {
     let columns = [];
 
-    switch (this.config.type) {
-      case ObjectTypes.CONTRACT_ORDER:
-      case ObjectTypes.EXPENSE:
-      case ObjectTypes.PURCHASE:
-        columns = ['budgetAccount', 'budget', 'cucop', 'description', 'productUnit',
-                   'quantity', 'unitPrice', 'discount', 'total'];
-        break;
-      case ObjectTypes.REQUISITION:
-      case ObjectTypes.CONTRACT:
-        columns = ['budgetAccount', 'budget', 'cucop', 'description', 'productUnit',
-                   'quantity', 'unitPrice', 'total'];
-        break;
-      default:
-        columns = ['budgetAccount', 'cucop', 'description', 'productUnit',
-                   'quantity', 'unitPrice', 'total']
-        break;
+    if ([ObjectTypes.REQUISITION,
+         ObjectTypes.CONTRACT,
+         ObjectTypes.CONTRACT_ORDER].includes(this.config.type) && this.isForMultipleBeneficiaries) {
+      columns.push('beneficiary');
     }
+
+    columns.push('budgetAccount', 'budget', 'cucop', 'description', 'productUnit', 'quantity', 'unitPrice');
+
+    if ([ObjectTypes.CONTRACT_ORDER,
+         ObjectTypes.EXPENSE,
+         ObjectTypes.PURCHASE].includes(this.config.type)) {
+      columns.push('discount');
+    }
+
+    columns.push('total');
 
     if (this.canDelete) columns.push('actionDelete');
 

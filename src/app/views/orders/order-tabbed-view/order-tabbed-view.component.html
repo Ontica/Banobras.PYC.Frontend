@@ -1,5 +1,5 @@
 <emp-ng-card
-  [heading]="title"
+  [heading]="title + ' ' + status"
   [hint]="hint"
   (cardClose)="onCloseButtonClicked()">
 
@@ -32,7 +32,7 @@
           [baseObjectType]="config.type"
           [baseObjectUID]="data.order.uid"
           [baseObjectName]="title"
-          [budgetTotal]="data.order.total"
+          [budgetTotal]="data.order.subtotal"
           [budgetTransactions]="data.budgetTransactions"
           [canCommit]="data.actions.canCommitBudget"
           [canRequest]="data.actions.canRequestBudget"

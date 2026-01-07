@@ -2,6 +2,11 @@
 
   <table mat-table [dataSource]="dataSource">
 
+    <ng-container matColumnDef="beneficiary">
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Área beneficiaria </th>
+      <td mat-cell *matCellDef="let row">{{ row.beneficiary?.name ?? '-' }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="budgetAccount">
       <th mat-header-cell *matHeaderCellDef> Partida </th>
       <td mat-cell *matCellDef="let row">{{ row.budgetAccount.name }}</td>
@@ -38,12 +43,14 @@
     </ng-container>
 
     <ng-container matColumnDef="discount">
-      <th mat-header-cell *matHeaderCellDef class="text-align-right nowrap"> Descuento </th>
-      <td mat-cell *matCellDef="let row" class="text-align-right">{{ row.discount | empDecimal}}</td>
+      <th mat-header-cell *matHeaderCellDef class="text-align-right nowrap"> Descuentos </th>
+      <td mat-cell *matCellDef="let row" class="text-align-right">
+        {{ (row.discount + row.penaltyDiscount) | empDecimal}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="total">
-      <th mat-header-cell *matHeaderCellDef class="text-align-right"> Importe </th>
+      <th mat-header-cell *matHeaderCellDef class="text-align-right" title="Importe (antes de impuestos)"> Importe </th>
       <td mat-cell *matCellDef="let row" class="text-align-right">{{ row.total | empDecimal }}</td>
     </ng-container>
 
