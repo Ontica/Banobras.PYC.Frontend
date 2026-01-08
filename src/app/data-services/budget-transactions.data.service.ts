@@ -12,9 +12,9 @@ import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 import { BudgetAccount, BudgetTransactionEntryByYear, BudgetTransactionEntryByYearFields,
          BudgetTransactionEntryFields, BudgetTransactionDescriptor, BudgetTransactionEntry,
          BudgetTransactionFields, BudgetTransactionHolder, BudgetTransactionsQuery,
-         BudgetTransactionRejectFields, BudgetTypeForEdition, FileReport, ExplorerOperationType,
-         ExplorerOperationCommand, ExplorerOperationResult, ImportBudgetTransactionsCommand,
-         ImportBudgetTransactionsResult, BudgetAccountsForProductQuery } from '@app/models';
+         BudgetTransactionRejectFields, BudgetTypeForEdition, FileReport, ExplorerOperationCommand,
+         ExplorerOperationResult, ImportBudgetTransactionsCommand, ImportBudgetTransactionsResult,
+         BudgetAccountsForProductQuery, BudgetTransactionsOperationType } from '@app/models';
 
 
 @Injectable()
@@ -71,7 +71,7 @@ export class BudgetTransactionsDataService {
   }
 
 
-  bulkOperationTransactions(operationType: ExplorerOperationType,
+  bulkOperationTransactions(operationType: BudgetTransactionsOperationType,
                             command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
     Assertion.assertValue(operationType, 'operationType');
     Assertion.assertValue(command, 'command');

@@ -2,7 +2,12 @@
 
   <emp-ng-list-controls *ngIf="displayControls && dataList.length > 0 && selection.selected.length > 0"
     class="fx-item-none"
-    [config]="{itemsName: 'transacciones', itemsPronouns: 'las', selectionMessage: 'seleccionadas'}"
+    [config]="{
+      itemsPronouns: 'las',
+      itemsName: 'transacciones',
+      selectionMessage: 'seleccionadas',
+      labelOperationSize: '300px'
+    }"
     [selection]="selection"
     [operationsList]="operationsList"
     (listControlsEvent)="onListControlsEvent($event)">

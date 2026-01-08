@@ -19,10 +19,11 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { BudgetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransactionDescriptor, BudgetTransactionHolder, BudgetTransactionsQuery,
-         EmptyBudgetTransactionHolder, EmptyBudgetTransactionsQuery, EmptyExplorerBulkOperationData,
-         ExplorerBulkOperationData, ExplorerOperationCommand, ExplorerOperationResult, ExplorerOperationType,
-         mapBudgetTransactionDescriptorFromTransaction, TransactionStages } from '@app/models';
+import { BudgetTransactionDescriptor, BudgetTransactionHolder, BudgetTransactionsOperationType,
+         BudgetTransactionsQuery, EmptyBudgetTransactionHolder, EmptyBudgetTransactionsQuery,
+         EmptyExplorerBulkOperationData, ExplorerBulkOperationData, ExplorerOperationCommand,
+         ExplorerOperationResult, mapBudgetTransactionDescriptorFromTransaction,
+         TransactionStages } from '@app/models';
 
 import {
   ExportReportModalEventType
@@ -136,7 +137,7 @@ export class BudgetTransactionsMainPageComponent implements OnInit,OnDestroy {
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
         Assertion.assertValue(event.payload.command, 'event.payload.command');
         Assertion.assertValue(event.payload.command.items, 'event.payload.command.items');
-        this.validateBulkOperationTransactions(event.payload.operation as ExplorerOperationType,
+        this.validateBulkOperationTransactions(event.payload.operation as BudgetTransactionsOperationType,
                                                event.payload.command as ExplorerOperationCommand);
         return;
       case TransactionsExplorerEventType.SELECT_CLICKED:
@@ -224,7 +225,8 @@ export class BudgetTransactionsMainPageComponent implements OnInit,OnDestroy {
   }
 
 
-  private bulkOperationTransactions(operation: ExplorerOperationType, command: ExplorerOperationCommand) {
+  private bulkOperationTransactions(operation: BudgetTransactionsOperationType,
+                                    command: ExplorerOperationCommand) {
     this.isLoadingSelection = true;
 
     this.transactionsData.bulkOperationTransactions(operation, command)
@@ -294,9 +296,11 @@ export class BudgetTransactionsMainPageComponent implements OnInit,OnDestroy {
   }
 
 
-  private validateBulkOperationTransactions(operation: ExplorerOperationType, command: ExplorerOperationCommand) {
+  private validateBulkOperationTransactions(operation: BudgetTransactionsOperationType,
+                                            command: ExplorerOperationCommand) {
     switch (operation) {
-      case ExplorerOperationType.exportEntries:
+      case BudgetTransactionsOperationType.exportEntriesGrouped:
+      case BudgetTransactionsOperationType.exportEntriesUngrouped:
         this.showExportTransactionsEntries(operation, command);
         return;
       default:
@@ -306,15 +310,22 @@ export class BudgetTransactionsMainPageComponent implements OnInit,OnDestroy {
   }
 
 
-  private showExportTransactionsEntries(operation: ExplorerOperationType, command: ExplorerOperationCommand) {
+  private showExportTransactionsEntries(operation: BudgetTransactionsOperationType,
+                                        command: ExplorerOperationCommand) {
     let title = '';
     let message = '';
 
     switch (operation) {
-      case ExplorerOperationType.exportEntries:
-        title = 'Exportar los movimientos de las transacciones';
+      case BudgetTransactionsOperationType.exportEntriesGrouped:
+        title = 'Exportar los movimientos agrupados por mes';
         message = `Esta operación exportará los movimientos de las ` +
-          `<strong> ${command.items.length} transacciones</strong> seleccionadas.` +
+          `<strong> ${command.items.length} transacciones</strong> seleccionadas agrupados por mes.` +
+          `<br><br>¿Exporto los movimientos de las transacciones?`;
+        break;
+      case BudgetTransactionsOperationType.exportEntriesUngrouped:
+        title = 'Exportar movimientos sin agrupar';
+        message = `Esta operación exportará los movimientos de las ` +
+          `<strong> ${command.items.length} transacciones</strong> seleccionadas sin agrupar.` +
           `<br><br>¿Exporto los movimientos de las transacciones?`;
         break;
       default:
@@ -327,7 +338,8 @@ export class BudgetTransactionsMainPageComponent implements OnInit,OnDestroy {
 
 
   private setDisplayExportModal(display: boolean,
-                                operation?: ExplorerOperationType, command?: ExplorerOperationCommand,
+                                operation?: BudgetTransactionsOperationType,
+                                command?: ExplorerOperationCommand,
                                 title?: string, message?: string) {
     this.displayExportModal = display;
     this.selectedExportData = {
@@ -340,10 +352,11 @@ export class BudgetTransactionsMainPageComponent implements OnInit,OnDestroy {
   }
 
 
-  private resolveBulkOperationTransactionsResponse(operation: ExplorerOperationType,
+  private resolveBulkOperationTransactionsResponse(operation: BudgetTransactionsOperationType,
                                                    result: ExplorerOperationResult) {
     switch (operation) {
-      case ExplorerOperationType.exportEntries:
+      case BudgetTransactionsOperationType.exportEntriesGrouped:
+      case BudgetTransactionsOperationType.exportEntriesUngrouped:
         this.resolveExportTransactionsEntries(result);
         return;
       default:

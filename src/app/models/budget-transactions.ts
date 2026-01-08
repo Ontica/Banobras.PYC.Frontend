@@ -314,10 +314,20 @@ export interface BudgetTransactionActions {
 }
 
 
+export enum BudgetTransactionsOperationType {
+  exportEntriesGrouped   = 'export-entries-grouped',
+  exportEntriesUngrouped = 'export-entries-ungrouped',
+}
+
+
 export const BudgetTransactionsOperationsList: ExplorerOperation[] = [
   {
-    uid: ExplorerOperationType.exportEntries,
-    name: 'Exportar movimientos'
+    uid: BudgetTransactionsOperationType.exportEntriesGrouped,
+    name: 'Exportar movimientos agrupados por mes'
+  },
+  {
+    uid: BudgetTransactionsOperationType.exportEntriesUngrouped,
+    name: 'Exportar movimientos sin agrupar'
   },
 ];
 
