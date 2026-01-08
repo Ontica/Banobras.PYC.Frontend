@@ -20,7 +20,7 @@ import { CataloguesStateSelector, PaymentsStateSelector } from '@app/presentatio
 
 import { FormHelper, sendEvent } from '@app/shared/utils';
 
-import { SuppliersDataService } from '@app/data-services';
+import { SearcherAPIS, SuppliersDataService } from '@app/data-services';
 
 import { PaymentAccount, PaymentMethod, PaymentOrderRequestFields } from '@app/models';
 
@@ -37,6 +37,7 @@ interface  PaymentOrderFormModel extends FormGroup<{
   referenceNumber: FormControl<string>;
   total: FormControl<number>;
   dueTime: FormControl<DateString>;
+  debtorUID: FormControl<string>;
   description: FormControl<string>;
 }> { }
 
@@ -71,6 +72,8 @@ export class PaymentOrderRequestComponent implements OnChanges, OnInit, OnDestro
   paymentAccountsList: PaymentAccount[] = [];
 
   paymentMethodsList: PaymentMethod[] = [];
+
+  providersAPI = SearcherAPIS.provider;
 
   accountRelated = false;
 
@@ -186,6 +189,7 @@ export class PaymentOrderRequestComponent implements OnChanges, OnInit, OnDestro
       referenceNumber: ['', Validators.required],
       total: [null as number, [Validators.required, Validate.isPositive]],
       dueTime: [null as DateString],
+      debtorUID: [''],
       description: [''],
     });
 
@@ -207,6 +211,7 @@ export class PaymentOrderRequestComponent implements OnChanges, OnInit, OnDestro
       referenceNumber: formData.referenceNumber ?? '',
       total: this.totalRequired ? formData.total : null,
       dueTime: formData.dueTime ?? '',
+      debtorUID: formData.debtorUID ?? '',
       description: formData.description ?? '',
     };
 

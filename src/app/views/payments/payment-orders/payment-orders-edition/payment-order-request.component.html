@@ -48,6 +48,7 @@
               <emp-ng-datepicker
                 formControlName="dueTime"
                 [showError]="formHelper.isControlInvalid(form.controls.dueTime)">
+
               </emp-ng-datepicker>
 
             </div>
@@ -117,6 +118,25 @@
 
           </div>
 
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-one">
+
+              <label>Deudor:</label>
+
+              <emp-ng-select-typeahead
+                formControlName="debtorUID"
+                [config]="{ clearable: true }"
+                [searcherAPI]="providersAPI"
+                [showError]="formHelper.isControlInvalid(form.controls.debtorUID)">
+
+              </emp-ng-select-typeahead>
+
+            </div>
+
+          </div>
+
           <div class="fx-row-container">
 
             <div class="fx-item-one">
@@ -124,6 +144,7 @@
               <textarea class="text-area" empNgTextareaAutoresize rows="1"
                 formControlName="description"
                 [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
+
               </textarea>
             </div>
 

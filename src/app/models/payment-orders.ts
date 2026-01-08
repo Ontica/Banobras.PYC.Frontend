@@ -113,6 +113,7 @@ export interface PaymentOrderDescriptor extends BasePaymentDescriptor {
 export interface PaymentOrderRequestFields {
   paymentTypeUID: string;
   paymentMethodUID: string;
+  debtorUID: string;
   dueTime: DateString;
   paymentAccountUID: string;
   referenceNumber: string;
