@@ -240,6 +240,25 @@
     <div class="fx-row-container">
 
       <div class="fx-item-one">
+
+        <label>Deudor:</label>
+
+        <emp-ng-select-typeahead
+          formControlName="debtorUID"
+          [config]="{ clearable: true }"
+          [searcherAPI]="providersAPI"
+          [initialValue]="isSaved && !editionMode ? paymentOrder.debtor : null"
+          [showError]="formHelper.isControlInvalid(form.controls.debtorUID)">
+
+        </emp-ng-select-typeahead>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
         <label>Descripción:</label>
         <textarea class="text-area" empNgTextareaAutoresize rows="1"
           formControlName="description"

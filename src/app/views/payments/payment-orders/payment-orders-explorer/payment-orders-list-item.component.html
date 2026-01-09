@@ -28,13 +28,13 @@
 
   <div class="fx-item">
     <div class="list-item-text-highlight">
-      {{!item.requestedBy ? '-' : item.requestedBy}}
+      {{!item.debtor ? '-' : item.debtor}}
     </div>
     <div class="bold-text">
-      {{!item.requestedTime ? '-' : (item.requestedTime | empDateTimeFormat: 'DMY HH:mm')}}
+      {{!item.requestedBy ? '-' : item.requestedBy}}
     </div>
     <div>
-      {{!item.dueTime ? '-' : (item.dueTime | empDateTimeFormat: 'DMY HH:mm')}}
+      {{!item.requestedTime ? '-' : (item.requestedTime | empDateTimeFormat: 'DMY HH:mm')}}
     </div>
   </div>
 
@@ -45,6 +45,9 @@
     </span>
     <div [style.margin-top.rem]="0.5">
       {{item.priorityName}}
+    </div>
+    <div>
+      {{!item.dueTime ? '-' : (item.dueTime | empDateTimeFormat: 'DMY HH:mm')}}
     </div>
   </div>
 

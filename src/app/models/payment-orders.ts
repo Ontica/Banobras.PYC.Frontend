@@ -94,6 +94,7 @@ export interface PaymentOrderDescriptor extends BasePaymentDescriptor {
   paymentOrderTypeName: string;
   paymentOrderNo: string;
   payTo: string;
+  debtor: string;
   paymentMethod: string;
   paymentAccount: string;
   currencyCode: string;
@@ -130,6 +131,7 @@ export interface PaymentOrderFields {
   payableEntityUID: string;
   paymentMethodUID: string;
   paymentAccountUID: string;
+  debtorUID: string;
   description: string;
   priority: string;
   observations: string;
@@ -157,6 +159,7 @@ export interface PaymentOrder {
   budgetType: Identifiable;
   budget: Identifiable;
   payTo: Identifiable;
+  debtor: Identifiable;
   requestedBy: Identifiable;
   requestedDate: DateString;
   dueTime: DateString;
@@ -279,6 +282,7 @@ export const EmptyPaymentOrder: PaymentOrder = {
   description: '',
   requestedBy: Empty,
   payTo: Empty,
+  debtor: Empty,
   budgetType: Empty,
   budget: Empty,
   total: null,
@@ -313,6 +317,7 @@ export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderHold
     paymentOrderTypeName: data.paymentOrder.paymentOrderType.name,
     paymentOrderNo: data.paymentOrder.paymentOrderNo,
     payTo: data.paymentOrder.payTo.name,
+    debtor: data.paymentOrder.debtor.name,
     paymentMethod: data.paymentOrder.paymentMethod.name,
     paymentAccount: data.paymentOrder.paymentAccount.accountNo,
     currencyCode: data.paymentOrder.currency.name,

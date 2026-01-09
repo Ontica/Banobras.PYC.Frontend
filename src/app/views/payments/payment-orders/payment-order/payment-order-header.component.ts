@@ -49,9 +49,10 @@ interface PayableFormModel extends FormGroup<{
   paymentAccountUID: FormControl<string>;
   referenceNumber: FormControl<string>;
   priority: FormControl<Priority>;
+  dueTime: FormControl<DateString>;
+  debtorUID: FormControl<string>;
   description: FormControl<string>;
   observations: FormControl<string>;
-  dueTime: FormControl<DateString>;
 }> { }
 
 @Component({
@@ -95,6 +96,8 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
   accountRelated = false;
 
   payableEntitiesAPI = SearcherAPIS.payableEntities;
+
+  providersAPI = SearcherAPIS.provider;
 
   eventTypes = PaymentOrderHeaderEventType;
 
@@ -278,6 +281,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
       payableEntityUID: ['', Validators.required],
       budgetUID: ['', Validators.required],
       payToUID: ['', Validators.required],
+      debtorUID: [''],
       total: [null as number, Validators.required],
       paymentMethodUID: ['', Validators.required],
       paymentAccountUID: ['', Validators.required],
@@ -299,6 +303,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
         payableEntityUID: FormHelper.getUIDValueValid(this.payableEntity),
         budgetUID: FormHelper.getUIDValueValid(this.paymentOrder.budget),
         payToUID: FormHelper.getUIDValueValid(this.paymentOrder.payTo),
+        debtorUID: FormHelper.getUIDValueValid(this.paymentOrder.debtor),
         total: FormHelper.getNumberValueValid(this.paymentOrder.total),
         paymentMethodUID: FormHelper.getUIDValueValid(this.paymentOrder.paymentMethod),
         paymentAccountUID: FormHelper.getUIDValueValid(this.paymentOrder.paymentAccount),
@@ -331,6 +336,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
       payableEntityUID: this.form.value.payableEntityUID ?? '',
       paymentMethodUID: this.form.value.paymentMethodUID ?? '',
       paymentAccountUID: this.form.value.paymentAccountUID ?? '',
+      debtorUID: this.form.value.debtorUID ?? '',
       description: this.form.value.description ?? '',
       referenceNumber: this.form.value.referenceNumber ?? '',
       priority: this.form.value.priority ?? null,
