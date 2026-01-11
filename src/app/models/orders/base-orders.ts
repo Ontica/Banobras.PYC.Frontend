@@ -108,6 +108,15 @@ export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerType
 }
 
 
+export const OrderStatusList: Identifiable<EntityStatus>[] = [
+  { uid: EntityStatus.Pending,      name: 'Pendiente' },
+  { uid: EntityStatus.Active,       name: 'Activa' },
+  { uid: EntityStatus.Suspended,    name: 'Suspendida' },
+  { uid: EntityStatus.Closed,       name: 'Cerrada' },
+  { uid: EntityStatus.Deleted,      name: 'Eliminada' },
+];
+
+
 export interface OrderForEdition extends Entity {
   uid: string;
   orderNo: string;

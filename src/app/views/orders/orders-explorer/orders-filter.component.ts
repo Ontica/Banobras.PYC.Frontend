@@ -22,8 +22,8 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { OrdersDataService, SearcherAPIS } from '@app/data-services';
 
-import { OrdersQuery, EntityStatus, EntityStatusList, EmptyOrdersQuery, Priority, OrderExplorerTypeConfig,
-         EmptyOrderExplorerTypeConfig, PriorityList, ObjectTypes, BudgetType } from '@app/models';
+import { BudgetType, EmptyOrderExplorerTypeConfig, EmptyOrdersQuery, EntityStatus, ObjectTypes,
+         OrderExplorerTypeConfig, OrdersQuery, OrderStatusList, Priority, PriorityList } from '@app/models';
 
 export enum OrdersFilterEventType {
   SEARCH_CLICKED = 'OrdersFilterComponent.Event.SearchClicked',
@@ -66,7 +66,7 @@ export class OrdersFilterComponent implements OnChanges, OnDestroy {
 
   isLoading = false;
 
-  statusList: Identifiable<EntityStatus>[] = EntityStatusList;
+  statusList: Identifiable<EntityStatus>[] = OrderStatusList;
 
   priorityList: Identifiable<Priority>[] = PriorityList;
 
