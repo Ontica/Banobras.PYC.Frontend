@@ -11,7 +11,7 @@
         <emp-ng-select
           formControlName="requesterOrgUnitUID"
           [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
-          [items]="requesterOrgUnitsList"
+          [items]="orgUnitsList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.requesterOrgUnitUID)"
           placeholder="Todas">
@@ -84,12 +84,12 @@
 
           <div class="fx-item-quarter">
 
-            <label>Tipo de instrucción de pago:</label>
+            <label>Tipo de pago:</label>
 
             <emp-ng-select
               formControlName="paymentOrderType"
               [config]="{clearable: true}"
-              [items]="paymentInstructionTypesList"
+              [items]="paymentOrderTypesList"
               [loading]="isLoading"
               [showError]="formHelper.isControlInvalid(form.controls.paymentOrderType)"
               placeholder="Todos">

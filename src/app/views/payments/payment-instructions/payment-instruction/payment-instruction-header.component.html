@@ -2,6 +2,8 @@
 
   <div class="fx-column-container fx-gap-half">
 
+    <div class="section-title"> Información general </div>
+
     <div class="fx-row-container">
 
       <div class="fx-item">
@@ -29,6 +31,20 @@
       </div>
 
     </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-one">
+        <label>Documento relacionado:</label>
+        <textarea class="text-area" empNgTextareaAutoresize rows="1"
+          formControlName="payable"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.payable)">
+        </textarea>
+      </div>
+
+    </div>
+
+    <div class="section-title" [style.padding-top.rem]="0.5"> Información del pago </div>
 
     <div class="fx-row-container">
 
@@ -143,6 +159,8 @@
       </div>
 
     </div>
+
+    <div class="section-title"></div>
 
     <div class="fx-row-container">
 

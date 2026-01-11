@@ -39,6 +39,7 @@ export enum PaymentInstructionHeaderEventType {
 
 interface PaymentInstructionFormModel extends FormGroup<{
   requestedByUID: FormControl<string>;
+  payable: FormControl<string>;
   dueTime: FormControl<DateString>;
   payToUID: FormControl<string>;
   paymentMethodUID: FormControl<string>;
@@ -244,6 +245,7 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
 
     this.form = fb.group({
       requestedByUID: ['', Validators.required],
+      payable: [''],
       dueTime: ['' as DateString, Validators.required],
       payToUID: ['', Validators.required],
       paymentMethodUID: ['', Validators.required],
@@ -260,6 +262,7 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
     setTimeout(() => {
       this.form.reset({
         requestedByUID: FormHelper.getUIDValueValid(this.instruction.requestedBy),
+        payable: `(${this.instruction.payableType.name}) ${this.instruction.payableNo} - ${this.instruction.payable.name}`,
         dueTime: this.instruction.dueTime ?? '',
         payToUID: FormHelper.getUIDValueValid(this.instruction.payTo),
         paymentMethodUID: FormHelper.getUIDValueValid(this.instruction.paymentMethod),
@@ -370,24 +373,33 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
 
 
   private getConfirmMessage(eventType: PaymentInstructionHeaderEventType): string {
-    const instructionName = `la instrucción de pago <strong>(${this.instruction.paymentInstructionType.name}) ` +
-      `${this.instruction.paymentInstructionNo}</strong>`;
-    const payToName = `<strong>${this.instruction.payTo.name}</strong>`;
-    const total = FormatLibrary.numberWithCommas(this.instruction.total, '1.2-2');
+    const instructionName = `(${this.instruction.paymentOrderType.name}) ` +
+      `${this.instruction.paymentInstructionNo}`;
+
+    const payable = `(${this.instruction.payableType.name}) ${this.instruction.payableNo} ` +
+      `- ${this.instruction.payable.name}`;
+
+    const total = `${FormatLibrary.numberWithCommas(this.instruction.total, '1.2-2')} (${this.instruction.currency.name})`;
+
+    const instructionData = `la instrucción de pago:<br><br>
+      <table class='confirm-data'>
+        <tr><td class='nowrap'>Instrucción: </td><td><strong>${instructionName}</strong></td></tr>
+        <tr><td class='nowrap'>Importe: </td><td><strong>${total}</strong></td></tr>
+        <tr><td class='nowrap'>Pagar a: </td><td><strong>${this.instruction.payTo.name}</strong></td></tr>
+        <tr><td class='nowrap'>Documento relacionado: </td><td><strong>${payable}</strong></td></tr>
+      </table><br>`;
 
     switch (eventType) {
       case PaymentInstructionHeaderEventType.CANCEL:
-        return `Esta operación cancelará ${instructionName} de ${payToName}.<br><br>¿Cancelo la instrucción de pago?`;
+        return `Esta operación cancelará ${instructionData}¿Cancelo la instrucción de pago?`;
       case PaymentInstructionHeaderEventType.RESET:
-        return `Esta operación activará ${instructionName} de ${payToName}.<br><br>¿Activo la solicitud de pago?`;
+        return `Esta operación activará ${instructionData}¿Activo la solicitud de pago?`;
       case PaymentInstructionHeaderEventType.SUSPEND:
-        return `Esta operación suspenderá ${instructionName} de ${payToName}.<br><br>¿Suspendo la instrucción de pago?`;
+        return `Esta operación suspenderá ${instructionData}¿Suspendo la instrucción de pago?`;
       case PaymentInstructionHeaderEventType.REQUEST_PAYMENT:
-        return `Esta operación enviará a pagar ${instructionName} de ${payToName} por un total de <strong>${total}</strong>.
-                <br><br>¿Envio el pago?`;
+        return `Esta operación enviará a pagar ${instructionData}¿Envio el pago?`;
       case PaymentInstructionHeaderEventType.CANCEL_PAYMENT_REQUEST:
-        return `Esta operación cancelará el envío de ${instructionName} a pagar a ${payToName}
-                por un total de <strong>${total}</strong>.<br><br>¿Cancelo el envío del pago?`;
+        return `Esta operación cancelará el envío a pagar de ${instructionData}¿Cancelo el envío del pago?`;
       default: return '';
     }
   }

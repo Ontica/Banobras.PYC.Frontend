@@ -80,21 +80,22 @@ export class PaymentInstructionTabbedViewComponent implements OnChanges {
 
 
   private setTitle() {
-    const requestedDate = !this.data.paymentInstruction.requestedTime ? 'N/D' :
-      DateStringLibrary.format(this.data.paymentInstruction.requestedTime);
+    const instruction = this.data.paymentInstruction;
 
-    const status = this.data.paymentInstruction.status.name === 'Eliminada' ?
-      `<span class="tag tag-error tag-small">${this.data.paymentInstruction.status.name}</span>` :
-      `<span class="tag tag-small">${this.data.paymentInstruction.status.name}</span>`;
+    const requestedDate = !instruction.requestedTime ? 'N/D' :
+      DateStringLibrary.format(instruction.requestedTime, 'DMY HH:mm');
 
-    const total = !this.data.paymentInstruction.total ? 'N/D' :
-      FormatLibrary.numberWithCommas(this.data.paymentInstruction.total, '1.2-2');
+    const status = instruction.status.name === 'Eliminada' ?
+      `<span class="tag tag-error tag-small">${instruction.status.name}</span>` :
+      `<span class="tag tag-small">${instruction.status.name}</span>`;
 
-    this.title = `${this.data.paymentInstruction.paymentInstructionNo}: ${this.data.paymentInstruction.paymentInstructionType?.name} ${status}`;
+    const total = !instruction.total ? 'N/D' :
+      FormatLibrary.numberWithCommas(instruction.total, '1.2-2');
 
-    this.hint = `<strong>${this.data.paymentInstruction.payTo.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
-      `${this.data.paymentInstruction.paymentOrderNo} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${total}&nbsp; &nbsp; | &nbsp; &nbsp; ` +
+    this.title = `${instruction.paymentInstructionNo}: ${instruction.paymentOrderType.name} ${status}`;
+
+    this.hint = `<strong>${instruction.payTo.name}</strong> &nbsp; &nbsp; | &nbsp; &nbsp;` +
+      `${total} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
       `${requestedDate}`;
   }
 

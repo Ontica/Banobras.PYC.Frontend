@@ -62,9 +62,9 @@ export class PaymentInstructionsFilterComponent implements OnChanges, OnInit, On
 
   statusList: Identifiable<PaymentInstructionsStatus>[] = PaymentInstructionStatusList;
 
-  requesterOrgUnitsList: Identifiable[] = [];
+  orgUnitsList: Identifiable[] = [];
 
-  paymentInstructionTypesList: Identifiable[] = [];
+  paymentOrderTypesList: Identifiable[] = [];
 
   paymentMethodsList: Identifiable[] = [];
 
@@ -117,17 +117,17 @@ export class PaymentInstructionsFilterComponent implements OnChanges, OnInit, On
 
   private loadDataLists() {
     this.isLoading = true;
-
+    // TODO: verificar que WS utilizar para paymentOrderType
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.payments }),
-      // this.helper.select<Identifiable[]>(PaymentsStateSelector.PAYMENT_INSTRUCTION_TYPES),
+      this.helper.select<Identifiable[]>(PaymentsStateSelector.PAYMENT_ORDER_TYPES),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.PAYMENTS_METHODS),
     ])
-    .subscribe(([a, b]) => {
-      this.requesterOrgUnitsList = a;
-      // this.paymentInstructionTypesList = b;
-      this.paymentMethodsList = b;
+    .subscribe(([a, b, c]) => {
+      this.orgUnitsList = a;
+      this.paymentOrderTypesList = b;
+      this.paymentMethodsList = c;
       this.isLoading = false;
     });
   }

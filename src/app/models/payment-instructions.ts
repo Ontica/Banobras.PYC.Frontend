@@ -17,6 +17,8 @@ import { HistoryEntry } from './history';
 
 import { BasePaymentDescriptor } from './payment-orders';
 
+import { Priority, getPriorityName } from './steps';
+
 
 export interface PaymentAccount {
   uid: string;
@@ -53,28 +55,20 @@ export interface PaymentMethod {
 
 
 export enum PaymentInstructionsStatus {
-  Pending    = 'Pending',
-  Received   = 'Received',
-  Suspended  = 'Suspended',
-  Returned   = 'Returned',
-  Rejected   = 'Rejected',
-  Committed  = 'Committed',
   Programmed = 'Programmed',
+  InProgress = 'InProgress',
   Payed      = 'Payed',
-  Deleted    = 'Deleted',
+  Failed     = 'Failed',
+  Canceled   = 'Canceled',
 }
 
 
 export const PaymentInstructionStatusList: Identifiable<PaymentInstructionsStatus>[] = [
-  { uid: PaymentInstructionsStatus.Pending,    name: 'Pendiente'},
-  { uid: PaymentInstructionsStatus.Received,   name: 'Recibida'},
-  { uid: PaymentInstructionsStatus.Suspended,  name: 'Suspendida'},
-  { uid: PaymentInstructionsStatus.Returned,   name: 'Regresada'},
-  { uid: PaymentInstructionsStatus.Rejected,   name: 'Rechazada'},
-  { uid: PaymentInstructionsStatus.Committed,  name: 'Comprometida'},
   { uid: PaymentInstructionsStatus.Programmed, name: 'Programada'},
+  { uid: PaymentInstructionsStatus.InProgress, name: 'En proceso'},
   { uid: PaymentInstructionsStatus.Payed,      name: 'Pagada'},
-  { uid: PaymentInstructionsStatus.Deleted,    name: 'Eliminada'},
+  { uid: PaymentInstructionsStatus.Failed,     name: 'Envio fallido'},
+  { uid: PaymentInstructionsStatus.Canceled,   name: 'Cancelada'},
 ];
 
 
@@ -91,20 +85,27 @@ export interface PaymentInstructionsQuery {
 
 export interface PaymentInstructionDescriptor extends BasePaymentDescriptor {
   uid: string;
-  paymentInstructionTypeName: string;
   paymentInstructionNo: string;
+  paymentInstructionTypeName: string;
+  paymentOrderNo: string;
+  paymentOrderType: string;
   description: string;
   payTo: string;
-  paymentOrderNo: string;
   paymentMethod: string;
   paymentAccount: string;
   currencyCode: string;
   total: number;
   dueTime: DateString;
+  operationNo: string;
+  payableNo: string;
+  payableTypeName: string;
+  payableName: string;
+  recordedBy: string;
   requestedBy: string;
   requestedTime: DateString;
   programmedDate: DateString;
   lastUpdateTime: DateString;
+  priorityName: string;
   statusName: string;
 }
 
@@ -126,9 +127,10 @@ export interface PaymentInstructionHolder {
 
 export interface PaymentInstruction {
   uid: string;
-  paymentOrderNo: string;
-  paymentInstructionType: Identifiable;
   paymentInstructionNo: string;
+  paymentInstructionType: Identifiable;
+  paymentOrderNo: string;
+  paymentOrderType: Identifiable;
   description: string;
   payTo: Identifiable;
   paymentMethod: PaymentMethod;
@@ -136,11 +138,17 @@ export interface PaymentInstruction {
   referenceNumber: string;
   total: number;
   currency: Identifiable;
+  recordedBy: Identifiable;
   requestedBy: Identifiable;
   dueTime: DateString;
+  operationNo: string;
+  payableNo: string;
+  payableType: Identifiable;
+  payable: Identifiable;
   requestedTime: DateString;
   programmedDate: DateString;
   lastUpdateTime: DateString;
+  priority: Priority;
   status: Identifiable;
 }
 
@@ -226,21 +234,28 @@ export const EmptyPaymentAccount: PaymentAccount = {
 
 export const EmptyPaymentInstruction: PaymentInstruction = {
   uid: '',
-  paymentOrderNo: '',
-  paymentInstructionType: Empty,
   paymentInstructionNo: '',
+  paymentInstructionType: Empty,
+  paymentOrderNo: '',
+  paymentOrderType: Empty,
+  description: '',
   payTo: Empty,
   paymentAccount: EmptyPaymentAccount,
   referenceNumber: '',
-  description: '',
   total: null,
   currency: Empty,
   paymentMethod: EmptyPaymentMethod,
   dueTime: '',
+  operationNo: '',
+  payableNo: '',
+  payableType: Empty,
+  payable: Empty,
+  recordedBy: Empty,
   requestedBy: Empty,
   requestedTime: '',
   programmedDate: '',
   lastUpdateTime: '',
+  priority: null,
   status: Empty,
 };
 
@@ -269,20 +284,27 @@ export const EmptyPaymentInstructionHolder: PaymentInstructionHolder = {
 export function mapPaymentInstructionDescriptorFromPaymentInstruction(data: PaymentInstruction): PaymentInstructionDescriptor {
   return {
     uid: data.uid,
-    paymentOrderNo: data.paymentOrderNo,
-    paymentInstructionTypeName: data.paymentInstructionType.name,
     paymentInstructionNo: data.paymentInstructionNo,
+    paymentInstructionTypeName: data.paymentInstructionType.name,
+    paymentOrderNo: data.paymentOrderNo,
+    paymentOrderType: data.paymentOrderType.name,
     description: data.description,
     payTo: data.payTo.name,
     total: data.total,
-    requestedTime: data.requestedTime,
+    recordedBy: data.recordedBy.name,
     requestedBy: data.requestedBy.name,
-    statusName: data.status.name,
+    requestedTime: data.requestedTime,
     paymentAccount: data.paymentAccount.accountNo,
     currencyCode: data.currency.name,
     paymentMethod: data.paymentMethod.name,
     dueTime: data.dueTime,
+    operationNo: data.operationNo,
+    payableNo: data.payableNo,
+    payableTypeName: data.payableType.name,
+    payableName: data.payable.name,
     programmedDate: data.programmedDate,
     lastUpdateTime: data.lastUpdateTime,
+    priorityName: getPriorityName(data.priority),
+    statusName: data.status.name,
   };
 }
