@@ -200,7 +200,11 @@ export class SelectBoxComponent implements OnInit, OnChanges, OnDestroy, Control
     }
 
     if (this.selectBoxConfig.bindByValue && this.bindValue) {
-      const valueFromList = this.items.find(x => x[this.bindValue] === this.value);
+      const valueFromList = !this.selectBoxConfig.groupBy ?
+        this.items.find(x => x[this.bindValue] === this.value) :
+        this.items
+          .reduce((itemsFlat, item) => itemsFlat.concat(item[this.selectBoxConfig.groupBy]), [])
+          .find(x => x[this.bindValue] === this.value);
       return valueFromList ? valueFromList[this.bindTooltipField] : '';
     } else {
       return this.bindTooltipField ? this.value[this.bindTooltipField] : this.value;
