@@ -35,8 +35,8 @@
                         {{!!item.productCode ? item.productCode + ': ' : ''}}{{item.description | uppercase}} ({{item.productUnit?.name | uppercase}})
                       </div>
                       <div class="fx-row-container item-text-xs primary-text">
-                        <div class="fx-item-none nowrap ellipsis" [style.max-width.%]="55">{{item.budgetAccount?.name}}</div>
-                        <div class="fx-item">&nbsp;| Verif: {{!!item.budgetControlNo ? item.budgetControlNo : 'N/D' }} | Cantidad: {{item.quantity | empDecimal}} | PU: {{item.unitPrice | empDecimal}}</div>
+                        <div class="fx-item-none nowrap ellipsis" [style.max-width.%]="40">{{item.budgetAccount?.name}}</div>
+                        <div class="fx-item">&nbsp;| Verif: {{!!item.budgetControlNo ? item.budgetControlNo : 'N/D' }} | Cantidad: {{item.quantity | empDecimal}} | PU: {{item.unitPrice | empDecimal}} | Importe: {{item.total | empDecimal}}</div>
                       </div>
                     </div>
 
@@ -51,8 +51,8 @@
                       </span>
                       <br>
                       <div class="fx-row-container item-text-xs primary-text">
-                        <div class="fx-item-none nowrap ellipsis" [style.max-width.%]="55">{{item.budgetAccount?.name}}</div>
-                        <div class="fx-item">&nbsp;| Verif: {{!!item.budgetControlNo ? item.budgetControlNo : 'N/D' }} | Cantidad: {{item.quantity | empDecimal}} | PU: {{item.unitPrice | empDecimal}}</div>
+                        <div class="fx-item-none nowrap ellipsis" [style.max-width.%]="40">{{item.budgetAccount?.name}}</div>
+                        <div class="fx-item">&nbsp;| Verif: {{!!item.budgetControlNo ? item.budgetControlNo : 'N/D' }} | Cantidad: {{item.quantity | empDecimal}} | PU: {{item.unitPrice | empDecimal}} | Importe: {{item.total | empDecimal}}</div>
                       </div>
 
                     </div>
@@ -101,6 +101,7 @@
 
                 <emp-ng-select
                   formControlName="budgetUID"
+                  [config]="{selectFirst: !isSaved && isRequisition}"
                   [items]="budgetsList"
                   [showError]="formHelper.isControlInvalid(form.controls.budgetUID)"
                   (changes)="onBudgetChanges($event)">
@@ -221,7 +222,7 @@
 
           <div class="fx-row-container">
 
-            <div [ngClass]="numericFieldSize" *ngIf="!isContract">
+            <div [ngClass]="numericFieldSize" *ngIf="isContractOrder || isPurchase">
 
               <label>Cantidad:</label>
 
@@ -262,7 +263,7 @@
 
             </ng-container>
 
-            <div [ngClass]="numericFieldSize">
+            <div [ngClass]="numericFieldSize" *ngIf="isContract || isContractOrder || isPurchase">
 
               <label>Precio unitario:</label>
 
@@ -275,7 +276,7 @@
 
             </div>
 
-            <div [ngClass]="numericFieldSize" *ngIf="isContractOrder || isPurchase || isExpense">
+            <div [ngClass]="numericFieldSize" *ngIf="isContractOrder || isPurchase">
 
               <label>Descuento:</label>
 
@@ -301,7 +302,7 @@
 
             </div>
 
-            <div [ngClass]="numericFieldSize" *ngIf="!isContract">
+            <div [ngClass]="numericFieldSize" *ngIf="isRequisition || isContractOrder || isPurchase || isExpense">
 
               <label>Importe (antes de impuestos):</label>
 
@@ -350,18 +351,22 @@
 
           </mat-divider>
 
-          <div #rowFooter class="fx-row-container">
+          <div #rowFooter class="fx-row-container fx-items-center fx-space-between">
 
-             <div class="fx-item fx-end fx-items-center">
+            <span class="primary-text">
+              NOTA: Los importes NO deben considerar IVA e ISR, ya que estos no son parte del gasto.
+            </span>
 
-                <button
-                  [class.btn]="!formHelper.isFormReady(form)"
-                  [class.btn-action]="formHelper.isFormReady(form)"
-                  (click)="onSubmitButtonClicked()">
-                  {{!isSaved ? 'Agregar' : 'Guardar'}}
-                </button>
+            <div class="fx-item-none">
 
-              </div>
+              <button
+                [class.btn]="!formHelper.isFormReady(form)"
+                [class.btn-action]="formHelper.isFormReady(form)"
+                (click)="onSubmitButtonClicked()">
+                {{!isSaved ? 'Agregar' : 'Guardar'}}
+              </button>
+
+            </div>
 
           </div>
 

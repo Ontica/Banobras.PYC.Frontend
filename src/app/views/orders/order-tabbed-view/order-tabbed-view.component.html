@@ -7,83 +7,87 @@
 
     <mat-tab *ngFor="let tab of tabs" [label]="tab.label">
 
-      <ng-container [ngSwitch]="tab.tab">
+      <ng-template matTabContent>
 
-        <emp-ng-order-editor *ngSwitchCase="TabType.order"
-          [config]="config"
-          [order]="data.order"
-          [actions]="data.actions"
-          (orderEditorEvent)="onOrderEditorEvent($event)">
+        <ng-container [ngSwitch]="tab.tab">
 
-        </emp-ng-order-editor>
+          <emp-ng-order-editor *ngSwitchCase="TabType.order"
+            [config]="config"
+            [order]="data.order"
+            [actions]="data.actions"
+            (orderEditorEvent)="onOrderEditorEvent($event)">
 
-        <emp-ng-order-items-edition *ngSwitchCase="TabType.items"
-          [config]="config"
-          [order]="data.order"
-          [items]="data.items"
-          [taxes]="taxes"
-          [canEdit]="data.actions.canEditItems"
-          [displayTaxes]="isRequisition"
-          (orderItemsEditionEvent)="onOrderItemsEditionEvent($event)">
+          </emp-ng-order-editor>
 
-        </emp-ng-order-items-edition>
+          <emp-ng-order-items-edition *ngSwitchCase="TabType.items"
+            [config]="config"
+            [order]="data.order"
+            [items]="data.items"
+            [taxes]="taxes"
+            [canEdit]="data.actions.canEditItems"
+            [displayTaxes]="isRequisition"
+            (orderItemsEditionEvent)="onOrderItemsEditionEvent($event)">
 
-        <emp-bdg-budget-management *ngSwitchCase="TabType.budgetTransactions"
-          [baseObjectType]="config.type"
-          [baseObjectUID]="data.order.uid"
-          [baseObjectName]="title"
-          [budgetTotal]="data.order.subtotal"
-          [budgetTransactions]="data.budgetTransactions"
-          [canCommit]="data.actions.canCommitBudget"
-          [canRequest]="data.actions.canRequestBudget"
-          [canValidate]="data.actions.canValidateBudget"
-          (budgetManagementEvent)="onBudgetManagementEvent($event)">
+          </emp-ng-order-items-edition>
 
-        </emp-bdg-budget-management>
+          <emp-bdg-budget-management *ngSwitchCase="TabType.budgetTransactions"
+            [baseObjectType]="config.type"
+            [baseObjectUID]="data.order.uid"
+            [baseObjectName]="title"
+            [budgetTotal]="data.order.subtotal"
+            [budgetTransactions]="data.budgetTransactions"
+            [canCommit]="data.actions.canCommitBudget"
+            [canRequest]="data.actions.canRequestBudget"
+            [canValidate]="data.actions.canValidateBudget"
+            (budgetManagementEvent)="onBudgetManagementEvent($event)">
 
-        <emp-ng-order-orders-table *ngSwitchCase="TabType.orders"
-          [orders]="data.orders"
-          [ordersName]="tab.label">
+          </emp-bdg-budget-management>
 
-        </emp-ng-order-orders-table>
+          <emp-ng-order-orders-table *ngSwitchCase="TabType.orders"
+            [orders]="data.orders"
+            [ordersName]="tab.label">
 
-        <emp-ng-bills-edition *ngSwitchCase="TabType.bills"
-          entityType="orders"
-          [entityUID]="data.order.uid"
-          [data]="data.bills"
-          [canEdit]="data.actions.canEditBills"
-          (billsEditionEvent)="onBillsEditionEvent($event)">
+          </emp-ng-order-orders-table>
 
-        </emp-ng-bills-edition>
+          <emp-ng-bills-edition *ngSwitchCase="TabType.bills"
+            entityType="orders"
+            [entityUID]="data.order.uid"
+            [data]="data.bills"
+            [canEdit]="data.actions.canEditBills"
+            (billsEditionEvent)="onBillsEditionEvent($event)">
 
-        <emp-pmt-payment-orders-edition *ngSwitchCase="TabType.paymentOrders"
-          [entityUID]="data.order.uid"
-          [supplierUID]="data.order.provider.uid"
-          [entityName]="config.pronounSingular + ' ' + config.nameSingular"
-          [entityTotal]="data.bills.total"
-          [totalRequired]="isExpense"
-          [items]="data.paymentOrders"
-          [displayType]="isRequisition || isContract"
-          [canRequestPayment]="data.actions.canRequestPayment"
-          (paymentOrdersEditionEvent)="onPaymentOrdersEditionEvent($event)">
+          </emp-ng-bills-edition>
 
-        </emp-pmt-payment-orders-edition>
+          <emp-pmt-payment-orders-edition *ngSwitchCase="TabType.paymentOrders"
+            [entityUID]="data.order.uid"
+            [supplierUID]="data.order.provider.uid"
+            [entityName]="config.pronounSingular + ' ' + config.nameSingular"
+            [entityTotal]="data.bills.total"
+            [totalRequired]="isExpense"
+            [items]="data.paymentOrders"
+            [displayType]="isRequisition || isContract"
+            [canRequestPayment]="data.actions.canRequestPayment"
+            (paymentOrdersEditionEvent)="onPaymentOrdersEditionEvent($event)">
 
-        <emp-ng-documents-edition *ngSwitchCase="TabType.documents"
-          entityType="orders"
-          [entityUID]="data.order.uid"
-          [documents]="data.documents"
-          [canEdit]="data.actions.canEditDocuments"
-          (documentsEditionEvent)="onDocumentsEditionEvent($event)">
+          </emp-pmt-payment-orders-edition>
 
-        </emp-ng-documents-edition>
+          <emp-ng-documents-edition *ngSwitchCase="TabType.documents"
+            entityType="orders"
+            [entityUID]="data.order.uid"
+            [documents]="data.documents"
+            [canEdit]="data.actions.canEditDocuments"
+            (documentsEditionEvent)="onDocumentsEditionEvent($event)">
 
-        <emp-ng-history-table *ngSwitchCase="TabType.history"
-          [history]="data.history">
+          </emp-ng-documents-edition>
 
-        </emp-ng-history-table>
+          <emp-ng-history-table *ngSwitchCase="TabType.history"
+            [history]="data.history">
 
-      </ng-container>
+          </emp-ng-history-table>
+
+        </ng-container>
+
+      </ng-template>
 
     </mat-tab>
 

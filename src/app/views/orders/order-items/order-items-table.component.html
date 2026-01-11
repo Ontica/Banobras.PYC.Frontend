@@ -37,6 +37,16 @@
       <td mat-cell *matCellDef="let row" class="text-align-right">{{ row.quantity | empDecimal }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="minQuantity">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right nowrap"> Cantidad mínima </th>
+      <td mat-cell *matCellDef="let row" class="text-align-right">{{ row.minQuantity | empDecimal }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="maxQuantity">
+      <th mat-header-cell *matHeaderCellDef class="text-align-right nowrap"> Cantidad máxima </th>
+      <td mat-cell *matCellDef="let row" class="text-align-right">{{ row.maxQuantity | empDecimal }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="unitPrice">
       <th mat-header-cell *matHeaderCellDef class="text-align-right nowrap"> Precio unitario </th>
       <td mat-cell *matCellDef="let row" class="text-align-right">{{ row.unitPrice | empDecimal}}</td>

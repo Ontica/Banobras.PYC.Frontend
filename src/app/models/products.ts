@@ -10,6 +10,9 @@ import { DateString, Empty, Identifiable } from '@app/core';
 import { EntityStatus, ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
 
 
+export const DefaultProductUnit = 'a1bf1536-b77f-4d96-9468-72bf584290cd';
+
+
 export interface ProductsQuery {
   productCategoryUID: string;
   productTypeUID: string;

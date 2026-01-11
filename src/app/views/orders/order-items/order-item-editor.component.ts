@@ -24,11 +24,11 @@ import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionsDataService, OrdersDataService, SearcherAPIS } from '@app/data-services';
 
-import { BudgetAccountsForProductQuery, Order, OrderItem, OrderItemFields, EmptyOrder, EmptyOrderItem,
-         ProductSearch, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes, PayableOrderItem,
-         ContractOrderItem, ContractOrderItemFields, PayableOrderItemFields, PayableOrder, RequisitionOrder,
-         RequisitionOrderItem, RequisitionOrderItemFields, DateRange, EmptyDateRange, ContractItem,
-         ContractItemFields } from '@app/models';
+import { BudgetAccountsForProductQuery, ContractItem, ContractItemFields, ContractOrderItem,
+         ContractOrderItemFields, DateRange, DefaultProductUnit, EmptyDateRange, EmptyOrder,
+         EmptyOrderExplorerTypeConfig, EmptyOrderItem, ObjectTypes, Order, OrderExplorerTypeConfig, OrderItem,
+         OrderItemFields, PayableOrder, PayableOrderItem, PayableOrderItemFields, ProductSearch,
+         RequisitionOrder, RequisitionOrderItem, RequisitionOrderItemFields } from '@app/models';
 
 
 export enum OrderItemEditorEventType {
@@ -127,6 +127,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       this.enableEditor();
     }
 
+    this.validateDefaultFields();
     this.validateFieldsRequired();
   }
 
@@ -201,13 +202,17 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       this.setBudgetAccountsList([], contractItem.budgetAccount);
     }
 
+    if (this.isExpense) {
+      this.form.controls.total.reset(FormHelper.getNumberValueValid(item?.total));
+    }
+
     this.onTotalChanges();
     this.resetProductByItem(item?.product);
   }
 
 
   onTotalChanges() {
-    if (!this.isContract) {
+    if (this.isContractOrder || this.isPurchase) {
       const { quantity = 0, unitPrice = 0, discount = 0, penaltyDiscount = 0 } = this.form.getRawValue();
       const total = quantity * unitPrice - discount - penaltyDiscount;
       this.form.controls.total.reset(total);
@@ -233,7 +238,6 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
     this.form.controls.budgetAccountUID.reset();
     this.budgetAccountsList = [];
     this.validateSearchBudgetAccounts();
-    this.validateDescriptionRequired();
   }
 
 
@@ -268,6 +272,13 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
 
+  private validateDefaultFields() {
+    if (!this.isSaved && this.isRequisition) {
+      this.form.controls.productUnitUID.reset(DefaultProductUnit);
+    }
+  }
+
+
   private validateFieldsRequired() {
     if (!this.isSaved || (this.isSaved && this.canUpdate)) {
       const controls = this.form.controls;
@@ -276,15 +287,16 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       this.validateControlRequired(controls.beneficiaryUID, this.beneficiaryFieldRequired);
       this.validateControlRequired(controls.budgetAccountUID, this.isRequisition || this.isContract);
       this.validateControlRequired(controls.budgetUID, this.isRequisition || this.isContract);
-      this.validateControlRequired(controls.quantity, this.isRequisition || this.isContractOrder || this.isPurchase || this.isExpense);
+
+      this.validateControlRequired(controls.quantity, this.isContractOrder || this.isPurchase);
       this.validateControlRequired(controls.minQuantity, this.isContract);
       this.validateControlRequired(controls.maxQuantity, this.isContract);
-
-      this.validateDescriptionRequired();
+      this.validateControlRequired(controls.unitPrice, this.isContract || this.isContractOrder || this.isPurchase);
+      this.validateControlRequired(controls.total, this.isRequisition || this.isContractOrder || this.isPurchase || this.isExpense);
 
       FormHelper.setDisableControl(controls.unitPrice, this.isContractOrder);
       FormHelper.setDisableControl(controls.linkedItemUID, this.isSaved && !this.isRequisition);
-      FormHelper.setDisableControl(controls.total);
+      FormHelper.setDisableControl(controls.total, this.isContractOrder || this.isPurchase);
     }
   }
 
@@ -292,12 +304,6 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   private validateControlRequired(control, required: boolean, validators = [Validators.required]) {
     required ? FormHelper.setControlValidators(control, validators) :
       FormHelper.clearControlValidators(control);
-  }
-
-
-  private validateDescriptionRequired() {
-    const required = !this.form.getRawValue().productUID;
-    this.validateControlRequired(this.form.controls.description, required);
   }
 
 
@@ -394,7 +400,7 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
       originCountryUID: [''],
       productUID: [''],
       productUnitUID: ['', Validators.required],
-      unitPrice: [null as number, Validators.required],
+      unitPrice: [null as number],
       quantity: [null as number],
       minQuantity: [null as number],
       maxQuantity: [null as number],
@@ -464,13 +470,18 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
         this.form.controls.penaltyDiscount.reset(FormHelper.getNumberValueValid(item.penaltyDiscount));
         break;
       }
-      case ObjectTypes.EXPENSE:
       case ObjectTypes.PURCHASE: {
         const item = this.item as PayableOrderItem;
         this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.requisitionItem));
         this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
         this.form.controls.discount.reset(FormHelper.getNumberValueValid(item.discount));
         this.form.controls.penaltyDiscount.reset(FormHelper.getNumberValueValid(item.penaltyDiscount));
+        break;
+      }
+      case ObjectTypes.EXPENSE: {
+        const item = this.item as PayableOrderItem;
+        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.requisitionItem));
+        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
         break;
       }
     }

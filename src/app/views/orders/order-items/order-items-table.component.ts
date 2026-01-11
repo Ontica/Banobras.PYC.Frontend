@@ -104,15 +104,34 @@ export class OrderItemsTableComponent implements OnChanges {
       columns.push('beneficiary');
     }
 
-    columns.push('budgetAccount', 'budget', 'cucop', 'description', 'productUnit', 'quantity', 'unitPrice');
+    columns.push('budgetAccount', 'budget', 'cucop', 'description', 'productUnit');
 
     if ([ObjectTypes.CONTRACT_ORDER,
-         ObjectTypes.EXPENSE,
+         ObjectTypes.PURCHASE].includes(this.config.type)) {
+      columns.push('quantity');
+    }
+
+    if ([ObjectTypes.CONTRACT].includes(this.config.type)) {
+      columns.push('minQuantity', 'maxQuantity');
+    }
+
+    if ([ObjectTypes.CONTRACT,
+         ObjectTypes.CONTRACT_ORDER,
+         ObjectTypes.PURCHASE].includes(this.config.type)) {
+      columns.push('unitPrice');
+    }
+
+    if ([ObjectTypes.CONTRACT_ORDER,
          ObjectTypes.PURCHASE].includes(this.config.type)) {
       columns.push('discount');
     }
 
-    columns.push('total');
+    if ([ObjectTypes.REQUISITION,
+         ObjectTypes.CONTRACT_ORDER,
+         ObjectTypes.PURCHASE,
+         ObjectTypes.EXPENSE].includes(this.config.type)) {
+      columns.push('total');
+    }
 
     if (this.canDelete) columns.push('actionDelete');
 
