@@ -2,6 +2,8 @@
 
   <div class="fx-column-container fx-gap-half">
 
+    <div class="section-title"> Información general </div>
+
     <div class="fx-row-container">
 
       <div class="fx-item-half">
@@ -127,6 +129,8 @@
 
     </div>
 
+  <div class="section-title" [style.padding-top.rem]="0.5"> Información del pago </div>
+
     <div class="fx-row-container">
 
       <div class="fx-item-half">
@@ -237,6 +241,8 @@
 
     </div>
 
+  <div class="section-title"></div>
+
     <div class="fx-row-container">
 
       <div class="fx-item-one">
@@ -258,7 +264,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-one">
+      <div class="fx-item-half">
         <label>Descripción:</label>
         <textarea class="text-area" empNgTextareaAutoresize rows="1"
           formControlName="description"
@@ -266,11 +272,7 @@
         </textarea>
       </div>
 
-    </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-one">
+      <div class="fx-item-half">
         <label>Observaciones:</label>
         <textarea class="text-area" empNgTextareaAutoresize rows="1"
           formControlName="observations"

@@ -26,45 +26,49 @@ import { Priority, getPriorityName } from './steps';
 export interface PaymentOrdersQuery {
   status: PaymentOrderStatus;
   requesterOrgUnitUID: string;
-  paymentOrderTypeUID: string;
   keywords: string;
   fromDate: DateString;
   toDate: DateString;
+  paymentOrderTypeUID: string;
+  budgetUID: string;
   // TODO: agregar campos al filter
   payToUID: string;
   paymentMethodUID: string;
-  budgetTypeUID: string;
-  budgetUID: string;
 }
 
 
 export const EmptyPaymentOrdersQuery: PaymentOrdersQuery = {
   status: null,
   requesterOrgUnitUID: '',
-  paymentOrderTypeUID: '',
   keywords: '',
   fromDate: '',
   toDate: '',
+  paymentOrderTypeUID: '',
+  budgetUID: '',
   payToUID: '',
   paymentMethodUID: '',
-  budgetTypeUID: '',
-  budgetUID: '',
 };
 
 
 export enum PaymentOrderStatus {
-  Capture   = 'Capture',
-  OnPayment = 'OnPayment',
-  Payed     = 'Payed',
-  Deleted   = 'Deleted',
+  Pending    = 'Pending',
+  Programmed = 'Programmed',
+  InProgress = 'InProgress',
+  Payed      = 'Payed',
+  Failed     = 'Failed',
+  Suspended  = 'Suspended',
+  Canceled   = 'Canceled',
 }
 
 
 export const PaymentOrderStatusList: Identifiable<PaymentOrderStatus>[] = [
-  { uid: PaymentOrderStatus.Capture,   name: 'Capturado' },
-  { uid: PaymentOrderStatus.OnPayment, name: 'En proceso' },
-  { uid: PaymentOrderStatus.Payed,     name: 'Pagado' },
-  { uid: PaymentOrderStatus.Deleted,   name: 'Eliminado' },
+  { uid: PaymentOrderStatus.Pending,    name: 'Pendiente' },
+  { uid: PaymentOrderStatus.Programmed, name: 'Programada' },
+  { uid: PaymentOrderStatus.InProgress, name: 'En progreso' },
+  { uid: PaymentOrderStatus.Payed,      name: 'Pagada' },
+  { uid: PaymentOrderStatus.Failed,     name: 'Envío fallido' },
+  { uid: PaymentOrderStatus.Suspended,  name: 'Suspendida' },
+  { uid: PaymentOrderStatus.Canceled,   name: 'Cancelada' },
 ];
 
 
@@ -95,11 +99,13 @@ export interface PaymentOrderDescriptor extends BasePaymentDescriptor {
   paymentOrderNo: string;
   payTo: string;
   debtor: string;
+  paymentDescription: string;
   paymentMethod: string;
   paymentAccount: string;
   currencyCode: string;
   total: number;
   dueTime: DateString;
+  recordedBy: string;
   requestedBy: string;
   requestedTime: DateString;
   priorityName: string;
@@ -160,6 +166,7 @@ export interface PaymentOrder {
   budget: Identifiable;
   payTo: Identifiable;
   debtor: Identifiable;
+  recordedBy: Identifiable;
   requestedBy: Identifiable;
   requestedDate: DateString;
   dueTime: DateString;
@@ -280,6 +287,7 @@ export const EmptyPaymentOrder: PaymentOrder = {
   paymentOrderNo: '',
   paymentOrderType: Empty,
   description: '',
+  recordedBy: Empty,
   requestedBy: Empty,
   payTo: Empty,
   debtor: Empty,
@@ -318,11 +326,13 @@ export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderHold
     paymentOrderNo: data.paymentOrder.paymentOrderNo,
     payTo: data.paymentOrder.payTo.name,
     debtor: data.paymentOrder.debtor.name,
+    paymentDescription: data.payableEntity.description,
     paymentMethod: data.paymentOrder.paymentMethod.name,
     paymentAccount: data.paymentOrder.paymentAccount.accountNo,
     currencyCode: data.paymentOrder.currency.name,
     total: data.paymentOrder.total,
     dueTime: data.paymentOrder.dueTime,
+    recordedBy: data.paymentOrder.recordedBy.name,
     requestedBy: data.paymentOrder.requestedBy.name,
     requestedTime: data.paymentOrder.requestedDate,
     priorityName: getPriorityName(data.paymentOrder.priority),

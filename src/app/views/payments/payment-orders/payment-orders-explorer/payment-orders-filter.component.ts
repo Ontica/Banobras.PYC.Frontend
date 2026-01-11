@@ -34,7 +34,7 @@ interface PaymentOrdersFilterFormModel extends FormGroup<{
   status: FormControl<PaymentOrderStatus>;
   requesterOrgUnitUID: FormControl<string>;
   paymentOrderTypeUID: FormControl<string>;
-  budgetTypeUID: FormControl<string>;
+  budgetUID: FormControl<string>;
   keywords: FormControl<string>;
   fromDate: FormControl<DateString>;
   toDate: FormControl<DateString>;
@@ -67,7 +67,7 @@ export class PaymentOrdersFilterComponent implements OnChanges, OnInit, OnDestro
 
   paymentOrderTypesList: Identifiable[] = [];
 
-  budgetTypesList: Identifiable[] = [];
+  budgetTypesList: BudgetType[] = [];
 
   helper: SubscriptionHelper;
 
@@ -123,7 +123,7 @@ export class PaymentOrdersFilterComponent implements OnChanges, OnInit, OnDestro
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.payments }),
       this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
-      this.helper.select<BudgetType[]>(PaymentsStateSelector.PAYMENT_ORDER_TYPES),
+      this.helper.select<Identifiable[]>(PaymentsStateSelector.PAYMENT_ORDER_TYPES),
     ])
     .subscribe(([a, b, c]) => {
       this.orgUnitsList = a;
@@ -140,7 +140,7 @@ export class PaymentOrdersFilterComponent implements OnChanges, OnInit, OnDestro
     this.form = fb.group({
       status: [null],
       requesterOrgUnitUID: [null],
-      budgetTypeUID: [null],
+      budgetUID: [null],
       paymentOrderTypeUID: [null],
       keywords: [null],
       fromDate: [null],
@@ -153,7 +153,7 @@ export class PaymentOrdersFilterComponent implements OnChanges, OnInit, OnDestro
     this.form.reset({
       status: this.query.status,
       requesterOrgUnitUID: this.query.requesterOrgUnitUID,
-      budgetTypeUID: this.query.budgetTypeUID,
+      budgetUID: this.query.budgetUID,
       paymentOrderTypeUID: this.query.paymentOrderTypeUID,
       keywords: this.query.keywords,
       fromDate: this.query.fromDate,
@@ -166,15 +166,14 @@ export class PaymentOrdersFilterComponent implements OnChanges, OnInit, OnDestro
     const query: PaymentOrdersQuery = {
       status: this.form.value.status ?? null,
       requesterOrgUnitUID: this.form.value.requesterOrgUnitUID ?? null,
-      paymentOrderTypeUID: this.form.value.paymentOrderTypeUID ?? null,
       keywords: this.form.value.keywords ?? null,
       fromDate: this.form.value.fromDate,
       toDate: this.form.value.toDate,
+      paymentOrderTypeUID: this.form.value.paymentOrderTypeUID ?? null,
+      budgetUID: this.form.value.budgetUID ?? null,
 
-      budgetTypeUID: this.form.value.budgetTypeUID ?? null,
-      payToUID: null,
       paymentMethodUID: null,
-      budgetUID: null,
+      payToUID: null,
     };
 
     return query;

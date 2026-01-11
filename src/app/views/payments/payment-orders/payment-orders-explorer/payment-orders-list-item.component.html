@@ -13,8 +13,8 @@
       <a class="bold-text">{{item.paymentOrderNo}}</a>
     </div>
     <div class="bold-text">{{item.paymentOrderTypeName}}</div>
-    <div empNgTextTruncateToggle [text]="item.payTo" [maxLines]="2">
-      {{item.payTo}}
+    <div empNgTextTruncateToggle [text]="item.requestedBy" [maxLines]="2">
+      {{!item.requestedBy ? '-' : item.requestedBy}}
     </div>
   </div>
 
@@ -27,14 +27,14 @@
   </div>
 
   <div class="fx-item">
-    <div class="list-item-text-highlight">
-      {{!item.debtor ? '-' : item.debtor}}
+    <div class="list-item-text-highlight" empNgTextTruncateToggle [text]="item.payTo" [maxLines]="2">
+      {{item.payTo}}
     </div>
     <div class="bold-text">
-      {{!item.requestedBy ? '-' : item.requestedBy}}
+      {{!item.recordedBy ? '-' : item.recordedBy}}
     </div>
     <div>
-      {{!item.requestedTime ? '-' : (item.requestedTime | empDateTimeFormat: 'DMY HH:mm')}}
+      {{!item.paymentDescription ? '-' : item.paymentDescription}}
     </div>
   </div>
 
@@ -43,11 +43,11 @@
       [ngClass]="{'tag-base-error': item.statusName | empIsErrorStatus}">
       {{item.statusName}}
     </span>
-    <div [style.margin-top.rem]="0.5">
+    <div [style.margin-top.px]="4">
       {{item.priorityName}}
     </div>
-    <div>
-      {{!item.dueTime ? '-' : (item.dueTime | empDateTimeFormat: 'DMY HH:mm')}}
+    <div class="nowrap" [style.margin-top.px]="4">
+      {{!item.requestedTime ? '-' : (item.requestedTime | empDateTimeFormat: 'DMY HH:mm')}}
     </div>
   </div>
 

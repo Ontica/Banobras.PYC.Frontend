@@ -99,14 +99,14 @@
 
           <div class="fx-item-quarter">
 
-            <label>Tipo de presupuesto:</label>
+            <label>Presupuesto:</label>
 
             <emp-ng-select
-              formControlName="budgetTypeUID"
-              [config]="{clearable: true}"
+              formControlName="budgetUID"
+              [config]="{clearable: true, groupBy: 'budgets', showTooltip: true}"
               [items]="budgetTypesList"
               [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
+              [showError]="formHelper.isControlInvalid(form.controls.budgetUID)"
               placeholder="Todos">
             </emp-ng-select>
 
