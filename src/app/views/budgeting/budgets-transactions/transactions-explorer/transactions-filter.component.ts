@@ -23,9 +23,8 @@ import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { SearcherAPIS } from '@app/data-services';
 
-import { Budget, BudgetTransactionsQuery, BudgetType, DateRange, EmptyBudgetTransactionsQuery, EmptyDateRange,
-         RequestsList, TransactionDateType, TransactionDateTypesList, TransactionPartyType,
-         TransactionPartyTypesList, TransactionStages, TransactionStatus,
+import { BudgetTransactionsQuery, BudgetType, DateRange, EmptyBudgetTransactionsQuery, EmptyDateRange,
+         RequestsList, TransactionPartyType, TransactionPartyTypesList, TransactionStages, TransactionStatus,
          TransactionStatusList } from '@app/models';
 
 
@@ -38,13 +37,11 @@ interface TransactionsFilterFormModel extends FormGroup<{
   operationSourceUID: FormControl<string>;
   status: FormControl<TransactionStatus>;
   keywords: FormControl<string>;
-  budgetTypeUID: FormControl<string>;
   baseBudgetUID: FormControl<string>;
   transactionTypeUID: FormControl<string>;
   transactionsNo: FormControl<string[]>;
   entriesKeywords: FormControl<string>;
   tags: FormControl<string[]>;
-  dateType: FormControl<TransactionDateType>;
   datePeriod: FormControl<DateRange>;
   basePartyUID: FormControl<string>;
   partyType: FormControl<TransactionPartyType>;
@@ -80,11 +77,7 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
 
   budgetTypesList: BudgetType[] = [];
 
-  budgetsList: Budget[] = [];
-
   transactionTypesList: Identifiable[] = [];
-
-  dateTypesList: Identifiable<TransactionDateType>[] = TransactionDateTypesList;
 
   orgUnitsList: Identifiable[] = [];
 
@@ -117,14 +110,6 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
 
   ngOnDestroy() {
     this.helper.destroy();
-  }
-
-
-  onBudgetTypeChanged(budgetType: BudgetType) {
-    this.form.controls.baseBudgetUID.reset();
-    this.form.controls.transactionTypeUID.reset();
-    this.budgetsList = budgetType?.budgets ?? [];
-    this.transactionTypesList = budgetType?.transactionTypes ?? [];
   }
 
 
@@ -166,13 +151,15 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.budgeting }),
+      this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TRANSACTION_TYPES),
       this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
       this.helper.select<Identifiable[]>(BudgetingStateSelector.OPERATION_SOURCES),
     ])
-    .subscribe(([a, b, c]) => {
+    .subscribe(([a, b, c, d]) => {
       this.orgUnitsList = a;
-      this.budgetTypesList = b;
-      this.operationSourcesList = c;
+      this.transactionTypesList = b;
+      this.budgetTypesList = c;
+      this.operationSourcesList = d;
       this.isLoading = false;
     });
   }
@@ -185,13 +172,11 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
       transactionTypeUID: [null],
       status: [null],
       keywords: [null],
-      budgetTypeUID: [null],
       baseBudgetUID: [null],
       operationSourceUID: [null],
       entriesKeywords: [null],
       transactionsNo: [null],
       tags: [null],
-      dateType: [TransactionDateType.Requested],
       datePeriod: [EmptyDateRange],
       basePartyUID: [null],
       partyType: [TransactionPartyType.RequestedBy],
@@ -205,13 +190,11 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
       transactionTypeUID: this.query.transactionTypeUID,
       status: this.query.status,
       keywords: this.query.keywords,
-      budgetTypeUID: this.query.budgetTypeUID,
       baseBudgetUID: this.query.baseBudgetUID,
       operationSourceUID: this.query.operationSourceUID,
       entriesKeywords: this.query.entriesKeywords,
       transactionsNo: this.query.transactionsNo,
       tags: this.query.tags,
-      dateType: this.query.dateType ?? TransactionDateType.Requested,
       datePeriod: { fromDate: this.query.fromDate ?? null, toDate: this.query.toDate ?? null },
       basePartyUID: this.query.basePartyUID,
       partyType: this.query.partyType ?? TransactionPartyType.RequestedBy,
@@ -228,13 +211,11 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
       status: this.form.value.status ?? null,
       transactionTypeUID: this.form.value.transactionTypeUID ?? null,
       keywords: this.form.value.keywords ?? null,
-      budgetTypeUID: this.form.value.budgetTypeUID ?? null,
       baseBudgetUID: this.form.value.baseBudgetUID ?? null,
       operationSourceUID: this.form.value.operationSourceUID ?? null,
       entriesKeywords: this.form.value.entriesKeywords ?? null,
       transactionsNo: this.form.value.transactionsNo ?? null,
       tags: this.form.value.tags ?? null,
-      dateType: this.form.value.dateType ?? null,
       fromDate: this.form.value.datePeriod?.fromDate ?? '',
       toDate: this.form.value.datePeriod?.toDate ?? '',
       basePartyUID: this.form.value.basePartyUID ?? null,

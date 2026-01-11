@@ -9,7 +9,7 @@ import { DateString, Empty, Identifiable } from '@app/core';
 
 import { DataTable } from './base/data-table';
 
-import { ExplorerOperation, ExplorerOperationType } from './base/explorer-data';
+import { ExplorerOperation } from './base/explorer-data';
 
 import { BillsStructure, EmptyBillsStructure } from './bills';
 
@@ -19,7 +19,7 @@ import { Document } from './documents';
 
 import { HistoryEntry } from './history';
 
-import { TransactionDateType, TransactionEntryItemType, TransactionEntryType, TransactionPartyType,
+import { TransactionEntryItemType, TransactionEntryType, TransactionPartyType,
          TransactionStages, TransactionStatus } from './transactions';
 
 import { TaxEntry } from './taxes';
@@ -68,14 +68,12 @@ export interface BudgetTransactionsQuery {
   status: TransactionStatus;
   basePartyUID: string;
   keywords: string;
-  budgetTypeUID: string;
   baseBudgetUID: string;
   transactionTypeUID: string;
   operationSourceUID: string;
   entriesKeywords: string;
   transactionsNo: string[];
   tags: string[];
-  dateType: TransactionDateType;
   fromDate: DateString;
   toDate: DateString;
   partyType: TransactionPartyType;
@@ -337,13 +335,11 @@ export const EmptyBudgetTransactionsQuery: BudgetTransactionsQuery = {
   status: null,
   transactionTypeUID: '',
   keywords: '',
-  budgetTypeUID: '',
   baseBudgetUID: '',
   operationSourceUID: '',
   transactionsNo: [],
   entriesKeywords: '',
   tags: [],
-  dateType: TransactionDateType.Requested,
   fromDate: '',
   toDate: '',
   partyType: TransactionPartyType.RequestedBy,

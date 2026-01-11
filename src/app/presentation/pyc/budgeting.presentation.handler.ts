@@ -15,18 +15,20 @@ import { BudgetsDataService, BudgetTransactionsDataService } from '@app/data-ser
 
 
 export enum SelectorType {
+  BUDGET_TRANSACTION_TYPES = 'PYC.Budgeting.Selector.BudgetTransactionTypes.List',
   BUDGET_TYPES             = 'PYC.Budgeting.Selector.BudgetTypes.List',
   BUDGET_TYPES_FOR_EDITION = 'PYC.Budgeting.Selector.BudgetTypesForEdition.List',
-  SEGMENT_ITEMS_BY_TYPE    = 'PYC.Budgeting.Selector.SegmentItemsByType.List',
   OPERATION_SOURCES        = 'PYC.Budgeting.Selector.OperationSources.List',
+  SEGMENT_ITEMS_BY_TYPE    = 'PYC.Budgeting.Selector.SegmentItemsByType.List',
 }
 
 
 const initialState: StateValues = [
-  { key: SelectorType.BUDGET_TYPES,             value: [] },
+  { key: SelectorType.BUDGET_TRANSACTION_TYPES, value: [] },
   { key: SelectorType.BUDGET_TYPES_FOR_EDITION, value: [] },
-  { key: SelectorType.SEGMENT_ITEMS_BY_TYPE,    value: new Cache<Identifiable[]>() },
+  { key: SelectorType.BUDGET_TYPES,             value: [] },
   { key: SelectorType.OPERATION_SOURCES,        value: [] },
+  { key: SelectorType.SEGMENT_ITEMS_BY_TYPE,    value: new Cache<Identifiable[]>() },
 ];
 
 
@@ -46,14 +48,26 @@ export class BudgetingPresentationHandler extends AbstractPresentationHandler {
 
     switch (selectorType) {
 
-      case SelectorType.BUDGET_TYPES: {
-        const provider = () => this.budgetsData.getBudgetTypes();
+      case SelectorType.BUDGET_TRANSACTION_TYPES: {
+        const provider = () => this.transactionsData.getBudgetTransactionTypes();
 
         return super.selectFirst<U>(selectorType, provider);
       }
 
       case SelectorType.BUDGET_TYPES_FOR_EDITION: {
         const provider = () => this.transactionsData.getBudgetTypesForTransactionEdition();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.BUDGET_TYPES: {
+        const provider = () => this.budgetsData.getBudgetTypes();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.OPERATION_SOURCES: {
+        const provider = () => this.transactionsData.getOperationSources();
 
         return super.selectFirst<U>(selectorType, provider);
       }
@@ -66,12 +80,6 @@ export class BudgetingPresentationHandler extends AbstractPresentationHandler {
         const dataProvider = () => this.budgetsData.getSegmentItemsByType(segmentType);
 
         return super.selectMemoized(selectorType, dataProvider, segmentType, []);
-      }
-
-      case SelectorType.OPERATION_SOURCES: {
-        const provider = () => this.transactionsData.getOperationSources();
-
-        return super.selectFirst<U>(selectorType, provider);
       }
 
       default:

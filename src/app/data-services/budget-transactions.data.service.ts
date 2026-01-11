@@ -25,6 +25,14 @@ export class BudgetTransactionsDataService {
 
 
   //#region CATALOGUES
+
+  getBudgetTransactionTypes(): EmpObservable<Identifiable[]> {
+    const path = `v2/budgeting/transaction-types`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   getBudgetTypesForTransactionEdition(): EmpObservable<BudgetTypeForEdition[]> {
     const path = `v2/budgeting/budget-types/for-transaction-edition`;
 

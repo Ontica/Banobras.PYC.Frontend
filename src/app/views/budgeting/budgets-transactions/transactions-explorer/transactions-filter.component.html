@@ -74,39 +74,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-quarter">
-
-        <label>Tipo de presupuesto:</label>
-
-        <emp-ng-select
-          formControlName="budgetTypeUID"
-          [config]="{clearable: true}"
-          [items]="budgetTypesList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.budgetTypeUID)"
-          placeholder="Todos"
-          (changes)="onBudgetTypeChanged($event)">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-quarter">
-
-        <label>Presupuesto:</label>
-
-        <emp-ng-select
-          formControlName="baseBudgetUID"
-          [config]="{clearable: true, notFoundText: 'Seleccione el tipo de presupuesto'}"
-          [items]="budgetsList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.baseBudgetUID)"
-          placeholder="Todos">
-        </emp-ng-select>
-
-      </div>
-
-
-      <div  class="fx-item-quarter">
+      <div  class="fx-item-half">
 
         <label>Tipo de transacción:</label>
 
@@ -121,18 +89,34 @@
 
       </div>
 
-      <div class="fx-item-quarter">
+      <div class="fx-item-size" style="--size: calc(50% - 221px)">
 
-        <label>Fuente:</label>
+        <label>Presupuesto:</label>
 
         <emp-ng-select
-          formControlName="operationSourceUID"
-          [config]="{clearable: true}"
-          [items]="operationSourcesList"
+          formControlName="baseBudgetUID"
+          [config]="{clearable: true, groupBy: 'budgets', showTooltip: true}"
+          [items]="budgetTypesList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.operationSourceUID)"
-          placeholder="Todas">
+          [showError]="formHelper.isControlInvalid(form.controls.baseBudgetUID)"
+          placeholder="Todos">
         </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-none">
+
+        <div class="fx-item-none">
+
+          <label>Periodo:</label>
+
+          <emp-ng-date-range-picker
+            formControlName="datePeriod"
+            [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
+
+          </emp-ng-date-range-picker>
+
+        </div>
 
       </div>
 
@@ -168,37 +152,6 @@
 
           </div>
 
-          <div class="fx-item-half fx-row-container">
-
-            <div class="fx-item-none">
-
-              <label>Periodo:</label>
-
-              <emp-ng-date-range-picker
-                formControlName="datePeriod"
-                [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
-
-              </emp-ng-date-range-picker>
-
-            </div>
-
-            <div class="fx-item" [style.paddingTop.px]="10.5">
-
-              <emp-ng-select
-                formControlName="dateType"
-                [items]="dateTypesList"
-                [showError]="formHelper.isControlInvalid(form.controls.dateType)">
-              </emp-ng-select>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="fx-row-container">
-
           <div class="fx-item-quarter">
 
             <label>Etiquetas:</label>
@@ -209,6 +162,25 @@
             </emp-ng-input-tags>
 
           </div>
+
+          <div class="fx-item-quarter">
+
+            <label>Fuente:</label>
+
+            <emp-ng-select
+              formControlName="operationSourceUID"
+              [config]="{clearable: true}"
+              [items]="operationSourcesList"
+              [loading]="isLoading"
+              [showError]="formHelper.isControlInvalid(form.controls.operationSourceUID)"
+              placeholder="Todas">
+            </emp-ng-select>
+
+          </div>
+
+        </div>
+
+        <div class="fx-row-container">
 
           <div class="fx-item-size" style="--size: 138px;" [style.paddingTop.px]="10.5">
 
@@ -223,7 +195,7 @@
 
           </div>
 
-          <div class="fx-item-size" style="--size: calc(75% - 138px);">
+          <div class="fx-item-size" style="--size: calc(100% - 138px);">
 
             <label>Persona o cuenta de acceso:</label>
 
