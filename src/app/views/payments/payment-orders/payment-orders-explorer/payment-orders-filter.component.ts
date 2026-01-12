@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { combineLatest } from 'rxjs';
 
-import { DateString, EventInfo, Identifiable } from '@app/core';
+import { EventInfo, Identifiable } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -21,8 +21,8 @@ import { BudgetingStateSelector, CataloguesStateSelector,
 
 import { empExpandCollapse, FormHelper, sendEvent } from '@app/shared/utils';
 
-import { BudgetType, EmptyPaymentOrdersQuery, PaymentOrdersQuery, PaymentOrderStatus, PaymentOrderStatusList,
-         RequestsList } from '@app/models';
+import { BudgetType, DateRange, EmptyDateRange, EmptyPaymentOrdersQuery, PaymentOrdersQuery,
+         PaymentOrderStatus, PaymentOrderStatusList, RequestsList } from '@app/models';
 
 
 export enum PaymentOrdersFilterEventType {
@@ -34,10 +34,10 @@ interface PaymentOrdersFilterFormModel extends FormGroup<{
   status: FormControl<PaymentOrderStatus>;
   requesterOrgUnitUID: FormControl<string>;
   paymentOrderTypeUID: FormControl<string>;
+  paymentMethod: FormControl<string>;
   budgetUID: FormControl<string>;
+  datePeriod: FormControl<DateRange>;
   keywords: FormControl<string>;
-  fromDate: FormControl<DateString>;
-  toDate: FormControl<DateString>;
 }> { }
 
 @Component({
@@ -68,6 +68,8 @@ export class PaymentOrdersFilterComponent implements OnChanges, OnInit, OnDestro
   paymentOrderTypesList: Identifiable[] = [];
 
   budgetTypesList: BudgetType[] = [];
+
+  paymentMethodsList: Identifiable[] = [];
 
   helper: SubscriptionHelper;
 
@@ -124,11 +126,13 @@ export class PaymentOrdersFilterComponent implements OnChanges, OnInit, OnDestro
         { requestsList: RequestsList.payments }),
       this.helper.select<BudgetType[]>(BudgetingStateSelector.BUDGET_TYPES),
       this.helper.select<Identifiable[]>(PaymentsStateSelector.PAYMENT_ORDER_TYPES),
+      this.helper.select<Identifiable[]>(CataloguesStateSelector.PAYMENTS_METHODS),
     ])
-    .subscribe(([a, b, c]) => {
+    .subscribe(([a, b, c, d]) => {
       this.orgUnitsList = a;
       this.budgetTypesList = b;
       this.paymentOrderTypesList = c;
+      this.paymentMethodsList = d;
       this.isLoading = false;
     });
   }
@@ -142,9 +146,9 @@ export class PaymentOrdersFilterComponent implements OnChanges, OnInit, OnDestro
       requesterOrgUnitUID: [null],
       budgetUID: [null],
       paymentOrderTypeUID: [null],
+      paymentMethod: [null],
       keywords: [null],
-      fromDate: [null],
-      toDate: [null],
+      datePeriod: [EmptyDateRange],
     });
   }
 
@@ -155,9 +159,9 @@ export class PaymentOrdersFilterComponent implements OnChanges, OnInit, OnDestro
       requesterOrgUnitUID: this.query.requesterOrgUnitUID,
       budgetUID: this.query.budgetUID,
       paymentOrderTypeUID: this.query.paymentOrderTypeUID,
+      paymentMethod: this.query.paymentMethodUID,
       keywords: this.query.keywords,
-      fromDate: this.query.fromDate,
-      toDate: this.query.toDate,
+      datePeriod: { fromDate: this.query.fromDate ?? null, toDate: this.query.toDate ?? null },
     });
   }
 
@@ -167,12 +171,12 @@ export class PaymentOrdersFilterComponent implements OnChanges, OnInit, OnDestro
       status: this.form.value.status ?? null,
       requesterOrgUnitUID: this.form.value.requesterOrgUnitUID ?? null,
       keywords: this.form.value.keywords ?? null,
-      fromDate: this.form.value.fromDate,
-      toDate: this.form.value.toDate,
+      fromDate: this.form.value.datePeriod?.fromDate ?? '',
+      toDate: this.form.value.datePeriod?.toDate ?? '',
       paymentOrderTypeUID: this.form.value.paymentOrderTypeUID ?? null,
+      paymentMethodUID: this.form.value.paymentMethod ?? null,
       budgetUID: this.form.value.budgetUID ?? null,
 
-      paymentMethodUID: null,
       payToUID: null,
     };
 

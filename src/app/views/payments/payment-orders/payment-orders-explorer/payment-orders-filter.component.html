@@ -59,14 +59,79 @@
 
         </button>
 
-        <mat-divider vertical="true" class="vertical-slim">
+        <!-- <mat-divider vertical="true" class="vertical-slim">
 
         </mat-divider>
 
         <button class="btn-base btn-filter-options"
           (click)="onShowFiltersClicked()" >
           {{showFilters ? 'Ocultar' :'Mostrar'}} <mat-icon>filter_list</mat-icon>
-        </button>
+        </button> -->
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-quarter">
+
+        <label>Tipo de solicitud:</label>
+
+        <emp-ng-select
+          formControlName="paymentOrderTypeUID"
+          [config]="{clearable: true}"
+          [items]="paymentOrderTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.paymentOrderTypeUID)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Presupuesto:</label>
+
+        <emp-ng-select
+          formControlName="budgetUID"
+          [config]="{clearable: true, groupBy: 'budgets', showTooltip: true}"
+          [items]="budgetTypesList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetUID)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-size" style="--size: calc(50% - 221px)">
+
+        <label>Método de pago:</label>
+
+        <emp-ng-select
+          formControlName="paymentMethod"
+          [config]="{clearable: true}"
+          [items]="paymentMethodsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.paymentMethod)"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-none">
+
+        <div class="fx-item-none">
+
+          <label>Periodo:</label>
+
+          <emp-ng-date-range-picker
+            formControlName="datePeriod"
+            [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
+
+          </emp-ng-date-range-picker>
+
+        </div>
 
       </div>
 
@@ -82,57 +147,7 @@
 
         <div class="fx-row-container">
 
-          <div class="fx-item-quarter">
-
-            <label>Tipo de solicitud:</label>
-
-            <emp-ng-select
-              formControlName="paymentOrderTypeUID"
-              [config]="{clearable: true}"
-              [items]="paymentOrderTypesList"
-              [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.paymentOrderTypeUID)"
-              placeholder="Todos">
-            </emp-ng-select>
-
-          </div>
-
-          <div class="fx-item-quarter">
-
-            <label>Presupuesto:</label>
-
-            <emp-ng-select
-              formControlName="budgetUID"
-              [config]="{clearable: true, groupBy: 'budgets', showTooltip: true}"
-              [items]="budgetTypesList"
-              [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.budgetUID)"
-              placeholder="Todos">
-            </emp-ng-select>
-
-          </div>
-
-          <div class="fx-item-none">
-
-            <label>Del día:</label>
-            <emp-ng-datepicker
-              formControlName="fromDate"
-              [showError]="formHelper.isControlInvalid(form.controls.fromDate)">
-
-            </emp-ng-datepicker>
-
-          </div>
-
-          <div class="fx-item-none">
-
-            <label>Al día:</label>
-            <emp-ng-datepicker
-              formControlName="toDate"
-              [showError]="formHelper.isControlInvalid(form.controls.toDate)">
-
-            </emp-ng-datepicker>
-
-          </div>
+          <!-- Filtros adicionales -->
 
         </div>
 
