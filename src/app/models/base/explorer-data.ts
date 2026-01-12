@@ -45,6 +45,7 @@ export const EntityStatusList: Identifiable<EntityStatus>[] = [
 
 
 const WarningStatus = [
+  'Cancelada',
   'Descontinuada',
   'Eliminada',
   'Fallida',
@@ -52,6 +53,7 @@ const WarningStatus = [
   'Rechazada',
   'Suspendida',
 
+  'Cancelado',
   'Descontinuado',
   'Eliminado',
   'Fallido',
