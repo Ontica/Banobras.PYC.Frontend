@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { combineLatest } from 'rxjs';
 
-import { DateString, EventInfo, Identifiable } from '@app/core';
+import { EventInfo, Identifiable } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -20,8 +20,8 @@ import { CataloguesStateSelector, PaymentsStateSelector } from '@app/presentatio
 
 import { FormHelper, sendEvent, empExpandCollapse } from '@app/shared/utils';
 
-import { EmptyPaymentInstructionsQuery, PaymentInstructionStatusList, PaymentInstructionsQuery,
-         PaymentInstructionsStatus, RequestsList } from '@app/models';
+import { DateRange, EmptyDateRange, EmptyPaymentInstructionsQuery, PaymentInstructionStatusList,
+         PaymentInstructionsQuery, PaymentInstructionsStatus, RequestsList } from '@app/models';
 
 
 export enum PaymentInstructionsFilterEventType {
@@ -35,8 +35,7 @@ interface PaymentInstructionsFilterFormModel extends FormGroup<{
   paymentOrderType: FormControl<string>;
   paymentMethod: FormControl<string>;
   keywords: FormControl<string>;
-  fromDate: FormControl<DateString>;
-  toDate: FormControl<DateString>;
+  datePeriod: FormControl<DateRange>;
 }> { }
 
 @Component({
@@ -142,8 +141,7 @@ export class PaymentInstructionsFilterComponent implements OnChanges, OnInit, On
       paymentOrderType: [null],
       paymentMethod: [null],
       keywords: [null],
-      fromDate: [null],
-      toDate: [null],
+      datePeriod: [EmptyDateRange],
     });
   }
 
@@ -155,8 +153,7 @@ export class PaymentInstructionsFilterComponent implements OnChanges, OnInit, On
       paymentOrderType: this.query.paymentOrderTypeUID,
       paymentMethod: this.query.paymentMethodUID,
       keywords: this.query.keywords,
-      fromDate: this.query.fromDate,
-      toDate: this.query.toDate,
+      datePeriod: { fromDate: this.query.fromDate ?? null, toDate: this.query.toDate ?? null },
     });
   }
 
@@ -168,8 +165,8 @@ export class PaymentInstructionsFilterComponent implements OnChanges, OnInit, On
       paymentOrderTypeUID: this.form.value.paymentOrderType ?? null,
       paymentMethodUID: this.form.value.paymentMethod ?? null,
       keywords: this.form.value.keywords ?? null,
-      fromDate: this.form.value.fromDate,
-      toDate: this.form.value.toDate,
+      fromDate: this.form.value.datePeriod?.fromDate ?? '',
+      toDate: this.form.value.datePeriod?.toDate ?? '',
     };
 
     return query;
