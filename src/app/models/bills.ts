@@ -130,6 +130,7 @@ export interface BillsStructure {
   bills: Bill[],
   taxes: TaxEntry[];
   subtotal: number;
+  discounts: number;
   total: number;
 }
 
@@ -212,6 +213,7 @@ export const EmptyBillsStructure: BillsStructure = {
   bills: [],
   taxes: [],
   subtotal: null,
+  discounts: null,
   total: null,
 };
 

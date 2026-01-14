@@ -228,6 +228,17 @@ table.mat-mdc-table {
       width: auto;
     }
 
+    &.column-wrap {
+      max-width: 30%;
+      overflow: hidden;
+    }
+
+    &.column-wrap > div {
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
     &.column-action {
       text-align: center;
       width: $grid-row-height !important;
