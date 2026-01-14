@@ -11,9 +11,10 @@ import { PERMISSIONS } from '@app/main-layout';
 type ControlPanelOptionType = 'ChangePassword' |
                               'OperationsLog' |
                               'BudgetPlanningPeriods' |
-                              'PayrollsIntegration' |
                               'CUCoP' |
-                              'PaymentsTimeControl';
+                              'GenerateVouchers' |
+                              'PaymentsTimeControl' |
+                              'PayrollsIntegration';
 
 
 export interface ControlPanelOption {
@@ -67,5 +68,12 @@ export const ControlPanelOptionList: ControlPanelOption[] = [
     actionTitle: 'Administrar',
     type: 'PaymentsTimeControl',
     permission: PERMISSIONS.FEATURE_CONTROL_DE_HORARIO_DE_PAGOS,
+  },
+  {
+    title: 'Generar pólizas contables',
+    description: 'Herramienta para generar las pólizas contables pendientes del sistema de control presupuestal y del sistema de pagos.',
+    actionTitle: 'Generar',
+    type: 'GenerateVouchers',
+    permission: PERMISSIONS.FEATURE_GENERAR_POLIZAS_CONTABLES,
   },
 ];

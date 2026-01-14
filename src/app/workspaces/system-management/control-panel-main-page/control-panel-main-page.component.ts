@@ -28,6 +28,8 @@ export class ControlPanelMainPageComponent {
 
   displayPayrollsModal = false;
 
+  displayVouchersGenerator = false;
+
   controlPanelOptionList = ControlPanelOptionList;
 
 
@@ -50,6 +52,9 @@ export class ControlPanelMainPageComponent {
         return;
       case 'PayrollsIntegration':
         this.displayPayrollsModal = true;
+        return;
+      case 'GenerateVouchers':
+        this.displayVouchersGenerator = true;
         return;
       default:
         this.messageBox.showInDevelopment(option.title, option)

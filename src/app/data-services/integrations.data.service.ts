@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { EntityStatus, FileReport, PayrollDescriptor, PayrollsQuery } from '@app/models';
+import { EntityStatus, ExplorerOperationResult, FileReport, PayrollDescriptor,
+         PayrollsQuery } from '@app/models';
 
 
 @Injectable()
@@ -44,6 +45,15 @@ export class IntegrationsDataService {
     const path = `v2/pyc/integration/sial/payrolls/${payrollUID}/update-status/${status}`;
 
     return this.http.put<PayrollDescriptor>(path, null);
+  }
+  //#endregion
+
+
+  //#region VOUCHERS (SICOFIN)
+  generateVouchers(): EmpObservable<ExplorerOperationResult> {
+    const path = `v2/pyc/integration/sicofin/vouchers/generate`;
+
+    return this.http.post<ExplorerOperationResult>(path);
   }
   //#endregion
 

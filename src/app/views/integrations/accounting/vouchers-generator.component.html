@@ -1,0 +1,36 @@
+<emp-ng-modal-window
+  [config]="{width:'500px'}">
+
+  <emp-ng-card
+    [heading]="title"
+    [showHint]="false"
+    [headerHighlight]="true"
+    [disableClose]="true">
+
+    <div class="card-body-confirmation">
+
+      Se generarán las pólizas contables pendientes del sistema de control presupuestal y del sistema de pagos.
+
+      <br><br>
+
+      ¿Genero las pólizas?
+
+      <mat-divider [style.margin]="'20px -16px 8px -16px'"></mat-divider>
+
+      <div class="fx-row-container fx-end fx-items-center fx-gap-half">
+
+        <button class="btn-action"
+          [class.spinner]="submitted"
+          (click)="onSubmitButtonClicked()">Generar</button>
+
+        <button class="btn"
+          [disabled]="submitted"
+          (click)="onCloseButtonClicked()">Cancelar</button>
+
+      </div>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>

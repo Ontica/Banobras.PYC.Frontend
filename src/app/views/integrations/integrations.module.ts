@@ -16,6 +16,7 @@ import { ReportsControlsModule } from '../_reports-controls/reports-controls.mod
 import { PayrollsModalComponent } from './payrolls/payrolls-modal.component';
 import { PayrollsFilterComponent } from './payrolls/payrolls-filter.component';
 import { PayrollsTableComponent } from './payrolls/payrolls-table.component';
+import { VouchersGeneratorComponent } from './accounting/vouchers-generator.component';
 
 
 @NgModule({
@@ -33,9 +34,12 @@ import { PayrollsTableComponent } from './payrolls/payrolls-table.component';
     PayrollsModalComponent,
     PayrollsFilterComponent,
     PayrollsTableComponent,
+
+    VouchersGeneratorComponent,
   ],
   exports: [
     PayrollsModalComponent,
+    VouchersGeneratorComponent,
   ]
 })
 export class IntegrationsModule { }

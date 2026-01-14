@@ -119,6 +119,7 @@ export enum PERMISSIONS {
   FEATURE_NOMINAS_INTEGRACION_SIAL = 'feature-nominas-integracion-sial',
   FEATURE_IMPORTACION_CATALOGO_CUCOP = 'feature-importacion-catalogo-cucop',
   FEATURE_CONTROL_DE_HORARIO_DE_PAGOS = 'feature-control-de-horario-de-pagos',
+  FEATURE_GENERAR_POLIZAS_CONTABLES = 'feature-generar-polizas-contables',
 
   // CONTROL DE ACCESOS
   ROUTE_CONTROL_DE_ACCESOS = 'route-control-de-accesos',
