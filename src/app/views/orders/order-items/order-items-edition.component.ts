@@ -46,7 +46,7 @@ export class OrderItemsEditionComponent {
 
   @Input() canEdit = false;
 
-  @Input() displayTaxes = false;
+  @Input() displayTaxes = true;
 
   @Output() orderItemsEditionEvent = new EventEmitter<EventInfo>();
 

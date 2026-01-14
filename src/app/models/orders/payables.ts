@@ -16,6 +16,8 @@ import { Document } from '../documents';
 
 import { HistoryEntry } from '../history';
 
+import { TaxEntry } from '../taxes';
+
 
 export interface PayableOrderDescriptor extends OrderDescriptor {
 
@@ -32,6 +34,7 @@ export interface PayableOrderFields extends OrderFields {
 export interface PayableOrderHolder extends OrderHolder {
   order: PayableOrder;
   items: PayableOrderItem[];
+  taxes: TaxEntry[];
   budgetTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
   history: HistoryEntry[];

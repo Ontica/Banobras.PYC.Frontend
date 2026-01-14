@@ -18,6 +18,8 @@ import { Document } from '../documents';
 
 import { HistoryEntry } from '../history';
 
+import { TaxEntry } from '../taxes';
+
 
 export interface ContractOrderDescriptor extends OrderDescriptor {
   contractNo: string;
@@ -33,6 +35,7 @@ export interface ContractOrderFields extends OrderFields {
 export interface ContractOrderHolder extends OrderHolder {
   order: ContractOrder;
   items: ContractOrderItem[];
+  taxes: TaxEntry[];
   budgetTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
   history: HistoryEntry[];

@@ -28,6 +28,8 @@ import { RequestsList } from '../requests';
 
 import { PaymentInstructionDescriptor } from '../payment-instructions';
 
+import { TaxEntry } from '../taxes';
+
 
 export interface OrderExplorerTypeConfig<T> extends ExplorerTypeConfig<T> {
   requestsList: RequestsList;
@@ -200,6 +202,7 @@ export interface OrderHolder {
   items: OrderItem[];
   orders: OrderDescriptor[];
   bills: BillsStructure;
+  taxes: TaxEntry[];
   paymentOrders: PaymentInstructionDescriptor[];
   budgetTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
@@ -386,6 +389,7 @@ export const EmptyOrderHolder: OrderHolder = {
   budgetTransactions: [],
   orders: [],
   bills: EmptyBillsStructure,
+  taxes: [],
   paymentOrders: [],
   documents: [],
   history: [],

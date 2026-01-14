@@ -108,11 +108,6 @@ export class OrderTabbedViewComponent implements OnChanges {
   }
 
 
-  get taxes(): TaxEntry[] {
-    return this.isRequisition ? (this.data as RequisitionOrderHolder).taxes ?? [] : [];
-  }
-
-
   onCloseButtonClicked() {
     sendEvent(this.orderTabbedViewEvent, OrderTabbedViewEventType.CLOSE_BUTTON_CLICKED);
   }
