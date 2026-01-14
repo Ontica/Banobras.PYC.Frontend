@@ -15,7 +15,7 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { SkipIf } from '@app/shared/decorators';
 
-import { PayrollsIntegrationDataService } from '@app/data-services';
+import { IntegrationsDataService } from '@app/data-services';
 
 import { buildExplorerHint, EmptyPayrollsQuery, EntityStatus, PayrollDescriptor,
          PayrollsQuery } from '@app/models';
@@ -60,7 +60,7 @@ export class PayrollsModalComponent {
   fileUrl = '';
 
 
-  constructor(private payrollsData: PayrollsIntegrationDataService,
+  constructor(private integrationsData: IntegrationsDataService,
               private messageBox: MessageBoxService) { }
 
 
@@ -131,7 +131,7 @@ export class PayrollsModalComponent {
   private searchPayrolls() {
     this.isLoading = true;
 
-    this.payrollsData.searchPayrolls(this.query)
+    this.integrationsData.searchPayrolls(this.query)
       .firstValue()
       .then(x => this.setDataList(x))
       .finally(() => this.isLoading = false);
@@ -139,7 +139,7 @@ export class PayrollsModalComponent {
 
 
   private exportPayrolls(payrollUID: string) {
-    this.payrollsData.exportPayroll(payrollUID)
+    this.integrationsData.exportPayroll(payrollUID)
       .firstValue()
       .then(x => this.fileUrl = x.url);
   }
@@ -148,7 +148,7 @@ export class PayrollsModalComponent {
   private deletePayroll(payrollUID: string) {
     this.submitted = true;
 
-    this.payrollsData.updatePayrollStatus(payrollUID, EntityStatus.Deleted)
+    this.integrationsData.updatePayrollStatus(payrollUID, EntityStatus.Deleted)
       .firstValue()
       .then(x => this.resolveDeletePayroll(x))
       .finally(() => this.submitted = false);
@@ -159,7 +159,7 @@ export class PayrollsModalComponent {
   private restorePayroll(payrollUID: string) {
     this.submitted = true;
 
-    this.payrollsData.updatePayrollStatus(payrollUID, EntityStatus.Pending)
+    this.integrationsData.updatePayrollStatus(payrollUID, EntityStatus.Pending)
       .firstValue()
       .then(x => this.resolveRestorePayroll(x))
       .finally(() => this.submitted = false);

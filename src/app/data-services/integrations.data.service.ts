@@ -13,11 +13,12 @@ import { EntityStatus, FileReport, PayrollDescriptor, PayrollsQuery } from '@app
 
 
 @Injectable()
-export class PayrollsIntegrationDataService {
+export class IntegrationsDataService {
 
   constructor(private http: HttpService) { }
 
 
+  //#region PAYROLLS (SIAL)
   searchPayrolls(query: PayrollsQuery): EmpObservable<PayrollDescriptor[]> {
     Assertion.assertValue(query, 'query');
 
@@ -44,5 +45,6 @@ export class PayrollsIntegrationDataService {
 
     return this.http.put<PayrollDescriptor>(path, null);
   }
+  //#endregion
 
 }

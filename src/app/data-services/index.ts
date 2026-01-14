@@ -45,6 +45,8 @@ export * from './financial-projects.data.service';
 
 export * from './financial-rules.data.service';
 
+export * from './integrations.data.service';
+
 export * from './orders.data.service';
 
 export * from './parties.data.service';
@@ -54,8 +56,6 @@ export * from './payment-instructions.data.service';
 export * from './payment-orders.data.service';
 
 export * from './payment-time-control.data.service';
-
-export * from './payrolls-integration.data.service';
 
 export * from './products.data.service';
 

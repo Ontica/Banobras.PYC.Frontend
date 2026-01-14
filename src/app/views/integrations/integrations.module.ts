@@ -13,9 +13,9 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
-import { PayrollsModalComponent } from './payrolls-modal/payrolls-modal.component';
-import { PayrollsFilterComponent } from './payrolls-modal/payrolls-filter.component';
-import { PayrollsTableComponent } from './payrolls-modal/payrolls-table.component';
+import { PayrollsModalComponent } from './payrolls/payrolls-modal.component';
+import { PayrollsFilterComponent } from './payrolls/payrolls-filter.component';
+import { PayrollsTableComponent } from './payrolls/payrolls-table.component';
 
 
 @NgModule({
@@ -38,4 +38,4 @@ import { PayrollsTableComponent } from './payrolls-modal/payrolls-table.componen
     PayrollsModalComponent,
   ]
 })
-export class PayrollsIntegrationModule { }
+export class IntegrationsModule { }

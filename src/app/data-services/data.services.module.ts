@@ -47,6 +47,8 @@ import { FinancialProjectsDataService } from './financial-projects.data.service'
 
 import { FinancialRulesDataService } from './financial-rules.data.service';
 
+import { IntegrationsDataService } from './integrations.data.service';
+
 import { OrdersDataService } from './orders.data.service';
 
 import { PartiesDataService } from './parties.data.service';
@@ -56,8 +58,6 @@ import { PaymentInstructionsDataService } from './payment-instructions.data.serv
 import { PaymentOrdersDataService } from './payment-orders.data.service';
 
 import { PaymentTimeControlDataService } from './payment-time-control.data.service';
-
-import { PayrollsIntegrationDataService } from './payrolls-integration.data.service';
 
 import { ProductsDataService } from './products.data.service';
 
@@ -95,12 +95,12 @@ import { TaxesDataService } from './taxes.data.service';
     FinancialConceptsDataService,
     FinancialProjectsDataService,
     FinancialRulesDataService,
+    IntegrationsDataService,
     OrdersDataService,
     PartiesDataService,
     PaymentInstructionsDataService,
     PaymentOrdersDataService,
     PaymentTimeControlDataService,
-    PayrollsIntegrationDataService,
     ProductsDataService,
     RequestsDataService,
     SearchServicesDataService,
