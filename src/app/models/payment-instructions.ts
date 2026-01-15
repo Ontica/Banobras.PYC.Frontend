@@ -86,7 +86,6 @@ export interface PaymentInstructionsQuery {
 export interface PaymentInstructionDescriptor extends BasePaymentDescriptor {
   uid: string;
   paymentInstructionNo: string;
-  paymentInstructionTypeName: string;
   paymentOrderNo: string;
   paymentOrderType: string;
   description: string;
@@ -128,7 +127,6 @@ export interface PaymentInstructionHolder {
 export interface PaymentInstruction {
   uid: string;
   paymentInstructionNo: string;
-  paymentInstructionType: Identifiable;
   paymentOrderNo: string;
   paymentOrderType: Identifiable;
   description: string;
@@ -235,7 +233,6 @@ export const EmptyPaymentAccount: PaymentAccount = {
 export const EmptyPaymentInstruction: PaymentInstruction = {
   uid: '',
   paymentInstructionNo: '',
-  paymentInstructionType: Empty,
   paymentOrderNo: '',
   paymentOrderType: Empty,
   description: '',
@@ -285,13 +282,12 @@ export function mapPaymentInstructionDescriptorFromPaymentInstruction(data: Paym
   return {
     uid: data.uid,
     paymentInstructionNo: data.paymentInstructionNo,
-    paymentInstructionTypeName: data.paymentInstructionType.name,
     paymentOrderNo: data.paymentOrderNo,
     paymentOrderType: data.paymentOrderType.name,
     description: data.description,
     payTo: data.payTo.name,
     total: data.total,
-    recordedBy: data.recordedBy.name,
+    recordedBy: data.recordedBy?.name,
     requestedBy: data.requestedBy.name,
     requestedTime: data.requestedTime,
     paymentAccount: data.paymentAccount.accountNo,
