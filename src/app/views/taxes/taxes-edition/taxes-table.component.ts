@@ -75,7 +75,7 @@ export class TaxesTableComponent implements OnChanges {
 
 
   get isEditionValid(): boolean {
-    return !!this.rowInEdition.totalEdit && this.rowInEdition.totalEdit > 0;
+    return !!this.rowInEdition.totalEdit && this.rowInEdition.totalEdit !== 0;
   }
 
 
