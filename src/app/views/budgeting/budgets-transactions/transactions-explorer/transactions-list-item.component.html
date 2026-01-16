@@ -17,8 +17,8 @@
   </div>
 
   <div class="fx-item-size column-size-sm">
-    <div class="list-item-text-highlight">{{transaction.budgetTypeName}}</div>
-    <div class="bold-text">{{transaction.budgetName}}</div>
+    <div class="list-item-text-highlight">{{transaction.budgetName}}</div>
+    <div class="bold-text">{{!!transaction.baseEntityNo ? transaction.baseEntityNo : 'N/D'}}</div>
     <div>{{transaction.total | empDecimal}}</div>
   </div>
 

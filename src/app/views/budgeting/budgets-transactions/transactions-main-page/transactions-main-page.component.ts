@@ -19,7 +19,7 @@ import { ArrayLibrary } from '@app/shared/utils';
 
 import { BudgetTransactionsDataService } from '@app/data-services';
 
-import { BudgetTransactionDescriptor, BudgetTransactionHolder, BudgetTransactionsOperationType,
+import { BaseEntity, BudgetTransactionDescriptor, BudgetTransactionHolder, BudgetTransactionsOperationType,
          BudgetTransactionsQuery, EmptyBudgetTransactionHolder, EmptyBudgetTransactionsQuery,
          EmptyExplorerBulkOperationData, ExplorerBulkOperationData, ExplorerOperationCommand,
          ExplorerOperationResult, mapBudgetTransactionDescriptorFromTransaction,
@@ -271,6 +271,15 @@ export class BudgetTransactionsMainPageComponent implements OnInit,OnDestroy {
 
 
   private setSelectedData(data: BudgetTransactionHolder) {
+    // TODO: quitar este codigo cuando se haga el refactoring del baseEntity
+    const baseEntity: BaseEntity = {
+      ...{},
+      ...data.transaction.baseEntity,
+      ...{type: data.transaction.baseEntityType, entityNo: data.transaction.baseEntityNo},
+    };
+
+    data.transaction.baseEntity = baseEntity;
+    //
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.transaction);
   }
