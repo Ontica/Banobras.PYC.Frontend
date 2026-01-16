@@ -87,11 +87,13 @@ export class PaymentAccountsTableComponent implements OnChanges {
 
 
   private getConfirmMessage(item: PaymentAccount): string {
+    const paymentMethod = `${item.paymentMethod.name}${!!item.accountNo ? ': ' + item.accountNo : ''}`;
+
     return `Esta operación eliminará la cuenta:<br><br>
       <table class='confirm-data'>
         <tr><td class='nowrap'>Tipo: </td><td><strong>${item.accountType.name}</strong></td></tr>
         <tr><td class='nowrap'>Institución: </td><td><strong>${item.institution.name}</strong></td></tr>
-        <tr><td class='nowrap'>No. cuenta: </td><td><strong>${item.accountNo}</strong></td></tr>
+        <tr><td class='nowrap'>Forma de pago: </td><td><strong>${paymentMethod}</strong></td></tr>
         <tr><td class='nowrap'>Beneficiario: </td><td><strong>${item.holderName}</strong></td></tr>
       </table>
      <br>¿Elimino la cuenta?`;

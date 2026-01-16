@@ -5,7 +5,7 @@
 <div class="explorer">
 
   <emp-ng-parties-explorer
-    class="primary priority"
+    class="primary"
     [class.std-hide]="displayTabbedView"
     [config]="config"
     [query]="query"
@@ -18,7 +18,7 @@
 
 
   <emp-ng-party-tabbed-view *ngIf="displayTabbedView"
-    class="secondary std-stacked"
+    class="secondary priority std-stacked"
     [config]="config"
     [data]="selectedData"
     (partyTabbedViewEvent)="onPartyTabbedViewEvent($event)">

@@ -22,15 +22,16 @@ import { Priority, getPriorityName } from './steps';
 
 export interface PaymentAccount {
   uid: string;
+  name: string;
   accountType: Identifiable;
   institution: Identifiable;
   accountNo: string;
+  identificator: string;
   holderName: string;
   paymentMethod: PaymentMethod;
   currency: Identifiable;
   referenceNumber: string;
   askForReferenceNumber: boolean;
-  name: string;
 }
 
 
@@ -38,12 +39,12 @@ export interface PaymentAccountFields {
   accountTypeUID: string;
   institutionUID: string;
   accountNo: string;
+  identificator: string;
   holderName: string;
   paymentMethodUID: string;
   currencyUID: string;
   referenceNumber: string;
   askForReferenceNumber: boolean;
-  name: string;
 }
 
 
@@ -226,13 +227,14 @@ export const EmptyPaymentAccount: PaymentAccount = {
   uid: '',
   name: '',
   accountNo: '',
-  referenceNumber: '',
-  holderName: '',
   accountType: Empty,
-  paymentMethod: EmptyPaymentMethod,
-  currency: Empty,
-  institution: Empty,
   askForReferenceNumber: false,
+  currency: Empty,
+  holderName: '',
+  identificator: '',
+  institution: Empty,
+  paymentMethod: EmptyPaymentMethod,
+  referenceNumber: '',
 }
 
 

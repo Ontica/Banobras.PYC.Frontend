@@ -30,7 +30,7 @@ export enum PaymentAccountEditorEventType {
 }
 
 interface PaymentAccountFormModel extends FormGroup<{
-  name: FormControl<string>;
+  identificator: FormControl<string>;
   accountNo: FormControl<string>;
   holderName: FormControl<string>;
   referenceNumber: FormControl<string>;
@@ -104,8 +104,8 @@ export class PaymentAccountEditorComponent implements OnChanges, OnInit, OnDestr
     if (!this.isSaved) return 'Agregar cuenta';
 
     return this.canUpdate ?
-      `Editar cuenta - ${this.paymentAccount.institution.name}: ${this.paymentAccount.accountNo}` :
-      `Cuenta - ${this.paymentAccount.institution.name}: ${this.paymentAccount.accountNo}`;
+      `Editar cuenta - ${this.paymentAccount.name}` :
+      `Cuenta - ${this.paymentAccount.name}`;
   }
 
 
@@ -189,7 +189,7 @@ export class PaymentAccountEditorComponent implements OnChanges, OnInit, OnDestr
       paymentMethodUID: ['', Validators.required],
       currencyUID: ['', Validators.required],
       accountNo: [''],
-      name: [''],
+      identificator: [''],
       institutionUID: [''],
       holderName: [''],
       askForReferenceNumber: [false],
@@ -201,7 +201,7 @@ export class PaymentAccountEditorComponent implements OnChanges, OnInit, OnDestr
   private setFormDataForUpdate() {
     setTimeout(() => {
       this.form.reset({
-        name: this.paymentAccount.name ?? '',
+        identificator: this.paymentAccount.identificator ?? '',
         accountNo: this.paymentAccount.accountNo ?? '',
         holderName: this.paymentAccount.holderName ?? '',
         referenceNumber: this.paymentAccount.referenceNumber ?? '',
@@ -231,7 +231,7 @@ export class PaymentAccountEditorComponent implements OnChanges, OnInit, OnDestr
     const formModel = this.form.getRawValue();
 
     const data: PaymentAccountFields = {
-      name: formModel.name ?? '',
+      identificator: formModel.identificator ?? '',
       accountNo: formModel.accountNo ?? '',
       holderName: formModel.holderName ?? '',
       accountTypeUID: formModel.accountTypeUID ?? '',

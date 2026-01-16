@@ -13,10 +13,10 @@
     </ng-container>
 
     <ng-container matColumnDef="accountNo">
-      <th mat-header-cell *matHeaderCellDef class="nowrap"> No. cuenta </th>
+      <th mat-header-cell *matHeaderCellDef class="nowrap"> Forma de pago </th>
       <td mat-cell *matCellDef="let row">
         <a class="item-link" (click)="onSelectAccountClicked(row)">
-          {{ !!row.accountNo ? row.accountNo : 'No determinado' }}
+          {{row.paymentMethod.name}}{{!!row.accountNo ? ': ' + row.accountNo : ''}}
         </a>
       </td>
     </ng-container>
