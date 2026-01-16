@@ -114,6 +114,11 @@ export interface PaymentInstructionFields {
 }
 
 
+export interface PaymentInstructionRejectFields {
+  message: string;
+}
+
+
 export interface PaymentInstructionHolder {
   paymentInstruction: PaymentInstruction;
   log: PaymentInstructionLog[];
@@ -169,6 +174,7 @@ export interface PaymentInstructionActions {
   canCancel: boolean;
   canSuspend: boolean;
   canReset: boolean;
+  canClosePayment: boolean;
   canRequestPayment: boolean;
   canCancelPaymentRequest: boolean;
   canEditDocuments: boolean;
@@ -262,6 +268,7 @@ export const EmptyPaymentInstructionActions: PaymentInstructionActions = {
   canCancel: false,
   canSuspend: false,
   canReset: false,
+  canClosePayment: false,
   canRequestPayment: false,
   canCancelPaymentRequest: false,
   canEditDocuments: false,

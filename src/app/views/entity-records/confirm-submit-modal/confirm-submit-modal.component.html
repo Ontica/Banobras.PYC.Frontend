@@ -9,9 +9,34 @@
 
     <div class="card-body-confirmation">
 
-      Esta operación {{actionText}} {{entityPronoun}} {{entityText}}
-      <strong> {{entityNo}}: {{entityType}} </strong>
-      de <strong> {{party}}</strong>
+      <ng-container *ngIf="entityFields.length === 0">
+
+        Esta operación {{actionText}} {{entityPronoun}} {{entityText}}
+
+        <strong> {{entityNo}}: {{entityType}} </strong>
+        de <strong> {{party}}</strong>
+
+      </ng-container>
+
+      <ng-container *ngIf="entityFields.length > 0">
+
+        Esta operación {{actionText}} {{entityPronoun}} {{entityText}}:<br><br>
+
+        <table class="confirm-data">
+
+          <tr *ngFor="let field of entityFields">
+
+            <td class="nowrap">{{field.label}}:</td>
+
+            <td class="wrap"><strong>{{field.value}}</strong></td>
+
+          </tr>
+
+        </table>
+
+        <br *ngIf="notesRequired">
+
+      </ng-container>
 
       <ng-container *ngIf="notesRequired">
 
@@ -24,9 +49,9 @@
 
       </ng-container>
 
-      <br><br>
+      <br><br *ngIf="entityFields.length === 0 || notesRequired">
 
-      ¿{{questionText}} {{entityPronoun}} {{entityText}}?
+      {{questionText}}
 
       <mat-divider [style.margin]="'20px -16px 8px -16px'"></mat-divider>
 

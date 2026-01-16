@@ -18,14 +18,16 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { MessageBoxService } from '@app/shared/services';
-
-import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
+import { ArrayLibrary, FormHelper, sendEvent } from '@app/shared/utils';
 
 import { PaymentInstructionsDataService, SearcherAPIS } from '@app/data-services';
 
 import { EmptyPaymentInstruction, EmptyPaymentInstructionActions, PaymentAccount, PaymentMethod,
-         PaymentInstruction, PaymentInstructionActions, RequestsList, PaymentInstructionFields } from '@app/models';
+         PaymentInstruction, PaymentInstructionActions, RequestsList, PaymentInstructionFields,
+         PaymentInstructionRejectFields } from '@app/models';
+
+import { ConfirmSubmitModalEventType,
+         ConfirmSubmitType } from '@app/views/entity-records/confirm-submit-modal/confirm-submit-modal.component';
 
 
 export enum PaymentInstructionHeaderEventType {
@@ -33,6 +35,7 @@ export enum PaymentInstructionHeaderEventType {
   CANCEL                 = 'PaymentInstructionHeaderComponent.Event.Cancel',
   SUSPEND                = 'PaymentInstructionHeaderComponent.Event.Suspend',
   RESET                  = 'PaymentInstructionHeaderComponent.Event.Reset',
+  CLOSE_PAYMENT          = 'PaymentInstructionHeaderComponent.Event.ClosePayment',
   REQUEST_PAYMENT        = 'PaymentInstructionHeaderComponent.Event.RequestPayment',
   CANCEL_PAYMENT_REQUEST = 'PaymentInstructionHeaderComponent.Event.CancelPaymentRequest',
 }
@@ -90,10 +93,11 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
 
   eventTypes = PaymentInstructionHeaderEventType;
 
+  confirmModalMode: ConfirmSubmitType = null;
+
 
   constructor(private uiLayer: PresentationLayer,
-              private paymentInstructionsData: PaymentInstructionsDataService,
-              private messageBox: MessageBoxService) {
+              private paymentInstructionsData: PaymentInstructionsDataService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
     this.enableEditor(true);
@@ -178,8 +182,25 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
   }
 
 
-  onEventButtonClicked(eventType: PaymentInstructionHeaderEventType) {
-    this.showConfirmMessage(eventType);
+  onEventButtonClicked(mode: ConfirmSubmitType) {
+    this.confirmModalMode = mode;
+  }
+
+
+  onConfirmSubmitModalEvent(event: EventInfo) {
+    switch (event.type as ConfirmSubmitModalEventType) {
+      case ConfirmSubmitModalEventType.CLOSE_BUTTON_CLICKED:
+        this.confirmModalMode = null;
+        return;
+      case ConfirmSubmitModalEventType.SUBMIT_BUTTON_CLICKED:
+        const dataFields: PaymentInstructionRejectFields = { message: event.payload.notes ?? null };
+        this.validateActionConfirmedToEmit(dataFields);
+        this.confirmModalMode = null;
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
   }
 
 
@@ -325,82 +346,35 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
   private getFormData(): PaymentInstructionFields {
     Assertion.assert(this.form.valid, 'Programming error: form must be validated before command execution.');
 
-    const data: PaymentInstructionFields = {
-
-    };
+    const data: PaymentInstructionFields = { };
 
     return data;
   }
 
 
-  private showConfirmMessage(eventType: PaymentInstructionHeaderEventType) {
-    const confirmType = this.getConfirmType(eventType);
-    const title = this.getConfirmTitle(eventType);
-    const message = this.getConfirmMessage(eventType);
-
-    this.messageBox.confirm(message, title, confirmType)
-      .firstValue()
-      .then(x =>
-        sendEventIf(x, this.paymentInstructionHeaderEvent, eventType, { dataUID: this.instruction.uid })
-      );
-  }
-
-
-  private getConfirmType(eventType: PaymentInstructionHeaderEventType): 'AcceptCancel' | 'DeleteCancel' {
-    switch (eventType) {
-      case PaymentInstructionHeaderEventType.CANCEL:
-        return 'DeleteCancel';
-      case PaymentInstructionHeaderEventType.RESET:
-      case PaymentInstructionHeaderEventType.SUSPEND:
-      case PaymentInstructionHeaderEventType.REQUEST_PAYMENT:
-      case PaymentInstructionHeaderEventType.CANCEL_PAYMENT_REQUEST:
+  private validateActionConfirmedToEmit(dataFields: PaymentInstructionRejectFields) {
+    switch (this.confirmModalMode) {
+      case 'Cancel':
+        sendEvent(this.paymentInstructionHeaderEvent, PaymentInstructionHeaderEventType.CANCEL, { dataFields });
+        return;
+      case 'Activate':
+        sendEvent(this.paymentInstructionHeaderEvent, PaymentInstructionHeaderEventType.RESET, { dataFields });
+        return;
+      case 'Suspend':
+        sendEvent(this.paymentInstructionHeaderEvent, PaymentInstructionHeaderEventType.SUSPEND, { dataFields });
+        return;
+      case 'ClosePayment':
+        sendEvent(this.paymentInstructionHeaderEvent, PaymentInstructionHeaderEventType.CLOSE_PAYMENT, { dataFields });
+        return;
+      case 'RequestPayment':
+        sendEvent(this.paymentInstructionHeaderEvent, PaymentInstructionHeaderEventType.REQUEST_PAYMENT, { dataFields });
+        return;
+      case 'CancelRequestPayment':
+        sendEvent(this.paymentInstructionHeaderEvent, PaymentInstructionHeaderEventType.CANCEL_PAYMENT_REQUEST, { dataFields });
+        return;
       default:
-        return 'AcceptCancel';
-    }
-  }
-
-
-  private getConfirmTitle(eventType: PaymentInstructionHeaderEventType): string {
-    switch (eventType) {
-      case PaymentInstructionHeaderEventType.CANCEL: return 'Cancelar instrucción de pago';
-      case PaymentInstructionHeaderEventType.RESET: return 'Activar instrucción de pago';
-      case PaymentInstructionHeaderEventType.SUSPEND: return 'Suspender instrucción de pago';
-      case PaymentInstructionHeaderEventType.REQUEST_PAYMENT: return 'Enviar pago';
-      case PaymentInstructionHeaderEventType.CANCEL_PAYMENT_REQUEST: return 'Cancelar envío de pago';
-      default: return '';
-    }
-  }
-
-
-  private getConfirmMessage(eventType: PaymentInstructionHeaderEventType): string {
-    const instructionName = `(${this.instruction.paymentOrderType.name}) ` +
-      `${this.instruction.paymentInstructionNo}`;
-
-    const payable = `(${this.instruction.payableType.name}) ${this.instruction.payableNo} ` +
-      `- ${this.instruction.payable.name}`;
-
-    const total = `${FormatLibrary.numberWithCommas(this.instruction.total, '1.2-2')} (${this.instruction.currency.name})`;
-
-    const instructionData = `la instrucción de pago:<br><br>
-      <table class='confirm-data'>
-        <tr><td class='nowrap'>Instrucción: </td><td><strong>${instructionName}</strong></td></tr>
-        <tr><td class='nowrap'>Importe: </td><td><strong>${total}</strong></td></tr>
-        <tr><td class='nowrap'>Pagar a: </td><td><strong>${this.instruction.payTo.name}</strong></td></tr>
-        <tr><td class='nowrap'>Documento relacionado: </td><td><strong>${payable}</strong></td></tr>
-      </table><br>`;
-
-    switch (eventType) {
-      case PaymentInstructionHeaderEventType.CANCEL:
-        return `Esta operación cancelará ${instructionData}¿Cancelo la instrucción de pago?`;
-      case PaymentInstructionHeaderEventType.RESET:
-        return `Esta operación activará ${instructionData}¿Activo la solicitud de pago?`;
-      case PaymentInstructionHeaderEventType.SUSPEND:
-        return `Esta operación suspenderá ${instructionData}¿Suspendo la instrucción de pago?`;
-      case PaymentInstructionHeaderEventType.REQUEST_PAYMENT:
-        return `Esta operación enviará a pagar ${instructionData}¿Envio el pago?`;
-      case PaymentInstructionHeaderEventType.CANCEL_PAYMENT_REQUEST:
-        return `Esta operación cancelará el envío a pagar de ${instructionData}¿Cancelo el envío del pago?`;
-      default: return '';
+        console.log(`Unhandled user interface action ${this.confirmModalMode}`);
+        return;
     }
   }
 

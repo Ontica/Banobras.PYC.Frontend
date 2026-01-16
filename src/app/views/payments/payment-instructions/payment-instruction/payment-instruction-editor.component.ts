@@ -16,7 +16,8 @@ import { SkipIf } from '@app/shared/decorators';
 import { PaymentInstructionsDataService } from '@app/data-services';
 
 import { EmptyPaymentInstruction, EmptyPaymentInstructionActions, PaymentInstruction,
-         PaymentInstructionActions, PaymentInstructionFields, PaymentInstructionHolder } from '@app/models';
+         PaymentInstructionActions, PaymentInstructionFields, PaymentInstructionHolder,
+         PaymentInstructionRejectFields } from '@app/models';
 
 import { PaymentInstructionHeaderEventType } from './payment-instruction-header.component';
 
@@ -63,6 +64,11 @@ export class PaymentInstructionEditorComponent {
         return;
       case PaymentInstructionHeaderEventType.RESET:
         this.resetPaymentInstruction(this.instruction.uid);
+        return;
+      case PaymentInstructionHeaderEventType.CLOSE_PAYMENT:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.closePaymentInstruction(this.instruction.uid,
+          event.payload.dataFields as PaymentInstructionRejectFields);
         return;
       case PaymentInstructionHeaderEventType.REQUEST_PAYMENT:
         this.requestPayment(this.instruction.uid);
@@ -112,6 +118,16 @@ export class PaymentInstructionEditorComponent {
     this.submitted = true;
 
     this.paymentInstructionsData.resetPaymentInstruction(dataUID)
+      .firstValue()
+      .then(x => this.resolveDataUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private closePaymentInstruction(dataUID: string, dataFields: PaymentInstructionRejectFields) {
+    this.submitted = true;
+
+    this.paymentInstructionsData.closePaymentInstruction(dataUID, dataFields)
       .firstValue()
       .then(x => this.resolveDataUpdated(x))
       .finally(() => this.submitted = false);

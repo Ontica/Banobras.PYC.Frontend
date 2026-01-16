@@ -205,7 +205,7 @@
 
           <button *ngIf="actions.canCancel"
             type="button" class="btn-warning"
-            (click)="onEventButtonClicked(eventTypes.CANCEL)">
+            (click)="onEventButtonClicked('Cancel')">
             Cancelar
           </button>
 
@@ -215,25 +215,31 @@
 
           <button *ngIf="actions.canSuspend"
             type="button" class="btn"
-            (click)="onEventButtonClicked(eventTypes.SUSPEND)">
+            (click)="onEventButtonClicked('Suspend')">
             Suspender
           </button>
 
           <button *ngIf="actions.canReset"
             type="button" class="btn"
-            (click)="onEventButtonClicked(eventTypes.RESET)">
+            (click)="onEventButtonClicked('Activate')">
             Activar
+          </button>
+
+          <button *ngIf="actions.canClosePayment"
+            type="button" class="btn"
+            (click)="onEventButtonClicked('ClosePayment')">
+            Marcar como pagada
           </button>
 
           <button *ngIf="actions.canRequestPayment"
             type="button" class="btn"
-            (click)="onEventButtonClicked(eventTypes.REQUEST_PAYMENT)">
+            (click)="onEventButtonClicked('RequestPayment')">
             Enviar pago
           </button>
 
           <button *ngIf="actions.canCancelPaymentRequest"
             type="button" class="btn"
-            (click)="onEventButtonClicked(eventTypes.CANCEL_PAYMENT_REQUEST)">
+            (click)="onEventButtonClicked('CancelRequestPayment')">
             Cancelar envío de pago
           </button>
 
@@ -273,3 +279,19 @@
   </div>
 
 </form>
+
+
+<emp-ng-confirm-submit-modal *ngIf="!!confirmModalMode"
+  entityPronoun="la"
+  entityText="instrucción de pago"
+  [entityUID]="instruction.uid"
+  [entityFields]="[
+    {label: 'Instrucción', value: '(' + instruction.paymentOrderType.name + ') ' + instruction.paymentInstructionNo },
+    {label: 'Importe', value: (instruction.total | empDecimal) + ' (' + instruction.currency.name + ')'},
+    {label: 'Pagar a', value: instruction.payTo.name },
+    {label: 'Documento relacionado', value: '(' + instruction.payableType.name + ') ' + instruction.payableNo + ' - ' + instruction.payable.name },
+  ]"
+  [mode]="confirmModalMode"
+  (confirmSubmitModalEvent)="onConfirmSubmitModalEvent($event)">
+
+</emp-ng-confirm-submit-modal>

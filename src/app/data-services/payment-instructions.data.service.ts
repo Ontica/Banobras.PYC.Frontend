@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
 import { PaymentAccount, PaymentInstructionHolder, PaymentInstructionDescriptor, PaymentInstructionFields,
-         PaymentInstructionsQuery } from '@app/models';
+         PaymentInstructionsQuery, PaymentInstructionRejectFields } from '@app/models';
 
 
 @Injectable()
@@ -82,6 +82,17 @@ export class PaymentInstructionsDataService {
     const path = `v2/payments-management/payment-instructions/${paymentInstructionUID}/reset`;
 
     return this.http.post<PaymentInstructionHolder>(path);
+  }
+
+
+  closePaymentInstruction(paymentInstructionUID: string,
+                          dataFields: PaymentInstructionRejectFields): EmpObservable<PaymentInstructionHolder> {
+    Assertion.assertValue(paymentInstructionUID, 'paymentInstructionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/payments-management/payment-instructions/${paymentInstructionUID}/close-payment`;
+
+    return this.http.post<PaymentInstructionHolder>(path, dataFields);
   }
 
 
