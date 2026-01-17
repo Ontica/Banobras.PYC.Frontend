@@ -24,3 +24,12 @@
   </emp-pmt-payment-instruction-tabbed-view>
 
 </div>
+
+
+<emp-ng-export-report-modal *ngIf="displayExportModal"
+  [heading]="selectedExportData.title"
+  [message]=" selectedExportData.message"
+  [fileUrl]="selectedExportData.fileUrl"
+  (exportReportModalEvent)="onExportReportModalEvent($event)">
+
+</emp-ng-export-report-modal>

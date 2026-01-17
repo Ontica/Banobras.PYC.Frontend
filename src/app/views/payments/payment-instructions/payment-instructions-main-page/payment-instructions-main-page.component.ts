@@ -9,15 +9,19 @@ import { Component } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
-import { MessageBoxService } from '@app/shared/services';
-
 import { ArrayLibrary } from '@app/shared/utils';
 
 import { PaymentInstructionsDataService } from '@app/data-services';
 
 import { EmptyPaymentInstructionHolder, EmptyPaymentInstructionsQuery,
          mapPaymentInstructionDescriptorFromPaymentInstruction, PaymentInstructionHolder,
-         PaymentInstructionDescriptor, PaymentInstructionsQuery } from '@app/models';
+         PaymentInstructionDescriptor, PaymentInstructionsQuery, ExplorerBulkOperationData,
+         EmptyExplorerBulkOperationData, ExplorerOperationCommand, ExplorerOperationType,
+         ExplorerOperationResult } from '@app/models';
+
+import {
+  ExportReportModalEventType
+} from '@app/views/_reports-controls/export-report-modal/export-report-modal.component';
 
 import {
   PaymentInstructionsExplorerEventType
@@ -40,7 +44,11 @@ export class PaymentInstructionsMainPageComponent {
 
   selectedData: PaymentInstructionHolder = EmptyPaymentInstructionHolder;
 
+  selectedExportData: ExplorerBulkOperationData = Object.assign({}, EmptyExplorerBulkOperationData);
+
   displayTabbedView = false;
+
+  displayExportModal = false;
 
   isLoading = false;
 
@@ -49,8 +57,7 @@ export class PaymentInstructionsMainPageComponent {
   queryExecuted = false;
 
 
-  constructor(private paymentInstructionsData: PaymentInstructionsDataService,
-              private messageBox: MessageBoxService)  { }
+  constructor(private paymentInstructionsData: PaymentInstructionsDataService)  { }
 
 
   onPaymentInstructionsExplorerEvent(event: EventInfo) {
@@ -71,7 +78,9 @@ export class PaymentInstructionsMainPageComponent {
         return;
       case PaymentInstructionsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
-        this.messageBox.showInDevelopment('Ejecutar operación', event.payload);
+        Assertion.assertValue(event.payload.command, 'event.payload.command');
+        this.validateBulkOperationPaymentInstructions(event.payload.operation as ExplorerOperationType,
+                                                      event.payload.command as ExplorerOperationCommand)
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -104,6 +113,21 @@ export class PaymentInstructionsMainPageComponent {
   }
 
 
+  onExportReportModalEvent(event: EventInfo) {
+    switch (event.type as ExportReportModalEventType) {
+      case ExportReportModalEventType.CLOSE_MODAL_CLICKED:
+        this.setSelectedExportData(false);
+        return;
+      case ExportReportModalEventType.EXPORT_BUTTON_CLICKED:
+        this.bulkOperationPaymentInstructions(this.selectedExportData.operation, this.selectedExportData.command);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
   private searchPaymentInstructions(query: PaymentInstructionsQuery) {
     this.isLoading = true;
 
@@ -111,6 +135,17 @@ export class PaymentInstructionsMainPageComponent {
       .firstValue()
       .then(x => this.setDataList(x, true))
       .finally(() => this.isLoading = false);
+  }
+
+
+  private bulkOperationPaymentInstructions(operation: ExplorerOperationType,
+                                           command: ExplorerOperationCommand) {
+    this.isLoadingSelection = true;
+
+    this.paymentInstructionsData.bulkOperationPaymentInstructions(operation, command)
+      .firstValue()
+      .then(x => this.resolveBulkOperationPaymentInstructions(operation, x))
+      .finally(() => this.isLoadingSelection = false);
   }
 
 
@@ -136,6 +171,59 @@ export class PaymentInstructionsMainPageComponent {
   }
 
 
+  private validateBulkOperationPaymentInstructions(operation: ExplorerOperationType,
+                                                   command: ExplorerOperationCommand) {
+    switch (operation) {
+      case ExplorerOperationType.export:
+        this.showExportPaymentInstructions(operation, command);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${operation}`);
+        return;
+    }
+  }
+
+
+  private resolveBulkOperationPaymentInstructions(operation: ExplorerOperationType,
+                                                  result: ExplorerOperationResult) {
+    switch (operation) {
+      case ExplorerOperationType.export:
+        this.resolveExportPaymentInstructions(result);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${operation}`);
+        return;
+    }
+  }
+
+
+  private resolveExportPaymentInstructions(result: ExplorerOperationResult) {
+    this.selectedExportData.fileUrl = result.file.url;
+    this.selectedExportData.message = result.message;
+  }
+
+
+  private showExportPaymentInstructions(operation: ExplorerOperationType,
+                                        command: ExplorerOperationCommand) {
+    let title = '';
+    let message = '';
+
+    switch (operation) {
+      case ExplorerOperationType.export:
+        title = 'Exportar instrucciones de pago';
+        message = `Se generará la exportación a Excel de las ` +
+          `<strong>${command.items.length} instrucciones de pago</strong> seleccionadas.` +
+          `<br><br>¿Exporto las instrucciones de pago?`;
+        break;
+      default:
+        console.log(`Unhandled export payment instructions operation type ${operation}`);
+        return;
+    }
+
+    this.setSelectedExportData(true, operation, command, title, message);
+  }
+
+
   private setDataList(data: PaymentInstructionDescriptor[], queryExecuted: boolean = true) {
     this.dataList = data ?? [];
     this.queryExecuted = queryExecuted;
@@ -145,6 +233,21 @@ export class PaymentInstructionsMainPageComponent {
   private setSelectedData(data: PaymentInstructionHolder) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.paymentInstruction);
+  }
+
+
+  private setSelectedExportData(display: boolean,
+                                operation?: ExplorerOperationType,
+                                command?: ExplorerOperationCommand,
+                                title?: string, message?: string) {
+    this.displayExportModal = display;
+    this.selectedExportData = {
+      operation: operation ?? null,
+      command: command ?? null,
+      title: title ?? null,
+      message: message ?? null,
+      fileUrl: '',
+     };
   }
 
 
