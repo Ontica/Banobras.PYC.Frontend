@@ -235,22 +235,7 @@ export interface PayableEntityItem {
 export const PaymentOrdersOperationsList: ExplorerOperation[] = [
   {
     uid: ExplorerOperationType.export,
-    name: 'Exportar'
-  },
-  {
-    uid: ExplorerOperationType.pdf,
-    name: 'Imprimir',
-    showConfirm: true,
-    confirmOperationMessage: 'imprimirá',
-    confirmQuestionMessage: 'Imprimo'
-  },
-  {
-    uid: ExplorerOperationType.delete,
-    name: 'Eliminar',
-    showConfirm: true,
-    isConfirmWarning: true,
-    confirmOperationMessage: 'eliminará',
-    confirmQuestionMessage: 'Elimino'
+    name: 'Exportar a excel'
   },
 ];
 

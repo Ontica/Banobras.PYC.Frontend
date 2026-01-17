@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { PaymentOrderHolder, PaymentOrderDescriptor, PaymentOrderFields,
-         PaymentOrdersQuery } from '@app/models';
+import { PaymentOrderHolder, PaymentOrderDescriptor, PaymentOrderFields, PaymentOrdersQuery,
+         ExplorerOperationType, ExplorerOperationCommand, ExplorerOperationResult } from '@app/models';
 
 @Injectable()
 export class PaymentOrdersDataService {
@@ -39,6 +39,17 @@ export class PaymentOrdersDataService {
     const path = 'v2/payments-management/payment-orders/search';
 
     return this.http.post<PaymentOrderDescriptor[]>(path, query);
+  }
+
+
+  bulkOperationPaymentOrders(operationType: ExplorerOperationType,
+                             command: ExplorerOperationCommand): EmpObservable<ExplorerOperationResult> {
+    Assertion.assertValue(operationType, 'operationType');
+    Assertion.assertValue(command, 'command');
+
+    const path = `v2/payments-management/payment-orders/bulk-operation/${operationType}`;
+
+    return this.http.post<ExplorerOperationResult>(path, command);
   }
 
 
