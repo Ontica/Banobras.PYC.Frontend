@@ -13,12 +13,14 @@ import { DataTable, DataTableColumn, DataTableEntry } from './base/data-table';
 export enum BudgetExplorerReportTypes {
   ByColumn            = 'ByColumn',
   MonthlyAvailability = 'MonthlyAvailability',
+  ScheduledByArea     = 'ScheduledByArea',
 }
 
 
 export const BudgetExplorerReportTypesList: Identifiable<BudgetExplorerReportTypes>[] = [
   { uid: BudgetExplorerReportTypes.ByColumn,             name: 'Por columna' },
   { uid: BudgetExplorerReportTypes.MonthlyAvailability,  name: 'Disponible mensual' },
+  { uid: BudgetExplorerReportTypes.ScheduledByArea,      name: 'Calendarizado por área' },
 ];
 
 
