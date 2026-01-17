@@ -71,9 +71,9 @@ export interface BudgetTransactionsQuery {
   baseBudgetUID: string;
   transactionTypeUID: string;
   operationSourceUID: string;
-  entriesKeywords: string;
-  transactionsNo: string[];
-  tags: string[];
+  transactionNo: string[];
+  budgetAccountNo: string[];
+  controlNo: string[];
   fromDate: DateString;
   toDate: DateString;
   partyType: TransactionPartyType;
@@ -347,9 +347,9 @@ export const EmptyBudgetTransactionsQuery: BudgetTransactionsQuery = {
   keywords: '',
   baseBudgetUID: '',
   operationSourceUID: '',
-  transactionsNo: [],
-  entriesKeywords: '',
-  tags: [],
+  transactionNo: [],
+  budgetAccountNo: [],
+  controlNo: [],
   fromDate: '',
   toDate: '',
   partyType: TransactionPartyType.RequestedBy,

@@ -39,9 +39,9 @@ interface TransactionsFilterFormModel extends FormGroup<{
   keywords: FormControl<string>;
   baseBudgetUID: FormControl<string>;
   transactionTypeUID: FormControl<string>;
-  transactionsNo: FormControl<string[]>;
-  entriesKeywords: FormControl<string>;
-  tags: FormControl<string[]>;
+  transactionNo: FormControl<string[]>;
+  budgetAccountNo: FormControl<string[]>;
+  controlNo: FormControl<string[]>;
   datePeriod: FormControl<DateRange>;
   basePartyUID: FormControl<string>;
   partyType: FormControl<TransactionPartyType>;
@@ -174,9 +174,9 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
       keywords: [null],
       baseBudgetUID: [null],
       operationSourceUID: [null],
-      entriesKeywords: [null],
-      transactionsNo: [null],
-      tags: [null],
+      transactionNo: [null],
+      budgetAccountNo: [null],
+      controlNo: [null],
       datePeriod: [EmptyDateRange],
       basePartyUID: [null],
       partyType: [TransactionPartyType.RequestedBy],
@@ -192,9 +192,9 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
       keywords: this.query.keywords,
       baseBudgetUID: this.query.baseBudgetUID,
       operationSourceUID: this.query.operationSourceUID,
-      entriesKeywords: this.query.entriesKeywords,
-      transactionsNo: this.query.transactionsNo,
-      tags: this.query.tags,
+      transactionNo: this.query.transactionNo,
+      budgetAccountNo: this.query.budgetAccountNo,
+      controlNo: this.query.controlNo,
       datePeriod: { fromDate: this.query.fromDate ?? null, toDate: this.query.toDate ?? null },
       basePartyUID: this.query.basePartyUID,
       partyType: this.query.partyType ?? TransactionPartyType.RequestedBy,
@@ -213,9 +213,9 @@ export class BudgetTransactionsFilterComponent implements OnChanges, OnInit, OnD
       keywords: this.form.value.keywords ?? null,
       baseBudgetUID: this.form.value.baseBudgetUID ?? null,
       operationSourceUID: this.form.value.operationSourceUID ?? null,
-      entriesKeywords: this.form.value.entriesKeywords ?? null,
-      transactionsNo: this.form.value.transactionsNo ?? null,
-      tags: this.form.value.tags ?? null,
+      transactionNo: this.form.value.transactionNo ?? null,
+      budgetAccountNo: this.form.value.budgetAccountNo ?? null,
+      controlNo: this.form.value.controlNo ?? null,
       fromDate: this.form.value.datePeriod?.fromDate ?? '',
       toDate: this.form.value.datePeriod?.toDate ?? '',
       basePartyUID: this.form.value.basePartyUID ?? null,

@@ -136,8 +136,8 @@
 
             <label>No. transacciones:</label>
             <emp-ng-input-tags
-              formControlName="transactionsNo"
-              [showError]="formHelper.isControlInvalid(form.controls.transactionsNo)">
+              formControlName="transactionNo"
+              [showError]="formHelper.isControlInvalid(form.controls.transactionNo)">
 
             </emp-ng-input-tags>
 
@@ -145,19 +145,21 @@
 
           <div class="fx-item-quarter">
 
-            <label>Filtro por movimientos:</label>
-            <input type="text" class="text-box"
-              formControlName="entriesKeywords"
-              [class.invalid-control]="formHelper.isControlInvalid(form.controls.entriesKeywords)">
+            <label>Partidas presupuestales:</label>
+            <emp-ng-input-tags
+              formControlName="budgetAccountNo"
+              [showError]="formHelper.isControlInvalid(form.controls.budgetAccountNo)">
+
+            </emp-ng-input-tags>
 
           </div>
 
           <div class="fx-item-quarter">
 
-            <label>Etiquetas:</label>
+            <label>No. de verificaciones:</label>
             <emp-ng-input-tags
-              formControlName="tags"
-              [showError]="formHelper.isControlInvalid(form.controls.tags)">
+              formControlName="controlNo"
+              [showError]="formHelper.isControlInvalid(form.controls.controlNo)">
 
             </emp-ng-input-tags>
 
@@ -169,7 +171,7 @@
 
             <emp-ng-select
               formControlName="operationSourceUID"
-              [config]="{clearable: true}"
+              [config]="{clearable: true, showTooltip: true}"
               [items]="operationSourcesList"
               [loading]="isLoading"
               [showError]="formHelper.isControlInvalid(form.controls.operationSourceUID)"
