@@ -24,9 +24,7 @@ import { ArrayLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/ut
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { SuppliersDataService } from '@app/data-services';
-
-import { Supplier, SupplierFields, EmptySupplier, MatchSubledgerAccountFields} from '@app/models';
+import { Supplier, SupplierFields, EmptySupplier } from '@app/models';
 
 
 export enum SupplierHeaderEventType {
@@ -78,7 +76,6 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
 
   constructor(private uiLayer: PresentationLayer,
-              private suppliersData: SuppliersDataService,
               private messageBox: MessageBoxService) {
     this.helper = uiLayer.createSubscriptionHelper();
     this.initForm();
@@ -109,36 +106,36 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  get displayMatchSubledgerAccount() {
-    return (!this.isSaved || (this.isSaved && this.canUpdate)) && !this.form.getRawValue().subledgerAccount;
-  }
+  // get displayMatchSubledgerAccount() {
+  //   return (!this.isSaved || (this.isSaved && this.canUpdate)) && !this.form.getRawValue().subledgerAccount;
+  // }
 
 
-  get isReadytoMatchSubledgerAccount() {
-    return !this.form.getRawValue().subledgerAccount &&
-      (this.form.controls.name.valid && this.form.controls.taxCode.valid)
-  }
+  // get isReadytoMatchSubledgerAccount() {
+  //   return !this.form.getRawValue().subledgerAccount &&
+  //     (this.form.controls.name.valid && this.form.controls.taxCode.valid)
+  // }
 
 
-  onSubledgerAccountReset() {
-    this.form.controls.subledgerAccount.reset();
-  }
+  // onSubledgerAccountReset() {
+  //   this.form.controls.subledgerAccount.reset();
+  // }
 
 
-  @SkipIf('isLoading')
-  onSubledgerAccountSearch() {
-    if (this.isReadytoMatchSubledgerAccount) {
-      const command: MatchSubledgerAccountFields = {
-        uid: this.isSaved ? this.supplier.uid : null,
-        name: this.form.value.name ?? null,
-        taxCode: this.form.value.taxCode ?? null,
-      };
+  // @SkipIf('isLoading')
+  // onSubledgerAccountSearch() {
+  //   if (this.isReadytoMatchSubledgerAccount) {
+  //     const command: MatchSubledgerAccountFields = {
+  //       uid: this.isSaved ? this.supplier.uid : null,
+  //       name: this.form.value.name ?? null,
+  //       taxCode: this.form.value.taxCode ?? null,
+  //     };
 
-      this.getMatchSubledgerAccount(command);
-    }
+  //     this.getMatchSubledgerAccount(command);
+  //   }
 
-    this.formHelper.markFormControlsAsTouched(this.form);
-  }
+  //   this.formHelper.markFormControlsAsTouched(this.form);
+  // }
 
 
   @SkipIf('isLoading')
@@ -180,14 +177,14 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  private getMatchSubledgerAccount(command: MatchSubledgerAccountFields) {
-    this.isLoading = true;
+  // private getMatchSubledgerAccount(command: MatchSubledgerAccountFields) {
+  //   this.isLoading = true;
 
-    this.suppliersData.getMatchSubledgerAccount(command)
-      .firstValue()
-      .then(x => this.resolveMatchSubledgerAccountResponse(x))
-      .finally(() => this.isLoading = false);
-  }
+  //   this.suppliersData.getMatchSubledgerAccount(command)
+  //     .firstValue()
+  //     .then(x => this.resolveMatchSubledgerAccountResponse(x))
+  //     .finally(() => this.isLoading = false);
+  // }
 
 
   private resolveMatchSubledgerAccountResponse(response: FlexibleIdentifiable) {
@@ -208,7 +205,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
       typeUID: ['', Validators.required],
       name: ['', Validators.required],
       taxCode: ['', Validators.required],
-      subledgerAccount: [''],
+      subledgerAccount: ['', Validators.required],
     });
   }
 
@@ -229,7 +226,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
     setTimeout(() => {
       const disable = this.isSaved && (!this.editionMode || !this.canUpdate);
       this.formHelper.setDisableForm(this.form, disable);
-      FormHelper.setDisableControl(this.form.controls.subledgerAccount);
+      // FormHelper.setDisableControl(this.form.controls.subledgerAccount);
     });
   }
 

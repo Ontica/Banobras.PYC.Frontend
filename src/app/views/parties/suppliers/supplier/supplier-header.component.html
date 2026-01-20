@@ -24,9 +24,8 @@
 
         <input type="text" class="text-box"
           formControlName="taxCode"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.taxCode)"
-          (change)="onSubledgerAccountReset()">
-
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.taxCode)">
+          <!-- (change)="onSubledgerAccountReset()" -->
       </div>
 
     </div>
@@ -39,9 +38,8 @@
 
         <input type="text" class="text-box"
           formControlName="name"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)"
-          (change)="onSubledgerAccountReset()">
-
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
+          <!-- (change)="onSubledgerAccountReset()" -->
       </div>
 
     </div>
@@ -50,7 +48,17 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-size" [style.--size]="displayMatchSubledgerAccount ? 'calc(100% - 36px)' : '100%'">
+      <div class="fx-item-half">
+
+        <label>Auxiliar:</label>
+
+        <input type="text" class="text-box"
+          formControlName="subledgerAccount"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.subledgerAccount)">
+
+      </div>
+
+      <!-- <div class="fx-item-size" [style.--size]="displayMatchSubledgerAccount ? 'calc(100% - 36px)' : '100%'">
 
         <label>Auxiliar:</label>
 
@@ -71,8 +79,7 @@
           <mat-icon>search</mat-icon>
         </button>
 
-      </div>
-
+      </div> -->
 
     </div>
 
