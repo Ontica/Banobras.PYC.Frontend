@@ -57,8 +57,8 @@ const routes: Routes = [
     component: BillsMainPageComponent,
   },
   {
-    data: { permission: ROUTES.pagos_proveedores.permission },
-    path: ROUTES.pagos_proveedores.path,
+    data: { permission: ROUTES.pagos_beneficiarios.permission },
+    path: ROUTES.pagos_beneficiarios.path,
     component: PartiesMainPageComponent,
   },
   {

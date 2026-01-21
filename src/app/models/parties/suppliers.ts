@@ -105,7 +105,7 @@ export function mapSupplierDescriptorFromSupplier(data: SupplierHolder): Supplie
 export const DefaultSuppliersColumns: DataTableColumn[] = [
   {
     field: 'name',
-    title: 'Proveedor',
+    title: 'Beneficiario',
     type: DataTableColumnType.text,
     size: 'lg'
   },
@@ -116,7 +116,7 @@ export const DefaultSuppliersColumns: DataTableColumn[] = [
   },
   {
     field: 'typeName',
-    title: 'Tipo de proveedor',
+    title: 'Tipo de beneficiario',
     type: DataTableColumnType.text,
   },
   {

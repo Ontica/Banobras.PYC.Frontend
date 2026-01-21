@@ -222,11 +222,11 @@ export const ROUTES = {
     fullpath: '/pagos/facturas',
   },
 
-  pagos_proveedores: {
-    permission: PERMISSIONS.ROUTE_PAGOS_PROVEEDORES,
+  pagos_beneficiarios: {
+    permission: PERMISSIONS.ROUTE_PAGOS_BENEFICIARIOS,
     parent: 'pagos',
-    path: 'proveedores',
-    fullpath: '/pagos/proveedores',
+    path: 'beneficiarios',
+    fullpath: '/pagos/beneficiarios',
   },
 
   pagos_reportes: {

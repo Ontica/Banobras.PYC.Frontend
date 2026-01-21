@@ -274,7 +274,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   private getConfirmTitle(eventType: SupplierHeaderEventType): string {
     switch (eventType) {
-      case SupplierHeaderEventType.DELETE: return 'Eliminar proveedor';
+      case SupplierHeaderEventType.DELETE: return 'Eliminar beneficiario';
       default: return '';
     }
   }
@@ -283,9 +283,9 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
   private getConfirmMessage(eventType: SupplierHeaderEventType): string {
     switch (eventType) {
       case SupplierHeaderEventType.DELETE:
-        return `Esta operación eliminará el proveedor
+        return `Esta operación eliminará el beneficiario
                 <strong>${this.supplier.name} (${this.supplier.type.name})</strong>
-                <br><br>¿Elimino el proveedor?`;
+                <br><br>¿Elimino el beneficiario?`;
 
       default: return '';
     }

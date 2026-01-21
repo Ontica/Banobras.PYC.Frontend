@@ -36,8 +36,8 @@ export function getPartyExplorerTypeConfig(type: PartyObjectTypes): ExplorerType
     case PartyObjectTypes.SUPPLIER:
       return {
         type,
-        nameSingular: 'proveedor',
-        namePlural: 'proveedores',
+        nameSingular: 'beneficiario',
+        namePlural: 'beneficiarios',
         pronounSingular: 'el',
         pronounPlural: 'los',
         selectionMessage: 'seleccionados',

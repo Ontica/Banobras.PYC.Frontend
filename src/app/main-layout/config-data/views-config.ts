@@ -154,10 +154,10 @@ export const PaymentsViews: View[] = [
   },
   {
     name: 'Payments.Suppliers',
-    title: 'Proveedores',
-    menuTitle: 'Proveedores',
-    url: ROUTES.pagos_proveedores.fullpath,
-    permission: ROUTES.pagos_proveedores.permission,
+    title: 'Beneficiarios',
+    menuTitle: 'Beneficiarios',
+    url: ROUTES.pagos_beneficiarios.fullpath,
+    permission: ROUTES.pagos_beneficiarios.permission,
   },
   {
     name: 'Payments.Reporting',
