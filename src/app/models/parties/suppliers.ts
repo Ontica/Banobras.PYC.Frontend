@@ -43,6 +43,7 @@ export interface SupplierFields extends PartyFields {
   name: string;
   taxCode: string;
   subledgerAccount: string;
+  tags: string[];
 }
 
 
@@ -69,6 +70,7 @@ export interface Supplier extends Party {
   name: string;
   taxCode: string;
   subledgerAccount: string;
+  tags: string[];
   status: Identifiable<EntityStatus>;
 }
 
@@ -86,6 +88,7 @@ export const EmptySupplier: Supplier = {
   name: '',
   taxCode: '',
   subledgerAccount: '',
+  tags: [],
   status: Empty,
 }
 

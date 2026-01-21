@@ -44,17 +44,26 @@
 
     </div>
 
-    <div class="section-title"> Información contable </div>
-
     <div class="fx-row-container">
 
       <div class="fx-item-half">
 
-        <label>Auxiliar:</label>
+        <label>Auxiliar contable:</label>
 
         <input type="text" class="text-box"
           formControlName="subledgerAccount"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.subledgerAccount)">
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Palabras de búsqueda adicionales:</label>
+        <emp-ng-input-tags
+          formControlName="tags"
+          [showError]="formHelper.isControlInvalid(form.controls.tags)">
+
+        </emp-ng-input-tags>
 
       </div>
 

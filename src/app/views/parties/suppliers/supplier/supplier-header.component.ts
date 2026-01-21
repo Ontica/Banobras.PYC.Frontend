@@ -38,6 +38,7 @@ interface SupplierFormModel extends FormGroup<{
   name: FormControl<string>;
   taxCode: FormControl<string>;
   subledgerAccount: FormControl<string>;
+  tags: FormControl<string[]>;
 }> { }
 
 @Component({
@@ -206,6 +207,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
       name: ['', Validators.required],
       taxCode: ['', Validators.required],
       subledgerAccount: ['', Validators.required],
+      tags: [null],
     });
   }
 
@@ -217,6 +219,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
         name: FormHelper.getStringValue(this.supplier.name),
         taxCode: FormHelper.getStringValue(this.supplier.taxCode),
         subledgerAccount: FormHelper.getStringValue(this.supplier.subledgerAccount),
+        tags: this.supplier.tags ?? null,
       });
     });
   }
@@ -241,6 +244,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
       name: formData.name ?? null,
       taxCode: formData.taxCode ?? null,
       subledgerAccount: formData.subledgerAccount ?? null,
+      tags: formData.tags ?? null,
     };
 
     return data;
