@@ -186,24 +186,24 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
 
   onAvailableItemChanges(item: OrderItem) {
-    this.form.controls.productUID.reset(FormHelper.getUIDValueValid(item?.product));
-    this.form.controls.productUnitUID.reset(FormHelper.getUIDValueValid(item?.productUnit));
-    this.form.controls.unitPrice.reset(FormHelper.getNumberValueValid(item?.unitPrice));
-    this.form.controls.description.reset(item.description ?? '');
-    this.form.controls.beneficiaryUID.reset(FormHelper.getUIDValueValid(item.beneficiary));
-    // this.form.controls.quantity.reset(FormHelper.getNumberValueValid(this.isContract ? 0 : item?.quantity));
+    this.form.controls.productUID.reset(FormHelper.getUIDValue(item?.product));
+    this.form.controls.productUnitUID.reset(FormHelper.getUIDValue(item?.productUnit));
+    this.form.controls.unitPrice.reset(FormHelper.getPositiveNumberValue(item?.unitPrice));
+    this.form.controls.description.reset(FormHelper.getStringValue(item.description));
+    this.form.controls.beneficiaryUID.reset(FormHelper.getUIDValue(item.beneficiary));
+    // this.form.controls.quantity.reset(FormHelper.getPositiveNumberValue(this.isContract ? 0 : item?.quantity));
 
     if (this.isContract) {
       const contractItem = item as ContractItem;
-      this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(contractItem?.budget));
-      this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(contractItem?.budgetAccount));
-      this.form.controls.minQuantity.reset(FormHelper.getNumberValueValid(contractItem?.quantity));
-      this.form.controls.maxQuantity.reset(FormHelper.getNumberValueValid(contractItem?.quantity));
+      this.form.controls.budgetUID.reset(FormHelper.getUIDValue(contractItem?.budget));
+      this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValue(contractItem?.budgetAccount));
+      this.form.controls.minQuantity.reset(FormHelper.getPositiveNumberValue(contractItem?.quantity));
+      this.form.controls.maxQuantity.reset(FormHelper.getPositiveNumberValue(contractItem?.quantity));
       this.setBudgetAccountsList([], contractItem.budgetAccount);
     }
 
     if (this.isExpense) {
-      this.form.controls.total.reset(FormHelper.getNumberValueValid(item?.total));
+      this.form.controls.total.reset(FormHelper.getPositiveNumberValue(item?.total));
     }
 
     this.onTotalChanges();
@@ -416,16 +416,16 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        beneficiaryUID: FormHelper.getUIDValueValid(this.item.beneficiary),
-        projectUID: FormHelper.getUIDValueValid(this.item.project),
-        productUID: FormHelper.getUIDValueValid(this.item.product),
-        productUnitUID: FormHelper.getUIDValueValid(this.item.productUnit),
-        quantity: FormHelper.getNumberValueValid(this.item.quantity),
-        unitPrice: FormHelper.getNumberValueValid(this.item.unitPrice),
-        total: FormHelper.getNumberValueValid(this.item.total),
-        description: this.item.description,
+        beneficiaryUID: FormHelper.getUIDValue(this.item.beneficiary),
+        projectUID: FormHelper.getUIDValue(this.item.project),
+        productUID: FormHelper.getUIDValue(this.item.product),
+        productUnitUID: FormHelper.getUIDValue(this.item.productUnit),
+        quantity: FormHelper.getPositiveNumberValue(this.item.quantity),
+        unitPrice: FormHelper.getPositiveNumberValue(this.item.unitPrice),
+        total: FormHelper.getPositiveNumberValue(this.item.total),
+        description: FormHelper.getStringValue(this.item.description),
         datePeriod: { fromDate: this.item.startDate ?? null, toDate: this.item.endDate ?? null },
-        justification: this.item.justification,
+        justification: FormHelper.getStringValue(this.item.justification),
       });
       this.validateSetOrderItemFields();
       this.validateSearchBudgetAccounts(this.getBudgetAccountDefault());
@@ -448,40 +448,40 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
     switch (this.config.type) {
       case ObjectTypes.REQUISITION: {
         const item = this.item as RequisitionOrderItem;
-        this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(item.budget));
-        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
-        this.form.controls.originCountryUID.reset(FormHelper.getUIDValueValid(item.originCountry));
+        this.form.controls.budgetUID.reset(FormHelper.getUIDValue(item.budget));
+        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValue(item.budgetAccount));
+        this.form.controls.originCountryUID.reset(FormHelper.getUIDValue(item.originCountry));
         break;
       }
       case ObjectTypes.CONTRACT: {
         const item = this.item as ContractItem;
-        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.requisitionItem));
-        this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(item.budget));
-        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
-        this.form.controls.minQuantity.reset(FormHelper.getNumberValueValid(item.minQuantity));
-        this.form.controls.maxQuantity.reset(FormHelper.getNumberValueValid(item.maxQuantity));
+        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValue(item.requisitionItem));
+        this.form.controls.budgetUID.reset(FormHelper.getUIDValue(item.budget));
+        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValue(item.budgetAccount));
+        this.form.controls.minQuantity.reset(FormHelper.getPositiveNumberValue(item.minQuantity));
+        this.form.controls.maxQuantity.reset(FormHelper.getPositiveNumberValue(item.maxQuantity));
         break;
       }
       case ObjectTypes.CONTRACT_ORDER: {
         const item = this.item as ContractOrderItem;
-        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.contractItem));
-        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
-        this.form.controls.discount.reset(FormHelper.getNumberValueValid(item.discount));
-        this.form.controls.penaltyDiscount.reset(FormHelper.getNumberValueValid(item.penaltyDiscount));
+        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValue(item.contractItem));
+        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValue(item.budgetAccount));
+        this.form.controls.discount.reset(FormHelper.getPositiveNumberValue(item.discount));
+        this.form.controls.penaltyDiscount.reset(FormHelper.getPositiveNumberValue(item.penaltyDiscount));
         break;
       }
       case ObjectTypes.PURCHASE: {
         const item = this.item as PayableOrderItem;
-        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.requisitionItem));
-        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
-        this.form.controls.discount.reset(FormHelper.getNumberValueValid(item.discount));
-        this.form.controls.penaltyDiscount.reset(FormHelper.getNumberValueValid(item.penaltyDiscount));
+        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValue(item.requisitionItem));
+        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValue(item.budgetAccount));
+        this.form.controls.discount.reset(FormHelper.getPositiveNumberValue(item.discount));
+        this.form.controls.penaltyDiscount.reset(FormHelper.getPositiveNumberValue(item.penaltyDiscount));
         break;
       }
       case ObjectTypes.EXPENSE: {
         const item = this.item as PayableOrderItem;
-        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValueValid(item.requisitionItem));
-        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValueValid(item.budgetAccount));
+        this.form.controls.linkedItemUID.reset(FormHelper.getUIDValue(item.requisitionItem));
+        this.form.controls.budgetAccountUID.reset(FormHelper.getUIDValue(item.budgetAccount));
         break;
       }
     }

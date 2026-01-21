@@ -323,16 +323,16 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        categoryUID: FormHelper.getUIDValueValid(this.order.category),
+        categoryUID: FormHelper.getUIDValue(this.order.category),
         name: this.order.name ?? null,
         datePeriod: { fromDate: this.order.startDate ?? null, toDate: this.order.endDate ?? null },
-        priority: FormHelper.getUIDValueValid(this.order.priority) as Priority,
-        responsibleUID: FormHelper.getUIDValueValid(this.order.responsible),
-        requestedByUID: FormHelper.getUIDValueValid(this.order.requestedBy),
-        beneficiaryUID: FormHelper.getUIDValueValid(this.order.beneficiary),
-        providerUID: FormHelper.getUIDValueValid(this.order.provider),
-        projectUID: FormHelper.getUIDValueValid(this.order.project),
-        currencyUID: FormHelper.getUIDValueValid(this.order.currency),
+        priority: FormHelper.getUIDValue(this.order.priority) as Priority,
+        responsibleUID: FormHelper.getUIDValue(this.order.responsible),
+        requestedByUID: FormHelper.getUIDValue(this.order.requestedBy),
+        beneficiaryUID: FormHelper.getUIDValue(this.order.beneficiary),
+        providerUID: FormHelper.getUIDValue(this.order.provider),
+        projectUID: FormHelper.getUIDValue(this.order.project),
+        currencyUID: FormHelper.getUIDValue(this.order.currency),
         isForMultipleBeneficiaries: this.order.isForMultipleBeneficiaries,
         identificators: this.order.identificators ?? null,
         tags: this.order.tags ?? null,
@@ -350,7 +350,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
     switch (this.config.type) {
       case ObjectTypes.CONTRACT: {
         const order = this.order as Contract;
-        this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValueValid(order.requisition));
+        this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValue(order.requisition));
         this.form.controls.budgets.reset(order.budgets?.map(x => x.uid) ?? []);
         this.form.controls.signDate.reset(order.signDate);
         this.form.controls.contractNo.reset(order.contractNo);
@@ -359,23 +359,23 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       case ObjectTypes.CONTRACT_ORDER: {
         const order = this.order as ContractOrder;
         const contract = isEmpty(order.contract) ? null : order.contract;
-        this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValueValid(contract));
-        this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(order.budget));
+        this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValue(contract));
+        this.form.controls.budgetUID.reset(FormHelper.getUIDValue(order.budget));
         break;
       }
       case ObjectTypes.EXPENSE:
       case ObjectTypes.PURCHASE: {
         const order = this.order as PayableOrder;
-        this.form.controls.expenseTypeUID.reset(FormHelper.getUIDValueValid(order.expenseType));
-        this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValueValid(order.requisition));
-        this.form.controls.budgetUID.reset(FormHelper.getUIDValueValid(order.budget));
+        this.form.controls.expenseTypeUID.reset(FormHelper.getUIDValue(order.expenseType));
+        this.form.controls.linkedOrderUID.reset(FormHelper.getUIDValue(order.requisition));
+        this.form.controls.budgetUID.reset(FormHelper.getUIDValue(order.budget));
         break;
       }
       case ObjectTypes.REQUISITION: {
         const order = this.order as RequisitionOrder;
-        this.form.controls.budgetTypeUID.reset(FormHelper.getUIDValueValid(order.budgetType));
+        this.form.controls.budgetTypeUID.reset(FormHelper.getUIDValue(order.budgetType));
         this.form.controls.budgets.reset(order.budgets?.map(x => x.uid) ?? []);
-        this.form.controls.estimatedMonths.reset(FormHelper.getNumberValueValid(order.estimatedMonths));
+        this.form.controls.estimatedMonths.reset(FormHelper.getPositiveNumberValue(order.estimatedMonths));
         this.form.controls.observations.reset(order.observations);
         this.form.controls.guaranteeNotes.reset(order.guaranteeNotes);
         this.form.controls.penaltyNotes.reset(order.penaltyNotes);

@@ -205,10 +205,10 @@ export class PaymentAccountEditorComponent implements OnChanges, OnInit, OnDestr
         accountNo: this.paymentAccount.accountNo ?? '',
         holderName: this.paymentAccount.holderName ?? '',
         referenceNumber: this.paymentAccount.referenceNumber ?? '',
-        accountTypeUID: FormHelper.getUIDValueValid(this.paymentAccount.accountType),
-        institutionUID: FormHelper.getUIDValueValid(this.paymentAccount.institution),
-        paymentMethodUID: FormHelper.getUIDValueValid(this.paymentAccount.paymentMethod),
-        currencyUID: FormHelper.getUIDValueValid(this.paymentAccount.currency),
+        accountTypeUID: FormHelper.getUIDValue(this.paymentAccount.accountType),
+        institutionUID: FormHelper.getUIDValue(this.paymentAccount.institution),
+        paymentMethodUID: FormHelper.getUIDValue(this.paymentAccount.paymentMethod),
+        currencyUID: FormHelper.getUIDValue(this.paymentAccount.currency),
         askForReferenceNumber: this.paymentAccount.askForReferenceNumber,
       });
 

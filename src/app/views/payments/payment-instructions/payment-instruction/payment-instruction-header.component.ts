@@ -282,14 +282,14 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        requestedByUID: FormHelper.getUIDValueValid(this.instruction.requestedBy),
+        requestedByUID: FormHelper.getUIDValue(this.instruction.requestedBy),
         payable: `(${this.instruction.payableType.name}) ${this.instruction.payableNo} - ${this.instruction.payable.name}`,
         dueTime: this.instruction.dueTime ?? '',
-        payToUID: FormHelper.getUIDValueValid(this.instruction.payTo),
-        paymentMethodUID: FormHelper.getUIDValueValid(this.instruction.paymentMethod),
+        payToUID: FormHelper.getUIDValue(this.instruction.payTo),
+        paymentMethodUID: FormHelper.getUIDValue(this.instruction.paymentMethod),
         total: this.instruction.total ?? null,
-        currencyUID: FormHelper.getUIDValueValid(this.instruction.currency),
-        paymentAccountUID: FormHelper.getUIDValueValid(this.instruction.paymentAccount),
+        currencyUID: FormHelper.getUIDValue(this.instruction.currency),
+        paymentAccountUID: FormHelper.getUIDValue(this.instruction.paymentAccount),
         referenceNumber: this.instruction.referenceNumber ?? '',
         description: this.instruction.description ?? '',
       });

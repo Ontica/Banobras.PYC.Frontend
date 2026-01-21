@@ -117,13 +117,23 @@ export class FormHelper {
   }
 
 
-  static getUIDValueValid(value: Entity): string {
+  static getUIDValue(value: Entity): string {
     return isEmpty(value) ? null : value.uid;
   }
 
 
-  static getNumberValueValid(value: number): number {
-    return value >= 0 ? value : null;
+  static getNumberValue(value: number): number | null {
+    return typeof value === 'number' ? value : null;
+  }
+
+
+  static getPositiveNumberValue(value: number): number {
+    return typeof value === 'number' && value >= 0 ? value : null;
+  }
+
+
+  static getStringValue(value: string): string {
+    return value?.trim() ?? '';
   }
 
 }

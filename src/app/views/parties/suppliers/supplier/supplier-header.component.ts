@@ -213,10 +213,10 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        typeUID: FormHelper.getUIDValueValid(this.supplier.type),
-        name: this.supplier.name ?? '',
-        taxCode: this.supplier.taxCode ?? '',
-        subledgerAccount: this.supplier.subledgerAccount ?? '',
+        typeUID: FormHelper.getUIDValue(this.supplier.type),
+        name: FormHelper.getStringValue(this.supplier.name),
+        taxCode: FormHelper.getStringValue(this.supplier.taxCode),
+        subledgerAccount: FormHelper.getStringValue(this.supplier.subledgerAccount),
       });
     });
   }
