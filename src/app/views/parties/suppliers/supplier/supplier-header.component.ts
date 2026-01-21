@@ -38,6 +38,7 @@ interface SupplierFormModel extends FormGroup<{
   name: FormControl<string>;
   taxCode: FormControl<string>;
   subledgerAccount: FormControl<string>;
+  employeeNo: FormControl<string>;
   tags: FormControl<string[]>;
 }> { }
 
@@ -188,10 +189,10 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
   // }
 
 
-  private resolveMatchSubledgerAccountResponse(response: FlexibleIdentifiable) {
-    const subledgerAccount = `${response.number}: ${response.name}`
-    this.form.controls.subledgerAccount.reset(subledgerAccount);
-  }
+  // private resolveMatchSubledgerAccountResponse(response: FlexibleIdentifiable) {
+  //   const subledgerAccount = `${response.number}: ${response.name}`
+  //   this.form.controls.subledgerAccount.reset(subledgerAccount);
+  // }
 
 
   private validateDataLists() {
@@ -207,6 +208,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
       name: ['', Validators.required],
       taxCode: ['', Validators.required],
       subledgerAccount: ['', [Validators.required, Validate.digitsValue]],
+      employeeNo: ['', [Validate.digitsValue]],
       tags: [null],
     });
   }
@@ -219,6 +221,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
         name: FormHelper.getStringValue(this.supplier.name),
         taxCode: FormHelper.getStringValue(this.supplier.taxCode),
         subledgerAccount: FormHelper.getStringValue(this.supplier.subledgerAccount),
+        employeeNo: FormHelper.getStringValue(this.supplier.employeeNo),
         tags: this.supplier.tags ?? null,
       });
     });
@@ -244,6 +247,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
       name: formData.name ?? null,
       taxCode: formData.taxCode ?? null,
       subledgerAccount: formData.subledgerAccount ?? null,
+      employeeNo: formData.employeeNo ?? null,
       tags: formData.tags ?? null,
     };
 

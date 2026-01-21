@@ -201,7 +201,8 @@ export class PartyTabbedViewComponent implements OnChanges {
     this.title = `${data.name} ${status}`;
     this.hint = `<strong>${data.type.name} &nbsp; &nbsp; | &nbsp; &nbsp; </strong>` +
       `${data.taxCode} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
-      `${!data.subledgerAccount ? 'N/D' : data.subledgerAccount}`;
+      `${!data.subledgerAccount ? 'N/D' : data.subledgerAccount} &nbsp; &nbsp; | &nbsp; &nbsp; ` +
+      `${!data.employeeNo ? 'N/D' : data.employeeNo}`;
   }
 
 }

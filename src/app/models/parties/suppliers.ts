@@ -34,6 +34,7 @@ export interface SupplierDescriptor extends PartyDescriptor {
   name: string;
   taxCode: string;
   subledgerAccount: string;
+  employeeNo: string;
   statusName: string;
 }
 
@@ -43,6 +44,7 @@ export interface SupplierFields extends PartyFields {
   name: string;
   taxCode: string;
   subledgerAccount: string;
+  employeeNo: string;
   tags: string[];
 }
 
@@ -70,6 +72,7 @@ export interface Supplier extends Party {
   name: string;
   taxCode: string;
   subledgerAccount: string;
+  employeeNo: string;
   tags: string[];
   status: Identifiable<EntityStatus>;
 }
@@ -88,6 +91,7 @@ export const EmptySupplier: Supplier = {
   name: '',
   taxCode: '',
   subledgerAccount: '',
+  employeeNo: '',
   tags: [],
   status: Empty,
 }
@@ -98,6 +102,7 @@ export function mapSupplierDescriptorFromSupplier(data: SupplierHolder): Supplie
     ...mapPartyDescriptorFromParty(data.supplier),
     taxCode: data.supplier.taxCode,
     subledgerAccount: data.supplier.subledgerAccount,
+    employeeNo: data.supplier.employeeNo,
   };
 }
 
@@ -122,6 +127,11 @@ export const DefaultSuppliersColumns: DataTableColumn[] = [
   {
     field: 'subledgerAccount',
     title: 'Auxiliar',
+    type: DataTableColumnType.text,
+  },
+  {
+    field: 'employeeNo',
+    title: 'No. expediente (SIAL)',
     type: DataTableColumnType.text,
   },
   {

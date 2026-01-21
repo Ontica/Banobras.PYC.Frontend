@@ -46,19 +46,40 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-half">
+      <div class="fx-item-quarter">
 
-        <label>
-          Auxiliar contable:
-          <span *ngIf="formHelper.isControlInvalid(form.controls.subledgerAccount)"
-            class="warning-text">
-            (Debe contener solo dígitos)
-          </span>
-        </label>
+        <label>Auxiliar contable:</label>
 
         <input type="text" class="text-box"
           formControlName="subledgerAccount"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.subledgerAccount)">
+
+        <div [style.height]="'8pt'">
+
+          <label *ngIf="formHelper.isControlInvalid(form.controls.subledgerAccount)">
+            <span class="warning-text">
+              (Debe contener solo dígitos)
+            </span>
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <div class="fx-item-quarter">
+
+        <label>Número de expediente (SIAL):</label>
+
+        <input type="text" class="text-box"
+          formControlName="employeeNo"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.employeeNo)">
+
+        <label *ngIf="formHelper.isControlInvalid(form.controls.employeeNo)">
+          <span class="warning-text">
+            (Debe contener solo dígitos)
+          </span>
+        </label>
 
       </div>
 
