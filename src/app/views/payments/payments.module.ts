@@ -38,6 +38,7 @@ import { PaymentOrdersListComponent } from './payment-orders/payment-orders-expl
 import { PaymentOrdersListHeaderComponent } from './payment-orders/payment-orders-explorer/payment-orders-list-header.component';
 import { PaymentOrdersListItemComponent } from './payment-orders/payment-orders-explorer/payment-orders-list-item.component';
 import { PaymentOrderTabbedViewComponent } from './payment-orders/payment-order-tabbed-view/payment-order-tabbed-view.component';
+import { PaymentOrderPrintViewComponent } from './payment-orders/payment-order-tabbed-view/payment-order-print-view.component';
 import { PaymentOrderEditorComponent } from './payment-orders/payment-order/payment-order-editor.component';
 import { PaymentOrderCreatorComponent } from './payment-orders/payment-order/payment-order-creator.component';
 import { PaymentOrderHeaderComponent } from './payment-orders/payment-order/payment-order-header.component';
@@ -81,6 +82,7 @@ import { PaymentTimeWindowSelectorComponent } from './payment-time-control/time-
     PaymentOrdersListHeaderComponent,
     PaymentOrdersListItemComponent,
     PaymentOrderTabbedViewComponent,
+    PaymentOrderPrintViewComponent,
     PaymentOrderEditorComponent,
     PaymentOrderCreatorComponent,
     PaymentOrderHeaderComponent,

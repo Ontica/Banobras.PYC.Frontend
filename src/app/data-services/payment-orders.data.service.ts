@@ -10,7 +10,8 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { PaymentOrderHolder, PaymentOrderDescriptor, PaymentOrderFields, PaymentOrdersQuery,
-         ExplorerOperationType, ExplorerOperationCommand, ExplorerOperationResult } from '@app/models';
+         ExplorerOperationType, ExplorerOperationCommand, ExplorerOperationResult,
+         FileReport } from '@app/models';
 
 @Injectable()
 export class PaymentOrdersDataService {
@@ -59,6 +60,15 @@ export class PaymentOrdersDataService {
     const path = `v2/payments-management/payment-orders/${paymentOrderUID}`;
 
     return this.http.get<PaymentOrderHolder>(path);
+  }
+
+
+  getPaymentOrderForPrint(paymentOrderUID: string): EmpObservable<FileReport> {
+    Assertion.assertValue(paymentOrderUID, 'paymentOrderUID');
+
+    const path = `v2/payments-management/payment-orders/${paymentOrderUID}/print`;
+
+    return this.http.get<FileReport>(path);
   }
 
 
