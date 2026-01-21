@@ -56,30 +56,6 @@
 
           <div class="fx-row-container">
 
-            <div class="fx-item-half">
-
-              <label>No. cuenta:</label>
-
-              <input type="text" class="text-box"
-                formControlName="accountNo"
-                [class.invalid-control]="formHelper.isControlInvalid(form.controls.accountNo)">
-
-            </div>
-
-
-            <div class="fx-item-one">
-
-              <label>Identificador de la cuenta:</label>
-
-              <input type="text" class="text-box"
-                formControlName="identificator"
-                [class.invalid-control]="formHelper.isControlInvalid(form.controls.identificator)">
-
-            </div>
-
-          </div>
-
-          <div class="fx-row-container">
 
             <div class="fx-item-half">
 
@@ -92,6 +68,36 @@
                 [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
                 [showError]="formHelper.isControlInvalid(form.controls.institutionUID)">
               </emp-ng-select>
+
+            </div>
+
+            <div class="fx-item-half">
+
+              <label>
+                No. cuenta:
+                <span *ngIf="formHelper.isControlInvalid(form.controls.accountNo)"
+                  class="warning-text">
+                  (Debe contener 18 dígitos)
+                </span>
+              </label>
+
+              <input type="text" class="text-box"
+                formControlName="accountNo"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.accountNo)">
+
+            </div>
+
+          </div>
+
+          <div class="fx-row-container">
+
+            <div class="fx-item-half">
+
+              <label>Identificador de la cuenta:</label>
+
+              <input type="text" class="text-box"
+                formControlName="identificator"
+                [class.invalid-control]="formHelper.isControlInvalid(form.controls.identificator)">
 
             </div>
 

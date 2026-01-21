@@ -48,7 +48,13 @@
 
       <div class="fx-item-half">
 
-        <label>Auxiliar contable:</label>
+        <label>
+          Auxiliar contable:
+          <span *ngIf="formHelper.isControlInvalid(form.controls.subledgerAccount)"
+            class="warning-text">
+            (Debe contener solo dígitos)
+          </span>
+        </label>
 
         <input type="text" class="text-box"
           formControlName="subledgerAccount"

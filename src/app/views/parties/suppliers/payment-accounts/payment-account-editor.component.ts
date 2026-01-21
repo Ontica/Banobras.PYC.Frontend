@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { combineLatest } from 'rxjs';
 
-import { Assertion, EventInfo, Identifiable, isEmpty } from '@app/core';
+import { Assertion, EventInfo, Identifiable, Validate, isEmpty } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -188,7 +188,7 @@ export class PaymentAccountEditorComponent implements OnChanges, OnInit, OnDestr
       accountTypeUID: ['', Validators.required],
       paymentMethodUID: ['', Validators.required],
       currencyUID: ['', Validators.required],
-      accountNo: [''],
+      accountNo: ['', [Validate.digitsValue, Validators.minLength(18), Validators.maxLength(18)]],
       identificator: [''],
       institutionUID: [''],
       holderName: [''],

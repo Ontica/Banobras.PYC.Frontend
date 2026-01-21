@@ -77,6 +77,25 @@ export class Validate {
   }
 
 
+  static digitsValue(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+
+    if (value === null || value === undefined || value === '') {
+      return null;
+    }
+
+    if (typeof value === 'string') {
+      return /^\d+$/.test(value) ? null : { digitsValue: true };
+    }
+
+    if (typeof value === 'number') {
+      return Number.isInteger(value) && value >= 0 ? null : { digitsValue: true };
+    }
+
+    return { digitsValue: true };
+  }
+
+
   static maxCurrencyValue(max: number): ValidationErrors | null {
     return (control: AbstractControl): ValidationErrors | null => {
       if (control.value && (FormatLibrary.stringToNumber(control.value) > max)) {

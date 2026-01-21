@@ -10,7 +10,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Assertion, EventInfo, FlexibleIdentifiable, Identifiable } from '@app/core';
+import { Assertion, EventInfo, FlexibleIdentifiable, Identifiable, Validate } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
@@ -206,7 +206,7 @@ export class SupplierHeaderComponent implements OnInit, OnChanges, OnDestroy {
       typeUID: ['', Validators.required],
       name: ['', Validators.required],
       taxCode: ['', Validators.required],
-      subledgerAccount: ['', Validators.required],
+      subledgerAccount: ['', [Validators.required, Validate.digitsValue]],
       tags: [null],
     });
   }
