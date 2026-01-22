@@ -188,7 +188,7 @@ export class PaymentAccountEditorComponent implements OnChanges, OnInit, OnDestr
       accountTypeUID: ['', Validators.required],
       paymentMethodUID: ['', Validators.required],
       currencyUID: ['', Validators.required],
-      accountNo: ['', [Validate.digitsValue, Validators.minLength(18), Validators.maxLength(18)]],
+      accountNo: ['', [Validate.digitsValue, Validators.minLength(5)]],
       identificator: [''],
       institutionUID: [''],
       holderName: [''],
