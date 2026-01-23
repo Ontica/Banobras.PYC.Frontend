@@ -60,16 +60,21 @@
         </div>
 
         <div class="fx-item-half">
+
           <label>No. de contrato:</label>
+
           <input type="text" class="text-box"
             formControlName="contractNo"
             [class.invalid-control]="formHelper.isControlInvalid(form.controls.contractNo)">
+
         </div>
 
       </ng-container>
 
       <div class="fx-item-none" *ngIf="isContract || isRequisition">
+
         <label>{{isRequisition ? 'Vigencia estimada:': 'Vigencia:'}}</label>
+
         <emp-ng-date-range-picker
           formControlName="datePeriod"
           bindLabelStartDate="Fecha inicio"
@@ -77,19 +82,25 @@
           [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
 
         </emp-ng-date-range-picker>
+
       </div>
 
       <div class="fx-item-none" *ngIf="isContract">
+
         <label>Fecha de firma:</label>
+
         <emp-ng-datepicker
           formControlName="signDate"
           [showError]="formHelper.isControlInvalid(form.controls.signDate)">
 
         </emp-ng-datepicker>
+
       </div>
 
       <div class="fx-item" *ngIf="isRequisition">
-        <label class="nowrap">Duración estimada en meses:</label>
+
+        <label>Duración estimada (meses):</label>
+
         <emp-ng-input-numeric
           formControlName="estimatedMonths"
           [minDecimals]="0"
@@ -97,15 +108,19 @@
           [showError]="formHelper.isControlInvalid(form.controls.estimatedMonths)">
 
         </emp-ng-input-numeric>
+
       </div>
 
       <div class="fx-item-one">
+
         <label>Nombre:</label>
+
         <textarea class="text-area" empNgTextareaAutoresize rows="1"
           formControlName="name"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.name)">
 
         </textarea>
+
       </div>
 
     </div>
@@ -241,7 +256,7 @@
 
       </ng-container>
 
-      <div class="fx-item-half" *ngIf="isRequisition">
+      <div class="fx-item-quarter" *ngIf="isRequisition">
 
         <label>Tipo de presupuesto:</label>
 
@@ -256,7 +271,7 @@
 
       </div>
 
-      <div [ngClass]="isRequisition || isContractOrder ? 'fx-item-half' : 'fx-item-quarter'">
+      <div [ngClass]="isContractOrder ? 'fx-item-half' : 'fx-item-quarter'">
 
         <label>{{isRequisition || isContract ? 'Presupuestos:' : 'Presupuesto:'}}</label>
 
@@ -292,7 +307,7 @@
 
       </div>
 
-      <div *ngIf="isContract || isPurchase || isExpense"
+      <div *ngIf="isRequisition || isContract || isPurchase || isExpense"
         class="fx-item-quarter">
 
         <label>Moneda:</label>
@@ -308,6 +323,18 @@
 
       </div>
 
+      <div class="fx-item-quarter" *ngIf="isRequisition">
+
+        <label class="nowrap">Tipo de cambio estimado:</label>
+
+        <emp-ng-input-numeric
+          formControlName="exchangeRate"
+          [showError]="formHelper.isControlInvalid(form.controls.exchangeRate)">
+
+        </emp-ng-input-numeric>
+
+      </div>
+
     </div>
 
     <mat-divider class="horizontal-md">
@@ -319,6 +346,7 @@
       <div class="fx-item-half">
 
         <label>Otras claves:</label>
+
         <emp-ng-input-tags
           formControlName="identificators"
           [showError]="formHelper.isControlInvalid(form.controls.identificators)">
@@ -330,6 +358,7 @@
       <div class="fx-item-half">
 
         <label>Palabras de búsqueda adicionales:</label>
+
         <emp-ng-input-tags
           formControlName="tags"
           [showError]="formHelper.isControlInvalid(form.controls.tags)">
@@ -343,12 +372,15 @@
     <div class="fx-row-container">
 
       <div class="fx-item-one">
+
         <label>Descripción:</label>
+
         <textarea class="text-area" empNgTextareaAutoresize rows="1"
           formControlName="description"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.description)">
 
         </textarea>
+
       </div>
 
     </div>
@@ -356,12 +388,15 @@
     <div class="fx-row-container">
 
       <div class="fx-item-one">
+
         <label>Justificación:</label>
+
         <textarea class="text-area" empNgTextareaAutoresize rows="1"
           formControlName="justification"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.justification)">
 
         </textarea>
+
       </div>
 
     </div>
@@ -369,39 +404,51 @@
     <div class="fx-row-container" *ngIf="isRequisition">
 
       <div class="fx-item-quarter">
+
         <label>Observaciones:</label>
+
         <textarea class="text-area" empNgTextareaAutoresize rows="1" [maxHeightTextarea]="86"
           formControlName="observations"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.observations)">
 
         </textarea>
+
       </div>
 
       <div class="fx-item-quarter">
+
         <label>Garantías:</label>
+
         <textarea class="text-area" empNgTextareaAutoresize rows="1" [maxHeightTextarea]="86"
           formControlName="guaranteeNotes"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.guaranteeNotes)">
 
         </textarea>
+
       </div>
 
       <div class="fx-item-quarter">
+
         <label>Penalizaciones:</label>
+
         <textarea class="text-area" empNgTextareaAutoresize rows="1" [maxHeightTextarea]="86"
           formControlName="penaltyNotes"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.penaltyNotes)">
 
         </textarea>
+
       </div>
 
       <div class="fx-item-quarter">
+
         <label>Lugar y condiciones de entrega:</label>
+
         <textarea class="text-area" empNgTextareaAutoresize rows="1" [maxHeightTextarea]="86"
           formControlName="deliveryNotes"
           [class.invalid-control]="formHelper.isControlInvalid(form.controls.deliveryNotes)">
 
         </textarea>
+
       </div>
 
     </div>

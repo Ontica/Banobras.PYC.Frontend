@@ -48,6 +48,7 @@ interface OrderFormModel extends FormGroup<{
   datePeriod: FormControl<DateRange>;
   signDate: FormControl<DateString>;
   estimatedMonths: FormControl<number>;
+  exchangeRate: FormControl<number>;
   priority: FormControl<Priority>;
   responsibleUID: FormControl<string>;
   beneficiaryUID: FormControl<string>;
@@ -298,6 +299,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       datePeriod: [EmptyDateRange],
       signDate: [null],
       estimatedMonths: [null],
+      exchangeRate: [null],
       priority: [null],
       responsibleUID: [''],
       beneficiaryUID: [''],
@@ -376,6 +378,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
         this.form.controls.budgetTypeUID.reset(FormHelper.getUIDValue(order.budgetType));
         this.form.controls.budgets.reset(order.budgets?.map(x => x.uid) ?? []);
         this.form.controls.estimatedMonths.reset(FormHelper.getPositiveNumberValue(order.estimatedMonths));
+        this.form.controls.exchangeRate.reset(FormHelper.getPositiveNumberValue(order.exchangeRate));
         this.form.controls.observations.reset(order.observations);
         this.form.controls.guaranteeNotes.reset(order.guaranteeNotes);
         this.form.controls.penaltyNotes.reset(order.penaltyNotes);
@@ -542,6 +545,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       {
         budgets: formValues.budgets ?? [],
         estimatedMonths: formValues.estimatedMonths ?? null,
+        exchangeRate: formValues.exchangeRate ?? null,
         observations: formValues.observations ?? '',
         guaranteeNotes: formValues.guaranteeNotes ?? '',
         penaltyNotes: formValues.penaltyNotes ?? '',
