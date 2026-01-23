@@ -123,6 +123,7 @@ export interface BudgetTransactionHolder {
   groupedEntries: BudgetTransactionGroupedEntryData;
   taxes: TaxEntry[];
   bills: BillsStructure;
+  relatedTransactions: BudgetTransactionDescriptor[];
   documents: Document[];
   history: HistoryEntry[];
   actions: BudgetTransactionActions;
@@ -424,6 +425,7 @@ export const EmptyBudgetTransactionHolder: BudgetTransactionHolder = {
   groupedEntries: EmptyBudgetTransactionGroupedEntryData,
   taxes: [],
   bills: EmptyBillsStructure,
+  relatedTransactions: [],
   documents: [],
   history: [],
   actions: EmptyBudgetTransactionActions,

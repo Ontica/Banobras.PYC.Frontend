@@ -30,6 +30,7 @@ import { BudgetTransactionsImporterDetailsTableComponent } from './transactions-
 
 import { BudgetTransactionTabbedViewComponent } from './transaction-tabbed-view/transaction-tabbed-view.component';
 import { BudgetTransactionPrintViewComponent } from './transaction-tabbed-view/transaction-print-view.component';
+import { BudgetTransactionsRelatedListComponent } from './transaction-tabbed-view/transactions-related-list.component';
 import { BudgetTransactionCreatorComponent } from './transaction/transaction-creator.component';
 import { BudgetTransactionEditorComponent } from './transaction/transaction-editor.component';
 import { BudgetTransactionHeaderComponent } from './transaction/transaction-header.component';
@@ -68,6 +69,7 @@ import { BudgetTransactionsPlanningGeneratorComponent } from './transactions-pla
 
     BudgetTransactionTabbedViewComponent,
     BudgetTransactionPrintViewComponent,
+    BudgetTransactionsRelatedListComponent,
     BudgetTransactionCreatorComponent,
     BudgetTransactionEditorComponent,
     BudgetTransactionHeaderComponent,

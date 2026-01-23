@@ -47,6 +47,18 @@
 
     </mat-tab>
 
+    <mat-tab label="Relacionadas">
+
+      <ng-template matTabContent>
+
+        <emp-bdg-transactions-related-list
+          [transactions]="data.relatedTransactions">
+
+        </emp-bdg-transactions-related-list>
+
+      </ng-template>
+
+    </mat-tab>
 
     <mat-tab label="Comprobantes">
 
