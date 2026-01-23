@@ -68,7 +68,7 @@ export class BudgetManagementComponent {
 
 
   constructor(private budgetsData: BudgetsDataService,
-              private transactionsData: BudgetTransactionsDataService ,
+              private transactionsData: BudgetTransactionsDataService,
               private messageBox: MessageBoxService) { }
 
 

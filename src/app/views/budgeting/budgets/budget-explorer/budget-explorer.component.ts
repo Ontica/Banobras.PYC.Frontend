@@ -9,7 +9,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { BudgetData, BudgetEntryDescriptor, EmptyBudgetData, buildExplorerHint } from '@app/models';
+import { BudgetData, BudgetEntryDescriptor, EmptyBudgetData, EmptyBudgetEntryDescriptor,
+         buildExplorerHint } from '@app/models';
 
 import { sendEvent } from '@app/shared/utils';
 
@@ -32,7 +33,7 @@ export class BudgetExplorerComponent implements OnChanges {
 
   @Input() data: BudgetData = Object.assign({}, EmptyBudgetData);
 
-  @Input() entrySelected: BudgetEntryDescriptor = null;
+  @Input() selectedEntry: BudgetEntryDescriptor = Object.assign({}, EmptyBudgetEntryDescriptor);
 
   @Input() isLoading = false;
 
@@ -60,13 +61,11 @@ export class BudgetExplorerComponent implements OnChanges {
         sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
-
       case BudgetFilterEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.CLEAR_CLICKED,
           event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -80,11 +79,9 @@ export class BudgetExplorerComponent implements OnChanges {
         sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.SELECT_CLICKED,
           event.payload);
         return;
-
       case DataTableEventType.EXPORT_DATA:
         sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.EXPORT_CLICKED);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

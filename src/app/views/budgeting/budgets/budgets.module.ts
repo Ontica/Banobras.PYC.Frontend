@@ -19,6 +19,7 @@ import { BudgetTransactionsModule } from '../budgets-transactions/budget-transac
 import { BudgetMainPageComponent } from './budget-main-page/budget-main-page.component';
 import { BudgetExplorerComponent } from './budget-explorer/budget-explorer.component';
 import { BudgetFilterComponent } from './budget-explorer/budget-filter.component';
+import { BudgetEntryBreakdownComponent } from './budget-entry-breakdown/budget-entry-breakdown.component';
 import {
   BudgetSegmentItemSelectorComponent
 } from './budget-segment-items/budget-segment-item-selector.component';
@@ -44,6 +45,7 @@ import { BudgetSubmitterComponent } from './budget-management/budget-submitter.c
     BudgetMainPageComponent,
     BudgetExplorerComponent,
     BudgetFilterComponent,
+    BudgetEntryBreakdownComponent,
     BudgetSegmentItemSelectorComponent,
     BudgetManagementComponent,
     BudgetSubmitterComponent,

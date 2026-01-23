@@ -106,6 +106,25 @@ export interface BudgetData extends DataTable {
 
 
 export interface BudgetEntryDescriptor extends DataTableEntry {
+  title: string;
+  description: string;
+}
+
+
+export interface BudgetEntryBreakdownData {
+  entry: BudgetEntryDescriptor;
+  breakdown: BudgetEntryBreakdown;
+}
+
+
+export interface BudgetEntryBreakdown extends DataTable {
+  query: BudgetQuery; // TODO: definir, entry + BudgetQuery + EntryQuery
+  columns: DataTableColumn[];
+  entries: BudgetEntryBreakdownEntry[];
+}
+
+
+export interface BudgetEntryBreakdownEntry { // v1 transaction
   uid: string;
 }
 
@@ -128,7 +147,7 @@ export const EmptyBudgetType: BudgetType = {
   budgets: [],
   segmentTypes: [],
   transactionTypes: [],
-}
+};
 
 
 export const EmptyBudgetQuery: BudgetQuery = {
@@ -145,4 +164,23 @@ export const EmptyBudgetData: BudgetData = {
   query: EmptyBudgetQuery,
   columns: [],
   entries: [],
+};
+
+
+export const EmptyBudgetEntryDescriptor: BudgetEntryDescriptor = {
+  title: '',
+  description: '',
+};
+
+
+export const EmptyBudgetEntryBreakdown: BudgetEntryBreakdown = {
+  query: EmptyBudgetQuery,
+  columns: [],
+  entries: [],
+};
+
+
+export const EmptyBudgetEntryBreakdownData: BudgetEntryBreakdownData = {
+  entry: EmptyBudgetEntryDescriptor,
+  breakdown: EmptyBudgetEntryBreakdown,
 };

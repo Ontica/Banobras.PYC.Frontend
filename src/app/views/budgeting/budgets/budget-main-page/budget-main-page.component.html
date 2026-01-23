@@ -1,23 +1,30 @@
-<emp-ng-spinner #spinner [visible]="isLoadingSelection">
+<emp-ng-spinner #spinner [visible]="isLoadingEntry">
 
 </emp-ng-spinner>
 
 <div class="explorer">
 
   <emp-bdg-budget-explorer
-    class="primary priority"
-    [class.std-hide]="displayTabbedView"
+    class="primary"
+    [class.full-size]="!displayEntry"
+    [class.std-hide]="displayEntry"
+    [class.hide]="expandEntry"
     [data]="data"
-    [entrySelected]="entrySelected"
+    [selectedEntry]="selectedEntry.entry"
     [isLoading]="isLoading"
     [queryExecuted]="queryExecuted"
     (budgetExplorerEvent)="onBudgetExplorerEvent($event)">
 
   </emp-bdg-budget-explorer>
 
-  <div class="secondary std-stacked" *ngIf="displayTabbedView">
+  <emp-bdg-budget-entry-breakdown *ngIf="displayEntry"
+    class="secondary priority std-stacked"
+    [ngClass]="{'stacked full-size': expandEntry}"
+    [data]="selectedEntry"
+    [expand]="expandEntry"
+    (budgetEntryBreakdownEvent)="onBudgetEntryBreakdownEvent($event)">
 
-  </div>
+  </emp-bdg-budget-entry-breakdown>
 
 </div>
 
@@ -28,3 +35,10 @@
   (exportReportModalEvent)="onExportReportModalEvent($event)">
 
 </emp-ng-export-report-modal>
+
+
+<emp-ng-file-preview #filePreview
+  heading="Visor de cédula"
+  hint="Información de la transacción presupuestal">
+
+</emp-ng-file-preview>

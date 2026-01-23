@@ -31,6 +31,7 @@
 
       <emp-ng-data-table class="fx-item"
         [dataTable]="data"
+        [selectedEntry]="selectedEntry"
         [executed]="queryExecuted"
         [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"
         (dataTableEvent)="onDataTableEvent($event)">

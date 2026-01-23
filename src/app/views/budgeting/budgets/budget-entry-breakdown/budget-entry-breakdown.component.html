@@ -1,0 +1,25 @@
+<emp-ng-card
+  [heading]="title"
+  [hint]="hint"
+  [showExpand]="true"
+  [expanded]="expand"
+  (cardClose)="onCloseClicked()"
+  (cardExpand)="onExpandClicked()">
+
+  <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex">
+
+    <mat-tab label="Desglose">
+
+      <emp-ng-data-table
+        [dataTable]="data.breakdown"
+        [controlsAligned]="true"
+        [showExportButton]="false"
+        (dataTableEvent)="onDataTableEvent($event)">
+
+      </emp-ng-data-table>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+</emp-ng-card>

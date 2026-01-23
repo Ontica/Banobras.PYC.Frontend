@@ -9,8 +9,9 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { BudgetData, BudgetQuery, BudgetRequestFields, BudgetSegmentItem, BudgetTransactionDescriptor,
-         BudgetType, BudgetValidationResult, FileReport } from '@app/models';
+import { BudgetData, BudgetEntryBreakdown, BudgetEntryDescriptor, BudgetQuery, BudgetRequestFields,
+         BudgetSegmentItem, BudgetTransactionDescriptor, BudgetType, BudgetValidationResult,
+         FileReport } from '@app/models';
 
 @Injectable()
 export class BudgetsDataService {
@@ -39,6 +40,17 @@ export class BudgetsDataService {
     const path = `v2/budgeting/budget-explorer/search`;
 
     return this.http.post<BudgetData>(path, query);
+  }
+
+
+  getBudgetEntryBreakdown(query: BudgetQuery,
+                          entry: BudgetEntryDescriptor): EmpObservable<BudgetEntryBreakdown> {
+    Assertion.assertValue(query, 'query');
+    Assertion.assertValue(entry, 'entry');
+
+    const path = `v2/budgeting/budget-explorer/breakdown`;
+
+    return this.http.post<BudgetEntryBreakdown>(path, {query, entry});
   }
 
 
