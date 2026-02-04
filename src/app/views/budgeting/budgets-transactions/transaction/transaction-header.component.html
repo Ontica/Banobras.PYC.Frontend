@@ -224,6 +224,12 @@
             Rechazar
           </button>
 
+          <button *ngIf="actions.canCancel"
+            type="button" class="btn-warning"
+            (click)="onEventButtonClicked('Cancel')">
+            Cancelar
+          </button>
+
         </ng-container>
 
       </div>

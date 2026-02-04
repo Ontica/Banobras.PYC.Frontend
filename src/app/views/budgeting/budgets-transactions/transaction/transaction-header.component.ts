@@ -33,6 +33,7 @@ import { ConfirmSubmitModalEventType,
 export enum TransactionHeaderEventType {
   CREATE            = 'BudgetTransactionHeaderComponent.Event.CreateTransaction',
   UPDATE            = 'BudgetTransactionHeaderComponent.Event.UpdateTransaction',
+  CANCEL            = 'BudgetTransactionHeaderComponent.Event.CancelTransaction',
   DELETE            = 'BudgetTransactionHeaderComponent.Event.DeleteTransaction',
   SEND_TO_AUTHORIZE = 'BudgetTransactionHeaderComponent.Event.SendToAuthorizationTransaction',
   AUTHORIZE         = 'BudgetTransactionHeaderComponent.Event.AuthorizeTransaction',
@@ -123,7 +124,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
   get hasActions(): boolean {
     return this.actions.canSendToAuthorization || this.actions.canAuthorize || this.actions.canReject ||
-           this.actions.canClose || this.actions.canDelete || this.actions.canUpdate;
+           this.actions.canClose || this.actions.canCancel || this.actions.canDelete || this.actions.canUpdate;
   }
 
 
@@ -442,6 +443,9 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
     switch (this.confirmModalMode) {
       case 'Delete':
         sendEvent(this.transactionHeaderEvent, TransactionHeaderEventType.DELETE, { dataFields });
+        return;
+      case 'Cancel':
+        sendEvent(this.transactionHeaderEvent, TransactionHeaderEventType.CANCEL, { dataFields });
         return;
       case 'SendToAuthorization':
         sendEvent(this.transactionHeaderEvent, TransactionHeaderEventType.SEND_TO_AUTHORIZE, { dataFields });

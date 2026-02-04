@@ -313,6 +313,7 @@ export interface BudgetMonthEntryFields {
 
 export interface BudgetTransactionActions {
   canUpdate: boolean;
+  canCancel: boolean;
   canDelete: boolean;
   canSendToAuthorization: boolean;
   canAuthorize: boolean;
@@ -409,6 +410,7 @@ export const EmptyBudgetTransactionGroupedEntryData: BudgetTransactionGroupedEnt
 
 export const EmptyBudgetTransactionActions: BudgetTransactionActions = {
   canUpdate: false,
+  canCancel: false,
   canDelete: false,
   canSendToAuthorization: false,
   canAuthorize: false,
