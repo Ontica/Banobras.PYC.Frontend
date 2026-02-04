@@ -11,7 +11,8 @@
         <emp-ng-select
           formControlName="reportType"
           [items]="reportTypesList"
-          [showError]="formHelper.isControlInvalid(form.controls.reportType)">
+          [showError]="formHelper.isControlInvalid(form.controls.reportType)"
+          (changes)="onReportTypeChanged($event)">
         </emp-ng-select>
 
       </div>
@@ -31,12 +32,13 @@
 
       </div>
 
-      <div class="fx-item-size" style="--size: calc(50% - 161px)">
+      <div class="fx-item-size" style="--size: calc(50% - 36px)">
 
         <label>Presupuesto:</label>
 
         <emp-ng-select
           formControlName="budgetUID"
+          [config]="{autoSelect: true}"
           [items]="budgetsList"
           [showError]="formHelper.isControlInvalid(form.controls.budgetUID)">
         </emp-ng-select>
@@ -54,15 +56,6 @@
 
         </button>
 
-        <mat-divider vertical="true" class="vertical-slim">
-
-        </mat-divider>
-
-        <button class="btn-base btn-filter-options"
-          (click)="onShowFiltersClicked()" >
-          {{showFilters ? 'Ocultar' :'Mostrar'}} <mat-icon>filter_list</mat-icon>
-        </button>
-
       </div>
 
     </div>
@@ -71,88 +64,40 @@
 
       <div class="fx-item-half">
 
-        <label>Agrupación:</label>
+        <label>Áreas:</label>
 
         <emp-ng-select
-          formControlName="groupBy"
-          [config]="{multiple: true, clearable: true}"
-          [items]="segmentsForGroupByList"
-          [showError]="formHelper.isControlInvalid(form.controls.groupBy)">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-half">
-
-        <label>Área:</label>
-
-        <emp-ng-select
-          formControlName="basePartyUID"
-          [config]="{virtualScroll: true, clearable: true, showTooltip: true}"
+          formControlName="baseParties"
+          [config]="{virtualScroll: true, multiple: true, clearable: true, showTooltip: true}"
           [items]="orgUnitsList"
           [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.basePartyUID)"
+          [showError]="formHelper.isControlInvalid(form.controls.baseParties)"
           placeholder="Todas">
         </emp-ng-select>
 
       </div>
 
-    </div>
+      <div class="fx-item-quarter">
 
-    <div *ngIf="showFilters" [@empExpandCollapse]>
+        <label>Agrupar por:</label>
 
-      <mat-divider class="horizontal-md">
-
-      </mat-divider>
-
-      <div *ngIf="segmentsToDisplay.length === 0" class="text-not-found">
-        Seleccione el tipo de presupuesto.
-      </div>
-
-      <div class="fx-row-container fx-wrap">
-
-        <div *ngFor="let segment of segmentsToDisplay"
-         class="fx-item-half"
-         [style.margin-bottom.rem]="0.5">
-          <label>{{segment.label}}:</label>
-
-          <emp-bdg-budget-segment-item-selector
-            [formControlName]="segment.field"
-            [segmentType]="segment.dataType"
-            [multiple]="segment.multiple"
-            [required]="segment.required"
-            [showError]="formHelper.isControlInvalid(form.controls[segment.field])">
-
-          </emp-bdg-budget-segment-item-selector>
-
-        </div>
+        <emp-ng-select
+          formControlName="groupByColumn"
+          [items]="groupByColumnsList"
+          [showError]="formHelper.isControlInvalid(form.controls.groupByColumn)">
+        </emp-ng-select>
 
       </div>
 
-      <ng-container #clearFilterSection>
+      <div class="fx-item-quarter">
 
-        <mat-divider class="horizontal">
+        <label>Partidas presupuestales:</label>
+        <emp-ng-input-tags
+          formControlName="budgetAccounts"
+          [showError]="formHelper.isControlInvalid(form.controls.budgetAccounts)">
+        </emp-ng-input-tags>
 
-        </mat-divider>
-
-        <div class="fx-row-container fx-end">
-
-          <mat-divider vertical="true" class="vertical-inline">
-
-          </mat-divider>
-
-          <div class="fx-item-none">
-
-            <button class="btn-base btn-filter-options"
-              (click)="onClearFilters()">
-              Limpiar <mat-icon>filter_list</mat-icon>
-            </button>
-
-          </div>
-
-        </div>
-
-      </ng-container>
+      </div>
 
     </div>
 

@@ -29,7 +29,7 @@ export interface BudgetType {
   name: string;
   multiyear: boolean;
   budgets: Budget[];
-  segmentTypes: BudgetSegmentType[];
+  groupByColumns: Identifiable[];
   transactionTypes: Identifiable[];
 }
 
@@ -86,15 +86,9 @@ export interface BudgetQuery {
   reportType: BudgetExplorerReportTypes;
   budgetTypeUID: string;
   budgetUID: string;
-  basePartyUID: string;
-  groupBy: string[];
-  filterBy: BudgetSegmentQuery[];
-}
-
-
-export interface BudgetSegmentQuery {
-  segmentUID: string;
-  segmentItemsUID: string[];
+  baseParties: string[];
+  groupByColumn: string;
+  budgetAccounts: string[];
 }
 
 
@@ -145,7 +139,7 @@ export const EmptyBudgetType: BudgetType = {
   name: '',
   multiyear: false,
   budgets: [],
-  segmentTypes: [],
+  groupByColumns: [],
   transactionTypes: [],
 };
 
@@ -154,9 +148,9 @@ export const EmptyBudgetQuery: BudgetQuery = {
   reportType: BudgetExplorerReportTypes.ByColumn,
   budgetTypeUID: '',
   budgetUID: '',
-  basePartyUID: '',
-  groupBy: [],
-  filterBy: [],
+  baseParties: [],
+  groupByColumn: '',
+  budgetAccounts: [],
 };
 
 
