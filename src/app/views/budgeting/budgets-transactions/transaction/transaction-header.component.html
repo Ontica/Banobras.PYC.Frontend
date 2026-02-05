@@ -274,6 +274,7 @@
   [entityType]="transaction.transactionType.name"
   [party]="transaction.baseParty.name"
   [mode]="confirmModalMode"
+  [requireNotes]="['Reject', 'Cancel'].includes(confirmModalMode)"
   (confirmSubmitModalEvent)="onConfirmSubmitModalEvent($event)">
 
 </emp-ng-confirm-submit-modal>
