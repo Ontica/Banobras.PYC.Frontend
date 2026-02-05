@@ -292,6 +292,7 @@
     {label: 'Documento relacionado', value: '(' + instruction.payableType.name + ') ' + instruction.payableNo + ' - ' + instruction.payable.name },
   ]"
   [mode]="confirmModalMode"
+  [requireNotes]="confirmModalMode === 'ClosePayment'"
   (confirmSubmitModalEvent)="onConfirmSubmitModalEvent($event)">
 
 </emp-ng-confirm-submit-modal>

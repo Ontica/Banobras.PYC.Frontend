@@ -44,6 +44,8 @@ export class ConfirmSubmitModalComponent {
 
   @Input() mode: ConfirmSubmitType = null;
 
+  @Input() requireNotes = false;
+
   @Output() confirmSubmitModalEvent = new EventEmitter<EventInfo>();
 
   notes = '';
@@ -55,7 +57,7 @@ export class ConfirmSubmitModalComponent {
 
 
   get notesRequired(): boolean {
-    return ['Reject', 'ClosePayment'].includes(this.mode);
+    return this.requireNotes;
   }
 
 

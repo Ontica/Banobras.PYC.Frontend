@@ -40,11 +40,13 @@
 
       <ng-container *ngIf="notesRequired">
 
-        <span *ngIf="mode === 'Reject'"> con motivo: <br><br></span>
+        <span *ngIf="['Cancel', 'Reject'].includes(mode)"> con motivo: <br><br></span>
 
         <input type="text" class="text-box" *ngIf="notesRequired"
           [(ngModel)]="notes"
-          [placeholder]="mode === 'Reject' ? 'Motivo de rechazo' : 'Justificación'"
+          [placeholder]="['Cancel', 'Reject'].includes(mode) ?
+            'Motivo' + (mode === 'Reject' ? ' de rechazo' : '') :
+            'Justificación'"
           [class.invalid-control]="!notes">
 
       </ng-container>
