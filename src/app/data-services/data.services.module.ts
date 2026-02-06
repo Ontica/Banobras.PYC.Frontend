@@ -61,6 +61,8 @@ import { PaymentTimeControlDataService } from './payment-time-control.data.servi
 
 import { ProductsDataService } from './products.data.service';
 
+import { ReportingDataService } from './reporting.data.service';
+
 import { RequestsDataService } from './requests.data.service';
 
 import { SearchServicesDataService } from './search-services.data.service';
@@ -102,6 +104,7 @@ import { TaxesDataService } from './taxes.data.service';
     PaymentOrdersDataService,
     PaymentTimeControlDataService,
     ProductsDataService,
+    ReportingDataService,
     RequestsDataService,
     SearchServicesDataService,
     StepsDataService,

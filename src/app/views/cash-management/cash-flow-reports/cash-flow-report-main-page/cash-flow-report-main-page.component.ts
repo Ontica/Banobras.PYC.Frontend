@@ -11,7 +11,7 @@ import { Assertion, Empty, EventInfo, Identifiable, isEmpty } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { CashFlowDataService } from '@app/data-services';
+import { ReportingDataService } from '@app/data-services';
 
 import { CashFlowReport, CashFlowEntryDescriptor, CashFlowReportQuery, EmptyCashFlowReport,
          EmptyCashFlowReportQuery, CashFlowReportTypes} from '@app/models';
@@ -46,7 +46,7 @@ export class CashFlowReportMainPageComponent {
   fileUrl = '';
 
 
-  constructor(private cashFlowData: CashFlowDataService,
+  constructor(private reportingData: ReportingDataService,
               private messageBox: MessageBoxService) { }
 
 
@@ -95,7 +95,7 @@ export class CashFlowReportMainPageComponent {
   private searchCashFlowReport(reportType: CashFlowReportTypes, query: CashFlowReportQuery) {
     this.isLoading = true;
 
-    this.cashFlowData.searchCashFlowReport(reportType, query)
+    this.reportingData.searchCashFlowReport(reportType, query)
       .firstValue()
       .then(x => this.setData(x))
       .finally(() => this.isLoading = false);
@@ -103,7 +103,7 @@ export class CashFlowReportMainPageComponent {
 
 
   private exportCashFlowReport(reportType: CashFlowReportTypes, query: CashFlowReportQuery) {
-    this.cashFlowData.exportCashFlowReport(reportType, query)
+    this.reportingData.exportCashFlowReport(reportType, query)
       .firstValue()
       .then(x => {this.fileUrl = x.url});
   }
