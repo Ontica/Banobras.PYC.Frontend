@@ -13,6 +13,7 @@ import { PaymentsWorkspaceRoutingModule } from './payments-workspace-routing.mod
 import { BillingModule } from '@app/views/billing/billing.module';
 import { PartiesModule } from '@app/views/parties/parties.module';
 import { PaymentsModule } from '@app/views/payments/payments.module';
+import { ReportingModule } from '@app/views/reporting/reporting.module';
 import { RequestsModule } from '@app/views/requests/requests.module';
 
 
@@ -27,6 +28,7 @@ import { RequestsModule } from '@app/views/requests/requests.module';
     BillingModule,
     PartiesModule,
     PaymentsModule,
+    ReportingModule,
     RequestsModule,
   ]
 

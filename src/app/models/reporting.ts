@@ -14,7 +14,7 @@ export const DefaultEndDate: DateString = '2049-12-31';
 
 
 export enum ReportGroup {
-  Reportes = 'Reportes',
+  PaymentsReports = 'PaymentsReports',
 }
 
 
@@ -33,7 +33,6 @@ export interface ReportType<T> extends Identifiable {
   outputType?: Identifiable[];
   exportTo?: ExportationType[];
 }
-
 
 export interface FileReport {
   url: string;
@@ -127,3 +126,29 @@ export const EmptyReportData: ReportData = {
   columns: [],
   entries: [],
 };
+
+
+//
+// Payments reports
+//
+
+export enum PaymentsReportTypes {
+  PaymentsConcepts = 'payments-concepts',
+  PaymentsBills    = 'payments-bills',
+}
+
+
+export const PaymentsReportTypesList: ReportType<PaymentsReportTypes>[] = [
+  {
+    controller: ReportController.Reporting,
+    group: ReportGroup.PaymentsReports,
+    uid: PaymentsReportTypes.PaymentsConcepts,
+    name: 'Pagos desglosados por concepto',
+  },
+  {
+    controller: ReportController.Reporting,
+    group: ReportGroup.PaymentsReports,
+    uid: PaymentsReportTypes.PaymentsBills,
+    name: 'Pagos desglosados por comprobante'
+  },
+];

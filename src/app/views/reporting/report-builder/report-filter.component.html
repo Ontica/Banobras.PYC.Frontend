@@ -1,0 +1,97 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section form-container">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label class="nowrap">Tipo de reporte:</label>
+
+        <emp-ng-select
+          formControlName="reportType"
+          [items]="reportTypesList"
+          [showError]="formHelper.isControlInvalid(form.controls.reportType)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-none">
+
+        <label>Período:</label>
+
+        <emp-ng-date-range-picker
+          formControlName="datePeriod"
+          [showError]="formHelper.isControlInvalid(form.controls.datePeriod)">
+        </emp-ng-date-range-picker>
+
+      </div>
+
+      <div #filterOptionsSection class="fx-item-none fx-items-end" [style.paddingBottom.px]="2">
+
+        <button title="Generar reporte"
+          [class.btn-icon-action]="this.form.valid"
+          [class.btn-icon]="!this.form.valid"
+          (click)="onSearchClicked()">
+
+          <mat-icon>search</mat-icon>
+
+        </button>
+
+        <!-- <mat-divider vertical="true" class="vertical-slim">
+
+        </mat-divider>
+
+        <button class="btn-base btn-filter-options"
+          (click)="onShowFiltersClicked()" >
+          {{showFilters ? 'Ocultar' :'Mostrar'}} <mat-icon>filter_list</mat-icon>
+        </button> -->
+
+      </div>
+
+    </div>
+
+    <div *ngIf="showFilters" [@empExpandCollapse]>
+
+      <div class="fx-column-container fx-gap-half">
+
+        <mat-divider class="horizontal-md">
+
+        </mat-divider>
+
+        <div class="fx-row-container">
+
+        </div>
+
+        <ng-container #clearFilterSection>
+
+          <mat-divider class="horizontal">
+
+          </mat-divider>
+
+          <div class="fx-row-container fx-end fx-items-end">
+
+            <mat-divider vertical="true" class="vertical-inline">
+
+            </mat-divider>
+
+            <div class="fx-item-none">
+
+              <button class="btn-base btn-filter-options"
+                (click)="onClearFilters()">
+                Limpiar <mat-icon>filter_list</mat-icon>
+              </button>
+
+            </div>
+
+          </div>
+
+        </ng-container>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

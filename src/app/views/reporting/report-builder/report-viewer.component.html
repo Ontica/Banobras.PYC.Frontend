@@ -1,0 +1,50 @@
+<div class="card card-border">
+
+  <div class="card-header card-header-flat">
+
+    <div class="card-title">
+      Generación de reportes {{reportGroupName}}
+
+      <div class="card-hint" empNgProgressText
+        loadingText="Cargando"
+        [finalText]="cardHint"
+        [isLoading]="isLoading">
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card-body" [empNgSpinnerHost]="spinner">
+
+    <div class="fx-column-container-fill">
+
+      <emp-ng-spinner #spinner [visible]="isLoading">
+
+      </emp-ng-spinner>
+
+      <ng-content>
+
+      </ng-content>
+
+      <emp-ng-data-table class="fx-item"
+        [dataTable]="reportData"
+        [executed]="queryExecuted"
+        [selectedEntry]="selectedEntry?.financialReportEntry"
+        [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"
+        (dataTableEvent)="onDataTableEvent($event)">
+
+      </emp-ng-data-table>
+
+    </div>
+
+  </div>
+
+</div>
+
+<emp-ng-export-report-modal *ngIf="displayExportModal"
+  [heading]="'Exportar ' + selectedReportType?.name.toLowerCase()"
+  [fileUrl]="fileUrl"
+  (exportReportModalEvent)="onExportReportModalEvent($event)">
+
+</emp-ng-export-report-modal>

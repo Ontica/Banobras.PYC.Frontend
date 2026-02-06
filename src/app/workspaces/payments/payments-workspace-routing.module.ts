@@ -25,6 +25,8 @@ import {
   PaymentInstructionsMainPageComponent
 } from '@app/views/payments/payment-instructions/payment-instructions-main-page/payment-instructions-main-page.component';
 
+import { ReportBuilderComponent } from '@app/views/reporting/report-builder/report-builder.component';
+
 // import {
 //   RequestsMainPageComponent
 // } from '@app/views/requests/requests-main-page/requests-main-page.component';
@@ -64,7 +66,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.pagos_reportes.permission },
     path: ROUTES.pagos_reportes.path,
-    component: DefaultComponent,
+    component: ReportBuilderComponent,
   },
   {
     path: '',

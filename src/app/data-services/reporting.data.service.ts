@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { CashFlowReport, CashFlowReportQuery, CashFlowReportTypes, FileReport } from '@app/models';
+import { CashFlowReport, CashFlowReportQuery, CashFlowReportTypes, FileReport, PaymentsReportTypes,
+         ReportData, ReportQuery } from '@app/models';
 
 
 
@@ -42,6 +43,29 @@ export class ReportingDataService {
     Assertion.assertValue(query, 'query');
 
     const path = `v1/cash-flow/reports/${reportType}/export`;
+
+    return this.http.post<FileReport>(path, query);
+  }
+
+  //
+  // Payments
+  //
+
+  getPaymentsReport(reportType: PaymentsReportTypes,
+                    query: ReportQuery): EmpObservable<ReportData> {
+    Assertion.assertValue(query, 'query');
+
+    const path = `v2/financial-management/reports/${reportType}`;
+
+    return this.http.post<ReportData>(path, query);
+  }
+
+
+  exportPaymentsReport(reportType: PaymentsReportTypes,
+                       query: ReportQuery): EmpObservable<FileReport> {
+    Assertion.assertValue(query, 'query');
+
+    const path = `v2/financial-management/reports/${reportType}/export`;
 
     return this.http.post<FileReport>(path, query);
   }
