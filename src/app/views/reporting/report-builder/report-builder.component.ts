@@ -19,8 +19,8 @@ import { SkipIf } from '@app/shared/decorators';
 
 import { ReportingDataService } from '@app/data-services';
 
-import { EmptyReportData, EmptyReportType, FileReport, FileType, PaymentsReportTypes, ReportData, ReportGroup,
-         ReportQuery, ReportType, ReportTypeFlags } from '@app/models';
+import { EmptyReportData, EmptyReportType, FileReport, FileType, ReportController, ReportData, ReportGroup,
+         ReportQuery, ReportType, ReportTypeFlags, ReportTypes } from '@app/models';
 
 import { ReportFilterEventType } from './report-filter.component';
 
@@ -120,8 +120,11 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
 
   private onCurrentViewChanged(newView: View) {
     switch (newView.name) {
+      case 'Budget.Reporting':
+        this.reportGroup = ReportGroup.BudgetReports;
+        return;
       case 'Payments.Reporting':
-        this.reportGroup = ReportGroup.PaymentsReports;
+        this.reportGroup = ReportGroup.PaymentReports;
         return;
       default:
         this.reportGroup = null;
@@ -135,10 +138,10 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
 
     let observable: EmpObservable<ReportData> = null;
 
-    switch (this.reportGroup) { // this.selectedReportType.controller
-      case ReportGroup.PaymentsReports:
-        observable = this.reportingData.getPaymentsReport(this.reportQuery.reportType as PaymentsReportTypes,
-                                                          this.reportQuery);
+    switch (this.selectedReportType.controller) {
+      case ReportController.FinancialManagementReport:
+        const reportType = this.reportQuery.reportType as ReportTypes;
+        observable = this.reportingData.getFinancialManagementReport(reportType, this.reportQuery);
         break;
       default:
         console.log(`Unhandled ${this.selectedReportType.controller}`);
@@ -152,10 +155,10 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
   private validateExportReportData(reportQuery: ReportQuery) {
     let observable: EmpObservable<FileReport> = null;
 
-    switch (this.reportGroup) { // this.selectedReportType.controller
-      case ReportGroup.PaymentsReports:
-        observable = this.reportingData.exportPaymentsReport(this.reportQuery.reportType as PaymentsReportTypes,
-                                                             this.reportQuery);
+    switch (this.selectedReportType.controller) {
+      case ReportController.FinancialManagementReport:
+        const reportType = this.reportQuery.reportType as ReportTypes;
+        observable = this.reportingData.exportFinancialManagementReport(reportType, this.reportQuery);
         break;
       default:
         console.log(`Unhandled report ${this.selectedReportType.controller}`);

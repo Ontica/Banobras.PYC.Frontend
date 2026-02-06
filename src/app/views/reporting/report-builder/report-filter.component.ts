@@ -14,10 +14,10 @@ import { EventInfo, Identifiable, Validate } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { FormHelper, sendEvent, empExpandCollapse } from '@app/shared/utils';
+import { FormHelper, sendEvent, empExpandCollapse, ArrayLibrary } from '@app/shared/utils';
 
-import { ReportQuery, PaymentsReportTypes, PaymentsReportTypesList, DateRange, EmptyReportQuery,
-         EmptyDateRange } from '@app/models';
+import { BudgetReportTypesList, DateRange, EmptyDateRange, EmptyReportQuery, ReportTypes,
+         PaymentReportTypesList, ReportGroup, ReportQuery } from '@app/models';
 
 
 export enum ReportFilterEventType {
@@ -26,7 +26,7 @@ export enum ReportFilterEventType {
 }
 
 interface ReportFilterFormModel extends FormGroup<{
-  reportType: FormControl<PaymentsReportTypes>;
+  reportType: FormControl<ReportTypes>;
   datePeriod: FormControl<DateRange>;
 }> { }
 
@@ -36,6 +36,8 @@ interface ReportFilterFormModel extends FormGroup<{
   animations: [empExpandCollapse],
 })
 export class ReportFilterComponent implements OnChanges, OnInit, OnDestroy {
+
+  @Input() reportGroup: ReportGroup;
 
   @Input() query: ReportQuery = Object.assign({}, EmptyReportQuery);
 
@@ -53,7 +55,7 @@ export class ReportFilterComponent implements OnChanges, OnInit, OnDestroy {
 
   isLoading = false;
 
-  reportTypesList = PaymentsReportTypesList;
+  reportTypesList = [];
 
 
   constructor(private uiLayer: PresentationLayer) {
@@ -63,9 +65,30 @@ export class ReportFilterComponent implements OnChanges, OnInit, OnDestroy {
 
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.reportGroup) {
+      this.setReportTypesList();
+    }
+
     if (changes.query) {
       this.setFormData();
     }
+  }
+
+
+  private setReportTypesList() {
+    switch (this.reportGroup) {
+      case ReportGroup.PaymentReports:
+        this.reportTypesList = PaymentReportTypesList;
+        break;
+      case ReportGroup.BudgetReports:
+        this.reportTypesList = BudgetReportTypesList;
+        break;
+      default:
+        this.reportTypesList = [];
+        break;
+    }
+
+    this.setDefaultReporType();
   }
 
 
@@ -113,9 +136,11 @@ export class ReportFilterComponent implements OnChanges, OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      reportType: [PaymentsReportTypes.PaymentsConcepts, Validators.required],
+      reportType: [null as ReportTypes, Validators.required],
       datePeriod: [EmptyDateRange, [Validators.required, Validate.periodRequired]],
     });
+
+    this.setDefaultReporType();
   }
 
 
@@ -125,9 +150,15 @@ export class ReportFilterComponent implements OnChanges, OnInit, OnDestroy {
     };
 
     this.form.reset({
-      reportType: this.query.reportType as PaymentsReportTypes,
+      reportType: this.query.reportType as ReportTypes,
       datePeriod,
     });
+  }
+
+
+  private setDefaultReporType() {
+    const defaultReporType = ArrayLibrary.getFirstItem(this.reportTypesList)?.uid ?? null;
+    this.form.controls.reportType.reset(defaultReporType);
   }
 
 

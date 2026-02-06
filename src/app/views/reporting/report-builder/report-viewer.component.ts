@@ -106,7 +106,10 @@ export class ReportViewerComponent implements OnChanges {
 
   private setReportGroupName() {
     switch (this.reportGroup) {
-      case ReportGroup.PaymentsReports:
+      case ReportGroup.BudgetReports:
+        this.reportGroupName = 'presupuestales';
+        return;
+      case ReportGroup.PaymentReports:
         this.reportGroupName = 'de pagos';
         return;
       default:

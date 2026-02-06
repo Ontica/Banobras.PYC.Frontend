@@ -13,13 +13,15 @@ import { DataTable, DataTableColumn, DataTableEntry, DataTableQuery } from './ba
 export const DefaultEndDate: DateString = '2049-12-31';
 
 
-export enum ReportGroup {
-  PaymentsReports = 'PaymentsReports',
+export enum ReportController {
+  FinancialManagementReport = 'FinancialManagementReport',
+  CashFlowReport            = 'CashFlowReport',
 }
 
 
-export enum ReportController {
-  Reporting = 'Reporting',
+export enum ReportGroup {
+  PaymentReports = 'PaymentReports',
+  BudgetReports  = 'BudgetReports',
 }
 
 
@@ -129,26 +131,44 @@ export const EmptyReportData: ReportData = {
 
 
 //
-// Payments reports
+// Report types
 //
 
-export enum PaymentsReportTypes {
-  PaymentsConcepts = 'payments-concepts',
-  PaymentsBills    = 'payments-bills',
+export enum ReportTypes {
+  BudgetExerciseBills     = 'budget-exercise-bills',
+  BudgetRequestsAnalytics = 'budget-requests-analytics',
+  PaymentsBills           = 'payments-bills',
+  PaymentsConcepts        = 'payments-concepts',
 }
 
 
-export const PaymentsReportTypesList: ReportType<PaymentsReportTypes>[] = [
+export const PaymentReportTypesList: ReportType<ReportTypes>[] = [
   {
-    controller: ReportController.Reporting,
-    group: ReportGroup.PaymentsReports,
-    uid: PaymentsReportTypes.PaymentsConcepts,
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.PaymentReports,
+    uid: ReportTypes.PaymentsConcepts,
     name: 'Pagos desglosados por concepto',
   },
   {
-    controller: ReportController.Reporting,
-    group: ReportGroup.PaymentsReports,
-    uid: PaymentsReportTypes.PaymentsBills,
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.PaymentReports,
+    uid: ReportTypes.PaymentsBills,
     name: 'Pagos desglosados por comprobante'
+  },
+];
+
+
+export const BudgetReportTypesList: ReportType<ReportTypes>[] = [
+  {
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.BudgetReports,
+    uid: ReportTypes.BudgetRequestsAnalytics,
+    name: 'Analítico de suficiencias presupuestales',
+  },
+  {
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.BudgetReports,
+    uid: ReportTypes.BudgetExerciseBills,
+    name: 'Ejercicio presupuestal desglosado por comprobante'
   },
 ];

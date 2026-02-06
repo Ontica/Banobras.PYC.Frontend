@@ -21,6 +21,8 @@ import {
   BudgetTransactionsMainPageComponent
 } from '@app/views/budgeting/budgets-transactions/transactions-main-page/transactions-main-page.component';
 
+import { ReportBuilderComponent } from '@app/views/reporting/report-builder/report-builder.component';
+
 // import {
 //   RequestsMainPageComponent
 // } from '@app/views/requests/requests-main-page/requests-main-page.component';
@@ -70,7 +72,7 @@ const routes: Routes = [
   {
     data: { permission: ROUTES.presupuesto_reportes.permission },
     path: ROUTES.presupuesto_reportes.path,
-    component: DefaultComponent,
+    component: ReportBuilderComponent,
   },
   {
     path: '',
