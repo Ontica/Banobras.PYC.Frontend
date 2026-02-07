@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { Assertion, EmpObservable, EventInfo } from '@app/core';
 
@@ -17,10 +17,13 @@ import { View } from '@app/main-layout';
 
 import { SkipIf } from '@app/shared/decorators';
 
-import { ReportingDataService } from '@app/data-services';
+import { BudgetTransactionsDataService, PaymentOrdersDataService,
+         ReportingDataService } from '@app/data-services';
 
-import { EmptyReportData, EmptyReportType, FileReport, FileType, ReportController, ReportData, ReportGroup,
-         ReportQuery, ReportType, ReportTypeFlags, ReportTypes } from '@app/models';
+import { EmptyReportData, EmptyReportType, FileReport, FileType, ReportController, ReportData, ReportEntry,
+         ReportGroup, ReportQuery, ReportType, ReportTypeFlags, ReportTypes } from '@app/models';
+
+import { FilePreviewComponent } from '@app/shared/containers';
 
 import { ReportFilterEventType } from './report-filter.component';
 
@@ -32,6 +35,8 @@ import { ReportViewerEventType } from './report-viewer.component';
   templateUrl: './report-builder.component.html',
 })
 export class ReportBuilderComponent implements OnInit, OnDestroy {
+
+  @ViewChild('filePreview', { static: true }) filePreview: FilePreviewComponent;
 
   reportGroup: ReportGroup;
 
@@ -49,13 +54,20 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
 
   fileUrl = '';
 
+  filePreviewData = {
+    heading: '',
+    hint: '',
+  }
+
   showFilters = false;
 
   subscriptionHelper: SubscriptionHelper;
 
 
   constructor(private uiLayer: PresentationLayer,
-              private reportingData: ReportingDataService) {
+              private reportingData: ReportingDataService,
+              private paymentOrdersData: PaymentOrdersDataService,
+              private budgetTnxData: BudgetTransactionsDataService) {
     this.subscriptionHelper = uiLayer.createSubscriptionHelper();
   }
 
@@ -99,11 +111,12 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
     switch (event.type as ReportViewerEventType) {
       case ReportViewerEventType.REPORT_ENTRY_CLICKED:
         Assertion.assertValue(event.payload.reportEntry, 'event.payload.reportEntry');
+        this.validateReportEntry(event.payload.reportEntry as ReportEntry, event.payload.linkField);
         return;
       case ReportViewerEventType.EXPORT_DATA_CLICKED:
         Assertion.assertValue(event.payload.exportationType, 'event.payload.exportationType');
         const reportQuery = this.getReportQueryForExport(event.payload.exportationType as FileType);
-        this.validateExportReportData(reportQuery);
+        this.validateExportReportData();
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -152,7 +165,7 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
   }
 
 
-  private validateExportReportData(reportQuery: ReportQuery) {
+  private validateExportReportData() {
     let observable: EmpObservable<FileReport> = null;
 
     switch (this.selectedReportType.controller) {
@@ -166,6 +179,35 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
     }
 
     this.exportReportData(observable);
+  }
+
+
+  private validateReportEntry(reportEntry: ReportEntry, linkField: string) {
+    if (!linkField || (!!linkField && !reportEntry[linkField])) {
+      console.log('Unhandled report entry');
+      return;
+    }
+
+    let observable: EmpObservable<FileReport> = null;
+    const linkFieldValue = reportEntry[linkField];
+
+    switch (linkField) {
+      case 'paymentOrderUID':
+        observable = this.paymentOrdersData.getPaymentOrderForPrint(linkFieldValue)
+        this.setFilePreviewData('Impresion de la solicitud de pago',
+          'Información de la solicitud de pago');
+        break;
+      case 'budgetTransactionUID':
+        observable = this.budgetTnxData.getTransactionForPrint(linkFieldValue)
+        this.setFilePreviewData('Impresion de la transacción presupuestal',
+          'Información de la transacción presupuestal');
+      break;
+      default:
+        console.log(`Unhandled link field: ${linkField}`);
+        return;
+    }
+
+    this.printReportEntry(observable);
   }
 
 
@@ -183,6 +225,16 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
     observable
       .firstValue()
       .then(x => this.fileUrl = x.url);
+  }
+
+
+  private printReportEntry(observable: EmpObservable<FileReport>) {
+    this.isLoading = true;
+
+    observable
+      .firstValue()
+      .then(x => this.openFilePreview(x))
+      .finally(() => this.isLoading = false);
   }
 
 
@@ -208,6 +260,11 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
   }
 
 
+  private setFilePreviewData(heading: string, hint: string) {
+    this.filePreviewData = { heading, hint };
+  }
+
+
   private clearReportData() {
     this.setReportData(EmptyReportData, false);
   }
@@ -215,6 +272,11 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
 
   private getReportQueryForExport(exportTo: FileType): ReportQuery {
     return Object.assign({}, this.reportQuery, { exportTo });
+  }
+
+
+  private openFilePreview(file: FileReport) {
+    this.filePreview.open(file.url, file.type);
   }
 
 }

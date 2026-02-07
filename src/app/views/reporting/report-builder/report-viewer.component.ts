@@ -76,7 +76,7 @@ export class ReportViewerComponent implements OnChanges {
         return;
       case DataTableEventType.ENTRY_CLICKED:
         sendEvent(this.reportViewerEvent, ReportViewerEventType.REPORT_ENTRY_CLICKED,
-          {reportEntry: event.payload.entry});
+          { reportEntry: event.payload.entry, linkField: event.payload.column?.linkField ?? null});
         return;
       case DataTableEventType.EXPORT_DATA:
         this.setDisplayExportModal(true);
