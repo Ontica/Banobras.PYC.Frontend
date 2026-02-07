@@ -185,8 +185,8 @@ export class DataTableComponent implements OnChanges {
   }
 
 
-  onItemLinkClicked(entry: DataTableEntry) {
-    this.emitDataEntryClicked(entry);
+  onItemLinkClicked(entry: DataTableEntry, column: DataTableColumn) {
+    this.emitDataEntryClicked(entry, column);
   }
 
 
@@ -265,9 +265,9 @@ export class DataTableComponent implements OnChanges {
   }
 
 
-  private emitDataEntryClicked(entry: DataTableEntry) {
+  private emitDataEntryClicked(entry: DataTableEntry, column: DataTableColumn = null) {
     if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.dataTableEvent, DataTableEventType.ENTRY_CLICKED, { entry });
+      sendEvent(this.dataTableEvent, DataTableEventType.ENTRY_CLICKED, { column, entry });
     }
   }
 

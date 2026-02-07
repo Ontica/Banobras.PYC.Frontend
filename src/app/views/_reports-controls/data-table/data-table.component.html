@@ -80,12 +80,12 @@
                 {{row[column.field] | empDateTimeFormat}}
               </ng-container>
               <ng-container *ngSwitchCase="dataTableColumnType.text_link">
-                <a class="item-link" (click)="onItemLinkClicked(row)">
+                <a class="item-link" (click)="onItemLinkClicked(row, column)">
                   {{row[column.field]}}
                 </a>
               </ng-container>
               <ng-container *ngSwitchCase="dataTableColumnType.text_link_wrap">
-                <a class="item-link wrap" (click)="onItemLinkClicked(row)">
+                <a class="item-link wrap" (click)="onItemLinkClicked(row, column)">
                   {{row[column.field]}}
                 </a>
               </ng-container>
@@ -98,7 +98,7 @@
                 <a *ngIf="!column.functionToShowButton ||
                          (!!column.functionToShowButton && !!column.functionToShowButton(row))"
                   class="link-highlight"
-                  (click)="onItemLinkClicked(row)">
+                  (click)="onItemLinkClicked(row, column)">
                   {{column.buttonText ?? row[column.field]}}
                 </a>
                 <span *ngIf="!!column.functionToShowButton && !column.functionToShowButton(row)"
