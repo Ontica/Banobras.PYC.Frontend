@@ -29,6 +29,8 @@ export class PaymentInstructionsListItemComponent {
 
   @Input() selected = false;
 
+  @Input() displayControls = true;
+
   @Output() paymentInstructionsListItemEvent = new EventEmitter<EventInfo>();
 
 

@@ -1,6 +1,6 @@
 <div class="fx-column-container-fill">
 
-  <emp-ng-list-controls *ngIf="dataList.length > 0 && selection.selected.length > 0"
+  <emp-ng-list-controls *ngIf="displayControls && dataList.length > 0 && selection.selected.length > 0"
     class="fx-item-none"
     [config]="{itemsPronouns: 'las', itemsName: 'instrucciones de pago', selectionMessage: 'seleccionadas'}"
     [selection]="selection"
@@ -12,7 +12,8 @@
 
   <emp-pmt-payment-instructions-list-header class="fx-item-none"
     [dataList]="dataList"
-    [selection]="selection">
+    [selection]="selection"
+    [displayControls]="displayControls">
 
   </emp-pmt-payment-instructions-list-header>
 
@@ -30,6 +31,7 @@
             <emp-pmt-payment-instructions-list-item
               [item]="item"
               [selected]="selection.isSelected(item)"
+              [displayControls]="displayControls"
               (paymentInstructionsListItemEvent)="onPaymentInstructionsListItemEvent($event)">
 
             </emp-pmt-payment-instructions-list-item>

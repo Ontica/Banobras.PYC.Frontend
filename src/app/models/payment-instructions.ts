@@ -183,10 +183,7 @@ export interface PaymentInstructionActions {
 
 
 export const PaymentInstructionsOperationsList: ExplorerOperation[] = [
-  {
-    uid: ExplorerOperationType.export,
-    name: 'Exportar a excel'
-  },
+
 ];
 
 

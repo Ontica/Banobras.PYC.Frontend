@@ -43,6 +43,8 @@ export class PaymentInstructionsListComponent implements OnChanges {
 
   @Output() paymentInstructionsListEvent = new EventEmitter<EventInfo>();
 
+  displayControls = false;
+
   selection = new SelectionModel<PaymentInstructionDescriptor>(true, []);
 
   operationsList = PaymentInstructionsOperationsList;

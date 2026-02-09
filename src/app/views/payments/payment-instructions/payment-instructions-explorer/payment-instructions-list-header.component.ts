@@ -23,4 +23,6 @@ export class PaymentInstructionsListHeaderComponent {
 
   @Input() selection = new SelectionModel<PaymentInstructionDescriptor>(true, []);
 
+  @Input() displayControls = true;
+
 }

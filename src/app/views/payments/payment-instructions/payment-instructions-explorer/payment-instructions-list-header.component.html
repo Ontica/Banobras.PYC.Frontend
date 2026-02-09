@@ -4,7 +4,7 @@
 
     <div class="fx-row-container fx-gap-size entry-gap-size fx-items-center sm-fx-gap">
 
-      <div class="fx-item-size check-column-size">
+      <div class="fx-item-size check-column-size" *ngIf="displayControls">
         <div *ngIf="dataList.length > 0">
 
           <emp-ng-check-box-all
