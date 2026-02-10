@@ -129,6 +129,11 @@ export class DataTableComponent implements OnChanges {
   }
 
 
+  get itemSize(): number {
+    return this.columns.some(c => this.isTruncatedColumn(c)) ? 41 : 32;
+  }
+
+
   get entriesTotal(): number {
     return this.countOnlyEntries ?
       this.dataTable.entries.filter(x => EntryItemTypeList.includes(x.itemType)).length :
@@ -140,6 +145,11 @@ export class DataTableComponent implements OnChanges {
     return this.countOnlyEntries ?
       this.dataSource.filteredData.filter(x => EntryItemTypeList.includes(x.itemType)).length :
       this.dataSource.filteredData.length;
+  }
+
+
+  isTruncatedColumn(column: DataTableColumn): boolean {
+    return !!(column.truncate || column.size);
   }
 
 

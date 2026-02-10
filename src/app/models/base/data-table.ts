@@ -17,6 +17,9 @@ export interface DataTableQuery {
 }
 
 
+type DataTableColumnSize = 'xs' | 'sm' | 'md' | 'lg' | null;
+
+
 export interface DataTableColumn {
   field: string;
   title: string;
@@ -29,9 +32,10 @@ export interface DataTableColumn {
   buttonText?: string;
   hasLevel?: boolean
   showShadow?: boolean;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: DataTableColumnSize;
   showTooltip?: boolean;
   tooltipField?: string;
+  truncate?: boolean;
 }
 
 
@@ -109,3 +113,43 @@ export const DeleteButtonDataTableColumn: DataTableColumn = {
   title: '',
   type: DataTableColumnType.delete_button,
 };
+
+
+export function calculateDataColumnsSize(data: DataTable): DataTable {
+  if (!data?.entries?.length) return data;
+
+  data.columns.forEach(column => {
+    if (!column.size && column.type === 'text') column.size = estimateTextSize(column.field, data.entries);
+  });
+
+  return data;
+}
+
+
+export function estimateTextSize(field: string,
+                                 entries: DataTableEntry[],
+                                 sampleSize = 50): DataTableColumnSize {
+  if (!entries.length) return null;
+
+  const sample = entries
+    .slice(0, sampleSize)
+    .map(row => String(row[field] ?? ''))
+    .filter(value => value && !isCodeLikeText(value));
+
+  if (!sample.length) return null;
+
+  const avgLength = sample.reduce((sum, value) => sum + value.length, 0) / sample.length;
+
+  if (avgLength > 40) return 'lg';
+  if (avgLength > 22) return 'md';
+  if (avgLength > 12) return 'sm';
+  return null;
+}
+
+
+function isCodeLikeText(value: unknown): boolean {
+  if (typeof value !== 'string') return false;
+  if (value.includes(' ')) return false;
+  if (value.length < 12) return false;
+  return /^[A-Za-z0-9\-_.]+$/.test(value);
+}

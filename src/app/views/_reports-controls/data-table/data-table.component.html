@@ -23,7 +23,7 @@
 
   <div #tableContainer class="fx-item">
 
-    <cdk-virtual-scroll-viewport tvsItemSize="32" headerHeight="40" [bufferMultiplier]="0">
+    <cdk-virtual-scroll-viewport [tvsItemSize]="itemSize" headerHeight="40" [bufferMultiplier]="0">
 
       <table mat-table [dataSource]="dataSource">
 
@@ -35,7 +35,11 @@
                         'sticky-start sticky-start-width': showColumnStickyStart && i === 0 && hasItems,
                         'sticky-padding': showColumnStickyStart && i === 1 && hasItems,
                         'sticky-end': showColumnStickyEnd && i === columns.length - 1 && hasItems,
-                        'spacing-level': column.hasLevel}">
+                        'spacing-level': column.hasLevel,
+                        'column-xs': column.size === 'xs',
+                        'column-sm': column.size === 'sm',
+                        'column-md': column.size === 'md',
+                        'column-lg': column.size === 'lg'}">
 
             <ng-container [ngSwitch]="column.type">
               <ng-container *ngSwitchCase="dataTableColumnType.check_box">
@@ -73,27 +77,45 @@
                         'column-lg': column.size === 'lg'}">
 
             <ng-container [ngSwitch]="column.type">
+
               <ng-container *ngSwitchCase="dataTableColumnType.decimal">
                 {{row[column.field] | empDecimal: column.digits}}
               </ng-container>
+
               <ng-container *ngSwitchCase="dataTableColumnType.date">
                 {{row[column.field] | empDateTimeFormat}}
               </ng-container>
+
+              <ng-container *ngSwitchCase="dataTableColumnType.text">
+                <div *ngIf="isTruncatedColumn(column)"
+                  empNgTextTruncateToggle
+                  [maxLines]="2"
+                  [text]="row[column.field]">
+                  {{row[column.field]}}
+                </div>
+                <ng-container *ngIf="!isTruncatedColumn(column)">
+                  {{row[column.field]}}
+                </ng-container>
+              </ng-container>
+
               <ng-container *ngSwitchCase="dataTableColumnType.text_link">
                 <a class="item-link" (click)="onItemLinkClicked(row, column)">
                   {{row[column.field]}}
                 </a>
               </ng-container>
+
               <ng-container *ngSwitchCase="dataTableColumnType.text_link_wrap">
                 <a class="item-link wrap" (click)="onItemLinkClicked(row, column)">
                   {{row[column.field]}}
                 </a>
               </ng-container>
+
               <ng-container *ngSwitchCase="dataTableColumnType.text_tag">
                 <span class="tag" [class.tag-disabled]="entryStatusDisabledList.includes(row[column.field])">
                   {{row[column.field]}}
                 </span>
               </ng-container>
+
               <ng-container *ngSwitchCase="dataTableColumnType.text_button">
                 <a *ngIf="!column.functionToShowButton ||
                          (!!column.functionToShowButton && !!column.functionToShowButton(row))"
@@ -128,8 +150,8 @@
               <ng-container *ngSwitchDefault>
                 {{row[column.field]}}
               </ng-container>
-            </ng-container>
 
+            </ng-container>
           </td>
 
         </ng-container>

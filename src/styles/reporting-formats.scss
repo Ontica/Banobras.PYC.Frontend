@@ -67,8 +67,26 @@ table.mat-mdc-table {
       z-index: 101 !important;
     }
 
-  }
+    &.column-xs {
+      width: 9ch;
+      min-width: 9ch;
+    }
 
+    &.column-sm {
+      width: 16ch;
+      min-width: 16ch;
+    }
+
+    &.column-md {
+      width: 28ch;
+      min-width: 28ch;
+    }
+
+    &.column-lg {
+      width: 42ch;
+      min-width: 42ch;
+    }
+  }
 }
 
 
@@ -81,19 +99,23 @@ table.mat-mdc-table tr.mat-mdc-row {
   }
 
   td.mat-mdc-cell.column-xs {
-    width: 7.5%;
+    width: 9ch;
+    min-width: 9ch;
   }
 
   td.mat-mdc-cell.column-sm {
-    width: 15%;
+    width: 16ch;
+    min-width: 16ch;
   }
 
   td.mat-mdc-cell.column-md {
-    width: 20%;
+    width: 28ch;
+    min-width: 28ch;
   }
 
   td.mat-mdc-cell.column-lg {
-    width: 30%;
+    width: 42ch;
+    min-width: 42ch;
   }
 
   &.item-type-summary td.mat-mdc-cell,
