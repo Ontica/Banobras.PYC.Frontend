@@ -149,7 +149,7 @@ export class DataTableComponent implements OnChanges {
 
 
   isTruncatedColumn(column: DataTableColumn): boolean {
-    return !!(column.truncate || column.size);
+    return !!(column.truncate || ['md', 'lg'].includes(column.size));
   }
 
 

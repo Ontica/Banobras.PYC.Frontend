@@ -17,7 +17,9 @@ export interface DataTableQuery {
 }
 
 
-type DataTableColumnSize = 'xs' | 'sm' | 'md' | 'lg' | null;
+type DataTableColumnSize = 'xs' | 'sm' | 'md' | 'lg' |
+                           'fluid-xs' | 'fluid-sm' | 'fluid-md' | 'fluid-lg' |
+                           null;
 
 
 export interface DataTableColumn {

@@ -139,7 +139,7 @@ export const DefaultFinancialConceptsColumns: DataTableColumn[] = [
     field: 'number',
     title: 'Código',
     type: DataTableColumnType.text_link,
-    size: 'sm',
+    size: 'fluid-sm',
     showShadow: true,
   },
   {

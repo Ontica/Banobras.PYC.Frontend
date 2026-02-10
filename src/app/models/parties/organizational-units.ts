@@ -121,7 +121,7 @@ export const DefaultOrgUnitsColumns: DataTableColumn[] = [
     field: 'code',
     title: 'Código',
     type: DataTableColumnType.text_link,
-    size: 'xs',
+    size: 'fluid-xs',
     showShadow: true,
   },
   {

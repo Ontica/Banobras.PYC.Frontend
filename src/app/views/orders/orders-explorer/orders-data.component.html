@@ -38,12 +38,12 @@
         </ng-container>
 
         <ng-container matColumnDef="order">
-          <th mat-header-cell *matHeaderCellDef class="column-md">
+          <th mat-header-cell *matHeaderCellDef class="column-fluid-md">
             No. de {{config.nameSingular}} <br>
             {{isContract ? 'Tipo de contrato' : 'Categoría'}}  <br>
             Área
           </th>
-          <td mat-cell *matCellDef="let row" class="column-md">
+          <td mat-cell *matCellDef="let row" class="column-fluid-md">
             <div [style.min-height.px]="48">
               <a empNgStopPropagation class="link-highlight bold-text" (click)="onItemClicked(row)">
                 {{ !!row.orderNo ? row.orderNo : '-' }}
@@ -57,13 +57,13 @@
         </ng-container>
 
         <ng-container matColumnDef="especif">
-          <th mat-header-cell *matHeaderCellDef class="nowrap column-md">
+          <th mat-header-cell *matHeaderCellDef class="nowrap column-fluid-md">
             Proveedor <br>
             Presupuesto <br>
             Importe (antes de impuestos) <br>
           </th>
 
-          <td mat-cell *matCellDef="let row" class="column-md">
+          <td mat-cell *matCellDef="let row" class="column-fluid-md">
             <div class="text-highlight" empNgTextTruncateToggle [text]="row.providerName" [maxLines]="2">{{row.providerName}}</div>
             <div class="bold-text">{{row.baseBudgetName}}</div>
             {{row.subtotal | empDecimal}} <span *ngIf="!!row.currencyName">({{row.currencyName}})</span>

@@ -112,7 +112,7 @@ export const DefaultSuppliersColumns: DataTableColumn[] = [
     field: 'name',
     title: 'Beneficiario',
     type: DataTableColumnType.text,
-    size: 'lg'
+    size: 'fluid-lg'
   },
   {
     field: 'taxCode',
@@ -131,7 +131,7 @@ export const DefaultSuppliersColumns: DataTableColumn[] = [
   },
   {
     field: 'employeeNo',
-    title: 'No. expediente (SIAL)',
+    title: 'Expediente (SIAL)',
     type: DataTableColumnType.text,
   },
   {
