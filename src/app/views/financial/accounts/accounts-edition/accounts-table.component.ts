@@ -13,9 +13,11 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
-import { sendEvent, sendEventIf } from '@app/shared/utils';
+import { SkipIfSelection } from '@app/shared/decorators';
 
 import { MessageBoxService } from '@app/shared/services';
+
+import { sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { FinancialAccountDescriptor } from '@app/models';
 
@@ -74,17 +76,15 @@ export class FinancialAccountsTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectAccountClicked(account: FinancialAccountDescriptor) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.accountsTableEvent, AccountsTableEventType.ACCOUNT_CLICKED, { account });
-    }
+    sendEvent(this.accountsTableEvent, AccountsTableEventType.ACCOUNT_CLICKED, { account });
   }
 
 
+  @SkipIfSelection()
   onSelectProjectClicked(account: FinancialAccountDescriptor) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.accountsTableEvent, AccountsTableEventType.PROJECT_CLICKED, { account });
-    }
+    sendEvent(this.accountsTableEvent, AccountsTableEventType.PROJECT_CLICKED, { account });
   }
 
 

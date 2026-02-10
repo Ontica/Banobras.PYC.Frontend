@@ -16,6 +16,8 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { sendEvent } from '@app/shared/utils';
 
 import { EmptyDataTable, DataTableColumn, DataTable, DataTableEntry, DataTableColumnType, SummaryItemTypeList,
@@ -274,18 +276,15 @@ export class DataTableComponent implements OnChanges {
     return `${entriesTotal} registros encontrados`;
   }
 
-
+  @SkipIfSelection()
   private emitDataEntryClicked(entry: DataTableEntry, column: DataTableColumn = null) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.dataTableEvent, DataTableEventType.ENTRY_CLICKED, { column, entry });
-    }
+    sendEvent(this.dataTableEvent, DataTableEventType.ENTRY_CLICKED, { column, entry });
   }
 
 
+  @SkipIfSelection()
   private emitDeleteEntryClicked(entry: DataTableEntry) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.dataTableEvent, DataTableEventType.DELETE_ENTRY_CLICKED, { entry });
-    }
+    sendEvent(this.dataTableEvent, DataTableEventType.DELETE_ENTRY_CLICKED, { entry });
   }
 
 

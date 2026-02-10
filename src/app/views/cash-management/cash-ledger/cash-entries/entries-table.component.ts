@@ -13,9 +13,11 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { Assertion, EventInfo, FlexibleIdentifiable } from '@app/core';
 
-import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
+import { SkipIfSelection } from '@app/shared/decorators';
 
 import { MessageBoxService } from '@app/shared/services';
+
+import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { CashAccountStatus, CashAccountStatusEditList, CashEntriesOperation, CashEntriesOperationCommand,
          CashEntry, ExplorerOperation, MarkAsCashEntriesWaitingOperation, MarkAsNoCashEntriesOperation,
@@ -186,11 +188,9 @@ export class CashEntriesTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectEntryClicked(entry: CashEntry) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.entriesTableEvent, CashEntriesTableEventType.SELECT_ENTRY_CLICKED,
-        { entry });
-    }
+    sendEvent(this.entriesTableEvent, CashEntriesTableEventType.SELECT_ENTRY_CLICKED, { entry });
   }
 
 

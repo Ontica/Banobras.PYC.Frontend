@@ -11,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo } from '@app/core';
 
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { sendEvent } from '@app/shared/utils';
 
 import { BudgetTransactionEntryDescriptor, TotalItemTypeList } from '@app/models';
@@ -61,11 +63,10 @@ export class BudgetTransactionEntriesTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectEntryClicked(entry: BudgetTransactionEntryDescriptor) {
-    if (window.getSelection().toString().length <= 0 && !TotalItemTypeList.includes(entry.itemType)) {
-      sendEvent(this.transactionEntriesTableEvent, TransactionEntriesTableEventType.SELECT_ENTRY_CLICKED,
-        { entry });
-    }
+    sendEvent(this.transactionEntriesTableEvent, TransactionEntriesTableEventType.SELECT_ENTRY_CLICKED,
+      { entry });
   }
 
 

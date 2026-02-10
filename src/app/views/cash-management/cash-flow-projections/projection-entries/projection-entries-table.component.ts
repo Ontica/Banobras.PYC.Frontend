@@ -11,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo } from '@app/core';
 
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { sendEvent } from '@app/shared/utils';
 
 import { CashFlowProjectionEntryDescriptor, TotalItemTypeList } from '@app/models';
@@ -56,8 +58,9 @@ export class CashFlowProjectionEntriesTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectEntryClicked(entry: CashFlowProjectionEntryDescriptor) {
-    if (window.getSelection().toString().length <= 0 && !TotalItemTypeList.includes(entry.itemType)) {
+    if (!TotalItemTypeList.includes(entry.itemType)) {
       sendEvent(this.projectionEntriesTableEvent, ProjectionEntriesTableEventType.SELECT_ENTRY_CLICKED,
         { entry });
     }

@@ -11,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo } from '@app/core';
 
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
@@ -47,9 +49,7 @@ export class PaymentOrdersTableComponent implements OnChanges {
   dataSource: MatTableDataSource<BasePaymentDescriptor>;
 
 
-  constructor(private messageBox: MessageBoxService) {
-
-  }
+  constructor(private messageBox: MessageBoxService) { }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -59,10 +59,9 @@ export class PaymentOrdersTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectItemClicked(data: BasePaymentDescriptor) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.paymentOrdersTableEvent, PaymentOrdersTableEventType.SELECT_CLICKED, { data });
-    }
+    sendEvent(this.paymentOrdersTableEvent, PaymentOrdersTableEventType.SELECT_CLICKED, { data });
   }
 
 

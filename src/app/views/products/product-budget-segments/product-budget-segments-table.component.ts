@@ -11,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo } from '@app/core';
 
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent, sendEventIf } from '@app/shared/utils';
@@ -52,11 +54,10 @@ export class ProductBudgetSegmentsTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectItemClicked(item: ProductBudgetSegment) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.productBudgetSegmentsTableEvent, ProductBudgetSegmentsTableEventType.SELECT_ITEM_CLICKED,
-        { item });
-    }
+    sendEvent(this.productBudgetSegmentsTableEvent, ProductBudgetSegmentsTableEventType.SELECT_ITEM_CLICKED,
+      { item });
   }
 
 

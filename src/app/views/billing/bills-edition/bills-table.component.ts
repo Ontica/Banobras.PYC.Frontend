@@ -11,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo } from '@app/core';
 
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
@@ -53,9 +55,7 @@ export class BillsTableComponent implements OnChanges {
   FileType = FileType;
 
 
-  constructor(private messageBox: MessageBoxService) {
-
-  }
+  constructor(private messageBox: MessageBoxService) { }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -65,10 +65,9 @@ export class BillsTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectClicked(bill: Bill) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.billsTableEvent, BillsTableEventType.SELECT_CLICKED, { bill });
-    }
+    sendEvent(this.billsTableEvent, BillsTableEventType.SELECT_CLICKED, { bill });
   }
 
 

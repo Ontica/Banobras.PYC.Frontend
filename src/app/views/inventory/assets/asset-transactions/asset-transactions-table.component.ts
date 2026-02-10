@@ -11,11 +11,13 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo, isEmpty, StringLibrary } from '@app/core';
 
+import { FilePreviewComponent } from '@app/shared/containers';
+
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { sendEventIf } from '@app/shared/utils';
-
-import { FilePreviewComponent } from '@app/shared/containers';
 
 import { AssetsTransactionsDataService } from '@app/data-services';
 
@@ -60,8 +62,9 @@ export class AssetTransactionsTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectTransactionClicked(transaction: AssetsTransactionDescriptor) {
-    if (window.getSelection().toString().length <= 0 && !isEmpty(transaction)) {
+    if (!isEmpty(transaction)) {
       this.getDataForPrint(transaction.uid);
     }
   }

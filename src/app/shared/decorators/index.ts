@@ -6,3 +6,5 @@
  */
 
 export * from './skip-if.decorator';
+
+export * from './skip-if-selection.decorator';

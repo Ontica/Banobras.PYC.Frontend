@@ -11,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo, isEmpty } from '@app/core';
 
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
@@ -69,11 +71,9 @@ export class OrderItemsTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectItemClicked(item: OrderItem) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.orderItemsTableEvent, OrderItemsTableEventType.SELECT_ITEM_CLICKED,
-        { item });
-    }
+    sendEvent(this.orderItemsTableEvent, OrderItemsTableEventType.SELECT_ITEM_CLICKED, { item });
   }
 
 

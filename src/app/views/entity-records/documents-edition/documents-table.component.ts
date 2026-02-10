@@ -11,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo } from '@app/core';
 
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent, sendEventIf } from '@app/shared/utils';
@@ -44,9 +46,7 @@ export class DocumentsTableComponent implements OnChanges {
   dataSource: MatTableDataSource<Document>;
 
 
-  constructor(private messageBox: MessageBoxService) {
-
-  }
+  constructor(private messageBox: MessageBoxService) { }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -56,10 +56,9 @@ export class DocumentsTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectDocumentClicked(document: Document) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.documentsTableEvent, DocumentsTableEventType.SELECT_DOCUMENT_CLICKED, { document });
-    }
+    sendEvent(this.documentsTableEvent, DocumentsTableEventType.SELECT_DOCUMENT_CLICKED, { document });
   }
 
 

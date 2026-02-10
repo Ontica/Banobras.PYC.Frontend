@@ -13,6 +13,8 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 
 import { EventInfo } from '@app/core';
 
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent, sendEventIf } from '@app/shared/utils';
@@ -65,11 +67,9 @@ export class AccountabilitiesTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectClicked(item: AccountabilityDescriptor) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.accountabilitiesTableEvent, AccountabilitiesTableEventType.ITEM_CLICKED,
-        { item });
-    }
+    sendEvent(this.accountabilitiesTableEvent, AccountabilitiesTableEventType.ITEM_CLICKED, { item });
   }
 
 

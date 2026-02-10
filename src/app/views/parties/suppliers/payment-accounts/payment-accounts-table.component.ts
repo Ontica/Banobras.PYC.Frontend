@@ -11,6 +11,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { EventInfo } from '@app/core';
 
+import { SkipIfSelection } from '@app/shared/decorators';
+
 import { MessageBoxService } from '@app/shared/services';
 
 import { sendEvent, sendEventIf } from '@app/shared/utils';
@@ -43,7 +45,7 @@ export class PaymentAccountsTableComponent implements OnChanges {
   dataSource: MatTableDataSource<PaymentAccount>;
 
 
-  constructor(private messageBox: MessageBoxService) {}
+  constructor(private messageBox: MessageBoxService) { }
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -53,10 +55,9 @@ export class PaymentAccountsTableComponent implements OnChanges {
   }
 
 
+  @SkipIfSelection()
   onSelectAccountClicked(item: PaymentAccount) {
-    if (window.getSelection().toString().length <= 0) {
-      sendEvent(this.paymentAccountsTableEvent, PaymentAccountsTableEventType.SELECT_CLICKED, { item });
-    }
+    sendEvent(this.paymentAccountsTableEvent, PaymentAccountsTableEventType.SELECT_CLICKED, { item });
   }
 
 
