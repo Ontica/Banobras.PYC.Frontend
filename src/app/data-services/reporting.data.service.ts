@@ -9,8 +9,10 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
+import { map } from 'rxjs';
+
 import { CashFlowReport, CashFlowReportQuery, CashFlowReportTypes, FileReport, ReportTypes,
-         ReportData, ReportQuery } from '@app/models';
+         ReportData, ReportQuery, calculateDataColumnsSize } from '@app/models';
 
 
 
@@ -57,7 +59,10 @@ export class ReportingDataService {
 
     const path = `v2/financial-management/reports/${reportType}`;
 
-    return this.http.post<ReportData>(path, query);
+    return new EmpObservable<ReportData>(
+      this.http.post<ReportData>(path, query)
+        .pipe(map(x => calculateDataColumnsSize(x) as ReportData))
+    );
   }
 
 
