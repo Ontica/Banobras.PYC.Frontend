@@ -31,8 +31,10 @@ export class EmpTextTruncateToggleDirective implements OnChanges {
 
   @HostListener('click')
   toggle() {
-    this.expanded = !this.expanded;
-    this.applyState();
+    if (window.getSelection().toString().length <= 0) {
+      this.expanded = !this.expanded;
+      this.applyState();
+    }
   }
 
 
