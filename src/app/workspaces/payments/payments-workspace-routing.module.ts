@@ -49,6 +49,11 @@ const routes: Routes = [
     component: PaymentInstructionsMainPageComponent,
   },
   {
+    data: { permission: ROUTES.pagos_comprobacion_de_gastos.permission },
+    path: ROUTES.pagos_comprobacion_de_gastos.path,
+    component: DefaultComponent,
+  },
+  {
     data: { permission: ROUTES.pagos_explorador.permission },
     path: ROUTES.pagos_explorador.path,
     component: DefaultComponent,

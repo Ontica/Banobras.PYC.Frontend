@@ -155,6 +155,13 @@ export const ROUTES = {
     fullpath: '/gestion-del-gasto/gastos-y-reembolsos',
   },
 
+  gastos_comprobacion_de_gastos: {
+    permission: PERMISSIONS.ROUTE_GASTOS_COMPROBACION_DE_GASTOS,
+    parent: 'gestion-del-gasto',
+    path: 'comprobacion-de-gastos',
+    fullpath: '/gestion-del-gasto/comprobacion-de-gastos',
+  },
+
   gastos_solicitudes_de_pago: {
     permission: PERMISSIONS.ROUTE_GASTOS_SOLICITUDES_DE_PAGO,
     parent: 'gestion-del-gasto',
@@ -206,6 +213,13 @@ export const ROUTES = {
     parent: 'pagos',
     path: 'instrucciones-de-pago',
     fullpath: '/pagos/instrucciones-de-pago',
+  },
+
+  pagos_comprobacion_de_gastos: {
+    permission: PERMISSIONS.ROUTE_PAGOS_COMPROBACION_DE_GASTOS,
+    parent: 'pagos',
+    path: 'comprobacion-de-gastos',
+    fullpath: '/pagos/comprobacion-de-gastos',
   },
 
   pagos_explorador: {
@@ -267,6 +281,13 @@ export const ROUTES = {
     parent: 'presupuesto',
     path: 'transacciones',
     fullpath: '/presupuesto/transacciones',
+  },
+
+  presupuesto_comprobacion_de_gastos: {
+    permission: PERMISSIONS.ROUTE_PRESUPUESTO_COMPROBACION_DE_GASTOS,
+    parent: 'presupuesto',
+    path: 'comprobacion-de-gastos',
+    fullpath: '/presupuesto/comprobacion-de-gastos',
   },
 
   presupuesto_suficiencias: {

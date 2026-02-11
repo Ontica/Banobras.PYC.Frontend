@@ -45,6 +45,11 @@ const routes: Routes = [
     component: BudgetTransactionsMainPageComponent,
   },
   {
+    data: { permission: ROUTES.presupuesto_comprobacion_de_gastos.permission },
+    path: ROUTES.presupuesto_comprobacion_de_gastos.path,
+    component: DefaultComponent,
+  },
+  {
     data: { permission: ROUTES.presupuesto_suficiencias.permission },
     path: ROUTES.presupuesto_suficiencias.path,
     component: DefaultComponent,

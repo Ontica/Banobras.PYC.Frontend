@@ -52,6 +52,11 @@ const routes: Routes = [
     component: OrdersMainPageComponent,
   },
   {
+    data: { permission: ROUTES.gastos_comprobacion_de_gastos.permission },
+    path: ROUTES.gastos_comprobacion_de_gastos.path,
+    component: DefaultComponent,
+  },
+  {
     data: { permission: ROUTES.gastos_solicitudes_de_pago.permission },
     path: ROUTES.gastos_solicitudes_de_pago.path,
     component: DefaultComponent,
