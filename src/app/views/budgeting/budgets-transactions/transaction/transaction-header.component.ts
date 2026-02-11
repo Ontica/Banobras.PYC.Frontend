@@ -50,6 +50,7 @@ interface TransactionFormModel extends FormGroup<{
   justification: FormControl<string>;
   baseEntityTypeUID: FormControl<string>;
   baseEntityUID: FormControl<string>;
+  allowsOverdrafts: FormControl<boolean>;
 }> { }
 
 @Component({
@@ -79,6 +80,8 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   isLoading = false;
 
   isLoadingOrgUnits = false;
+
+  askForAllowsOverdrafts = false;
 
   budgetTypesList: BudgetTypeForEdition[] = [];
 
@@ -202,6 +205,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
     this.setOrgUnitsList([]);
     this.setOperationSourcesList([]);
     this.setBaseEntityTypesList([]);
+    this.setAskForAllowsOverdrafts(false);
 
     this.validateBaseEntityFields();
   }
@@ -218,6 +222,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
     this.setOrgUnitsList([]);
     this.setOperationSourcesList([]);
     this.setBaseEntityTypesList([]);
+    this.setAskForAllowsOverdrafts(false);
 
     this.validateBaseEntityFields();
   }
@@ -228,10 +233,12 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
     this.form.controls.operationSourceUID.reset();
     this.form.controls.baseEntityTypeUID.reset();
     this.form.controls.baseEntityUID.reset();
+    this.form.controls.allowsOverdrafts.reset(false);
 
     this.getOrgUnitsByQuery(this.form.value.budgetUID ?? '', this.form.value.transactionTypeUID ?? '');
     this.setOperationSourcesList(type.operationSources);
     this.setBaseEntityTypesList(type.relatedDocumentTypes);
+    this.setAskForAllowsOverdrafts(type.askForAllowsOverdrafts);
 
     this.validateBaseEntityFields();
   }
@@ -325,6 +332,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
         this.setTransactionTypesList(budget?.transactionTypes ?? []);
         this.setOperationSourcesList(transactionType?.operationSources ?? []);
         this.setBaseEntityTypesList(transactionType?.relatedDocumentTypes ?? []);
+        this.setAskForAllowsOverdrafts(transactionType?.askForAllowsOverdrafts);
         this.getOrgUnitsByQuery(
           this.transaction.budget.uid ?? '', this.transaction.transactionType.uid ?? ''
         );
@@ -374,6 +382,11 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
   }
 
 
+  private setAskForAllowsOverdrafts(askFor: boolean) {
+    this.askForAllowsOverdrafts = askFor;
+  }
+
+
   private initForm() {
     const fb = new FormBuilder();
 
@@ -386,6 +399,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       justification: [''],
       baseEntityTypeUID: [''],
       baseEntityUID: [''],
+      allowsOverdrafts: [false],
     });
   }
 
@@ -401,6 +415,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
         justification: this.transaction.justification ?? '',
         baseEntityTypeUID: isEmpty(this.transaction.baseEntityType) ? null : this.transaction.baseEntityType.uid,
         baseEntityUID: isEmpty(this.transaction.baseEntity) ? null : this.transaction.baseEntity.uid,
+        allowsOverdrafts: this.transaction.allowsOverdrafts,
       });
 
       this.validateInitData();
@@ -420,6 +435,7 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
       justification: this.form.value.justification ?? null,
       baseEntityTypeUID: this.form.value.baseEntityTypeUID ?? null,
       baseEntityUID: this.form.value.baseEntityUID ?? null,
+      allowsOverdrafts: this.askForAllowsOverdrafts ? this.form.value.allowsOverdrafts : false,
       applicationDate: null,
     };
 

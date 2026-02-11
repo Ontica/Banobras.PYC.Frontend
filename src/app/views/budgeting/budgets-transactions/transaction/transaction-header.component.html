@@ -71,13 +71,13 @@
 
       </div>
 
-      <div class="fx-item-half">
+      <div [ngClass]="askForAllowsOverdrafts ? 'fx-item-quarter' : 'fx-item-half'">
 
         <label>Fuente:</label>
 
         <emp-ng-select
           formControlName="operationSourceUID"
-          [config]="{autoSelect: !isSaved}"
+          [config]="{autoSelect: !isSaved, showTooltip: true}"
           [items]="operationSourcesList"
           [loading]="isLoading"
           [placeholder]="transactionTypePlaceholder"
@@ -85,6 +85,16 @@
         </emp-ng-select>
 
       </div>
+
+      <div class="fx-item-quarter" *ngIf="askForAllowsOverdrafts">
+
+        <mat-checkbox empNgStopPropagation [style.margin-left.px]="-4" [style.margin-top.px]="9"
+          formControlName="allowsOverdrafts">
+          Permitir sobregiro de saldo disponible
+        </mat-checkbox>
+
+      </div>
+
 
     </div>
 

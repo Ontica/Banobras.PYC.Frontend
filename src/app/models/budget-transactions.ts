@@ -42,6 +42,7 @@ export interface BudgetForEdition extends Budget {
 export interface BudgetTransactionType {
   uid: string;
   name: string;
+  askForAllowsOverdrafts: boolean;
   operationSources: Identifiable[];
   relatedDocumentTypes: Identifiable[];
   entriesRules: BudgetTransactionEntriesRules;
@@ -109,6 +110,7 @@ export interface BudgetTransactionDescriptor {
   justification: string;
   baseEntityTypeUID: string;
   baseEntityUID: string;
+  allowsOverdrafts: boolean;
 }
 
 
@@ -141,6 +143,7 @@ export interface BudgetTransaction {
   baseEntityType: Identifiable;
   baseEntity: BaseEntity;
   baseEntityNo: string;
+  allowsOverdrafts: boolean;
   justification: string;
   requestedBy: Identifiable;
   authorizedBy: Identifiable;
@@ -364,6 +367,7 @@ export const EmptyBudgetTransactionsQuery: BudgetTransactionsQuery = {
 export const EmptyBudgetTransactionType: BudgetTransactionType = {
   uid: '',
   name: '',
+  askForAllowsOverdrafts: false,
   operationSources: [],
   relatedDocumentTypes: [],
   entriesRules: {
@@ -386,6 +390,7 @@ export const EmptyBudgetTransaction: BudgetTransaction = {
   baseEntityType: Empty,
   baseEntity: Empty,
   baseEntityNo: '',
+  allowsOverdrafts: false,
   justification: '',
   requestedBy: Empty,
   authorizedBy: Empty,
