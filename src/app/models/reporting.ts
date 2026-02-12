@@ -137,25 +137,12 @@ export const EmptyReportData: ReportData = {
 export enum ReportTypes {
   BudgetExerciseBills     = 'budget-exercise-bills',
   BudgetRequestsAnalytics = 'budget-requests-analytics',
+  BudgetExerciseJournal   = 'budget-exercise-journal',
+  BudgetRequestsJournal   = 'budget-requests-journal',
+  BudgetAllocationJournal = 'budget-allocation-journal',
   PaymentsBills           = 'payments-bills',
   PaymentsConcepts        = 'payments-concepts',
 }
-
-
-export const PaymentReportTypesList: ReportType<ReportTypes>[] = [
-  {
-    controller: ReportController.FinancialManagementReport,
-    group: ReportGroup.PaymentReports,
-    uid: ReportTypes.PaymentsConcepts,
-    name: 'Pagos desglosados por concepto',
-  },
-  {
-    controller: ReportController.FinancialManagementReport,
-    group: ReportGroup.PaymentReports,
-    uid: ReportTypes.PaymentsBills,
-    name: 'Pagos desglosados por comprobante'
-  },
-];
 
 
 export const BudgetReportTypesList: ReportType<ReportTypes>[] = [
@@ -170,5 +157,40 @@ export const BudgetReportTypesList: ReportType<ReportTypes>[] = [
     group: ReportGroup.BudgetReports,
     uid: ReportTypes.BudgetExerciseBills,
     name: 'Ejercicio presupuestal desglosado por comprobante'
+  },
+
+  {
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.BudgetReports,
+    uid: ReportTypes.BudgetExerciseJournal,
+    name: 'Movimientos del ejercicio presupuestal',
+  },
+  {
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.BudgetReports,
+    uid: ReportTypes.BudgetRequestsJournal,
+    name: 'Movimientos de suficiencia presupuestal'
+  },
+  {
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.BudgetReports,
+    uid: ReportTypes.BudgetAllocationJournal,
+    name: 'Movimientos de asignación presupuestal'
+  },
+];
+
+
+export const PaymentReportTypesList: ReportType<ReportTypes>[] = [
+  {
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.PaymentReports,
+    uid: ReportTypes.PaymentsConcepts,
+    name: 'Pagos desglosados por concepto',
+  },
+  {
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.PaymentReports,
+    uid: ReportTypes.PaymentsBills,
+    name: 'Pagos desglosados por comprobante'
   },
 ];
