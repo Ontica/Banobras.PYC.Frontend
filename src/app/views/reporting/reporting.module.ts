@@ -15,8 +15,9 @@ import { SharedModule } from '@app/shared/shared.module';
 import { ReportsControlsModule } from '../_reports-controls/reports-controls.module';
 
 import { ReportBuilderComponent } from './report-builder/report-builder.component';
-import { ReportFilterComponent } from './report-builder/report-filter.component';
 import { ReportViewerComponent } from './report-builder/report-viewer.component';
+import { ReportFilterComponent } from './report-builder/report-filters/report-filter.component';
+import { BudgetReportFilterComponent } from './report-builder/report-filters/budget-report-filter.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { ReportViewerComponent } from './report-builder/report-viewer.component'
     ReportBuilderComponent,
     ReportFilterComponent,
     ReportViewerComponent,
+    BudgetReportFilterComponent,
   ],
   exports: [
     ReportBuilderComponent,

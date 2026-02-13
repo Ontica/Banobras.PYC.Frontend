@@ -11,13 +11,24 @@
     [isLoading]="isLoading"
     (reportViewerEvent)="onReportViewerEvent($event)">
 
-    <emp-pyc-report-filter
-      class="fx-item-none"
-      [reportGroup]="reportGroup"
-      [(showFilters)]="showFilters"
-      (reportFilterEvent)="onReportFilterEvent($event)">
+    <ng-container [ngSwitch]="reportGroup">
 
-    </emp-pyc-report-filter>
+      <emp-pyc-budget-report-filter *ngSwitchCase="ReportGroups.BudgetReports"
+        class="fx-item-none"
+        [(showFilters)]="showFilters"
+        (budgetReportFilterEvent)="onReportFilterEvent($event)">
+
+      </emp-pyc-budget-report-filter>
+
+      <emp-pyc-report-filter *ngSwitchDefault
+        class="fx-item-none"
+        [reportGroup]="reportGroup"
+        [(showFilters)]="showFilters"
+        (reportFilterEvent)="onReportFilterEvent($event)">
+
+      </emp-pyc-report-filter>
+
+    </ng-container>
 
   </emp-pyc-report-viewer>
 

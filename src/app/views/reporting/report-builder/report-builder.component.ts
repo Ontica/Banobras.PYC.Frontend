@@ -25,7 +25,9 @@ import { EmptyReportData, EmptyReportType, FileReport, FileType, ReportControlle
 
 import { FilePreviewComponent } from '@app/shared/containers';
 
-import { ReportFilterEventType } from './report-filter.component';
+import { BudgetReportFilterEventType } from './report-filters/budget-report-filter.component';
+
+import { ReportFilterEventType } from './report-filters/report-filter.component';
 
 import { ReportViewerEventType } from './report-viewer.component';
 
@@ -84,8 +86,9 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
 
   @SkipIf('isLoading')
   onReportFilterEvent(event: EventInfo) {
-    switch (event.type as ReportFilterEventType) {
+    switch (event.type as ReportFilterEventType | BudgetReportFilterEventType) {
       case ReportFilterEventType.SEARCH_CLICKED:
+      case BudgetReportFilterEventType.SEARCH_CLICKED:
         Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setReportQuery(event.payload.query as ReportQuery);
@@ -93,6 +96,7 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
         this.validateGetReportData();
         return;
       case ReportFilterEventType.CLEAR_CLICKED:
+      case BudgetReportFilterEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         this.setReportQuery(event.payload.query as ReportQuery);

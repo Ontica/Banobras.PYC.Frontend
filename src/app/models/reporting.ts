@@ -74,6 +74,15 @@ export interface ReportQuery extends DataTableQuery {
 }
 
 
+export interface BudgetReportQuery extends ReportQuery {
+  reportType: string;
+  budgetTypeUID: string;
+  fromDate: DateString;
+  toDate: DateString;
+  exportTo?: string;
+}
+
+
 export interface ReportData extends DataTable {
   query: ReportQuery;
   columns: DataTableColumn[];
@@ -120,6 +129,14 @@ export const EmptyReportType: ReportType<ReportTypeFlags> = {
 
 export const EmptyReportQuery: ReportQuery = {
   reportType: '',
+};
+
+
+export const EmptyBudgetReportQuery: BudgetReportQuery = {
+  reportType: '',
+  budgetTypeUID: '',
+  fromDate: '',
+  toDate: '',
 };
 
 
