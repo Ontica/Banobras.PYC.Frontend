@@ -105,7 +105,6 @@ export class BillsEditionComponent {
   }
 
 
-
   private upploadBill(entityUID: string, dataFields: DocumentFields, xmlFile: File, pdfFile: File) {
     this.submitted = true;
 

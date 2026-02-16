@@ -68,6 +68,11 @@ export class OrdersDataComponent implements OnChanges {
   }
 
 
+  get isRequisition(): boolean {
+    return [ObjectTypes.REQUISITION].includes(this.config.type);
+  }
+
+
   get isContract(): boolean {
     return [ObjectTypes.CONTRACT].includes(this.config.type);
   }
