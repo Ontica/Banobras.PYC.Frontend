@@ -12,7 +12,7 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 import { sendEvent } from '@app/shared/utils';
 
 import { OrderHolder, EmptyOrderHolder, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes,
-         ContractOrder, RequisitionOrderHolder, TaxEntry } from '@app/models';
+         ContractOrder } from '@app/models';
 
 import { OrderEditorEventType } from '../order/order-editor.component';
 
@@ -230,42 +230,58 @@ export class OrderTabbedViewComponent implements OnChanges {
 
 
   private setTabs() {
-    const orderTypeName = this.config.nameSingular;
-    const ordersName = this.config.type === ObjectTypes.CONTRACT ? 'Entregas' : 'Adquisiciones';
+    const tabMap = this.buildTabMap();
 
-    const baseTabs: TabConfig[] = [
-      { label: orderTypeName,   tab: TabType.order },
-      { label: 'Conceptos',     tab: TabType.items },
-      { label: 'Presupuesto',   tab: TabType.budgetTransactions },
-      { label: ordersName,      tab: TabType.orders },
-      { label: 'Comprobantes',  tab: TabType.bills },
-      { label: 'Pagos',         tab: TabType.paymentOrders },
-      { label: 'Documentos',    tab: TabType.documents },
-      { label: 'Historial',     tab: TabType.history },
-    ];
+    let tabOrder: TabType[];
 
     switch (this.config.type) {
       case ObjectTypes.REQUISITION:
       case ObjectTypes.CONTRACT:
-        this.tabs = baseTabs;
-        break;
-      case ObjectTypes.EXPENSE:
-        this.tabs = [
-          baseTabs[0],
-          baseTabs[4],
-          baseTabs[1],
-          baseTabs[5],
-          baseTabs[2],
-          baseTabs[6],
-          baseTabs[7],
+        tabOrder = [
+          TabType.order,
+          TabType.items,
+          TabType.budgetTransactions,
+          TabType.orders,
+          TabType.bills,
+          TabType.paymentOrders,
+          TabType.documents,
+          TabType.history,
         ];
         break;
       case ObjectTypes.CONTRACT_ORDER:
+      case ObjectTypes.EXPENSE:
       case ObjectTypes.PURCHASE:
       default:
-        this.tabs = baseTabs.filter(t => t.tab !== TabType.orders);
+        tabOrder = [
+          TabType.order,
+          TabType.bills,
+          TabType.items,
+          TabType.budgetTransactions,
+          TabType.paymentOrders,
+          TabType.documents,
+          TabType.history,
+        ];
         break;
     }
+
+    this.tabs = tabOrder.map(tab => tabMap[tab]);
+  }
+
+
+  private buildTabMap(): Record<TabType, TabConfig> {
+    const orderTabLabel = this.config.nameSingular;
+    const ordersTabLabel = this.config.type === ObjectTypes.CONTRACT ? 'Entregas' : 'Adquisiciones';
+
+    return {
+      [TabType.order]: { label: orderTabLabel, tab: TabType.order },
+      [TabType.items]: { label: 'Conceptos', tab: TabType.items },
+      [TabType.budgetTransactions]: { label: 'Presupuesto', tab: TabType.budgetTransactions },
+      [TabType.orders]: { label: ordersTabLabel, tab: TabType.orders },
+      [TabType.bills]: { label: 'Comprobantes', tab: TabType.bills },
+      [TabType.paymentOrders]: { label: 'Pagos', tab: TabType.paymentOrders },
+      [TabType.documents]: { label: 'Documentos', tab: TabType.documents },
+      [TabType.history]: { label: 'Historial', tab: TabType.history },
+    };
   }
 
 }
