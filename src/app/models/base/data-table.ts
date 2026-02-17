@@ -28,6 +28,7 @@ export interface DataTableColumn {
   type: DataTableColumnType;
   digits?: number;
   linkField?: string;
+  action?: string;
   isColumnStrikethrough?: boolean;
   fieldConditionStrikethrough?: string;
   functionToShowButton?: (entry: DataTableEntry) => any;
