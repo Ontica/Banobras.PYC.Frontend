@@ -87,6 +87,11 @@
       max-width: 75%;
     }
   }
+
+  .grow {
+    flex: 1 1 auto;
+    max-width: 97%;
+  }
 }
 
 .explorer.fluid {
