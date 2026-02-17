@@ -82,6 +82,7 @@ import { BudgetTransactionsPlanningGeneratorComponent } from './transactions-pla
   exports: [
     BudgetTransactionsMainPageComponent,
     BudgetTransactionsListComponent,
+    BudgetTransactionTabbedViewComponent,
     BudgetTransactionsPlanningGeneratorComponent,
   ]
 })

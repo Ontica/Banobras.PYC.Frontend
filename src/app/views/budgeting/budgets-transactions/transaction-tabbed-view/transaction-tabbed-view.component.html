@@ -9,7 +9,7 @@
 
       <emp-bdg-transaction-editor
         [transaction]="data.transaction"
-        [actions]="data.actions"
+        [actions]="actions"
         (transactionEditorEvent)="onTransactionEditorEvent($event)">
 
       </emp-bdg-transaction-editor>
@@ -25,7 +25,7 @@
           [entries]="data.entries"
           [groupedEntries]="data.groupedEntries"
           [taxes]="data.taxes"
-          [canEdit]="data.actions.canUpdate"
+          [canEdit]="actions.canUpdate"
           (transactionEntriesEditionEvent)="onTransactionEntriesEditionEvent($event)">
 
         </emp-bdg-transaction-entries-edition>
@@ -77,7 +77,7 @@
         entityType="budget-transactions"
         [entityUID]="data.transaction.uid"
         [documents]="data.documents"
-        [canEdit]="data.actions.canEditDocuments"
+        [canEdit]="actions.canEditDocuments"
         (documentsEditionEvent)="onDocumentsEditionEvent($event)">
 
       </emp-ng-documents-edition>

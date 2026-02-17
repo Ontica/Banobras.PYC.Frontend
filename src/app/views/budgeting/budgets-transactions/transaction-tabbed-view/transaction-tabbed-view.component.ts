@@ -11,7 +11,8 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BudgetTransactionHolder, EmptyBudgetTransactionHolder } from '@app/models';
+import { BudgetTransactionHolder, EmptyBudgetTransactionActions,
+         EmptyBudgetTransactionHolder } from '@app/models';
 
 import { TransactionEditorEventType } from '../transaction/transaction-editor.component';
 
@@ -37,6 +38,8 @@ export class BudgetTransactionTabbedViewComponent implements OnChanges {
 
   @Input() data: BudgetTransactionHolder = EmptyBudgetTransactionHolder;
 
+  @Input() readonly = false;
+
   @Output() transactionTabbedViewEvent = new EventEmitter<EventInfo>();
 
   title = '';
@@ -48,6 +51,11 @@ export class BudgetTransactionTabbedViewComponent implements OnChanges {
 
   ngOnChanges() {
     this.setTitle();
+  }
+
+
+  get actions() {
+    return this.readonly ? EmptyBudgetTransactionActions : this.data.actions;
   }
 
 
