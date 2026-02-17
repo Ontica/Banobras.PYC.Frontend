@@ -18,6 +18,7 @@ import { ReportBuilderComponent } from './report-builder/report-builder.componen
 import { ReportViewerComponent } from './report-builder/report-viewer.component';
 import { ReportFilterComponent } from './report-builder/report-filters/report-filter.component';
 import { BudgetReportFilterComponent } from './report-builder/report-filters/budget-report-filter.component';
+import { BudgetTransactionsModule } from '../budgeting/budgets-transactions/budget-transactions.module';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { BudgetReportFilterComponent } from './report-builder/report-filters/bud
     SharedModule,
 
     ReportsControlsModule,
+    BudgetTransactionsModule,
   ],
   declarations: [
     ReportBuilderComponent,

@@ -11,8 +11,8 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { EmptyReportData, EmptyReportQuery, EmptyReportType, ReportData, ReportGroup, ReportQuery, ReportType,
-         ReportTypeFlags } from '@app/models';
+import { EmptyReportData, EmptyReportQuery, EmptyReportType, ReportData, ReportEntry, ReportGroup,
+         ReportQuery, ReportType, ReportTypeFlags } from '@app/models';
 
 import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
 
@@ -42,7 +42,7 @@ export class ReportViewerComponent implements OnChanges {
 
   @Input() queryExecuted = false;
 
-  @Input() selectedEntry: any;
+  @Input() selectedEntry: ReportEntry = null;
 
   @Input() fileUrl = '';
 
@@ -75,8 +75,12 @@ export class ReportViewerComponent implements OnChanges {
         this.setText(event.payload.displayedEntriesMessage as string);
         return;
       case DataTableEventType.ENTRY_CLICKED:
-        sendEvent(this.reportViewerEvent, ReportViewerEventType.REPORT_ENTRY_CLICKED,
-          { reportEntry: event.payload.entry, linkField: event.payload.column?.linkField ?? null});
+        const payload = {
+          reportEntry: event.payload.entry,
+          action: event.payload.column?.action ?? null,
+          linkField: event.payload.column?.linkField ?? null,
+        };
+        sendEvent(this.reportViewerEvent, ReportViewerEventType.REPORT_ENTRY_CLICKED, payload);
         return;
       case DataTableEventType.EXPORT_DATA:
         this.setDisplayExportModal(true);

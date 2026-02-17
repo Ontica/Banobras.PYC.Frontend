@@ -30,7 +30,7 @@
       <emp-ng-data-table class="fx-item"
         [dataTable]="reportData"
         [executed]="queryExecuted"
-        [selectedEntry]="selectedEntry?.financialReportEntry"
+        [selectedEntry]="selectedEntry"
         [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"
         (dataTableEvent)="onDataTableEvent($event)">
 

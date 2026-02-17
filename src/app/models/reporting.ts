@@ -90,6 +90,9 @@ export interface ReportData extends DataTable {
 }
 
 
+export type ReportingColumnAction = 'PrintPaymentOrder' | 'PrintBudgetTransaction' | 'ViewBudgetTransaction';
+
+
 export interface ReportEntry extends DataTableEntry {
   uid: string;
 }

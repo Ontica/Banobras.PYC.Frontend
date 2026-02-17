@@ -1,12 +1,16 @@
 <div class="explorer">
 
   <emp-pyc-report-viewer
-    class="primary full-size"
+    class="primary"
+    [class.full-size]="!displayEntryViewer"
+    [class.grow]="displayEntryViewer"
+    [class.std-hide]="displayEntryViewer"
     [reportGroup]="reportGroup"
     [reportQuery]="reportQuery"
     [selectedReportType]="selectedReportType"
     [reportData]="reportData"
     [queryExecuted]="queryExecuted"
+    [selectedEntry]="selectedEntry"
     [fileUrl]="fileUrl"
     [isLoading]="isLoading"
     (reportViewerEvent)="onReportViewerEvent($event)">
@@ -32,7 +36,21 @@
 
   </emp-pyc-report-viewer>
 
-</div>
+
+  <ng-container *ngIf="displayEntryViewer"
+    [ngSwitch]="entryViewer">
+
+    <emp-bdg-transaction-tabbed-view *ngSwitchCase="'ViewBudgetTransaction'"
+      class="secondary std-stacked priority"
+      [data]="entryViewerData"
+      [readonly]="true"
+      (transactionTabbedViewEvent)="onEntryViewerEvent($event)">
+
+    </emp-bdg-transaction-tabbed-view>
+
+  </ng-container>
+
+  </div>
 
 
 <emp-ng-file-preview #filePreview

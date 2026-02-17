@@ -21,9 +21,13 @@ import { BudgetTransactionsDataService, PaymentOrdersDataService,
          ReportingDataService } from '@app/data-services';
 
 import { EmptyReportData, EmptyReportType, FileReport, FileType, ReportController, ReportData, ReportEntry,
-         ReportGroup, ReportQuery, ReportType, ReportTypeFlags, ReportTypes } from '@app/models';
+         ReportGroup, ReportingColumnAction, ReportQuery, ReportType, ReportTypeFlags, ReportTypes } from '@app/models';
 
 import { FilePreviewComponent } from '@app/shared/containers';
+
+import {
+  TransactionTabbedViewEventType
+} from '@app/views/budgeting/budgets-transactions/transaction-tabbed-view/transaction-tabbed-view.component';
 
 import { BudgetReportFilterEventType } from './report-filters/budget-report-filter.component';
 
@@ -56,10 +60,18 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
 
   fileUrl = '';
 
+  selectedEntry: ReportEntry = null;
+
+  displayEntryViewer = false;
+
+  entryViewer: ReportingColumnAction = null;
+
+  entryViewerData = null;
+
   filePreviewData = {
     heading: '',
     hint: '',
-  }
+  };
 
   showFilters = false;
 
@@ -115,12 +127,27 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
     switch (event.type as ReportViewerEventType) {
       case ReportViewerEventType.REPORT_ENTRY_CLICKED:
         Assertion.assertValue(event.payload.reportEntry, 'event.payload.reportEntry');
-        this.validateReportEntry(event.payload.reportEntry as ReportEntry, event.payload.linkField);
+        this.validateReportEntry(event.payload.reportEntry as ReportEntry,
+                                 event.payload.action,
+                                 event.payload.linkField);
         return;
       case ReportViewerEventType.EXPORT_DATA_CLICKED:
         Assertion.assertValue(event.payload.exportationType, 'event.payload.exportationType');
+        const reportType = this.reportQuery.reportType as ReportTypes;
         const reportQuery = this.getReportQueryForExport(event.payload.exportationType as FileType);
-        this.validateExportReportData();
+        this.validateExportReportData(reportType, reportQuery);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onEntryViewerEvent(event: EventInfo) {
+    switch (event.type as TransactionTabbedViewEventType) {
+      case TransactionTabbedViewEventType.CLOSE_BUTTON_CLICKED:
+        this.setEntryViewerData(null);
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -169,13 +196,12 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
   }
 
 
-  private validateExportReportData() {
+  private validateExportReportData(reportType: ReportTypes, query: ReportQuery) {
     let observable: EmpObservable<FileReport> = null;
 
     switch (this.selectedReportType.controller) {
       case ReportController.FinancialManagementReport:
-        const reportType = this.reportQuery.reportType as ReportTypes;
-        observable = this.reportingData.exportFinancialManagementReport(reportType, this.reportQuery);
+        observable = this.reportingData.exportFinancialManagementReport(reportType, query);
         break;
       default:
         console.log(`Unhandled report ${this.selectedReportType.controller}`);
@@ -186,32 +212,34 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
   }
 
 
-  private validateReportEntry(reportEntry: ReportEntry, linkField: string) {
-    if (!linkField || (!!linkField && !reportEntry[linkField])) {
+  private validateReportEntry(reportEntry: ReportEntry, action: ReportingColumnAction, linkField: string) {
+    if (!action || !linkField || (!!linkField && !reportEntry[linkField])) {
       console.log('Unhandled report entry');
       return;
     }
 
-    let observable: EmpObservable<FileReport> = null;
     const linkFieldValue = reportEntry[linkField];
 
-    switch (linkField) {
-      case 'paymentOrderUID':
-        observable = this.paymentOrdersData.getPaymentOrderForPrint(linkFieldValue)
+    switch (action) {
+      case 'PrintPaymentOrder':
         this.setFilePreviewData('Impresion de la solicitud de pago',
           'Información de la solicitud de pago');
+        this.printReportEntry(this.paymentOrdersData.getPaymentOrderForPrint(linkFieldValue));
         break;
-      case 'budgetTransactionUID':
-        observable = this.budgetTnxData.getTransactionForPrint(linkFieldValue)
+      case 'PrintBudgetTransaction':
         this.setFilePreviewData('Impresion de la transacción presupuestal',
           'Información de la transacción presupuestal');
+        this.printReportEntry(this.budgetTnxData.getTransactionForPrint(linkFieldValue));
+        break;
+      case 'ViewBudgetTransaction':
+        this.entryViewer = action;
+        this.selectedEntry = reportEntry;
+        this.getReportEntry(this.budgetTnxData.getTransaction(linkFieldValue))
       break;
       default:
         console.log(`Unhandled link field: ${linkField}`);
         return;
     }
-
-    this.printReportEntry(observable);
   }
 
 
@@ -221,6 +249,17 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
     observable
       .firstValue()
       .then(x => this.resolveGetReportData(x))
+      .finally(() => this.isLoading = false);
+  }
+
+
+
+  private getReportEntry(observable: EmpObservable<any>) {
+    this.isLoading = true;
+
+    observable
+      .firstValue()
+      .then(x => this.setEntryViewerData(x))
       .finally(() => this.isLoading = false);
   }
 
@@ -261,6 +300,15 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
   private setReportData(reportData: ReportData, queryExecuted = true) {
     this.reportData = reportData;
     this.queryExecuted = queryExecuted;
+  }
+
+
+  private setEntryViewerData(entry: any) {
+    this.displayEntryViewer = !!entry;
+    this.entryViewerData = entry;
+    if (!this.displayEntryViewer) {
+      this.selectedEntry = null;
+    }
   }
 
 
