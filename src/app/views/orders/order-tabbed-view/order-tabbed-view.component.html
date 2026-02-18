@@ -61,7 +61,7 @@
             [entityUID]="data.order.uid"
             [supplierUID]="data.order.provider.uid"
             [entityName]="config.pronounSingular + ' ' + config.nameSingular"
-            [entityTotal]="data.bills.total"
+            [entityTotal]="data.order.total"
             [totalRequired]="isExpense"
             [items]="data.paymentOrders"
             [displayType]="isRequisition || isContract"
