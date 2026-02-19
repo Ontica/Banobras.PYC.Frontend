@@ -414,18 +414,22 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
 
   private setFormData() {
+    const displayQuantity = this.isContractOrder || this.isPurchase;
+    const displayUnitPrice = this.isContract || this.isContractOrder || this.isPurchase;
+
     setTimeout(() => {
       this.form.reset({
         beneficiaryUID: FormHelper.getUIDValue(this.item.beneficiary),
         projectUID: FormHelper.getUIDValue(this.item.project),
         productUID: FormHelper.getUIDValue(this.item.product),
         productUnitUID: FormHelper.getUIDValue(this.item.productUnit),
-        quantity: FormHelper.getPositiveNumberValue(this.item.quantity),
-        unitPrice: FormHelper.getPositiveNumberValue(this.item.unitPrice),
-        total: FormHelper.getPositiveNumberValue(this.item.total),
         description: FormHelper.getStringValue(this.item.description),
         datePeriod: { fromDate: this.item.startDate ?? null, toDate: this.item.endDate ?? null },
         justification: FormHelper.getStringValue(this.item.justification),
+
+        quantity: displayQuantity ? FormHelper.getPositiveNumberValue(this.item.quantity) : 0,
+        unitPrice: displayUnitPrice ? FormHelper.getPositiveNumberValue(this.item.unitPrice) : 0,
+        total: FormHelper.getPositiveNumberValue(this.item.total),
       });
       this.validateSetOrderItemFields();
       this.validateSearchBudgetAccounts(this.getBudgetAccountDefault());
@@ -591,7 +595,6 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
         budgetAccountUID: formValues.budgetAccountUID ?? null,
         minQuantity: formValues.minQuantity ?? 0,
         maxQuantity: formValues.maxQuantity ?? 0,
-        unitPrice: formValues.unitPrice ?? 0,
       }
     };
 
@@ -644,18 +647,22 @@ export class OrderItemEditorComponent implements OnChanges, OnInit, OnDestroy {
 
     const formValues = this.form.getRawValue();
 
+    const displayQuantity = this.isContractOrder || this.isPurchase;
+    const displayUnitPrice = this.isContract || this.isContractOrder || this.isPurchase;
+
     const data: OrderItemFields = {
       productUID: formValues.productUID ?? null,
       productUnitUID: formValues.productUnitUID ?? null,
       beneficiaryUID: formValues.beneficiaryUID ?? null,
       projectUID: formValues.projectUID ?? '',
-      quantity: formValues.quantity ?? 0,
-      unitPrice: formValues.unitPrice ?? 0,
-      total: formValues.total ?? 0,
       description: formValues.description ?? '',
       justification: formValues.justification ?? '',
       startDate: !formValues.datePeriod.fromDate ? null : formValues.datePeriod.fromDate,
       endDate: !formValues.datePeriod.toDate ? null : formValues.datePeriod.toDate,
+
+      quantity: displayQuantity ? formValues.quantity ?? 0 : 0,
+      unitPrice: displayUnitPrice ? formValues.unitPrice ?? 0 : 0,
+      total: formValues.total ?? 0,
     };
 
     return data;

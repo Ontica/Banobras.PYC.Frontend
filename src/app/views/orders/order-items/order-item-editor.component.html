@@ -243,10 +243,13 @@
 
                 <label>Cantidad mínima:</label>
 
-                <input type="text" empNgCurrency
-                  class="text-box text-align-right"
+                <emp-ng-input-numeric
                   formControlName="minQuantity"
-                  [class.invalid-control]="formHelper.isControlInvalid(form.controls.minQuantity)">
+                  [minDecimals]="0"
+                  [maxDecimals]="2"
+                  [showError]="formHelper.isControlInvalid(form.controls.minQuantity)">
+
+                </emp-ng-input-numeric>
 
               </div>
 
@@ -254,10 +257,13 @@
 
                 <label>Cantidad máxima:</label>
 
-                <input type="text" empNgCurrency
-                  class="text-box text-align-right"
+                <emp-ng-input-numeric
                   formControlName="maxQuantity"
-                  [class.invalid-control]="formHelper.isControlInvalid(form.controls.maxQuantity)">
+                  [minDecimals]="0"
+                  [maxDecimals]="2"
+                  [showError]="formHelper.isControlInvalid(form.controls.maxQuantity)">
+
+                </emp-ng-input-numeric>
 
               </div>
 
