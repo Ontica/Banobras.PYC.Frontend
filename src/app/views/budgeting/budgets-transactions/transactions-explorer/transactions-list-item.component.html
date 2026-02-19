@@ -34,7 +34,7 @@
     <span class="tag" [title]="transaction.rejectedReason"
       [style.font-size.px]="10"
       [ngClass]="{
-        'tag-base-error': ['Suspendida', 'Eliminada' , 'Rechazada'].includes(transaction.statusName),
+        'tag-base-error': transaction.statusName | empIsErrorStatus,
         'tag-pointer': !!transaction.rejectedReason,
       }">
       {{transaction.statusName}}
