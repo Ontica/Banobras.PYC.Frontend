@@ -149,7 +149,7 @@ export class BillUploaderComponent implements OnInit {
       documentProductUID: formModel.documentProductUID,
       name: formModel.name,
       documentNumber: this.isCFDI ? '' : formModel.documentNumber,
-      total: this.isCFDI ? null : formModel.total,
+      total: this.isCFDI ? 0 : formModel.total,
     };
 
     return data;

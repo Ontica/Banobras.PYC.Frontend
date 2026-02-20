@@ -36,8 +36,8 @@ export interface Document {
 export interface DocumentFields {
   documentProductUID: string;
   name: string;
-  total?: number;
-  documentNumber?: string;
+  total: number;
+  documentNumber: string;
 }
 
 

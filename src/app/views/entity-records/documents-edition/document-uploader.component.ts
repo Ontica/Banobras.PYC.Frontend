@@ -137,6 +137,8 @@ export class DocumentUploaderComponent implements OnInit {
     const data: DocumentFields = {
       documentProductUID: formModel.documentProduct.uid,
       name: formModel.name,
+      total: 0,
+      documentNumber: '',
     };
 
     return data;
