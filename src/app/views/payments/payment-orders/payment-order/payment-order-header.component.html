@@ -179,7 +179,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-quarter">
+      <div class="fx-item-half">
 
         <label>Método de pago:</label>
 
@@ -196,14 +196,19 @@
 
       <div class="fx-item-quarter">
 
-        <label>Referencia:</label>
+        <label>Tipo de cambio:</label>
 
-        <input type="text" class="text-box"
-          formControlName="referenceNumber"
-          [placeholder]="referenceNumberPlaceholder"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.referenceNumber)">
+        <emp-ng-input-numeric
+          formControlName="exchangeRate"
+          [showError]="formHelper.isControlInvalid(form.controls.exchangeRate)">
+
+        </emp-ng-input-numeric>
 
       </div>
+
+    </div>
+
+    <div class="fx-row-container">
 
       <div class="fx-item-half">
 
@@ -236,6 +241,17 @@
           </ng-template>
 
         </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Referencia:</label>
+
+        <input type="text" class="text-box"
+          formControlName="referenceNumber"
+          [placeholder]="referenceNumberPlaceholder"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.referenceNumber)">
 
       </div>
 

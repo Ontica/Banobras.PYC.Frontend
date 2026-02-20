@@ -44,6 +44,7 @@ interface PayableFormModel extends FormGroup<{
   budgetUID: FormControl<string>;
   payToUID: FormControl<string>;
   total: FormControl<number>;
+  exchangeRate: FormControl<number>;
   currencyUID: FormControl<string>;
   paymentMethodUID: FormControl<string>;
   paymentAccountUID: FormControl<string>;
@@ -283,6 +284,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
       payToUID: ['', Validators.required],
       debtorUID: [''],
       total: [null as number, Validators.required],
+      exchangeRate: [null as number, Validators.required],
       paymentMethodUID: ['', Validators.required],
       paymentAccountUID: ['', Validators.required],
       currencyUID: ['', Validators.required],
@@ -305,6 +307,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
         payToUID: FormHelper.getUIDValue(this.paymentOrder.payTo),
         debtorUID: FormHelper.getUIDValue(this.paymentOrder.debtor),
         total: FormHelper.getPositiveNumberValue(this.paymentOrder.total),
+        exchangeRate: FormHelper.getPositiveNumberValue(this.paymentOrder.exchangeRate),
         paymentMethodUID: FormHelper.getUIDValue(this.paymentOrder.paymentMethod),
         paymentAccountUID: FormHelper.getUIDValue(this.paymentOrder.paymentAccount),
         currencyUID: FormHelper.getUIDValue(this.paymentOrder.currency),
@@ -336,6 +339,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
       payableEntityUID: this.form.value.payableEntityUID ?? '',
       paymentMethodUID: this.form.value.paymentMethodUID ?? '',
       paymentAccountUID: this.form.value.paymentAccountUID ?? '',
+      exchangeRate: this.form.value.exchangeRate ?? null,
       debtorUID: this.form.value.debtorUID ?? '',
       description: this.form.value.description ?? '',
       referenceNumber: this.form.value.referenceNumber ?? '',
@@ -368,6 +372,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
     this.form.controls.budgetUID.reset(isEmptyEntity ? null : this.selectedPayableEntity.budget.uid);
     this.form.controls.currencyUID.reset(isEmptyEntity ? null : this.selectedPayableEntity.currency.uid);
     this.form.controls.total.reset(isEmptyEntity ? null : this.selectedPayableEntity.total);
+    this.form.controls.exchangeRate.reset();
     this.form.controls.paymentMethodUID.reset();
     this.form.controls.referenceNumber.reset();
     this.form.controls.paymentAccountUID.reset();

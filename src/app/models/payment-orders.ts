@@ -135,6 +135,7 @@ export interface PaymentOrderFields {
   dueTime: DateString;
   referenceNumber: string;
   payableEntityUID: string;
+  exchangeRate: number;
   paymentMethodUID: string;
   paymentAccountUID: string;
   debtorUID: string;
@@ -174,6 +175,7 @@ export interface PaymentOrder {
   paymentAccount: PaymentAccount;
   currency: Identifiable;
   total: number;
+  exchangeRate: number;
   referenceNumber: string;
   observations: string;
   priority: Priority;
@@ -279,6 +281,7 @@ export const EmptyPaymentOrder: PaymentOrder = {
   budgetType: Empty,
   budget: Empty,
   total: null,
+  exchangeRate: null,
   currency: Empty,
   paymentMethod: EmptyPaymentMethod,
   paymentAccount: EmptyPaymentAccount,
