@@ -15,6 +15,8 @@ import { SharedModule } from '@app/shared/shared.module';
 import { PaymentTimeControlModalComponent } from './payment-time-control/time-control-modal.component';
 import { PaymentTimeWindowSelectorComponent } from './payment-time-control/time-window-selector.component';
 
+import { TravelExpensesRequestComponent } from './travel-expenses/travel-expenses-request.component';
+
 
 @NgModule({
   imports: [
@@ -28,9 +30,12 @@ import { PaymentTimeWindowSelectorComponent } from './payment-time-control/time-
   declarations: [
     PaymentTimeControlModalComponent,
     PaymentTimeWindowSelectorComponent,
+
+    TravelExpensesRequestComponent,
   ],
   exports: [
     PaymentTimeControlModalComponent,
+    TravelExpensesRequestComponent,
   ],
 })
 export class PaymentsManagementModule { }

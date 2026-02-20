@@ -81,7 +81,6 @@ export interface ContractItemFields extends OrderItemFields {
   budgetAccountUID: string;
   minQuantity: number;
   maxQuantity: number;
-  unitPrice: number;
 }
 
 

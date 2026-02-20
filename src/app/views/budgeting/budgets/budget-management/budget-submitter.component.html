@@ -1,6 +1,20 @@
-<div *ngIf="canCommit || canExercise || canValidate || canRequest || canApprove"
-  class="fx-row-container fx-gap-half fx-end"
+<div *ngIf="canRequestTravelExpenses || canCommit || canExercise || canValidate || canRequest || canApprove"
+  class="fx-row-container fx-gap-half fx-space-between"
   [style.margin-bottom.px]="8">
+
+  <div class="fx-item-none" *ngIf="canRequestTravelExpenses">
+    <!-- requisition -->
+    <button type="button"
+      class="btn"
+      (click)="onEventButtonClicked(eventType.REQUEST_TRAVEL_EXPENSES)">
+      Solicitar pago de viáticos
+    </button>
+
+  </div>
+
+  <div class="fx-item">
+
+  </div>
 
   <div class="fx-item-none" *ngIf="canExercise">
     <!-- payment -->

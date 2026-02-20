@@ -14,6 +14,7 @@
     [canExercise]="canExercise"
     [canRequest]="canRequest"
     [canValidate]="canValidate"
+    [canRequestTravelExpenses]="canRequestTravelExpenses"
     (budgetSubmitterEvent)=" onBudgetSubmitterEvent($event)">
 
   </emp-bdg-budget-submitter>
@@ -35,3 +36,10 @@
   hint="Información de la transacción presupuestal">
 
 </emp-ng-file-preview>
+
+
+<emp-pmt-travel-expenses-request *ngIf="displayTravelExpensesRequest"
+  [baseObjectUID]="baseObjectUID"
+  (travelExpensesRequestEvent)="onTravelExpensesRequestEvent($event)">
+
+</emp-pmt-travel-expenses-request>

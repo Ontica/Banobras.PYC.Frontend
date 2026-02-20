@@ -28,6 +28,10 @@ import {
   TransactionsListEventType
 } from '../../budgets-transactions/transactions-explorer/transactions-list.component';
 
+import {
+  TravelExpensesRequestEventType
+} from '@app/views/payments/payments-management/travel-expenses/travel-expenses-request.component';
+
 export enum BudgetManagementEventType {
   UPDATED = 'BudgetManagementComponent.Event.Updated',
 }
@@ -60,11 +64,15 @@ export class BudgetManagementComponent {
 
   @Input() canValidate = false;
 
+  @Input() canRequestTravelExpenses = false;
+
   @Output() budgetManagementEvent = new EventEmitter<EventInfo>();
 
   submitted = false;
 
   isLoading = false;
+
+  displayTravelExpensesRequest = false;
 
 
   constructor(private budgetsData: BudgetsDataService,
@@ -95,6 +103,9 @@ export class BudgetManagementComponent {
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.validateAvaibleBudget(event.payload.dataFields as BudgetRequestFields);
         return;
+      case BudgetSubmitterEventType.REQUEST_TRAVEL_EXPENSES:
+        this.displayTravelExpensesRequest = true;
+        return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -108,6 +119,22 @@ export class BudgetManagementComponent {
         Assertion.assertValue(event.payload.transaction, 'event.payload.transaction');
         Assertion.assertValue(event.payload.transaction.uid, 'event.payload.transaction.uid');
         this.getTransactionForPrint(event.payload.transaction.uid);
+        return;
+      default:
+        console.log(`Unhandled user interface event ${event.type}`);
+        return;
+    }
+  }
+
+
+  onTravelExpensesRequestEvent(event: EventInfo){
+    switch (event.type as TravelExpensesRequestEventType) {
+      case TravelExpensesRequestEventType.CLOSE_MODAL_CLICKED:
+        this.displayTravelExpensesRequest = false;
+        return;
+      case TravelExpensesRequestEventType.REQUESTED:
+        this.displayTravelExpensesRequest = false;
+        this.resolveBudgetUpdated();
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);

@@ -11,16 +11,17 @@ import { EventInfo } from '@app/core';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { FormatLibrary, sendEventIf } from '@app/shared/utils';
+import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { ObjectTypes, BudgetRequestFields } from '@app/models';
 
 export enum BudgetSubmitterEventType {
-  COMMIT   = 'BudgetSubmitterComponent.Event.CommitClicked',
-  EXERCISE = 'BudgetSubmitterComponent.Event.ExerciseClicked',
-  APPROVE   = 'BudgetSubmitterComponent.Event.ApproveClicked',
-  REQUEST  = 'BudgetSubmitterComponent.Event.RequestClicked',
-  VALIDATE = 'BudgetSubmitterComponent.Event.ValidateClicked',
+  COMMIT                    = 'BudgetSubmitterComponent.Event.CommitClicked',
+  EXERCISE                  = 'BudgetSubmitterComponent.Event.ExerciseClicked',
+  APPROVE                   = 'BudgetSubmitterComponent.Event.ApproveClicked',
+  REQUEST                   = 'BudgetSubmitterComponent.Event.RequestClicked',
+  VALIDATE                  = 'BudgetSubmitterComponent.Event.ValidateClicked',
+  REQUEST_TRAVEL_EXPENSES   = 'BudgetSubmitterComponent.Event.RequestTravelExpensesClicked',
 }
 
 @Component({
@@ -47,6 +48,8 @@ export class BudgetSubmitterComponent {
 
   @Input() canValidate = false;
 
+  @Input() canRequestTravelExpenses = false;
+
   @Output() budgetSubmitterEvent = new EventEmitter<EventInfo>();
 
   eventType = BudgetSubmitterEventType;
@@ -69,7 +72,19 @@ export class BudgetSubmitterComponent {
 
 
   onEventButtonClicked(eventType: BudgetSubmitterEventType) {
-    this.showConfirmMessage(eventType);
+    switch (eventType) {
+      case BudgetSubmitterEventType.COMMIT:
+      case BudgetSubmitterEventType.EXERCISE:
+      case BudgetSubmitterEventType.REQUEST:
+      case BudgetSubmitterEventType.APPROVE:
+      case BudgetSubmitterEventType.VALIDATE:
+        this.showConfirmMessage(eventType);
+        return;
+      case BudgetSubmitterEventType.REQUEST_TRAVEL_EXPENSES:
+      default:
+        sendEvent(this.budgetSubmitterEvent, eventType, { dataFields: this.getDataFields() });
+        return;
+    }
   }
 
 

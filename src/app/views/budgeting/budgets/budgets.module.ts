@@ -12,9 +12,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
-import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 import { BudgetTransactionsModule } from '../budgets-transactions/budget-transactions.module';
+import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
+import { PaymentsManagementModule } from '@app/views/payments/payments-management/payments-management.module';
+import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 
 import { BudgetMainPageComponent } from './budget-main-page/budget-main-page.component';
 import { BudgetExplorerComponent } from './budget-explorer/budget-explorer.component';
@@ -39,6 +40,7 @@ import { BudgetSubmitterComponent } from './budget-management/budget-submitter.c
 
     BudgetTransactionsModule,
     EntityRecordsModule,
+    PaymentsManagementModule,
     ReportsControlsModule,
   ],
   declarations: [

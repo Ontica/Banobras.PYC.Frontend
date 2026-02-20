@@ -110,4 +110,6 @@ export * from './taxes';
 
 export * from './transactions';
 
+export * from './travel-expenses';
+
 export * from './workflows';

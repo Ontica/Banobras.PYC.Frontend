@@ -70,3 +70,5 @@ export * from './steps.data.service';
 export * from './suppliers.data.service';
 
 export * from './taxes.data.service';
+
+export * from './travel-expenses.data.service';
