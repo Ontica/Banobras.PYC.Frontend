@@ -15,7 +15,7 @@ import { SkipIfSelection } from '@app/shared/decorators';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
+import { ArrayLibrary, FormatLibrary, sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { Bill, BillsStructure, DocumentsEntityTypes, EmptyBillsStructure, FileReport,
          FileType } from '@app/models';
@@ -92,9 +92,17 @@ export class BillsTableComponent implements OnChanges {
 
 
   private setDataTable() {
-    this.dataSource = new MatTableDataSource(this.data.bills);
+    const data = this.getDataWithOrdererFiles();
+    this.dataSource = new MatTableDataSource(data);
     this.resetColumns();
     this.resetTaxesColumns();
+  }
+
+
+  private getDataWithOrdererFiles() {
+    return this.data.bills.map(bill => (
+      {...bill, files: ArrayLibrary.sortByKey([...(bill.files ?? [])], 'type')}
+    ));
   }
 
 
