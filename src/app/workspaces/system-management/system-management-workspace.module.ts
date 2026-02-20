@@ -18,7 +18,7 @@ import { AccessControlModule } from '@app/views/_access-control/access-control.m
 import { BudgetTransactionsModule } from '@app/views/budgeting/budgets-transactions/budget-transactions.module';
 import { IntegrationsModule } from '@app/views/integrations/integrations.module';
 import { PartiesModule } from '@app/views/parties/parties.module';
-import { PaymentsModule } from '@app/views/payments/payments.module';
+import { PaymentsManagementModule } from '@app/views/payments/payments-management/payments-management.module';
 
 import {
   AccessControlMainPageComponent
@@ -45,7 +45,7 @@ import {
     BudgetTransactionsModule,
     IntegrationsModule,
     PartiesModule,
-    PaymentsModule,
+    PaymentsManagementModule,
   ],
 
   declarations: [
