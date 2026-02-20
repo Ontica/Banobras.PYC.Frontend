@@ -141,6 +141,7 @@ export interface PaymentInstruction {
   paymentAccount: PaymentAccount;
   referenceNumber: string;
   total: number;
+  exchangeRate: number;
   currency: Identifiable;
   recordedBy: Identifiable;
   requestedBy: Identifiable;
@@ -230,6 +231,7 @@ export const EmptyPaymentInstruction: PaymentInstruction = {
   paymentAccount: EmptyPaymentAccount,
   referenceNumber: '',
   total: null,
+  exchangeRate: null,
   currency: Empty,
   paymentMethod: EmptyPaymentMethod,
   dueTime: '',

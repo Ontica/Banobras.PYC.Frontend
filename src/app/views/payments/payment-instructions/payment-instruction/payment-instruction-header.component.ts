@@ -48,6 +48,7 @@ interface PaymentInstructionFormModel extends FormGroup<{
   paymentMethodUID: FormControl<string>;
   total: FormControl<number>;
   currencyUID: FormControl<string>;
+  exchangeRate: FormControl<number>;
   paymentAccountUID: FormControl<string>;
   referenceNumber: FormControl<string>;
   description: FormControl<string>;
@@ -271,6 +272,7 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
       payToUID: ['', Validators.required],
       paymentMethodUID: ['', Validators.required],
       total: [null as number, Validators.required],
+      exchangeRate: [null as number],
       currencyUID: ['', Validators.required],
       paymentAccountUID: [''],
       referenceNumber: [''],
@@ -288,6 +290,7 @@ export class PaymentInstructionHeaderComponent implements OnInit, OnChanges, OnD
         payToUID: FormHelper.getUIDValue(this.instruction.payTo),
         paymentMethodUID: FormHelper.getUIDValue(this.instruction.paymentMethod),
         total: this.instruction.total ?? null,
+        exchangeRate: this.instruction.exchangeRate ?? null,
         currencyUID: FormHelper.getUIDValue(this.instruction.currency),
         paymentAccountUID: FormHelper.getUIDValue(this.instruction.paymentAccount),
         referenceNumber: this.instruction.referenceNumber ?? '',

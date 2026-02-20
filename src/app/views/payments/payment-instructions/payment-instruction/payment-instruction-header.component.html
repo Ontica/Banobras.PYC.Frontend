@@ -48,7 +48,7 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item-one">
+      <div class="fx-item-half">
 
         <label>Pagar a:</label>
 
@@ -61,24 +61,6 @@
           (changes)="onPayToChanges($event)">
 
         </emp-ng-select-typeahead>
-
-      </div>
-
-    </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-half">
-
-        <label>Método de pago:</label>
-
-        <emp-ng-select
-          formControlName="paymentMethodUID"
-          [items]="paymentMethodsList"
-          [loading]="isLoading"
-          [showError]="formHelper.isControlInvalid(form.controls.paymentMethodUID)"
-          (changes)="onPaymentMethodChanges($event)">
-        </emp-ng-select>
 
       </div>
 
@@ -112,7 +94,37 @@
 
     <div class="fx-row-container">
 
-      <div class="fx-item">
+      <div class="fx-item-half">
+
+        <label>Método de pago:</label>
+
+        <emp-ng-select
+          formControlName="paymentMethodUID"
+          [items]="paymentMethodsList"
+          [loading]="isLoading"
+          [showError]="formHelper.isControlInvalid(form.controls.paymentMethodUID)"
+          (changes)="onPaymentMethodChanges($event)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-quarter">
+
+        <label>Tipo de cambio:</label>
+
+        <emp-ng-input-numeric
+          formControlName="exchangeRate"
+          [showError]="formHelper.isControlInvalid(form.controls.exchangeRate)">
+
+        </emp-ng-input-numeric>
+
+      </div>
+
+    </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
 
         <label>Cuenta:</label>
 
