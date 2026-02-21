@@ -11,16 +11,21 @@ import { DataTable, DataTableColumn, DataTableEntry } from './base/data-table';
 
 
 export enum BudgetExplorerReportTypes {
-  ByColumn            = 'ByColumn',
-  MonthlyAvailability = 'MonthlyAvailability',
-  ScheduledByArea     = 'ScheduledByArea',
+  Anualizado                        = 'Anualizado',
+  DisponibleMensual                 = 'DisponibleMensual',
+  DisponibleMensualAcumulado        = 'DisponibleMensualAcumulado',
+  PresupuestoDetalladoCalendarizado = 'PresupuestoDetalladoCalendarizado',
+  SaldosOperacion                   = 'SaldosOperacion'
 }
 
 
+
 export const BudgetExplorerReportTypesList: Identifiable<BudgetExplorerReportTypes>[] = [
-  { uid: BudgetExplorerReportTypes.ByColumn,             name: 'Por columna' },
-  { uid: BudgetExplorerReportTypes.MonthlyAvailability,  name: 'Disponible mensual' },
-  { uid: BudgetExplorerReportTypes.ScheduledByArea,      name: 'Calendarizado por área' },
+  { uid: BudgetExplorerReportTypes.Anualizado,                        name: 'Anualizado' },
+  { uid: BudgetExplorerReportTypes.DisponibleMensual,                 name: 'Disponible mensual [PENDIENTE]' },
+  { uid: BudgetExplorerReportTypes.DisponibleMensualAcumulado,        name: 'Disponible mensual acumulado [PENDIENTE]' },
+  { uid: BudgetExplorerReportTypes.PresupuestoDetalladoCalendarizado, name: 'Presupuesto detallado calendarizado [PENDIENTE]' },
+  { uid: BudgetExplorerReportTypes.SaldosOperacion,                   name: 'Saldos operación' },
 ];
 
 
@@ -145,7 +150,7 @@ export const EmptyBudgetType: BudgetType = {
 
 
 export const EmptyBudgetQuery: BudgetQuery = {
-  reportType: BudgetExplorerReportTypes.ByColumn,
+  reportType: BudgetExplorerReportTypes.Anualizado,
   budgetTypeUID: '',
   budgetUID: '',
   baseParties: [],

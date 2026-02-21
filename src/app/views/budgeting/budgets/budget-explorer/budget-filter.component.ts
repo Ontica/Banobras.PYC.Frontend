@@ -86,14 +86,15 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
 
   onReportTypeChanged(reportType: Identifiable) {
-    this.onClearFilters();
+
   }
 
 
   onBudgetTypeChanged(budgetType: BudgetType) {
     this.budgetsList = budgetType.budgets;
     this.groupByColumnsList = budgetType.groupByColumns;
-    this.onClearFilters();
+    this.form.controls.budgetUID.reset('');
+    this.setDefaultGroupByColumn();
   }
 
 
@@ -131,7 +132,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      reportType: [BudgetExplorerReportTypes.ByColumn, Validators.required],
+      reportType: [BudgetExplorerReportTypes.Anualizado, Validators.required],
       budgetTypeUID: ['', Validators.required],
       budgetUID: ['', Validators.required],
       baseParties: [null],

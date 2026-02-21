@@ -10,6 +10,7 @@
 
         <emp-ng-select
           formControlName="reportType"
+          [config]="{showTooltip: true}"
           [items]="reportTypesList"
           [showError]="formHelper.isControlInvalid(form.controls.reportType)"
           (changes)="onReportTypeChanged($event)">
