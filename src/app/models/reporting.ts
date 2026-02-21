@@ -170,7 +170,7 @@ export const BudgetReportTypesList: ReportType<ReportTypes>[] = [
     controller: ReportController.FinancialManagementReport,
     group: ReportGroup.BudgetReports,
     uid: ReportTypes.BudgetRequestsAnalytics,
-    name: 'Analítico de suficiencias presupuestales',
+    name: 'Analítico de suficiencias presupuestales [PENDIENTE]',
   },
   {
     controller: ReportController.FinancialManagementReport,
@@ -178,7 +178,6 @@ export const BudgetReportTypesList: ReportType<ReportTypes>[] = [
     uid: ReportTypes.BudgetExerciseBills,
     name: 'Ejercicio presupuestal desglosado por comprobante'
   },
-
   {
     controller: ReportController.FinancialManagementReport,
     group: ReportGroup.BudgetReports,
