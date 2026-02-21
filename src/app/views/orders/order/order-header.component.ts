@@ -545,7 +545,7 @@ export class OrderHeaderComponent implements OnChanges, OnDestroy {
       {
         budgets: formValues.budgets ?? [],
         estimatedMonths: formValues.estimatedMonths ?? null,
-        exchangeRate: formValues.exchangeRate ?? null,
+        exchangeRate: formValues.exchangeRate ?? 1,
         observations: formValues.observations ?? '',
         guaranteeNotes: formValues.guaranteeNotes ?? '',
         penaltyNotes: formValues.penaltyNotes ?? '',
