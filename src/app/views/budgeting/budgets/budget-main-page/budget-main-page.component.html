@@ -21,7 +21,9 @@
   <emp-bdg-budget-entry-breakdown *ngIf="displayEntry"
     class="secondary priority std-stacked"
     [ngClass]="{'stacked full-size': expandEntry}"
+    [subQuery]="subQuery"
     [data]="selectedEntry"
+    [queryExecuted]="isLoadingEntry"
     [expand]="expandEntry"
     (budgetEntryBreakdownEvent)="onBudgetEntryBreakdownEvent($event)">
 
@@ -31,8 +33,9 @@
 
 
 <emp-ng-export-report-modal *ngIf="displayExportModal"
-  heading="Exportar presupuesto"
-  [fileUrl]="fileUrl"
+  [heading]="selectedExportData.title"
+  [message]="selectedExportData.message"
+  [fileUrl]="selectedExportData.fileUrl"
   (exportReportModalEvent)="onExportReportModalEvent($event)">
 
 </emp-ng-export-report-modal>

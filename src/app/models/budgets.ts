@@ -10,6 +10,12 @@ import { Identifiable } from '@app/core';
 import { DataTable, DataTableColumn, DataTableEntry } from './base/data-table';
 
 
+export enum BudgetExplorerOperationTypes {
+  exportBudget      = 'export-budget',
+  exportBudgetEntry = 'export-budget-entry',
+}
+
+
 export enum BudgetExplorerReportTypes {
   Anualizado                        = 'Anualizado',
   DisponibleMensual                 = 'DisponibleMensual',
@@ -19,14 +25,54 @@ export enum BudgetExplorerReportTypes {
 }
 
 
+export enum BudgetEntryExplorerReportTypes {
+  BudgetTransactions = 'budget-transactions',
+  BudgetEntries      = 'budget-entries',
+  MonthlyBalance     = 'monthly-balance',
+}
 
-export const BudgetExplorerReportTypesList: Identifiable<BudgetExplorerReportTypes>[] = [
-  { uid: BudgetExplorerReportTypes.Anualizado,                        name: 'Anualizado' },
-  { uid: BudgetExplorerReportTypes.DisponibleMensual,                 name: 'Disponible mensual [PENDIENTE]' },
-  { uid: BudgetExplorerReportTypes.DisponibleMensualAcumulado,        name: 'Disponible mensual acumulado [PENDIENTE]' },
-  { uid: BudgetExplorerReportTypes.PresupuestoDetalladoCalendarizado, name: 'Presupuesto detallado calendarizado [PENDIENTE]' },
-  { uid: BudgetExplorerReportTypes.SaldosOperacion,                   name: 'Saldos operación' },
+
+export const BudgetExplorerReportTypesList: BudgetExplorerReportType[] = [
+  {
+    uid: BudgetExplorerReportTypes.Anualizado,
+    name: 'Anualizado',
+    defaultEntryReportType: BudgetEntryExplorerReportTypes.MonthlyBalance,
+  },
+  {
+    uid: BudgetExplorerReportTypes.DisponibleMensual,
+    name: 'Disponible mensual [PENDIENTE]',
+    defaultEntryReportType: BudgetEntryExplorerReportTypes.BudgetTransactions,
+  },
+  {
+    uid: BudgetExplorerReportTypes.DisponibleMensualAcumulado,
+    name: 'Disponible mensual acumulado [PENDIENTE]',
+    defaultEntryReportType: BudgetEntryExplorerReportTypes.BudgetTransactions,
+  },
+  {
+    uid: BudgetExplorerReportTypes.PresupuestoDetalladoCalendarizado,
+    name: 'Presupuesto detallado calendarizado [PENDIENTE]',
+    defaultEntryReportType: BudgetEntryExplorerReportTypes.BudgetTransactions,
+  },
+  {
+    uid: BudgetExplorerReportTypes.SaldosOperacion,
+    name: 'Saldos operación',
+    defaultEntryReportType: BudgetEntryExplorerReportTypes.BudgetEntries,
+  },
 ];
+
+
+export const BudgetEntryExplorerReportTypesList: Identifiable<BudgetEntryExplorerReportTypes>[] = [
+  { uid: BudgetEntryExplorerReportTypes.BudgetTransactions, name: 'Detalle de transacciones' },
+  { uid: BudgetEntryExplorerReportTypes.BudgetEntries,      name: 'Detalle de movimientos' },
+  { uid: BudgetEntryExplorerReportTypes.MonthlyBalance,     name: 'Saldos por mes' },
+];
+
+
+export interface BudgetExplorerReportType {
+  uid: BudgetExplorerReportTypes;
+  name: string;
+  defaultEntryReportType: BudgetEntryExplorerReportTypes;
+}
 
 
 export interface BudgetType {
@@ -97,6 +143,11 @@ export interface BudgetQuery {
 }
 
 
+export interface BudgetEntryQuery {
+  reportType: BudgetEntryExplorerReportTypes;
+}
+
+
 export interface BudgetData extends DataTable {
   query: BudgetQuery;
   columns: DataTableColumn[];
@@ -111,19 +162,20 @@ export interface BudgetEntryDescriptor extends DataTableEntry {
 
 
 export interface BudgetEntryBreakdownData {
+  query: BudgetQuery;
+  subQuery: BudgetEntryQuery;
   entry: BudgetEntryDescriptor;
   breakdown: BudgetEntryBreakdown;
 }
 
 
 export interface BudgetEntryBreakdown extends DataTable {
-  query: BudgetQuery; // TODO: definir, entry + BudgetQuery + EntryQuery
   columns: DataTableColumn[];
   entries: BudgetEntryBreakdownEntry[];
 }
 
 
-export interface BudgetEntryBreakdownEntry { // v1 transaction
+export interface BudgetEntryBreakdownEntry {
   uid: string;
 }
 
@@ -136,6 +188,13 @@ export interface BudgetRequestFields {
 
 export interface BudgetValidationResult {
   result: string;
+}
+
+
+export const EmptyBudgetExplorerReportType: BudgetExplorerReportType = {
+  uid: null,
+  name: '',
+  defaultEntryReportType: BudgetEntryExplorerReportTypes.BudgetTransactions,
 }
 
 
@@ -166,6 +225,11 @@ export const EmptyBudgetData: BudgetData = {
 };
 
 
+export const EmptyBudgetEntryQuery: BudgetEntryQuery = {
+  reportType: BudgetEntryExplorerReportTypes.BudgetTransactions,
+};
+
+
 export const EmptyBudgetEntryDescriptor: BudgetEntryDescriptor = {
   title: '',
   description: '',
@@ -180,6 +244,8 @@ export const EmptyBudgetEntryBreakdown: BudgetEntryBreakdown = {
 
 
 export const EmptyBudgetEntryBreakdownData: BudgetEntryBreakdownData = {
+  query: EmptyBudgetQuery,
+  subQuery: EmptyBudgetEntryQuery,
   entry: EmptyBudgetEntryDescriptor,
   breakdown: EmptyBudgetEntryBreakdown,
 };

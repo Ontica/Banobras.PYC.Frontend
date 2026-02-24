@@ -1,0 +1,72 @@
+<form [formGroup]="form" empNgFormKeyDownEnter autocomplete="off" class="form-section form-container">
+
+  <div class="fx-column-container fx-gap-half">
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-quarter">
+
+        <label class="nowrap">Tipo de reporte:</label>
+
+        <emp-ng-select
+          formControlName="reportType"
+          [config]="{showTooltip: true}"
+          [items]="reportTypesList"
+          [showError]="formHelper.isControlInvalid(form.controls.reportType)">
+
+        </emp-ng-select>
+
+      </div>
+
+      <div #filterOptionsSection class="fx-item-none fx-items-start" [style.paddingTop.px]="13">
+
+        <button title="Buscar"
+          [class.btn-icon-action]="this.form.valid"
+          [class.btn-icon]="!this.form.valid"
+          (click)="onSearchClicked()">
+
+          <mat-icon>search</mat-icon>
+
+        </button>
+
+      </div>
+
+      <div class="fx-item">
+
+      </div>
+
+      <div class="fx-item-quarter sm-fx-item-half" [style.paddingTop.px]="13">
+
+        <div class="input-icon-container">
+
+          <input #filterInput type="text" class="text-box" name="filterInput" autocomplete="off"
+            placeholder="Buscar en resultado..."
+            [(ngModel)]="filter" [ngModelOptions]="{standalone: true}"
+            (keyup.enter)="onFilterData()"
+            (keyup.escape)="onClearFilter()">
+
+          <mat-icon class="input-icon" (click)="onFilterData()">search</mat-icon>
+
+        </div>
+
+      </div>
+
+      <mat-divider vertical="true" class="vertical">
+
+      </mat-divider>
+
+      <div class="fx-item-none" [style.marginRight.px]="0" [style.paddingTop.px]="13">
+
+        <button
+          class="btn"
+          (click)="onExportButtonClicked()">
+          Exportar
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

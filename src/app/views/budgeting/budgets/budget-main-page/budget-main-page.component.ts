@@ -7,13 +7,15 @@
 
 import { Component, ViewChild } from '@angular/core';
 
-import { Assertion, EventInfo } from '@app/core';
+import { Assertion, EventInfo, isEmpty } from '@app/core';
 
 import { BudgetTransactionsDataService, BudgetsDataService } from '@app/data-services';
 
-import { BudgetData, BudgetEntryBreakdown, BudgetEntryBreakdownData, BudgetEntryDescriptor, BudgetQuery,
-         EmptyBudgetData, EmptyBudgetEntryBreakdown, EmptyBudgetEntryBreakdownData,
-         EmptyBudgetEntryDescriptor, EmptyBudgetQuery, FileReport } from '@app/models';
+import { BudgetData, BudgetEntryBreakdown, BudgetEntryBreakdownData, BudgetEntryDescriptor, BudgetEntryQuery,
+         BudgetExplorerOperationTypes, BudgetExplorerReportType, BudgetQuery, EmptyBudgetData,
+         EmptyBudgetEntryBreakdown, EmptyBudgetEntryBreakdownData, EmptyBudgetEntryDescriptor,
+         EmptyBudgetEntryQuery, EmptyBudgetExplorerReportType, EmptyBudgetQuery,
+         EmptyExplorerBulkOperationData, ExplorerBulkOperationData, FileReport } from '@app/models';
 
 import { FilePreviewComponent } from '@app/shared/containers';
 
@@ -34,13 +36,15 @@ export class BudgetMainPageComponent {
 
   @ViewChild('filePreview', { static: true }) filePreview: FilePreviewComponent;
 
+  selectedReportType: BudgetExplorerReportType = Object.assign({}, EmptyBudgetExplorerReportType);
+
   query: BudgetQuery = Object.assign({}, EmptyBudgetQuery);
 
   data: BudgetData = Object.assign({}, EmptyBudgetData);
 
   selectedEntry: BudgetEntryBreakdownData = Object.assign({}, EmptyBudgetEntryBreakdownData);
 
-  fileUrl = '';
+  subQuery: BudgetEntryQuery = Object.assign({}, EmptyBudgetEntryQuery);
 
   displayEntry = false;
 
@@ -54,6 +58,8 @@ export class BudgetMainPageComponent {
 
   queryExecuted = false;
 
+  selectedExportData: ExplorerBulkOperationData = Object.assign({}, EmptyExplorerBulkOperationData);
+
 
   constructor(private budgetsData: BudgetsDataService,
               private transactionsData: BudgetTransactionsDataService) { }
@@ -62,20 +68,25 @@ export class BudgetMainPageComponent {
   onBudgetExplorerEvent(event: EventInfo) {
     switch (event.type as BudgetExplorerEventType) {
       case BudgetExplorerEventType.SEARCH_CLICKED:
+        Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearData(event.payload.query as BudgetQuery);
+        this.setQueryAndClearData(event.payload.reportType, event.payload.query as BudgetQuery);
         this.searchBudgetData(this.query);
         return;
       case BudgetExplorerEventType.CLEAR_CLICKED:
+        Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
-        this.setQueryAndClearData(event.payload.query as BudgetQuery);
+        this.setQueryAndClearData(event.payload.reportType, event.payload.query as BudgetQuery);
         return;
       case BudgetExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.entry, ' event.payload.entry');
-        this.getBudgetEntryBreakdown(event.payload.entry as BudgetEntryDescriptor);
+        this.setSubquery({ reportType: this.selectedReportType.defaultEntryReportType });
+        this.getBudgetEntryBreakdown(this.query, this.subQuery, event.payload.entry as BudgetEntryDescriptor);
         return;
       case BudgetExplorerEventType.EXPORT_CLICKED:
-        this.setDisplayExportModal(true);
+        this.setDisplayExportModal(true, BudgetExplorerOperationTypes.exportBudget, 'Exportar presupuesto',
+          'Se generará la exportación a Excel con el último filtro consultado.'
+        );
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -87,7 +98,8 @@ export class BudgetMainPageComponent {
   onBudgetEntryBreakdownEvent(event: EventInfo) {
     switch (event.type as BudgetEntryBreakdownEventType) {
       case BudgetEntryBreakdownEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedEntry(EmptyBudgetEntryDescriptor, EmptyBudgetEntryBreakdown);
+        this.setSelectedEntry(this.query, EmptyBudgetEntryQuery, EmptyBudgetEntryDescriptor, EmptyBudgetEntryBreakdown);
+        this.setSubquery(EmptyBudgetEntryQuery);
         this.resetExpandEntry();
         return;
       case BudgetEntryBreakdownEventType.EXPAND_CLICKED:
@@ -96,6 +108,21 @@ export class BudgetMainPageComponent {
       case BudgetEntryBreakdownEventType.ENTRY_CLICKED:
         Assertion.assertValue(event.payload.dataUID, 'event.payload.dataUID');
         this.getTransactionForPrint(event.payload.dataUID);
+        return;
+      case BudgetEntryBreakdownEventType.SEARCH_CLICKED:
+        Assertion.assertValue(event.payload.query, 'event.payload.query');
+        Assertion.assertValue(event.payload.subQuery, 'event.payload.subQuery');
+        Assertion.assertValue(event.payload.entry, 'event.payload.entry');
+        this.setSubquery(event.payload.subQuery);
+        this.getBudgetEntryBreakdown(this.query, this.subQuery, event.payload.entry);
+        return;
+      case BudgetEntryBreakdownEventType.EXPORT_CLICKED:
+        Assertion.assertValue(event.payload.query, 'event.payload.query');
+        Assertion.assertValue(event.payload.entry, 'event.payload.entry');
+        Assertion.assertValue(event.payload.subQuery, 'event.payload.subQuery');
+        this.setSubquery(event.payload.subQuery);
+        this.setDisplayExportModal(true, BudgetExplorerOperationTypes.exportBudgetEntry,
+          'Exportar desglose de presupuesto', 'Se generará la exportación a Excel con los últimos filtros consultados.');
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -110,7 +137,16 @@ export class BudgetMainPageComponent {
         this.setDisplayExportModal(false);
         return;
       case ExportReportModalEventType.EXPORT_BUTTON_CLICKED:
-        this.exportBudgetData(this.query);
+        switch (this.selectedExportData.operation) {
+          case BudgetExplorerOperationTypes.exportBudget:
+            this.exportBudgetData(this.query);
+            break;
+          case BudgetExplorerOperationTypes.exportBudgetEntry:
+            this.exportBudgetEntryBreakdown(this.query, this.subQuery, this.selectedEntry.entry);
+            break;
+          default:
+            break;
+        }
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
@@ -129,13 +165,31 @@ export class BudgetMainPageComponent {
   }
 
 
-  private getBudgetEntryBreakdown(entry: BudgetEntryDescriptor) {
+  private exportBudgetData(query: BudgetQuery) {
+    this.budgetsData.exportBudgetData(query)
+      .firstValue()
+      .then(x => this.resolveExportData(x.url));
+  }
+
+
+  private getBudgetEntryBreakdown(query: BudgetQuery,
+                                  subQuery: BudgetEntryQuery,
+                                  entry: BudgetEntryDescriptor) {
     this.isLoadingEntry = true;
 
-    this.budgetsData.getBudgetEntryBreakdown(this.query, entry)
+    this.budgetsData.getBudgetEntryBreakdown(query, subQuery, entry)
       .firstValue()
-      .then(x => this.setSelectedEntry(entry, x))
+      .then(x => this.setSelectedEntry(query, subQuery, entry, x))
       .finally(() => this.isLoadingEntry = false);
+  }
+
+
+  private exportBudgetEntryBreakdown(query: BudgetQuery,
+                                     subQuery: BudgetEntryQuery,
+                                     entry: BudgetEntryDescriptor) {
+    this.budgetsData.exportBudgetEntryBreakdown(query, subQuery, entry)
+      .firstValue()
+      .then(x => this.resolveExportData(x.url));
   }
 
 
@@ -149,17 +203,12 @@ export class BudgetMainPageComponent {
   }
 
 
-  private exportBudgetData(query: BudgetQuery) {
-    this.budgetsData.exportBudgetData(query)
-      .firstValue()
-      .then(x => this.fileUrl = x.url);
-  }
-
-
-  private setQueryAndClearData(query: BudgetQuery) {
+  private setQueryAndClearData(reportType: BudgetExplorerReportType, query: BudgetQuery) {
+    this.selectedReportType = isEmpty(reportType) ? EmptyBudgetExplorerReportType : reportType;
     this.query = Object.assign({}, query);
+    this.setSubquery(EmptyBudgetEntryQuery);
     this.setData(EmptyBudgetData, false);
-    this.setSelectedEntry(EmptyBudgetEntryDescriptor, EmptyBudgetEntryBreakdown);
+    this.setSelectedEntry(query, EmptyBudgetEntryQuery, EmptyBudgetEntryDescriptor, EmptyBudgetEntryBreakdown);
     this.resetExpandEntry();
   }
 
@@ -170,9 +219,17 @@ export class BudgetMainPageComponent {
   }
 
 
-  private setSelectedEntry(entry: BudgetEntryDescriptor, breakdown: BudgetEntryBreakdown) {
-    this.selectedEntry = { entry, breakdown };
+  private setSelectedEntry(query: BudgetQuery,
+                           subQuery: BudgetEntryQuery,
+                           entry: BudgetEntryDescriptor,
+                           breakdown: BudgetEntryBreakdown) {
+    this.selectedEntry = { query, subQuery, entry, breakdown };
     this.displayEntry = !!this.selectedEntry.entry.title;
+  }
+
+
+  private setSubquery(subQuery: BudgetEntryQuery) {
+    this.subQuery = Object.assign({}, subQuery);
   }
 
 
@@ -186,9 +243,23 @@ export class BudgetMainPageComponent {
   }
 
 
-  private setDisplayExportModal(display: boolean) {
+  private setDisplayExportModal(display: boolean,
+                               operation?: BudgetExplorerOperationTypes,
+                               title?: string,
+                               message?: string) {
     this.displayExportModal = display;
-    this.fileUrl = '';
+    this.selectedExportData = {
+      operation: operation ?? null,
+      title: title ?? null,
+      message: message ?? null,
+      fileUrl: '',
+      command: null,
+    };
+  }
+
+
+  private resolveExportData(fileUrl: string) {
+    this.selectedExportData.fileUrl = fileUrl;
   }
 
 

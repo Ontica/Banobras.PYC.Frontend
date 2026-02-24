@@ -20,7 +20,11 @@ import { ReportsControlsModule } from '@app/views/_reports-controls/reports-cont
 import { BudgetMainPageComponent } from './budget-main-page/budget-main-page.component';
 import { BudgetExplorerComponent } from './budget-explorer/budget-explorer.component';
 import { BudgetFilterComponent } from './budget-explorer/budget-filter.component';
+
 import { BudgetEntryBreakdownComponent } from './budget-entry-breakdown/budget-entry-breakdown.component';
+import { BudgetEntryExplorerComponent } from './budget-entry-explorer/budget-entry-explorer.component';
+import { BudgetEntryFilterComponent } from './budget-entry-explorer/budget-entry-filter.component';
+
 import {
   BudgetSegmentItemSelectorComponent
 } from './budget-segment-items/budget-segment-item-selector.component';
@@ -47,7 +51,11 @@ import { BudgetSubmitterComponent } from './budget-management/budget-submitter.c
     BudgetMainPageComponent,
     BudgetExplorerComponent,
     BudgetFilterComponent,
+
     BudgetEntryBreakdownComponent,
+    BudgetEntryExplorerComponent,
+    BudgetEntryFilterComponent,
+
     BudgetSegmentItemSelectorComponent,
     BudgetManagementComponent,
     BudgetSubmitterComponent,

@@ -9,9 +9,9 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { BudgetData, BudgetEntryBreakdown, BudgetEntryDescriptor, BudgetQuery, BudgetRequestFields,
-         BudgetSegmentItem, BudgetTransactionDescriptor, BudgetType, BudgetValidationResult,
-         FileReport } from '@app/models';
+import { BudgetData, BudgetEntryBreakdown, BudgetEntryDescriptor, BudgetEntryQuery, BudgetQuery,
+         BudgetRequestFields, BudgetSegmentItem, BudgetTransactionDescriptor, BudgetType,
+         BudgetValidationResult, FileReport } from '@app/models';
 
 @Injectable()
 export class BudgetsDataService {
@@ -44,13 +44,16 @@ export class BudgetsDataService {
 
 
   getBudgetEntryBreakdown(query: BudgetQuery,
+                          subQuery: BudgetEntryQuery,
                           entry: BudgetEntryDescriptor): EmpObservable<BudgetEntryBreakdown> {
     Assertion.assertValue(query, 'query');
+    Assertion.assertValue(subQuery, 'subQuery');
     Assertion.assertValue(entry, 'entry');
+    Assertion.assertValue(entry.uid, 'entry.uid');
 
     const path = `v2/budgeting/budget-explorer/breakdown`;
 
-    return this.http.post<BudgetEntryBreakdown>(path, {query, entry});
+    return this.http.post<BudgetEntryBreakdown>(path, { query, subQuery, entryUID: entry.uid, entry });
   }
 
 
@@ -60,6 +63,20 @@ export class BudgetsDataService {
     const path = `v2/budgeting/budget-explorer/export`;
 
     return this.http.post<FileReport>(path, query);
+  }
+
+
+  exportBudgetEntryBreakdown(query: BudgetQuery,
+                             subQuery: BudgetEntryQuery,
+                             entry: BudgetEntryDescriptor): EmpObservable<FileReport> {
+    Assertion.assertValue(query, 'query');
+    Assertion.assertValue(subQuery, 'subQuery');
+    Assertion.assertValue(entry, 'entry');
+    Assertion.assertValue(entry.uid, 'entry.uid');
+
+    const path = `v2/budgeting/budget-explorer/breakdown/export`;
+
+    return this.http.post<FileReport>(path, { query, subQuery, entryUID: entry.uid, entry });
   }
 
 

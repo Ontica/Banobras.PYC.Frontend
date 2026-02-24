@@ -10,13 +10,13 @@
 
     <mat-tab label="Desglose">
 
-      <emp-ng-data-table
-        [dataTable]="data.breakdown"
-        [controlsAligned]="true"
-        [showExportButton]="false"
-        (dataTableEvent)="onDataTableEvent($event)">
+      <emp-bdg-budget-entry-explorer
+        [subQuery]="subQuery"
+        [data]="data.breakdown"
+        [queryExecuted]="queryExecuted"
+        (budgetEntryExplorerEvent)="onBudgetEntryExplorerEvent($event)">
 
-      </emp-ng-data-table>
+      </emp-bdg-budget-entry-explorer>
 
     </mat-tab>
 

@@ -57,11 +57,13 @@ export class BudgetExplorerComponent implements OnChanges {
   onBudgetFilterEvent(event: EventInfo) {
     switch (event.type as BudgetFilterEventType) {
       case BudgetFilterEventType.SEARCH_CLICKED:
+        Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.SEARCH_CLICKED,
           event.payload);
         return;
       case BudgetFilterEventType.CLEAR_CLICKED:
+        Assertion.assertValue(event.payload.reportType, 'event.payload.reportType');
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.budgetExplorerEvent, BudgetExplorerEventType.CLEAR_CLICKED,
           event.payload);

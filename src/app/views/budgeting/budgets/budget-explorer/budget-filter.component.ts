@@ -15,12 +15,13 @@ import { EventInfo, Identifiable } from '@app/core';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { BudgetingStateSelector, CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
+import { BudgetingStateSelector,
+         CataloguesStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { FormHelper, sendEvent, empExpandCollapse, ArrayLibrary } from '@app/shared/utils';
 
-import { Budget, BudgetExplorerReportTypes, BudgetExplorerReportTypesList, BudgetQuery, BudgetSegmentType,
-         BudgetType, RequestsList } from '@app/models';
+import { Budget, BudgetExplorerReportTypes, BudgetExplorerReportTypesList, BudgetQuery, BudgetType,
+         RequestsList } from '@app/models';
 
 
 export enum BudgetFilterEventType {
@@ -108,6 +109,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
     if (FormHelper.isFormReadyAndInvalidate(this.form)) {
       const payload = {
         isFormValid: this.form.valid,
+        reportType: this.getReportType(),
         query: this.getFormData(),
       };
 
@@ -121,6 +123,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
 
     const payload = {
       isFormValid: this.form.valid,
+      reportType: this.getReportType(),
       query: this.getFormData(),
     };
 
@@ -168,6 +171,11 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
   private setDefaultGroupByColumn() {
     const defaultGroupByColumn = ArrayLibrary.getFirstItem(this.groupByColumnsList);
     this.form.controls.groupByColumn.reset(defaultGroupByColumn?.uid ?? null);
+  }
+
+
+  private getReportType(): Identifiable {
+    return this.reportTypesList.find(x => x.uid === this.form.value.reportType) ?? null;
   }
 
 
