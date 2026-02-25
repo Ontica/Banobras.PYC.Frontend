@@ -27,6 +27,8 @@ export class CardComponent {
 
   @Input() showExpand = false;
 
+  @Input() showInfo = false;
+
   @Input() expanded = false;
 
   @Input() showCardHeaderFlat = false;
@@ -34,6 +36,8 @@ export class CardComponent {
   @Output() cardClose = new EventEmitter<void>();
 
   @Output() cardExpand = new EventEmitter<void>();
+
+  @Output() cardInfo = new EventEmitter<void>();
 
   @Output() cardScroll = new EventEmitter<void>();
 
@@ -45,6 +49,11 @@ export class CardComponent {
 
   onExpand() {
     this.cardExpand.emit();
+  }
+
+
+  onInfo() {
+    this.cardInfo.emit();
   }
 
 

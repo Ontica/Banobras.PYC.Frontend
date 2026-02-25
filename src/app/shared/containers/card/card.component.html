@@ -25,6 +25,17 @@
 
         </div>
 
+        <div *ngIf="showInfo">
+
+          <mat-icon
+            class="card-icon material-icons-outlined"
+            title="Mostrar información"
+            (click)="onInfo()">
+            info
+          </mat-icon>
+
+        </div>
+
         <mat-icon *ngIf="!disableClose"
           class="card-icon"
           title="Cerrar"
