@@ -13,7 +13,7 @@ import { ROUTES } from '@app/main-layout';
 
 import { DefaultComponent } from '@app/shared/components';
 
-import { BillsMainPageComponent } from '@app/views/billing/bills-main-page/bills-main-page.component';
+import { BillsMainPageComponent } from '@app/views/billing/bills/bills-main-page/bills-main-page.component';
 
 import { PartiesMainPageComponent } from '@app/views/parties/parties-main-page/parties-main-page.component';
 

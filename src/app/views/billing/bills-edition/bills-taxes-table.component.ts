@@ -21,17 +21,17 @@ import { Bill, BillsStructure, DocumentsEntityTypes, EmptyBillsStructure, FileRe
          FileType } from '@app/models';
 
 
-export enum BillsTableEventType {
-  SELECT_CLICKED      = 'BillsTableComponent.Event.SelectClicked',
-  SHOW_FILE_CLICKED   = 'BillsTableComponent.Event.ShowFileClicked',
-  REMOVE_CLICKED      = 'BillsTableComponent.Event.RemoveClicked',
+export enum BillsTaxesTableEventType {
+  SELECT_CLICKED      = 'BillsTaxesTableComponent.Event.SelectClicked',
+  SHOW_FILE_CLICKED   = 'BillsTaxesTableComponent.Event.ShowFileClicked',
+  REMOVE_CLICKED      = 'BillsTaxesTableComponent.Event.RemoveClicked',
 }
 
 @Component({
-  selector: 'emp-ng-bills-table',
-  templateUrl: './bills-table.component.html',
+  selector: 'emp-ng-bills-taxes-table',
+  templateUrl: './bills-taxes-table.component.html',
 })
-export class BillsTableComponent implements OnChanges {
+export class BillsTaxesTableComponent implements OnChanges {
 
   @Input() entityType: DocumentsEntityTypes = null;
 
@@ -41,7 +41,7 @@ export class BillsTableComponent implements OnChanges {
 
   @Input() canEdit = false;
 
-  @Output() billsTableEvent = new EventEmitter<EventInfo>();
+  @Output() billsTaxesTableEvent = new EventEmitter<EventInfo>();
 
   displayedColumnsDefault: string[] = ['billType', 'billNo', 'name', 'currencyCode',
                                        'subtotal', 'discount', 'total', 'actionShow'];
@@ -67,12 +67,12 @@ export class BillsTableComponent implements OnChanges {
 
   @SkipIfSelection()
   onSelectClicked(bill: Bill) {
-    sendEvent(this.billsTableEvent, BillsTableEventType.SELECT_CLICKED, { bill });
+    sendEvent(this.billsTaxesTableEvent, BillsTaxesTableEventType.SELECT_CLICKED, { bill });
   }
 
 
   onShowFileClicked(bill: Bill, file: FileReport) {
-    sendEvent(this.billsTableEvent, BillsTableEventType.SHOW_FILE_CLICKED, { bill, file });
+    sendEvent(this.billsTaxesTableEvent, BillsTaxesTableEventType.SHOW_FILE_CLICKED, { bill, file });
   }
 
 
@@ -82,11 +82,11 @@ export class BillsTableComponent implements OnChanges {
     this.messageBox.confirm(message, 'Eliminar comprobante', 'DeleteCancel')
       .firstValue()
       .then(x =>
-          sendEventIf(x, this.billsTableEvent, BillsTableEventType.REMOVE_CLICKED, {
-            entityType: this.entityType,
-            entityUID: this.entityUID,
-            bill,
-          })
+        sendEventIf(x, this.billsTaxesTableEvent, BillsTaxesTableEventType.REMOVE_CLICKED, {
+          entityType: this.entityType,
+          entityUID: this.entityUID,
+          bill,
+        })
       );
   }
 

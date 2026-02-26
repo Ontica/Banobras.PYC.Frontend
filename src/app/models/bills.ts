@@ -96,7 +96,7 @@ export interface BillFields {
 }
 
 
-export interface BillData {
+export interface BillHolder {
   bill: Bill;
   concepts: BillConcept[];
   documents: Document[];
@@ -218,7 +218,7 @@ export const EmptyBillsStructure: BillsStructure = {
 };
 
 
-export const EmptyBillData: BillData = {
+export const EmptyBillHolder: BillHolder = {
   bill: EmptyBill,
   concepts: [],
   documents: [],

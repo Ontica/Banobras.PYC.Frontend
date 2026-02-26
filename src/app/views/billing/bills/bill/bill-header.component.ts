@@ -15,7 +15,8 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { ArrayLibrary, FormatLibrary, FormHelper, sendEvent, sendEventIf } from '@app/shared/utils';
 
-import { Bill, EmptyBill, BaseActions, EmptyBaseActions, BillFields } from '@app/models';
+import { Bill, EmptyBill, BaseActions, EmptyBaseActions, BillFields, BaseEntity,
+         EmptyBaseEntity } from '@app/models';
 
 
 export enum BillHeaderEventType {
@@ -32,9 +33,11 @@ interface BillFormModel extends FormGroup<{
   issuedByUID: FormControl<string>;
   issuedToUID: FormControl<string>;
   currencyCode: FormControl<string>;
-  subtotal: FormControl<string>;
-  discount: FormControl<string>;
-  total: FormControl<string>;
+  subtotal: FormControl<number>;
+  discount: FormControl<number>;
+  total: FormControl<number>;
+  baseEntityTypeUID: FormControl<string>;
+  baseEntityUID: FormControl<string>;
 }> { }
 
 @Component({
@@ -46,6 +49,8 @@ export class BillHeaderComponent implements OnInit, OnChanges {
   @Input() isSaved = false;
 
   @Input() bill: Bill = EmptyBill;
+
+  @Input() baseEntity: BaseEntity = EmptyBaseEntity;
 
   @Input() actions: BaseActions = EmptyBaseActions;
 
@@ -68,6 +73,10 @@ export class BillHeaderComponent implements OnInit, OnChanges {
   issuedByList: Identifiable[] = [];
 
   issuedToList: Identifiable[] = [];
+
+  baseEntityTypesList: Identifiable[] = [];
+
+  baseEntitiesList: Identifiable[] = [];
 
 
   constructor(private messageBox: MessageBoxService) {
@@ -136,6 +145,10 @@ export class BillHeaderComponent implements OnInit, OnChanges {
       ArrayLibrary.insertIfNotExist(this.issuedByList ?? [], this.bill.issuedBy, 'uid');
     this.issuedToList =
       ArrayLibrary.insertIfNotExist(this.issuedToList ?? [], this.bill.issuedTo, 'uid');
+    this.baseEntitiesList =
+      ArrayLibrary.insertIfNotExist(this.baseEntitiesList ?? [], this.baseEntity, 'uid');
+    this.baseEntityTypesList =
+      ArrayLibrary.insertIfNotExist(this.baseEntityTypesList ?? [], this.baseEntity.type, 'uid');
   }
 
 
@@ -150,9 +163,11 @@ export class BillHeaderComponent implements OnInit, OnChanges {
       issuedByUID: [''],
       issuedToUID: [''],
       currencyCode: [''],
-      subtotal: [''],
-      discount: [''],
-      total: [''],
+      subtotal: [null],
+      discount: [null],
+      total: [null],
+      baseEntityTypeUID: [''],
+      baseEntityUID: [''],
     });
   }
 
@@ -160,16 +175,18 @@ export class BillHeaderComponent implements OnInit, OnChanges {
   private setFormData() {
     setTimeout(() => {
       this.form.reset({
-        managedByUID: isEmpty(this.bill.managedBy) ? null : this.bill.managedBy.uid,
-        categoryUID: isEmpty(this.bill.category) ? null : this.bill.category.uid,
-        billTypeUID: isEmpty(this.bill.billType) ? null : this.bill.billType.uid,
+        managedByUID: FormHelper.getUIDValue(this.bill.managedBy),
+        categoryUID: FormHelper.getUIDValue(this.bill.category),
+        billTypeUID: FormHelper.getUIDValue(this.bill.billType),
+        issuedByUID: FormHelper.getUIDValue(this.bill.issuedBy),
+        issuedToUID: FormHelper.getUIDValue(this.bill.issuedTo),
         issueDate: this.bill.issueDate ?? '',
-        issuedByUID: isEmpty(this.bill.issuedBy) ? null : this.bill.issuedBy.uid,
-        issuedToUID: isEmpty(this.bill.issuedTo) ? null : this.bill.issuedTo.uid,
         currencyCode: this.bill.currencyCode ?? '',
-        subtotal: this.bill.subtotal > 0 ? FormatLibrary.numberWithCommas(this.bill.subtotal, '1.2-2') : null,
-        discount: this.bill.discount > 0 ? FormatLibrary.numberWithCommas(this.bill.discount, '1.2-2') : null,
-        total: this.bill.total > 0 ? FormatLibrary.numberWithCommas(this.bill.total, '1.2-2') : null,
+        subtotal: FormHelper.getNumberValue(this.bill.subtotal),
+        discount: FormHelper.getNumberValue(this.bill.discount),
+        total: FormHelper.getNumberValue(this.bill.total),
+        baseEntityTypeUID: FormHelper.getUIDValue(this.baseEntity.type),
+        baseEntityUID: FormHelper.getUIDValue(this.baseEntity),
       });
     });
   }
@@ -209,7 +226,7 @@ export class BillHeaderComponent implements OnInit, OnChanges {
 
   private getConfirmTitle(eventType: BillHeaderEventType): string {
     switch (eventType) {
-      case BillHeaderEventType.DELETE: return 'Eliminar factura';
+      case BillHeaderEventType.DELETE: return 'Eliminar comprobante';
       default: return '';
     }
   }
@@ -220,11 +237,11 @@ export class BillHeaderComponent implements OnInit, OnChanges {
       case BillHeaderEventType.DELETE:
         const total = FormatLibrary.numberWithCommas(this.bill.total ?? 0, '1.2-2');
 
-        return `Esta operación eliminará la factura
+        return `Esta operación eliminará el comprobante
                 <strong>${this.bill.billNo} (${this.bill.billType.name})</strong>
                 emitida por <strong>${this.bill.issuedBy.name}</strong>
                 con importe total de ${total}.
-                <br><br>¿Elimino la factura?`;
+                <br><br>¿Elimino el comprobante?`;
 
       default: return '';
     }

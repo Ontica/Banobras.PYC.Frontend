@@ -13,8 +13,7 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { BillsDataService } from '@app/data-services';
 
-import { BillData, BillDescriptor, BillsDataTable, BillsQuery, EmptyBillData, EmptyBillsDataTable,
-         EmptyBillsQuery } from '@app/models';
+import { BillHolder, BillDescriptor, BillsQuery, EmptyBillHolder, EmptyBillsQuery } from '@app/models';
 
 import { BillsExplorerEventType } from '../bills-explorer/bills-explorer.component';
 
@@ -29,9 +28,9 @@ export class BillsMainPageComponent {
 
   query: BillsQuery = Object.assign({}, EmptyBillsQuery);
 
-  data: BillsDataTable = Object.assign({}, EmptyBillsDataTable);
+  data: BillDescriptor[] = [];
 
-  selectedData: BillData = EmptyBillData;
+  selectedData: BillHolder = EmptyBillHolder;
 
   displayTabbedView = false;
 
@@ -60,7 +59,7 @@ export class BillsMainPageComponent {
       case BillsExplorerEventType.SELECT_CLICKED:
         Assertion.assertValue(event.payload.item, ' event.payload.item');
         Assertion.assertValue(event.payload.item.uid, 'event.payload.item.uid');
-        this.getBillData(event.payload.item.uid);
+        this.getBill(event.payload.item.uid);
         return;
       case BillsExplorerEventType.EXECUTE_OPERATION_CLICKED:
         Assertion.assertValue(event.payload.operation, 'event.payload.operation');
@@ -76,7 +75,7 @@ export class BillsMainPageComponent {
   onBillTabbedViewEvent(event: EventInfo) {
     switch (event.type as BillTabbedViewEventType) {
       case BillTabbedViewEventType.CLOSE_BUTTON_CLICKED:
-        this.setSelectedData(EmptyBillData);
+        this.setSelectedData(EmptyBillHolder);
         return;
       case BillTabbedViewEventType.REFRESH_DATA:
         Assertion.assertValue(event.payload.billUID, 'event.payload.billUID');
@@ -99,10 +98,10 @@ export class BillsMainPageComponent {
   }
 
 
-  private getBillData(billUID: string) {
+  private getBill(billUID: string) {
     this.isLoadingSelection = true;
 
-    this.billsData.getBillData(billUID)
+    this.billsData.getBill(billUID)
       .firstValue()
       .then(x => this.setSelectedData(x))
       .finally(() => this.isLoadingSelection = false);
@@ -110,24 +109,24 @@ export class BillsMainPageComponent {
 
 
   private refreshSelectedData(billUID: string) {
-    this.getBillData(billUID);
+    this.getBill(billUID);
   }
 
 
   private setQueryAndClearExplorerData(query: BillsQuery) {
     this.query = Object.assign({}, query);
     this.setData([], false);
-    this.setSelectedData(EmptyBillData);
+    this.setSelectedData(EmptyBillHolder);
   }
 
 
   private setData(data: BillDescriptor[], queryExecuted: boolean = true) {
-    this.data = Object.assign({}, this.data, { query: this.query, entries: data });
+    this.data = data ?? [];;
     this.queryExecuted = queryExecuted;
   }
 
 
-  private setSelectedData(data: BillData) {
+  private setSelectedData(data: BillHolder) {
     this.selectedData = data;
     this.displayTabbedView = !isEmpty(this.selectedData.bill);
   }

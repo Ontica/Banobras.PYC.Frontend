@@ -11,11 +11,13 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BillData, EmptyBillData } from '@app/models';
-
-import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
+import { BillHolder, EmptyBillHolder } from '@app/models';
 
 import { BillEditorEventType } from '../bill/bill-editor.component';
+
+import {
+  DocumentsEditionEventType
+} from '@app/views/entity-records/documents-edition/documents-edition.component';
 
 export enum BillTabbedViewEventType {
   CLOSE_BUTTON_CLICKED = 'BillTabbedViewComponent.Event.CloseButtonClicked',
@@ -28,7 +30,7 @@ export enum BillTabbedViewEventType {
 })
 export class BillTabbedViewComponent implements OnChanges {
 
-  @Input() data: BillData = EmptyBillData;
+  @Input() data: BillHolder = EmptyBillHolder;
 
   @Output() billTabbedViewEvent = new EventEmitter<EventInfo>();
 

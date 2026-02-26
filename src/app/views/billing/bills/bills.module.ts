@@ -12,19 +12,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
+import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 
 import { BillsMainPageComponent } from './bills-main-page/bills-main-page.component';
 import { BillsExplorerComponent } from './bills-explorer/bills-explorer.component';
 import { BillsFilterComponent } from './bills-explorer/bills-filter.component';
+import { BillsTableComponent } from './bills-explorer/bills-table.component';
 import { BillTabbedViewComponent } from './bill-tabbed-view/bill-tabbed-view.component';
 import { BillEditorComponent } from './bill/bill-editor.component';
 import { BillHeaderComponent } from './bill/bill-header.component';
 import { BillConceptsTableComponent } from './bill/bill-concepts-table.component';
-import { BillsEditionComponent } from './bills-edition/bills-edition.component';
-import { BillsTableComponent } from './bills-edition/bills-table.component';
-import { BillUploaderComponent } from './bills-edition/bill-uploader.component';
+
+import {
+  PaymentOrderEditorComponent
+} from '@app/views/payments/payment-orders/payment-order/payment-order-editor.component';
 
 @NgModule({
   imports: [
@@ -37,22 +39,19 @@ import { BillUploaderComponent } from './bills-edition/bill-uploader.component';
 
     EntityRecordsModule,
     ReportsControlsModule,
-  ],
+],
   declarations: [
     BillsMainPageComponent,
     BillsExplorerComponent,
     BillsFilterComponent,
+    BillsTableComponent,
     BillTabbedViewComponent,
     BillEditorComponent,
     BillHeaderComponent,
     BillConceptsTableComponent,
-    BillsEditionComponent,
-    BillsTableComponent,
-    BillUploaderComponent,
   ],
   exports: [
     BillsMainPageComponent,
-    BillsEditionComponent,
   ]
 })
-export class BillingModule { }
+export class BillsModule { }

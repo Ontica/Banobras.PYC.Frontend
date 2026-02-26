@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
-import { BillData, BillDescriptor, BillsQuery } from '@app/models';
+import { BillHolder, BillDescriptor, BillsQuery } from '@app/models';
 
 
 @Injectable()
@@ -42,12 +42,12 @@ export class BillsDataService {
   }
 
 
-  getBillData(billUID: string): EmpObservable<BillData> {
+  getBill(billUID: string): EmpObservable<BillHolder> {
     Assertion.assertValue(billUID, 'billUID');
 
     const path = `v2/billing-management/bills/${billUID}`;
 
-    return this.http.get<BillData>(path);
+    return this.http.get<BillHolder>(path);
   }
 
 }

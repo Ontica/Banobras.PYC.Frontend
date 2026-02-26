@@ -2,6 +2,8 @@
 
   <div class="fx-column-container fx-gap-half">
 
+    <div class="section-title"> Información general del comprobante </div>
+
     <div class="fx-row-container">
 
       <div class="fx-item-size" style="--size: calc(100% - 126px)">
@@ -47,7 +49,7 @@
 
       <div class="fx-item-half">
 
-        <label>Tipo de factura:</label>
+        <label>Tipo de comprobante:</label>
 
         <emp-ng-select
           formControlName="billTypeUID"
@@ -101,23 +103,82 @@
 
       <div class="fx-item-quarter">
         <label>Subtotal:</label>
-        <input type="text" class="text-box text-align-right" empNgCurrency
+        <emp-ng-input-numeric
           formControlName="subtotal"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.subtotal)">
+          [showError]="formHelper.isControlInvalid(form.controls.subtotal)">
+        </emp-ng-input-numeric>
       </div>
 
       <div class="fx-item-quarter">
         <label>Descuento:</label>
-        <input type="text" class="text-box text-align-right" empNgCurrency
+        <emp-ng-input-numeric
           formControlName="discount"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.discount)">
+          [showError]="formHelper.isControlInvalid(form.controls.discount)">
+        </emp-ng-input-numeric>
       </div>
 
       <div class="fx-item-quarter">
         <label>Total:</label>
-        <input type="text" class="text-box text-align-right" empNgCurrency
+        <emp-ng-input-numeric
           formControlName="total"
-          [class.invalid-control]="formHelper.isControlInvalid(form.controls.total)">
+          [showError]="formHelper.isControlInvalid(form.controls.total)">
+        </emp-ng-input-numeric>
+      </div>
+
+    </div>
+
+    <div class="section-title"> Información del documento relacionado </div>
+
+    <div class="fx-row-container">
+
+      <div class="fx-item-half">
+
+        <label>Tipo de documento relacionado:</label>
+
+        <emp-ng-select
+          formControlName="baseEntityTypeUID"
+          [items]="baseEntityTypesList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
+          [showError]="formHelper.isControlInvalid(form.controls.baseEntityTypeUID)">
+        </emp-ng-select>
+
+      </div>
+
+      <div class="fx-item-half">
+
+        <label>Documento relacionado:</label>
+
+        <emp-ng-select
+          formControlName="baseEntityUID"
+          [items]="baseEntitiesList"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getConditionalSearcherPlaceholder(editionMode,
+                           form.controls.baseEntityTypeUID.valid, 'tipo de documento relacionado')"
+          [showError]="formHelper.isControlInvalid(form.controls.baseEntityUID)">
+
+          <ng-template #tLabelTemplate let-item="item">
+            {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | {{!item?.name ? 'N/D' : item?.name}}
+          </ng-template>
+
+          <ng-template #tOptionTemplate let-item="item">
+
+            <div class="item wrap">
+
+              <span class="item-highlight">
+                {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | {{!item?.name ? 'N/D' : item?.name}}
+
+              </span> <br>
+              <span class="item-text-xs primary-text">
+                {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | {{!item?.name ? 'N/D' : item?.name}}
+              </span>
+
+            </div>
+
+          </ng-template>
+
+        </emp-ng-select>
+
       </div>
 
     </div>

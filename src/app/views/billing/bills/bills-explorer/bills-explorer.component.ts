@@ -62,12 +62,10 @@ export class BillsExplorerComponent implements OnChanges {
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.billsExplorerEvent, BillsExplorerEventType.SEARCH_CLICKED, event.payload);
         return;
-
       case BillsFilterEventType.CLEAR_CLICKED:
         Assertion.assertValue(event.payload.query, 'event.payload.query');
         sendEvent(this.billsExplorerEvent, BillsExplorerEventType.CLEAR_CLICKED, event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;

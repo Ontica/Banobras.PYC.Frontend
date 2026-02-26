@@ -20,7 +20,7 @@ import { OrdersDataService } from '@app/data-services';
 import { BillsStructure, DocumentFields, DocumentsEntityTypes, EmptyBillsStructure,
          FileReport } from '@app/models';
 
-import { BillsTableEventType } from './bills-table.component';
+import { BillsTaxesTableEventType } from './bills-taxes-table.component';
 
 import { BillUploaderEventType } from './bill-uploader.component';
 
@@ -86,14 +86,14 @@ export class BillsEditionComponent {
 
 
   @SkipIf('submitted')
-  onBillsTableEvent(event: EventInfo) {
-    switch (event.type as BillsTableEventType) {
-      case BillsTableEventType.SHOW_FILE_CLICKED:
+  onBillsTaxesTableEvent(event: EventInfo) {
+    switch (event.type as BillsTaxesTableEventType) {
+      case BillsTaxesTableEventType.SHOW_FILE_CLICKED:
         Assertion.assertValue(event.payload.bill.uid, 'event.payload.bill.uid');
         Assertion.assertValue(event.payload.file, 'event.payload.file');
         this.openFilePreview(event.payload.file);
         return;
-      case BillsTableEventType.REMOVE_CLICKED:
+      case BillsTaxesTableEventType.REMOVE_CLICKED:
         Assertion.assertValue(event.payload.entityUID, 'event.payload.entityUID');
         Assertion.assertValue(event.payload.bill.uid, 'event.payload.bill.uid');
         this.deleteBill(event.payload.entityUID, event.payload.bill.uid);
