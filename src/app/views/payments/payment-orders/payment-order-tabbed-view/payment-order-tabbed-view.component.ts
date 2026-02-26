@@ -13,7 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 import { EmptyPaymentOrderHolder, ObjectTypes, PaymentOrderHolder } from '@app/models';
 
-import { BudgetManagementEventType } from '@app/views/budgeting/budgets/budget-management/budget-management.component';
+import { BudgetManagementEventType } from '@app/views/budgeting/budget-management/budget-management.component';
 
 import { DocumentsEditionEventType } from '@app/views/entity-records/documents-edition/documents-edition.component';
 

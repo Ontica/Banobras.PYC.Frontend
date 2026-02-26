@@ -13,7 +13,7 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { BillingModule } from '@app/views/billing/billing.module';
-import { BudgetsModule } from '@app/views/budgeting/budgets/budgets.module';
+import { BudgetManagementModule } from '@app/views/budgeting/budget-management/budget-management.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 

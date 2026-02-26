@@ -14,7 +14,6 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { BudgetTransactionsModule } from '../budgets-transactions/budget-transactions.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
-import { PaymentsManagementModule } from '@app/views/payments/payments-management/payments-management.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 
 import { BudgetMainPageComponent } from './budget-main-page/budget-main-page.component';
@@ -29,9 +28,6 @@ import {
   BudgetSegmentItemSelectorComponent
 } from './budget-segment-items/budget-segment-item-selector.component';
 
-import { BudgetManagementComponent } from './budget-management/budget-management.component';
-import { BudgetSubmitterComponent } from './budget-management/budget-submitter.component';
-
 
 @NgModule({
   imports: [
@@ -44,7 +40,6 @@ import { BudgetSubmitterComponent } from './budget-management/budget-submitter.c
 
     BudgetTransactionsModule,
     EntityRecordsModule,
-    PaymentsManagementModule,
     ReportsControlsModule,
   ],
   declarations: [
@@ -57,12 +52,9 @@ import { BudgetSubmitterComponent } from './budget-management/budget-submitter.c
     BudgetEntryFilterComponent,
 
     BudgetSegmentItemSelectorComponent,
-    BudgetManagementComponent,
-    BudgetSubmitterComponent,
   ],
   exports: [
     BudgetMainPageComponent,
-    BudgetManagementComponent,
   ]
 })
 export class BudgetsModule { }

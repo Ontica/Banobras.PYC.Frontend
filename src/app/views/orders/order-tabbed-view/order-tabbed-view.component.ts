@@ -22,7 +22,7 @@ import { BillsEditionEventType } from '@app/views/billing/bills-edition/bills-ed
 
 import {
   BudgetManagementEventType
-} from '@app/views/budgeting/budgets/budget-management/budget-management.component';
+} from '@app/views/budgeting/budget-management/budget-management.component';
 
 import {
   PaymentOrdersEditionEventType

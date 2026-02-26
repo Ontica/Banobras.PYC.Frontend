@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
-import { BillingModule } from '@app/views/billing/billing.module';
+import { BillsEditionModule } from '@app/views/billing/bills-edition/bills-edition.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 import { TaxesModule } from '@app/views/taxes/taxes.module';
@@ -50,7 +50,7 @@ import { BudgetTransactionsPlanningGeneratorComponent } from './transactions-pla
     AngularMaterialModule,
     SharedModule,
 
-    BillingModule,
+    BillsEditionModule,
     EntityRecordsModule,
     ReportsControlsModule,
     TaxesModule,

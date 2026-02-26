@@ -17,6 +17,8 @@ import { Document } from './documents';
 
 import { HistoryEntry } from './history';
 
+import { ObjectTypes } from './object-types';
+
 import { EmptyPaymentMethod, PaymentAccount, PaymentMethod, PaymentInstructionDescriptor,
          EmptyPaymentAccount } from './payment-instructions';
 
@@ -185,7 +187,7 @@ export interface PaymentOrder {
 
 export interface PayableEntity {
   uid: string;
-  type: string;
+  type: Identifiable<ObjectTypes>;
   entityNo: string;
   name: string;
   description: string;
@@ -256,7 +258,7 @@ export const EmptyPaymentOrderActions: PaymentOrderActions = {
 
 export const EmptyPayableEntity: PayableEntity = {
   uid: '',
-  type: '',
+  type: Empty,
   entityNo: '',
   name: '',
   description: '',
@@ -327,7 +329,7 @@ export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderHold
     statusName: data.paymentOrder.status.name,
     payableNo: data.payableEntity.entityNo,
     payableName: data.payableEntity.name,
-    payableTypeName: data.payableEntity.type,
+    payableTypeName: data.payableEntity.type.uid,
     budgetName: data.paymentOrder.budget.name,
   };
 }

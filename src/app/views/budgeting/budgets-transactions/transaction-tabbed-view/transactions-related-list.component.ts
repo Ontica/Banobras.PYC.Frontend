@@ -19,7 +19,7 @@ import {
   TransactionsListEventType
 } from '../transactions-explorer/transactions-list.component';
 
-export enum BudgetManagementEventType {
+export enum BudgetTransactionsRelatedListEventType {
 
 }
 

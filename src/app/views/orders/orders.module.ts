@@ -13,7 +13,7 @@ import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { BillingModule } from '../billing/billing.module';
-import { BudgetsModule } from '@app/views/budgeting/budgets/budgets.module';
+import { BudgetManagementModule } from '@app/views/budgeting/budget-management/budget-management.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
 import { PaymentOrdersModule } from '../payments/payment-orders/payment-orders.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
@@ -43,7 +43,7 @@ import { OrderOrdersTableComponent } from './order-orders-table/order-orders-tab
     SharedModule,
 
     BillingModule,
-    BudgetsModule,
+    BudgetManagementModule,
     EntityRecordsModule,
     PaymentOrdersModule,
     ReportsControlsModule,

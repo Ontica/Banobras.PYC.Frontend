@@ -26,7 +26,7 @@ import { BudgetSubmitterEventType } from './budget-submitter.component';
 
 import {
   TransactionsListEventType
-} from '../../budgets-transactions/transactions-explorer/transactions-list.component';
+} from '../budgets-transactions/transactions-explorer/transactions-list.component';
 
 import {
   TravelExpensesRequestEventType
