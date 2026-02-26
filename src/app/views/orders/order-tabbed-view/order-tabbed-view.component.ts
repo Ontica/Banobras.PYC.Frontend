@@ -77,9 +77,16 @@ export class OrderTabbedViewComponent implements OnChanges {
 
   tabs: TabConfig[] = [];
 
-  TabType = TabType;
-
   selectedTabIndex = 0;
+
+  processViewerData = {
+    display: false,
+    steps: [],
+    title: '',
+    hint: '',
+  };
+
+  TabType = TabType;
 
 
   ngOnChanges(changes: SimpleChanges) {
@@ -110,6 +117,16 @@ export class OrderTabbedViewComponent implements OnChanges {
 
   onCloseButtonClicked() {
     sendEvent(this.orderTabbedViewEvent, OrderTabbedViewEventType.CLOSE_BUTTON_CLICKED);
+  }
+
+
+  onInfoButtonClicked() {
+    this.setProcessViewerData(true, []);
+  }
+
+
+  onCloseInfoButtonClicked() {
+    this.setProcessViewerData(false, [])
   }
 
 
@@ -281,6 +298,16 @@ export class OrderTabbedViewComponent implements OnChanges {
       [TabType.paymentOrders]: { label: 'Pagos', tab: TabType.paymentOrders },
       [TabType.documents]: { label: 'Documentos', tab: TabType.documents },
       [TabType.history]: { label: 'Historial', tab: TabType.history },
+    };
+  }
+
+
+  private setProcessViewerData(display: boolean, steps: any[]) {
+    this.processViewerData = {
+      display,
+      steps,
+      title: `Información del proceso (${this.config.nameSingular})`,
+      hint: this.title,
     };
   }
 

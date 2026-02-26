@@ -1,7 +1,9 @@
 <emp-ng-card
   [heading]="title + ' ' + status"
   [hint]="hint"
-  (cardClose)="onCloseButtonClicked()">
+  [showInfo]="true"
+  (cardClose)="onCloseButtonClicked()"
+  (cardInfo)="onInfoButtonClicked()">
 
   <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
 
@@ -94,3 +96,12 @@
   </mat-tab-group>
 
 </emp-ng-card>
+
+
+<emp-ng-entity-process-viewer *ngIf="processViewerData.display"
+  [title]="processViewerData.title"
+  [entityName]="processViewerData.hint"
+  [steps]="processViewerData.steps"
+  (closeEvent)="onCloseInfoButtonClicked()">
+
+</emp-ng-entity-process-viewer>
