@@ -2,7 +2,10 @@
 
   <div class="fx-column-container fx-gap-half">
 
-    <div class="section-title"> Información general </div>
+    <div class="section-title">
+      Información general
+      {{displayPaymentOrderNo ? ' (' + paymentOrder.paymentOrderNo + ')' : ''}}
+    </div>
 
     <div class="fx-row-container">
 
@@ -270,6 +273,7 @@
           [config]="{ clearable: true }"
           [searcherAPI]="providersAPI"
           [initialValue]="isSaved && !editionMode ? paymentOrder.debtor : null"
+          [placeholder]="formHelper.getSearcherPlaceholder(editionMode)"
           [showError]="formHelper.isControlInvalid(form.controls.debtorUID)">
 
         </emp-ng-select-typeahead>

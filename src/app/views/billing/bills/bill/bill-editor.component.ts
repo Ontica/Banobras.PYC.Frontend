@@ -11,7 +11,7 @@ import { EventInfo, isEmpty } from '@app/core';
 
 import { SkipIf } from '@app/shared/decorators';
 
-import { Bill, EmptyBill, BaseActions, EmptyBaseActions } from '@app/models';
+import { Bill, EmptyBill, BaseActions, EmptyBaseActions, BaseEntity, EmptyBaseEntity } from '@app/models';
 
 import { BillHeaderEventType } from './bill-header.component';
 
@@ -28,6 +28,8 @@ export enum BillEditorEventType {
 export class BillEditorComponent {
 
   @Input() bill: Bill = EmptyBill;
+
+  @Input() baseEntity: BaseEntity = EmptyBaseEntity;
 
   @Input() actions: BaseActions = EmptyBaseActions;
 

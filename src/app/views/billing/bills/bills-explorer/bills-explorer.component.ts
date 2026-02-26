@@ -11,12 +11,11 @@ import { Assertion, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BillsDataTable, BillsQuery, EmptyBillsDataTable, EmptyBillsQuery,
-         buildExplorerHint } from '@app/models';
+import { BillDescriptor, BillsQuery, EmptyBillsQuery, buildExplorerHint } from '@app/models';
 
 import { BillsFilterEventType } from './bills-filter.component';
 
-import { DataTableEventType } from '@app/views/_reports-controls/data-table/data-table.component';
+import { BillsTableEventType } from './bills-table.component';
 
 export enum BillsExplorerEventType {
   SEARCH_CLICKED            = 'BillsExplorerComponent.Event.SearchClicked',
@@ -33,7 +32,7 @@ export class BillsExplorerComponent implements OnChanges {
 
   @Input() query: BillsQuery = Object.assign({}, EmptyBillsQuery);
 
-  @Input() data: BillsDataTable = Object.assign({}, EmptyBillsDataTable);
+  @Input() data: BillDescriptor[] = [];
 
   @Input() selectedUID = null;
 
@@ -74,13 +73,11 @@ export class BillsExplorerComponent implements OnChanges {
 
 
   onBillsTableEvent(event: EventInfo) {
-    switch (event.type as DataTableEventType) {
-      case DataTableEventType.ENTRY_CLICKED:
-        Assertion.assertValue(event.payload.entry, 'event.payload.entry');
-        sendEvent(this.billsExplorerEvent, BillsExplorerEventType.SELECT_CLICKED,
-          { item: event.payload.entry });
+    switch (event.type as BillsTableEventType) {
+      case BillsTableEventType.SELECT_CLICKED:
+        Assertion.assertValue(event.payload.item, 'event.payload.item');
+        sendEvent(this.billsExplorerEvent, BillsExplorerEventType.SELECT_CLICKED, event.payload);
         return;
-
       default:
         console.log(`Unhandled user interface event ${event.type}`);
         return;
@@ -89,7 +86,7 @@ export class BillsExplorerComponent implements OnChanges {
 
 
   private setText() {
-    this.hint = buildExplorerHint(this.queryExecuted, this.data.entries.length);
+    this.hint = buildExplorerHint(this.queryExecuted, this.data.length);
   }
 
 }

@@ -44,6 +44,8 @@ export class PaymentOrderEditorComponent {
 
   @Input() actions: PaymentOrderActions = EmptyPaymentOrderActions;
 
+  @Input() displayPaymentOrderNo = false;
+
   @Output() paymentOrderEditorEvent = new EventEmitter<EventInfo>();
 
   submitted = false;

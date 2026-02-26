@@ -86,7 +86,7 @@ export const ProcurementViews: View[] = [
     permission: ROUTES.gastos_gastos_y_reembolsos.permission,
   },
   {
-    name: 'Procurement.ExpensesReport',
+    name: 'Procurement.ExpensesSettlements',
     title: 'Comprobación de gastos',
     menuTitle: 'Comprobación de gastos',
     url: ROUTES.gastos_comprobacion_de_gastos.fullpath,
@@ -146,7 +146,7 @@ export const PaymentsViews: View[] = [
     permission: ROUTES.pagos_instrucciones_de_pago.permission,
   },
   {
-    name: 'Payments.ExpensesReport',
+    name: 'Payments.ExpensesSettlements',
     title: 'Comprobación de gastos',
     menuTitle: 'Comprobación de gastos',
     url: ROUTES.pagos_comprobacion_de_gastos.fullpath,
@@ -160,11 +160,11 @@ export const PaymentsViews: View[] = [
     permission: ROUTES.pagos_explorador.permission,
   },
   {
-    name: 'Payments.Invoices',
-    title: 'Facturas',
-    menuTitle: 'Facturas',
-    url: ROUTES.pagos_facturas.fullpath,
-    permission: ROUTES.pagos_facturas.permission,
+    name: 'Payments.Bills',
+    title: 'Comprobantes',
+    menuTitle: 'Comprobantes',
+    url: ROUTES.pagos_comprobantes.fullpath,
+    permission: ROUTES.pagos_comprobantes.permission,
   },
   {
     name: 'Payments.Suppliers',
@@ -206,7 +206,7 @@ export const BudgetViews: View[] = [
     permission: ROUTES.presupuesto_transacciones.permission,
   },
   {
-    name: 'Budget.ExpensesReport',
+    name: 'Budget.ExpensesSettlements',
     title: 'Comprobación de gastos',
     menuTitle: 'Comprobación de gastos',
     url: ROUTES.presupuesto_comprobacion_de_gastos.fullpath,

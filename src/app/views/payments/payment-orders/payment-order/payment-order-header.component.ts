@@ -70,6 +70,8 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
   @Input() isSaved = false;
 
+  @Input() displayPaymentOrderNo = false;
+
   @Input() paymentOrder: PaymentOrder = EmptyPaymentOrder;
 
   @Input() payableEntity: PayableEntity = EmptyPayableEntity;

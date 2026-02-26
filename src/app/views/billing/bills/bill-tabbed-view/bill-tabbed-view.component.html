@@ -5,10 +5,11 @@
 
   <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="selectedTabIndex" >
 
-    <mat-tab label="Factura">
+    <mat-tab label="Comprobante">
 
       <emp-ng-bill-editor
         [bill]="data.bill"
+        [baseEntity]="data.baseEntity"
         [actions]="data.actions"
         (billEditorEvent)="onBillEditorEvent($event)">
 
@@ -18,10 +19,50 @@
 
     <mat-tab label="Conceptos">
 
-      <emp-ng-bill-concepts-table
-        [concepts]="data.concepts">
+      <ng-template matTabContent>
 
-      </emp-ng-bill-concepts-table>
+        <emp-ng-bill-concepts-table
+          [concepts]="data.concepts">
+
+        </emp-ng-bill-concepts-table>
+
+      </ng-template>
+
+    </mat-tab>
+
+    <mat-tab label="Pago">
+
+      <ng-template matTabContent>
+
+        <div class="instruction-text" *ngIf="!showPaymentOrder">
+          No se ha realizado el pago.
+        </div>
+
+        <emp-pmt-payment-order-editor *ngIf="showPaymentOrder"
+          [paymentOrder]="data.paymentOrder"
+          [payableEntity]="data.baseEntity"
+          [displayPaymentOrderNo]="true">
+
+        </emp-pmt-payment-order-editor>
+
+      </ng-template>
+
+    </mat-tab>
+
+    <mat-tab label="Presupuesto">
+
+      <ng-template matTabContent>
+
+        <emp-bdg-budget-management
+          [baseObjectType]="baseObjectType"
+          [baseObjectUID]="data.baseEntity.uid"
+          [baseObjectName]="data.baseEntity.name"
+          [budgetTransactions]="data.budgetTransactions">
+
+        </emp-bdg-budget-management>
+
+      </ng-template>
+
 
     </mat-tab>
 

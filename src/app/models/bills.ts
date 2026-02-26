@@ -7,8 +7,6 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
-import { DataTable, DataTableColumn, DataTableColumnType } from './base/data-table';
-
 import { BaseActions, EmptyBaseActions } from './base/explorer-data';
 
 import { Document } from './documents';
@@ -18,6 +16,10 @@ import { HistoryEntry } from './history';
 import { FileReport } from './reporting';
 
 import { TaxEntry } from './taxes';
+
+import { PayableEntity, PaymentOrder } from './payment-orders';
+
+import { BudgetTransactionDescriptor } from './budget-transactions';
 
 
 export enum BillsStatus {
@@ -72,20 +74,17 @@ export interface BillsQuery {
 }
 
 
-export interface BillsDataTable extends DataTable {
-  query: BillsQuery;
-  entries: BillDescriptor[];
-}
-
-
 export interface BillDescriptor {
   uid: string;
   billNo: string;
+  billTypeName: string;
+  categoryName: string;
+  total: number;
+  baseEntityNo: string;
+  baseEntityTypeName: string;
+  baseEntityName: string;
   issuedByName: string;
   issuedToName: string;
-  categoryName: string;
-  billTypeName: string;
-  total: number;
   issueDate: DateString;
   statusName: string;
 }
@@ -98,6 +97,9 @@ export interface BillFields {
 
 export interface BillHolder {
   bill: Bill;
+  baseEntity: PayableEntity;
+  paymentOrder: PaymentOrder;
+  budgetTransactions: BudgetTransactionDescriptor[];
   concepts: BillConcept[];
   documents: Document[];
   history: HistoryEntry[];
@@ -221,58 +223,10 @@ export const EmptyBillsStructure: BillsStructure = {
 export const EmptyBillHolder: BillHolder = {
   bill: EmptyBill,
   concepts: [],
+  baseEntity: null,
+  paymentOrder: null,
+  budgetTransactions: [],
   documents: [],
   history: [],
   actions: EmptyBaseActions,
-};
-
-
-export const DefaultBillsColumns: DataTableColumn[] = [
-  {
-    field: 'billNo',
-    title: 'No. factura',
-    type: DataTableColumnType.text_link,
-  },
-  {
-    field: 'categoryName',
-    title: 'Categoría',
-    type: DataTableColumnType.text,
-  },
-  {
-    field: 'billTypeName',
-    title: 'Tipo de factura',
-    type: DataTableColumnType.text,
-  },
-  {
-    field: 'issuedByName',
-    title: 'Emisor',
-    type: DataTableColumnType.text,
-  },
-  {
-    field: 'issuedToName',
-    title: 'Receptor',
-    type: DataTableColumnType.text,
-  },
-  {
-    field: 'total',
-    title: 'Total',
-    type: DataTableColumnType.decimal,
-  },
-  {
-    field: 'issueDate',
-    title: 'Emisión',
-    type: DataTableColumnType.date,
-  },
-  {
-    field: 'statusName',
-    title: 'Estado',
-    type: DataTableColumnType.text_tag,
-  },
-];
-
-
-export const EmptyBillsDataTable: BillsDataTable = {
-  query: EmptyBillsQuery,
-  columns: DefaultBillsColumns,
-  entries: [],
 };

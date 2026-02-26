@@ -1,0 +1,91 @@
+<div class="fx-column-container-fill">
+
+  <emp-ng-list-controls *ngIf="queryExecuted && dataList.length > 0"
+    class="fx-item-none"
+    [config]="{showSearcher: true}"
+    [filter]="filter"
+    (listControlsEvent)="onListControlsEvent($event)">
+
+  </emp-ng-list-controls>
+
+  <div class="fx-item">
+
+    <cdk-virtual-scroll-viewport tvsItemSize="53">
+
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="bill">
+          <th mat-header-cell *matHeaderCellDef> Comprobante </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="bold-text">
+              <a class="link-highlight" (click)="onSelectButtonClicked(row)">
+                {{ row.billNo }}
+              </a>
+            </div>
+            <div class="bold-text">
+            {{row.billTypeName}}
+            </div>
+            {{ row.categoryName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="baseEntity">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> Documento relacionado </th>
+          <td mat-cell *matCellDef="let row" class="column-fluid-lg">
+            <div class="text-highlight" [title]="row.baseEntityName">
+              {{ row.baseEntityNo }}
+            </div>
+            <div class="bold-text">
+              {{row.baseEntityTypeName}}
+            </div>
+            {{row.total ?? 0 | empDecimal}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="issued">
+          <th mat-header-cell *matHeaderCellDef class="nowrap"> Emisión </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="text-highlight">
+              {{!row.issueDate ? 'N/D' : (row.issueDate | empDateTimeFormat)}}
+            </div>
+            <div empNgTextTruncateToggle [text]="row.issuedByName" [maxLines]="3">
+              {{row.issuedByName}}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Estado </th>
+          <td mat-cell *matCellDef="let row">
+            <span class="tag" *ngIf="row.statusName"
+              [ngClass]="{'tag-base-error': row.statusName | empIsErrorStatus}">
+              {{row.statusName}}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="notFoundMessage">
+          <td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+
+            {{
+              isLoading ? 'Cargando...' :
+                queryExecuted ?
+                'No se encontraron comprobantes con el filtro proporcionado.' :
+                'No se ha invocado la búsqueda de comprobantes.'
+            }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          [class.row-selected]="row.uid === selectedUID"></tr>
+        <tr mat-footer-row *matFooterRowDef="['notFoundMessage']" class="text-not-found"
+          [hidden]="dataSource.filteredData.length > 0"></tr>
+
+      </table>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>

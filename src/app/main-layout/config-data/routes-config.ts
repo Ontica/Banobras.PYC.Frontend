@@ -229,11 +229,11 @@ export const ROUTES = {
     fullpath: '/pagos/explorador',
   },
 
-  pagos_facturas: {
-    permission: PERMISSIONS.ROUTE_PAGOS_FACTURAS,
+  pagos_comprobantes: {
+    permission: PERMISSIONS.ROUTE_PAGOS_COMPROBANTES,
     parent: 'pagos',
-    path: 'facturas',
-    fullpath: '/pagos/facturas',
+    path: 'comprobantes',
+    fullpath: '/pagos/comprobantes',
   },
 
   pagos_beneficiarios: {

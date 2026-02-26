@@ -59,8 +59,8 @@ const routes: Routes = [
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.pagos_facturas.permission },
-    path: ROUTES.pagos_facturas.path,
+    data: { permission: ROUTES.pagos_comprobantes.permission },
+    path: ROUTES.pagos_comprobantes.path,
     component: BillsMainPageComponent,
   },
   {

@@ -40,6 +40,7 @@
 
         <emp-ng-select
           formControlName="categoryUID"
+          [config]="{showTooltip: true}"
           [items]="categoriesList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.categoryUID)">
@@ -53,6 +54,7 @@
 
         <emp-ng-select
           formControlName="billTypeUID"
+          [config]="{showTooltip: true}"
           [items]="billTypesList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.billTypeUID)">
@@ -70,6 +72,7 @@
 
         <emp-ng-select
           formControlName="issuedByUID"
+          [config]="{showTooltip: true}"
           [items]="issuedByList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.issuedByUID)">
@@ -83,6 +86,7 @@
 
         <emp-ng-select
           formControlName="issuedToUID"
+          [config]="{showTooltip: true}"
           [items]="issuedToList"
           [loading]="isLoading"
           [showError]="formHelper.isControlInvalid(form.controls.issuedToUID)">
@@ -137,6 +141,7 @@
 
         <emp-ng-select
           formControlName="baseEntityTypeUID"
+          [config]="{showTooltip: true}"
           [items]="baseEntityTypesList"
           [loading]="isLoading"
           [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
@@ -151,17 +156,18 @@
 
         <emp-ng-select
           formControlName="baseEntityUID"
+          [config]="{showTooltip: true}"
           [items]="baseEntitiesList"
           [loading]="isLoading"
           [placeholder]="formHelper.getConditionalSearcherPlaceholder(editionMode,
                            form.controls.baseEntityTypeUID.valid, 'tipo de documento relacionado')"
           [showError]="formHelper.isControlInvalid(form.controls.baseEntityUID)">
 
-          <ng-template #tLabelTemplate let-item="item">
+          <ng-template #labelTemplate let-item="item">
             {{(!!item.entityNo ? item.entityNo : 'N/D') | uppercase}} | {{!item?.name ? 'N/D' : item?.name}}
           </ng-template>
 
-          <ng-template #tOptionTemplate let-item="item">
+          <ng-template #optionTemplate let-item="item">
 
             <div class="item wrap">
 

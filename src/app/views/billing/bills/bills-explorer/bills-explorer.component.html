@@ -3,7 +3,7 @@
   <div class="card-header card-header-flat">
 
     <div class="card-title">
-      Explorador de facturas
+      Explorador de comprobantes
 
       <div class="card-hint" empNgProgressText
         loadingText="Cargando"
@@ -30,15 +30,14 @@
 
       </emp-ng-bills-filter>
 
-      <emp-ng-data-table class="fx-item"
-        [dataTable]="data"
+      <emp-ng-bills-table class="fx-item"
+        [dataList]="data"
         [selectedUID]="selectedUID"
-        [showExportButton]="false"
-        [executed]="queryExecuted"
-        [notQueryExecutedText]="isLoading ? 'Cargando...' : 'No se ha invocado la consulta.'"
-        (dataTableEvent)="onBillsTableEvent($event)">
+        [queryExecuted]="queryExecuted"
+        [isLoading]="isLoading"
+        (billsTableEvent)="onBillsTableEvent($event)">
 
-      </emp-ng-data-table>
+      </emp-ng-bills-table>
 
     </div>
 

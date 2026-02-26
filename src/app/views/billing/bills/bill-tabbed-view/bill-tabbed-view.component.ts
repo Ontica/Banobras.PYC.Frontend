@@ -7,11 +7,11 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
+import { Assertion, DateStringLibrary, EventInfo, isEmpty } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { BillHolder, EmptyBillHolder } from '@app/models';
+import { BillHolder, EmptyBillHolder, ObjectTypes } from '@app/models';
 
 import { BillEditorEventType } from '../bill/bill-editor.component';
 
@@ -43,6 +43,16 @@ export class BillTabbedViewComponent implements OnChanges {
 
   ngOnChanges() {
     this.setTitle();
+  }
+
+
+  get showPaymentOrder(): boolean {
+    return !isEmpty(this.data.paymentOrder)
+  }
+
+
+  get baseObjectType(): ObjectTypes {
+    return isEmpty(this.data.baseEntity) ? null : this.data.baseEntity.type.uid as ObjectTypes;
   }
 
 
