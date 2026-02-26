@@ -15,11 +15,8 @@ import { SharedModule } from '@app/shared/shared.module';
 import { BillingModule } from '@app/views/billing/billing.module';
 import { BudgetManagementModule } from '@app/views/budgeting/budget-management/budget-management.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
+import { PaymentOrdersEditionModule } from '../payment-orders-edition/payment-orders-edition.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
-
-import { PaymentOrdersEditionComponent } from './payment-orders-edition/payment-orders-edition.component';
-import { PaymentOrderRequestComponent } from './payment-orders-edition/payment-order-request.component';
-import { PaymentOrdersTableComponent } from './payment-orders-edition/payment-orders-table.component';
 
 import { PaymentOrdersMainPageComponent } from './payment-orders-main-page/payment-orders-main-page.component';
 import { PaymentOrdersExplorerComponent } from './payment-orders-explorer/payment-orders-explorer.component';
@@ -29,11 +26,11 @@ import { PaymentOrdersListHeaderComponent } from './payment-orders-explorer/paym
 import { PaymentOrdersListItemComponent } from './payment-orders-explorer/payment-orders-list-item.component';
 import { PaymentOrderTabbedViewComponent } from './payment-order-tabbed-view/payment-order-tabbed-view.component';
 import { PaymentOrderPrintViewComponent } from './payment-order-tabbed-view/payment-order-print-view.component';
-import { PaymentOrderEditorComponent } from './payment-order/payment-order-editor.component';
-import { PaymentOrderCreatorComponent } from './payment-order/payment-order-creator.component';
-import { PaymentOrderHeaderComponent } from './payment-order/payment-order-header.component';
 import { PaymentOrderItemsEditionComponent } from './payment-order-items/payment-order-items-edition.component';
 import { PaymentOrderItemsTableComponent } from './payment-order-items/payment-order-items-table.component';
+
+import { PaymentOrderEditorComponent } from './payment-order/payment-order-editor.component';
+import { PaymentOrderCreatorComponent } from './payment-order/payment-order-creator.component';
 
 
 @NgModule({
@@ -46,9 +43,13 @@ import { PaymentOrderItemsTableComponent } from './payment-order-items/payment-o
     SharedModule,
 
     BillingModule,
-    BudgetsModule,
+    BudgetManagementModule,
     EntityRecordsModule,
+    PaymentOrdersEditionModule,
     ReportsControlsModule,
+
+    PaymentOrderEditorComponent,
+    PaymentOrderCreatorComponent,
   ],
   declarations: [
     PaymentOrdersMainPageComponent,
@@ -59,19 +60,11 @@ import { PaymentOrderItemsTableComponent } from './payment-order-items/payment-o
     PaymentOrdersListItemComponent,
     PaymentOrderTabbedViewComponent,
     PaymentOrderPrintViewComponent,
-    PaymentOrderEditorComponent,
-    PaymentOrderCreatorComponent,
-    PaymentOrderHeaderComponent,
     PaymentOrderItemsEditionComponent,
     PaymentOrderItemsTableComponent,
-
-    PaymentOrdersEditionComponent,
-    PaymentOrderRequestComponent,
-    PaymentOrdersTableComponent,
   ],
   exports: [
     PaymentOrdersMainPageComponent,
-    PaymentOrdersEditionComponent,
   ],
 })
 export class PaymentOrdersModule { }

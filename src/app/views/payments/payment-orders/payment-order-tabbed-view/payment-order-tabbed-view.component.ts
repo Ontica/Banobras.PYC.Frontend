@@ -21,7 +21,7 @@ import { PaymentOrderEditorEventType } from '../payment-order/payment-order-edit
 
 import { PaymentOrderItemsEditionEventType } from '../payment-order-items/payment-order-items-edition.component';
 
-import { PaymentOrdersEditionEventType } from '../payment-orders-edition/payment-orders-edition.component';
+import { PaymentOrdersEditionEventType } from '../../payment-orders-edition/payment-orders-edition.component';
 
 
 export enum PaymentOrderTabbedViewEventType {

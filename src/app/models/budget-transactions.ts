@@ -11,6 +11,8 @@ import { DataTable } from './base/data-table';
 
 import { ExplorerOperation } from './base/explorer-data';
 
+import { BaseEntity } from './base-entity';
+
 import { BillsStructure, EmptyBillsStructure } from './bills';
 
 import { Budget, BudgetSegmentType } from './budgets';
@@ -156,14 +158,6 @@ export interface BudgetTransaction {
   total: number;
   rejectedReason: string;
   status: Identifiable;
-}
-
-
-export interface BaseEntity extends Identifiable {
-  uid: string;
-  name: string;
-  entityNo?: string;
-  type?: Identifiable;
 }
 
 

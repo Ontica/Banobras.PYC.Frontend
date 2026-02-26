@@ -101,7 +101,7 @@ export class PaymentOrderItemsTableComponent implements OnChanges {
           ${item.budgetAccount.name}
         </strong></td></tr>
 
-        <tr><td class='nowrap'>Concepto factura: </td><td><strong>
+        <tr><td class='nowrap'>Concepto comprobante: </td><td><strong>
           ${item.billConcept}
         </strong></td></tr>
 

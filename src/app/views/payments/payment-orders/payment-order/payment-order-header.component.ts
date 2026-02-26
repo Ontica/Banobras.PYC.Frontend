@@ -16,6 +16,8 @@ import { Assertion, DateString, EventInfo, Identifiable, isEmpty } from '@app/co
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
+import { STANDALONE_IMPORTS } from '@app/shared/standalone-imports';
+
 import { CataloguesStateSelector, PaymentsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { MessageBoxService } from '@app/shared/services';
@@ -59,6 +61,10 @@ interface PayableFormModel extends FormGroup<{
 @Component({
   selector: 'emp-pmt-payment-order-header',
   templateUrl: './payment-order-header.component.html',
+  standalone: true,
+  imports: [
+    ...STANDALONE_IMPORTS,
+  ],
 })
 export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy {
 

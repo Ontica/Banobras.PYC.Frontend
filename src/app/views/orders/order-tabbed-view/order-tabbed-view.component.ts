@@ -26,7 +26,7 @@ import {
 
 import {
   PaymentOrdersEditionEventType
-} from '@app/views/payments/payment-orders/payment-orders-edition/payment-orders-edition.component';
+} from '@app/views/payments/payment-orders-edition/payment-orders-edition.component';
 
 import {
   DocumentsEditionEventType

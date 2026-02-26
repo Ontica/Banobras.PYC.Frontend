@@ -52,6 +52,8 @@ export * from './assets-assignments';
 
 export * from './assets-transactions';
 
+export * from './base-entity';
+
 export * from './bills';
 
 export * from './budget-transactions';

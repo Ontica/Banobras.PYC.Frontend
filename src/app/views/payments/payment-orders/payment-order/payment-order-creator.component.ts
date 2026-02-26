@@ -13,11 +13,13 @@ import { sendEvent } from '@app/shared/utils';
 
 import { SkipIf } from '@app/shared/decorators';
 
+import { STANDALONE_IMPORTS } from '@app/shared/standalone-imports';
+
 import { PaymentOrdersDataService } from '@app/data-services';
 
 import { PaymentOrderHolder, PaymentOrderFields } from '@app/models';
 
-import { PaymentOrderHeaderEventType } from './payment-order-header.component';
+import { PaymentOrderHeaderComponent, PaymentOrderHeaderEventType } from './payment-order-header.component';
 
 
 export enum PaymentOrderCreatorEventType {
@@ -28,6 +30,11 @@ export enum PaymentOrderCreatorEventType {
 @Component({
   selector: 'emp-pmt-payment-order-creator',
   templateUrl: './payment-order-creator.component.html',
+  standalone: true,
+  imports: [
+    ...STANDALONE_IMPORTS,
+    PaymentOrderHeaderComponent,
+  ],
 })
 export class PaymentOrderCreatorComponent {
 

@@ -15,7 +15,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { BillingModule } from '../billing/billing.module';
 import { BudgetManagementModule } from '@app/views/budgeting/budget-management/budget-management.module';
 import { EntityRecordsModule } from '@app/views/entity-records/entity-records.module';
-import { PaymentOrdersModule } from '../payments/payment-orders/payment-orders.module';
+import { PaymentOrdersEditionModule } from '../payments/payment-orders-edition/payment-orders-edition.module';
 import { ReportsControlsModule } from '@app/views/_reports-controls/reports-controls.module';
 import { TaxesModule } from '@app/views/taxes/taxes.module';
 
@@ -45,7 +45,7 @@ import { OrderOrdersTableComponent } from './order-orders-table/order-orders-tab
     BillingModule,
     BudgetManagementModule,
     EntityRecordsModule,
-    PaymentOrdersModule,
+    PaymentOrdersEditionModule,
     ReportsControlsModule,
     TaxesModule,
   ],
