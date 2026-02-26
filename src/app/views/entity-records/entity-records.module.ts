@@ -18,6 +18,7 @@ import { ConfirmSubmitModalComponent } from './confirm-submit-modal/confirm-subm
 import { DocumentsEditionComponent } from './documents-edition/documents-edition.component';
 import { DocumentsTableComponent } from './documents-edition/documents-table.component';
 import { DocumentUploaderComponent } from './documents-edition/document-uploader.component';
+import { EntityProcessViewerComponent } from './entity-process-viewer/entity-process-viewer.component';
 import { HistoryTableComponent } from './history-table/history-table.component';
 
 
@@ -37,11 +38,13 @@ import { HistoryTableComponent } from './history-table/history-table.component';
     DocumentsEditionComponent,
     DocumentsTableComponent,
     DocumentUploaderComponent,
+    EntityProcessViewerComponent,
     HistoryTableComponent,
   ],
   exports: [
     ConfirmSubmitModalComponent,
     DocumentsEditionComponent,
+    EntityProcessViewerComponent,
     HistoryTableComponent,
   ],
 })
