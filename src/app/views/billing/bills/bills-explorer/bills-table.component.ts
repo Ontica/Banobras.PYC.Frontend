@@ -51,6 +51,7 @@ export class BillsTableComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.dataList) {
+      this.setFilter('');
       this.setDataSource();
       this.scrollToTop();
     }
@@ -60,7 +61,7 @@ export class BillsTableComponent implements OnChanges {
   onListControlsEvent(event: EventInfo) {
     switch (event.type as ListControlsEventType) {
       case ListControlsEventType.FILTER_CHANGED:
-        this.filter = event.payload.filter ?? '';
+        this.setFilter(event.payload.filter);
         this.applyFilter(this.filter);
         return;
       default:
@@ -84,6 +85,11 @@ export class BillsTableComponent implements OnChanges {
     if (this.virtualScroll) {
       this.virtualScroll.scrollToIndex(-1);
     }
+  }
+
+
+  private setFilter(filter: string) {
+    this.filter = filter ?? '';
   }
 
 
