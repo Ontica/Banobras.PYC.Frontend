@@ -10,7 +10,7 @@ import { PERMISSIONS } from '@app/main-layout';
 
 type ControlPanelOptionType = 'ChangePassword' |
                               'OperationsLog' |
-                              'BudgetPlanningPeriods' |
+                              'BudgetPeriodControl' |
                               'CUCoP' |
                               'GenerateVouchers' |
                               'PaymentsTimeControl' |
@@ -35,11 +35,11 @@ export const ControlPanelOptionList: ControlPanelOption[] = [
     permission: PERMISSIONS.FEATURE_CAMBIAR_PASSWORD,
   },
   {
-    title: 'Períodos de planeación presupuestal',
-    description: 'Controla los períodos de carga del presupuesto planeado del gasto corriente y del programa financiero.',
+    title: 'Control de períodos presupuestales',
+    description: 'Herramienta para controlar los períodos de cierre presupuestales y genera las transacciones de traslado de saldos.',
     actionTitle: 'Administrar',
-    type: 'BudgetPlanningPeriods',
-    permission: PERMISSIONS.FEATURE_PERIODOS_DE_PLANEACION_PRESUPUESTAL,
+    type: 'BudgetPeriodControl',
+    permission: PERMISSIONS.FEATURE_CONTROL_DE_PEROODOS_PRESUPUESTALES,
   },
   {
     title: 'Bitácoras de operación',

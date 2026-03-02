@@ -88,13 +88,6 @@ export class BudgetTransactionsDataService {
 
     return this.http.post<ExplorerOperationResult>(path, command);
   }
-
-
-  generatePlanningTransactions(): EmpObservable<ExplorerOperationResult> {
-    const path = `v2/budgeting/transactions/planning/generate`;
-
-    return this.http.post<ExplorerOperationResult>(path);
-  }
   //#endregion TRANSACTIONS
 
 

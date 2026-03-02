@@ -22,13 +22,13 @@ export class ControlPanelMainPageComponent {
 
   displayOperationsLogModal = false;
 
-  displayTransactionsPlanningGeneratorModal = false;
+  displayBudgetPeriodControlModal = false;
 
   displayPaymentTimeControlModal = false;
 
   displayPayrollsModal = false;
 
-  displayVouchersGenerator = false;
+  displayVouchersGeneratorModal = false;
 
   controlPanelOptionList = ControlPanelOptionList;
 
@@ -44,8 +44,8 @@ export class ControlPanelMainPageComponent {
       case 'OperationsLog':
         this.displayOperationsLogModal = true;
         return;
-      case 'BudgetPlanningPeriods':
-        this.displayTransactionsPlanningGeneratorModal = true;
+      case 'BudgetPeriodControl':
+        this.displayBudgetPeriodControlModal = true;
         return;
       case 'PaymentsTimeControl':
         this.displayPaymentTimeControlModal = true;
@@ -54,7 +54,7 @@ export class ControlPanelMainPageComponent {
         this.displayPayrollsModal = true;
         return;
       case 'GenerateVouchers':
-        this.displayVouchersGenerator = true;
+        this.displayVouchersGeneratorModal = true;
         return;
       default:
         this.messageBox.showInDevelopment(option.title, option)

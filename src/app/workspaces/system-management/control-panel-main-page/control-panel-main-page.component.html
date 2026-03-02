@@ -55,10 +55,10 @@
 </emp-ng-operations-log-modal>
 
 
-<emp-bdg-transactions-planning-generator *ngIf="displayTransactionsPlanningGeneratorModal"
-  (closeEvent)="displayTransactionsPlanningGeneratorModal = false">
+<emp-bdg-budget-period-control *ngIf="displayBudgetPeriodControlModal"
+  (closeEvent)="displayBudgetPeriodControlModal = false">
 
-</emp-bdg-transactions-planning-generator>
+</emp-bdg-budget-period-control>
 
 
 <emp-pmt-time-control-modal *ngIf="displayPaymentTimeControlModal"
@@ -73,7 +73,7 @@
 </emp-pyc-payrolls-modal>
 
 
-<emp-pyc-vouchers-generator *ngIf="displayVouchersGenerator"
-  (closeEvent)="displayVouchersGenerator = false">
+<emp-pyc-vouchers-generator *ngIf="displayVouchersGeneratorModal"
+  (closeEvent)="displayVouchersGeneratorModal = false">
 
 </emp-pyc-vouchers-generator>

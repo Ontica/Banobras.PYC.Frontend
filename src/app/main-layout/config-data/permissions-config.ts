@@ -118,7 +118,7 @@ export enum PERMISSIONS {
   ROUTE_PANEL_CONTROL = 'route-panel-control',
   FEATURE_CAMBIAR_PASSWORD = 'feature-modificar-password',
   FEATURE_BITACORAS_OPERACION = 'feature-bitacoras-operacion',
-  FEATURE_PERIODOS_DE_PLANEACION_PRESUPUESTAL = 'feature-periodos-de-planeacion-presupuestal',
+  FEATURE_CONTROL_DE_PEROODOS_PRESUPUESTALES = 'feature-control-de-periodos-presupuestales',
   FEATURE_NOMINAS_INTEGRACION_SIAL = 'feature-nominas-integracion-sial',
   FEATURE_IMPORTACION_CATALOGO_CUCOP = 'feature-importacion-catalogo-cucop',
   FEATURE_CONTROL_DE_HORARIO_DE_PAGOS = 'feature-control-de-horario-de-pagos',

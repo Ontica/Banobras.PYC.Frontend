@@ -15,7 +15,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { SystemManagementWorkspaceRoutingModule } from './system-management-workspace-routing.module';
 
 import { AccessControlModule } from '@app/views/_access-control/access-control.module';
-import { BudgetTransactionsModule } from '@app/views/budgeting/budgets-transactions/budget-transactions.module';
+import { BudgetPeriodControlModule } from '@app/views/budgeting/budget-period-control/budget-period-control.module';
 import { IntegrationsModule } from '@app/views/integrations/integrations.module';
 import { PartiesModule } from '@app/views/parties/parties.module';
 import { PaymentsManagementModule } from '@app/views/payments/payments-management/payments-management.module';
@@ -42,7 +42,7 @@ import {
     SystemManagementWorkspaceRoutingModule,
 
     AccessControlModule,
-    BudgetTransactionsModule,
+    BudgetPeriodControlModule,
     IntegrationsModule,
     PartiesModule,
     PaymentsManagementModule,
