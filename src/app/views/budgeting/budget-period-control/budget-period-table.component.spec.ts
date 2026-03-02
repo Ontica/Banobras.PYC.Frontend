@@ -7,19 +7,19 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BudgetTransactionsPlanningGeneratorComponent } from './transactions-planning-generator.component';
+import { BudgetPeriodTableComponent } from './budget-period-table.component';
 
-describe('BudgetTransactionsPlanningGeneratorComponent', () => {
-  let component: BudgetTransactionsPlanningGeneratorComponent;
-  let fixture: ComponentFixture<BudgetTransactionsPlanningGeneratorComponent>;
+describe('BudgetPeriodTableComponent', () => {
+  let component: BudgetPeriodTableComponent;
+  let fixture: ComponentFixture<BudgetPeriodTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BudgetTransactionsPlanningGeneratorComponent]
+      declarations: [BudgetPeriodTableComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BudgetTransactionsPlanningGeneratorComponent);
+    fixture = TestBed.createComponent(BudgetPeriodTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

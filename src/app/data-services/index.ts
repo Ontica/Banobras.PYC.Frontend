@@ -21,6 +21,8 @@ export * from './assets.data.service';
 
 export * from './bills.data.service';
 
+export * from './budget-period-control.data.service';
+
 export * from './budget-transactions.data.service';
 
 export * from './budgets.data.service';

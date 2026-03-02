@@ -23,6 +23,8 @@ import { AssetsTransactionsDataService } from './assets-transactions.data.servic
 
 import { BillsDataService } from './bills.data.service';
 
+import { BudgetPeriodControlDataService } from './budget-period-control.data.service';
+
 import { BudgetsDataService } from './budgets.data.service';
 
 import { BudgetTransactionsDataService } from './budget-transactions.data.service';
@@ -87,6 +89,7 @@ import { TravelExpensesDataService } from './travel-expenses.data.service';
     AssetsDataService,
     AssetsTransactionsDataService,
     BillsDataService,
+    BudgetPeriodControlDataService,
     BudgetsDataService,
     BudgetTransactionsDataService,
     CashFlowDataService,

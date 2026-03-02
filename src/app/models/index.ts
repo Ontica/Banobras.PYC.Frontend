@@ -56,6 +56,8 @@ export * from './base-entity';
 
 export * from './bills';
 
+export * from './budget-period-control';
+
 export * from './budget-transactions';
 
 export * from './budgets';

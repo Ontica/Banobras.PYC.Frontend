@@ -1,0 +1,33 @@
+<emp-ng-modal-window [config]="{width:'1024px'}">
+
+  <emp-ng-card
+    [heading]="title + budgetName"
+    hint="Herramienta para controlar los períodos de cierre presupuestales y genera las transacciones de traslado de saldos."
+    [showCardHeaderFlat]="true"
+    (cardClose)="onCloseButtonClicked()">
+
+    <div class="fx-column-container-fill" [empNgSpinnerHost]="spinner">
+
+      <emp-ng-spinner #spinner [visible]="submitted || isLoading">
+
+      </emp-ng-spinner>
+
+      <emp-bdg-budget-selector class="fx-item-none"
+        (budgetSelectorEvent)="onBudgetSelectorEvent($event)">
+
+      </emp-bdg-budget-selector>
+
+      <emp-bdg-budget-period-table class="fx-item"
+        [data]="data"
+        [budget]="budget"
+        [queryExecuted]="queryExecuted"
+        [isLoading]="isLoading"
+        (budgetPeriodTableEvent)="onBudgetPeriodTableEvent($event)">
+
+      </emp-bdg-budget-period-table>
+
+    </div>
+
+  </emp-ng-card>
+
+</emp-ng-modal-window>
