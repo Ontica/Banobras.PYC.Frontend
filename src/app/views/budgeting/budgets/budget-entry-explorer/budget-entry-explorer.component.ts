@@ -12,7 +12,7 @@ import { Assertion, EventInfo } from '@app/core';
 import { BudgetEntryBreakdown,  BudgetEntryExplorerReportTypes,  BudgetEntryQuery,  EmptyBudgetEntryBreakdown,
          EmptyBudgetEntryQuery } from '@app/models';
 
-import { sendEvent } from '@app/shared/utils';
+import { sendEvent, sendEventIf } from '@app/shared/utils';
 
 import { BudgetEntryFilterEventType } from './budget-entry-filter.component';
 
@@ -67,10 +67,10 @@ export class BudgetEntryExplorerComponent {
   onDataTableEvent(event: EventInfo) {
     switch (event.type as DataTableEventType) {
       case DataTableEventType.ENTRY_CLICKED:
-        if (this.subQuery.reportType === BudgetEntryExplorerReportTypes.BudgetTransactions) {
-          sendEvent(this.budgetEntryExplorerEvent, BudgetEntryExplorerEventType.SELECT_CLICKED,
+        const sendEntry = [BudgetEntryExplorerReportTypes.BudgetTransactions,
+                           BudgetEntryExplorerReportTypes.BudgetEntries].includes(this.subQuery.reportType);
+        sendEventIf(sendEntry, this.budgetEntryExplorerEvent, BudgetEntryExplorerEventType.SELECT_CLICKED,
             event.payload);
-        }
         return;
       default:
         console.log(`Unhandled user interface event ${event.type}`);
