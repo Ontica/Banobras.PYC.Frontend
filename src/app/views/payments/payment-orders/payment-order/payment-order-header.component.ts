@@ -263,10 +263,12 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS,
         { requestsList: RequestsList.payments }),
       this.helper.select<BudgetType[]>(PaymentsStateSelector.PAYMENT_ORDER_TYPES),
+      this.helper.select<PaymentMethod[]>(CataloguesStateSelector.PAYMENTS_METHODS),
     ])
-    .subscribe(([a, b]) => {
+    .subscribe(([a, b, c]) => {
       this.orgUnitsList = a;
       this.paymentOrderTypesList = b;
+      this.paymentMethodsList = c;
       this.isLoading = false;
       this.validateInitDataList();
     });
@@ -277,6 +279,7 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
     if (this.isSaved) {
       this.orgUnitsList = ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], this.paymentOrder.requestedBy, 'uid');
       this.paymentOrderTypesList = ArrayLibrary.insertIfNotExist(this.paymentOrderTypesList ?? [], this.paymentOrder.paymentOrderType, 'uid');
+      this.paymentMethodsList = ArrayLibrary.insertIfNotExist(this.paymentMethodsList ?? [], this.paymentOrder.paymentMethod, 'uid');
     }
   }
 
@@ -409,8 +412,10 @@ export class PaymentOrderHeaderComponent implements OnInit, OnChanges, OnDestroy
 
 
   private validatePaymentMethodsData() {
-    const paymentMethodsList = this.selectedPayableEntity?.paymentAccounts?.map(x => x.paymentMethod) ?? [];
-    this.paymentMethodsList = ArrayLibrary.getUniqueItems(paymentMethodsList);
+    const paymentMethods = this.selectedPayableEntity?.paymentAccounts?.map(x => x.paymentMethod) ?? [];
+    const paymentMethodsUnique = ArrayLibrary.getUniqueItems(paymentMethods);
+
+    this.paymentMethodsList = ArrayLibrary.insertItemsIfNotExist(this.paymentMethodsList ?? [], paymentMethodsUnique, 'uid');
   }
 
 

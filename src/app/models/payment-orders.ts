@@ -329,7 +329,7 @@ export function mapPaymentOrderDescriptorFromPaymentOrder(data: PaymentOrderHold
     statusName: data.paymentOrder.status.name,
     payableNo: data.payableEntity.entityNo,
     payableName: data.payableEntity.name,
-    payableTypeName: data.payableEntity.type.uid,
+    payableTypeName: data.payableEntity.type.name,
     budgetName: data.paymentOrder.budget.name,
   };
 }
