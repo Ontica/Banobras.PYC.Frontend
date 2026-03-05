@@ -739,6 +739,32 @@ pre {
   display: none;
 }
 
+
+// spinner
+
+@keyframes spinner {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.spinner-overlay .spinner-sm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-top-color: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: spinner .6s linear infinite;
+}
+
 // list
 
 ul.info-list {
