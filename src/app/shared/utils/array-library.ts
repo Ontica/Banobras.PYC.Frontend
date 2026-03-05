@@ -15,6 +15,22 @@ export class ArrayLibrary {
   }
 
 
+  static insertItemsIfNotExist<T, K extends keyof T>(array: T[], items: T[], key: K): T[] {
+    if (!items?.length) return array;
+
+    const values = [...array];
+
+    for (const item of items) {
+      const exists = values.some(element => element[key] === item[key]);
+      if (!exists) {
+        values.push(item);
+      }
+    }
+
+    return values;
+  }
+
+
   static insertItemTop<T, K extends keyof T>(array: T[], item: T, key: K): T[] {
     const oldArrayFilter = array.filter(element => element[key] !== item[key]);
     const newArray = [...[item], ...oldArrayFilter];
