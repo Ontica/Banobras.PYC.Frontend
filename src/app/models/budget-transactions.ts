@@ -271,6 +271,12 @@ export interface BudgetMonthEntry {
 }
 
 
+export interface BudgetAvailableMonth {
+  month: number;
+  amount: number;
+}
+
+
 export interface BudgetTransactionEntryFields {
   balanceColumnUID: string;
   budgetAccountUID: string;
@@ -303,6 +309,7 @@ export interface BudgetMonthEntryFields {
   budgetEntryUID: string;
   month: number;
   amount: number;
+  availableBudget: number;
   productQty: number;
   label?: string;
 }

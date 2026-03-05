@@ -9,8 +9,8 @@ import { Injectable } from '@angular/core';
 
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
-import { BudgetData, BudgetEntryBreakdown, BudgetEntryDescriptor, BudgetEntryQuery, BudgetQuery,
-         BudgetRequestFields, BudgetSegmentItem, BudgetTransactionDescriptor, BudgetType,
+import { BudgetAvailableMonth, BudgetData, BudgetEntryBreakdown, BudgetEntryDescriptor, BudgetEntryQuery,
+         BudgetQuery, BudgetRequestFields, BudgetSegmentItem, BudgetTransactionDescriptor, BudgetType,
          BudgetValidationResult, FileReport } from '@app/models';
 
 @Injectable()
@@ -54,6 +54,17 @@ export class BudgetsDataService {
     const path = `v2/budgeting/budget-explorer/breakdown`;
 
     return this.http.post<BudgetEntryBreakdown>(path, { query, subQuery, entryUID: entry.uid, entry });
+  }
+
+
+  getAvailableBudget(accountUID: string,
+                     year: number): EmpObservable<BudgetAvailableMonth[]> {
+    Assertion.assertValue(accountUID, 'accountUID');
+    Assertion.assertValue(year, 'year');
+
+    const path = `v2/budgeting/budget-explorer/accounts/${accountUID}/years/${year}/available-budget`;
+
+    return this.http.get<BudgetAvailableMonth[]>(path);
   }
 
 
