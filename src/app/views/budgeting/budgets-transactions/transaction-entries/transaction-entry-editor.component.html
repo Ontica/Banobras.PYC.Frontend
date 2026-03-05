@@ -104,7 +104,8 @@
                   [config]="{bindByValue: false, autoSelect: !isSaved}"
                   [bindLabel]="null"
                   [items]="transaction?.transactionType?.entriesRules?.years ?? []"
-                  [showError]="formHelper.isControlInvalid(form.controls.year)">
+                  [showError]="formHelper.isControlInvalid(form.controls.year)"
+                  (changes)="onYearChanges($event)">
                 </emp-ng-select>
               </div>
 
@@ -134,7 +135,8 @@
                 [config]="{bindByValue: false, autoSelect: !isSaved}"
                 [bindLabel]="null"
                 [items]="transaction?.transactionType?.entriesRules?.years ?? []"
-                [showError]="formHelper.isControlInvalid(form.controls.year)">
+                [showError]="formHelper.isControlInvalid(form.controls.year)"
+                (changes)="onYearChanges($event)">
               </emp-ng-select>
             </div>
 
@@ -255,7 +257,9 @@
 
             <div class="fx-row-container" [style.margin-right.px]="8">
 
-              <div class="fill-table-container" [style.width.%]="100" [style.height]="checkProductRequired ? '121px' : '88px'">
+              <div class="fill-table-container"
+                [style.width.%]="100"
+                [style.height]="checkProductRequired ? '153px' : '120px'">
 
                 <table mat-table [dataSource]="dataSource">
 
@@ -276,6 +280,14 @@
 
                       <ng-container *ngIf="i === 0 && row === 'productQty'">
                         <span [ngClass]="{'warning-text': isMonthsInvalidated && !isMonthsFieldsValid}">Cantidad</span>
+                      </ng-container>
+
+                      <ng-container *ngIf="i === 0 && row === 'available'">
+                        <div class="spinner-overlay"
+                          [title]="form.controls.budgetAccountUID.invalid || form.controls.year.invalid ? 'Seleccione partida presupuestal y año' : ''">
+                          Disponible
+                          <span class="spinner-sm" *ngIf="isLoadingAvailableBudget"></span>
+                        </div>
                       </ng-container>
 
                       <ng-container *ngIf="i > 0 && row === 'amount'">
@@ -299,6 +311,18 @@
                           [noMargin]="true"
                           [disabled]="!canUpdate"
                           (valueChange)="onMonthChanges()">
+
+                        </emp-ng-input-numeric>
+
+                      </ng-container>
+
+                      <ng-container *ngIf="i > 0 && row === 'available'">
+
+                        <emp-ng-input-numeric
+                          [(ngModel)]="monthsFields[i - 1].availableBudget"
+                          [ngModelOptions]="{standalone: true}"
+                          [noMargin]="true"
+                          [disabled]="true">
 
                         </emp-ng-input-numeric>
 

@@ -21,12 +21,12 @@ import { MessageBoxService } from '@app/shared/services';
 
 import { SelectBoxTypeaheadComponent } from '@app/shared/form-controls';
 
-import { BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services';
+import { BudgetsDataService, BudgetTransactionsDataService, SearcherAPIS } from '@app/data-services';
 
 import { BudgetTransaction, BudgetTransactionEntry, BudgetTransactionEntryFields, EmptyBudgetTransaction,
          ProductSearch, ProductRule, BudgetMonthEntryFields, BudgetTransactionEntryByYearFields,
-         TransactionEntryType, BudgetAccount, BudgetTransactionEntryBase,
-         EmptyBudgetTransactionEntryBase, BudgetTransactionEntryByYear, BudgetMonthEntry } from '@app/models';
+         TransactionEntryType, BudgetAccount, BudgetTransactionEntryBase, EmptyBudgetTransactionEntryBase,
+         BudgetTransactionEntryByYear, BudgetMonthEntry, BudgetAvailableMonth } from '@app/models';
 
 
 export enum TransactionEntryEditorEventType {
@@ -76,6 +76,8 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   isLoadingOrgUnits = false;
 
+  isLoadingAvailableBudget = false;
+
   isMonthsInvalidated = false;
 
   EntryType = TransactionEntryType;
@@ -112,6 +114,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
 
   constructor(private transactionsData: BudgetTransactionsDataService,
+              private budgetsData: BudgetsDataService,
               private messageBox: MessageBoxService) {
     this.initForm();
   }
@@ -197,6 +200,13 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
     if (isEmpty(budgetAccount) && !!budgetAccount?.baseSegmentUID) {
       this.showConfirmRequestBudgetAccount(budgetAccount);
     }
+
+    this.validateGetAvailableBudget();
+  }
+
+
+  onYearChanges(year: number) {
+    this.validateGetAvailableBudget();
   }
 
 
@@ -273,16 +283,42 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
   }
 
 
+  private getAvailableBudget(accountUID: string, year: number) {
+    this.isLoadingAvailableBudget = true;
+
+    this.budgetsData.getAvailableBudget(accountUID, year)
+      .firstValue()
+      .then(x => this.setAvailableBudget(x))
+      .finally(() => this.isLoadingAvailableBudget = false);
+  }
+
+
   private requestBudgetAccount(segmentUID: string) {
     this.isLoading = true;
 
     this.transactionsData.requestBudgetAccount(this.transaction.uid, segmentUID)
       .firstValue()
-      .then(x => {
-        this.form.controls.budgetAccountUID.reset(x.uid);
-        this.budgetAccountSearcher.resetListWithOption(x);
-      })
+      .then(x => this.resolveRequestBudgetAccount(x))
       .finally(() => this.isLoading = false);
+  }
+
+
+  private resolveRequestBudgetAccount(account: BudgetAccount) {
+    this.form.controls.budgetAccountUID.reset(account.uid);
+    this.budgetAccountSearcher.resetListWithOption(account);
+    this.validateGetAvailableBudget();
+  }
+
+
+  private validateGetAvailableBudget() {
+    const budgetAccountUID = this.form.value.budgetAccountUID;
+    const year = this.form.value.year;
+
+    this.setAvailableBudget([]);
+
+    if (!!budgetAccountUID && !!year) {
+      this.getAvailableBudget(budgetAccountUID, year);
+    }
   }
 
 
@@ -328,7 +364,15 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
 
   private buildDataTable() {
     this.displayedColumns = ['label', ...this.monthsFields.map(x => x.month.toString())];
-    const rows = this.checkProductRequired ? ['amount', 'productQty'] : ['amount'];
+
+    const rows = this.checkProductRequired ?
+      ['amount', 'productQty'] :
+      ['amount'];
+
+    if(!this.isSaved || this.canUpdate) {
+      rows.push('available');
+    }
+
     this.dataSource = new MatTableDataSource(rows);
   }
 
@@ -369,6 +413,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       this.setBalanceColumnsList();
       this.setProductControlFields();
       this.buildDataTable();
+      this.validateGetAvailableBudget();
     });
   }
 
@@ -420,7 +465,20 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
         x.amount = data.amount;
         x.productQty = data.productQty;
       }
-    })
+    });
+  }
+
+
+  private setAvailableBudget(availables: BudgetAvailableMonth[]) {
+    if (availables.length === 0) {
+      this.monthsFields.forEach(x => x.availableBudget = null);
+      return;
+    }
+
+    this.monthsFields.forEach(x => {
+      const data = availables.find(a => a.month === x.month);
+      if (data) x.availableBudget = data.amount;
+    });
   }
 
 
@@ -536,6 +594,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       month: FormatLibrary.stringToNumber(month.uid),
       amount: null,
       productQty: null,
+      availableBudget: null,
     };
 
     return data;
@@ -548,6 +607,7 @@ export class BudgetTransactionEntryEditorComponent implements OnChanges {
       month: entry.month,
       amount: entry.amount,
       productQty: this.checkProductRequired ? entry.productQty : 0,
+      availableBudget: null,
     };
 
     return data;
