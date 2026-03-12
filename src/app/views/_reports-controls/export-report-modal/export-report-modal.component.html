@@ -65,14 +65,24 @@
 
           <div class="fx-item fx-row-container fx-end fx-items-center export-file-url">
 
-            <a *ngIf="fileUrl" [href]="fileUrl" target="_blank">
-              El archivo {{selectedExportationType.fileType}} está listo. Hacer clic para descargarlo.</a>
+            <ng-container *ngIf="!hasError">
 
-            <div *ngIf="working" class="export-progress-text"
-              empNgProgressText
-              loadingText="Generando el archivo solicitado"
-              [isLoading]="working">
-            </div>
+              <a *ngIf="fileUrl" [href]="fileUrl" target="_blank">
+                El archivo {{selectedExportationType.fileType}} está listo. Hacer clic para descargarlo.</a>
+
+              <div *ngIf="working" class="export-progress-text"
+                empNgProgressText
+                loadingText="Generando el archivo solicitado"
+                [isLoading]="working">
+              </div>
+
+            </ng-container>
+
+            <ng-container *ngIf="hasError">
+
+              <span class="bold-text">{{errorMessage}}</span>
+
+            </ng-container>
 
           </div>
 

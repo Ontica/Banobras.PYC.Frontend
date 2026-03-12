@@ -46,6 +46,10 @@ export class ExportReportModalComponent implements OnInit, OnChanges {
 
   @Input() readyToExport = true;
 
+  @Input() hasError = false;
+
+  @Input() errorMessage = 'Ocurrió un error al generar la exportación.';
+
   @Input() exportationTypes: ExportationType[] = [DefaultExportationType];
 
   @Output() exportReportModalEvent = new EventEmitter<EventInfo>();
