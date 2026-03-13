@@ -329,6 +329,8 @@
 
         <emp-ng-input-numeric
           formControlName="exchangeRate"
+          [minDecimals]="4"
+          [maxDecimals]="4"
           [showError]="formHelper.isControlInvalid(form.controls.exchangeRate)">
 
         </emp-ng-input-numeric>
