@@ -34,6 +34,11 @@ export enum BudgetEntryExplorerReportTypes {
 
 export const BudgetExplorerReportTypesList: BudgetExplorerReportType[] = [
   {
+    uid: BudgetExplorerReportTypes.SaldosOperacion,
+    name: 'Saldos operación',
+    defaultEntryReportType: BudgetEntryExplorerReportTypes.BudgetEntries,
+  },
+  {
     uid: BudgetExplorerReportTypes.Anualizado,
     name: 'Anualizado',
     defaultEntryReportType: BudgetEntryExplorerReportTypes.MonthlyBalance,
@@ -52,11 +57,6 @@ export const BudgetExplorerReportTypesList: BudgetExplorerReportType[] = [
     uid: BudgetExplorerReportTypes.PresupuestoDetalladoCalendarizado,
     name: 'Presupuesto detallado calendarizado [PENDIENTE]',
     defaultEntryReportType: BudgetEntryExplorerReportTypes.BudgetTransactions,
-  },
-  {
-    uid: BudgetExplorerReportTypes.SaldosOperacion,
-    name: 'Saldos operación',
-    defaultEntryReportType: BudgetEntryExplorerReportTypes.BudgetEntries,
   },
 ];
 
@@ -195,7 +195,7 @@ export const EmptyBudgetExplorerReportType: BudgetExplorerReportType = {
   uid: null,
   name: '',
   defaultEntryReportType: BudgetEntryExplorerReportTypes.BudgetTransactions,
-}
+};
 
 
 export const EmptyBudgetType: BudgetType = {
@@ -209,7 +209,7 @@ export const EmptyBudgetType: BudgetType = {
 
 
 export const EmptyBudgetQuery: BudgetQuery = {
-  reportType: BudgetExplorerReportTypes.Anualizado,
+  reportType: BudgetExplorerReportTypes.SaldosOperacion,
   budgetTypeUID: '',
   budgetUID: '',
   baseParties: [],

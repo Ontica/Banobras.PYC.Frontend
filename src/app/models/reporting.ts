@@ -155,13 +155,14 @@ export const EmptyReportData: ReportData = {
 //
 
 export enum ReportTypes {
-  BudgetExerciseBills     = 'budget-exercise-bills',
-  BudgetRequestsAnalytics = 'budget-requests-analytics',
-  BudgetExerciseJournal   = 'budget-exercise-journal',
-  BudgetRequestsJournal   = 'budget-requests-journal',
-  BudgetAllocationJournal = 'budget-allocation-journal',
-  PaymentsBills           = 'payments-bills',
-  PaymentsConcepts        = 'payments-concepts',
+  BudgetExerciseBills            = 'budget-exercise-bills',
+  BudgetRequestsAnalytics        = 'budget-requests-analytics',
+  BudgetExerciseJournal          = 'budget-exercise-journal',
+  BudgetRequestsJournal          = 'budget-requests-journal',
+  BudgetAllocationJournal        = 'budget-allocation-journal',
+  PaymentsBills                  = 'payments-bills',
+  PaymentsConcepts               = 'payments-concepts',
+  BudgetAccountingReconciliation = 'budget-accounting-reconciliation',
 }
 
 
@@ -170,7 +171,13 @@ export const BudgetReportTypesList: ReportType<ReportTypes>[] = [
     controller: ReportController.FinancialManagementReport,
     group: ReportGroup.BudgetReports,
     uid: ReportTypes.BudgetRequestsAnalytics,
-    name: 'Analítico de suficiencias presupuestales [PENDIENTE]',
+    name: 'Analítico de suficiencias presupuestales',
+  },
+  {
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.BudgetReports,
+    uid: ReportTypes.BudgetAccountingReconciliation,
+    name: 'Conciliación contable presupuestal'
   },
   {
     controller: ReportController.FinancialManagementReport,
@@ -182,19 +189,19 @@ export const BudgetReportTypesList: ReportType<ReportTypes>[] = [
     controller: ReportController.FinancialManagementReport,
     group: ReportGroup.BudgetReports,
     uid: ReportTypes.BudgetExerciseJournal,
-    name: 'Movimientos del ejercicio presupuestal',
+    name: 'Movimientos del ejercicio presupuestal (Bitácora de pagos)',
   },
   {
     controller: ReportController.FinancialManagementReport,
     group: ReportGroup.BudgetReports,
     uid: ReportTypes.BudgetRequestsJournal,
-    name: 'Movimientos de suficiencia presupuestal'
+    name: 'Movimientos de suficiencia presupuestal [por descontinuar]'
   },
   {
     controller: ReportController.FinancialManagementReport,
     group: ReportGroup.BudgetReports,
     uid: ReportTypes.BudgetAllocationJournal,
-    name: 'Movimientos de asignación presupuestal'
+    name: 'Modificaciones y adecuaciones presupuestales'
   },
 ];
 

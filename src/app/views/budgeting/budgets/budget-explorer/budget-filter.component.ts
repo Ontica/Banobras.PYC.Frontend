@@ -135,7 +135,7 @@ export class BudgetFilterComponent implements OnInit, OnDestroy {
     const fb = new FormBuilder();
 
     this.form = fb.group({
-      reportType: [BudgetExplorerReportTypes.Anualizado, Validators.required],
+      reportType: [BudgetExplorerReportTypes.SaldosOperacion, Validators.required],
       budgetTypeUID: ['', Validators.required],
       budgetUID: ['', Validators.required],
       baseParties: [null],

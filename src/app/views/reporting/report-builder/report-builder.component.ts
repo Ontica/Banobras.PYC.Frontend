@@ -222,12 +222,12 @@ export class ReportBuilderComponent implements OnInit, OnDestroy {
 
     switch (action) {
       case 'PrintPaymentOrder':
-        this.setFilePreviewData('Impresion de la solicitud de pago',
+        this.setFilePreviewData('Impresión de la solicitud de pago',
           'Información de la solicitud de pago');
         this.printReportEntry(this.paymentOrdersData.getPaymentOrderForPrint(linkFieldValue));
         break;
       case 'PrintBudgetTransaction':
-        this.setFilePreviewData('Impresion de la transacción presupuestal',
+        this.setFilePreviewData('Impresión de la transacción presupuestal',
           'Información de la transacción presupuestal');
         this.printReportEntry(this.budgetTnxData.getTransactionForPrint(linkFieldValue));
         break;

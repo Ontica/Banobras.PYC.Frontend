@@ -7,11 +7,14 @@
 
 import { Injectable } from '@angular/core';
 
+import { map } from 'rxjs';
+
 import { Assertion, EmpObservable, HttpService } from '@app/core';
 
 import { BudgetAvailableMonth, BudgetData, BudgetEntryBreakdown, BudgetEntryDescriptor, BudgetEntryQuery,
          BudgetQuery, BudgetRequestFields, BudgetSegmentItem, BudgetTransactionDescriptor, BudgetType,
-         BudgetValidationResult, FileReport } from '@app/models';
+         BudgetValidationResult, FileReport, calculateDataColumnsSize } from '@app/models';
+
 
 @Injectable()
 export class BudgetsDataService {
@@ -39,7 +42,10 @@ export class BudgetsDataService {
 
     const path = `v2/budgeting/budget-explorer/search`;
 
-    return this.http.post<BudgetData>(path, query);
+    return new EmpObservable<BudgetData>(
+      this.http.post<BudgetData>(path, query)
+        .pipe(map(x => calculateDataColumnsSize(x) as BudgetData))
+    );
   }
 
 
