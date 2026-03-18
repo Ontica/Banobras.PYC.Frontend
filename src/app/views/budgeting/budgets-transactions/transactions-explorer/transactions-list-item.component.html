@@ -13,16 +13,21 @@
       <a class="bold-text">{{transaction.transactionNo}}</a>
     </div>
     <div class="bold-text">{{transaction.transactionTypeName}}</div>
-    <div>{{transaction.basePartyName}}</div>
-  </div>
-
-  <div class="fx-item-size column-size-sm">
-    <div class="list-item-text-highlight">{{transaction.budgetName}}</div>
-    <div class="bold-text">{{!!transaction.baseEntityNo ? transaction.baseEntityNo : 'N/D'}}</div>
-    <div>{{transaction.total | empDecimal}}</div>
+    <div empNgTextTruncateToggle [text]="transaction.basePartyName" [maxLines]="2">
+      {{transaction.basePartyName}}
+    </div>
   </div>
 
   <div class="fx-item-size column-size-md">
+    <div class="list-item-text-highlight">{{transaction.budgetName}}</div>
+    <div empNgTextTruncateToggle [text]="transaction.baseEntityNo" [maxLines]="2"
+      class="bold-text">
+      {{!!transaction.baseEntityNo ? transaction.baseEntityNo : 'N/D'}}
+      </div>
+    <div>{{transaction.total | empDecimal}}</div>
+  </div>
+
+  <div class="fx-item-size column-size-sm">
     <div class="list-item-text-highlight">{{transaction.operationSourceName}}</div>
     <div class="bold-text">
       {{!transaction.recordingDate ? '-' : (transaction.recordingDate | empDateTimeFormat)}}
@@ -30,7 +35,7 @@
     <div>{{!transaction.recordedBy ? '-' : transaction.recordedBy}}</div>
   </div>
 
-  <div class="fx-item-size column-size-md">
+  <div class="fx-item-size column-size-sm">
     <span class="tag" [title]="transaction.rejectedReason"
       [style.font-size.px]="10"
       [ngClass]="{
