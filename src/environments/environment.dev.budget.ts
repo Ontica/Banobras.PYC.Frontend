@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   security_id: '**security_id***',
-  productProfile: 'Full',
+  productProfile: 'Budget',
 };
 
 /*

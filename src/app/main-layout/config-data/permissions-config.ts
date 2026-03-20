@@ -6,6 +6,13 @@
  */
 
 
+// Permission naming conventions:
+// MODULE_*  -> access to a root module
+// ROUTE_*   -> access to a route or screen
+// FEATURE_* -> action or capability within a screen or workflow
+// TOOL_*    -> global or layout-level tools
+
+
 export enum PERMISSIONS {
 
   //
@@ -133,10 +140,7 @@ export enum PERMISSIONS {
 }
 
 
-export const PERMISSION_NOT_REQUIRED = PERMISSIONS.NOT_REQUIRED;
-
-
-export function getAllPermissions() {
+export function getAllPermissions(): string[] {
   return Object.keys(PERMISSIONS)
                .map(key => PERMISSIONS[key]);
 }

@@ -11,8 +11,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'emp-ng-no-content',
   template: `
-    <div>
-      <h1>404: page missing</h1>
+    <div class="text-not-found">
+      <h1>404: La página solicitada no está disponible.</h1>
     </div>
   `
 })

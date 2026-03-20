@@ -8,7 +8,7 @@
 import { Injectable } from '@angular/core';
 
 import { APP_CONFIG, DEFAULT_ROUTE, DEFAULT_PATH, getAllPermissions, ROUTES_LIST,
-         UNAUTHORIZED_PATH } from '@app/main-layout';
+         UNAUTHORIZED_PATH, resolvePermissionsByProfile } from '@app/main-layout';
 
 import { ACCESS_PROBLEM_MESSAGE, INVALID_CREDENTIALS_MESSAGE,
          NOT_ACTIVE_CREDENTIALS_MESSAGE } from '../errors/error-messages';
@@ -138,15 +138,19 @@ export class AuthenticationService {
 
 
   private setSession(sessionToken: SessionToken, principalData: PrincipalData){
+    let permissions = principalData.permissions;
+
     if (!APP_CONFIG.security.enablePermissions) {
-      principalData.permissions = getAllPermissions();
+      permissions = getAllPermissions();
     }
 
-    const defaultRoute = this.getDefaultRoute(principalData.permissions);
+    permissions = resolvePermissionsByProfile(permissions);
+
+    const defaultRoute = this.getDefaultRoute(permissions);
 
     const principal = new Principal(sessionToken,
                                     principalData.identity,
-                                    principalData.permissions,
+                                    permissions,
                                     defaultRoute);
 
     this.session.setPrincipal(principal);

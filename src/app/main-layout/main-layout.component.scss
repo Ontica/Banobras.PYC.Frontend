@@ -25,13 +25,6 @@
   overflow: hidden;
 }
 
-.top-bar {
-  display: none;
-  color: $text-color-dark;
-  padding: $layout-margin-size;
-  height: $toolbar-item-size;
-}
-
 .content {
   @include column;
 }

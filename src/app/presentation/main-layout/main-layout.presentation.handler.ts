@@ -137,7 +137,11 @@ export class MainLayoutPresentationHandler extends AbstractPresentationHandler {
       const view = APP_VIEWS.find(x => x.url === url);
 
       if (!view) {
-        throw new Exception(`Unregistered view with url '${url}'.`);
+        // Wildcard and profile-filtered routes may reach the layout without a registered view.
+        console.warn(`Unregistered view with url '${url}'.`);
+        this.setNavigationHeader(DefaultNavigationHeader);
+        this.setValue(SelectorType.CURRENT_VIEW, DefaultView);
+        return;
       }
 
       const viewLayout = this.getViewLayout(view);

@@ -7,13 +7,12 @@
 
 import { ROUTES } from '../config-data';
 
-import { View, Layout } from '../common-models/common';
+import { Layout } from '../common-models/common';
 
 import {
   UnauthorizedViews,
   SystemManagementViews,
   CataloguesAndRulesViews,
-  StepsViews,
   BudgetViews,
   FinancialProgramViews,
   ProcurementViews,
@@ -26,17 +25,7 @@ export type LAYOUT_TYPE = 'Unauthorized' | 'SystemManagement' | 'CataloguesAndRu
                           'Steps' | 'Procurement' | 'Payments' | 'Budget' | 'FinancialProgram' | 'Inventory';
 
 
-export const APP_VIEWS: View[] = UnauthorizedViews.concat(SystemManagementViews,
-                                                          CataloguesAndRulesViews,
-                                                          StepsViews,
-                                                          ProcurementViews,
-                                                          PaymentsViews,
-                                                          BudgetViews,
-                                                          FinancialProgramViews,
-                                                          InventoryViews);
-
-
-export const APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
+export const BASE_APP_LAYOUTS: Layout<LAYOUT_TYPE>[] = [
   // {
   //   name: 'Steps',
   //   views: StepsViews,

@@ -5,14 +5,32 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
+import { LAYOUT_TYPE } from '../config-data';
 
-export interface AppData {
+
+export interface AppConfig<T> {
+  data: AppData<T>;
+  security: AppSecurity;
+  layout: AppLayout;
+  productProfile?: AppProductProfile<T>;
+}
+
+
+export interface AppData<T> {
   name: string;
   nameShort: string;
   organization: string;
   organizationShort: string;
   hint: string;
   description: string;
+}
+
+
+export interface AppSecurity {
+  fakeLogin: boolean;
+  enablePermissions: boolean;
+  encriptLocalStorageData: boolean;
+  protectUserWork: boolean;
 }
 
 
@@ -29,18 +47,18 @@ export interface AppLayout {
   displayFooter: boolean;
 }
 
-export interface AppSecurity {
-  fakeLogin: boolean;
-  enablePermissions: boolean;
-  encriptLocalStorageData: boolean;
-  protectUserWork: boolean;
-}
 
-
-export interface AppConfig {
-  data: AppData;
-  security: AppSecurity;
-  layout: AppLayout;
+export interface AppProductProfile<T> {
+  key: T;
+  name?: string;
+  nameShort?: string;
+  hint?: string,
+  organization?: string,
+  organizationShort?: string,
+  description?: string;
+  enabledLayouts?: LAYOUT_TYPE[];
+  enabledRouteParents?: string[];
+  defaultRoute?: any;
 }
 
 
@@ -52,10 +70,6 @@ export interface Layout<T> {
   url: string;
   permission?: string;
 }
-
-
-export type ViewActionType = 'None' | 'ActionFilter' | 'ActionCreate' | 'ActionExport' | 'ActionImport' |
-                             'ActionChangeStatus';
 
 
 export interface View {
@@ -76,6 +90,18 @@ export interface ViewAction {
   icon?: string;
   permission?: string;
 }
+
+
+export interface AppRoute {
+  parent: string;
+  path: string;
+  fullpath: string;
+  permission?: string;
+}
+
+
+export type ViewActionType = 'None' | 'ActionFilter' | 'ActionCreate' | 'ActionExport' | 'ActionImport' |
+                             'ActionChangeStatus';
 
 
 export const DefaultView: View = {

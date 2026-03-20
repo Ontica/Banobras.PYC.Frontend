@@ -16,3 +16,8 @@ export * from './layout-config';
 export * from './views-config';
 
 export * from './tools-config';
+
+// Keep resolver exports last to avoid circular initialization issues.
+export * from './permissions-by-profile-config';
+
+export * from './app-config-resolver';

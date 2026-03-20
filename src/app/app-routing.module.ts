@@ -7,13 +7,13 @@
 
 import { NgModule } from '@angular/core';
 
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Route } from '@angular/router';
 
 import { ChildRouteGuard, ParentRouteGuard } from './core';
 
-import { DEFAULT_PATH, MainLayoutComponent, NoContentComponent, ROUTES } from '@app/main-layout';
+import { APP_CONFIG, DEFAULT_PATH, MainLayoutComponent, NoContentComponent, ROUTES } from '@app/main-layout';
 
-const routes: Routes = [
+const BASE_ROUTES: Routes = [
   // {
   //   data: { permission: ROUTES.tareas.permission },
   //   path: ROUTES.tareas.path,
@@ -99,8 +99,33 @@ const routes: Routes = [
       .then(m => m.AuthenticationModule)
   },
   { path: '', redirectTo: DEFAULT_PATH, pathMatch: 'full' },
-  { path: '**', component: NoContentComponent }
+  {
+    path: '**',
+    canActivate: [ParentRouteGuard],
+    component: MainLayoutComponent,
+    children: [
+      { path: '', component: NoContentComponent }
+    ]
+  }
 ];
+
+
+const ALWAYS_AVAILABLE_PATHS: string[] = [
+  ROUTES.unauthorized.path,
+  ROUTES.security.path,
+  '',
+  '**',
+];
+
+
+const enabledRouteParents = APP_CONFIG.productProfile.enabledRouteParents ?? [];
+
+
+const routes: Routes = BASE_ROUTES.filter((route: Route) => {
+  if (ALWAYS_AVAILABLE_PATHS.includes(route.path ?? '')) return true;
+  if (!enabledRouteParents.length) return true;
+  return enabledRouteParents.includes(route.path ?? '');
+});
 
 
 @NgModule({

@@ -7,7 +7,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { PERMISSION_NOT_REQUIRED, ROUTES_LIST } from '@app/main-layout';
+import { PERMISSIONS, ROUTES_LIST } from '@app/main-layout';
 
 import { ApplicationSettingsService } from './application-settings.service';
 
@@ -101,8 +101,8 @@ export class SessionService {
 
 
   hasPermission(permission: string | string[]): boolean {
-    if ((typeof permission === 'string' && permission === PERMISSION_NOT_REQUIRED) ||
-        (Array.isArray(permission) && permission.some(x => x=== PERMISSION_NOT_REQUIRED))) {
+    if ((typeof permission === 'string' && permission === PERMISSIONS.NOT_REQUIRED) ||
+        (Array.isArray(permission) && permission.some(x => x === PERMISSIONS.NOT_REQUIRED))) {
       return true;
     }
 

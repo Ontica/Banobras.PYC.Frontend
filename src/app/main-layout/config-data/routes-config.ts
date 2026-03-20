@@ -5,10 +5,12 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
+import { AppRoute } from '../common-models';
+
 import { PERMISSIONS } from './permissions-config';
 
 
-export const ROUTES = {
+export const ROUTES: Record<string, AppRoute> = {
 
   // #region app-routing module
 
@@ -480,10 +482,7 @@ export const ROUTES = {
 };
 
 
-export const DEFAULT_ROUTE = ROUTES.administracion_panel_de_control;
-
-
-export const DEFAULT_PATH = DEFAULT_ROUTE.fullpath;
+export const BASE_DEFAULT_ROUTE = ROUTES.administracion_panel_de_control;
 
 
 export const LOGIN_PATH = ROUTES.security_login.fullpath;
@@ -492,6 +491,6 @@ export const LOGIN_PATH = ROUTES.security_login.fullpath;
 export const UNAUTHORIZED_PATH = ROUTES.unauthorized.path;
 
 
-export const ROUTES_LIST = Object.keys(ROUTES)
-                                 .map(key => ROUTES[key])
-                                 .filter(x => x.parent && x.permission);
+export const BASE_ROUTES_LIST = Object.keys(ROUTES)
+                                      .map(key => ROUTES[key])
+                                      .filter(x => x.parent && x.permission);
