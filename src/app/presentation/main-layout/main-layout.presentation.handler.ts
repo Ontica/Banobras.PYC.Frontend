@@ -7,7 +7,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { Assertion, Exception, SessionService } from '@app/core';
+import { Assertion, SessionService } from '@app/core';
 
 import { AbstractPresentationHandler, StateValues } from '@app/core/presentation/presentation.handler';
 

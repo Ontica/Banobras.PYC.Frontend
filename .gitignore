@@ -50,3 +50,5 @@ Thumbs.db
 
 .scannerwork
 .vscode
+
+src/version.json

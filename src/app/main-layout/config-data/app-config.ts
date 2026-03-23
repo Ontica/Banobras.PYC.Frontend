@@ -42,5 +42,9 @@ export const APP_CONFIG: AppConfig<PRODUCT_PROFILE> = {
     displayHeader: false,
     displayFooter: false,
   },
+  versioning: {
+    enableCheck: true,
+    checkIntervalInMinutes: environment.production ? 10 : 0.15,
+  },
   productProfile: profile ?? PRODUCT_PROFILES['Full'],
 };

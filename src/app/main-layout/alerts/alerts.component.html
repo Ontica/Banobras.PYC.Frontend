@@ -1,0 +1,52 @@
+
+<div class="alert-container">
+
+  <button *ngIf="displayAlerts"
+    class="toolbar-item"
+    title="Alertas"
+    [ngClass]="{'activate': hasAlerts}"
+    [matMenuTriggerFor]="alertsMenu">
+
+    <mat-icon [ngClass]="{'alert-shake': displayPersistent}">notifications</mat-icon>
+
+  </button>
+
+  <mat-menu #alertsMenu="matMenu" class="menu-flex">
+
+    <div class="bold-text" [style.padding]="'0 16px'">
+      ALERTAS:
+    </div>
+
+    <ng-container *ngIf="alerts?.length; else noAlerts">
+
+      <button mat-menu-item *ngFor="let alert of alerts" class="alert-item" [style.align-items]="'normal'"
+        (click)="onAlertClicked(alert)">
+
+        <div class="alert-container"
+          [class.alert-pending]="alert.persistent || !alert.read">
+
+          <div class="alert-title">
+            <mat-icon [style.margin-right.px]="8">
+              notifications
+            </mat-icon>
+            {{ alert.title }}
+          </div>
+
+          <div class="alert-message">
+            {{ alert.message }}
+          </div>
+        </div>
+
+      </button>
+
+    </ng-container>
+
+    <ng-template #noAlerts>
+      <button mat-menu-item disabled>
+        <span>No hay alertas.</span>
+      </button>
+    </ng-template>
+
+  </mat-menu>
+
+</div>

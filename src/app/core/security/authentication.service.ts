@@ -15,9 +15,13 @@ import { ACCESS_PROBLEM_MESSAGE, INVALID_CREDENTIALS_MESSAGE,
 
 import { Assertion } from '../general/assertion';
 
+import { SecurityDataService } from './security-data.service';
+
 import { SessionService } from '../general/session.service';
 
-import { SecurityDataService } from './security-data.service';
+import { ApplicationVersionService } from '../general/application-version.service';
+
+import { PresentationState } from '../presentation';
 
 import { resolve } from '../data-types';
 
@@ -26,7 +30,6 @@ import { Principal } from './principal';
 import { FakeSessionToken, LoginErrorAction, LoginErrorActionType, LoginErrorType, PrincipalData,
          SessionToken, getFakePrincipalData } from './security-types';
 
-import { PresentationState } from '../presentation';
 
 
 @Injectable()
@@ -34,12 +37,14 @@ export class AuthenticationService {
 
   constructor(private store: PresentationState,
               private session: SessionService,
-              private securityService: SecurityDataService) { }
+              private securityService: SecurityDataService,
+              private applicationVersion: ApplicationVersionService) { }
 
 
   clearSession() {
     this.session.clearSession();
     this.store.clearValues();
+    this.applicationVersion.reset();
   }
 
 

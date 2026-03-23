@@ -17,6 +17,7 @@ export { Compression } from './general/compression';
 export { Cryptography } from './security/cryptography';
 
 export { ApplicationStatusService } from './general/application-status.service';
+export { ApplicationVersionService } from './general/application-version.service';
 export { SessionService } from './general/session.service';
 export { LoggerService } from './general/logger.service';
 export { NavigationService } from './general/navigation.service';

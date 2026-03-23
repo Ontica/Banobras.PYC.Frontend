@@ -11,6 +11,7 @@ import { STATE_HANDLERS } from '@app/core/presentation/presentation.state';
 
 import { MainLayoutPresentationHandler } from './main-layout/main-layout.presentation.handler';
 
+import { AppAlertsPresentationHandler } from './app-data/app-alerts.presentation.handler';
 import { AppStatusPresentationHandler } from './app-data/app-status.presentation.handler';
 
 import { AccessControlPresentationHandler } from './security-management/access-control.presentation.handler';
@@ -33,6 +34,7 @@ import { SearchServicesPresentationHandler } from './pyc/search-services.present
 
   providers: [
     MainLayoutPresentationHandler,
+    AppAlertsPresentationHandler,
     AppStatusPresentationHandler,
     AccountsPresentationHandler,
     AccessControlPresentationHandler,
@@ -49,6 +51,7 @@ import { SearchServicesPresentationHandler } from './pyc/search-services.present
     SearchServicesPresentationHandler,
 
     { provide: STATE_HANDLERS, useExisting: MainLayoutPresentationHandler, multi: true },
+    { provide: STATE_HANDLERS, useExisting: AppAlertsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AppStatusPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AccountsPresentationHandler, multi: true },
     { provide: STATE_HANDLERS, useExisting: AccessControlPresentationHandler, multi: true },

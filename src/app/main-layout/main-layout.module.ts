@@ -16,20 +16,21 @@ import { SharedFormControlsModule } from '@app/shared/form-controls/shared-form-
 import { SharedIndicatorsModule } from '@app/shared/indicators/shared-indicators.module';
 import { ToolsModule } from '@app/views/_tools/tools.module';
 
+import { AlertsComponent } from './alerts/alerts.component';
+import { BrandingComponent } from './branding/branding.component';
 import { FooterComponent } from './footer/footer.component';
 import { MainLayoutComponent } from './main-layout.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { MainMenuLeftComponent } from './main-menu-left/main-menu-left.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { NavigationComponent } from './navigation/navigation.component';
 import { NavigationHeaderComponent } from './nav-header/nav-header.component';
 import { NavigationMenuComponent } from './nav-menu/nav-menu.component';
+import { NavigationResponsiveComponent } from './navigation-responsive/navigation-responsive.component';
 import { NoContentComponent } from './no-content.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { UserSessionComponent } from './user-session/user-session.component';
-import { NavigationComponent } from './navigation/navigation.component';
-import { NavigationResponsiveComponent } from './navigation-responsive/navigation-responsive.component';
-import { BrandingComponent } from './branding/branding.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { BrandingComponent } from './branding/branding.component';
   ],
 
   declarations: [
+    AlertsComponent,
     BrandingComponent,
     FooterComponent,
     MainLayoutComponent,

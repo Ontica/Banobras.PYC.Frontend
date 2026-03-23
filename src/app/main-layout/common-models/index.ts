@@ -11,3 +11,5 @@ export * from './common';
 export * from './menu-item';
 
 export * from './navigation-header';
+
+export * from './alert';

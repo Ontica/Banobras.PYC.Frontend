@@ -12,6 +12,7 @@ export interface AppConfig<T> {
   data: AppData<T>;
   security: AppSecurity;
   layout: AppLayout;
+  versioning: AppVersioning;
   productProfile?: AppProductProfile<T>;
 }
 
@@ -58,7 +59,13 @@ export interface AppProductProfile<T> {
   description?: string;
   enabledLayouts?: LAYOUT_TYPE[];
   enabledRouteParents?: string[];
-  defaultRoute?: any;
+  defaultRoute?: AppRoute;
+}
+
+
+export interface AppVersioning {
+  enableCheck: boolean;
+  checkIntervalInMinutes: number;
 }
 
 

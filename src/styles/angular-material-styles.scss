@@ -757,6 +757,21 @@ table.mat-mdc-table.emp-designer {
   color: $primary-color;
 }
 
+
+.menu-flex.mat-mdc-menu-panel {
+  min-height: 51px !important;
+  height: auto !important;
+  min-width: 350px !important;
+  max-width: 350px !important;
+}
+
+.menu-flex .mat-mdc-menu-item {
+  min-height: 35px !important;
+  height: auto !important;
+  min-width: 350px !important;
+  max-width: 350px !important;
+}
+
 //
 // progress bar
 //

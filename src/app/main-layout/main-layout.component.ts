@@ -15,6 +15,8 @@ import { PresentationState } from '@app/core/presentation';
 
 import { MainUIStateAction, MainUIStateSelector } from '@app/core/presentation/presentation-types';
 
+import { ApplicationVersionService } from '@app/core';
+
 import { APP_CONFIG, DefaultTool, TOOL_TYPES, Tool } from './config-data';
 
 
@@ -37,7 +39,10 @@ export class MainLayoutComponent implements OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  constructor(private store: PresentationState, private router: Router) {
+  constructor(private store: PresentationState,
+              private router: Router,
+              private applicationVersion: ApplicationVersionService) {
+    this.initializeAppVersionCheck();
     this.setSpinnerService();
     this.subscribeToRouterActivationEnd();
     this.subscribeToToolSelected();
@@ -57,6 +62,11 @@ export class MainLayoutComponent implements OnDestroy {
 
   onAction(action: string) {
 
+  }
+
+
+  private initializeAppVersionCheck() {
+    this.applicationVersion.initialize();
   }
 
 

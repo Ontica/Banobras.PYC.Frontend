@@ -52,7 +52,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   onToolClicked(toolType: TOOL_TYPES) {
 
     switch (toolType) {
-      case 'Alerts':
       case 'Search':
 
         const tool: Tool = {

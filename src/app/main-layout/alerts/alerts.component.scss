@@ -1,0 +1,74 @@
+/**
+ * @license
+ * Copyright (c) La Vía Óntica SC, Ontica LLC and contributors. All rights reserved.
+ *
+ * See LICENSE.txt in the project root for complete license information.
+ */
+@import '../../../styles/mixins';
+
+@import '../top-bar/top-bar.component.scss';
+
+.alert-container {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 0.5rem 0;
+
+  .alert-title {
+    display: flex;
+    font-weight: 600;
+    color:$text-color;
+    align-items: center;
+
+    .mat-icon {
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      margin-right: 8px;
+    }
+  }
+
+  .alert-message {
+    margin-left: 28px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+.alert-container.alert-pending {
+
+  .alert-title {
+    font-weight: 600;
+    color: $text-color-dark;
+  }
+
+  .mat-icon {
+    color: $toolbar-icon-color;
+    animation: shake-bell 4s ease-in-out infinite;
+    display: inline-block;
+  }
+
+}
+
+
+.alert-shake {
+  animation: shake-bell 4s ease-in-out infinite;
+  display: inline-block;
+}
+
+
+@keyframes shake-bell {
+  0% { transform: rotate(0deg); }
+
+  5% { transform: rotate(15deg); }
+  10% { transform: rotate(-10deg); }
+  15% { transform: rotate(12deg); }
+  20% { transform: rotate(-8deg); }
+  25% { transform: rotate(6deg); }
+  30% { transform: rotate(-4deg); }
+
+  35% { transform: rotate(0deg); }
+
+  100% { transform: rotate(0deg); }
+}
