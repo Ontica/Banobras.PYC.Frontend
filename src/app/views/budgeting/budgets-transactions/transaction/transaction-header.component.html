@@ -228,6 +228,12 @@
             Cerrar
           </button>
 
+          <button *ngIf="actions.canOpen"
+            type="button" class="btn-action"
+            (click)="onEventButtonClicked('Open')">
+            Abrir
+          </button>
+
           <button *ngIf="actions.canReject"
             type="button" class="btn"
             (click)="onEventButtonClicked('Reject')">

@@ -12,7 +12,7 @@ import { EventInfo } from '@app/core';
 import { sendEvent } from '@app/shared/utils';
 
 
-export type ConfirmSubmitType = 'Delete' | 'SendToAuthorization' | 'Authorize' | 'Reject' | 'Close' |
+export type ConfirmSubmitType = 'Delete' | 'SendToAuthorization' | 'Authorize' | 'Reject' | 'Close' | 'Open' |
                                 'Suspend' | 'Activate' | 'Cancel' |
                                 'ClosePayment' | 'RequestPayment' | 'CancelRequestPayment';
 
@@ -68,6 +68,7 @@ export class ConfirmSubmitModalComponent {
       case 'Authorize': return `Autorizar ${this.entityText}`;
       case 'Reject': return `Rechazar ${this.entityText}`;
       case 'Close': return `Cerrar ${this.entityText}`;
+      case 'Open': return `Abrir ${this.entityText}`;
       case 'Suspend': return `Suspender ${this.entityText}`;
       case 'Activate': return `Activar ${this.entityText}`;
       case 'Cancel': return `Cancelar ${this.entityText}`;
@@ -86,6 +87,7 @@ export class ConfirmSubmitModalComponent {
       case 'Authorize': return 'autorizará';
       case 'Reject': return 'rechazará';
       case 'Close': return 'cerrará';
+      case 'Open': return 'abrirá';
       case 'Suspend': return 'suspenderá';
       case 'Activate': return 'activará';
       case 'Cancel': return 'cancelará';
@@ -104,6 +106,7 @@ export class ConfirmSubmitModalComponent {
       case 'Authorize': return `¿Autorizo ${this.entityPronoun} ${this.entityText}?`;
       case 'Reject': return `¿Rechazo ${this.entityPronoun} ${this.entityText}?`;
       case 'Close': return `¿Cierro ${this.entityPronoun} ${this.entityText}?`;
+      case 'Open': return `¿Abro ${this.entityPronoun} ${this.entityText}?`;
       case 'Suspend': return `¿Suspendo ${this.entityPronoun} ${this.entityText}?`;
       case 'Activate': return `¿Activo ${this.entityPronoun} ${this.entityText}?`;
       case 'Cancel': return `¿Cancelo ${this.entityPronoun} ${this.entityText}?`;
@@ -122,6 +125,7 @@ export class ConfirmSubmitModalComponent {
       case 'Authorize': return 'Autorizar';
       case 'Reject': return 'Rechazar';
       case 'Close': return 'Cerrar';
+      case 'Open': return 'Abrir';
       case 'Suspend': return 'Suspender';
       case 'Activate': return 'Activar';
       case 'Cancel': return 'Aceptar';

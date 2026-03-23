@@ -39,6 +39,7 @@ export enum TransactionHeaderEventType {
   AUTHORIZE         = 'BudgetTransactionHeaderComponent.Event.AuthorizeTransaction',
   REJECT            = 'BudgetTransactionHeaderComponent.Event.RejectTransaction',
   CLOSE             = 'BudgetTransactionHeaderComponent.Event.CloseTransaction',
+  OPEN              = 'BudgetTransactionHeaderComponent.Event.OpenTransaction',
 }
 
 interface TransactionFormModel extends FormGroup<{
@@ -127,7 +128,8 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
 
   get hasActions(): boolean {
     return this.actions.canSendToAuthorization || this.actions.canAuthorize || this.actions.canReject ||
-           this.actions.canClose || this.actions.canCancel || this.actions.canDelete || this.actions.canUpdate;
+           this.actions.canClose || this.actions.canOpen ||
+           this.actions.canCancel || this.actions.canDelete || this.actions.canUpdate;
   }
 
 
@@ -474,6 +476,9 @@ export class BudgetTransactionHeaderComponent implements OnInit, OnChanges, OnDe
         return;
       case 'Close':
         sendEvent(this.transactionHeaderEvent, TransactionHeaderEventType.CLOSE, { dataFields });
+        return;
+      case 'Open':
+        sendEvent(this.transactionHeaderEvent, TransactionHeaderEventType.OPEN, { dataFields });
         return;
       default:
         console.log(`Unhandled user interface action ${this.confirmModalMode}`);

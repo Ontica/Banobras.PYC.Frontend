@@ -70,6 +70,9 @@ export class BudgetTransactionEditorComponent {
       case TransactionHeaderEventType.CLOSE:
         this.closeTransaction(this.transaction.uid);
         return;
+      case TransactionHeaderEventType.OPEN:
+        this.openTransaction(this.transaction.uid);
+        return;
       case TransactionHeaderEventType.CANCEL:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.cancelTransaction(this.transaction.uid,
@@ -129,6 +132,16 @@ export class BudgetTransactionEditorComponent {
     this.submitted = true;
 
     this.transactionsData.closeTransaction(transactionUID)
+      .firstValue()
+      .then(x => this.resolveTransactionUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private openTransaction(transactionUID: string) {
+    this.submitted = true;
+
+    this.transactionsData.openTransaction(transactionUID)
       .firstValue()
       .then(x => this.resolveTransactionUpdated(x))
       .finally(() => this.submitted = false);
