@@ -34,7 +34,10 @@
               "lodash/cloneDeep"
             ],
             "outputPath": "dist/banobras-pyc-frontend",
-            "index": "src/index.html",
+            "index": {
+              "input": "src/index.html",
+              "output": "index.html"
+            },
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
@@ -94,7 +97,10 @@
                 }
               ],
               "outputPath": "dist/banobras-pyc-frontend/full",
-              "index": "src/index.html",
+              "index": {
+                "input": "src/index.html",
+                "output": "index.html"
+              },
               "optimization": true,
               "outputHashing": "all",
               "aot": true,
@@ -124,7 +130,10 @@
                 }
               ],
               "outputPath": "dist/banobras-pyc-frontend/budget",
-              "index": "src/index-budget.html",
+              "index": {
+                "input": "src/index-budget.html",
+                "output": "index.html"
+              },
               "optimization": true,
               "outputHashing": "all",
               "aot": true,
@@ -154,7 +163,10 @@
                 }
               ],
               "outputPath": "dist/banobras-pyc-frontend/payments",
-              "index": "src/index-payments.html",
+              "index": {
+                "input": "src/index-payments.html",
+                "output": "index.html"
+              },
               "optimization": true,
               "outputHashing": "all",
               "aot": true,
@@ -177,7 +189,10 @@
               ]
             },
             "dev-full": {
-              "index": "src/index.html",
+              "index": {
+                "input": "src/index.html",
+                "output": "index.html"
+              },
               "optimization": false,
               "sourceMap": true,
               "namedChunks": true,
@@ -191,7 +206,10 @@
                   "with": "src/environments/environment.dev.budget.ts"
                 }
               ],
-              "index": "src/index-budget.html",
+              "index": {
+                "input": "src/index-budget.html",
+                "output": "index.html"
+              },
               "optimization": false,
               "sourceMap": true,
               "namedChunks": true,
@@ -205,7 +223,10 @@
                   "with": "src/environments/environment.dev.payments.ts"
                 }
               ],
-              "index": "src/index-payments.html",
+              "index": {
+                "input": "src/index-payments.html",
+                "output": "index.html"
+              },
               "optimization": false,
               "sourceMap": true,
               "namedChunks": true,
