@@ -185,12 +185,14 @@ export class BudgetTransactionsDataService {
   }
 
 
-  openTransaction(transactionUID: string): EmpObservable<BudgetTransactionHolder> {
+  openTransaction(transactionUID: string,
+                  dataFields: BudgetTransactionRejectFields): EmpObservable<BudgetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
 
     const path = `v2/budgeting/transactions/${transactionUID}/open`;
 
-    return this.http.post<BudgetTransactionHolder>(path);
+    return this.http.post<BudgetTransactionHolder>(path, dataFields);
   }
 
 

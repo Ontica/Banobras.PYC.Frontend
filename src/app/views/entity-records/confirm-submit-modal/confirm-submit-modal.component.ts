@@ -61,6 +61,11 @@ export class ConfirmSubmitModalComponent {
   }
 
 
+  get displayRejectText(): boolean {
+    return ['Cancel', 'Open', 'Reject'].includes(this.mode);
+  }
+
+
   get titleText(): string {
     switch (this.mode) {
       case 'Delete': return `Eliminar ${this.entityText}`;

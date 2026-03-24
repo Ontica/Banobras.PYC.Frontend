@@ -229,7 +229,7 @@
           </button>
 
           <button *ngIf="actions.canOpen"
-            type="button" class="btn-action"
+            type="button" class="btn"
             (click)="onEventButtonClicked('Open')">
             Abrir
           </button>
@@ -290,7 +290,7 @@
   [entityType]="transaction.transactionType.name"
   [party]="transaction.baseParty.name"
   [mode]="confirmModalMode"
-  [requireNotes]="['Reject', 'Cancel'].includes(confirmModalMode)"
+  [requireNotes]="['Reject', 'Cancel', 'Open'].includes(confirmModalMode)"
   (confirmSubmitModalEvent)="onConfirmSubmitModalEvent($event)">
 
 </emp-ng-confirm-submit-modal>
