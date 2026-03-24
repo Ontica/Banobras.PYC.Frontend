@@ -22,10 +22,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "sonar": "sonar-scanner"
+    "sonar": "sonar-scanner",
+    "generate-version": "node ./scripts/generate-version.js",
+    "build": "npm run generate-version && ng build",
+    "build:budget": "npm run generate-version && ng build -c budget",
+    "build:payments": "npm run generate-version && ng build -c payments"
   },
   "dependencies": {
     "@angular/animations": "^17.3.1",
