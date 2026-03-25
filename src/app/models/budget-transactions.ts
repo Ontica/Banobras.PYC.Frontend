@@ -324,6 +324,7 @@ export interface BudgetTransactionActions {
   canReject: boolean;
   canClose: boolean;
   canOpen: boolean;
+  canReturnToEdition: boolean;
   canClone: boolean;
   canEditDocuments: boolean;
 }
@@ -424,6 +425,7 @@ export const EmptyBudgetTransactionActions: BudgetTransactionActions = {
   canReject: false,
   canClose: false,
   canOpen: false,
+  canReturnToEdition: false,
   canClone: false,
   canEditDocuments: false,
 }

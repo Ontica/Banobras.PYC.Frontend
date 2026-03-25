@@ -196,6 +196,17 @@ export class BudgetTransactionsDataService {
   }
 
 
+  returnToEditionTransaction(transactionUID: string,
+                             dataFields: BudgetTransactionRejectFields): EmpObservable<BudgetTransactionHolder> {
+    Assertion.assertValue(transactionUID, 'transactionUID');
+    Assertion.assertValue(dataFields, 'dataFields');
+
+    const path = `v2/budgeting/transactions/${transactionUID}/return-to-edition`;
+
+    return this.http.post<BudgetTransactionHolder>(path, dataFields);
+  }
+
+
   cancelTransaction(transactionUID: string,
                     dataFields: BudgetTransactionRejectFields): EmpObservable<BudgetTransactionHolder> {
     Assertion.assertValue(transactionUID, 'transactionUID');

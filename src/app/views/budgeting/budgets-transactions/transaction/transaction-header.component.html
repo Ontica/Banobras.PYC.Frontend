@@ -234,6 +234,12 @@
             Abrir
           </button>
 
+          <button *ngIf="actions.canReturnToEdition"
+            type="button" class="btn"
+            (click)="onEventButtonClicked('ReturnToEdition')">
+            Regresar a edición
+          </button>
+
           <button *ngIf="actions.canReject"
             type="button" class="btn"
             (click)="onEventButtonClicked('Reject')">
@@ -290,7 +296,7 @@
   [entityType]="transaction.transactionType.name"
   [party]="transaction.baseParty.name"
   [mode]="confirmModalMode"
-  [requireNotes]="['Reject', 'Cancel', 'Open'].includes(confirmModalMode)"
+  [requireNotes]="['Reject', 'Cancel', 'Open', 'ReturnToEdition'].includes(confirmModalMode)"
   (confirmSubmitModalEvent)="onConfirmSubmitModalEvent($event)">
 
 </emp-ng-confirm-submit-modal>

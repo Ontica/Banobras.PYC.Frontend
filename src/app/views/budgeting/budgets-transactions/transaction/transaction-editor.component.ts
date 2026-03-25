@@ -75,6 +75,11 @@ export class BudgetTransactionEditorComponent {
         this.openTransaction(this.transaction.uid,
           event.payload.dataFields as BudgetTransactionRejectFields);
         return;
+      case TransactionHeaderEventType.RETURN_TO_EDITION:
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        this.returnToEditionTransaction(this.transaction.uid,
+          event.payload.dataFields as BudgetTransactionRejectFields);
+        return;
       case TransactionHeaderEventType.CANCEL:
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
         this.cancelTransaction(this.transaction.uid,
@@ -144,6 +149,16 @@ export class BudgetTransactionEditorComponent {
     this.submitted = true;
 
     this.transactionsData.openTransaction(transactionUID, dataFields)
+      .firstValue()
+      .then(x => this.resolveTransactionUpdated(x))
+      .finally(() => this.submitted = false);
+  }
+
+
+  private returnToEditionTransaction(transactionUID: string, dataFields: BudgetTransactionRejectFields) {
+    this.submitted = true;
+
+    this.transactionsData.returnToEditionTransaction(transactionUID, dataFields)
       .firstValue()
       .then(x => this.resolveTransactionUpdated(x))
       .finally(() => this.submitted = false);

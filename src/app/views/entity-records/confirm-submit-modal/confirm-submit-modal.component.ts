@@ -13,7 +13,7 @@ import { sendEvent } from '@app/shared/utils';
 
 
 export type ConfirmSubmitType = 'Delete' | 'SendToAuthorization' | 'Authorize' | 'Reject' | 'Close' | 'Open' |
-                                'Suspend' | 'Activate' | 'Cancel' |
+                                'Suspend' | 'Activate' | 'Cancel' | 'ReturnToEdition' |
                                 'ClosePayment' | 'RequestPayment' | 'CancelRequestPayment';
 
 
@@ -61,8 +61,8 @@ export class ConfirmSubmitModalComponent {
   }
 
 
-  get displayRejectText(): boolean {
-    return ['Cancel', 'Open', 'Reject'].includes(this.mode);
+  get displayNotesText(): boolean {
+    return this.entityFields.length === 0;
   }
 
 
@@ -77,6 +77,7 @@ export class ConfirmSubmitModalComponent {
       case 'Suspend': return `Suspender ${this.entityText}`;
       case 'Activate': return `Activar ${this.entityText}`;
       case 'Cancel': return `Cancelar ${this.entityText}`;
+      case 'ReturnToEdition': return `Regresar a edición ${this.entityPronoun} ${this.entityText}`;
       case 'ClosePayment': return `Marcar como pagada ${this.entityPronoun} ${this.entityText}`;
       case 'RequestPayment': return `Enviar pago`;
       case 'CancelRequestPayment': return `Cancelar envío de pago`;
@@ -96,6 +97,7 @@ export class ConfirmSubmitModalComponent {
       case 'Suspend': return 'suspenderá';
       case 'Activate': return 'activará';
       case 'Cancel': return 'cancelará';
+      case 'ReturnToEdition': return 'regresará a edición';
       case 'ClosePayment': return 'marcará como pagada';
       case 'RequestPayment': return 'enviará a pagar';
       case 'CancelRequestPayment': return 'cancelará el envío a pagar de';
@@ -115,6 +117,7 @@ export class ConfirmSubmitModalComponent {
       case 'Suspend': return `¿Suspendo ${this.entityPronoun} ${this.entityText}?`;
       case 'Activate': return `¿Activo ${this.entityPronoun} ${this.entityText}?`;
       case 'Cancel': return `¿Cancelo ${this.entityPronoun} ${this.entityText}?`;
+      case 'ReturnToEdition': return `¿Regreso a edición ${this.entityPronoun} ${this.entityText}?`;
       case 'ClosePayment': return `¿Marco como pagada ${this.entityPronoun} ${this.entityText}?`;
       case 'RequestPayment': return `¿Envio el pago?`;
       case 'CancelRequestPayment': return `¿Cancelo el envío del pago?`;
@@ -134,6 +137,7 @@ export class ConfirmSubmitModalComponent {
       case 'Suspend': return 'Suspender';
       case 'Activate': return 'Activar';
       case 'Cancel': return 'Aceptar';
+      case 'ReturnToEdition': return 'Regresar';
       case 'ClosePayment': return 'Aceptar';
       case 'RequestPayment': return 'Aceptar';
       case 'CancelRequestPayment': return 'Aceptar';
