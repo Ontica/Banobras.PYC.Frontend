@@ -9,13 +9,13 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } 
 
 import { combineLatest } from 'rxjs';
 
-import { Empty, EventInfo, FlexibleIdentifiable, Identifiable } from '@app/core';
+import { Empty, EventInfo, FlexibleIdentifiable, Identifiable, SessionService } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
-import { CashFlowStateSelector, CataloguesStateSelector,
+import { BudgetingStateSelector, CashFlowStateSelector, CataloguesStateSelector,
          FinancialStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { EmptyRecordSearchQuery, RecordSearchQuery, RecordQueryType, RecordQueryTypeList,
@@ -23,6 +23,7 @@ import { EmptyRecordSearchQuery, RecordSearchQuery, RecordQueryType, RecordQuery
 
 export enum RecordSearchFilterEventType {
   SEARCH_CLICKED = 'RecordSearchFilterComponent.Event.SearchClicked',
+  CLEAR_CLICKED  = 'RecordSearchFilterComponent.Event.ClearClicked',
 }
 
 @Component({
@@ -36,15 +37,16 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
   @Output() recordSearchFilterEvent = new EventEmitter<EventInfo>();
 
   formData = {
-    queryType: RecordQueryType.AccountTotals,
-    datePeriod: { fromDate: null, toDate: null },
+    queryType: null,
     classificationUID: null,
-    keywords: [],
     operationTypeUID: null,
+    budgetTypeUID: null,
     partyUID: null,
+    datePeriod: { fromDate: null, toDate: null },
+    keywords: [],
   };
 
-  queryTypeList = RecordQueryTypeList;
+  queryTypeList = [];
 
   classificationsList: FlexibleIdentifiable[] = [];
 
@@ -52,12 +54,15 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
 
   orgUnitsList: Identifiable[] = [];
 
+  budgetTypesList: Identifiable[] = [];
+
   isLoading = false;
 
   helper: SubscriptionHelper;
 
 
-  constructor(private uiLayer: PresentationLayer) {
+  constructor(private uiLayer: PresentationLayer,
+              private session: SessionService) {
     this.helper = uiLayer.createSubscriptionHelper();
   }
 
@@ -68,6 +73,7 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
 
 
   ngOnInit() {
+    this.setQueryTypeList();
     this.loadDataList();
   }
 
@@ -95,6 +101,11 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
   }
 
 
+  get displayBudgetType(): boolean {
+    return [RecordQueryType.verificationNumbers].includes(this.formData.queryType);
+  }
+
+
   get displayOperationType(): boolean {
     return [RecordQueryType.AccountTotals].includes(this.formData.queryType);
   }
@@ -114,14 +125,24 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
         return 'Buscar (auxiliares)';
       case RecordQueryType.CreditEntries:
         return 'Buscar (No. de créditos SIC)';
+      case RecordQueryType.verificationNumbers:
+        return 'Buscar (No. verificación)';
       default:
         return 'Buscar';
     }
   }
 
 
+  get defaultQueryType(): RecordQueryType {
+    const defaultQueryType: RecordQueryType = this.queryTypeList?.[0]?.uid ?? null;
+    const queryType = this.query.queryType ?? defaultQueryType;
+
+    return queryType;
+  }
+
+
   onQueryTypeChanges() {
-    this.formData.keywords = [];
+    this.onClearFilters();
   }
 
 
@@ -136,6 +157,25 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
   }
 
 
+  onClearFilters() {
+    this.clearFilters();
+
+    const payload = {
+      queryValid: this.isFormValid,
+      queryType: RecordQueryTypeList.find(x => x.uid === this.formData.queryType) ?? Empty,
+      query: this.getRecordSearchQuery()
+    };
+
+    sendEvent(this.recordSearchFilterEvent, RecordSearchFilterEventType.CLEAR_CLICKED, payload);
+  }
+
+
+  private setQueryTypeList() {
+    this.queryTypeList = RecordQueryTypeList.filter(x => this.session.hasPermission(x.permission));
+    this.formData.queryType = this.defaultQueryType;
+  }
+
+
   private loadDataList() {
     this.isLoading = true;
 
@@ -143,11 +183,13 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
       this.helper.select<FlexibleIdentifiable[]>(FinancialStateSelector.CONCEPTS_CLASSIFICATIONS),
       this.helper.select<Identifiable[]>(CashFlowStateSelector.OPERATION_TYPES),
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
+      this.helper.select<Identifiable[]>(BudgetingStateSelector.BUDGET_TYPES),
     ])
-    .subscribe(([a, b, c]) => {
+    .subscribe(([a, b, c, d]) => {
       this.classificationsList = a;
       this.operationTypesList = b;
       this.orgUnitsList = c;
+      this.budgetTypesList = d;
       this.isLoading = false;
     });
   }
@@ -155,12 +197,13 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
 
   private initFormData() {
     this.formData = {
-      queryType: this.query.queryType,
-      datePeriod: { fromDate: this.query.fromDate, toDate: this.query.toDate },
-      operationTypeUID: this.query.operationTypeUID,
-      keywords: this.query.keywords,
+      queryType: this.defaultQueryType,
       classificationUID: this.query.classificationUID,
+      operationTypeUID: this.query.operationTypeUID,
+      budgetTypeUID: this.query.budgetTypeUID,
       partyUID: this.query.partyUID,
+      keywords: this.query.keywords,
+      datePeriod: { fromDate: this.query.fromDate, toDate: this.query.toDate },
     };
   }
 
@@ -168,15 +211,29 @@ export class RecordSearchFilterComponent implements OnChanges, OnInit, OnDestroy
   private getRecordSearchQuery(): RecordSearchQuery {
     const query: RecordSearchQuery = {
       queryType: this.formData.queryType,
-      classificationUID: this.formData.classificationUID,
-      keywords: this.formData.keywords,
+      classificationUID: this.displayClassification ? this.formData.classificationUID : null,
+      operationTypeUID: this.displayOperationType ? this.formData.operationTypeUID : null,
+      budgetTypeUID: this.displayBudgetType ? this.formData.budgetTypeUID : null,
+      partyUID: this.displayParties ? this.formData.partyUID : null,
       fromDate: this.displayPeriod ? this.formData.datePeriod.fromDate : null,
       toDate: this.displayPeriod ? this.formData.datePeriod.toDate : null,
-      operationTypeUID: this.displayOperationType ? this.formData.operationTypeUID : null,
-      partyUID: this.displayParties ? this.formData.partyUID : null,
+      keywords: this.formData.keywords,
     };
 
     return query;
+  }
+
+
+  private clearFilters() {
+    this.formData = {
+      queryType: this.formData.queryType,
+      classificationUID: null,
+      operationTypeUID: null,
+      budgetTypeUID: null,
+      partyUID: null,
+      datePeriod: { fromDate: null, toDate: null },
+      keywords: [],
+    };
   }
 
 }

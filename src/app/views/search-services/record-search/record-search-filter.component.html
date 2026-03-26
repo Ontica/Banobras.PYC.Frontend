@@ -33,6 +33,22 @@
 
         </div>
 
+
+      <div class="fx-item-size" style="--size: 30%" *ngIf="displayBudgetType">
+
+        <label>Tipo de presupuesto:</label>
+
+        <emp-ng-select name="budgetTypeUID" required
+          [(ngModel)]="formData.budgetTypeUID"
+          [config]="{showTooltip: true}"
+          [items]="budgetTypesList"
+          [loading]="isLoading"
+          [showError]="!formData.budgetTypeUID"
+          placeholder="Todos">
+        </emp-ng-select>
+
+      </div>
+
         <div class="fx-item-none" *ngIf="displayPeriod">
 
           <label>Período:</label>
@@ -57,7 +73,8 @@
 
         <div class="fx-item-none" [style.marginTop.px]="13">
 
-          <button [class.btn-icon-action]="form.valid"
+          <button
+            [class.btn-icon-action]="form.valid"
             [class.btn-icon]="form.invalid"
             [disabled]="form.invalid"
             (click)="onSearchClicked()"

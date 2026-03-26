@@ -11,7 +11,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { PresentationState } from '@app/core/presentation';
 
-import { PERMISSIONS, TOOL_TYPES, Tool } from '@app/data';
+import { SEARCH_TOOL_PERMISSIONS, TOOL_TYPES, Tool } from '@app/data';
 
 import { MainUIStateAction, MainUIStateSelector } from '@app/presentation/exported.presentation.types';
 
@@ -26,11 +26,12 @@ import { MessageBoxService } from '@app/shared/services';
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
 
-  permissions = PERMISSIONS;
-
   displayAsideRight = false;
 
   toolSelected: TOOL_TYPES = 'None';
+
+  SEARCH_TOOL_PERMISSIONS = SEARCH_TOOL_PERMISSIONS;
+
 
   private unsubscribe: Subject<void> = new Subject();
 

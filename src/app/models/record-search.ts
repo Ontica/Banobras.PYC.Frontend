@@ -7,6 +7,8 @@
 
 import { DateString, Empty, Identifiable } from '@app/core';
 
+import { PERMISSIONS } from '@app/data';
+
 import { DataTable, DataTableColumn, DataTableQuery } from './base/data-table';
 
 
@@ -14,14 +16,39 @@ export enum RecordQueryType {
   AccountTotals             = 'AccountTotals',
   CashFlowAccountingEntries = 'CashFlowAccountingEntries',
   CreditEntries             = 'CreditEntries',
+  verificationNumbers       = 'VerificationNumbers',
 }
 
 
-export const RecordQueryTypeList: Identifiable[] = [
-  { uid: RecordQueryType.AccountTotals,             name: 'Conceptos presupuestales' },
-  { uid: RecordQueryType.CashFlowAccountingEntries, name: 'Movimientos de flujo de efectivo por auxiliar' },
-  { uid: RecordQueryType.CreditEntries,             name: 'Movimientos del sistema de créditos' },
+export const RecordQueryTypeList: RecordSearchType[] = [
+  {
+    uid: RecordQueryType.AccountTotals,
+    name: 'Conceptos presupuestales',
+    permission: PERMISSIONS.TOOL_CONCEPTOS_PRESUPUESTALES,
+  },
+  {
+    uid: RecordQueryType.CashFlowAccountingEntries,
+    name: 'Movimientos de flujo de efectivo por auxiliar',
+    permission: PERMISSIONS.TOOL_MOVIMIENTOS_FLUJO_EFECTIVO_POR_AUXILIAR,
+  },
+  {
+    uid: RecordQueryType.CreditEntries,
+    name: 'Movimientos del sistema de créditos',
+    permission: PERMISSIONS.TOOL_MOVIMIENTOS_SISTEMA_CREDITOS,
+  },
+  {
+    uid: RecordQueryType.verificationNumbers,
+    name: 'Números de verificación',
+    permission: PERMISSIONS.TOOL_NUMEROS_VERIFICACION,
+  },
 ];
+
+
+export interface RecordSearchType extends Identifiable {
+  uid: string;
+  name: string;
+  permission: PERMISSIONS;
+}
 
 
 export interface RecordSearchData extends DataTable {
@@ -35,21 +62,23 @@ export interface RecordSearchData extends DataTable {
 
 export interface RecordSearchQuery extends DataTableQuery {
   queryType: RecordQueryType;
+  classificationUID: string;
+  budgetTypeUID: string;
+  operationTypeUID: string;
+  partyUID: string;
   fromDate: DateString;
   toDate: DateString;
-  classificationUID: string;
-  operationTypeUID: string;
   keywords: string[];
-  partyUID: string;
 }
 
 
 export const EmptyRecordSearchQuery: RecordSearchQuery = {
-  queryType: RecordQueryType.AccountTotals,
+  queryType: null,
   fromDate: '',
   toDate: '',
   classificationUID: '',
   operationTypeUID: '',
+  budgetTypeUID: '',
   keywords: [],
   partyUID: '',
 };

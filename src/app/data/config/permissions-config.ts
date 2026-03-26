@@ -137,6 +137,12 @@ export enum PERMISSIONS {
 
   // AREAS
   ROUTE_AREAS = 'route-areas',
+
+  // TOOLS
+  TOOL_CONCEPTOS_PRESUPUESTALES = 'tool-conceptos-presupuestales',
+  TOOL_MOVIMIENTOS_FLUJO_EFECTIVO_POR_AUXILIAR = 'tool-movimientos-flujo-efectivo-por-auxiliar',
+  TOOL_MOVIMIENTOS_SISTEMA_CREDITOS = 'tool-movimientos-sistema-creditos',
+  TOOL_NUMEROS_VERIFICACION = 'tool-numeros-verificacion',
 }
 
 

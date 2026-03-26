@@ -50,3 +50,20 @@
   </div>
 
 </div>
+
+
+<emp-ng-export-report-modal *ngIf="selectedExportData.displayExportModal"
+  [heading]="selectedExportData.heading"
+  [message]=" selectedExportData.message"
+  [fileUrl]="selectedExportData.fileUrl"
+  [hasError]="selectedExportData.hasError"
+  (exportReportModalEvent)="onExportReportModalEvent($event)">
+
+</emp-ng-export-report-modal>
+
+
+<emp-ng-file-preview #filePreview
+  [heading]="filePreviewData.heading"
+  [hint]="filePreviewData.hint">
+
+</emp-ng-file-preview>
