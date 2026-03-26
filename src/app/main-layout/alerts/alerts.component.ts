@@ -27,7 +27,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
 
   displayAlerts = true;
 
-  alerts = [];
+  alerts: AppAlert[] = [];
 
 
   private unsubscribe: Subject<void> = new Subject();
@@ -55,13 +55,15 @@ export class AlertsComponent implements OnInit, OnDestroy {
 
 
   get displayPersistent(): boolean {
-    return this.alerts.filter(x => x.persistent)?.length > 0;
+    return this.alerts.some(x => x.persistent);
   }
 
 
   onAlertClicked(alert: AppAlert) {
-    if (alert.type === 'VersionUpdate') {
-      this.notifyNewVersionAvailable(alert);
+    if (this.requiresRefresh(alert)) {
+      this.notifyRefreshRequired(alert);
+    } else {
+      this.notifyAlert(alert);
     }
 
     this.store.dispatch(AppAlertsStateAction.MARK_ALERT_AS_READ, { alertId: alert.id });
@@ -69,12 +71,11 @@ export class AlertsComponent implements OnInit, OnDestroy {
 
 
   private validateSetAlertsAndNotify(alerts: AppAlert[]) {
-    const hasVersionUpdateAlert = alerts.some(alert => this.isVersionUpdateAlert(alert));
-    const versionUpdateAlert = alerts.find(alert => this.isVersionUpdateAlert(alert));
+    const appAlert = alerts.find(alert => this.requiresRefresh(alert));
 
-    if (hasVersionUpdateAlert && !versionUpdateAlert.read) {
-      this.store.dispatch(AppAlertsStateAction.MARK_ALERT_AS_READ, { alertId: versionUpdateAlert.id });
-      this.notifyNewVersionAvailable(versionUpdateAlert);
+    if (appAlert && !appAlert.read) {
+      this.store.dispatch(AppAlertsStateAction.MARK_ALERT_AS_READ, { alertId: appAlert.id });
+      this.validateNotifyRefresh(appAlert);
     }
 
     this.setAlerts(alerts)
@@ -86,12 +87,21 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
 
-  private isVersionUpdateAlert(alert: AppAlert): boolean {
-    return alert.type === 'VersionUpdate';
+  private requiresRefresh(alert: AppAlert): boolean {
+    return ['VersionUpdate', 'OutdatedVersion'].includes(alert.type)
   }
 
 
-  private notifyNewVersionAvailable(alert: AppAlert) {
+  private validateNotifyRefresh(alert: AppAlert) {
+    if (alert.refreshMandatory) {
+      this.notifyRefreshMandatory(alert);
+    } else {
+      this.notifyRefreshRequired(alert);
+    }
+  }
+
+
+  private notifyRefreshRequired(alert: AppAlert) {
     if (this.messageBox.isOpen()) {
       return;
     }
@@ -99,6 +109,22 @@ export class AlertsComponent implements OnInit, OnDestroy {
     this.messageBox.confirm(alert.details ?? alert.message, alert.title, 'AcceptCancel', 'Refrescar')
       .firstValue()
       .then(x => x ? window.location.reload() : null);
+  }
+
+
+  private notifyRefreshMandatory(alert: AppAlert) {
+    this.messageBox.confirmError(alert.details ?? alert.message, alert.title, 'Refrescar')
+      .firstValue()
+      .then(x => x ? window.location.reload() : null);
+  }
+
+
+  private notifyAlert(alert: AppAlert) {
+    if (this.messageBox.isOpen()) {
+      return;
+    }
+
+    this.messageBox.show(alert.details ?? alert.message, alert.title);
   }
 
 }

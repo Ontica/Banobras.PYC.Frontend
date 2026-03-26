@@ -17,6 +17,7 @@ import { PresentationModule } from './presentation/presentation.module';
 import { SessionService } from './general/session.service';
 import { LocalStorageService } from './general/local-storage.service';
 import { LoggerService } from './general/logger.service';
+import { ApplicationAlertsService } from './general/application-alerts.service';
 import { ApplicationSettingsService } from './general/application-settings.service';
 import { ApplicationStatusService } from './general/application-status.service';
 import { ApplicationVersionService } from './general/application-version.service';
@@ -55,6 +56,7 @@ import { ErrorMessageService } from './errors/error-message.service';
   providers: [
     ErrorMessageService,
     SessionService,
+    ApplicationAlertsService,
     ApplicationSettingsService,
     ApplicationStatusService,
     ApplicationVersionService,

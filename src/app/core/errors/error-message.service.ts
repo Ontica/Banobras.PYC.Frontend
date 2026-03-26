@@ -13,15 +13,17 @@ import { LOGIN_PATH } from '@app/data';
 
 import { CLIENT_SIDE_ERROR_MESSAGE, OFFLINE_ERROR_MESSAGE, } from './error-messages';
 
+import { ApplicationAlertsService } from '../general/application-alerts.service';
+
 import { ApplicationMessageService } from '../general/application-message.service';
 
 
 @Injectable()
 export class ErrorMessageService {
 
-
   constructor(private router: Router,
-              private appMessage: ApplicationMessageService) { }
+              private appMessage: ApplicationMessageService,
+              private appAlerts: ApplicationAlertsService) { }
 
 
   handleOfflineError() {
@@ -31,8 +33,13 @@ export class ErrorMessageService {
 
 
   handleClientSideError(error) {
-    this.displayConsoleMessage('CLIENT SIDE ERROR', error.message);
-    this.showErrorMessage(CLIENT_SIDE_ERROR_MESSAGE);
+    if (this.isChunkLoadError(error)) {
+      this.appAlerts.handleOutdatedApp();
+    } else {
+      this.showErrorMessage(CLIENT_SIDE_ERROR_MESSAGE);
+    }
+
+    this.displayConsoleMessage('CLIENT SIDE ERROR', error?.message ?? 'Unknown client-side error');
   }
 
 
@@ -74,6 +81,12 @@ export class ErrorMessageService {
         .firstValue()
         .then(x => this.router.navigateByUrl(LOGIN_PATH))
     }
+  }
+
+
+  private isChunkLoadError(error): boolean {
+    const message = error?.message ?? '';
+    return message.includes('Loading chunk') || message.includes('ChunkLoadError');
   }
 
 }

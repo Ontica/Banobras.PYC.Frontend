@@ -7,18 +7,19 @@
 
 import { Injectable } from '@angular/core';
 
-import { Assertion, DateStringLibrary, EmpObservable } from '@app/core';
+import { Assertion, EmpObservable } from '@app/core';
 
 import { AbstractPresentationHandler, StateValues } from '@app/core/presentation/presentation.handler';
 
-import { AppAlert } from '@app/data';
+import { AppAlert, getVersionUpdateAlert, getOutdatedVersionAlert } from '@app/data';
 
 
 export enum ActionType {
-  ADD_ALERT            = 'Empiria.UI-Flag.AppAlerts.AddAlert',
-  ADD_ALERT_VERSION    = 'Empiria.UI-Flag.AppAlerts.AddAlertVersion',
-  MARK_ALERT_AS_READ   = 'Empiria.UI-Flag.AppAlerts.MarkAlertAsRead',
-  REMOVE_ALERT         = 'Empiria.UI-Flag.AppAlerts.RemoveAlert',
+  ADD_ALERT          = 'Empiria.UI-Flag.AppAlerts.AddAlert',
+  ADD_ALERT_VERSION  = 'Empiria.UI-Flag.AppAlerts.AddAlertVersion',
+  ADD_ALERT_OUTDATED = 'Empiria.UI-Flag.AppAlerts.AddAlertOutdated',
+  MARK_ALERT_AS_READ = 'Empiria.UI-Flag.AppAlerts.MarkAlertAsRead',
+  REMOVE_ALERT       = 'Empiria.UI-Flag.AppAlerts.RemoveAlert',
 }
 
 
@@ -63,11 +64,17 @@ export class AppAlertsPresentationHandler extends AbstractPresentationHandler {
     switch (actionType) {
 
       case ActionType.ADD_ALERT_VERSION:
-        this.addVersionAlert(payload as string);
+        const versionAlert = getVersionUpdateAlert();
+        this.upsertAlert(versionAlert);
+        return;
+
+      case ActionType.ADD_ALERT_OUTDATED:
+        const outdatedAlert = getOutdatedVersionAlert();
+        this.upsertAlert(outdatedAlert);
         return;
 
       case ActionType.ADD_ALERT:
-        this.addAlert(payload as AppAlert);
+        this.upsertAlert(payload as AppAlert);
         return;
 
       case ActionType.MARK_ALERT_AS_READ:
@@ -83,30 +90,6 @@ export class AppAlertsPresentationHandler extends AbstractPresentationHandler {
         throw this.unhandledCommandOrActionType(actionType);
     }
 
-  }
-
-
-  private addVersionAlert(latestVersion?: string) {
-    const alert: AppAlert = {
-      id: 'version-update',
-      type: 'VersionUpdate',
-      title: 'Actualización disponible',
-      message: 'Se detectó una nueva versión del sistema. ' +
-               'Refresque la página para aplicar los cambios.',
-      details: 'Se detectó una nueva versión del sistema. ' +
-               'Refresque la página para aplicar los cambios. ' +
-               'Si no visualiza nuevas opciones o accesos, cierre sesión e inicie sesión nuevamente.',
-      dateTime: DateStringLibrary.today(),
-      persistent: true,
-      read: false,
-    };
-
-    this.upsertAlert(alert);
-  }
-
-
-  private addAlert(alert: AppAlert){
-    this.upsertAlert(alert);
   }
 
 

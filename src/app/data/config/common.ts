@@ -130,7 +130,7 @@ export interface AppAlert {
   message: string;
   details?: string;
   persistent?: boolean;
-  priority?: boolean;
+  refreshMandatory?: boolean;
   dateTime?: DateString;
   read?: boolean;
 }
@@ -162,7 +162,7 @@ export function getOutdatedVersionAlert(): AppAlert {
     details: 'Se detectó una actualización del sistema. Es necesario refrescar la página para continuar.',
     dateTime: DateStringLibrary.today(),
     persistent: true,
-    priority: true,
+    refreshMandatory: true,
     read: false,
   };
 }
