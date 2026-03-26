@@ -8,7 +8,7 @@
 import { Injectable } from '@angular/core';
 
 import { APP_CONFIG, DEFAULT_ROUTE, DEFAULT_PATH, getAllPermissions, ROUTES_LIST,
-         UNAUTHORIZED_PATH, resolvePermissionsByProfile } from '@app/main-layout';
+         UNAUTHORIZED_PATH, resolvePermissionsByProfile } from '@app/data';
 
 import { ACCESS_PROBLEM_MESSAGE, INVALID_CREDENTIALS_MESSAGE,
          NOT_ACTIVE_CREDENTIALS_MESSAGE } from '../errors/error-messages';

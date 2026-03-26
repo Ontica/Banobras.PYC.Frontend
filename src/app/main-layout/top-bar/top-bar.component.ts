@@ -7,7 +7,7 @@
 
 import { Component } from '@angular/core';
 
-import { APP_CONFIG } from '../config-data';
+import { APP_CONFIG } from '@app/data';
 
 @Component({
   selector: 'emp-ng-top-bar',

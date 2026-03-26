@@ -11,11 +11,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { Assertion, DateString, EventInfo, Identifiable } from '@app/core';
 
+import { PERMISSIONS } from '@app/data';
+
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { BudgetingStateSelector } from '@app/presentation/exported.presentation.types';
-
-import { PERMISSIONS } from '@app/main-layout';
 
 import { MessageBoxService } from '@app/shared/services';
 

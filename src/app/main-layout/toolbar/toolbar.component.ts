@@ -11,11 +11,12 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { PresentationState } from '@app/core/presentation';
 
+import { PERMISSIONS, TOOL_TYPES, Tool } from '@app/data';
+
 import { MainUIStateAction, MainUIStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { MessageBoxService } from '@app/shared/services';
 
-import { PERMISSIONS, TOOL_TYPES, Tool } from '../config-data';
 
 
 @Component({

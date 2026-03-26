@@ -13,7 +13,7 @@ import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { MainUIStateSelector } from '@app/presentation/exported.presentation.types';
 
-import { View } from '@app/main-layout';
+import { View } from '@app/data';
 
 import { SkipIf } from '@app/shared/decorators';
 

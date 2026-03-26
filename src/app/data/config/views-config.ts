@@ -7,7 +7,7 @@
 
 import { ROUTES } from './routes-config';
 
-import { View } from '../common-models/common';
+import { View } from './common';
 
 
 export const StepsViews: View[] = [

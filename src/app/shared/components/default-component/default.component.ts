@@ -7,9 +7,9 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
+import { View } from '@app/data';
 
-import { View } from '@app/main-layout';
+import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { MainUIStateSelector } from '@app/presentation/exported.presentation.types';
 

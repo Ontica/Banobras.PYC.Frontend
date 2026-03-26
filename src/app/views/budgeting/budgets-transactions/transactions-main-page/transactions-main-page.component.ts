@@ -9,11 +9,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
+import { View } from '@app/data';
+
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 
 import { MainUIStateSelector } from '@app/presentation/exported.presentation.types';
-
-import { View } from '@app/main-layout';
 
 import { ArrayLibrary } from '@app/shared/utils';
 

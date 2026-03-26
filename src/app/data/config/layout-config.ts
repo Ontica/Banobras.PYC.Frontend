@@ -5,9 +5,9 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { ROUTES } from '../config-data';
+import { ROUTES } from './routes-config';
 
-import { Layout } from '../common-models/common';
+import { Layout } from './common';
 
 import {
   UnauthorizedViews,

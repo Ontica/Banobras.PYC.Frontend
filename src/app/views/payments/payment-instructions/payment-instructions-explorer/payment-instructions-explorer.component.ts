@@ -9,8 +9,6 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 
 import { Assertion, EventInfo } from '@app/core';
 
-import { PERMISSIONS } from '@app/main-layout';
-
 import { sendEvent } from '@app/shared/utils';
 
 import { buildExplorerHint, EmptyPaymentInstructionsQuery, PaymentInstructionDescriptor,

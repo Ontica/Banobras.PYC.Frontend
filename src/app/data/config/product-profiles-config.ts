@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { AppProductProfile } from '../common-models';
+import { AppProductProfile } from './common';
 
 import { LAYOUT_TYPE } from './layout-config';
 

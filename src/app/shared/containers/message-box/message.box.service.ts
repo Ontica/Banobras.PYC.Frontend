@@ -7,11 +7,11 @@
 
 import { Injectable } from '@angular/core';
 
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
 import { of } from 'rxjs';
 
 import { EmpObservable, Exception } from '@app/core';
-
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { MessageBoxComponent } from './message-box.component';
 
@@ -34,7 +34,7 @@ export class MessageBoxService {
       messageBoxType: messageBoxType || 'AcceptCancel',
       message,
       title: title || 'Tengo una pregunta',
-      mainButtonText: mainButtonText || 'Aceptar'
+      mainButtonText: mainButtonText || 'Aceptar',
     };
 
     const observable = this.openMessageBox(config, data);
@@ -61,7 +61,7 @@ export class MessageBoxService {
       messageBoxType: 'Accept',
       message,
       title,
-      mainButtonText: 'Aceptar'
+      mainButtonText: 'Aceptar',
     };
 
     const observable = this.openMessageBox(config, data);
@@ -79,12 +79,40 @@ export class MessageBoxService {
       messageBoxType: 'Accept',
       message: this.getErrorMsg(error),
       title: 'Tengo un problema',
-      mainButtonText: 'Aceptar'
+      mainButtonText: 'Aceptar',
     };
 
     const observable = this.openMessageBox(config, data);
 
     observable.subscribe(() => of<void>());
+
+    return observable;
+  }
+
+
+  confirmError(message: string,
+               title: string = '',
+               mainButtonText: string = 'Cancelar',
+               config?: MessageBoxConfig): EmpObservable<boolean> {
+
+    const data: MessageBoxData = {
+      messageBoxType: 'Accept',
+      message,
+      title: title || 'Tengo un problema',
+      mainButtonText: mainButtonText || 'Confirmar',
+    };
+
+    const observable = this.openMessageBox(config, data);
+
+    observable.subscribe(
+      result => {
+        if (result) {
+          return of<boolean>(true);
+        } else {
+          return of<boolean>(false);
+        }
+      }
+    );
 
     return observable;
   }

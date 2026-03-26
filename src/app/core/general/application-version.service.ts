@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Subscription, timer } from 'rxjs';
 
-import { APP_CONFIG } from '@app/main-layout';
+import { APP_CONFIG } from '@app/data';
 
 import { PresentationLayer } from '../presentation';
 

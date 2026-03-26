@@ -11,11 +11,10 @@ import { Assertion, SessionService } from '@app/core';
 
 import { AbstractPresentationHandler, StateValues } from '@app/core/presentation/presentation.handler';
 
-import { NavigationHeader, DefaultNavigationHeader, buildNavigationHeader, Layout, View, DefaultView,
-         ViewActionType } from '@app/main-layout/common-models';
+import { APP_LAYOUTS, APP_VIEWS, DefaultTool, DefaultView, LAYOUT_TYPE, Layout, Tool, TOOLS_LIST, View,
+         ViewActionType } from '@app/data';
 
-import { APP_LAYOUTS, APP_VIEWS, LAYOUT_TYPE, TOOLS_LIST, DefaultTool,
-         Tool } from '@app/main-layout/config-data';
+import { DefaultNavigationHeader, NavigationHeader, buildNavigationHeader } from '@app/main-layout';
 
 
 export enum ActionType {

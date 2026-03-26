@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 
 import { EventInfo, SessionService } from '@app/core';
 
-import { PERMISSIONS } from '@app/main-layout';
+import { PERMISSIONS } from '@app/data';
 
 import { AccessControlQueryType, AccessControlSelectionData, EmptyAccessControlSelectionData, EmptyFeature,
          EmptyRole, EmptySubject, Feature, Role, Subject } from '@app/models';

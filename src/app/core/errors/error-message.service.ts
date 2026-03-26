@@ -9,18 +9,19 @@ import { Injectable } from '@angular/core';
 
 import { Router } from '@angular/router';
 
-import { MessageBoxService } from '@app/shared/services';
-
-import { LOGIN_PATH } from '@app/main-layout';
+import { LOGIN_PATH } from '@app/data';
 
 import { CLIENT_SIDE_ERROR_MESSAGE, OFFLINE_ERROR_MESSAGE, } from './error-messages';
+
+import { ApplicationMessageService } from '../general/application-message.service';
 
 
 @Injectable()
 export class ErrorMessageService {
 
-  constructor(private messageBox: MessageBoxService,
-              private router: Router) { }
+
+  constructor(private router: Router,
+              private appMessage: ApplicationMessageService) { }
 
 
   handleOfflineError() {
@@ -57,19 +58,19 @@ export class ErrorMessageService {
 
 
   private showErrorMessage(message: string, status?: string) {
-    if (!this.messageBox.isOpen()) {
+    if (!this.appMessage.isOpen()) {
       const statusMessage = status ? `<strong>(${status})</strong>  ` : '';
-      this.messageBox.showError(statusMessage + message)
+      this.appMessage.showError(statusMessage + message)
         .firstValue();
     }
   }
 
 
   private handle401Error(message: string) {
-    if (!this.messageBox.isOpen()) {
+    if (!this.appMessage.isOpen()) {
       const statusMessage = `<strong>(401)</strong> ${message}`;
 
-      this.messageBox.showError(statusMessage)
+      this.appMessage.showError(statusMessage)
         .firstValue()
         .then(x => this.router.navigateByUrl(LOGIN_PATH))
     }

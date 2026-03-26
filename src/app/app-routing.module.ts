@@ -9,9 +9,11 @@ import { NgModule } from '@angular/core';
 
 import { Routes, RouterModule, Route } from '@angular/router';
 
-import { ChildRouteGuard, ParentRouteGuard } from './core';
+import { ChildRouteGuard, ParentRouteGuard } from '@app/core';
 
-import { APP_CONFIG, DEFAULT_PATH, MainLayoutComponent, NoContentComponent, ROUTES } from '@app/main-layout';
+import { APP_CONFIG, DEFAULT_PATH, ROUTES } from '@app/data';
+
+import { MainLayoutComponent, NoContentComponent } from '@app/main-layout';
 
 const BASE_ROUTES: Routes = [
   // {

@@ -7,7 +7,7 @@
 
 import { environment } from 'src/environments/environment';
 
-import { AppConfig } from '../common-models/common';
+import { AppConfig } from './common';
 
 import { PRODUCT_PROFILE, PRODUCT_PROFILES } from './product-profiles-config';
 

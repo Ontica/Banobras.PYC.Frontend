@@ -9,13 +9,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subject, takeUntil } from 'rxjs';
 
+import { AppAlert } from '@app/data';
+
 import { PresentationState } from '@app/core/presentation';
 
 import { AppAlertsStateAction, AppAlertsStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { MessageBoxService } from '@app/shared/services';
-
-import { AppAlert } from '../common-models';
 
 
 @Component({

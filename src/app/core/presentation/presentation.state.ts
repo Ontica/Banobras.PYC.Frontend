@@ -12,9 +12,7 @@ import { Assertion, Command, CommandResult, EmpObservable,
 
 import { PresentationHandler } from './presentation.handler';
 
-import { CommandType, ActionType, StateEffect, StateSelector } from './presentation-types';
-
-import { MainUIStateAction } from '@app/presentation/exported.presentation.types';
+import { CommandType, ActionType, StateEffect, StateSelector, MainUIStateAction } from './presentation-types';
 
 
 export const STATE_HANDLERS = new InjectionToken<PresentationHandler[]>('PresentationStateHandlers');

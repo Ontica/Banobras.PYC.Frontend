@@ -7,7 +7,7 @@
 
 import { DateString, Empty, Entity, Identifiable } from '@app/core';
 
-import { PERMISSIONS } from '@app/main-layout';
+import { PERMISSIONS } from '@app/data';
 
 import { EntityStatus, ExplorerOperation, ExplorerOperationType,
          ExplorerTypeConfig } from '../base/explorer-data';

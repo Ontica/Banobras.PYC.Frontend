@@ -7,7 +7,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { PERMISSIONS, ROUTES_LIST } from '@app/main-layout';
+import { PERMISSIONS, ROUTES_LIST } from '@app/data';
 
 import { ApplicationSettingsService } from './application-settings.service';
 

@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { View } from './common';
+import { View } from '../../data/config/common';
 
 
 export class MenuItem {

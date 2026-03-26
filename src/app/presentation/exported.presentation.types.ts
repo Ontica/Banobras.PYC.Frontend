@@ -6,11 +6,12 @@
  */
 
 
+import { AppDataActions, AppDataSelectors } from './app-data/_app-data.presentation.types';
+export * from './app-data/_app-data.presentation.types';
+
 import { MainLayoutActions, MainLayoutSelectors } from './main-layout/_main-layout.presentation.types';
 export * from './main-layout/_main-layout.presentation.types';
 
-import { AppDataActions, AppDataSelectors } from './app-data/_app-data.presentation.types';
-export * from './app-data/_app-data.presentation.types';
 
 import { SMSelectors } from './security-management/_security.management.presentation.types';
 export * from './security-management/_security.management.presentation.types';
@@ -28,3 +29,10 @@ export type CommandType = '';
 export type StateEffect = '';
 
 export type StateSelector = MainLayoutSelectors | AppDataSelectors | SMSelectors | PYCSelectors;
+
+
+/* Exportation app handlers */
+
+export { AppAlertsPresentationHandler } from './app-data/app-alerts.presentation.handler';
+
+export { AppStatusPresentationHandler } from './app-data/app-status.presentation.handler';

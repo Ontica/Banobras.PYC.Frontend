@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { AppRoute } from '../common-models';
+import { AppRoute } from './common';
 
 import { PERMISSIONS } from './permissions-config';
 

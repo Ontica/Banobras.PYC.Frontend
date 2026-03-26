@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { PERMISSIONS } from '@app/main-layout';
+import { PERMISSIONS } from '@app/data';
 
 
 type ControlPanelOptionType = 'ChangePassword' |

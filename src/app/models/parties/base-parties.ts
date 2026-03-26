@@ -7,7 +7,7 @@
 
 import { Empty, Identifiable } from '@app/core';
 
-import { PERMISSIONS } from '@app/main-layout';
+import { PERMISSIONS } from '@app/data';
 
 import { EntityStatus, ExplorerTypeConfig } from '../base/explorer-data';
 

@@ -9,7 +9,7 @@ import { inject } from '@angular/core';
 
 import { Router, ActivatedRouteSnapshot, CanActivateFn, CanActivateChildFn } from '@angular/router';
 
-import { LOGIN_PATH, UNAUTHORIZED_PATH } from '@app/main-layout';
+import { LOGIN_PATH, UNAUTHORIZED_PATH } from '@app/data';
 
 import { ApplicationStatusService } from '../general/application-status.service';
 

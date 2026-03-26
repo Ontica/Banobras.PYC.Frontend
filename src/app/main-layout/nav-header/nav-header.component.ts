@@ -9,13 +9,13 @@ import { Component, EventEmitter, Output, OnDestroy, OnInit } from '@angular/cor
 
 import { Subscription } from 'rxjs';
 
+import { APP_CONFIG, ViewAction } from '@app/data';
+
 import { PresentationState } from '@app/core/presentation';
 
 import { MainUIStateAction, MainUIStateSelector } from '@app/core/presentation/presentation-types';
 
-import { MenuItem, NavigationHeader, ViewAction } from '../common-models';
-
-import { APP_CONFIG } from '../config-data';
+import { MenuItem, NavigationHeader } from '../common-models';
 
 
 @Component({

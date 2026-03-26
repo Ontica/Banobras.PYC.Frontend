@@ -9,9 +9,7 @@ import { Component } from '@angular/core';
 
 import { Router } from '@angular/router';
 
-import { Layout } from '../common-models';
-
-import { APP_CONFIG, APP_LAYOUTS, LAYOUT_TYPE } from '../config-data';
+import { APP_CONFIG, APP_LAYOUTS, LAYOUT_TYPE, Layout } from '@app/data';
 
 @Component({
   selector: 'emp-ng-main-menu',

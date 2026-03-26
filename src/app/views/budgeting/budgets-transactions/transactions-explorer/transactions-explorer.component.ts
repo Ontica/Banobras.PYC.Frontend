@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 
 import { Assertion, EventInfo, Identifiable } from '@app/core';
 
-import { PERMISSIONS } from '@app/main-layout';
+import { PERMISSIONS } from '@app/data';
 
 import { sendEvent } from '@app/shared/utils';
 

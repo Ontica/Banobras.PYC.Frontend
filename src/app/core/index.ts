@@ -16,6 +16,7 @@ export { Validate } from './general/validate';
 export { Compression } from './general/compression';
 export { Cryptography } from './security/cryptography';
 
+export { ApplicationMessageService } from './general/application-message.service';
 export { ApplicationStatusService } from './general/application-status.service';
 export { ApplicationVersionService } from './general/application-version.service';
 export { SessionService } from './general/session.service';

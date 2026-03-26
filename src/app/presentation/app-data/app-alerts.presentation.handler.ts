@@ -11,7 +11,7 @@ import { Assertion, DateStringLibrary, EmpObservable } from '@app/core';
 
 import { AbstractPresentationHandler, StateValues } from '@app/core/presentation/presentation.handler';
 
-import { AppAlert } from '@app/main-layout';
+import { AppAlert } from '@app/data';
 
 
 export enum ActionType {

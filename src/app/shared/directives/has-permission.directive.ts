@@ -9,7 +9,7 @@ import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angula
 
 import { SessionService } from '@app/core';
 
-import { PERMISSIONS } from '@app/main-layout';
+import { PERMISSIONS } from '@app/data';
 
 
 @Directive({

@@ -9,18 +9,20 @@ import { Injectable, OnDestroy } from '@angular/core';
 
 import { of } from 'rxjs';
 
-import { APP_CONFIG } from '@app/main-layout';
+import { APP_CONFIG } from '@app/data';
 
-import { AppStatusStateSelector } from '@app/presentation/app-data/_app-data.presentation.types';
+import { EmpObservable } from '../data-types';
 
 import { PresentationLayer, SubscriptionHelper } from '../presentation';
 
-import { EmpObservable } from '../data-types';
+import { AppStatusStateSelector } from '../presentation/presentation-types';
+
 
 @Injectable()
 export class ApplicationStatusService implements OnDestroy {
 
   subscriptionHelper: SubscriptionHelper;
+
 
   constructor(private uiLayer: PresentationLayer) {
     this.subscriptionHelper = uiLayer.createSubscriptionHelper();

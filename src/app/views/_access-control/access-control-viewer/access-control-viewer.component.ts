@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Assertion, Empty, EventInfo } from '@app/core';
 
-import { PERMISSIONS } from '@app/main-layout';
+import { PERMISSIONS } from '@app/data';
 
 import { ArrayLibrary, sendEvent } from '@app/shared/utils';
 

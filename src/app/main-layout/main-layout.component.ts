@@ -17,7 +17,7 @@ import { MainUIStateAction, MainUIStateSelector } from '@app/core/presentation/p
 
 import { ApplicationVersionService } from '@app/core';
 
-import { APP_CONFIG, DefaultTool, TOOL_TYPES, Tool } from './config-data';
+import { APP_CONFIG, DefaultTool, TOOL_TYPES, Tool } from '@app/data';
 
 
 @Component({

@@ -5,7 +5,7 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { AppRoute, Layout, View } from '../common-models';
+import { AppRoute, Layout, View } from './common';
 
 import { APP_CONFIG } from './app-config';
 

@@ -9,15 +9,15 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
 
-import { PresentationState } from '@app/core/presentation';
-
-import { MainUIStateAction } from '@app/presentation/exported.presentation.types';
-
 import { ApplicationStatusService, AuthenticationService, SessionService } from '@app/core';
+
+import { PresentationState } from '@app/core/presentation';
 
 import { Principal } from '@app/core/security/principal';
 
-import { APP_CONFIG, LOGIN_PATH } from '../config-data';
+import { APP_CONFIG, LOGIN_PATH } from '@app/data';
+
+import { MainUIStateAction } from '@app/presentation/exported.presentation.types';
 
 
 @Component({

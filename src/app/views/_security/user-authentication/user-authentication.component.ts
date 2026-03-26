@@ -7,7 +7,7 @@
 
 import { Component } from '@angular/core';
 
-import { APP_CONFIG } from '@app/main-layout';
+import { APP_CONFIG } from '@app/data';
 
 import { MessageBoxService } from '@app/shared/services';
 

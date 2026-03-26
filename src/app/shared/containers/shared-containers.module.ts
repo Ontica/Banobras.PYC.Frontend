@@ -8,6 +8,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ApplicationMessageService } from '@app/core';
+
 import { AngularMaterialModule } from '../angular-material.module';
 
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
@@ -22,6 +24,7 @@ import { FilePreviewComponent } from './file-preview/file-preview.component';
 
 import { MessageBoxComponent } from './message-box/message-box.component';
 import { MessageBoxService } from './message-box/message.box.service';
+import { ApplicationMessageAdapter } from './message-box';
 
 import { ModalWindowComponent } from './modal-window/modal-window';
 
@@ -49,6 +52,11 @@ import { ModalWindowComponent } from './modal-window/modal-window';
   providers: [
     AlertService,
     MessageBoxService,
+    ApplicationMessageAdapter,
+    {
+      provide: ApplicationMessageService,
+      useExisting: ApplicationMessageAdapter
+    }
   ]
 })
 export class SharedContainersModule { }

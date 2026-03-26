@@ -5,9 +5,9 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { LAYOUT_TYPE, PERMISSIONS } from '../config-data';
+import { LAYOUT_TYPE, PERMISSIONS } from '../../data/config';
 
-import { Layout, View, ViewAction } from './common';
+import { Layout, View, ViewAction } from '../../data/config/common';
 
 import { MenuItem, createMenuItemForView } from './menu-item';
 

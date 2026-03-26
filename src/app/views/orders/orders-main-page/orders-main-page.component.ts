@@ -9,7 +9,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Assertion, EventInfo, isEmpty } from '@app/core';
 
-import { View } from '@app/main-layout';
+import { View } from '@app/data';
 
 import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
 

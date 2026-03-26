@@ -7,8 +7,6 @@
 
 import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { FormatLibrary } from '@app/shared/utils';
-
 import { Assertion } from './assertion';
 
 
@@ -58,7 +56,7 @@ export class Validate {
 
 
   static isPositive(control: AbstractControl): ValidationErrors | null {
-    if (typeof control.value === 'string' && FormatLibrary.stringToNumber(control.value) <= 0) {
+    if (typeof control.value === 'string' && this.stringToNumber(control.value) <= 0) {
       return { isPositive: true };
     }
     if (typeof control.value === 'number' && control.value <= 0) {
@@ -98,7 +96,7 @@ export class Validate {
 
   static maxCurrencyValue(max: number): ValidationErrors | null {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (control.value && (FormatLibrary.stringToNumber(control.value) > max)) {
+      if (control.value && (this.stringToNumber(control.value) > max)) {
         return { maxCurrencyValue: true };
       }
       return null;
@@ -108,7 +106,7 @@ export class Validate {
 
   static minCurrencyValue(min: number): ValidationErrors | null {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (control.value && (FormatLibrary.stringToNumber(control.value) < min)) {
+      if (control.value && (this.stringToNumber(control.value) < min)) {
         return { minCurrencyValue: true };
       }
       return null;
@@ -238,6 +236,19 @@ export class Validate {
 
       return null;
     };
+  }
+
+
+  static stringToNumber(value: string): number {
+    if (!value) {
+      return 0;
+    }
+
+    if (typeof value === 'number') {
+      return value;
+    }
+
+    return Number(value.replace(/[^0-9.-]+/g, ''));
   }
 
 }

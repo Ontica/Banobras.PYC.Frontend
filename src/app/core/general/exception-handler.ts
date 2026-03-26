@@ -7,7 +7,7 @@
 
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { ErrorHandler, Injectable, NgZone } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 
 import { ErrorMessageService } from '../errors/error-message.service';
 
@@ -15,8 +15,7 @@ import { ErrorMessageService } from '../errors/error-message.service';
 @Injectable()
 export class ExceptionHandler extends ErrorHandler {
 
-  constructor(private zone: NgZone,
-              private errorService: ErrorMessageService) {
+  constructor(private errorService: ErrorMessageService) {
     super();
   }
 

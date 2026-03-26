@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 
 import { RouterModule, Routes } from '@angular/router';
 
-import { ROUTES } from '@app/main-layout';
+import { ROUTES } from '@app/data';
 
 import {
   CashFlowProjectionsMainPageComponent

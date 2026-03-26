@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 
 import { RouterModule, Routes } from '@angular/router';
 
-import { ROUTES } from '@app/main-layout';
+import { ROUTES } from '@app/data';
 
 import { SecurityModule } from '@app/views/_security/security.module';
 

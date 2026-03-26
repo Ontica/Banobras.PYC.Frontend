@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
 
-import { APP_CONFIG } from '@app/main-layout';
+import { APP_CONFIG } from '@app/data';
 
 import { CORRUPT_LOCAL_STORAGE_MESSAGE } from '../errors/error-messages';
 
