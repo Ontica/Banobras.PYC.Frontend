@@ -155,14 +155,15 @@ export const EmptyReportData: ReportData = {
 //
 
 export enum ReportTypes {
-  BudgetExerciseBills            = 'budget-exercise-bills',
-  BudgetRequestsAnalytics        = 'budget-requests-analytics',
-  BudgetExerciseJournal          = 'budget-exercise-journal',
-  BudgetRequestsJournal          = 'budget-requests-journal',
-  BudgetAllocationJournal        = 'budget-allocation-journal',
-  PaymentsBills                  = 'payments-bills',
-  PaymentsConcepts               = 'payments-concepts',
-  BudgetAccountingReconciliation = 'budget-accounting-reconciliation',
+  BudgetExerciseBills                      = 'budget-exercise-bills',
+  BudgetRequestsAnalytics                  = 'budget-requests-analytics',
+  BudgetExerciseJournal                    = 'budget-exercise-journal',
+  BudgetRequestsJournal                    = 'budget-requests-journal',
+  BudgetAllocationJournal                  = 'budget-allocation-journal',
+  BudgetExerciseAccountingReconciliation   = 'budget-exercise-accounting-reconciliation',
+  BudgetProvisionsAccountingReconciliation = 'budget-provisions-accounting-reconciliation',
+  PaymentsBills                            = 'payments-bills',
+  PaymentsConcepts                         = 'payments-concepts',
 }
 
 
@@ -176,8 +177,14 @@ export const BudgetReportTypesList: ReportType<ReportTypes>[] = [
   {
     controller: ReportController.FinancialManagementReport,
     group: ReportGroup.BudgetReports,
-    uid: ReportTypes.BudgetAccountingReconciliation,
-    name: 'Conciliación contable presupuestal'
+    uid: ReportTypes.BudgetExerciseAccountingReconciliation,
+    name: 'Conciliación contable del ejercicio presupuestal'
+  },
+  {
+    controller: ReportController.FinancialManagementReport,
+    group: ReportGroup.BudgetReports,
+    uid: ReportTypes.BudgetProvisionsAccountingReconciliation,
+    name: 'Conciliación contable de las provisiones'
   },
   {
     controller: ReportController.FinancialManagementReport,
