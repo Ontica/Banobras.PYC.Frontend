@@ -65,6 +65,7 @@ import { OrderOrdersTableComponent } from './order-orders-table/order-orders-tab
   ],
   exports: [
     OrdersMainPageComponent,
+    OrderTabbedViewComponent,
   ],
 })
 export class OrdersModule { }

@@ -25,6 +25,7 @@ import { OrdersDataService, SearcherAPIS } from '@app/data-services';
 import { BudgetType, EmptyOrderExplorerTypeConfig, EmptyOrdersQuery, EntityStatus, ObjectTypes,
          OrderExplorerTypeConfig, OrdersQuery, OrderStatusList, Priority, PriorityList } from '@app/models';
 
+
 export enum OrdersFilterEventType {
   SEARCH_CLICKED = 'OrdersFilterComponent.Event.SearchClicked',
   CLEAR_CLICKED  = 'OrdersFilterComponent.Event.ClearClicked',

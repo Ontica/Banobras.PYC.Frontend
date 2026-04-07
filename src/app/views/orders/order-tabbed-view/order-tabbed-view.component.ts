@@ -11,8 +11,8 @@ import { Assertion, DateStringLibrary, EventInfo } from '@app/core';
 
 import { sendEvent } from '@app/shared/utils';
 
-import { OrderHolder, EmptyOrderHolder, OrderExplorerTypeConfig, EmptyOrderExplorerTypeConfig, ObjectTypes,
-         ContractOrder } from '@app/models';
+import { ContractOrder, EmptyOrderActions, EmptyOrderExplorerTypeConfig, EmptyOrderHolder, ObjectTypes,
+         OrderActions, OrderExplorerTypeConfig, OrderHolder } from '@app/models';
 
 import { OrderEditorEventType } from '../order/order-editor.component';
 
@@ -67,6 +67,8 @@ export class OrderTabbedViewComponent implements OnChanges {
 
   @Input() data: OrderHolder = EmptyOrderHolder;
 
+  @Input() readonly = false;
+
   @Output() orderTabbedViewEvent = new EventEmitter<EventInfo>();
 
   title = '';
@@ -97,6 +99,11 @@ export class OrderTabbedViewComponent implements OnChanges {
     if (changes.data) {
       this.setTitle();
     }
+  }
+
+
+  get actions(): OrderActions {
+    return this.readonly ? EmptyOrderActions : this.data.actions;
   }
 
 

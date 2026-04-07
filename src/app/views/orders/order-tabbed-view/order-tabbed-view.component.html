@@ -16,7 +16,7 @@
           <emp-ng-order-editor *ngSwitchCase="TabType.order"
             [config]="config"
             [order]="data.order"
-            [actions]="data.actions"
+            [actions]="actions"
             (orderEditorEvent)="onOrderEditorEvent($event)">
 
           </emp-ng-order-editor>
@@ -26,7 +26,7 @@
             [order]="data.order"
             [items]="data.items"
             [taxes]="data.taxes"
-            [canEdit]="data.actions.canEditItems"
+            [canEdit]="actions.canEditItems"
             (orderItemsEditionEvent)="onOrderItemsEditionEvent($event)">
 
           </emp-ng-order-items-edition>
@@ -37,10 +37,10 @@
             [baseObjectName]="title"
             [budgetTotal]="data.order.subtotal"
             [budgetTransactions]="data.budgetTransactions"
-            [canCommit]="data.actions.canCommitBudget"
-            [canRequest]="data.actions.canRequestBudget"
-            [canValidate]="data.actions.canValidateBudget"
-            [canRequestTravelExpenses]="data.actions.canRequestTravelExpenses"
+            [canCommit]="actions.canCommitBudget"
+            [canRequest]="actions.canRequestBudget"
+            [canValidate]="actions.canValidateBudget"
+            [canRequestTravelExpenses]="actions.canRequestTravelExpenses"
             (budgetManagementEvent)="onBudgetManagementEvent($event)">
 
           </emp-bdg-budget-management>
@@ -55,7 +55,7 @@
             entityType="orders"
             [entityUID]="data.order.uid"
             [data]="data.bills"
-            [canEdit]="data.actions.canEditBills"
+            [canEdit]="actions.canEditBills"
             (billsEditionEvent)="onBillsEditionEvent($event)">
 
           </emp-ng-bills-edition>
@@ -68,7 +68,7 @@
             [totalRequired]="isExpense"
             [items]="data.paymentOrders"
             [displayType]="isRequisition || isContract"
-            [canRequestPayment]="data.actions.canRequestPayment"
+            [canRequestPayment]="actions.canRequestPayment"
             (paymentOrdersEditionEvent)="onPaymentOrdersEditionEvent($event)">
 
           </emp-pmt-payment-orders-edition>
@@ -77,7 +77,7 @@
             entityType="orders"
             [entityUID]="data.order.uid"
             [documents]="data.documents"
-            [canEdit]="data.actions.canEditDocuments"
+            [canEdit]="actions.canEditDocuments"
             (documentsEditionEvent)="onDocumentsEditionEvent($event)">
 
           </emp-ng-documents-edition>
