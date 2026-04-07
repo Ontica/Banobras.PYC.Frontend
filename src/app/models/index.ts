@@ -102,6 +102,8 @@ export * from './payrolls';
 
 export * from './products';
 
+export * from './provisions';
+
 export * from './record-search';
 
 export * from './reporting';

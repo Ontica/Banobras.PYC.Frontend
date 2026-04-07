@@ -15,6 +15,10 @@ import { DefaultComponent } from '@app/shared/components';
 
 import { OrdersMainPageComponent } from '@app/views/orders/orders-main-page/orders-main-page.component';
 
+import {
+  ProvisionsMainPageComponent
+} from '@app/views/provisions/provisions-main-page/provisions-main-page.component';
+
 
 const routes: Routes = [
   // {
@@ -53,13 +57,13 @@ const routes: Routes = [
     component: DefaultComponent,
   },
   {
-    data: { permission: ROUTES.gastos_solicitudes_de_pago.permission },
-    path: ROUTES.gastos_solicitudes_de_pago.path,
-    component: DefaultComponent,
-  },
-  {
     data: { permission: ROUTES.gastos_provisiones.permission },
     path: ROUTES.gastos_provisiones.path,
+    component: ProvisionsMainPageComponent,
+  },
+  {
+    data: { permission: ROUTES.gastos_solicitudes_de_pago.permission },
+    path: ROUTES.gastos_solicitudes_de_pago.path,
     component: DefaultComponent,
   },
   {

@@ -61,6 +61,8 @@ export * from './payment-time-control.data.service';
 
 export * from './products.data.service';
 
+export * from './provisions.data.service';
+
 export * from './reporting.data.service';
 
 export * from './requests.data.service';
