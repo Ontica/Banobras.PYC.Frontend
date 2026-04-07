@@ -136,8 +136,8 @@ export class AppAlertsPresentationHandler extends AbstractPresentationHandler {
 
 
   private getAlerts(): AppAlert[] {
-    const alerts = this.getValue <AppAlert[]>(SelectorType.ALERTS);
-    return [...alerts] ?? [];
+    const alerts = this.getValue<AppAlert[]>(SelectorType.ALERTS) ?? [];
+    return [...alerts];
   }
 
 }

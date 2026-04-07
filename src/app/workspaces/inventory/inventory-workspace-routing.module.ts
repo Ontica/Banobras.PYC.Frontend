@@ -25,10 +25,6 @@ import {
   AssetsMainPageComponent
 } from '@app/views/inventory/assets/assets-main-page/assets-main-page.component';
 
-// import {
-//   RequestsMainPageComponent
-// } from '@app/views/requests/requests-main-page/requests-main-page.component';
-
 
 const routes: Routes = [
   // {

@@ -15,7 +15,6 @@ import { PartiesModule } from '@app/views/parties/parties.module';
 import { PaymentInstructionsModule } from '@app/views/payments/payment-instructions/payment-instructions.module';
 import { PaymentOrdersModule } from '@app/views/payments/payment-orders/payment-orders.module';
 import { ReportingModule } from '@app/views/reporting/reporting.module';
-import { RequestsModule } from '@app/views/requests/requests.module';
 
 
 
@@ -31,7 +30,6 @@ import { RequestsModule } from '@app/views/requests/requests.module';
     PaymentInstructionsModule,
     PaymentOrdersModule,
     ReportingModule,
-    RequestsModule,
   ]
 
 })

@@ -13,7 +13,6 @@ import { InventoryWorkspaceRoutingModule } from './inventory-workspace-routing.m
 import { AssetsModule } from '@app/views/inventory/assets/assets.module';
 import { AssetsAssignmentsModule } from '@app/views/inventory/assets-assignments/assets-assignments.module';
 import { AssetsTransactionsModule } from '@app/views/inventory/assets-transactions/assets-transactions.module';
-import { RequestsModule } from '@app/views/requests/requests.module';
 
 
 @NgModule({
@@ -26,7 +25,6 @@ import { RequestsModule } from '@app/views/requests/requests.module';
     AssetsModule,
     AssetsAssignmentsModule,
     AssetsTransactionsModule,
-    RequestsModule,
   ]
 
 })

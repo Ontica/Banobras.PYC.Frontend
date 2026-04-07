@@ -13,10 +13,6 @@ import { ROUTES } from '@app/data';
 
 import { DefaultComponent } from '@app/shared/components';
 
-// import {
-//   RequestsMainPageComponent
-// } from '@app/views/requests/requests-main-page/requests-main-page.component';
-
 import { OrdersMainPageComponent } from '@app/views/orders/orders-main-page/orders-main-page.component';
 
 
