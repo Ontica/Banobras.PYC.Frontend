@@ -43,7 +43,7 @@ export class FinancialProjectsTableComponent implements OnChanges {
 
   @Output() projectsTableEvent = new EventEmitter<EventInfo>();
 
-  displayedColumns = ['check', 'project', 'manager', 'program', 'assignee',  'status'];
+  displayedColumns = ['check', 'project', 'manager', 'assignee',  'status'];
 
   dataSource: TableVirtualScrollDataSource<FinancialProjectDescriptor>;
 

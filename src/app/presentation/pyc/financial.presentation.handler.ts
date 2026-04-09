@@ -17,8 +17,6 @@ import { FinancialConceptsDataService, FinancialProjectsDataService,
 
 export enum SelectorType {
   PROJECT_TYPES            = 'PYC.Financial.Selector.ProjectTypes.List',
-  PROGRAMS                 = 'PYC.Financial.Selector.Programs.List',
-  SUBPROGRAMS              = 'PYC.Financial.Selector.Subprograms.List',
   CONCEPTS_CLASSIFICATIONS = 'PYC.Financial.Selector.ConceptsClassifications.List',
   CONCEPTS_GROUPS          = 'PYC.Financial.Selector.ConceptsGroups.List',
   RULES_CATEGORIES         = 'PYC.Financial.Selector.RulesCategories.List',
@@ -27,8 +25,6 @@ export enum SelectorType {
 
 const initialState: StateValues = [
   { key: SelectorType.PROJECT_TYPES,            value: [] },
-  { key: SelectorType.PROGRAMS,                 value: [] },
-  { key: SelectorType.SUBPROGRAMS,              value: [] },
   { key: SelectorType.CONCEPTS_CLASSIFICATIONS, value: [] },
   { key: SelectorType.CONCEPTS_GROUPS,          value: [] },
   { key: SelectorType.RULES_CATEGORIES,         value: [] },
@@ -54,18 +50,6 @@ export class FinancialPresentationHandler extends AbstractPresentationHandler {
 
       case SelectorType.PROJECT_TYPES: {
         const provider = () => this.projectsData.getProjectTypes();
-
-        return super.selectFirst<U>(selectorType, provider);
-      }
-
-      case SelectorType.PROGRAMS: {
-        const provider = () => this.projectsData.getPrograms();
-
-        return super.selectFirst<U>(selectorType, provider);
-      }
-
-      case SelectorType.SUBPROGRAMS: {
-        const provider = () => this.projectsData.getSubprograms();
 
         return super.selectFirst<U>(selectorType, provider);
       }

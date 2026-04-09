@@ -35,8 +35,6 @@ interface ProjectsFilterFormModel extends FormGroup<{
   status: FormControl<EntityStatus>;
   baseOrgUnitUID: FormControl<string>;
   projectTypeUID: FormControl<string>;
-  programUID: FormControl<string>;
-  subprogramUID: FormControl<string>;
 }> { }
 
 @Component({
@@ -65,10 +63,6 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
   orgUnitsList: Identifiable[] = [];
 
   projectTypesList: Identifiable[] = [];
-
-  programsList: Identifiable[] = [];
-
-  subprogramsList: Identifiable[] = [];
 
   helper: SubscriptionHelper;
 
@@ -123,14 +117,10 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
     combineLatest([
       this.helper.select<Identifiable[]>(CataloguesStateSelector.ORGANIZATIONAL_UNITS, { requestsList: RequestsList.cashflow }),
       this.helper.select<Identifiable[]>(FinancialStateSelector.PROJECT_TYPES),
-      this.helper.select<Identifiable[]>(FinancialStateSelector.PROGRAMS),
-      this.helper.select<Identifiable[]>(FinancialStateSelector.SUBPROGRAMS),
     ])
-    .subscribe(([a, b, c, d]) => {
+    .subscribe(([a, b]) => {
       this.orgUnitsList = a;
       this.projectTypesList = b;
-      this.programsList = c;
-      this.subprogramsList = d;
       this.isLoading = false;
     });
   }
@@ -144,8 +134,6 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
       status: [null],
       baseOrgUnitUID: [null],
       projectTypeUID: [null],
-      programUID: [null],
-      subprogramUID: [null],
     });
   }
 
@@ -156,8 +144,6 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
       status: this.query.status,
       baseOrgUnitUID: this.query.baseOrgUnitUID,
       projectTypeUID: this.query.projectTypeUID,
-      programUID: this.query.programUID,
-      subprogramUID: this.query.subprogramUID,
     });
   }
 
@@ -168,8 +154,6 @@ export class FinancialProjectsFilterComponent implements OnChanges, OnInit, OnDe
       status: this.form.value.status ?? null,
       baseOrgUnitUID: this.form.value.baseOrgUnitUID ?? null,
       projectTypeUID: this.form.value.projectTypeUID ?? null,
-      programUID: this.form.value.programUID ?? null,
-      subprogramUID: this.form.value.subprogramUID ?? null,
     };
 
     return query;

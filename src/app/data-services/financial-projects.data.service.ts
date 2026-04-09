@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { Assertion, EmpObservable, HttpService, Identifiable } from '@app/core';
 
 import { FinancialProjectDescriptor, FinancialProjectFields, FinancialProjectHolder, FinancialProjectsQuery,
-         FinancialProjectStructureForEdit, FinancialProject } from '@app/models';
+         FinancialProject } from '@app/models';
 
 
 @Injectable()
@@ -24,29 +24,6 @@ export class FinancialProjectsDataService {
     const path = 'v1/financial-projects/categories';
 
     return this.http.get<Identifiable[]>(path);
-  }
-
-
-  getPrograms(): EmpObservable<Identifiable[]> {
-    const path = 'v1/financial-projects/programs';
-
-    return this.http.get<Identifiable[]>(path);
-  }
-
-
-  getSubprograms(): EmpObservable<Identifiable[]> {
-    const path = 'v1/financial-projects/subprograms';
-
-    return this.http.get<Identifiable[]>(path);
-  }
-
-
-  getStructureForEditProjects(orgUnitUID: string): EmpObservable<FinancialProjectStructureForEdit> {
-    Assertion.assertValue(orgUnitUID, 'orgUnitUID');
-
-    const path = `v1/financial-projects/organizational-units/${orgUnitUID}/structured-data-for-edition`;
-
-    return this.http.get<FinancialProjectStructureForEdit>(path);
   }
 
 

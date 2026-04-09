@@ -29,8 +29,6 @@ export interface FinancialProjectsQuery {
   status: EntityStatus;
   baseOrgUnitUID: string;
   projectTypeUID: string;
-  programUID: string;
-  subprogramUID: string;
 }
 
 
@@ -40,8 +38,6 @@ export interface FinancialProjectDescriptor {
   name: string;
   baseOrgUnitName: string;
   projectTypeName: string;
-  programName: string;
-  subprogramName: string;
   assigneeName: string;
   startDate: DateString;
   endDate: DateString;
@@ -53,33 +49,10 @@ export interface FinancialProjectFields {
   name: string;
   baseOrgUnitUID: string;
   projectTypeUID: string;
-  programUID: string;
-  subprogramUID: string;
   assigneeUID: string;
   projectGoals: FinancialProjectGoals;
   description: string;
   justification: string;
-}
-
-
-export interface FinancialProjectStructureForEdit {
-  uid: string;
-  name: string;
-  programs: FinancialProjectProgramForEdition[];
-}
-
-
-export interface FinancialProjectProgramForEdition {
-  uid: string;
-  name: string;
-  subprograms: FinancialProjectSubprogramForEdition[];
-}
-
-
-export interface FinancialProjectSubprogramForEdition {
-  uid: string;
-  name: string;
-  projectTypes: Identifiable[];
 }
 
 
@@ -93,8 +66,6 @@ export interface FinancialProject {
   projectType: Identifiable;
   projectNo: string;
   name: string;
-  program: Identifiable;
-  subprogram: Identifiable;
   baseOrgUnit: Identifiable;
   projectGoals: FinancialProjectGoals;
   assignee: Identifiable;
@@ -136,9 +107,7 @@ export function mapFinancialProjectDescriptorFromProject(data: FinancialProject)
     uid: data.uid,
     projectNo: data.projectNo,
     name: data.name,
-    programName: data.program.name,
     projectTypeName: data.projectType.name,
-    subprogramName: data.subprogram.name,
     baseOrgUnitName: data.baseOrgUnit.name,
     assigneeName: data.assignee.name,
     startDate: data.startDate,
@@ -167,8 +136,6 @@ export const EmptyFinancialProjectsQuery: FinancialProjectsQuery = {
   status: null,
   baseOrgUnitUID: '',
   projectTypeUID: '',
-  programUID: '',
-  subprogramUID: '',
 };
 
 
@@ -187,8 +154,6 @@ export const EmptyFinancialProject: FinancialProject = {
   projectNo: '',
   name: '',
   projectType: Empty,
-  program: Empty,
-  subprogram: Empty,
   baseOrgUnit: Empty,
   parentProject: Empty,
   assignee: Empty,

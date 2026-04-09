@@ -98,36 +98,6 @@
 
           </div>
 
-          <div class="fx-item-quarter">
-
-            <label>Programa:</label>
-
-            <emp-ng-select
-              formControlName="programUID"
-              [config]="{clearable: true, showTooltip: true}"
-              [items]="programsList"
-              [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.programUID)"
-              placeholder="Todas">
-            </emp-ng-select>
-
-          </div>
-
-          <div  class="fx-item-quarter">
-
-            <label>Subprograma:</label>
-
-            <emp-ng-select
-              formControlName="subprogramUID"
-              [config]="{clearable: true, showTooltip: true}"
-              [items]="subprogramsList"
-              [loading]="isLoading"
-              [showError]="formHelper.isControlInvalid(form.controls.subprogramUID)"
-              placeholder="Todas">
-            </emp-ng-select>
-
-          </div>
-
         </div>
 
 

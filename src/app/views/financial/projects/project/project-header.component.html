@@ -41,50 +41,14 @@
 
       <div class="fx-item-half">
 
-        <label>Programa:</label>
-
-        <emp-ng-select
-          formControlName="programUID"
-          [config]="{autoSelect: !isSaved}"
-          [items]="programsList"
-          [loading]="isLoadingStructureForEdit"
-          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.baseOrgUnitUID.valid, 'área')"
-          [showError]="formHelper.isControlInvalid(form.controls.programUID)"
-          (changes)="onProgramChanges($event)">
-        </emp-ng-select>
-
-      </div>
-
-      <div class="fx-item-half">
-
-        <label>Subprograma:</label>
-
-        <emp-ng-select
-          formControlName="subprogramUID"
-          [config]="{autoSelect: !isSaved}"
-          [items]="subprogramsList"
-          [loading]="isLoadingStructureForEdit"
-          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.programUID.valid, 'programa')"
-          [showError]="formHelper.isControlInvalid(form.controls.subprogramUID)"
-          (changes)="onSubprogramChanges($event)">
-        </emp-ng-select>
-
-      </div>
-
-    </div>
-
-    <div class="fx-row-container">
-
-      <div class="fx-item-half">
-
         <label>Tipo de proyecto:</label>
 
         <emp-ng-select
           formControlName="projectTypeUID"
           [config]="{autoSelect: !isSaved}"
           [items]="projectTypesList"
-          [loading]="isLoadingStructureForEdit"
-          [placeholder]="formHelper.getConditionalPlaceholder(editionMode, form.controls.subprogramUID.valid, 'subprograma')"
+          [loading]="isLoading"
+          [placeholder]="formHelper.getSimplePlaceholder(editionMode)"
           [showError]="formHelper.isControlInvalid(form.controls.projectTypeUID)">
         </emp-ng-select>
 
