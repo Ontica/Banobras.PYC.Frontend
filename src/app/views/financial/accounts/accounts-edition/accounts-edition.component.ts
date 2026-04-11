@@ -117,29 +117,42 @@ export class FinancialAccountsEditionComponent implements OnChanges {
       case AccountModalEventType.CLOSE_MODAL_CLICKED:
         this.setSelectedAccount(EmptyFinancialAccount);
         return;
-      case AccountModalEventType.CREATE_CLICKED:
+      case AccountModalEventType.CREATE_CLICKED: {
         Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.createAccount(event.payload.dataFields);
-        return;
-      case AccountModalEventType.UPDATE_CLICKED:
-        Assertion.assertValue(event.payload.accountUID, 'event.payload.accountUID');
-        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
-        this.updateAccount(event.payload.accountUID,
+        const projectUID = !isEmpty({ uid: event.payload.projectUID }) ?
+          event.payload.projectUID : null;
+
+        this.createAccount(projectUID,
                            event.payload.dataFields);
         return;
-      case AccountModalEventType.CREATE_EXTERNAL_CLICKED:
+      }
+      case AccountModalEventType.UPDATE_CLICKED: {
+        Assertion.assertValue(event.payload.accountUID, 'event.payload.accountUID');
+        Assertion.assertValue(event.payload.dataFields, 'event.payload.dataFields');
+        const projectUID = !isEmpty({ uid: event.payload.projectUID }) ?
+          event.payload.projectUID : null;
+
+        this.updateAccount(projectUID,
+                           event.payload.accountUID,
+                           event.payload.dataFields);
+        return;
+      }
+      case AccountModalEventType.CREATE_EXTERNAL_CLICKED: {
         Assertion.assertValue(event.payload.dataFields.standardAccountUID, 'event.payload.dataFields.standardAccountUID');
         Assertion.assertValue(event.payload.dataFields.attributes.externalCreditNo, 'event.payload.dataFields.attributes.externalCreditNo');
 
+        const projectUID = !isEmpty({ uid: event.payload.projectUID }) ?
+          event.payload.projectUID : null;
         const accountNo = event.payload.dataFields.attributes.externalCreditNo;
 
         const dataFields: ExternalAccountFields = {
-          projectUID: event.payload.projectUID ?? null,
+          projectUID,
           standardAccountUID: event.payload.dataFields.standardAccountUID,
         };
 
         this.createAccountFromCreditSystem(accountNo, dataFields);
         return;
+      }
       case AccountModalEventType.REFRESH_EXTERNAL_CLICKED:
         Assertion.assertValue(event.payload.accountUID, 'event.payload.accountUID');
         this.refreshAccountFromCreditSystem(event.payload.accountUID);
@@ -154,10 +167,15 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   @SkipIf('submitted')
   onAccountsTableEvent(event: EventInfo) {
     switch (event.type as AccountsTableEventType) {
-      case AccountsTableEventType.ACCOUNT_CLICKED:
+      case AccountsTableEventType.ACCOUNT_CLICKED:{
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        this.getAccount(event.payload.account.uid);
+
+        const projectUID = !isEmpty({ uid: event.payload.account.projectUID }) ?
+          event.payload.account.projectUID : null;
+
+        this.getAccount(projectUID, event.payload.account.uid);
         return;
+      }
       case AccountsTableEventType.PROJECT_CLICKED:
         Assertion.assertValue(event.payload.account.projectUID, 'event.payload.account.projectUID');
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
@@ -171,10 +189,13 @@ export class FinancialAccountsEditionComponent implements OnChanges {
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
         this.suspendAccount(event.payload.account.uid);
         return;
-      case AccountsTableEventType.REMOVE_CLICKED:
+      case AccountsTableEventType.REMOVE_CLICKED:{
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
-        this.removeAccount(event.payload.account.uid);
+        const projectUID = !isEmpty({ uid: event.payload.account.projectUID }) ?
+          event.payload.account.projectUID : null;
+        this.removeAccount(projectUID, event.payload.account.uid);
         return;
+      }
       case AccountsTableEventType.OPERATIONS_CLICKED:
         Assertion.assertValue(event.payload.account.uid, 'event.payload.account.uid');
         this.setSelectedOperations(event.payload.account)
@@ -212,9 +233,9 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  private getAccount(accountUID: string) {
+  private getAccount(projectUID: string, accountUID: string) {
     const observable = this.isFinancialProject ?
-      this.accountsData.getProjectAccount(this.projectUID, accountUID) :
+      this.accountsData.getProjectAccount(projectUID, accountUID) :
       this.accountsData.getAccount(accountUID);
 
     this.submitted = true;
@@ -226,44 +247,44 @@ export class FinancialAccountsEditionComponent implements OnChanges {
   }
 
 
-  private createAccount(dataFields: FinancialAccountFields) {
+  private createAccount(projectUID: string, dataFields: FinancialAccountFields) {
     const observable = this.isFinancialProject ?
-      this.accountsData.createProjectAccount(this.projectUID, dataFields) :
+      this.accountsData.createProjectAccount(projectUID, dataFields) :
       this.accountsData.createAccount(dataFields);
 
     this.submitted = true;
 
     observable
       .firstValue()
-      .then(x => this.resolveAccountUpdated(this.projectUID, x.uid, x))
+      .then(x => this.resolveAccountUpdated(projectUID, x.uid, x))
       .finally(() => this.submitted = false);
   }
 
 
-  private updateAccount(accountUID: string, dataFields: FinancialAccountFields) {
+  private updateAccount(projectUID: string, accountUID: string, dataFields: FinancialAccountFields) {
     const observable = this.isFinancialProject ?
-      this.accountsData.updateProjectAccount(this.projectUID, accountUID, dataFields) :
+      this.accountsData.updateProjectAccount(projectUID, accountUID, dataFields) :
       this.accountsData.updateAccount(accountUID, dataFields);
 
     this.submitted = true;
 
     observable
       .firstValue()
-      .then(x => this.resolveAccountUpdated(this.projectUID, x.uid, x))
+      .then(x => this.resolveAccountUpdated(projectUID, x.uid, x))
       .finally(() => this.submitted = false);
   }
 
 
-  private removeAccount(accountUID: string) {
+  private removeAccount(projectUID: string, accountUID: string) {
     const observable = this.isFinancialProject ?
-      this.accountsData.removeProjectAccount(this.projectUID, accountUID) :
+      this.accountsData.removeProjectAccount(projectUID, accountUID) :
       this.accountsData.removeAccount(accountUID);
 
     this.submitted = true;
 
     observable
       .firstValue()
-      .then(x => this.resolveAccountUpdated(this.projectUID, accountUID, x))
+      .then(x => this.resolveAccountUpdated(projectUID, accountUID, x))
       .finally(() => this.submitted = false);
   }
 

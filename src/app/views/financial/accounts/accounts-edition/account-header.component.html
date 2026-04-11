@@ -74,7 +74,7 @@
 
     </div>
 
-    <div class="fx-row-container">
+    <div class="fx-row-container fx-wrap fx-wrap-gap-half">
 
       <div class="fx-item-half" *ngIf="!displayCreditAccountSearcher">
 
@@ -107,7 +107,17 @@
 
       </div>
 
-      <div [ngClass]="displayCreditAccountSearcher ? 'fx-item-half' : 'fx-item-quarter'">
+      <div class="fx-item-half" *ngIf="isTreasuryAccount">
+
+        <label>Auxiliar:</label>
+
+        <input type="text" class="text-box"
+          formControlName="subledgerAccountNo"
+          [class.invalid-control]="formHelper.isControlInvalid(form.controls.subledgerAccountNo)">
+
+      </div>
+
+      <div [ngClass]="displayCreditAccountSearcher || isTreasuryAccount ? 'fx-item-half' : 'fx-item-quarter'">
 
         <label>Moneda:</label>
 
@@ -122,7 +132,7 @@
 
       </div>
 
-      <div class="fx-item-quarter" *ngIf="!displayCreditAccountSearcher">
+      <div [ngClass]="isTreasuryAccount ? 'fx-item-half' : 'fx-item-quarter'" *ngIf="!displayCreditAccountSearcher">
 
         <label>Palabras de búsqueda adicionales:</label>
         <emp-ng-input-tags
@@ -147,15 +157,17 @@
 
     </div>
 
-    <emp-financial-credit-account-attributes *ngIf="isCreditAccount"
+    <emp-financial-credit-account-attributes *ngIf="isCreditAccount || IsProspectedCredit"
       formControlName="attributes"
       [editionMode]="!isSaved || editionMode"
+      [canEditExternalData]="IsProspectedCredit"
+      [displayExternalCredit]="isCreditAccount"
       [errors]="form.controls.attributes.errors"
       [showError]="formHelper.isControlInvalid(form.controls.attributes)">
 
     </emp-financial-credit-account-attributes>
 
-    <emp-financial-credit-data *ngIf="isCreditAccount"
+    <emp-financial-credit-data *ngIf="isCreditAccount || IsProspectedCredit"
       formControlName="financialData"
       [editionMode]="!isSaved || editionMode"
       [errors]="form.controls.financialData.errors"

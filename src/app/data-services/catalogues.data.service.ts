@@ -33,6 +33,13 @@ export class CataloguesDataService {
   }
 
 
+  getFinancialInstitutions(): EmpObservable<Identifiable[]> {
+    const path = 'v8/financial/financial-institutions';
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   getInterestRateTypes(): EmpObservable<Identifiable[]> {
     const path = 'v8/financial/interest-rate-types';
 
@@ -62,13 +69,6 @@ export class CataloguesDataService {
   }
 
 
-  getFinancialInstitutions(): EmpObservable<Identifiable[]> {
-    const path = 'v8/financial/financial-institutions';
-
-    return this.http.get<Identifiable[]>(path);
-  }
-
-
   getPeriodicityTypes(): EmpObservable<Identifiable[]> {
     const path = 'v8/time/periodicity-types';
 
@@ -76,15 +76,15 @@ export class CataloguesDataService {
   }
 
 
-  getTaxTypes(): EmpObservable<Identifiable[]> {
-    const path = 'v8/financial/tax-types';
+  getSupplierTypes(): EmpObservable<Identifiable[]> {
+    const path = 'v8/procurement/suppliers/types';
 
     return this.http.get<Identifiable[]>(path);
   }
 
 
-  getSupplierTypes(): EmpObservable<Identifiable[]> {
-    const path = 'v8/procurement/suppliers/types';
+  getTaxTypes(): EmpObservable<Identifiable[]> {
+    const path = 'v8/financial/tax-types';
 
     return this.http.get<Identifiable[]>(path);
   }

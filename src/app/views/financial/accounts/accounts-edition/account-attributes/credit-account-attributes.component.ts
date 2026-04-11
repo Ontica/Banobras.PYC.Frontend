@@ -5,11 +5,19 @@
  * See LICENSE.txt in the project root for complete license information.
  */
 
-import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, forwardRef } from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+import { combineLatest } from 'rxjs';
+
+import { Identifiable } from '@app/core';
+
 import { ArrayLibrary, FormHelper } from '@app/shared/utils';
+
+import { PresentationLayer, SubscriptionHelper } from '@app/core/presentation';
+
+import { FinancialStateSelector } from '@app/presentation/exported.presentation.types';
 
 import { AccountAttributes, buildCreditAttributes, CreditAttributes,
          EmptyCreditAttributes } from '@app/models';
@@ -26,7 +34,7 @@ import { AccountAttributes, buildCreditAttributes, CreditAttributes,
     },
   ]
 })
-export class CreditAccountAttributesComponent implements ControlValueAccessor {
+export class CreditAccountAttributesComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
   @Input() showError = false;
 
@@ -35,6 +43,10 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor {
   @Input() required = false;
 
   @Input() editionMode = false;
+
+  @Input() canEditExternalData = false;
+
+  @Input() displayExternalCredit = false;
 
   @Output() changes = new EventEmitter<any>();
 
@@ -46,15 +58,34 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor {
 
   disabled: boolean;
 
-  canEditExternalData = false;
-
   selectedData: CreditAttributes = EmptyCreditAttributes;
 
   formHelper = FormHelper;
 
+  isLoading = false;
+
   creditTypesList = [];
 
   creditStagesList = [];
+
+  creditProjectTypes = [];
+
+  helper: SubscriptionHelper;
+
+
+  constructor(private uiLayer: PresentationLayer) {
+    this.helper = uiLayer.createSubscriptionHelper();
+  }
+
+
+  ngOnInit() {
+    this.loadDataLists();
+  }
+
+
+  ngOnDestroy() {
+    this.helper.destroy();
+  }
 
 
   registerOnChange(fn: any): void {
@@ -97,6 +128,26 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor {
       ArrayLibrary.insertIfNotExist(this.creditTypesList ?? [], this.selectedData.creditType, 'uid');
     this.creditStagesList =
       ArrayLibrary.insertIfNotExist(this.creditStagesList ?? [], this.selectedData.creditStage, 'uid');
+    this.creditProjectTypes =
+      ArrayLibrary.insertIfNotExist(this.creditProjectTypes ?? [], this.selectedData.creditProjectType, 'uid');
+  }
+
+
+  private loadDataLists() {
+    this.isLoading = true;
+
+    combineLatest([
+      this.helper.select<Identifiable[]>(FinancialStateSelector.CREDIT_PROJECT_TYPES),
+      this.helper.select<Identifiable[]>(FinancialStateSelector.CREDIT_STAGES),
+      this.helper.select<Identifiable[]>(FinancialStateSelector.CREDIT_TYPES),
+    ])
+    .subscribe(([a, b, c]) => {
+      this.creditProjectTypes = a;
+      this.creditStagesList = b;
+      this.creditTypesList = c;
+      this.setDefaultDataLists();
+      this.isLoading = a.length === 0;
+    });
   }
 
 }

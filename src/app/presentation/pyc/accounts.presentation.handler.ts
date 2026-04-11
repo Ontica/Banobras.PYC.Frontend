@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 
 import { AbstractPresentationHandler, StateValues } from '@app/core/presentation/presentation.handler';
 
-import { ChartOfAccountsDataService, FinancialAccountsDataService } from '@app/data-services';
+import { ChartOfAccountsDataService } from '@app/data-services';
 
 import { EmpObservable } from '@app/core';
 
@@ -31,8 +31,7 @@ const initialState: StateValues = [
 @Injectable()
 export class AccountsPresentationHandler extends AbstractPresentationHandler {
 
-  constructor(private chartOfAccountsData: ChartOfAccountsDataService,
-              private accountsData: FinancialAccountsDataService) {
+  constructor(private chartOfAccountsData: ChartOfAccountsDataService) {
     super({
       initialState,
       selectors: SelectorType,

@@ -29,7 +29,7 @@
 
 <emp-financial-account-modal *ngIf="displayAccountModal"
   [chartOfAccountsUID]="chartOfAccountsUID"
-  [projectUID]="projectUID"
+  [projectUID]="createAccountMode ? projectUID : selectedAccount.project.uid"
   [organizationalUnitUID]="organizationalUnitUID"
   [account]="selectedAccount"
   [accountTypesList]="accountTypesList"
@@ -40,14 +40,14 @@
 
 
 <emp-financial-project-modal *ngIf="displayProjectModal"
-  [projectUID]="projectUID"
+  [projectUID]="selectedData.projectUID"
   (projectModalEvent)="onProjectModalEvent($event)">
 
 </emp-financial-project-modal>
 
 
 <emp-financial-operations-modal *ngIf="displayOperationsModal"
-  [projectUID]="projectUID"
+  [projectUID]="selectedData.projectUID"
   [accountUID]="selectedData.accountUID"
   [canEdit]="canEditOperations"
   (operationsModalEvent)="onOperationsModalEvent($event)">

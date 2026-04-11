@@ -55,6 +55,7 @@ export interface FinancialAccountFields {
   financialAccountTypeUID: string;
   standardAccountUID: string;
   currencyUID: string;
+  subledgerAccountNo: string;
   tags: string[];
   description: string;
   attributes: AccountAttributes;
@@ -78,6 +79,8 @@ export interface CreditAttributes extends AccountAttributes {
   subledgerAccountNo: string;
   creditStage: Identifiable;
   borrower: string;
+  creditLine: string;
+  creditProjectType: Identifiable;
 }
 
 
@@ -162,6 +165,8 @@ export function buildCreditAttributes(data: CreditAttributes): CreditAttributes 
     subledgerAccountNo: data.subledgerAccountNo ?? '',
     creditStage: isEmpty(data.creditStage) ? null : data.creditStage,
     borrower: data.borrower ?? '',
+    creditLine: data.creditLine ?? null,
+    creditProjectType: isEmpty(data.creditProjectType) ? null : data.creditProjectType,
   };
 
   return cleanData;
@@ -260,11 +265,13 @@ export const EmptyFinancialAccountHolder: FinancialAccountHolder = {
 
 
 export const EmptyCreditAttributes: CreditAttributes = {
-  creditType: Empty,
+  creditType: null,
   externalCreditNo: '',
   subledgerAccountNo: '',
-  creditStage: Empty,
+  creditStage: null,
   borrower: '',
+  creditLine: null,
+  creditProjectType: null,
 };
 
 

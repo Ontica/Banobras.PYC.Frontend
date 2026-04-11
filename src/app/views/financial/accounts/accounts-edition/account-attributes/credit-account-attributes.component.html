@@ -4,7 +4,7 @@
 
   <div class="fx-row-container">
 
-    <div class="fx-item-quarter">
+    <div [ngClass]="displayExternalCredit ? 'fx-item-quarter' : 'fx-item-half'">
 
       <label>Tipo de crédito:</label>
 
@@ -12,7 +12,7 @@
         [(ngModel)]="selectedData.creditType"
         [items]="creditTypesList"
         [config]="{clearable: true, bindByValue: false}"
-        [placeholder]="null"
+        [placeholder]="formHelper.getSimplePlaceholder(editionMode && canEditExternalData)"
         [showError]="showError && errors?.creditTypeError"
         [disabled]="!canEditExternalData"
         (changes)="onSelectedDataChanged()">
@@ -20,19 +20,35 @@
 
     </div>
 
-    <div class="fx-item">
+    <div class="fx-item fx-row-container">
 
-      <label>No. crédito SIC:</label>
+      <div class="fx-item-half" *ngIf="displayExternalCredit">
 
-      <input type="text" class="text-box"
-        [(ngModel)]="selectedData.externalCreditNo"
-        [class.invalid-control]="showError && errors?.externalCreditNoNumberError"
-        [disabled]="!canEditExternalData"
-        (change)="onSelectedDataChanged()">
+        <label>No. crédito SIC:</label>
+
+        <input type="text" class="text-box"
+          [(ngModel)]="selectedData.externalCreditNo"
+          [class.invalid-control]="showError && errors?.externalCreditNoError"
+          [disabled]="!canEditExternalData"
+          (change)="onSelectedDataChanged()">
+
+      </div>
+
+      <div [ngClass]="displayExternalCredit ? 'fx-item-half' : 'fx-item-one'">
+
+        <label>Línea de crédito:</label>
+
+        <input type="text" class="text-box"
+          [(ngModel)]="selectedData.creditLine"
+          [class.invalid-control]="showError && errors?.creditLineError"
+          [disabled]="!canEditExternalData"
+          (change)="onSelectedDataChanged()">
+
+      </div>
 
     </div>
 
-    <div class="fx-item-quarter">
+    <div class="fx-item-quarter" *ngIf="displayExternalCredit">
 
       <label>Auxiliar:</label>
 
@@ -52,7 +68,7 @@
         [(ngModel)]="selectedData.creditStage"
         [items]="creditStagesList"
         [config]="{clearable: true, bindByValue: false}"
-        [placeholder]="null"
+        [placeholder]="formHelper.getSimplePlaceholder(editionMode && canEditExternalData)"
         [showError]="showError && errors?.creditStageError"
         [disabled]="!canEditExternalData"
         (changes)="onSelectedDataChanged()">
@@ -64,7 +80,7 @@
 
   <div class="fx-row-container">
 
-    <div class="fx-item-one">
+    <div class="fx-item-half">
 
       <label>Acreditado:</label>
 
@@ -73,6 +89,22 @@
         [class.invalid-control]="showError && errors?.borrowerError"
         [disabled]="!canEditExternalData"
         (change)="onSelectedDataChanged()">
+
+    </div>
+
+    <div class="fx-item-half">
+
+      <label>Tipo de obra:</label>
+
+      <emp-ng-select
+        [(ngModel)]="selectedData.creditProjectType"
+        [items]="creditProjectTypes"
+        [config]="{clearable: true, bindByValue: false}"
+        [placeholder]="formHelper.getSimplePlaceholder(editionMode && canEditExternalData)"
+        [showError]="showError && errors?.creditProjectTypeError"
+        [disabled]="!canEditExternalData"
+        (changes)="onSelectedDataChanged()">
+      </emp-ng-select>
 
     </div>
 

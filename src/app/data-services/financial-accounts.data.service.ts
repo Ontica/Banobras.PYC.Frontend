@@ -40,6 +40,27 @@ export class FinancialAccountsDataService {
   }
 
 
+  getCreditProjectTypes(): EmpObservable<Identifiable[]> {
+    const path = `v8/financial/credit-project-types`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getCreditStages(): EmpObservable<Identifiable[]> {
+    const path = `v8/financial/credit-stages`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getCreditTypes(): EmpObservable<Identifiable[]> {
+    const path = `v8/financial/credit-types`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
   getProjectAccount(projectUID: string,
                     accountUID: string): EmpObservable<FinancialAccount> {
     Assertion.assertValue(projectUID, 'projectUID');

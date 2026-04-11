@@ -11,11 +11,14 @@ import { EmpObservable } from '@app/core';
 
 import { AbstractPresentationHandler, StateValues } from '@app/core/presentation/presentation.handler';
 
-import { FinancialConceptsDataService, FinancialProjectsDataService,
+import { FinancialAccountsDataService, FinancialConceptsDataService, FinancialProjectsDataService,
          FinancialRulesDataService } from '@app/data-services';
 
 
 export enum SelectorType {
+  CREDIT_PROJECT_TYPES     = 'PYC.Financial.Selector.CreditProjectTypes.List',
+  CREDIT_STAGES            = 'PYC.Financial.Selector.CreditStages.List',
+  CREDIT_TYPES             = 'PYC.Financial.Selector.CreditTypes.List',
   PROJECT_TYPES            = 'PYC.Financial.Selector.ProjectTypes.List',
   CONCEPTS_CLASSIFICATIONS = 'PYC.Financial.Selector.ConceptsClassifications.List',
   CONCEPTS_GROUPS          = 'PYC.Financial.Selector.ConceptsGroups.List',
@@ -24,6 +27,9 @@ export enum SelectorType {
 
 
 const initialState: StateValues = [
+  { key: SelectorType.CREDIT_PROJECT_TYPES,     value: [] },
+  { key: SelectorType.CREDIT_STAGES,            value: [] },
+  { key: SelectorType.CREDIT_TYPES,             value: [] },
   { key: SelectorType.PROJECT_TYPES,            value: [] },
   { key: SelectorType.CONCEPTS_CLASSIFICATIONS, value: [] },
   { key: SelectorType.CONCEPTS_GROUPS,          value: [] },
@@ -35,6 +41,7 @@ const initialState: StateValues = [
 export class FinancialPresentationHandler extends AbstractPresentationHandler {
 
   constructor(private projectsData: FinancialProjectsDataService,
+              private accountsData: FinancialAccountsDataService,
               private conceptsData: FinancialConceptsDataService,
               private rulesData: FinancialRulesDataService) {
     super({
@@ -47,6 +54,24 @@ export class FinancialPresentationHandler extends AbstractPresentationHandler {
   select<U>(selectorType: SelectorType, params?: any): EmpObservable<U> {
 
     switch (selectorType) {
+
+      case SelectorType.CREDIT_PROJECT_TYPES: {
+        const provider = () => this.accountsData.getCreditProjectTypes();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.CREDIT_STAGES: {
+        const provider = () => this.accountsData.getCreditStages();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.CREDIT_TYPES: {
+        const provider = () => this.accountsData.getCreditTypes();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
 
       case SelectorType.PROJECT_TYPES: {
         const provider = () => this.projectsData.getProjectTypes();

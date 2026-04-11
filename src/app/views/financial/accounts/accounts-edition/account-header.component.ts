@@ -38,6 +38,7 @@ export enum AccountHeaderEventType {
 interface AccountFormModel extends FormGroup<{
   financialAccountTypeUID: FormControl<string>;
   standardAccountUID: FormControl<string>;
+  subledgerAccountNo: FormControl<string>;
   organizationalUnitUID: FormControl<string>;
   currencyUID: FormControl<string>;
   tags: FormControl<string[]>;
@@ -83,6 +84,8 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
   accountTypesList: Identifiable[] = [];
 
   standardAccountsList: Identifiable[] = [];
+
+  initStandardAccountsList: Identifiable[] = [];
 
   currenciesList: Identifiable[] = [];
 
@@ -135,12 +138,27 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
 
 
   get hasProject(): boolean {
-    return !!this.projectUID;
+    return !isEmpty({ uid: this.projectUID });
+  }
+
+
+  get hasSubledgerAccountNo(): boolean {
+    return !isEmpty({ uid: this.projectUID });
   }
 
 
   get isCreditAccount(): boolean {
     return this.form.value.financialAccountTypeUID === ObjectTypes.CREDIT_ACCOUNT;
+  }
+
+
+  get isTreasuryAccount(): boolean {
+    return this.form.value.financialAccountTypeUID === ObjectTypes.TREASURY_ACCOUNT;
+  }
+
+
+  get IsProspectedCredit(): boolean {
+    return this.form.value.financialAccountTypeUID === ObjectTypes.PROSPECTED_CREDIT;
   }
 
 
@@ -279,7 +297,8 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
 
 
   private setStandardAccountsList(accounts: Identifiable[]) {
-    this.standardAccountsList = accounts;
+    this.initStandardAccountsList = [...accounts];
+    this.standardAccountsList = [...this.initStandardAccountsList];
   }
 
 
@@ -293,7 +312,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
     this.orgUnitsList =
       ArrayLibrary.insertIfNotExist(this.orgUnitsList ?? [], organizationalUnit, 'uid');
     this.standardAccountsList =
-      ArrayLibrary.insertIfNotExist(this.standardAccountsList ?? [], standardAccount, 'uid');
+      ArrayLibrary.insertIfNotExist(this.initStandardAccountsList ?? [], standardAccount, 'uid');
   }
 
 
@@ -303,6 +322,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
     this.form = fb.group({
       financialAccountTypeUID: ['', Validators.required],
       standardAccountUID: ['', Validators.required],
+      subledgerAccountNo: [''],
       organizationalUnitUID: ['', Validators.required],
       currencyUID: ['', Validators.required],
       tags: [null],
@@ -331,6 +351,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
         organizationalUnitUID: isEmpty(account.organizationalUnit) ? null : account.organizationalUnit.uid,
         standardAccountUID: isEmpty(account.standardAccount) ? null : account.standardAccount.uid,
         currencyUID: isEmpty(account.currency) ? null : account.currency.uid,
+        subledgerAccountNo: account.subledgerAccountNo ?? null,
         tags: account.tags ?? [],
         description: account.description ?? null,
         attributes: account.attributes ?? null,
@@ -355,6 +376,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
         organizationalUnitUID,
         standardAccountUID: isEmpty(account.standardAccount) ? null : account.standardAccount.uid,
         currencyUID: isEmpty(account.currency) ? null : account.currency.uid,
+        subledgerAccountNo: account.subledgerAccountNo ?? null,
         tags: account.tags ?? [],
         description: account.description ?? null,
         attributes: account.attributes ?? null,
@@ -377,6 +399,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
     FormHelper.setDisableControl(this.form.controls.organizationalUnitUID, this.isCreditAccount);
     FormHelper.setDisableControl(this.form.controls.currencyUID, this.isCreditAccount);
     FormHelper.setDisableControl(this.form.controls.description, this.isCreditAccount);
+    FormHelper.setDisableControl(this.form.controls.attributes, this.isCreditAccount);
     FormHelper.setDisableControl(this.form.controls.financialData, this.isCreditAccount);
   }
 
@@ -389,6 +412,7 @@ export class FinancialAccountHeaderComponent implements OnChanges, OnInit, OnDes
       standardAccountUID: formModel.standardAccountUID ?? '',
       organizationalUnitUID: formModel.organizationalUnitUID ?? '',
       currencyUID: formModel.currencyUID ?? null,
+      subledgerAccountNo: this.isTreasuryAccount ? formModel.subledgerAccountNo ?? null : null,
       tags: formModel.tags ?? [],
       description: formModel.description ?? '',
       attributes: this.isCreditAccount ? formModel.attributes ?? null : null,
