@@ -294,6 +294,13 @@ export const FinancialProgramViews: View[] = [
     permission: ROUTES.programa_financiero_cuentas.permission,
   },
   {
+    name: 'FinancialProgram.Operations',
+    title: 'Explorador de conceptos',
+    menuTitle: 'Conceptos',
+    url: ROUTES.programa_financiero_conceptos.fullpath,
+    permission: ROUTES.programa_financiero_conceptos.permission,
+  },
+  {
     name: 'FinancialProgram.Reports',
     title: 'Reportes operativos',
     menuTitle: 'Reportes operativos',

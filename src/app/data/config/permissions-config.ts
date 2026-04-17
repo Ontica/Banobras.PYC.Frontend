@@ -93,6 +93,7 @@ export enum PERMISSIONS {
   ROUTE_PROGRAMA_FINANCIERO_CODIFICACION = 'route-programa-financiero-codificacion',
   ROUTE_PROGRAMA_FINANCIERO_PROYECTOS = 'route-programa-financiero-proyectos',
   ROUTE_PROGRAMA_FINANCIERO_CUENTAS = 'route-programa-financiero-cuentas',
+  ROUTE_PROGRAMA_FINANCIERO_CONCEPTOS = 'route-programa-financiero-conceptos',
   ROUTE_PROGRAMA_FINANCIERO_REPORTES = 'route-programa-financiero-reportes',
 
   //

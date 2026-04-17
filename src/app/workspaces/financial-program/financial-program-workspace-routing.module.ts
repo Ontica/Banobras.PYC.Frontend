@@ -11,6 +11,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ROUTES } from '@app/data';
 
+import { DefaultComponent } from '@app/shared/components';
+
 import {
   CashFlowProjectionsMainPageComponent
 } from '@app/views/cash-management/cash-flow-projections/projections-main-page/projections-main-page.component';
@@ -61,6 +63,11 @@ const routes: Routes = [
     data: { permission: ROUTES.programa_financiero_cuentas.permission },
     path: ROUTES.programa_financiero_cuentas.path,
     component: FinancialAccountsMainPageComponent,
+  },
+  {
+    data: { permission: ROUTES.programa_financiero_conceptos.permission },
+    path: ROUTES.programa_financiero_conceptos.path,
+    component: DefaultComponent,
   },
   {
     data: { permission: ROUTES.programa_financiero_reportes.permission },

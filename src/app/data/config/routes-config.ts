@@ -359,6 +359,13 @@ export const ROUTES: Record<string, AppRoute> = {
     fullpath: '/programa-financiero/proyectos',
   },
 
+  programa_financiero_conceptos: {
+    permission: PERMISSIONS.ROUTE_PROGRAMA_FINANCIERO_CONCEPTOS,
+    parent: 'programa-financiero',
+    path: 'conceptos',
+    fullpath: '/programa-financiero/conceptos',
+  },
+
   programa_financiero_cuentas: {
     permission: PERMISSIONS.ROUTE_PROGRAMA_FINANCIERO_CUENTAS,
     parent: 'programa-financiero',
