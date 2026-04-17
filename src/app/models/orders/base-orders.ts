@@ -111,11 +111,9 @@ export function getOrderExplorerTypeConfig(type: ObjectTypes): OrderExplorerType
 
 
 export const OrderTypesList: Identifiable<ObjectTypes>[] = [
-  { uid: ObjectTypes.REQUISITION,    name: 'Requisición' },
-  { uid: ObjectTypes.CONTRACT,       name: 'Contrato' },
-  { uid: ObjectTypes.CONTRACT_ORDER, name: 'Entrega' },
-  { uid: ObjectTypes.EXPENSE,        name: 'Gasto' },
-  { uid: ObjectTypes.PURCHASE,       name: 'Compra menor' },
+  { uid: ObjectTypes.CONTRACT_ORDER, name: 'Entregas' },
+  { uid: ObjectTypes.PURCHASE,       name: 'Compras menores' },
+  { uid: ObjectTypes.EXPENSE,        name: 'Gastos y reembolsos' },
 ];
 
 

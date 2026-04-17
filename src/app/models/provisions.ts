@@ -23,19 +23,17 @@ export enum ProvisionQueryTypes {
 
 
 export enum ProvisionStatus {
-  Pending         = 'Pending',
-  OnAuthorization = 'OnAuthorization',
-  Rejected        = 'Rejected',
-  Programed       = 'Programed',
+  Pending     = 'Pending',
+  Programed   = 'Programed',
+  Provisioned = 'Provisioned',
 }
 
 
 
 export const ProvisionStatusList: Identifiable<ProvisionStatus>[] = [
-  { uid: ProvisionStatus.Pending,         name: 'Pendiente' },
-  { uid: ProvisionStatus.OnAuthorization, name: 'En autorización' },
-  { uid: ProvisionStatus.Rejected,        name: 'Rechazada' },
-  { uid: ProvisionStatus.Programed,       name: 'Programada' },
+  { uid: ProvisionStatus.Pending,     name: 'Pendiente' },
+  { uid: ProvisionStatus.Programed,   name: 'Programada' },
+  { uid: ProvisionStatus.Provisioned, name: 'Provisionada' },
 ];
 
 
@@ -70,8 +68,6 @@ export interface ProvisionDescriptor extends OrderDescriptor {
 export enum ProvisionsOperationType {
   provision   = 'provision',
   deprovision = 'deprovision',
-  reject      = 'reject ',
-  accept      = 'accept ',
 }
 
 
@@ -92,22 +88,6 @@ export const ProvisionsOperationsList: ExplorerOperation[] = [
     isConfirmWarning: true,
     confirmOperationMessage: 'desprovisionará del siguiente mes',
     confirmQuestionMessage: 'Desprovisiono'
-  },
-  {
-    uid: ProvisionsOperationType.reject,
-    name: 'Rechazar',
-    showConfirm: true,
-    isConfirmWarning: true,
-    confirmOperationMessage: 'Rechazar',
-    confirmQuestionMessage: 'Rechazo'
-  },
-  {
-    uid: ProvisionsOperationType.accept,
-    name: 'Aceptar',
-    showConfirm: true,
-    isConfirmWarning: false,
-    confirmOperationMessage: 'Aceptar',
-    confirmQuestionMessage: 'Acepto'
   },
 ];
 

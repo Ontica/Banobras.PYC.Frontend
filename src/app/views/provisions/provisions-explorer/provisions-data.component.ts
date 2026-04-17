@@ -46,7 +46,9 @@ export class ProvisionsDataComponent implements OnChanges {
 
   @Output() provisionsDataEvent = new EventEmitter<EventInfo>();
 
-  displayedColumns: string[] = ['check', 'order', 'especif', 'description', 'status'];
+  displayedColumnsDefault: string[] = ['order', 'especif', 'description', 'status'];
+
+  displayedColumns = [...this.displayedColumnsDefault];
 
   dataSource: TableVirtualScrollDataSource<ProvisionDescriptor>;
 
@@ -67,6 +69,11 @@ export class ProvisionsDataComponent implements OnChanges {
     if (changes.queryType) {
       this.setOperationsList();
     }
+  }
+
+
+  get hasOperations(): boolean {
+    return this.operationsList.length > 0;
   }
 
 
@@ -94,7 +101,15 @@ export class ProvisionsDataComponent implements OnChanges {
 
 
   private setDataSource() {
+    this.resetColumns();
     this.dataSource = new TableVirtualScrollDataSource(this.dataList);
+  }
+
+
+  private resetColumns() {
+    this.displayedColumns = this.hasOperations ?
+      ['check', ...this.displayedColumnsDefault] :
+      [...this.displayedColumnsDefault];
   }
 
 
@@ -108,9 +123,7 @@ export class ProvisionsDataComponent implements OnChanges {
           [...ProvisionsOperationsList.filter(x => valids.includes(x.uid as ProvisionsOperationType))];
         return;
       case ProvisionQueryTypes.Budget:
-        valids = [ProvisionsOperationType.reject, ProvisionsOperationType.accept];
-        this.operationsList =
-          [...ProvisionsOperationsList.filter(x => valids.includes(x.uid as ProvisionsOperationType))];
+        this.operationsList = [];
         return;
       case ProvisionQueryTypes.All:
       default:

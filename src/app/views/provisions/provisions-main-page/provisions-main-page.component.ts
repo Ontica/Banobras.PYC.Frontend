@@ -197,8 +197,6 @@ export class ProvisionsMainPageComponent implements OnInit, OnDestroy {
     switch (operation) {
       case ProvisionsOperationType.provision:
       case ProvisionsOperationType.deprovision:
-      case ProvisionsOperationType.accept:
-      case ProvisionsOperationType.reject:
         this.bulkOperationProvisions(operation, command);
         return;
       default:
@@ -213,8 +211,6 @@ export class ProvisionsMainPageComponent implements OnInit, OnDestroy {
     switch (operation) {
       case ProvisionsOperationType.provision:
       case ProvisionsOperationType.deprovision:
-      case ProvisionsOperationType.accept:
-      case ProvisionsOperationType.reject:
         this.messageBox.show(result.message, 'Ejecutar operacion');
         this.refreshData();
         return;
