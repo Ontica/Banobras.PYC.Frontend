@@ -17,7 +17,8 @@ import { FinancialAccountsDataService, FinancialConceptsDataService, FinancialPr
 
 export enum SelectorType {
   CREDIT_PROJECT_TYPES     = 'PYC.Financial.Selector.CreditProjectTypes.List',
-  CREDIT_STAGES            = 'PYC.Financial.Selector.CreditStages.List',
+  CREDIT_RISK_STAGES       = 'PYC.Financial.Selector.CreditRiskStages.List',
+  CREDIT_PROCESS_STAGES    = 'PYC.Financial.Selector.CreditProcessStages.List',
   CREDIT_TYPES             = 'PYC.Financial.Selector.CreditTypes.List',
   PROJECT_TYPES            = 'PYC.Financial.Selector.ProjectTypes.List',
   CONCEPTS_CLASSIFICATIONS = 'PYC.Financial.Selector.ConceptsClassifications.List',
@@ -28,7 +29,8 @@ export enum SelectorType {
 
 const initialState: StateValues = [
   { key: SelectorType.CREDIT_PROJECT_TYPES,     value: [] },
-  { key: SelectorType.CREDIT_STAGES,            value: [] },
+  { key: SelectorType.CREDIT_RISK_STAGES,       value: [] },
+  { key: SelectorType.CREDIT_PROCESS_STAGES,    value: [] },
   { key: SelectorType.CREDIT_TYPES,             value: [] },
   { key: SelectorType.PROJECT_TYPES,            value: [] },
   { key: SelectorType.CONCEPTS_CLASSIFICATIONS, value: [] },
@@ -61,8 +63,14 @@ export class FinancialPresentationHandler extends AbstractPresentationHandler {
         return super.selectFirst<U>(selectorType, provider);
       }
 
-      case SelectorType.CREDIT_STAGES: {
-        const provider = () => this.accountsData.getCreditStages();
+      case SelectorType.CREDIT_RISK_STAGES: {
+        const provider = () => this.accountsData.getCreditRiskStages();
+
+        return super.selectFirst<U>(selectorType, provider);
+      }
+
+      case SelectorType.CREDIT_PROCESS_STAGES: {
+        const provider = () => this.accountsData.getCreditProcessStages();
 
         return super.selectFirst<U>(selectorType, provider);
       }

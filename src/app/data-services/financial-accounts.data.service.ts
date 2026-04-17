@@ -47,8 +47,15 @@ export class FinancialAccountsDataService {
   }
 
 
-  getCreditStages(): EmpObservable<Identifiable[]> {
-    const path = `v8/financial/credit-stages`;
+  getCreditRiskStages(): EmpObservable<Identifiable[]> {
+    const path = `v8/financial/credit-risk-stages`;
+
+    return this.http.get<Identifiable[]>(path);
+  }
+
+
+  getCreditProcessStages(): EmpObservable<Identifiable[]> {
+    const path = `v8/financial/credit-process-stages`;
 
     return this.http.get<Identifiable[]>(path);
   }

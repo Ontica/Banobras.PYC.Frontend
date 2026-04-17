@@ -77,7 +77,8 @@ export interface CreditAttributes extends AccountAttributes {
   creditType: Identifiable;
   externalCreditNo: string;
   subledgerAccountNo: string;
-  creditStage: Identifiable;
+  creditRiskStage: Identifiable;
+  creditProcessStage: Identifiable;
   borrower: string;
   creditLine: string;
   creditProjectType: Identifiable;
@@ -163,7 +164,8 @@ export function buildCreditAttributes(data: CreditAttributes): CreditAttributes 
     creditType: isEmpty(data.creditType) ? null : data.creditType,
     externalCreditNo: data.externalCreditNo ?? '',
     subledgerAccountNo: data.subledgerAccountNo ?? '',
-    creditStage: isEmpty(data.creditStage) ? null : data.creditStage,
+    creditRiskStage: isEmpty(data.creditRiskStage) ? null : data.creditRiskStage,
+    creditProcessStage: isEmpty(data.creditProcessStage) ? null : data.creditProcessStage,
     borrower: data.borrower ?? '',
     creditLine: data.creditLine ?? null,
     creditProjectType: isEmpty(data.creditProjectType) ? null : data.creditProjectType,
@@ -268,7 +270,8 @@ export const EmptyCreditAttributes: CreditAttributes = {
   creditType: null,
   externalCreditNo: '',
   subledgerAccountNo: '',
-  creditStage: null,
+  creditRiskStage: null,
+  creditProcessStage: null,
   borrower: '',
   creditLine: null,
   creditProjectType: null,

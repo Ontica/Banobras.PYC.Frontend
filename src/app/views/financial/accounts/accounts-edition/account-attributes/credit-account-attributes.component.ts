@@ -46,7 +46,7 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor, O
 
   @Input() canEditExternalData = false;
 
-  @Input() displayExternalCredit = false;
+  @Input() isExternalCredit = false;
 
   @Output() changes = new EventEmitter<any>();
 
@@ -66,7 +66,9 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor, O
 
   creditTypesList = [];
 
-  creditStagesList = [];
+  creditRiskStagesList = [];
+
+  creditProcessStagesList = [];
 
   creditProjectTypes = [];
 
@@ -126,8 +128,10 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor, O
   private setDefaultDataLists() {
     this.creditTypesList =
       ArrayLibrary.insertIfNotExist(this.creditTypesList ?? [], this.selectedData.creditType, 'uid');
-    this.creditStagesList =
-      ArrayLibrary.insertIfNotExist(this.creditStagesList ?? [], this.selectedData.creditStage, 'uid');
+    this.creditRiskStagesList =
+      ArrayLibrary.insertIfNotExist(this.creditRiskStagesList ?? [], this.selectedData.creditRiskStage, 'uid');
+    this.creditProcessStagesList =
+      ArrayLibrary.insertIfNotExist(this.creditProcessStagesList ?? [], this.selectedData.creditProcessStage, 'uid');
     this.creditProjectTypes =
       ArrayLibrary.insertIfNotExist(this.creditProjectTypes ?? [], this.selectedData.creditProjectType, 'uid');
   }
@@ -138,13 +142,15 @@ export class CreditAccountAttributesComponent implements ControlValueAccessor, O
 
     combineLatest([
       this.helper.select<Identifiable[]>(FinancialStateSelector.CREDIT_PROJECT_TYPES),
-      this.helper.select<Identifiable[]>(FinancialStateSelector.CREDIT_STAGES),
       this.helper.select<Identifiable[]>(FinancialStateSelector.CREDIT_TYPES),
+      this.helper.select<Identifiable[]>(FinancialStateSelector.CREDIT_RISK_STAGES),
+      this.helper.select<Identifiable[]>(FinancialStateSelector.CREDIT_PROCESS_STAGES),
     ])
-    .subscribe(([a, b, c]) => {
+    .subscribe(([a, b, c, d]) => {
       this.creditProjectTypes = a;
-      this.creditStagesList = b;
-      this.creditTypesList = c;
+      this.creditTypesList = b;
+      this.creditRiskStagesList = c;
+      this.creditProcessStagesList = d;
       this.setDefaultDataLists();
       this.isLoading = a.length === 0;
     });

@@ -4,7 +4,7 @@
 
   <div class="fx-row-container">
 
-    <div [ngClass]="displayExternalCredit ? 'fx-item-quarter' : 'fx-item-half'">
+    <div [ngClass]="isExternalCredit ? 'fx-item-quarter' : 'fx-item-half'">
 
       <label>Tipo de crédito:</label>
 
@@ -22,7 +22,7 @@
 
     <div class="fx-item fx-row-container">
 
-      <div class="fx-item-half" *ngIf="displayExternalCredit">
+      <div class="fx-item-half" *ngIf="isExternalCredit">
 
         <label>No. crédito SIC:</label>
 
@@ -34,7 +34,7 @@
 
       </div>
 
-      <div [ngClass]="displayExternalCredit ? 'fx-item-half' : 'fx-item-one'">
+      <div [ngClass]="isExternalCredit ? 'fx-item-half' : 'fx-item-one'">
 
         <label>Línea de crédito:</label>
 
@@ -48,7 +48,7 @@
 
     </div>
 
-    <div class="fx-item-quarter" *ngIf="displayExternalCredit">
+    <div class="fx-item-quarter" *ngIf="isExternalCredit">
 
       <label>Auxiliar:</label>
 
@@ -60,16 +60,32 @@
 
     </div>
 
-    <div class="fx-item-quarter">
+    <div class="fx-item-quarter" *ngIf="isExternalCredit">
 
-      <label>Etapa del crédito:</label>
+      <label>Etapa de riesgo del crédito:</label>
 
       <emp-ng-select
-        [(ngModel)]="selectedData.creditStage"
-        [items]="creditStagesList"
+        [(ngModel)]="selectedData.creditRiskStage"
+        [items]="creditRiskStagesList"
         [config]="{clearable: true, bindByValue: false}"
         [placeholder]="formHelper.getSimplePlaceholder(editionMode && canEditExternalData)"
-        [showError]="showError && errors?.creditStageError"
+        [showError]="showError && errors?.creditRiskStageError"
+        [disabled]="!canEditExternalData"
+        (changes)="onSelectedDataChanged()">
+      </emp-ng-select>
+
+    </div>
+
+    <div class="fx-item-quarter" *ngIf="!isExternalCredit">
+
+      <label>Etapa del proceso crediticio:</label>
+
+      <emp-ng-select
+        [(ngModel)]="selectedData.creditProcessStage"
+        [items]="creditProcessStagesList"
+        [config]="{clearable: true, bindByValue: false}"
+        [placeholder]="formHelper.getSimplePlaceholder(editionMode && canEditExternalData)"
+        [showError]="showError && errors?.creditProcessStageError"
         [disabled]="!canEditExternalData"
         (changes)="onSelectedDataChanged()">
       </emp-ng-select>
